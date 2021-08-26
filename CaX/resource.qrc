@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/baseline_menu_black_24dp.png</file>
+        <file>resource/baseline_search_black_24dp.png</file>
+        <file>resource/outline_arrow_back_black_24dp.png</file>
+        <file>resource/outline_arrow_forward_black_24dp.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,87 @@
+#ifndef MYMUSICWINDOW_H
+#define MYMUSICWINDOW_H
+
+#include <QWidget>
+#include <QThread>
+
+#include "util/CJsonNode.h"
+
+namespace Ui {
+class MyMusicWindow;
+}
+
+class MyMusicManager;
+class MusicInfo;
+class AlbumInfo;
+class CategoryConts;
+class SongConts;
+class Loading;
+
+class MyMusicWindow : public QWidget
+{
+	Q_OBJECT
+
+public:
+	explicit MyMusicWindow(QWidget *parent = nullptr, const QString &addr = "");
+	~MyMusicWindow();
+
+	void RequestMusicInfo();
+	void RequestCategoryInfo(int nID, int nCategory);
+
+signals:
+
+	void SigCategoryInfo(int nID, int nCategory);
+
+
+private slots:
+
+	void SlotRespMusicInfo(CJsonNode node);
+	void SlotRespCategoryList(QList<CJsonNode> nodeList);
+	void SlotRespCategoryInfo(CJsonNode node);
+	void SlotRespSongsOfCategory(QList<CJsonNode> nodeList);
+	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
+
+	void SlotMusicPlayAll();
+	void SlotMusicPlayRandom();
+	void SlotMusicAlbum();
+	void SlotMusicArtist();
+	void SlotMusicTrack();
+	void SlotMusicComposer();
+	void SlotMusicSubmenu();
+	void SlotMusicSubmenu2();
+	void SlotMusicDisplayMode();
+	void SlotMusicSort();
+
+	void SlotAlbumPlayAll();
+	void SlotAlbumPlayRandom();
+	void SlotAlbumSubmenu();
+	void SlotAlbumSort();
+
+	void SlotReqCategoryCover(int nID, int nIndex);
+	void SlotSelectCategory(int nID);
+
+	void SlotReqSongCover(int nID, int nIndex);
+	void SlotSelectSong(int nID);
+
+private:
+
+	void ConnectSigToSlot();
+
+	MyMusicManager	*m_pMgr;
+	MusicInfo		*m_pMusicInfo;
+	AlbumInfo		*m_pAlbumInfo;
+	CategoryConts	*m_pCatConts;
+	SongConts		*m_pSongConts;
+
+	Loading			*m_pLoading;
+
+//	QThread			*m_pCatThread;
+//	QThread			*m_pSongThread;
+
+	int				m_nCategory;
+
+
+	Ui::MyMusicWindow *ui;
+};
+
+#endif // MYMUSICWINDOW_H

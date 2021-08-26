@@ -1,0 +1,160 @@
+QT       += core gui network
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+CONFIG += c++11
+
+# You can make your code fail to compile if it uses deprecated APIs.
+# In order to do so, uncomment the following line.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+SOURCES += \
+    dialog/categorydelegate.cpp \
+    dialog/categorydialog.cpp \
+    dialog/sortdelegate.cpp \
+    dialog/sortdialog.cpp \
+    main.cpp \
+    manager/appmanager.cpp \
+    manager/basemanager.cpp \
+    manager/devicemanager.cpp \
+    manager/mymusicmanager.cpp \
+    manager/observermanager.cpp \
+    manager/playmanager.cpp \
+    manager/sqlmanager.cpp \
+    manager/ssdpmanager.cpp \
+    network/observerclient.cpp \
+    network/tcpclient.cpp \
+    network/udpclient.cpp \
+    util/CJsonNode.cpp \
+    util/StringLib.cpp \
+    util/TMapData.cpp \
+    util/loading.cpp \
+    util/log.cpp \
+    util/settingio.cpp \
+    util/waitingspinnerwidget.cpp \
+    widget/audiocdwindow.cpp \
+    widget/base/albuminfo.cpp \
+    widget/base/categoryconts.cpp \
+    widget/base/categorycontsdelegate.cpp \
+    widget/base/categorycontseditor.cpp \
+    widget/base/menuinfo.cpp \
+    widget/base/musicinfo.cpp \
+    widget/base/songconts.cpp \
+    widget/base/songcontscover.cpp \
+    widget/base/songcontsdelegate.cpp \
+    widget/base/songcontseditor.cpp \
+    widget/browserwindow.cpp \
+    widget/dabradiowindow.cpp \
+    widget/fmradiowindow.cpp \
+    widget/groupplaywindow.cpp \
+    widget/inputwindow.cpp \
+    widget/iservicewindow.cpp \
+    widget/mainwindow.cpp \
+    widget/mymusicwindow.cpp \
+    widget/playlistwindow.cpp \
+    widget/playwindow.cpp \
+    widget/setupwindow.cpp \
+    widget/sidemenu.cpp \
+    widget/sidemenudelegate.cpp \
+    widget/topwindow.cpp
+
+HEADERS += \
+    dialog/categorydelegate.h \
+    dialog/categorydialog.h \
+    dialog/sortdelegate.h \
+    dialog/sortdialog.h \
+    manager/appmanager.h \
+    manager/basemanager.h \
+    manager/devicemanager.h \
+    manager/imanager.h \
+    manager/mymusicmanager.h \
+    manager/observermanager.h \
+    manager/playmanager.h \
+    manager/sqlmanager.h \
+    manager/ssdpmanager.h \
+    network/observerclient.h \
+    network/tcpclient.h \
+    network/udpclient.h \
+    util/CJsonNode.h \
+    util/CommonTypeDef.h \
+    util/StringLib.h \
+    util/TMapData.h \
+    util/TMapDataDef.h \
+    util/caxconstants.h \
+    util/caxkeyvalue.h \
+    util/loading.h \
+    util/log.h \
+    util/settingio.h \
+    util/sqlconstatns.h \
+    util/waitingspinnerwidget.h \
+    widget/audiocdwindow.h \
+    widget/base/albuminfo.h \
+    widget/base/categoryconts.h \
+    widget/base/categorycontsdelegate.h \
+    widget/base/categorycontseditor.h \
+    widget/base/menuinfo.h \
+    widget/base/musicinfo.h \
+    widget/base/songconts.h \
+    widget/base/songcontscover.h \
+    widget/base/songcontsdelegate.h \
+    widget/base/songcontseditor.h \
+    widget/browserwindow.h \
+    widget/dabradiowindow.h \
+    widget/fmradiowindow.h \
+    widget/groupplaywindow.h \
+    widget/inputwindow.h \
+    widget/iservicewindow.h \
+    widget/mainwindow.h \
+    widget/mymusicwindow.h \
+    widget/playlistwindow.h \
+    widget/playwindow.h \
+    widget/setupwindow.h \
+    widget/sidemenu.h \
+    widget/sidemenudelegate.h \
+    widget/topwindow.h
+
+FORMS += \
+    dialog/categorydialog.ui \
+    dialog/sortdialog.ui \
+    widget/audiocdwindow.ui \
+    widget/base/albuminfo.ui \
+    widget/base/categoryconts.ui \
+    widget/base/categorycontseditor.ui \
+    widget/base/menuinfo.ui \
+    widget/base/musicinfo.ui \
+    widget/base/songconts.ui \
+    widget/base/songcontscover.ui \
+    widget/base/songcontseditor.ui \
+    widget/browserwindow.ui \
+    widget/dabradiowindow.ui \
+    widget/fmradiowindow.ui \
+    widget/groupplaywindow.ui \
+    widget/inputwindow.ui \
+    widget/iservicewindow.ui \
+    widget/mainwindow.ui \
+    widget/mymusicwindow.ui \
+    widget/playlistwindow.ui \
+    widget/playwindow.ui \
+    widget/setupwindow.ui \
+    widget/sidemenu.ui \
+    widget/topwindow.ui
+
+TRANSLATIONS += \
+    CaX_03_ko_KR.ts
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+# about jansson lib
+unix|win32: LIBS += -L$$PWD/../jansson-2.13.1/lib/ -ljansson
+
+INCLUDEPATH += $$PWD/../jansson-2.13.1/include
+DEPENDPATH += $$PWD/../jansson-2.13.1/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/jansson.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/libjansson.a
+
+RESOURCES += \
+    resource.qrc
