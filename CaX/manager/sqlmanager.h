@@ -14,6 +14,7 @@ public:
 
 	enum categoryType {
 		CATEGORY_ALBUM = Qt::UserRole + CATEGORY_NONE,
+		CATEGORY_ALBUMARTIST,
 		CATEGORY_ARTIST,
 		CATEGORY_COMPOSER,
 		CATEGORY_GENRE,
@@ -42,6 +43,9 @@ public:
 	QString GetQueryPlaylist();
 	QString GetQueryPlaylistInfo(int nID);
 	QString GetQuerySongsOfPlaylist(int nID);
+
+	QString GetQueryFavorite(int nID, int nFavorite, int nCategory = CATEGORY_ALBUM);
+	QString GetQueryRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
 
 
 signals:

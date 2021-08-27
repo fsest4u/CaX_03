@@ -47,6 +47,17 @@ void CategoryContsDelegate::SlotClickCount(int nID)
 	LogDebug("click count");
 }
 
+void CategoryContsDelegate::SlotClickFavorite(int nID, int nFavorite)
+{
+	emit SigSelectFavorite(nID, nFavorite);
+}
+
+void CategoryContsDelegate::SlotClickRating(int nID, int nRating)
+{
+	emit SigSelectRating(nID, nRating);
+
+}
+
 void CategoryContsDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	Q_UNUSED(painter)
@@ -119,6 +130,8 @@ QWidget *CategoryContsDelegate::createEditor(QWidget *parent, const QStyleOption
 	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));
 	connect(editor, SIGNAL(SigClickSubtitle(int)), this, SLOT(SlotClickSubtitle(int)));
 	connect(editor, SIGNAL(SigClickCount(int)), this, SLOT(SlotClickCount(int)));
+	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
+	connect(editor, SIGNAL(SigClickRating(int, int)), this, SLOT(SlotClickRating(int, int)));
 
 	return editor;
 }
@@ -132,6 +145,8 @@ void CategoryContsDelegate::setEditorData(QWidget *editor, const QModelIndex &in
 	widget->SetTitle(qvariant_cast<QString>(index.data(CATEGORY_ROLE_TITLE)));
 	widget->SetSubtitle(qvariant_cast<QString>(index.data(CATEGORY_ROLE_SUBTITLE)));
 	widget->SetCount(qvariant_cast<QString>(index.data(CATEGORY_ROLE_COUNT)));
+	widget->SetFavorite(qvariant_cast<int>(index.data(CATEGORY_ROLE_FAVORITE)));
+	widget->SetRating(qvariant_cast<int>(index.data(CATEGORY_ROLE_RATING)));
 	widget->blockSignals(false);
 }
 
@@ -143,6 +158,8 @@ void CategoryContsDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
 	model->setData(index, widget->GetTitle(), CATEGORY_ROLE_TITLE);
 	model->setData(index, widget->GetSubtitle(), CATEGORY_ROLE_SUBTITLE);
 	model->setData(index, widget->GetCount(), CATEGORY_ROLE_COUNT);
+	model->setData(index, widget->GetFavorite(), CATEGORY_ROLE_FAVORITE);
+	model->setData(index, widget->GetRating(), CATEGORY_ROLE_RATING);
 }
 
 void CategoryContsDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

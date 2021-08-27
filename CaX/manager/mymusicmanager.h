@@ -26,6 +26,8 @@ public:
 		CATEGORY_INFO,
 		SONGS_OF_CATEGORY,
 		PLAY_SONG,
+		UPDATE_FAVORITE,
+		UPDATE_RATING,
 		MUSIC_MAX
 	};
 
@@ -35,6 +37,8 @@ public:
 	void RequestSongsOfCategory(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 
 	void RequestPlaySong(int nID, int nWhere = PLAY_NOW);
+	void RequestFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
 
 //	int GetCntAlbum() const { return m_CntAlbum; }
 //	int GetCntArtist() const { return m_CntArtist; }

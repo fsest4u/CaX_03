@@ -12,13 +12,15 @@ CategoryContsEditor::CategoryContsEditor(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	m_CoverArt.clear();
 	m_ID = -1;
+	m_CoverArt.clear();
 
 	ui->labelCoverArt->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
 	ui->labelSubTitle->installEventFilter(this);
 	ui->labelCount->installEventFilter(this);
+	ui->labelFavorite->installEventFilter(this);
+	ui->labelRating->installEventFilter(this);
 
 }
 
@@ -99,6 +101,27 @@ void CategoryContsEditor::SetCount(const QString &value)
 	ui->labelCount->setText(value);
 }
 
+
+int CategoryContsEditor::GetRating() const
+{
+	return ui->labelRating->text().toInt();
+}
+
+void CategoryContsEditor::SetRating(const int &value)
+{
+	ui->labelRating->setText(QString("%1").arg(value));
+}
+
+int CategoryContsEditor::GetFavorite() const
+{
+	return ui->labelFavorite->text().toInt();
+}
+
+void CategoryContsEditor::SetFavorite(const int &value)
+{
+	ui->labelFavorite->setText(QString("%1").arg(value));
+}
+
 bool CategoryContsEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
@@ -118,6 +141,14 @@ bool CategoryContsEditor::eventFilter(QObject *object, QEvent *event)
 		else if (object == ui->labelCount)
 		{
 			emit SigClickCount(m_ID);
+		}
+		else if (object == ui->labelFavorite)
+		{
+			emit SigClickFavorite(m_ID, 1);
+		}
+		else if (object == ui->labelRating)
+		{
+			emit SigClickRating(m_ID, 5);
 		}
 	}
 	return QObject::eventFilter(object, event);

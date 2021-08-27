@@ -27,6 +27,8 @@ select	\
 	Album.ROWID as id	\
 	, Album.Name as title	\
 	, Artist.Name as subtitle	\
+	, Album.Favorite as favorite	\
+	, Album.Rating as rating	\
 	, count(Album.ROWID) as count	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -42,6 +44,8 @@ limit 0, 100	\
 select	\
 	Artist.ROWID as id	\
 	, Artist.Name as title	\
+	, Artist.Favorite as favorite	\
+	, Artist.Rating as rating	\
 	, count(Artist.ROWID) as count	\
 from Song	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
@@ -54,6 +58,8 @@ order by Song.ArtistID	\
 select	\
 	Composer.ROWID as id	\
 	, Composer.Name as title	\
+	, Composer.Favorite as favorite	\
+	, Composer.Rating as rating	\
 	, count(Composer.ROWID) as count	\
 from Song	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
@@ -66,6 +72,8 @@ order by Song.ComposerID	\
 select	\
 	Genre.ROWID as id	\
 	, Genre.Name as title	\
+	, Genre.Favorite as favorite	\
+	, Genre.Rating as rating	\
 	, count(Genre.ROWID) as count	\
 from Song	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
@@ -78,6 +86,8 @@ order by Song.GenreID	\
 select	\
 	Mood.ROWID as id	\
 	, Mood.Name as title	\
+	, Mood.Favorite as favorite	\
+	, Mood.Rating as rating	\
 	, count(Mood.ROWID) as count	\
 from Song	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
@@ -90,6 +100,8 @@ order by Song.MoodID	\
 select	\
 	Folder.ROWID as id	\
 	, Folder.Name as title	\
+	, Folder.Favorite as favorite	\
+	, Folder.Rating as rating	\
 	, count(Folder.ROWID) as count	\
 from Song	\
 inner join Folder on Song.FolderID = Folder.ROWID	\
@@ -409,5 +421,23 @@ inner join PlsSong on Song.ROWID = PlsSong.SongID	\
 where PlsSong.PlsID = %1	\
 order by PlsSong.Seq	\
 "
+
+#define SQL_UPDATE_FAVORITE_OF_ALBUM		"update Album set Favorite=%1 where Album.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_ALBUMARTIST	"update AlbumArtist set Favorite=%1 where AlbumArtist.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_ARTIST		"update Artist set Favorite=%1 where Artist.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_GENRE		"update Genre set Favorite=%1 where Genre.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_COMPOSER		"update Composer set Favorite=%1 where Composer.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_MOOD			"update Mood set Favorite=%1 where Mood.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_FOLDER		"update Folder set Favorite=%1 where Folder.ROWID=%2"
+//#define SQL_UPDATE_FAVORITE_OF_SONG			"update Song set Favorite=%1 where Song.ROWID=%2"
+
+#define SQL_UPDATE_RATING_OF_ALBUM			"update Album set Rating=%1 where Album.ROWID=%2"
+#define SQL_UPDATE_RATING_OF_ALBUMARTIST	"update AlbumArtist set Rating=%1 where AlbumArtist.ROWID=%2"
+#define SQL_UPDATE_RATING_OF_ARTIST			"update Artist set Rating=%1 where Artist.ROWID=%2"
+#define SQL_UPDATE_RATING_OF_GENRE			"update Genre set Rating=%1 where Genre.ROWID=%2"
+#define SQL_UPDATE_RATING_OF_COMPOSER		"update Composer set Rating=%1 where Composer.ROWID=%2"
+#define SQL_UPDATE_RATING_OF_MOOD			"update Mood set Rating=%1 where Mood.ROWID=%2"
+#define SQL_UPDATE_RATING_OF_FOLDER			"update Folder set Rating=%1 where Folder.ROWID=%2"
+//#define SQL_UPDATE_RATING_OF_SONG			"update Song set Rating=%1 where Song.ROWID=%2"
 
 #endif // SQLCONSTATNS_H

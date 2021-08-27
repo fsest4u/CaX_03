@@ -137,3 +137,72 @@ QString SQLManager::GetQuerySongsOfPlaylist(int nID)
 {
 	return QString(SQL_SONGS_OF_PLAYLIST).arg(nID);
 }
+
+QString SQLManager::GetQueryFavorite(int nID, int nFavorite, int nCategory)
+{
+	QString query;
+
+	switch (nCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = QString(SQL_UPDATE_FAVORITE_OF_ALBUM).arg(nFavorite).arg(nID);
+		break;
+	case CATEGORY_ALBUMARTIST:
+		query = QString(SQL_UPDATE_FAVORITE_OF_ALBUMARTIST).arg(nFavorite).arg(nID);
+		break;
+	case CATEGORY_ARTIST:
+		query = QString(SQL_UPDATE_FAVORITE_OF_ARTIST).arg(nFavorite).arg(nID);
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_UPDATE_FAVORITE_OF_COMPOSER).arg(nFavorite).arg(nID);
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_UPDATE_FAVORITE_OF_GENRE).arg(nFavorite).arg(nID);
+		break;
+	case CATEGORY_MOOD:
+		query = QString(SQL_UPDATE_FAVORITE_OF_MOOD).arg(nFavorite).arg(nID);
+		break;
+	case CATEGORY_FOLDER:
+		query = QString(SQL_UPDATE_FAVORITE_OF_FOLDER).arg(nFavorite).arg(nID);
+		break;
+
+	default:
+		break;
+	}
+	return query;
+
+}
+
+QString SQLManager::GetQueryRating(int nID, int nRating, int nCategory)
+{
+	QString query;
+
+	switch (nCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = QString(SQL_UPDATE_RATING_OF_ALBUM).arg(nRating).arg(nID);
+		break;
+	case CATEGORY_ALBUMARTIST:
+		query = QString(SQL_UPDATE_RATING_OF_ALBUMARTIST).arg(nRating).arg(nID);
+		break;
+	case CATEGORY_ARTIST:
+		query = QString(SQL_UPDATE_RATING_OF_ARTIST).arg(nRating).arg(nID);
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_UPDATE_RATING_OF_COMPOSER).arg(nRating).arg(nID);
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_UPDATE_RATING_OF_GENRE).arg(nRating).arg(nID);
+		break;
+	case CATEGORY_MOOD:
+		query = QString(SQL_UPDATE_RATING_OF_MOOD).arg(nRating).arg(nID);
+		break;
+	case CATEGORY_FOLDER:
+		query = QString(SQL_UPDATE_RATING_OF_FOLDER).arg(nRating).arg(nID);
+		break;
+
+	default:
+		break;
+	}
+	return query;
+}

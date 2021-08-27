@@ -30,12 +30,21 @@ public:
 	QString GetCount();
 	void SetCount(const QString &value);
 
+	int GetFavorite() const;
+	void SetFavorite(const int &value);
+
+	int GetRating() const;
+	void SetRating(const int &value);
+
 signals:
 
 	void SigClickCoverArt(int nID);
 	void SigClickTitle(int nID);
 	void SigClickSubtitle(int nID);
 	void SigClickCount(int nID);
+	void SigClickFavorite(int nID, int nFavorite);
+	void SigClickRating(int nID, int nRating);
+
 
 protected:
 
@@ -45,6 +54,7 @@ private:
 
 	int		m_ID;
 	QString m_CoverArt;
+
 
 	Ui::CategoryContsEditor *ui;
 };

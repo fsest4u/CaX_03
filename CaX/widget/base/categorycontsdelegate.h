@@ -18,6 +18,8 @@ public:
 		CATEGORY_ROLE_TITLE,
 		CATEGORY_ROLE_SUBTITLE,
 		CATEGORY_ROLE_COUNT,
+		CATEGORY_ROLE_FAVORITE,
+		CATEGORY_ROLE_RATING,
 		CATEGORY_ROLE_INDEX,
 		CATEGORY_ROLE_MAX
 	};
@@ -28,6 +30,9 @@ public:
 signals:
 
 	void SigSelectCoverArt(int nID);
+	void SigSelectCount(int nID);
+	void SigSelectFavorite(int nID, int nFavorite);
+	void SigSelectRating(int nID, int nRating);
 
 private slots:
 
@@ -36,6 +41,8 @@ private slots:
 	void SlotClickTitle(int nID);
 	void SlotClickSubtitle(int nID);
 	void SlotClickCount(int nID);
+	void SlotClickFavorite(int nID, int nFavorite);
+	void SlotClickRating(int nID, int nRating);
 
 private:
 

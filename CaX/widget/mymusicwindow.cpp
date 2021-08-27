@@ -273,6 +273,21 @@ void MyMusicWindow::SlotSelectCategory(int nID)
 	emit SigCategoryInfo(nID, m_nCategory);
 }
 
+void MyMusicWindow::SlotSelectCount(int nID)
+{
+//	m_pMgr->RequestPlaySong();
+}
+
+void MyMusicWindow::SlotSelectFavorite(int nID, int nFavorite)
+{
+	m_pMgr->RequestFavorite(nID, nFavorite, m_nCategory);
+}
+
+void MyMusicWindow::SlotSelectRating(int nID, int nRating)
+{
+	m_pMgr->RequestRating(nID, nRating, m_nCategory);
+}
+
 void MyMusicWindow::SlotReqSongCover(int nID, int nIndex)
 {
 	QString strCat = m_pMgr->GetCategoryName(-1);
@@ -322,7 +337,10 @@ void MyMusicWindow::ConnectSigToSlot()
 	connect(m_pAlbumInfo, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
 
 	connect(m_pCatConts, SIGNAL(SigReqCoverArt(int, int)), this, SLOT(SlotReqCategoryCover(int, int)));
-	connect(m_pCatConts, SIGNAL(SigSelectItem(int)), this, SLOT(SlotSelectCategory(int)));
+	connect(m_pCatConts->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCategory(int)));
+	connect(m_pCatConts->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCount(int)));
+	connect(m_pCatConts->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
+	connect(m_pCatConts->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
 
 	connect(m_pSongConts, SIGNAL(SigReqCoverArt(int, int)), this, SLOT(SlotReqSongCover(int, int)));
 	connect(m_pSongConts->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));

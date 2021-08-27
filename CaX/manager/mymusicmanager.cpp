@@ -82,6 +82,24 @@ void MyMusicManager::RequestPlaySong(int nID, int nWhere)
 
 }
 
+void MyMusicManager::RequestFavorite(int nID, int nFavorite, int nCategory)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryFavorite(nID, nFavorite, nCategory));
+	RequestCommand(node, UPDATE_FAVORITE);
+}
+
+void MyMusicManager::RequestRating(int nID, int nRating, int nCategory)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryRating(nID, nRating, nCategory));
+	RequestCommand(node, UPDATE_RATING);
+}
+
 QString MyMusicManager::GetCategoryName(int nCategory)
 {
 	QString strCat;

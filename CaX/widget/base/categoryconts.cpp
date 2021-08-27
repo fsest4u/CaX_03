@@ -55,6 +55,8 @@ void CategoryConts::SetContentList(QList<CJsonNode> nodeList)
 		item->setData(node.GetString(KEY_TITLE), CategoryContsDelegate::CATEGORY_ROLE_TITLE);
 		item->setData(node.GetString(KEY_SUBTITLE), CategoryContsDelegate::CATEGORY_ROLE_SUBTITLE);
 		item->setData(node.GetString(KEY_COUNT), CategoryContsDelegate::CATEGORY_ROLE_COUNT);
+		item->setData(node.GetString(KEY_FAVORITE), CategoryContsDelegate::CATEGORY_ROLE_FAVORITE);
+		item->setData(node.GetString(KEY_RATING), CategoryContsDelegate::CATEGORY_ROLE_RATING);
 		item->setData(index, CategoryContsDelegate::CATEGORY_ROLE_INDEX);
 		m_Model->appendRow(item);
 		QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -90,6 +92,11 @@ QStandardItemModel *CategoryConts::GetModel()
 	return m_Model;
 }
 
+CategoryContsDelegate *CategoryConts::GetDelegate()
+{
+	return m_Delegate;
+}
+
 void CategoryConts::SetBackgroundTask(QThread *thread)
 {
 	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
@@ -107,21 +114,6 @@ void CategoryConts::SlotReqCoverArt()
 	}
 }
 
-void CategoryConts::SlotSelectItem(QModelIndex index)
-{
-	int nID = qvariant_cast<int>(index.data(CategoryContsDelegate::CATEGORY_ROLE_ID));
-	QString title = qvariant_cast<QString>(index.data(CategoryContsDelegate::CATEGORY_ROLE_TITLE));
-
-	LogDebug("nID [%d] title [%s]", nID, title.toUtf8().data());
-
-	emit SigSelectItem(nID);
-}
-
-void CategoryConts::SlotSelectItem(int nID)
-{
-	emit SigSelectItem(nID);
-}
-
 void CategoryConts::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -130,6 +122,4 @@ void CategoryConts::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::IconMode);
 
-//	connect(m_ListView, SIGNAL(clicked(QModelIndex)), this, SLOT(SlotSelectItem(QModelIndex)));
-	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectItem(int)));
 }

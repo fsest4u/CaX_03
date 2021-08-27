@@ -57,6 +57,7 @@
 #define		KEY_SAMPLERATE		"samplerate"
 #define		KEY_BPS				"bps"
 #define		KEY_FAVORITE		"favorite"
+#define		KEY_RATING			"rating"
 #define		KEY_TIME			"time"
 
 

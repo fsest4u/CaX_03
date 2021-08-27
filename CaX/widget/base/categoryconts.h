@@ -27,30 +27,28 @@ public:
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
 
-	QStandardItemModel	*GetModel();
+	QStandardItemModel		*GetModel();
+	CategoryContsDelegate	*GetDelegate();
 
 	void SetBackgroundTask(QThread *thread);
 
 signals:
 
 	void SigReqCoverArt(int nID, int nIndex);
-	void SigSelectItem(int nID);
 
 private slots:
 
 	void SlotReqCoverArt();
-	void SlotSelectItem(QModelIndex index);
-	void SlotSelectItem(int nID);
 
 private:
 
 	void Initialize();
 
-	QListView			*m_ListView;
-	QStandardItemModel	*m_Model;
+	QListView				*m_ListView;
+	QStandardItemModel		*m_Model;
 	CategoryContsDelegate	*m_Delegate;
 
-	QList<CJsonNode>	m_NodeList;
+	QList<CJsonNode>		m_NodeList;
 
 	Ui::CategoryConts *ui;
 };
