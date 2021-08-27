@@ -86,18 +86,18 @@ void TCPClient::RequestCoverArt(QString fullPath, int nIndex, int nMode)
 	fileName.replace("/", "_");
 	fileName = m_DirTemp + "/" + fileName + ".jpg";
 
-	if (fileName.isEmpty() || QFile::exists(fileName))
-	{
-		LogDebug("fileName is exist [%s]", fileName.toUtf8().data());
-		emit SigRespCoverArt(fileName, nIndex, nMode);
-		return;
-	}
+//	if (fileName.isEmpty() || QFile::exists(fileName))
+//	{
+//		LogDebug("fileName is exist [%s]", fileName.toUtf8().data());
+//		emit SigRespCoverArt(fileName, nIndex, nMode);
+//		return;
+//	}
 
 	const QUrl url = QUrl::fromUserInput(fullPath);
 	QNetworkRequest request(url);
 
 	int count = m_ListReply.size();
-	LogDebug("########### count [%d]", count);
+//	LogDebug("########### count [%d]", count);
 
 	QNetworkReply *reply = m_pManager->get(request);
 	m_ListReply.insert(count, reply);

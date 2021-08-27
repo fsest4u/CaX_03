@@ -230,7 +230,7 @@ void DeviceManager::SlotRespDeviceInfo(QString deviceData)
 		|| strCaName.isEmpty()
 		|| strCaDev.isEmpty())
 	{
-		LogDebug("is not CaX device...");
+//		LogDebug("is not CaX device...");
 		return;
 	}
 
