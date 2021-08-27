@@ -28,19 +28,17 @@ public:
 	void SetViewMode(QListView::ViewMode mode);
 
 	QStandardItemModel	*GetModel();
+	SongContsDelegate	*GetDelegate();
 
 	void SetBackgroundTask(QThread *thread);
 
 signals:
 
 	void SigReqCoverArt(int nID, int nIndex);
-	void SigSelectItem(int nID);
 
 private slots:
 
 	void SlotReqCoverArt();
-	void SlotSelectItem(QModelIndex index);
-	void SlotSelectItem(int nID);
 
 private:
 

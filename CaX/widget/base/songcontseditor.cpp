@@ -3,6 +3,8 @@
 #include "songcontseditor.h"
 #include "ui_songcontseditor.h"
 
+#include "util/log.h"
+
 SongContsEditor::SongContsEditor(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::SongContsEditor)
@@ -15,7 +17,6 @@ SongContsEditor::SongContsEditor(QWidget *parent) :
 	ui->labelCoverArt->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
-	ui->labelFavorite->installEventFilter(this);
 	ui->labelTime->installEventFilter(this);
 	ui->labelArtist->installEventFilter(this);
 	ui->labelAlbum->installEventFilter(this);
@@ -44,9 +45,9 @@ QString SongContsEditor::GetCoverArt() const
 	return m_CoverArt;
 }
 
-void SongContsEditor::SetCoverArt(const QString &CoverArt)
+void SongContsEditor::SetCoverArt(const QString &value)
 {
-	m_CoverArt = CoverArt;
+	m_CoverArt = value;
 
 	bool bFoundImage = false;
 	if (QFile::exists(m_CoverArt))
@@ -134,10 +135,6 @@ bool SongContsEditor::eventFilter(QObject *object, QEvent *event)
 		else if (object == ui->labelTitle)
 		{
 			emit SigClickTitle(m_ID);
-		}
-		else if (object == ui->labelFavorite)
-		{
-			emit SigClickFavorite(m_ID);
 		}
 		else if (object == ui->labelTime)
 		{

@@ -20,7 +20,7 @@ public:
 	void SetID(int ID);
 
 	QString GetCoverArt() const;
-	void SetCoverArt(const QString &CoverArt);
+	void SetCoverArt(const QString &value);
 
 	QString GetTitle();
 	void SetTitle(const QString &value);
@@ -42,7 +42,6 @@ signals:
 	void SigClickCoverArt(int nID);
 	void SigClickPlay(int nID);
 	void SigClickTitle(int nID);
-	void SigClickFavorite(int nID);
 	void SigClickTime(int nID);
 	void SigClickArtist(int nID);
 	void SigClickAlbum(int nID);

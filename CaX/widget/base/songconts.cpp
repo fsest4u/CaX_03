@@ -51,7 +51,6 @@ void SongConts::SetContentList(QList<CJsonNode> nodeList)
 		int nID = node.GetString(KEY_ID).toInt();
 		item->setData(nID, SongContsDelegate::SONG_ROLE_ID);
 		item->setData(node.GetString(KEY_TITLE), SongContsDelegate::SONG_ROLE_TITLE);
-		item->setData(node.GetString(KEY_FAVORITE), SongContsDelegate::SONG_ROLE_FAVORITE);
 		item->setData(node.GetString(KEY_TIME), SongContsDelegate::SONG_ROLE_TIME);
 		item->setData(node.GetString(KEY_ARTIST), SongContsDelegate::SONG_ROLE_ARTIST);
 		item->setData(node.GetString(KEY_ALBUM), SongContsDelegate::SONG_ROLE_ALBUM);
@@ -90,6 +89,11 @@ QStandardItemModel *SongConts::GetModel()
 	return m_Model;
 }
 
+SongContsDelegate *SongConts::GetDelegate()
+{
+	return m_Delegate;
+}
+
 void SongConts::SetBackgroundTask(QThread *thread)
 {
 	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
@@ -107,21 +111,6 @@ void SongConts::SlotReqCoverArt()
 	}
 }
 
-void SongConts::SlotSelectItem(QModelIndex index)
-{
-	int nID = qvariant_cast<int>(index.data(SongContsDelegate::SONG_ROLE_ID));
-	QString title = qvariant_cast<QString>(index.data(SongContsDelegate::SONG_ROLE_TITLE));
-
-	LogDebug("nID [%d] title [%s]", nID, title.toUtf8().data());
-
-	emit SigSelectItem(nID);
-}
-
-void SongConts::SlotSelectItem(int nID)
-{
-	emit SigSelectItem(nID);
-}
-
 void SongConts::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -130,9 +119,5 @@ void SongConts::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
 
-//	connect(m_ListView, SIGNAL(clicked(QModelIndex)), this, SLOT(SlotSelectItem(QModelIndex)));
-	connect(m_Delegate, SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectItem(int)));
-	connect(m_Delegate, SIGNAL(SigSelectFavorite(int)), this, SLOT(SlotSelectItem(int)));
-	connect(m_Delegate, SIGNAL(SigSelectMore(int)), this, SLOT(SlotSelectItem(int)));
 
 }

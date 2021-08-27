@@ -34,11 +34,6 @@ void SongContsDelegate::SlotClickTitle(int nID)
 	LogDebug("click title");
 }
 
-void SongContsDelegate::SlotClickFavorite(int nID)
-{
-	emit SigSelectFavorite(nID);
-}
-
 void SongContsDelegate::SlotClickTime(int nID)
 {
 	Q_UNUSED(nID);
@@ -149,7 +144,6 @@ QWidget *SongContsDelegate::createEditor(QWidget *parent, const QStyleOptionView
 	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
 	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));
-	connect(editor, SIGNAL(SigClickFavorite(int)), this, SLOT(SlotClickFavorite(int)));
 	connect(editor, SIGNAL(SigClickTime(int)), this, SLOT(SlotClickTime(int)));
 	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));
 	connect(editor, SIGNAL(SigClickAlbum(int)), this, SLOT(SlotClickAlbum(int)));

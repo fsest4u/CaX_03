@@ -17,7 +17,6 @@ public:
 		SONG_ROLE_ID = Qt::UserRole + SONG_CONTS_ROLE_NONE,
 		SONG_ROLE_COVER,
 		SONG_ROLE_TITLE,
-		SONG_ROLE_FAVORITE,
 		SONG_ROLE_TIME,
 		SONG_ROLE_ARTIST,
 		SONG_ROLE_ALBUM,
@@ -32,7 +31,6 @@ public:
 signals:
 
 	void SigSelectPlay(int nID);
-	void SigSelectFavorite(int nID);
 	void SigSelectMore(int nID);
 
 private slots:
@@ -40,7 +38,6 @@ private slots:
 	void SlotClickCoverArt(int nID);
 	void SlotClickPlay(int nID);
 	void SlotClickTitle(int nID);
-	void SlotClickFavorite(int nID);
 	void SlotClickTime(int nID);
 	void SlotClickArtist(int nID);
 	void SlotClickAlbum(int nID);

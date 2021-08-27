@@ -542,7 +542,6 @@ void MainWindow::SlotCategoryInfo(int nID, int nCategory)
 	widget->RequestCategoryInfo(nID, nCategory);
 	AddWidget(widget);
 
-	connect(widget, SIGNAL(SigPlaySong(int)), this, SLOT(SlotPlaySong(int)));
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
