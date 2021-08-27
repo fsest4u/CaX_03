@@ -32,7 +32,6 @@ signals:
 
 	void SigCategoryInfo(int nID, int nCategory);
 
-
 private slots:
 
 	void SlotRespMusicInfo(CJsonNode node);
@@ -61,7 +60,10 @@ private slots:
 	void SlotSelectCategory(int nID);
 
 	void SlotReqSongCover(int nID, int nIndex);
-	void SlotSelectSong(int nID);
+
+	void SlotSelectPlay(int nID);
+	void SlotSelectMore(int nID);
+
 
 private:
 

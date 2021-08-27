@@ -282,13 +282,18 @@ void MyMusicWindow::SlotReqSongCover(int nID, int nIndex)
 	m_pMgr->RequestCoverArt(fullpath, nIndex, QListView::ListMode);
 }
 
-void MyMusicWindow::SlotSelectSong(int nID)
+void MyMusicWindow::SlotSelectPlay(int nID)
 {
 	m_pMgr->RequestPlaySong(nID);
+}
 
-//	LogDebug("click select item - temp code");
-//	QListView::ViewMode mode = m_pSongConts->GetViewMode() == QListView::IconMode ? QListView::ListMode : QListView::IconMode;
-//	m_pSongConts->SetViewMode(mode);
+void MyMusicWindow::SlotSelectMore(int nID)
+{
+	Q_UNUSED(nID)
+
+	LogDebug("click select more - temp code");
+	QListView::ViewMode mode = m_pSongConts->GetViewMode() == QListView::IconMode ? QListView::ListMode : QListView::IconMode;
+	m_pSongConts->SetViewMode(mode);
 }
 
 void MyMusicWindow::ConnectSigToSlot()
@@ -320,7 +325,8 @@ void MyMusicWindow::ConnectSigToSlot()
 	connect(m_pCatConts, SIGNAL(SigSelectItem(int)), this, SLOT(SlotSelectCategory(int)));
 
 	connect(m_pSongConts, SIGNAL(SigReqCoverArt(int, int)), this, SLOT(SlotReqSongCover(int, int)));
-	connect(m_pSongConts, SIGNAL(SigSelectItem(int)), this, SLOT(SlotSelectSong(int)));
+	connect(m_pSongConts->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pSongConts->GetDelegate(), SIGNAL(SigSelectMore(int)), this, SLOT(SlotSelectMore(int)));
 
 
 }
