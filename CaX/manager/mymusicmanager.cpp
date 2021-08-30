@@ -161,7 +161,10 @@ void MyMusicManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	if (nCmdID == PLAY_SONG)
+	if (nCmdID == PLAY_SONG
+			|| nCmdID == UPDATE_FAVORITE
+			|| nCmdID == UPDATE_RATING
+			)
 	{
 		return;
 	}
