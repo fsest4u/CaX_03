@@ -56,6 +56,7 @@ public slots:
 	void SlotBtnVolume();
 
 	void SlotInitDeviceList(bool bSelect);
+	void SlotRespError(QString errMsg);
 	void SlotRespDeviceInfo(CJsonNode node);
 	void SlotRespObserverInfo(CJsonNode rootNode);
 	void SlotDisconnectObserver();

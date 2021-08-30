@@ -18,6 +18,7 @@ public:
 
 signals:
 
+	void SigRespError(QString errMsg);
 	void SigRespDeviceInfo(CJsonNode node);
 	void SigRespCoverInfo();
 

@@ -37,6 +37,8 @@ public:
 
 signals:
 
+	void SigRespError(QString errMsg);
+
 private slots:
 
 	void SlotRespInfo(QString json, int nCmdID);

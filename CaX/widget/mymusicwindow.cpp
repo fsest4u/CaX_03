@@ -1,4 +1,5 @@
 #include <QStackedWidget>
+#include <QMessageBox>
 
 #include "mymusicwindow.h"
 #include "ui_mymusicwindow.h"
@@ -114,6 +115,12 @@ void MyMusicWindow::RequestCategoryInfo(int nID, int nCategory)
 	m_pLoading->Start();
 	m_pMgr->RequestCategoryInfo(nID, m_nCategory);
 	m_pMgr->RequestSongsOfCategory(nID, m_nCategory);
+}
+
+void MyMusicWindow::SlotRespError(QString errMsg)
+{
+	m_pLoading->Stop();
+	QMessageBox::warning(this, "Warning", errMsg);
 }
 
 void MyMusicWindow::SlotRespMusicInfo(CJsonNode node)
@@ -313,6 +320,7 @@ void MyMusicWindow::SlotSelectMore(int nID)
 
 void MyMusicWindow::ConnectSigToSlot()
 {
+	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespMusicInfo(CJsonNode)), this, SLOT(SlotRespMusicInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));

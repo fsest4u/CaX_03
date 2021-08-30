@@ -32,7 +32,7 @@ void AppManager::SlotRespDeviceInfo(QString json, int nCmdID)
 
 	CJsonNode node;
 	if (!node.SetContent(json)) {
-		LogCritical("Invalid JSON...[%s]", json.toUtf8().data());
+		emit SigRespError("invalid json");
 		return;
 	}
 

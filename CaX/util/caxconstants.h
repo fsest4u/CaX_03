@@ -12,6 +12,8 @@
 #define TR_ORGANIZATION				TR("NOVATRON")
 #define TR_APPLICATION				TR("Music X Neo")
 
+#define MSG_LIMIT_COUNT				100
+
 //////////////////////////////////////////////////
 // ssdp
 //////////////////////////////////////////////////

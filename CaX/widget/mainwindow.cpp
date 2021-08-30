@@ -1,4 +1,5 @@
 //#include <QMouseEvent>
+#include <QMessageBox>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -293,7 +294,7 @@ void MainWindow::ReadSettings()
 		}
 		else
 		{
-			LogCritical("Invalid JSON...");
+			LogCritical("invalid json - wake on lan setting");
 			return;
 		}
 	}
@@ -374,6 +375,11 @@ void MainWindow::SlotInitDeviceList(bool bSelect)
 		// init ui....
 	}
 
+}
+
+void MainWindow::SlotRespError(QString errMsg)
+{
+	QMessageBox::critical(this, "critical", errMsg);
 }
 
 void MainWindow::SlotRespDeviceInfo(CJsonNode node)
@@ -645,6 +651,7 @@ void MainWindow::ConnectForApp()
 	connect(m_pSsdpMgr->GetUdpClient(), SIGNAL(SigRespDeviceInfo(QString)),	m_pDeviceMgr, SLOT(SlotRespDeviceInfo(QString)));
 	connect(m_pDeviceMgr, SIGNAL(SigInitDeviceList(bool)),	this, SLOT(SlotInitDeviceList(bool)));
 //	connect(m_pDeviceMenu, SIGNAL(SigDeviceSelect(QListWidgetItem*)), this,	SLOT(SlotDeviceSelect(QListWidgetItem*)));
+	connect(m_pAppMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespDeviceInfo(CJsonNode)), this, SLOT(SlotRespDeviceInfo(CJsonNode)));
 
 	connect(m_pObsMgr, SIGNAL(SigRespObserverInfo(CJsonNode)), this, SLOT(SlotRespObserverInfo(CJsonNode)));

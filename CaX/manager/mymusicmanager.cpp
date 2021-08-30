@@ -1,5 +1,6 @@
 #include "mymusicmanager.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
@@ -140,32 +141,37 @@ void MyMusicManager::SlotRespInfo(QString json, int nCmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		LogCritical("Invalid JSON...[%s]", json.toUtf8().data());
+		emit SigRespError("invalid json");
 		return;
 	}
 
 	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	QString strMsg;
-	bool	bSuccess;
-	if (!node.GetBool(KEY_SUCCESS, bSuccess))
+	bool	bSuccess = false;
+	if (!node.GetBool(KEY_SUCCESS, bSuccess) || !bSuccess)
 	{
-		LogCritical("Fail to response ...[%s]", json.toUtf8().data());
+		if (!node.GetString(KEY_MSG, strMsg) || strMsg.isEmpty())
+		{
+			emit SigRespError("unknown error");
+			return;
+		}
+
+		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
 		return;
 	}
-	if (!node.GetString(KEY_MSG, strMsg) || strMsg.isEmpty())
+
+	if (nCmdID == PLAY_SONG)
 	{
-		LogCritical("Empty message ...[%s]", json.toUtf8().data());
 		return;
 	}
 
 	CJsonNode result;
 	if (!node.GetArray(KEY_RESULT, result))
 	{
-		LogCritical("Empty Result ...[%s]", json.toUtf8().data());
+		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
 		return;
 	}
-
 
 	switch (nCmdID)
 	{

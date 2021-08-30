@@ -61,6 +61,8 @@ signals:
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
 	void SigCoverArtUpdate(QString fileName);
 
+	void SigRespError(QString errMsg);
+
 private slots:
 
 	void SlotRespInfo(QString json, int nCmdID);

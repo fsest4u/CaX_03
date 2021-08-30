@@ -34,6 +34,7 @@ signals:
 
 private slots:
 
+	void SlotRespError(QString errMsg);
 	void SlotRespMusicInfo(CJsonNode node);
 	void SlotRespCategoryList(QList<CJsonNode> nodeList);
 	void SlotRespCategoryInfo(CJsonNode node);

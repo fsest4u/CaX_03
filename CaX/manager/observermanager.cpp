@@ -59,7 +59,7 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 	{
 		if (!node.SetContent(jsonValue))
 		{
-			LogCritical("Invalid JSON...");
+			LogCritical("invalid json ..............");
 			continue;
 		}
 
