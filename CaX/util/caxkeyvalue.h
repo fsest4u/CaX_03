@@ -14,7 +14,7 @@
 #define		KEY_SQL				"Sql"
 
 #define		KEY_PLAY			"Play"
-#define		KEY_WHERE			"where"
+#define		KEY_WHERE			"Where"
 #define		KEY_SONG_ORDER		"SongOrder"
 
 
