@@ -17,7 +17,13 @@
 #define		KEY_WHERE			"Where"
 #define		KEY_SONG_ORDER		"SongOrder"
 
-
+#define		KEY_KEY				"Key"
+#define		KEY_POSITION		"Pos"
+#define		KEY_VOLUME			"Volume"
+#define		KEY_COVER_ART		"CoverArt"
+#define		KEY_TIME_STAMP		"TS"
+#define		KEY_PAGE_CNT		"PageCnt"
+#define		KEY_INDEX			"Index"
 
 
 //////////////////////////////////////////////////
@@ -33,6 +39,14 @@
 #define		VAL_PLAY			"Play"
 #define		VAL_MUSIC_DB		"MusicDB"
 
+#define		VAL_REMOTE			"Remote"
+#define		VAL_MUTE			"MUTE"
+#define		VAL_SHUFFLE			"SHUFFLE"
+#define		VAL_SET_POSITION	"SetPos"
+#define		VAL_SET_VOLUME		"SetVol"
+#define		VAL_PLAY			"Play"
+#define		VAL_LIST			"List"
+
 
 //////////////////////////////////////////////////
 // response - key
@@ -47,8 +61,8 @@
 #define		KEY_YEAR			"Year"
 #define		KEY_SONG			"Song"
 
-#define		KEY_ID				"id"
-#define		KEY_ID2				"ID"
+#define		KEY_ID_LOWER		"id"
+#define		KEY_ID_UPPER		"ID"
 #define		KEY_TITLE			"title"
 #define		KEY_SUBTITLE		"subtitle"
 #define		KEY_COUNT			"count"
@@ -60,14 +74,22 @@
 #define		KEY_RATING			"rating"
 #define		KEY_TIME			"time"
 
+#define		KEY_PLAY_STATE		"PlayState"
+#define		KEY_SRC				"Src"
+#define		KEY_TOP				"Top"
+#define		KEY_BOT				"Bot"
+#define		KEY_DURATION		"Duration"
+#define		KEY_PLAY_TIME		"PlayTime"
+#define		KEY_REPEAT			"Repeat"
 
 //////////////////////////////////////////////////
 // response - value
 //////////////////////////////////////////////////
 
-#define		KEY_MSG				"msg"
-#define		KEY_SUCCESS			"success"
-#define		KEY_RESULT			"Result"
+#define		VAL_MSG				"msg"
+#define		VAL_SUCCESS			"success"
+#define		VAL_RESULT			"Result"
+#define		VAL_INFO			"Info"
 
 
 

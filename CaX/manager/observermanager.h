@@ -21,9 +21,10 @@ public :
 
 signals:
 
-	void		SigRespObserverInfo(CJsonNode node);
-//	void		SigRespInfo(QStringList jsonValueList);
 	void		SigDisconnectObserver();
+	void		SigRespObserverInfo(CJsonNode node);
+	void		SigRespNowPlay(CJsonNode node);
+//	void		SigRespInfo(QStringList jsonValueList);
 
 public slots:
 

@@ -326,7 +326,6 @@ void MyMusicWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespSongsOfCategory(QList<CJsonNode>)), this, SLOT(SlotRespSongsOfCategory(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
-//	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
 
 	connect(m_pMusicInfo, SIGNAL(SigPlayAll()), this, SLOT(SlotMusicPlayAll()));
 	connect(m_pMusicInfo, SIGNAL(SigPlayRandom()), this, SLOT(SlotMusicPlayRandom()));

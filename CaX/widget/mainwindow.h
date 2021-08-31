@@ -44,24 +44,14 @@ public slots:
 	void SlotBtnNext();
 	void SlotBtnSearch();
 
-	void SlotClickCoverArt();
-	void SlotBtnInfo();
-	void SlotBtnPlaylist();
-	void SlotBtnPlayPrev();
-	void SlotBtnPlay();
-	void SlotBtnPlayNext();
-	void SlotBtnRandom();
-	void SlotBtnRepeat();
-	void SlotBtnDevice();
-	void SlotBtnVolume();
-
 	void SlotInitDeviceList(bool bSelect);
 	void SlotRespError(QString errMsg);
-	void SlotRespDeviceInfo(CJsonNode node);
-	void SlotRespObserverInfo(CJsonNode rootNode);
 	void SlotDisconnectObserver();
+	void SlotRespDeviceInfo(CJsonNode node);
+	void SlotRespObserverInfo(CJsonNode node);
 
 	void SlotSelectSideMenu(int menuIndex);
+
 
 	void SlotCategoryInfo(int nID, int nCategory);
 

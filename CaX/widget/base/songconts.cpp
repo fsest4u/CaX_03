@@ -48,7 +48,7 @@ void SongConts::SetContentList(QList<CJsonNode> nodeList)
 	foreach (CJsonNode node, m_NodeList)
 	{
 		QStandardItem *item = new QStandardItem;
-		int nID = node.GetString(KEY_ID).toInt();
+		int nID = node.GetString(KEY_ID_LOWER).toInt();
 		item->setData(nID, SongContsDelegate::SONG_ROLE_ID);
 		item->setData(node.GetString(KEY_TITLE), SongContsDelegate::SONG_ROLE_TITLE);
 		item->setData(node.GetString(KEY_TIME), SongContsDelegate::SONG_ROLE_TIME);
@@ -104,7 +104,7 @@ void SongConts::SlotReqCoverArt()
 	int index = 0;
 	foreach (CJsonNode node, m_NodeList)
 	{
-		int nID = node.GetString(KEY_ID).toInt();
+		int nID = node.GetString(KEY_ID_LOWER).toInt();
 		QThread::msleep(5);
 		emit SigReqCoverArt(nID, index);
 		index++;

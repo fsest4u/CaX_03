@@ -210,65 +210,6 @@ void MainWindow::SlotBtnSearch()
 
 }
 
-void MainWindow::SlotClickCoverArt()
-{
-	LogDebug("click label cover art");
-
-}
-
-void MainWindow::SlotBtnInfo()
-{
-	LogDebug("click btn info");
-
-}
-
-void MainWindow::SlotBtnPlaylist()
-{
-	LogDebug("click btn playlist");
-
-}
-
-void MainWindow::SlotBtnPlayPrev()
-{
-	LogDebug("click btn prev");
-
-}
-
-void MainWindow::SlotBtnPlay()
-{
-	LogDebug("click btn play");
-}
-
-void MainWindow::SlotBtnPlayNext()
-{
-	LogDebug("click btn next");
-
-}
-
-void MainWindow::SlotBtnRandom()
-{
-	LogDebug("click btn random");
-
-}
-
-void MainWindow::SlotBtnRepeat()
-{
-	LogDebug("click btn repeat");
-
-}
-
-void MainWindow::SlotBtnDevice()
-{
-	LogDebug("click btn device");
-
-}
-
-void MainWindow::SlotBtnVolume()
-{
-	LogDebug("click btn volume");
-
-}
-
 void MainWindow::ReadSettings()
 {
 	SettingIO settings;
@@ -281,6 +222,9 @@ void MainWindow::ReadSettings()
 
 	m_strCurrentMac = settings.value("recent_device").toString();
 	m_strAddr = settings.value("recent_addr").toString();
+
+	ui->widgetPlay->SetAddr(m_strAddr);
+	m_pAppMgr->SetAddr(m_strAddr);
 
 	// load wol list
 	QString strNodeWol = settings.value("node_wol").toString();
@@ -363,7 +307,9 @@ void MainWindow::SlotInitDeviceList(bool bSelect)
 		m_strAddr = strAddr;
 		WriteSettings();
 
+		ui->widgetPlay->SetAddr(m_strAddr);
 		m_pAppMgr->SetAddr(m_strAddr);
+
 		m_pAppMgr->RequestDeviceInfo();
 	}
 	else
@@ -389,8 +335,8 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 	QString strMsg;
 	bool bSuccess;
 
-	if (!node.GetString(KEY_MSG, strMsg) || strMsg.isEmpty()) { return; }
-	if (!node.GetBool(KEY_SUCCESS, bSuccess)) { return; }
+	if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty()) { return; }
+	if (!node.GetBool(VAL_SUCCESS, bSuccess)) { return; }
 
 	if (!bSuccess)
 	{
@@ -434,7 +380,7 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 	}
 }
 
-void MainWindow::SlotRespObserverInfo(CJsonNode rootNode)
+void MainWindow::SlotRespObserverInfo(CJsonNode node)
 {
 	CJsonNode nodeSetup;
 	CJsonNode nodeIService;
@@ -446,15 +392,15 @@ void MainWindow::SlotRespObserverInfo(CJsonNode rootNode)
 	bool    bIsDelDB = false;
 	int     nEventID = false;
 
-	if (!rootNode.GetBool(MAIN_MENU_AUDIO_CD, bAudioCD)) { bAudioCD = false; }
-	// todo
-//	if (!rootNode.GetBool(RES_KEY_SCAN_DB, bSigma)) { bSigma = false; }
-//	if (!rootNode.GetBool(RES_KEY_SCAN_DB, bScanDB)) { bScanDB = false; }
-//	if (!rootNode.GetBool(RES_KEY_SCAN_DB, bIsDelDB)) { bIsDelDB = false; }
-	if (!rootNode.GetInt(MAIN_EVENT_ID, nEventID)) { nEventID = -1; }
-	if (!rootNode.GetArray(MAIN_MENU_SETUP, nodeSetup)) { nodeSetup.Clear(); }
-	if (!rootNode.GetArray(MAIN_MENU_ISERVICE, nodeIService)) { nodeIService.Clear(); }
-	if (!rootNode.GetArray(MAIN_MENU_INPUT, nodeInput)) { nodeInput.Clear(); }
+	if (!node.GetBool(MAIN_MENU_AUDIO_CD, bAudioCD)) { bAudioCD = false; }
+	// todo-dylee
+//	if (!node.GetBool(RES_KEY_SCAN_DB, bSigma)) { bSigma = false; }
+//	if (!node.GetBool(RES_KEY_SCAN_DB, bScanDB)) { bScanDB = false; }
+//	if (!node.GetBool(RES_KEY_SCAN_DB, bIsDelDB)) { bIsDelDB = false; }
+	if (!node.GetInt(MAIN_EVENT_ID, nEventID)) { nEventID = -1; }
+	if (!node.GetArray(MAIN_MENU_SETUP, nodeSetup)) { nodeSetup.Clear(); }
+	if (!node.GetArray(MAIN_MENU_ISERVICE, nodeIService)) { nodeIService.Clear(); }
+	if (!node.GetArray(MAIN_MENU_INPUT, nodeInput)) { nodeInput.Clear(); }
 
 	m_bScanDB = bScanDB;
 	m_nEventID = nEventID;
@@ -482,8 +428,9 @@ void MainWindow::SlotRespObserverInfo(CJsonNode rootNode)
 
 	// 최초 Response�"EventID"�받으� "Task" -> "List" Request르야 (EventID == 1)
 	// todo-dylee
-//	emit SigTaskList();
+	//	emit SigTaskList();
 }
+
 
 void MainWindow::SlotDisconnectObserver()
 {
@@ -542,6 +489,7 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 
 }
 
+
 void MainWindow::SlotCategoryInfo(int nID, int nCategory)
 {
 	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
@@ -554,11 +502,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (obj == ui->widgetPlay->GetLabelCoverArt())
-		{
-			SlotClickCoverArt();
-		}
-//		else if (obj == ui->widgetTop->GetBtnMenu())
+
+//		if (obj == ui->widgetTop->GetBtnMenu())
 //		{
 //			SlotBtnMenu();
 //		}
@@ -583,7 +528,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 void MainWindow::InitMain()
 {
 //	instead of MainWindow::ConnectForUI()
-	InitMenu(true);
+//	InitMenu(true);
 
 	m_pLoading->Start();
 	m_pSsdpMgr->RequestDeviceInfo();
@@ -603,7 +548,6 @@ void MainWindow::InitMenu(bool bEnable)
 //		ui->widgetTop->GetBtnPrev()->installEventFilter(this);
 //		ui->widgetTop->GetBtnNext()->installEventFilter(this);
 //		ui->widgetTop->GetBtnSearch()->installEventFilter(this);
-		ui->widgetPlay->GetLabelCoverArt()->installEventFilter(this);
 	}
 	else
 	{
@@ -611,7 +555,6 @@ void MainWindow::InitMenu(bool bEnable)
 //		ui->widgetTop->GetBtnPrev()->removeEventFilter(this);
 //		ui->widgetTop->GetBtnNext()->removeEventFilter(this);
 //		ui->widgetTop->GetBtnSearch()->removeEventFilter(this);
-		ui->widgetPlay->GetLabelCoverArt()->removeEventFilter(this);
 
 	}
 }
@@ -634,15 +577,8 @@ void MainWindow::ConnectForUI()
 	connect(m_pSideMenu, SIGNAL(SigSelectSideMenu(int)), this, SLOT(SlotSelectSideMenu(int)));
 
 	// play menu
-	connect(ui->widgetPlay->GetBtnInfo(), SIGNAL(clicked()), this, SLOT(SlotBtnInfo()));
-	connect(ui->widgetPlay->GetBtnPlaylist(), SIGNAL(clicked()), this, SLOT(SlotBtnPlaylist()));
-	connect(ui->widgetPlay->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPlayPrev()));
-	connect(ui->widgetPlay->GetBtnPlay(), SIGNAL(clicked()), this, SLOT(SlotBtnPlay()));
-	connect(ui->widgetPlay->GetBtnNext(), SIGNAL(clicked()), this, SLOT(SlotBtnPlayNext()));
-	connect(ui->widgetPlay->GetBtnRandom(), SIGNAL(clicked()), this, SLOT(SlotBtnRandom()));
-	connect(ui->widgetPlay->GetBtnRepeat(), SIGNAL(clicked()), this, SLOT(SlotBtnRepeat()));
-	connect(ui->widgetPlay->GetBtnDevice(), SIGNAL(clicked()), this, SLOT(SlotBtnDevice()));
-	connect(ui->widgetPlay->GetBtnVolume(), SIGNAL(clicked()), this, SLOT(SlotBtnVolume()));
+	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
+
 
 }
 
@@ -654,8 +590,9 @@ void MainWindow::ConnectForApp()
 	connect(m_pAppMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespDeviceInfo(CJsonNode)), this, SLOT(SlotRespDeviceInfo(CJsonNode)));
 
-	connect(m_pObsMgr, SIGNAL(SigRespObserverInfo(CJsonNode)), this, SLOT(SlotRespObserverInfo(CJsonNode)));
 	connect(m_pObsMgr, SIGNAL(SigDisconnectObserver()), this, SLOT(SlotDisconnectObserver()));
+	connect(m_pObsMgr, SIGNAL(SigRespObserverInfo(CJsonNode)), this, SLOT(SlotRespObserverInfo(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigRespNowPlay(CJsonNode)), ui->widgetPlay, SLOT(SlotRespNowPlay(CJsonNode)));
 
 }
 

@@ -360,6 +360,20 @@ bool GetMinFromHHMMString(QString strTime, int &iMin)
 	return true;
 }
 
+QString ConvertMSecToHHMMSSStr(int mSec)
+{
+	if (mSec < 0) mSec = 0;
+
+	QTime time(0, 0, 0, 0);
+	time = time.addMSecs(mSec);
+	QString strTime = QString("%1:%2:%3")
+			.arg(time.hour(), 2, 10, QChar('0'))
+			.arg(time.minute(), 2, 10, QChar('0'))
+			.arg(time.second(), 2, 10, QChar('0'));
+
+	return strTime;
+}
+
 void StrTrimTail(char *szStr)	// wslim
 {
 	if (szStr == NULL)		return;
@@ -901,4 +915,17 @@ QString GetUrlQueryString(QString strKey, QString strValue, bool blStart)
 QString GetUrlQueryString(QString strKey, int iValue, bool blStart)
 {
 	return QString("%1%2=%3").arg(blStart? "?" : "&").arg(strKey).arg(iValue);
+}
+
+QString ConvertCoverArtURLToName(QString fullpath)
+{
+	QString filename = fullpath;
+	int colon = filename.length() - filename.lastIndexOf(":") - 1;
+	filename = filename.right(colon);
+	colon = filename.length() - filename.indexOf("/") - 1;
+	filename = filename.right(colon);
+	filename.replace("/", "_");
+	filename = filename + ".jpg";
+
+	return filename;
 }

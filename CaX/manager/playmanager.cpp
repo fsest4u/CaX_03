@@ -1,3 +1,5 @@
+#include <QImage>
+
 #include "playmanager.h"
 
 #include "util/caxconstants.h"
@@ -9,6 +11,7 @@ PlayManager::PlayManager(QObject *parent)
 	Q_UNUSED(parent)
 
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespCoverArt(QString)), this, SLOT(SlotRespCoverArt(QString)));
 
 }
 
@@ -29,6 +32,75 @@ void PlayManager::RequestPlayState(int mode)
 	RequestCommand(node, PLAY_STATE);
 }
 
+void PlayManager::RequestSeek(int msec)
+{
+	int pos = msec / 1000;
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_PLAY);
+	node.Add	(KEY_CMD1,		VAL_SET_POSITION);
+	node.AddInt	(KEY_POSITION,	pos);
+	RequestCommand(node, PLAY_SEEK);
+}
+
+void PlayManager::RequestVolume(int value)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_PLAY);
+	node.Add	(KEY_CMD1,		VAL_SET_VOLUME);
+	node.AddInt	(KEY_VOLUME,	value);
+	RequestCommand(node, PLAY_VOLUME);
+}
+
+void PlayManager::RequestRepeatMode()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_REMOTE);
+	node.Add	(KEY_KEY,		VAL_SHUFFLE);
+	RequestCommand(node, PLAY_SHUFFLE);
+}
+
+void PlayManager::RequestMute()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_REMOTE);
+	node.Add	(KEY_KEY,		VAL_MUTE);
+	RequestCommand(node, PLAY_MUTE);
+}
+
+void PlayManager::RequestSongInfo(int nID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
+	node.Add	(KEY_CMD1,		VAL_INFO);
+	node.Add	(KEY_CMD2,		VAL_SONG);
+	node.AddInt	(KEY_ID_UPPER,	nID);
+
+	RequestCommand(node, PLAY_SONG_INFO);
+
+}
+
+void PlayManager::RequestQueueList(uint timestamp)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_PLAY);
+	node.Add	(KEY_CMD1,		VAL_LIST);
+	node.AddInt	(KEY_TIME_STAMP,timestamp);
+	node.AddInt	(KEY_INDEX,		0);
+	node.AddInt	(KEY_PAGE_CNT,	100);
+
+	RequestCommand(node, PLAY_QUEUE_LIST);
+}
+
+void PlayManager::RequestQueuePlay(int nID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_PLAY);
+	node.Add	(KEY_CMD1,		VAL_INDEX);
+	node.AddInt	(KEY_INDEX,		nID);
+
+	RequestCommand(node, PLAY_QUEUE_PLAY);
+}
+
 void PlayManager::SlotRespInfo(QString json, int nCmdID)
 {
 	CJsonNode node;
@@ -42,9 +114,9 @@ void PlayManager::SlotRespInfo(QString json, int nCmdID)
 
 	QString strMsg;
 	bool	bSuccess = false;
-	if (!node.GetBool(KEY_SUCCESS, bSuccess) || !bSuccess)
+	if (!node.GetBool(VAL_SUCCESS, bSuccess) || !bSuccess)
 	{
-		if (!node.GetString(KEY_MSG, strMsg) || strMsg.isEmpty())
+		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
 		{
 			emit SigRespError("unknown error");
 			return;
@@ -54,21 +126,57 @@ void PlayManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	CJsonNode result;
-	if (!node.GetArray(KEY_RESULT, result))
+	if (nCmdID == PLAY_STATE
+			|| nCmdID == PLAY_VOLUME
+			|| nCmdID == PLAY_SEEK
+			|| nCmdID == PLAY_SHUFFLE
+			|| nCmdID == PLAY_MUTE
+			|| nCmdID == PLAY_QUEUE_PLAY
+			)
 	{
-		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
 		return;
 	}
 
+//	CJsonNode result;
+//	if (!node.GetArray(VAL_RESULT, result))
+//	{
+//		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
+//		return;
+//	}
+
 	switch (nCmdID)
 	{
-	case PLAY_STATE:
+	case PLAY_SONG_INFO:
+		ParseTrackInfo(node);
+		break;
+	case PLAY_QUEUE_LIST:
+		ParseQueueList(node);
 		break;
 	case PLAY_MAX:
 		LogWarning("Invalid command ID");
 		break;
 	}
+}
+
+void PlayManager::SlotRespCoverArt(QString fileName)
+{
+	emit SigCoverArtUpdate(fileName);
+}
+
+void PlayManager::ParseTrackInfo(CJsonNode node)
+{
+	emit SigTrackInfo(node);
+}
+
+void PlayManager::ParseQueueList(CJsonNode node)
+{
+	CJsonNode result;
+	if (!node.GetArray(VAL_RESULT, result))
+	{
+		emit SigRespError("there is no result.");
+		return;
+	}
+	emit SigQueueList(result);
 }
 
 QString PlayManager::GetPlayMode(int mode)

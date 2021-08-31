@@ -12,7 +12,6 @@ MyMusicManager::MyMusicManager(QObject *parent)
 
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespCoverArt(QString, int, int)), this, SLOT(SlotRespCoverArt(QString, int, int)));
-	connect((QObject*)GetTcpClient(), SIGNAL(SigRespCoverArt(QString)), this, SLOT(SlotRespCoverArt(QString)));
 
 	InitMusic();
 }
@@ -76,7 +75,7 @@ void MyMusicManager::RequestPlaySong(int nID, int nWhere)
 	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,		VAL_PLAY);
 	node.Add	(KEY_CMD2,		VAL_SONG);
-	node.AddInt	(KEY_ID2,		nID);
+	node.AddInt	(KEY_ID_UPPER,	nID);
 	node.AddInt	(KEY_WHERE,		nWhere);
 	node.AddInt	(KEY_SONG_ORDER, 0);
 	RequestCommand(node, PLAY_SONG);
@@ -149,9 +148,9 @@ void MyMusicManager::SlotRespInfo(QString json, int nCmdID)
 
 	QString strMsg;
 	bool	bSuccess = false;
-	if (!node.GetBool(KEY_SUCCESS, bSuccess) || !bSuccess)
+	if (!node.GetBool(VAL_SUCCESS, bSuccess) || !bSuccess)
 	{
-		if (!node.GetString(KEY_MSG, strMsg) || strMsg.isEmpty())
+		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
 		{
 			emit SigRespError("unknown error");
 			return;
@@ -170,7 +169,7 @@ void MyMusicManager::SlotRespInfo(QString json, int nCmdID)
 	}
 
 	CJsonNode result;
-	if (!node.GetArray(KEY_RESULT, result))
+	if (!node.GetArray(VAL_RESULT, result))
 	{
 		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
 		return;
@@ -202,15 +201,8 @@ void MyMusicManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
 	emit SigCoverArtUpdate(fileName, nIndex, mode);
 }
 
-void MyMusicManager::SlotRespCoverArt(QString fileName)
-{
-	emit SigCoverArtUpdate(fileName);
-}
-
 void MyMusicManager::InitMusic()
 {
-
-
 }
 
 void MyMusicManager::ParseMusicInfo(CJsonNode result)

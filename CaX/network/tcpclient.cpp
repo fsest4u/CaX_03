@@ -3,6 +3,7 @@
 #include "tcpclient.h"
 
 #include "util/log.h"
+#include "util/StringLib.h"
 
 #define CONTENT_TYPE			"application/x-www-form-urlencoded"
 
@@ -76,15 +77,10 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID)
 
 }
 
-void TCPClient::RequestCoverArt(QString fullPath, int nIndex, int nMode)
+void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 {
-	QString fileName = fullPath;
-	int colon = fileName.length() - fileName.indexOf(":") - 1;
-	fileName = fileName.right(colon);
-	colon = fileName.length() - fileName.indexOf("/") - 1;
-	fileName = fileName.right(colon);
-	fileName.replace("/", "_");
-	fileName = m_DirTemp + "/" + fileName + ".jpg";
+	QString filename = ConvertCoverArtURLToName(fullpath);
+	filename = m_DirTemp + "/" + filename + ".jpg";
 
 //	if (fileName.isEmpty() || QFile::exists(fileName))
 //	{
@@ -93,11 +89,10 @@ void TCPClient::RequestCoverArt(QString fullPath, int nIndex, int nMode)
 //		return;
 //	}
 
-	const QUrl url = QUrl::fromUserInput(fullPath);
+	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request(url);
 
 	int count = m_ListReply.size();
-//	LogDebug("########### count [%d]", count);
 
 	QNetworkReply *reply = m_pManager->get(request);
 	m_ListReply.insert(count, reply);
@@ -111,16 +106,19 @@ void TCPClient::RequestCoverArt(QString fullPath, int nIndex, int nMode)
 		QImage image;
 		if (image.loadFromData(m_ListReply[count]->readAll()))
 		{
-			if (image.save(fileName, "JPG"))
+			if (image.save(filename, "JPG"))
 			{
-				emit SigRespCoverArt(fileName, nIndex, nMode);
+				emit SigRespCoverArt(filename, nIndex, nMode);
 			}
 		}
 	}
 	else
 	{
 		QString err = m_ListReply[count]->errorString();
-		LogCritical("Network Error : [%s] fullPath [%s] fileName [%s]", err.toUtf8().data(), fullPath.toUtf8().data(), fileName.toUtf8().data());
+		LogCritical("Network Error : [%s] fullPath [%s] fileName [%s]"
+					, err.toUtf8().data()
+					, fullpath.toUtf8().data()
+					, filename.toUtf8().data());
 	}
 	m_ListReply[count]->deleteLater();
 
@@ -139,28 +137,29 @@ void TCPClient::RequestCoverArt(QString fullPath, int nIndex, int nMode)
 //		else
 //		{
 //			QString err = m_ListReply[count]->errorString();
-//			LogCritical("Network Error : [%s] fullPath [%s] fileName [%s]", err.toUtf8().data(), fullPath.toUtf8().data(), fileName.toUtf8().data());
+//			LogCritical("Network Error : [%s] fullPath [%s] fileName [%s]"
+//					, err.toUtf8().data()
+//					, fullPath.toUtf8().data()
+//					, fileName.toUtf8().data());
 //		}
 //		m_ListReply[count]->deleteLater();
 //	});
 
 }
 
-void TCPClient::RequestCoverArt(QString fullPath)
+void TCPClient::RequestCoverArt(QString fullpath)
 {
-	QString newID = fullPath;
-	newID.replace(":", "_");
-	newID.replace("/", "_");
-	QString fileName = m_DirTemp + "/" + newID + ".jpg";
+	QString filename = ConvertCoverArtURLToName(fullpath);
+	filename = m_DirTemp + "/" + filename + ".jpg";
 
-	if (fileName.isEmpty() || QFile::exists(fileName))
-	{
-		LogDebug("fileName is exist [%s]", fileName.toUtf8().data());
-		emit SigRespCoverArt(fileName);
-		return;
-	}
+//	if (fileName.isEmpty() || QFile::exists(fileName))
+//	{
+//		LogDebug("fileName is exist [%s]", fileName.toUtf8().data());
+//		emit SigRespCoverArt(fileName);
+//		return;
+//	}
 
-	const QUrl url = QUrl::fromUserInput(fullPath);
+	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request(url);
 
 	int count = m_ListReply.size();
@@ -177,16 +176,19 @@ void TCPClient::RequestCoverArt(QString fullPath)
 		QImage image;
 		if (image.loadFromData(m_ListReply[count]->readAll()))
 		{
-			if (image.save(fileName, "JPG"))
+			if (image.save(filename, "JPG"))
 			{
-				emit SigRespCoverArt(fileName);
+				emit SigRespCoverArt(filename);
 			}
 		}
 	}
 	else
 	{
 		QString err = m_ListReply[count]->errorString();
-		LogCritical("Network Error : [%s]", err.toUtf8().data());
+		LogCritical("Network Error : [%s] fullPath [%s] fileName [%s]"
+					, err.toUtf8().data()
+					, fullpath.toUtf8().data()
+					, filename.toUtf8().data());
 	}
 	m_ListReply[count]->deleteLater();
 }

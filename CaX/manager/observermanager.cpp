@@ -76,11 +76,11 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 		{
 			emit SigRespObserverInfo(node);
 		}
+		else if (strCmd0.contains("NowPlaying"))
+		{
+			emit SigRespNowPlay(node);
+		}
 		// todo-dylee
-//		else if (strCmd0.contains("NowPlaying"))
-//		{
-//			emit SigNowPlaying(node);
-//		}
 //		else if (strCmd0.contains("Progress"))
 //		{
 //			// todo-dylee, 4.2 "MusicDB" -> "Info" -> "SetAlbum"

@@ -19,6 +19,12 @@ public:
 
 	enum reqPlayIndex {
 		PLAY_STATE = Qt::UserRole + PLAY_NONE,
+		PLAY_VOLUME,
+		PLAY_SEEK,
+		PLAY_SHUFFLE,
+		PLAY_MUTE,
+		PLAY_SONG_INFO,
+		PLAY_QUEUE_LIST,
 		PLAY_MAX
 	};
 
@@ -33,20 +39,42 @@ public:
 		PLAY_MODE_MAX			= 10
 	};
 
-	void RequestPlayState(int mode);	// play, pause, next, prev, stop
+	void RequestPlayState(int mode);	// play, pause, next, prev, stop, record
+	void RequestSeek(int msec);
+	void RequestVolume(int value);
+	void RequestRepeatMode();
+	void RequestMute();
+	void RequestRate();
+	void RequestSongInfo(int nID);
+
+	void RequestQueueList(uint timestamp);
+	void RequestQueuePlay(int nID);
+
+
 
 signals:
 
 	void SigRespError(QString errMsg);
+	void SigTrackInfo(CJsonNode node);
+	void SigCoverArtUpdate(QString fileName);
+	void SigQueueList(CJsonNode node);
 
 private slots:
 
 	void SlotRespInfo(QString json, int nCmdID);
+	void SlotRespCoverArt(QString fileName);
 
 
 private:
 
+	void ParseTrackInfo(CJsonNode node);
+	void ParseQueueList(CJsonNode node);
+
 	QString GetPlayMode(int mode);
+
+	int					m_nRateMode;
+
+	QList<CJsonNode>	m_ListQueue;
 
 
 };

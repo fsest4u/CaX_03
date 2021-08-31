@@ -14,8 +14,8 @@ public:
 
 	void		RequestCommand(QByteArray jsonData, int nCmdID = -1);
 
-	void		RequestCoverArt(QString fullPath, int index, int mode);
-	void		RequestCoverArt(QString fullPath);
+	void		RequestCoverArt(QString fullpath, int index, int mode);
+	void		RequestCoverArt(QString fullpath);
 
 
 	QString GetAddr() const;
