@@ -25,8 +25,8 @@ public:
 	explicit MyMusicWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~MyMusicWindow();
 
-	void RequestMusicInfo();
-	void RequestCategoryInfo(int nID, int nCategory);
+	void RequestMusicHome();
+	void RequestCategoryHome(int nID, int nCategory);
 
 signals:
 

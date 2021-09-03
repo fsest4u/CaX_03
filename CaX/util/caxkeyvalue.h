@@ -25,6 +25,18 @@
 #define		KEY_PAGE_CNT		"PageCnt"
 #define		KEY_INDEX			"Index"
 
+#define		KEY_TYPE			"Type"
+#define		KEY_NAME			"Name"
+#define		KEY_USER			"User"
+#define		KEY_PASS			"Pass"
+#define		KEY_ICON			"Icon"
+#define		KEY_SAVE_AUTH		"SaveAuth"
+#define		KEY_URL				"Url"
+#define		KEY_ART				"Art"
+#define		KEY_ACTS			"Acts"
+#define		KEY_TRACKS			"Tracks"
+#define		KEY_SVC_TYPE		"SvcType"
+
 
 //////////////////////////////////////////////////
 // command - value
@@ -46,6 +58,13 @@
 #define		VAL_SET_VOLUME		"SetVol"
 #define		VAL_PLAY			"Play"
 #define		VAL_LIST			"List"
+#define		VAL_INDEX			"Index"
+
+#define		VAL_QOBUZ			"Qobuz"
+#define		VAL_AIRABLE			"Airable"
+#define		VAL_AUTH			"Auth"
+#define		VAL_URL				"Url"
+#define		VAL_LOGIN			"Login"
 
 
 //////////////////////////////////////////////////

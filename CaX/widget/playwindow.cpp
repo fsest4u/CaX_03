@@ -105,7 +105,7 @@ void PlayWindow::SlotBtnInfo()
 void PlayWindow::SlotBtnPlaylist()
 {
 	// todo-dylee
-	//m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_STOP);
+	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_STOP);
 }
 
 void PlayWindow::SlotBtnPlayPrev()
@@ -142,7 +142,6 @@ void PlayWindow::SlotBtnRepeat()
 
 void PlayWindow::SlotBtnDevice()
 {
-	LogDebug("click btn device");
 	// todo-dylee
 	m_pMgr->RequestMute();
 }

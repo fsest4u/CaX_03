@@ -1,4 +1,4 @@
-QT       += core gui network
+QT       += core gui network webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,12 +11,17 @@ CONFIG += c++11
 SOURCES += \
     dialog/categorydelegate.cpp \
     dialog/categorydialog.cpp \
+    dialog/logindialog.cpp \
     dialog/sortdelegate.cpp \
     dialog/sortdialog.cpp \
+    dialog/webengineviewdialog.cpp \
     main.cpp \
     manager/appmanager.cpp \
     manager/basemanager.cpp \
+    manager/browsermanager.cpp \
     manager/devicemanager.cpp \
+    manager/iqobuzmanager.cpp \
+    manager/iservicemanager.cpp \
     manager/mymusicmanager.cpp \
     manager/observermanager.cpp \
     manager/playmanager.cpp \
@@ -37,7 +42,13 @@ SOURCES += \
     widget/base/categoryconts.cpp \
     widget/base/categorycontsdelegate.cpp \
     widget/base/categorycontseditor.cpp \
+    widget/base/menuicon.cpp \
+    widget/base/menuicondelegate.cpp \
+    widget/base/menuiconeditor.cpp \
     widget/base/menuinfo.cpp \
+    widget/base/menulist.cpp \
+    widget/base/menulistdelegate.cpp \
+    widget/base/menulisteditor.cpp \
     widget/base/musicinfo.cpp \
     widget/base/songconts.cpp \
     widget/base/songcontscover.cpp \
@@ -61,12 +72,18 @@ SOURCES += \
 HEADERS += \
     dialog/categorydelegate.h \
     dialog/categorydialog.h \
+    dialog/logindialog.h \
+    dialog/requestinterceptor.h \
     dialog/sortdelegate.h \
     dialog/sortdialog.h \
+    dialog/webengineviewdialog.h \
     manager/appmanager.h \
     manager/basemanager.h \
+    manager/browsermanager.h \
     manager/devicemanager.h \
     manager/imanager.h \
+    manager/iqobuzmanager.h \
+    manager/iservicemanager.h \
     manager/mymusicmanager.h \
     manager/observermanager.h \
     manager/playmanager.h \
@@ -82,6 +99,7 @@ HEADERS += \
     util/TMapDataDef.h \
     util/caxconstants.h \
     util/caxkeyvalue.h \
+    util/iservice.h \
     util/loading.h \
     util/log.h \
     util/settingio.h \
@@ -92,7 +110,13 @@ HEADERS += \
     widget/base/categoryconts.h \
     widget/base/categorycontsdelegate.h \
     widget/base/categorycontseditor.h \
+    widget/base/menuicon.h \
+    widget/base/menuicondelegate.h \
+    widget/base/menuiconeditor.h \
     widget/base/menuinfo.h \
+    widget/base/menulist.h \
+    widget/base/menulistdelegate.h \
+    widget/base/menulisteditor.h \
     widget/base/musicinfo.h \
     widget/base/songconts.h \
     widget/base/songcontscover.h \
@@ -115,12 +139,18 @@ HEADERS += \
 
 FORMS += \
     dialog/categorydialog.ui \
+    dialog/logindialog.ui \
     dialog/sortdialog.ui \
+    dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
     widget/base/albuminfo.ui \
     widget/base/categoryconts.ui \
     widget/base/categorycontseditor.ui \
+    widget/base/menuicon.ui \
+    widget/base/menuiconeditor.ui \
     widget/base/menuinfo.ui \
+    widget/base/menulist.ui \
+    widget/base/menulisteditor.ui \
     widget/base/musicinfo.ui \
     widget/base/songconts.ui \
     widget/base/songcontscover.ui \

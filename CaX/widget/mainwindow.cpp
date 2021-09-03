@@ -40,16 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
 	, m_pDeviceMgr(new DeviceManager)
 	, m_pObsMgr(new ObserverManager)
 	, m_pAppMgr(new AppManager)
-//	, m_pMusicWin(new MyMusicWindow)
-//	, m_pCDWin(new AudioCDWindow)
-//	, m_pPlayListWin(new PlaylistWindow)
-//	, m_pBrowserWin(new BrowserWindow)
-//	, m_pIServiceWin(new IServiceWindow)
-//	, m_pInputWin(new InputWindow)
-//	, m_pFMWin(new FMRadioWindow)
-//	, m_pDABWin(new DABRadioWindow)
-//	, m_pGroupWin(new GroupPlayWindow)
-//	, m_pSetupWin(new SetupWindow)
 	, m_strCurrentMac("")
 	, m_strAddr("")
 	, m_bConnect(false)
@@ -57,6 +47,10 @@ MainWindow::MainWindow(QWidget *parent)
 	, m_bInput(false)
 	, m_bFMRadio(false)
 	, m_bGroupPlay(false)
+	, m_bSigma(false)
+	, m_bScanDB(false)
+	, m_bIsDel(false)
+	, m_nEventID(-1)
 	, ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
@@ -402,7 +396,10 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	if (!node.GetArray(MAIN_MENU_ISERVICE, nodeIService)) { nodeIService.Clear(); }
 	if (!node.GetArray(MAIN_MENU_INPUT, nodeInput)) { nodeInput.Clear(); }
 
+	m_bSigma = bSigma;
 	m_bScanDB = bScanDB;
+	m_bIsDel = bIsDelDB;
+
 	m_nEventID = nEventID;
 	m_bAudioCD = bAudioCD;
 //	m_MainMenu->SetVisibleAudioCD(m_bAudioCD);
@@ -493,10 +490,46 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 void MainWindow::SlotCategoryInfo(int nID, int nCategory)
 {
 	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
-	widget->RequestCategoryInfo(nID, nCategory);
 	AddWidget(widget);
+	widget->RequestCategoryHome(nID, nCategory);
 
 }
+
+void MainWindow::SlotRespAirableLogout()
+{
+	RemoveAllWidget();
+	DoMyMusicHome();
+}
+
+void MainWindow::SlotRespAirableAuth(int nServiceType)
+{
+	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
+	AddWidget(widget);
+	widget->RequestIServiceURL(nServiceType);
+
+//	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableURL(CJsonNode)), this, SLOT(SlotRespAirableURL(CJsonNode)));
+	connect(widget, SIGNAL(SigBtnPrev()), this, SLOT(SlotBtnPrev()));
+	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
+	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableLogout()), this, SLOT(SlotRespAirableLogout()));
+
+}
+
+void MainWindow::SlotSelectURL(int nServiceType, QString url)
+{
+	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
+	AddWidget(widget);
+	widget->RequestIServiceURL(nServiceType, url);
+
+	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
+	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableLogout()), this, SLOT(SlotRespAirableLogout()));
+
+}
+
+//void MainWindow::SlotRespAirableURL(CJsonNode node)
+//{
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+
+//}
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
@@ -536,6 +569,11 @@ void MainWindow::InitMain()
 	m_pSideMenu->HideMenu();
 
 	UpdateStackState();
+
+	m_IServiceList.clear();
+	m_InputList.clear();
+	m_SetUpList.clear();
+
 
 }
 
@@ -599,8 +637,8 @@ void MainWindow::ConnectForApp()
 void MainWindow::DoMyMusicHome()
 {
 	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
-	widget->RequestMusicInfo();
 	AddWidget(widget);
+	widget->RequestMusicHome();
 
 	connect(widget, SIGNAL(SigCategoryInfo(int, int)), this, SLOT(SlotCategoryInfo(int, int)));
 }
@@ -631,10 +669,12 @@ void MainWindow::DoBrowserHome()
 
 void MainWindow::DoIServiceHome()
 {
-	IServiceWindow *widget = new IServiceWindow;
+	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
 	AddWidget(widget);
+	widget->RequestIServiceHome(m_IServiceList);
 
-
+	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableAuth(int)), this, SLOT(SlotRespAirableAuth(int)));
+	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableLogout()), this, SLOT(SlotRespAirableLogout()));
 }
 
 void MainWindow::DoInputHome()
@@ -696,6 +736,16 @@ void MainWindow::AddWidget(QWidget *widget)
 	ui->stackMain->setCurrentIndex(idx);
 
 	UpdateStackState();
+}
+
+void MainWindow::RemoveAllWidget()
+{
+	auto count = ui->stackMain->count();
+	for (int i = 0; i < count; i++)
+	{
+		auto backWidget = ui->stackMain->widget(i);
+		ui->stackMain->removeWidget(backWidget);
+	}
 }
 
 void MainWindow::UpdateStackState()

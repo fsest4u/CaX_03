@@ -15,6 +15,19 @@ public:
 	explicit MenuInfo(QWidget *parent = nullptr);
 	~MenuInfo();
 
+	void SetTitle(const QString title);
+
+protected:
+
+	bool eventFilter(QObject *object, QEvent *event);
+
+signals:
+
+	void SigPlayAll();
+	void SigPlayRandom();
+	void SigSubmenu();
+	void SigSort();
+
 private:
 	Ui::MenuInfo *ui;
 };

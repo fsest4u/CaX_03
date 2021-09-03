@@ -18,17 +18,6 @@ class ObserverManager;
 
 class AppManager;
 
-//class MyMusicWindow;
-//class AudioCDWindow;
-//class PlaylistWindow;
-//class BrowserWindow;
-//class IServiceWindow;
-//class InputWindow;
-//class FMRadioWindow;
-//class DABRadioWindow;
-//class GroupPlayWindow;
-//class SetupWindow;
-
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -55,6 +44,10 @@ public slots:
 
 	void SlotCategoryInfo(int nID, int nCategory);
 
+	void SlotRespAirableLogout();
+	void SlotRespAirableAuth(int nServiceType);
+	void SlotSelectURL(int nServiceType, QString url);
+//	void SlotRespAirableURL(CJsonNode node);
 
 
 protected:
@@ -92,6 +85,7 @@ private:
 	void DoSetupHome();
 
 	void AddWidget(QWidget *widget);
+	void RemoveAllWidget();
 
 	void UpdateStackState();
 
@@ -104,16 +98,6 @@ private:
 
 	AppManager		*m_pAppMgr;
 
-//	MyMusicWindow	*m_pMusicWin;
-//	AudioCDWindow	*m_pCDWin;
-//	PlaylistWindow	*m_pPlayListWin;
-//	BrowserWindow	*m_pBrowserWin;
-//	IServiceWindow	*m_pIServiceWin;
-//	InputWindow		*m_pInputWin;
-//	FMRadioWindow	*m_pFMWin;
-//	DABRadioWindow	*m_pDABWin;
-//	GroupPlayWindow	*m_pGroupWin;
-//	SetupWindow		*m_pSetupWin;
 
 	///////////////////////////////////////////////////////
 
@@ -126,7 +110,9 @@ private:
 	bool			m_bInput;
 	bool			m_bFMRadio;
 	bool			m_bGroupPlay;
+	bool            m_bSigma;
 	bool            m_bScanDB;
+	bool            m_bIsDel;
 
 	int				m_nEventID;
 

@@ -25,6 +25,7 @@ public:
 		PLAY_MUTE,
 		PLAY_SONG_INFO,
 		PLAY_QUEUE_LIST,
+		PLAY_QUEUE_PLAY,
 		PLAY_MAX
 	};
 

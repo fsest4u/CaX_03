@@ -95,7 +95,7 @@ MyMusicWindow::~MyMusicWindow()
 //	}
 }
 
-void MyMusicWindow::RequestMusicInfo()
+void MyMusicWindow::RequestMusicHome()
 {
 	ui->gridLayoutTop->addWidget(m_pMusicInfo);
 	ui->gridLayoutBottom->addWidget(m_pCatConts);
@@ -106,7 +106,7 @@ void MyMusicWindow::RequestMusicInfo()
 
 }
 
-void MyMusicWindow::RequestCategoryInfo(int nID, int nCategory)
+void MyMusicWindow::RequestCategoryHome(int nID, int nCategory)
 {
 	m_nCategory = nCategory;
 	ui->gridLayoutTop->addWidget(m_pAlbumInfo);

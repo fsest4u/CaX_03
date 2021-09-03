@@ -81,7 +81,6 @@ void SongConts::SetViewMode(QListView::ViewMode mode)
 {
 	m_ListView->setViewMode(mode);
 	m_Delegate->SetViewMode(mode);
-
 }
 
 QStandardItemModel *SongConts::GetModel()
@@ -118,6 +117,4 @@ void SongConts::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
-
-
 }

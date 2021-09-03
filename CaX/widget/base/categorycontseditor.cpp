@@ -1,4 +1,3 @@
-#include <QFile>
 #include <QMouseEvent>
 
 #include "categorycontseditor.h"

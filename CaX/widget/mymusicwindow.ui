@@ -35,10 +35,7 @@
    <item>
     <widget class="QFrame" name="frameTop">
      <property name="styleSheet">
-      <string notr="true">#frameTop
-{
-	background-color: rgb(255, 0, 0);
-}</string>
+      <string notr="true"/>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
