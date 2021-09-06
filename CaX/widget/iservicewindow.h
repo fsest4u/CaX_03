@@ -35,11 +35,17 @@ public:
 
 signals:
 
-	void SigBtnPrev();
-	void SigSelectURL(int nServiceType, QString url);
+//	void SigBtnPrev();
+//	void SigSelectURL(int nServiceType, QString url);
+
+	void SigRespLogout();
+	void SigAddWidget(QWidget *widget);
 
 
 private slots:
+
+	void SlotAddWidget(QWidget *widget);
+	void SlotRespAirableLogout();
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
@@ -55,7 +61,8 @@ private slots:
 	void SlotRespAirableLoginFail(CJsonNode node);
 	void SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAuth);
 
-	void SlotRespAirableURL(int nServiceType, QList<CJsonNode> list);
+	void SlotRespAuth(int nServiceType);
+	void SlotRespURL(int nServiceType, QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 private:

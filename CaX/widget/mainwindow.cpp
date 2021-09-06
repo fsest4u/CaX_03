@@ -207,7 +207,6 @@ void MainWindow::SlotBtnSearch()
 void MainWindow::SlotAddWidget(QWidget *widget)
 {
 	AddWidget(widget);
-	connect(widget, SIGNAL(SigAddWidget(QWidget*)), this, SLOT(SlotAddWidget(QWidget*)));
 }
 
 void MainWindow::ReadSettings()
@@ -492,51 +491,11 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 
 }
 
-
-//void MainWindow::SlotCategoryInfo(int nID, int nCategory)
-//{
-//	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
-//	AddWidget(widget);
-//	widget->RequestCategoryHome(nID, nCategory);
-
-//}
-
-void MainWindow::SlotRespLogout()
+void MainWindow::SlotRespAirableLogout()
 {
 	RemoveAllWidget();
 	DoMyMusicHome();
 }
-
-void MainWindow::SlotRespAuth(int nServiceType)
-{
-	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
-	AddWidget(widget);
-	widget->RequestIServiceURL(nServiceType);
-
-	connect(widget, SIGNAL(SigBtnPrev()), this, SLOT(SlotBtnPrev()));
-	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespLogout()));
-
-}
-
-void MainWindow::SlotSelectURL(int nServiceType, QString url)
-{
-	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
-	AddWidget(widget);
-	widget->RequestIServiceURL(nServiceType, url);
-
-	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespLogout()));
-
-}
-
-void MainWindow::SlotRespQobuzLoginSuccess()
-{
-	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
-	AddWidget(widget);
-	widget->RequestQobuzHome();
-}
-
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
@@ -646,10 +605,6 @@ void MainWindow::DoMyMusicHome()
 	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestMusicHome();
-
-//	connect(widget, SIGNAL(SigCategoryInfo(int, int)), this, SLOT(SlotCategoryInfo(int, int)));
-	connect(widget, SIGNAL(SigAddWidget(QWidget*)), this, SLOT(SlotAddWidget(QWidget*)));
-
 }
 
 void MainWindow::DoAudioCDHome()
@@ -681,10 +636,6 @@ void MainWindow::DoIServiceHome()
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestIServiceHome(m_IServiceList);
-
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespLogout()));
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAuth(int)));
-	connect((QObject*)widget->GetQobuzManager(), SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
 }
 
 void MainWindow::DoInputHome()

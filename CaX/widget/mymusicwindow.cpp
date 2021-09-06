@@ -117,6 +117,11 @@ void MyMusicWindow::RequestCategoryHome(int nID, int nCategory)
 	m_pMgr->RequestSongsOfCategory(nID, m_nCategory);
 }
 
+void MyMusicWindow::SlotAddWidget(QWidget *widget)
+{
+	emit SigAddWidget(widget);	// recursive
+}
+
 void MyMusicWindow::SlotRespError(QString errMsg)
 {
 	m_pLoading->Stop();
@@ -323,6 +328,9 @@ void MyMusicWindow::SlotSelectMore(int nID)
 
 void MyMusicWindow::ConnectSigToSlot()
 {
+	// recursive
+	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));
+
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespMusicInfo(CJsonNode)), this, SLOT(SlotRespMusicInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));

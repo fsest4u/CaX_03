@@ -44,13 +44,7 @@ public slots:
 	void SlotSelectSideMenu(int menuIndex);
 
 
-//	void SlotCategoryInfo(int nID, int nCategory);
-
-	void SlotRespLogout();
-	void SlotRespAuth(int nServiceType);
-	void SlotSelectURL(int nServiceType, QString url);
-
-	void SlotRespQobuzLoginSuccess();
+	void SlotRespAirableLogout();
 
 
 protected:

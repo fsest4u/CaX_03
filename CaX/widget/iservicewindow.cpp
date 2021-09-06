@@ -131,6 +131,16 @@ QobuzManager *IServiceWindow::GetQobuzManager()
 	return m_pQobuzMgr;
 }
 
+void IServiceWindow::SlotAddWidget(QWidget *widget)
+{
+	emit SigAddWidget(widget);		// recursive
+}
+
+void IServiceWindow::SlotRespAirableLogout()
+{
+	emit SigRespLogout();			// recursive
+}
+
 void IServiceWindow::SlotPlayAll()
 {
 	LogDebug("click play all");
@@ -181,7 +191,10 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 
 	if (nType & iAirableType_Mask_Dir)
 	{
-		emit SigSelectURL(m_ServiceType, url);
+//		emit SigSelectURL(m_ServiceType, url);
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		emit SigAddWidget(widget);
+		widget->RequestIServiceURL(m_ServiceType, url);
 	}
 	else if (nType & iAirableType_Mask_Play)
 	{
@@ -222,14 +235,16 @@ void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
 	}
 	else
 	{
-		emit SigBtnPrev();
+//		emit SigBtnPrev();
 	}
 
 }
 
 void IServiceWindow::SlotRespQobuzLoginSuccess()
 {
-
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget);
+	widget->RequestQobuzHome();
 }
 
 void IServiceWindow::SlotRespAirableLoginFail(CJsonNode node)
@@ -256,7 +271,7 @@ void IServiceWindow::SlotRespAirableLoginFail(CJsonNode node)
 	}
 	else
 	{
-		emit SigBtnPrev();
+//		emit SigBtnPrev();
 	}
 }
 
@@ -277,8 +292,15 @@ void IServiceWindow::SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAut
 
 }
 
+void IServiceWindow::SlotRespAuth(int nServiceType)
+{
+	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+	emit SigAddWidget(widget);
+	widget->RequestIServiceURL(nServiceType);
+}
 
-void IServiceWindow::SlotRespAirableURL(int nServiceType, QList<CJsonNode> list)
+
+void IServiceWindow::SlotRespURL(int nServiceType, QList<CJsonNode> list)
 {
 	m_ServiceType = nServiceType;
 	m_pMenuInfo->SetTitle(ISERVICE_TITLE);
@@ -303,6 +325,10 @@ void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 void IServiceWindow::ConnectSigToSlot()
 {
+	// recursive
+	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));
+	connect(this, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
+
 	connect(m_pMenuInfo, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pMenuInfo, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
 	connect(m_pMenuInfo, SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
@@ -314,12 +340,15 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pMenuList, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
 
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
+	connect(m_pQobuzMgr, SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
 
+	connect(m_pAirableMgr, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
 	connect(m_pAirableMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespAirableLoginFail(CJsonNode)));
 	connect(m_pAirableMgr, SIGNAL(SigRespLoginSuccess(int, bool)), this, SLOT(SlotRespAirableLoginSuccess(int, bool)));
-	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
-	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QList<CJsonNode>)), this, SLOT(SlotRespAirableURL(int, QList<CJsonNode>)));
+	connect(m_pAirableMgr, SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAuth(int)));
+	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QList<CJsonNode>)), this, SLOT(SlotRespURL(int, QList<CJsonNode>)));
+	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 }
 
