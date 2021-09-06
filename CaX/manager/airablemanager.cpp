@@ -1,11 +1,11 @@
-#include "iservicemanager.h"
+#include "airablemanager.h"
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
 
-IServiceManager::IServiceManager(QObject *parent)
+AirableManager::AirableManager(QObject *parent)
 {
 	Q_UNUSED(parent)
 
@@ -17,14 +17,14 @@ IServiceManager::IServiceManager(QObject *parent)
 
 }
 
-IServiceManager::~IServiceManager()
+AirableManager::~AirableManager()
 {
 
 }
 
 
 
-void IServiceManager::RequestAirableLogin(int nServiceType, QString userID, QString password, bool bSaveAuth)
+void AirableManager::RequestLogin(int nServiceType, QString userID, QString password, bool bSaveAuth)
 {
 	m_ServiceType = nServiceType;
 	m_bSaveAuth = bSaveAuth;
@@ -39,10 +39,10 @@ void IServiceManager::RequestAirableLogin(int nServiceType, QString userID, QStr
 	node.Add(KEY_CMD0,		VAL_AIRABLE);
 	node.Add(KEY_CMD1,		VAL_URL);
 
-	RequestCommand(node, ISERVICE_LOGIN);
+	RequestCommand(node, AIRABLE_LOGIN);
 }
 
-void IServiceManager::RequestLogout(int nServiceType, QString url)
+void AirableManager::RequestLogout(int nServiceType, QString url)
 {
 	m_ServiceType = nServiceType;
 
@@ -52,10 +52,10 @@ void IServiceManager::RequestLogout(int nServiceType, QString url)
 	node.AddInt	(KEY_TYPE,		m_ServiceType);
 	node.Add	(KEY_URL,		url);
 
-	RequestCommand(node, ISERVICE_LOGOUT);
+	RequestCommand(node, AIRABLE_LOGOUT);
 }
 
-void IServiceManager::RequestAirableAuth(int nServiceType)
+void AirableManager::RequestAuth(int nServiceType)
 {
 	m_ServiceType = nServiceType;
 
@@ -64,10 +64,10 @@ void IServiceManager::RequestAirableAuth(int nServiceType)
 	node.Add	(KEY_CMD1,		VAL_AUTH);
 	node.AddInt	(KEY_TYPE,		m_ServiceType);
 
-	RequestCommand(node, ISERVICE_AUTH);
+	RequestCommand(node, AIRABLE_AUTH);
 }
 
-void IServiceManager::RequestAirableURL(int nServiceType, QString url)
+void AirableManager::RequestURL(int nServiceType, QString url)
 {
 	m_ServiceType = nServiceType;
 
@@ -78,10 +78,10 @@ void IServiceManager::RequestAirableURL(int nServiceType, QString url)
 	if (!url.isEmpty())
 		node.Add(KEY_URL,		url);
 
-	RequestCommand(node, ISERVICE_URL);
+	RequestCommand(node, AIRABLE_URL);
 }
 
-void IServiceManager::RequestPlay(int nServiceType, CJsonNode srcNode)
+void AirableManager::RequestPlay(int nServiceType, CJsonNode srcNode)
 {
 	m_ServiceType = nServiceType;
 
@@ -105,10 +105,10 @@ void IServiceManager::RequestPlay(int nServiceType, CJsonNode srcNode)
 	trackNode.AppendArray(srcNode);
 	node.Add	(KEY_TRACKS,	trackNode);
 
-	RequestCommand(node, ISERVICE_PLAY);
+	RequestCommand(node, AIRABLE_PLAY);
 }
 
-void IServiceManager::SlotRespInfo(QString json, int nCmdID)
+void AirableManager::SlotRespInfo(QString json, int nCmdID)
 {
 	CJsonNode node;
 	if (!node.SetContent(json))
@@ -137,12 +137,12 @@ void IServiceManager::SlotRespInfo(QString json, int nCmdID)
 	{
 		switch (nCmdID)
 		{
-		case ISERVICE_LOGIN:
-		case ISERVICE_URL:
+		case AIRABLE_LOGIN:
+		case AIRABLE_URL:
 			node.AddInt(KEY_TYPE, m_ServiceType);
-			emit SigRespAirableLoginFail(node);
+			emit SigRespLoginFail(node);
 			break;
-		case ISERVICE_MAX:
+		case AIRABLE_MAX:
 			LogWarning("Invalid command ID");
 			break;
 		}
@@ -152,19 +152,19 @@ void IServiceManager::SlotRespInfo(QString json, int nCmdID)
 	{
 		switch (nCmdID)
 		{
-		case ISERVICE_LOGIN:
-			emit SigRespAirableLoginSuccess(m_ServiceType, m_bSaveAuth);
+		case AIRABLE_LOGIN:
+			emit SigRespLoginSuccess(m_ServiceType, m_bSaveAuth);
 			break;
-		case ISERVICE_LOGOUT:
-			emit SigRespAirableLogout();
+		case AIRABLE_LOGOUT:
+			emit SigRespLogout();
 			break;
-		case ISERVICE_AUTH:
-			emit SigRespAirableAuth(m_ServiceType);
+		case AIRABLE_AUTH:
+			emit SigRespAuth(m_ServiceType);
 			break;
-		case ISERVICE_URL:
-			ParseAirableURL(node);
+		case AIRABLE_URL:
+			ParseURL(node);
 			break;
-		case ISERVICE_MAX:
+		case AIRABLE_MAX:
 			LogWarning("Invalid command ID");
 			break;
 		}
@@ -172,26 +172,12 @@ void IServiceManager::SlotRespInfo(QString json, int nCmdID)
 
 }
 
-void IServiceManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
+void AirableManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
 {
 	emit SigCoverArtUpdate(fileName, nIndex, mode);
 }
 
-//void IServiceManager::ParseQobuzLogin(CJsonNode node)
-//{
-//	if (node.GetBool(VAL_LOGIN))
-//	{
-//		// fail to login
-//		emit SigRespQobuzLoginFail(node);
-//	}
-//	else
-//	{
-//		// success to login
-//		emit SigRespQobuzLoginSuccess();
-//	}
-//}
-
-void IServiceManager::ParseAirableURL(CJsonNode node)
+void AirableManager::ParseURL(CJsonNode node)
 {
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result))
@@ -206,5 +192,5 @@ void IServiceManager::ParseAirableURL(CJsonNode node)
 		nodeList.append(result.GetArrayAt(i));
 	}
 
-	emit SigRespAirableURL(m_ServiceType, nodeList);
+	emit SigRespURL(m_ServiceType, nodeList);
 }

@@ -9,8 +9,8 @@ namespace Ui {
 class IServiceWindow;
 }
 
-class IServiceManager;
-class IQobuzManager;
+class AirableManager;
+class QobuzManager;
 
 class MenuInfo;
 class MenuIcon;
@@ -28,8 +28,8 @@ public:
 	void RequestIServiceHome(QList<CJsonNode> list);
 	void RequestIServiceURL(int nServiceType, QString url = "");
 
-	IServiceManager *GetManager();
-	IQobuzManager	*GetQobuzManager();
+	AirableManager	*GetAirableManager();
+	QobuzManager	*GetQobuzManager();
 
 
 signals:
@@ -62,8 +62,8 @@ private:
 	void ConnectSigToSlot();
 	void SetCoverImage(QList<CJsonNode> &list);
 
-	IServiceManager		*m_pMgr;
-	IQobuzManager		*m_pQobuzMgr;
+	AirableManager		*m_pAirableMgr;
+	QobuzManager		*m_pQobuzMgr;
 	MenuInfo			*m_pMenuInfo;
 	MenuIcon			*m_pMenuIcon;
 	MenuList			*m_pMenuList;

@@ -1,14 +1,14 @@
-#ifndef IQOBUZMANAGER_H
-#define IQOBUZMANAGER_H
+#ifndef QOBUZMANAGER_H
+#define QOBUZMANAGER_H
 
 #include "basemanager.h"
 
-class IQobuzManager : public BaseManager
+class QobuzManager : public BaseManager
 {
 	Q_OBJECT
 public:
-	explicit IQobuzManager(QObject *parent = nullptr);
-	~IQobuzManager();
+	explicit QobuzManager(QObject *parent = nullptr);
+	~QobuzManager();
 
 	void RequestQobuzLogin(QString userID = "", QString password = "");
 
@@ -25,8 +25,8 @@ private slots:
 private:
 
 	enum reqIQobuzIndex {
-		IQOBUZ_LOGIN = 0,
-		IQOBUZ_MAX
+		QOBUZ_LOGIN = 0,
+		QOBUZ_MAX
 	};
 
 	//	void ParseQobuzLogin(CJsonNode node);
@@ -35,4 +35,4 @@ private:
 
 };
 
-#endif // IQOBUZMANAGER_H
+#endif // QOBUZMANAGER_H

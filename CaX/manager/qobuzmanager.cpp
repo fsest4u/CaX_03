@@ -1,10 +1,10 @@
-#include "iqobuzmanager.h"
+#include "qobuzmanager.h"
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
-IQobuzManager::IQobuzManager(QObject *parent)
+QobuzManager::QobuzManager(QObject *parent)
 {
 	Q_UNUSED(parent)
 
@@ -12,12 +12,12 @@ IQobuzManager::IQobuzManager(QObject *parent)
 
 }
 
-IQobuzManager::~IQobuzManager()
+QobuzManager::~QobuzManager()
 {
 
 }
 
-void IQobuzManager::RequestQobuzLogin(QString userID, QString password)
+void QobuzManager::RequestQobuzLogin(QString userID, QString password)
 {
 	CJsonNode node(JSON_OBJECT);
 	if (!userID.isEmpty())
@@ -28,10 +28,10 @@ void IQobuzManager::RequestQobuzLogin(QString userID, QString password)
 	node.Add(KEY_CMD0,		VAL_QOBUZ);
 	node.Add(KEY_CMD1,		VAL_LOGIN);
 
-	RequestCommand(node, IQOBUZ_LOGIN);
+	RequestCommand(node, QOBUZ_LOGIN);
 }
 
-void IQobuzManager::SlotRespInfo(QString json, int nCmdID)
+void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 {
 	CJsonNode node;
 	if (!node.SetContent(json))
@@ -60,10 +60,10 @@ void IQobuzManager::SlotRespInfo(QString json, int nCmdID)
 	{
 		switch (nCmdID)
 		{
-		case IQOBUZ_LOGIN:
+		case QOBUZ_LOGIN:
 			emit SigRespQobuzLoginFail(node);
 			break;
-		case IQOBUZ_MAX:
+		case QOBUZ_MAX:
 			LogWarning("Invalid command ID");
 			break;
 		}
@@ -73,10 +73,10 @@ void IQobuzManager::SlotRespInfo(QString json, int nCmdID)
 	{
 		switch (nCmdID)
 		{
-		case IQOBUZ_LOGIN:
+		case QOBUZ_LOGIN:
 			emit SigRespQobuzLoginSuccess();
 			break;
-		case IQOBUZ_MAX:
+		case QOBUZ_MAX:
 			LogWarning("Invalid command ID");
 			break;
 		}

@@ -3,8 +3,8 @@
 #include "iservicewindow.h"
 #include "ui_iservicewindow.h"
 
-#include "manager/iservicemanager.h"
-#include "manager/iqobuzmanager.h"
+#include "manager/airablemanager.h"
+#include "manager/qobuzmanager.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
@@ -20,14 +20,17 @@
 #include "dialog/logindialog.h"
 #include "dialog/webengineviewdialog.h"
 
+#include "manager/airablemanager.h"
+#include "manager/qobuzmanager.h"
+
 #define ISERVICE_TITLE	"Internet Service"
 
 
 
 IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr)
 	: QWidget(parent)
-	, m_pMgr(new IServiceManager)
-	, m_pQobuzMgr(new IQobuzManager)
+	, m_pAirableMgr(new AirableManager)
+	, m_pQobuzMgr(new QobuzManager)
 	, m_pMenuInfo(new MenuInfo(this))
 	, m_pMenuIcon(new MenuIcon(this))
 	, m_pMenuList(new MenuList(this))
@@ -38,7 +41,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr)
 {
 	ui->setupUi(this);
 
-	m_pMgr->SetAddr(addr);
+	m_pAirableMgr->SetAddr(addr);
 	m_pQobuzMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
@@ -48,10 +51,10 @@ IServiceWindow::~IServiceWindow()
 {
 	delete ui;
 
-	if (m_pMgr)
+	if (m_pAirableMgr)
 	{
-		delete m_pMgr;
-		m_pMgr = nullptr;
+		delete m_pAirableMgr;
+		m_pAirableMgr = nullptr;
 	}
 
 	if (m_pQobuzMgr)
@@ -101,15 +104,15 @@ void IServiceWindow::RequestIServiceURL(int nServiceType, QString url)
 	ui->gridLayoutTop->addWidget(m_pMenuInfo);
 	ui->gridLayoutBottom->addWidget(m_pMenuList);
 
-	m_pMgr->RequestAirableURL(nServiceType, url);
+	m_pAirableMgr->RequestURL(nServiceType, url);
 }
 
-IServiceManager *IServiceWindow::GetManager()
+AirableManager *IServiceWindow::GetAirableManager()
 {
-	return m_pMgr;
+	return m_pAirableMgr;
 }
 
-IQobuzManager *IServiceWindow::GetQobuzManager()
+QobuzManager *IServiceWindow::GetQobuzManager()
 {
 	return m_pQobuzMgr;
 }
@@ -142,7 +145,7 @@ void IServiceWindow::SlotSelectIService(int nServiceType)
 	}
 	else
 	{
-		m_pMgr->RequestAirableAuth(nServiceType);
+		m_pAirableMgr->RequestAuth(nServiceType);
 	}
 }
 
@@ -168,7 +171,7 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 	}
 	else if (nType & iAirableType_Mask_Play)
 	{
-		m_pMgr->RequestPlay(m_ServiceType, node);
+		m_pAirableMgr->RequestPlay(m_ServiceType, node);
 	}
 	else if (nType & iAirableType_Mask_Logout)
 	{
@@ -178,7 +181,7 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 		}
 		else
 		{
-			m_pMgr->RequestLogout(m_ServiceType, url);
+			m_pAirableMgr->RequestLogout(m_ServiceType, url);
 		}
 	}
 
@@ -186,7 +189,7 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 
 void IServiceWindow::SlotReqArt(QString url, int index)
 {
-	m_pMgr->RequestCoverArt(url, index, QListView::ListMode);
+	m_pAirableMgr->RequestCoverArt(url, index, QListView::ListMode);
 }
 
 void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
@@ -235,7 +238,7 @@ void IServiceWindow::SlotRespAirableLoginFail(CJsonNode node)
 		user = dialog.GetUserID();
 		pass = dialog.GetPassword();
 
-		m_pMgr->RequestAirableLogin(nServiceType, user, pass, bOAuth);
+		m_pAirableMgr->RequestLogin(nServiceType, user, pass, bOAuth);
 	}
 	else
 	{
@@ -250,12 +253,12 @@ void IServiceWindow::SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAut
 		WebEngineViewDialog dialog(this, m_WebURL);
 		if (dialog.exec() == QDialog::Accepted && dialog.GetLogin())
 		{
-			m_pMgr->RequestAirableURL(nServiceType);
+			m_pAirableMgr->RequestURL(nServiceType);
 		}
 	}
 	else
 	{
-		m_pMgr->RequestAirableURL(nServiceType);
+		m_pAirableMgr->RequestURL(nServiceType);
 	}
 
 }
@@ -296,13 +299,14 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pMenuList->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pMenuList, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
 
-	connect(m_pMgr, SIGNAL(SigRespQobuzLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
-	connect(m_pMgr, SIGNAL(SigRespQobuzLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
-	connect(m_pMgr, SIGNAL(SigRespAirableLoginFail(CJsonNode)), this, SLOT(SlotRespAirableLoginFail(CJsonNode)));
-	connect(m_pMgr, SIGNAL(SigRespAirableLoginSuccess(int, bool)), this, SLOT(SlotRespAirableLoginSuccess(int, bool)));
-	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+	connect(m_pQobuzMgr, SIGNAL(SigRespQobuzLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
+	connect(m_pQobuzMgr, SIGNAL(SigRespQobuzLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
 
-	connect(m_pMgr, SIGNAL(SigRespAirableURL(int, QList<CJsonNode>)), this, SLOT(SlotRespAirableURL(int, QList<CJsonNode>)));
+	connect(m_pAirableMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespAirableLoginFail(CJsonNode)));
+	connect(m_pAirableMgr, SIGNAL(SigRespLoginSuccess(int, bool)), this, SLOT(SlotRespAirableLoginSuccess(int, bool)));
+	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+
+	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QList<CJsonNode>)), this, SLOT(SlotRespAirableURL(int, QList<CJsonNode>)));
 
 }
 

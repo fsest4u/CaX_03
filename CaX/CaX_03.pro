@@ -16,15 +16,15 @@ SOURCES += \
     dialog/sortdialog.cpp \
     dialog/webengineviewdialog.cpp \
     main.cpp \
+    manager/airablemanager.cpp \
     manager/appmanager.cpp \
     manager/basemanager.cpp \
     manager/browsermanager.cpp \
     manager/devicemanager.cpp \
-    manager/iqobuzmanager.cpp \
-    manager/iservicemanager.cpp \
     manager/mymusicmanager.cpp \
     manager/observermanager.cpp \
     manager/playmanager.cpp \
+    manager/qobuzmanager.cpp \
     manager/sqlmanager.cpp \
     manager/ssdpmanager.cpp \
     network/observerclient.cpp \
@@ -77,16 +77,16 @@ HEADERS += \
     dialog/sortdelegate.h \
     dialog/sortdialog.h \
     dialog/webengineviewdialog.h \
+    manager/airablemanager.h \
     manager/appmanager.h \
     manager/basemanager.h \
     manager/browsermanager.h \
     manager/devicemanager.h \
     manager/imanager.h \
-    manager/iqobuzmanager.h \
-    manager/iservicemanager.h \
     manager/mymusicmanager.h \
     manager/observermanager.h \
     manager/playmanager.h \
+    manager/qobuzmanager.h \
     manager/sqlmanager.h \
     manager/ssdpmanager.h \
     network/observerclient.h \

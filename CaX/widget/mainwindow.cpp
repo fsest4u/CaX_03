@@ -507,10 +507,10 @@ void MainWindow::SlotRespAirableAuth(int nServiceType)
 	AddWidget(widget);
 	widget->RequestIServiceURL(nServiceType);
 
-//	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableURL(CJsonNode)), this, SLOT(SlotRespAirableURL(CJsonNode)));
+//	connect((QObject*)widget->GetManager(), SIGNAL(SigRespURL(CJsonNode)), this, SLOT(SlotRespAirableURL(CJsonNode)));
 	connect(widget, SIGNAL(SigBtnPrev()), this, SLOT(SlotBtnPrev()));
 	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
-	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableLogout()), this, SLOT(SlotRespAirableLogout()));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespAirableLogout()));
 
 }
 
@@ -521,7 +521,7 @@ void MainWindow::SlotSelectURL(int nServiceType, QString url)
 	widget->RequestIServiceURL(nServiceType, url);
 
 	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
-	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableLogout()), this, SLOT(SlotRespAirableLogout()));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespAirableLogout()));
 
 }
 
@@ -673,8 +673,8 @@ void MainWindow::DoIServiceHome()
 	AddWidget(widget);
 	widget->RequestIServiceHome(m_IServiceList);
 
-	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableAuth(int)), this, SLOT(SlotRespAirableAuth(int)));
-	connect((QObject*)widget->GetManager(), SIGNAL(SigRespAirableLogout()), this, SLOT(SlotRespAirableLogout()));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespAirableLogout()));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAirableAuth(int)));
 }
 
 void MainWindow::DoInputHome()
