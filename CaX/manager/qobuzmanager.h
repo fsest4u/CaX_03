@@ -10,13 +10,22 @@ public:
 	explicit QobuzManager(QObject *parent = nullptr);
 	~QobuzManager();
 
-	void RequestQobuzLogin(QString userID = "", QString password = "");
+	void RequestLogin(QString userID = "", QString password = "");
+	void RequestCategory();
+	void RequestSearch();
+	void RequestGenre();
+	void RequestRecommend();
+	void RequestFavorite();
+	void RequestPlaylist();
+	void RequestPlay();
+	void RequestAdd();
+	void RequestDelete();
 
 signals:
 
 	void SigRespError(QString errMsg);
-	void SigRespQobuzLoginFail(CJsonNode node);
-	void SigRespQobuzLoginSuccess();
+	void SigRespLoginFail(CJsonNode node);
+	void SigRespLoginSuccess();
 
 private slots:
 
@@ -24,8 +33,17 @@ private slots:
 
 private:
 
-	enum reqIQobuzIndex {
+	enum reqQobuzIndex {
 		QOBUZ_LOGIN = 0,
+		QOBUZ_CATEGORY,
+		QOBUZ_SEARCH,
+		QOBUZ_GENRE,
+		QOBUZ_RECOMMEND,
+		QOBUZ_FAVORITE,
+		QOBUZ_PLAYLIST,
+		QOBUZ_PLAY,
+		QOBUZ_ADD,
+		QOBUZ_DELETE,
 		QOBUZ_MAX
 	};
 

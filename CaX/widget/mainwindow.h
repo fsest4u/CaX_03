@@ -44,10 +44,11 @@ public slots:
 
 	void SlotCategoryInfo(int nID, int nCategory);
 
-	void SlotRespAirableLogout();
-	void SlotRespAirableAuth(int nServiceType);
+	void SlotRespLogout();
+	void SlotRespAuth(int nServiceType);
 	void SlotSelectURL(int nServiceType, QString url);
-//	void SlotRespAirableURL(CJsonNode node);
+
+	void SlotRespQobuzLoginSuccess();
 
 
 protected:

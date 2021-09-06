@@ -24,6 +24,7 @@
 #include "manager/qobuzmanager.h"
 
 #define ISERVICE_TITLE	"Internet Service"
+#define QOBUZ_TITLE	"Qobuz"
 
 
 
@@ -93,7 +94,7 @@ void IServiceWindow::RequestIServiceHome(QList<CJsonNode> list)
 	ui->gridLayoutTop->addWidget(m_pMenuInfo);
 	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
 
-	SetCoverImage(list);
+	SetCoverArtServiceHome(list);
 
 	m_pMenuInfo->SetTitle(ISERVICE_TITLE);
 	m_pMenuIcon->SetNodeList(list);
@@ -105,6 +106,19 @@ void IServiceWindow::RequestIServiceURL(int nServiceType, QString url)
 	ui->gridLayoutBottom->addWidget(m_pMenuList);
 
 	m_pAirableMgr->RequestURL(nServiceType, url);
+}
+
+void IServiceWindow::RequestQobuzHome()
+{
+	// 검색, 추천채널, 선호채널, 재생목록
+	ui->gridLayoutTop->addWidget(m_pMenuInfo);
+	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+
+	QList<CJsonNode> list;
+	SetQobuzHome(list);
+
+	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
+	m_pMenuIcon->SetNodeList(list);
 }
 
 AirableManager *IServiceWindow::GetAirableManager()
@@ -141,7 +155,7 @@ void IServiceWindow::SlotSelectIService(int nServiceType)
 {
 	if (nServiceType == iIServiceType_Qobuz)
 	{
-		m_pQobuzMgr->RequestQobuzLogin();
+		m_pQobuzMgr->RequestLogin();
 	}
 	else
 	{
@@ -204,7 +218,7 @@ void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
 	{
 		user = dialog.GetUserID();
 		pass = dialog.GetPassword();
-		m_pQobuzMgr->RequestQobuzLogin(user, pass);
+		m_pQobuzMgr->RequestLogin(user, pass);
 	}
 	else
 	{
@@ -215,7 +229,7 @@ void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
 
 void IServiceWindow::SlotRespQobuzLoginSuccess()
 {
-	// 검색, 추천채널, 선호채널, 재생목록
+
 }
 
 void IServiceWindow::SlotRespAirableLoginFail(CJsonNode node)
@@ -299,8 +313,7 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pMenuList->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pMenuList, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
 
-	connect(m_pQobuzMgr, SIGNAL(SigRespQobuzLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
-	connect(m_pQobuzMgr, SIGNAL(SigRespQobuzLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
+	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
 
 	connect(m_pAirableMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespAirableLoginFail(CJsonNode)));
 	connect(m_pAirableMgr, SIGNAL(SigRespLoginSuccess(int, bool)), this, SLOT(SlotRespAirableLoginSuccess(int, bool)));
@@ -310,7 +323,7 @@ void IServiceWindow::ConnectSigToSlot()
 
 }
 
-void IServiceWindow::SetCoverImage(QList<CJsonNode> &srcList)
+void IServiceWindow::SetCoverArtServiceHome(QList<CJsonNode> &srcList)
 {
 	QList<CJsonNode> dstList;
 	QString strCover = "";
@@ -357,4 +370,9 @@ void IServiceWindow::SetCoverImage(QList<CJsonNode> &srcList)
 		dstList.append(node);
 	}
 	srcList = dstList;
+}
+
+void IServiceWindow::SetQobuzHome(QList<CJsonNode> &srcList)
+{
+
 }

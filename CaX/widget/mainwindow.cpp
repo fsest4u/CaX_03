@@ -495,22 +495,21 @@ void MainWindow::SlotCategoryInfo(int nID, int nCategory)
 
 }
 
-void MainWindow::SlotRespAirableLogout()
+void MainWindow::SlotRespLogout()
 {
 	RemoveAllWidget();
 	DoMyMusicHome();
 }
 
-void MainWindow::SlotRespAirableAuth(int nServiceType)
+void MainWindow::SlotRespAuth(int nServiceType)
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestIServiceURL(nServiceType);
 
-//	connect((QObject*)widget->GetManager(), SIGNAL(SigRespURL(CJsonNode)), this, SLOT(SlotRespAirableURL(CJsonNode)));
 	connect(widget, SIGNAL(SigBtnPrev()), this, SLOT(SlotBtnPrev()));
 	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespAirableLogout()));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespLogout()));
 
 }
 
@@ -521,15 +520,17 @@ void MainWindow::SlotSelectURL(int nServiceType, QString url)
 	widget->RequestIServiceURL(nServiceType, url);
 
 	connect(widget, SIGNAL(SigSelectURL(int, QString)), this, SLOT(SlotSelectURL(int, QString)));
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespAirableLogout()));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespLogout()));
 
 }
 
-//void MainWindow::SlotRespAirableURL(CJsonNode node)
-//{
-//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+void MainWindow::SlotRespQobuzLoginSuccess()
+{
+	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
+	AddWidget(widget);
+	widget->RequestQobuzHome();
+}
 
-//}
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
@@ -673,8 +674,9 @@ void MainWindow::DoIServiceHome()
 	AddWidget(widget);
 	widget->RequestIServiceHome(m_IServiceList);
 
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespAirableLogout()));
-	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAirableAuth(int)));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespLogout()), this, SLOT(SlotRespLogout()));
+	connect((QObject*)widget->GetAirableManager(), SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAuth(int)));
+	connect((QObject*)widget->GetQobuzManager(), SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
 }
 
 void MainWindow::DoInputHome()

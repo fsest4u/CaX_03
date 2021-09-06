@@ -27,6 +27,7 @@ public:
 
 	void RequestIServiceHome(QList<CJsonNode> list);
 	void RequestIServiceURL(int nServiceType, QString url = "");
+	void RequestQobuzHome();
 
 	AirableManager	*GetAirableManager();
 	QobuzManager	*GetQobuzManager();
@@ -60,7 +61,8 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
-	void SetCoverImage(QList<CJsonNode> &list);
+	void SetCoverArtServiceHome(QList<CJsonNode> &srclist);
+	void SetQobuzHome(QList<CJsonNode> &srclist);
 
 	AirableManager		*m_pAirableMgr;
 	QobuzManager		*m_pQobuzMgr;
