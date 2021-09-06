@@ -204,6 +204,12 @@ void MainWindow::SlotBtnSearch()
 
 }
 
+void MainWindow::SlotAddWidget(QWidget *widget)
+{
+	AddWidget(widget);
+	connect(widget, SIGNAL(SigAddWidget(QWidget*)), this, SLOT(SlotAddWidget(QWidget*)));
+}
+
 void MainWindow::ReadSettings()
 {
 	SettingIO settings;
@@ -487,13 +493,13 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 }
 
 
-void MainWindow::SlotCategoryInfo(int nID, int nCategory)
-{
-	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
-	AddWidget(widget);
-	widget->RequestCategoryHome(nID, nCategory);
+//void MainWindow::SlotCategoryInfo(int nID, int nCategory)
+//{
+//	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
+//	AddWidget(widget);
+//	widget->RequestCategoryHome(nID, nCategory);
 
-}
+//}
 
 void MainWindow::SlotRespLogout()
 {
@@ -641,7 +647,9 @@ void MainWindow::DoMyMusicHome()
 	AddWidget(widget);
 	widget->RequestMusicHome();
 
-	connect(widget, SIGNAL(SigCategoryInfo(int, int)), this, SLOT(SlotCategoryInfo(int, int)));
+//	connect(widget, SIGNAL(SigCategoryInfo(int, int)), this, SLOT(SlotCategoryInfo(int, int)));
+	connect(widget, SIGNAL(SigAddWidget(QWidget*)), this, SLOT(SlotAddWidget(QWidget*)));
+
 }
 
 void MainWindow::DoAudioCDHome()

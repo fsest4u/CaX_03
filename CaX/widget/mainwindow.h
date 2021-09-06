@@ -33,6 +33,8 @@ public slots:
 	void SlotBtnNext();
 	void SlotBtnSearch();
 
+	void SlotAddWidget(QWidget *widget);
+
 	void SlotInitDeviceList(bool bSelect);
 	void SlotRespError(QString errMsg);
 	void SlotDisconnectObserver();
@@ -42,7 +44,7 @@ public slots:
 	void SlotSelectSideMenu(int menuIndex);
 
 
-	void SlotCategoryInfo(int nID, int nCategory);
+//	void SlotCategoryInfo(int nID, int nCategory);
 
 	void SlotRespLogout();
 	void SlotRespAuth(int nServiceType);

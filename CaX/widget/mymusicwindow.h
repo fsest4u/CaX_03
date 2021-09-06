@@ -30,7 +30,8 @@ public:
 
 signals:
 
-	void SigCategoryInfo(int nID, int nCategory);
+//	void SigCategoryInfo(int nID, int nCategory);
+	void SigAddWidget(QWidget* widget);
 
 private slots:
 

@@ -277,7 +277,10 @@ void MyMusicWindow::SlotReqCategoryCover(int nID, int nIndex)
 
 void MyMusicWindow::SlotSelectCategory(int nID)
 {
-	emit SigCategoryInfo(nID, m_nCategory);
+	MyMusicWindow *widget = new MyMusicWindow(this, m_pMgr->GetAddr());
+	widget->RequestCategoryHome(nID, m_nCategory);
+
+	emit SigAddWidget(widget);
 }
 
 void MyMusicWindow::SlotSelectCount(int nID)
