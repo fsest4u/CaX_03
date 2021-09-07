@@ -36,6 +36,8 @@
 #define		KEY_ACTS			"Acts"
 #define		KEY_TRACKS			"Tracks"
 #define		KEY_SVC_TYPE		"SvcType"
+#define		KEY_START			"Start"
+#define		KEY_KEYWORD			"Str"
 
 
 //////////////////////////////////////////////////
@@ -65,6 +67,12 @@
 #define		VAL_AUTH			"Auth"
 #define		VAL_URL				"Url"
 #define		VAL_LOGIN			"Login"
+#define		VAL_SEARCH			"Search"
+#define		VAL_RECOMMEND		"Recommend"
+#define		VAL_FAVORITE		"Favorite"
+#define		VAL_GENRE			"Genre"
+#define		VAL_PLAYLIST			"Playlist"
+#define		VAL_CATEGORY			"Cat"
 
 
 //////////////////////////////////////////////////

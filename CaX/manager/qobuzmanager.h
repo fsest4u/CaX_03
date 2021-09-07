@@ -11,13 +11,14 @@ public:
 	~QobuzManager();
 
 	void RequestLogin(QString userID = "", QString password = "");
-	void RequestCategory();
-	void RequestSearch();
+	void RequestSearch(int nType, QString keyword, int nStart, int nCount);
 	void RequestGenre();
-	void RequestRecommend();
-	void RequestFavorite();
-	void RequestPlaylist();
-	void RequestPlay();
+	void RequestRecommend(int nType, QString strID, int nStart, int nCount);
+	void RequestFavorite(int nType, int nStart, int nCount);
+	void RequestPlaylist(int nStart, int nCount);
+	void RequestCategory(int nType, QString strID, int nStart, int nCount);
+
+	void RequestPlay(CJsonNode srcNode);
 	void RequestAdd();
 	void RequestDelete();
 
@@ -26,6 +27,8 @@ signals:
 	void SigRespError(QString errMsg);
 	void SigRespLoginFail(CJsonNode node);
 	void SigRespLoginSuccess();
+
+	void SigRespList(QList<CJsonNode> nodeList);
 
 private slots:
 
@@ -47,9 +50,7 @@ private:
 		QOBUZ_MAX
 	};
 
-	//	void ParseQobuzLogin(CJsonNode node);
-
-
+	void ParseList(CJsonNode node);
 
 };
 

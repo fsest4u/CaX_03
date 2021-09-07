@@ -64,6 +64,7 @@ void MenuListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
 //	LogDebug("url : [%s]", qvariant_cast<QString>(index.data(MENU_LIST_ROLE_URL)).toUtf8().data());
 	MenuListEditor *widget = static_cast<MenuListEditor*>(editor);
 	widget->blockSignals(true);
+	widget->SetID(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(MENU_LIST_ROLE_TYPE)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_TITLE)));
 	widget->SetIcon(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_ICON)));
@@ -75,6 +76,7 @@ void MenuListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
 void MenuListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
 	MenuListEditor *widget = static_cast<MenuListEditor*>(editor);
+	model->setData(index, widget->GetID(), MENU_LIST_ROLE_ID);
 	model->setData(index, widget->GetType(), MENU_LIST_ROLE_TYPE);
 	model->setData(index, widget->GetTitle(), MENU_LIST_ROLE_TITLE);
 	model->setData(index, widget->GetIcon(), MENU_LIST_ROLE_ICON);

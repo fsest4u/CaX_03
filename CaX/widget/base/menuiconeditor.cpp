@@ -12,6 +12,7 @@ MenuIconEditor::MenuIconEditor(QWidget *parent) :
 	ui->setupUi(this);
 
 	m_ID = -1;
+	m_Type = -1;
 	m_CoverArt.clear();
 
 	ui->labelCoverArt->installEventFilter(this);
@@ -31,6 +32,16 @@ int MenuIconEditor::GetID()
 void MenuIconEditor::SetID(int nID)
 {
 	m_ID = nID;
+}
+
+int MenuIconEditor::GetType() const
+{
+	return m_Type;
+}
+
+void MenuIconEditor::SetType(int Type)
+{
+	m_Type = Type;
 }
 
 QString MenuIconEditor::GetCoverArt()
@@ -67,17 +78,27 @@ void MenuIconEditor::SetTitle(const QString &value)
 	ui->labelTitle->setText(value);
 }
 
+QString MenuIconEditor::GetRawData() const
+{
+	return m_RawData;
+}
+
+void MenuIconEditor::SetRawData(const QString &RawData)
+{
+	m_RawData = RawData;
+}
+
 bool MenuIconEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
 		if (object == ui->labelCoverArt)
 		{
-			emit SigClickCoverArt(m_ID);
+			emit SigClickCoverArt(m_Type, m_RawData);
 		}
 		else if (object == ui->labelTitle)
 		{
-			emit SigClickTitle(m_ID);
+			emit SigClickTitle(m_Type);
 		}
 	}
 	return QObject::eventFilter(object, event);

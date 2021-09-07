@@ -12,6 +12,7 @@ SOURCES += \
     dialog/categorydelegate.cpp \
     dialog/categorydialog.cpp \
     dialog/logindialog.cpp \
+    dialog/searchdialog.cpp \
     dialog/sortdelegate.cpp \
     dialog/sortdialog.cpp \
     dialog/webengineviewdialog.cpp \
@@ -74,6 +75,7 @@ HEADERS += \
     dialog/categorydialog.h \
     dialog/logindialog.h \
     dialog/requestinterceptor.h \
+    dialog/searchdialog.h \
     dialog/sortdelegate.h \
     dialog/sortdialog.h \
     dialog/webengineviewdialog.h \
@@ -97,11 +99,13 @@ HEADERS += \
     util/StringLib.h \
     util/TMapData.h \
     util/TMapDataDef.h \
+    util/airable.h \
     util/caxconstants.h \
     util/caxkeyvalue.h \
     util/iservice.h \
     util/loading.h \
     util/log.h \
+    util/qobuz.h \
     util/settingio.h \
     util/sqlconstatns.h \
     util/waitingspinnerwidget.h \
@@ -140,6 +144,7 @@ HEADERS += \
 FORMS += \
     dialog/categorydialog.ui \
     dialog/logindialog.ui \
+    dialog/searchdialog.ui \
     dialog/sortdialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
@@ -187,4 +192,11 @@ win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/jansson.lib
 else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/libjansson.a
 
 RESOURCES += \
+    resource.qrc \
     resource.qrc
+
+DISTFILES += \
+    resource/baseline_menu_black_24dp.png \
+    resource/baseline_search_black_24dp.png \
+    resource/outline_arrow_back_black_24dp.png \
+    resource/outline_arrow_forward_black_24dp.png

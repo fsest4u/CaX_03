@@ -3,6 +3,7 @@
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/qobuz.h"
 
 QobuzManager::QobuzManager(QObject *parent)
 {
@@ -31,18 +32,15 @@ void QobuzManager::RequestLogin(QString userID, QString password)
 	RequestCommand(node, QOBUZ_LOGIN);
 }
 
-void QobuzManager::RequestCategory()
+void QobuzManager::RequestSearch(int nType, QString keyword, int nStart, int nCount)
 {
 	CJsonNode node(JSON_OBJECT);
-
-
-	RequestCommand(node, QOBUZ_CATEGORY);
-}
-
-void QobuzManager::RequestSearch()
-{
-	CJsonNode node(JSON_OBJECT);
-
+	node.Add(KEY_CMD0,		VAL_QOBUZ);
+	node.Add(KEY_CMD1,		VAL_SEARCH);
+	node.AddInt(KEY_TYPE,		nType);
+	node.Add(KEY_KEYWORD,		keyword);
+	node.AddInt(KEY_START,		nStart);
+	node.AddInt(KEY_COUNT,		nCount);
 
 	RequestCommand(node, QOBUZ_SEARCH);
 }
@@ -50,39 +48,71 @@ void QobuzManager::RequestSearch()
 void QobuzManager::RequestGenre()
 {
 	CJsonNode node(JSON_OBJECT);
-
+	node.Add(KEY_CMD0,		VAL_QOBUZ);
+	node.Add(KEY_CMD1,		VAL_GENRE);
 
 	RequestCommand(node, QOBUZ_GENRE);
 }
 
-void QobuzManager::RequestRecommend()
+void QobuzManager::RequestRecommend(int nType, QString strID, int nStart, int nCount)
 {
 	CJsonNode node(JSON_OBJECT);
-
+	node.Add(KEY_CMD0,		VAL_QOBUZ);
+	node.Add(KEY_CMD1,		VAL_RECOMMEND);
+	node.AddInt(KEY_TYPE,		nType);
+	node.Add(KEY_ID_UPPER,		strID);
+	node.AddInt(KEY_START,		nStart);
+	node.AddInt(KEY_COUNT,		nCount);
 
 	RequestCommand(node, QOBUZ_RECOMMEND);
 }
 
-void QobuzManager::RequestFavorite()
+void QobuzManager::RequestFavorite(int nType, int nStart, int nCount)
 {
 	CJsonNode node(JSON_OBJECT);
-
+	node.Add(KEY_CMD0,		VAL_QOBUZ);
+	node.Add(KEY_CMD1,		VAL_FAVORITE);
+	node.AddInt(KEY_TYPE,		nType);
+	node.AddInt(KEY_START,		nStart);
+	node.AddInt(KEY_COUNT,		nCount);
 
 	RequestCommand(node, QOBUZ_FAVORITE);
 }
 
-void QobuzManager::RequestPlaylist()
+void QobuzManager::RequestPlaylist(int nStart, int nCount)
 {
 	CJsonNode node(JSON_OBJECT);
-
+	node.Add(KEY_CMD0,		VAL_QOBUZ);
+	node.Add(KEY_CMD1,		VAL_PLAYLIST);
+	node.AddInt(KEY_START,		nStart);
+	node.AddInt(KEY_COUNT,		nCount);
 
 	RequestCommand(node, QOBUZ_PLAYLIST);
 }
 
-void QobuzManager::RequestPlay()
+void QobuzManager::RequestCategory(int nType, QString strID, int nStart, int nCount)
 {
 	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0,		VAL_QOBUZ);
+	node.Add(KEY_CMD1,		VAL_CATEGORY);
+	node.AddInt(KEY_TYPE,		nType);
+	node.Add(KEY_ID_UPPER,		strID);
+	node.AddInt(KEY_START,		nStart);
+	node.AddInt(KEY_COUNT,		nCount);
 
+	RequestCommand(node, QOBUZ_CATEGORY);
+}
+
+void QobuzManager::RequestPlay(CJsonNode srcNode)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QOBUZ);
+	node.Add	(KEY_CMD1,		VAL_PLAY);
+	node.AddInt	(KEY_WHERE,		3);	// play new
+
+	CJsonNode trackNode(JSON_ARRAY);
+	trackNode.AppendArray(srcNode);
+	node.Add	(KEY_TRACKS,	trackNode);
 
 	RequestCommand(node, QOBUZ_PLAY);
 }
@@ -149,16 +179,12 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 			emit SigRespLoginSuccess();
 			break;
 		case QOBUZ_CATEGORY:
-			break;
 		case QOBUZ_SEARCH:
-			break;
 		case QOBUZ_GENRE:
-			break;
 		case QOBUZ_RECOMMEND:
-			break;
 		case QOBUZ_FAVORITE:
-			break;
 		case QOBUZ_PLAYLIST:
+			ParseList(node);
 			break;
 		case QOBUZ_PLAY:
 			break;
@@ -173,3 +199,22 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 	}
 
 }
+
+void QobuzManager::ParseList(CJsonNode node)
+{
+	CJsonNode result;
+	if (!node.GetArray(VAL_RESULT, result))
+	{
+		emit SigRespError("there is no result");
+		return;
+	}
+
+	QList<CJsonNode> nodeList;
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		nodeList.append(result.GetArrayAt(i));
+	}
+
+	emit SigRespList(nodeList);
+}
+

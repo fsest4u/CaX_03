@@ -12,8 +12,10 @@ public:
 
 	enum menuIconRole {
 		MENU_ICON_ROLE_ID = Qt::UserRole + 0,
+		MENU_ICON_ROLE_TYPE,
 		MENU_ICON_ROLE_COVER,
 		MENU_ICON_ROLE_TITLE,
+		MENU_ICON_ROLE_RAW,
 		MENU_ICON_MAX
 	};
 
@@ -22,12 +24,13 @@ public:
 
 signals:
 
-	void SigSelectCoverArt(int nID);
+	void SigSelectCoverArt(int nType);
+	void SigSelectCoverArt(int nType, QString rawData);
 
 private slots:
 
-	void SlotClickCoverArt(int nID);
-	void SlotClickTitle(int nID);
+	void SlotClickCoverArt(int nType, QString rawData);
+	void SlotClickTitle(int nType);
 
 private:
 

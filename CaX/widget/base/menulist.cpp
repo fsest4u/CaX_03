@@ -82,6 +82,7 @@ void MenuList::SetNodeList(const QList<CJsonNode> &NodeList)
 //		LogDebug("title : [%s]", node.GetString(KEY_TOP).toUtf8().data());
 //		LogDebug("url : [%s]", node.GetString(VAL_URL).toUtf8().data());
 		QStandardItem *item = new QStandardItem;
+		item->setData(node.GetString(KEY_ID_UPPER), MenuListDelegate::MENU_LIST_ROLE_ID);
 		item->setData(node.GetInt(KEY_TYPE), MenuListDelegate::MENU_LIST_ROLE_TYPE);
 		item->setData(node.GetString(KEY_TOP), MenuListDelegate::MENU_LIST_ROLE_TITLE);
 		item->setData(node.GetString(KEY_ICON), MenuListDelegate::MENU_LIST_ROLE_ICON);

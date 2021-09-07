@@ -15,6 +15,9 @@ public:
 	explicit MenuListEditor(QWidget *parent = nullptr);
 	~MenuListEditor();
 
+	QString GetID() const;
+	void SetID(QString strID);
+
 	int GetType() const;
 	void SetType(int nType);
 
@@ -30,6 +33,8 @@ public:
 	QString GetRawData() const;
 	void SetRawData(const QString &RawData);
 
+
+
 signals:
 
 	void SigClickIcon(QString rawData);
@@ -41,6 +46,7 @@ protected:
 
 private:
 
+	QString			m_StrID;
 	int			m_nType;
 	QString		m_Icon;
 	QString		m_Art;

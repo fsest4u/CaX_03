@@ -3,21 +3,37 @@
 
 #include "util/caxconstants.h"
 #include "util/log.h"
+#include "util/CJsonNode.h"
 
 MenuIconDelegate::MenuIconDelegate()
 {
 
 }
 
-void MenuIconDelegate::SlotClickCoverArt(int nID)
+void MenuIconDelegate::SlotClickCoverArt(int nType, QString rawData)
 {
 	LogDebug("click cover art");
-	emit SigSelectCoverArt(nID);
+	CJsonNode node(JSON_OBJECT);
+	if (!node.SetContent(rawData))
+	{
+		return;
+	}
+
+	if (node.GetString("ItemType").isEmpty())
+	{
+		emit SigSelectCoverArt(nType);
+
+	}
+	else
+	{
+		emit SigSelectCoverArt(nType, rawData);
+	}
+
 }
 
-void MenuIconDelegate::SlotClickTitle(int nID)
+void MenuIconDelegate::SlotClickTitle(int nType)
 {
-	Q_UNUSED(nID)
+	Q_UNUSED(nType)
 	LogDebug("click title");
 }
 
@@ -42,7 +58,7 @@ QWidget *MenuIconDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 	Q_UNUSED(index)
 
 	MenuIconEditor *editor = new MenuIconEditor(parent);
-	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
+	connect(editor, SIGNAL(SigClickCoverArt(int, QString)), this, SLOT(SlotClickCoverArt(int, QString)));
 	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));
 
 	return editor;
@@ -53,8 +69,10 @@ void MenuIconDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
 	MenuIconEditor *widget = static_cast<MenuIconEditor*>(editor);
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<int>(index.data(MENU_ICON_ROLE_ID)));
+	widget->SetType(qvariant_cast<int>(index.data(MENU_ICON_ROLE_TYPE)));
 	widget->SetCoverArt(qvariant_cast<QString>(index.data(MENU_ICON_ROLE_COVER)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(MENU_ICON_ROLE_TITLE)));
+	widget->SetRawData(qvariant_cast<QString>(index.data(MENU_ICON_ROLE_RAW)));
 	widget->blockSignals(false);
 }
 
@@ -62,8 +80,10 @@ void MenuIconDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
 {
 	MenuIconEditor *widget = static_cast<MenuIconEditor*>(editor);
 	model->setData(index, widget->GetID(), MENU_ICON_ROLE_ID);
+	model->setData(index, widget->GetType(), MENU_ICON_ROLE_TYPE);
 	model->setData(index, widget->GetCoverArt(), MENU_ICON_ROLE_COVER);
 	model->setData(index, widget->GetTitle(), MENU_ICON_ROLE_TITLE);
+	model->setData(index, widget->GetRawData(), MENU_ICON_ROLE_RAW);
 }
 
 void MenuIconDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

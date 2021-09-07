@@ -18,16 +18,23 @@ public:
 	int GetID();
 	void SetID(int nID);
 
+	int GetType() const;
+	void SetType(int Type);
+
 	QString GetCoverArt();
 	void SetCoverArt(const QString &value);
 
 	QString GetTitle();
 	void SetTitle(const QString &value);
 
+	QString GetRawData() const;
+	void SetRawData(const QString &RawData);
+
+
 signals:
 
-	void SigClickCoverArt(int nID);
-	void SigClickTitle(int nID);
+	void SigClickCoverArt(int nType, QString rawData = "");
+	void SigClickTitle(int nType);
 
 protected:
 
@@ -36,7 +43,9 @@ protected:
 private:
 
 	int		m_ID;
+	int		m_Type;
 	QString m_CoverArt;
+	QString m_RawData;
 
 	Ui::MenuIconEditor *ui;
 };

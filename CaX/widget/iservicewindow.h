@@ -27,7 +27,12 @@ public:
 
 	void RequestIServiceHome(QList<CJsonNode> list);
 	void RequestIServiceURL(int nServiceType, QString url = "");
-	void RequestQobuzHome();
+	void RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount);
+	void RequestQobuzGenre();
+	void RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount);
+	void RequestQobuzFavorite(int nType, int nStart, int nCount);
+	void RequestQobuzPlaylist(int nStart, int nCount);
+	void RequestQobuzCategory(int nType, QString strID, int nStart, int nCount);
 
 	AirableManager	*GetAirableManager();
 	QobuzManager	*GetQobuzManager();
@@ -52,7 +57,8 @@ private slots:
 	void SlotSubmenu();
 	void SlotSort();
 
-	void SlotSelectIService(int nServiceType);
+	void SlotSelectCoverArt(int nServiceType);
+	void SlotSelectCoverArt(int nServiceType, QString rawData);
 	void SlotSelectURL(QString rawData);
 	void SlotReqArt(QString url, int index);
 
@@ -61,6 +67,8 @@ private slots:
 	void SlotRespAirableLoginFail(CJsonNode node);
 	void SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAuth);
 
+	void SlotRespList(QList<CJsonNode> list);
+
 	void SlotRespAuth(int nServiceType);
 	void SlotRespURL(int nServiceType, QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
@@ -68,8 +76,24 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
+
+	void DoQobuzHome();
+	void DoQobuzSearch();
+	void DoQobuzRecommend();
+	void DoQobuzFavorite();
+
+	void DoRecommendAlbum();
+	void DoRecommendPlaylist();
+
 	void SetCoverArtServiceHome(QList<CJsonNode> &srclist);
 	void SetQobuzHome(QList<CJsonNode> &srclist);
+	void SetQobuzSearch(QList<CJsonNode> &srclist);
+	void SetQobuzRecommend(QList<CJsonNode> &srclist);
+	void SetQobuzFavorite(QList<CJsonNode> &srclist);
+
+	void SetRecommendAlbum(QList<CJsonNode> &srclist);
+	void SetRecommendPlaylist(QList<CJsonNode> &srclist);
+
 
 	AirableManager		*m_pAirableMgr;
 	QobuzManager		*m_pQobuzMgr;

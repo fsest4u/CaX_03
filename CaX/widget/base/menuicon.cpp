@@ -56,9 +56,12 @@ void MenuIcon::SetNodeList(const QList<CJsonNode> &NodeList)
 	foreach (CJsonNode node, m_NodeList)
 	{
 		QStandardItem *item = new QStandardItem;
-		item->setData(node.GetInt(KEY_TYPE), MenuIconDelegate::MENU_ICON_ROLE_ID);
+		item->setData(node.GetInt(KEY_ID_UPPER), MenuIconDelegate::MENU_ICON_ROLE_ID);
+		item->setData(node.GetInt(KEY_TYPE), MenuIconDelegate::MENU_ICON_ROLE_TYPE);
 		item->setData(node.GetString(KEY_COVER_ART), MenuIconDelegate::MENU_ICON_ROLE_COVER);
 		item->setData(node.GetString(KEY_NAME), MenuIconDelegate::MENU_ICON_ROLE_TITLE);
+		item->setData(node.ToCompactString(), MenuIconDelegate::MENU_ICON_ROLE_RAW);
+
 		m_Model->appendRow(item);
 		QModelIndex modelIndex = m_Model->indexFromItem(item);
 		m_ListView->openPersistentEditor(modelIndex);

@@ -11,7 +11,8 @@ public:
 	MenuListDelegate();
 
 	enum menuListRole {
-		MENU_LIST_ROLE_TYPE = Qt::UserRole + 0,
+		MENU_LIST_ROLE_ID = Qt::UserRole + 0,
+		MENU_LIST_ROLE_TYPE,
 		MENU_LIST_ROLE_TITLE,
 		MENU_LIST_ROLE_ICON,
 		MENU_LIST_ROLE_ART,

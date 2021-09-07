@@ -30,6 +30,16 @@ MenuListEditor::~MenuListEditor()
 	delete ui;
 }
 
+QString MenuListEditor::GetID() const
+{
+	return m_StrID;
+}
+
+void MenuListEditor::SetID(QString strID)
+{
+	m_StrID = strID;
+}
+
 int MenuListEditor::GetType() const
 {
 	return m_nType;
