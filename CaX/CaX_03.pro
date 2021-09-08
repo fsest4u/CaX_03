@@ -21,6 +21,7 @@ SOURCES += \
     manager/appmanager.cpp \
     manager/basemanager.cpp \
     manager/browsermanager.cpp \
+    manager/dabradiomanager.cpp \
     manager/devicemanager.cpp \
     manager/fmradiomanager.cpp \
     manager/inputmanager.cpp \
@@ -85,6 +86,7 @@ HEADERS += \
     manager/appmanager.h \
     manager/basemanager.h \
     manager/browsermanager.h \
+    manager/dabradiomanager.h \
     manager/devicemanager.h \
     manager/fmradiomanager.h \
     manager/imanager.h \
@@ -106,7 +108,6 @@ HEADERS += \
     util/airable.h \
     util/caxconstants.h \
     util/caxkeyvalue.h \
-    util/iservice.h \
     util/loading.h \
     util/log.h \
     util/qobuz.h \

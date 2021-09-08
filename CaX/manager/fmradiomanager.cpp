@@ -24,7 +24,6 @@ void FmRadioManager::RequestList()
 	node.Add	(KEY_APP,		true);
 
 	RequestCommand(node, FM_LIST);
-
 }
 
 void FmRadioManager::RequestPlay(int index)
@@ -35,6 +34,41 @@ void FmRadioManager::RequestPlay(int index)
 	node.AddInt	(KEY_INDEX,		index);
 
 	RequestCommand(node, FM_PLAY);
+}
+
+void FmRadioManager::RequestSeek()
+{
+
+}
+
+void FmRadioManager::RequestSeekStop()
+{
+
+}
+
+void FmRadioManager::RequestAdd()
+{
+
+}
+
+void FmRadioManager::RequestDelete()
+{
+
+}
+
+void FmRadioManager::RequestSet()
+{
+
+}
+
+void FmRadioManager::RequestRecordList()
+{
+
+}
+
+void FmRadioManager::RequestRecordSet()
+{
+
 }
 
 void FmRadioManager::SlotRespInfo(QString json, int nCmdID)

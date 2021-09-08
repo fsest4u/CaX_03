@@ -78,6 +78,7 @@
 #define		VAL_CATEGORY		"Cat"
 #define		VAL_INPUT			"Input"
 #define		VAL_FM_RADIO		"FmRadio"
+#define		VAL_DAB_RADIO		"Dab"
 
 
 //////////////////////////////////////////////////

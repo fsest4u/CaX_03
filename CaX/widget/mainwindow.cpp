@@ -654,10 +654,9 @@ void MainWindow::DoFmRadioHome()
 
 void MainWindow::DoDabRadioHome()
 {
-	DABRadioWindow *widget = new DABRadioWindow;
+	DABRadioWindow *widget = new DABRadioWindow(this, m_strAddr);
 	AddWidget(widget);
-
-
+	widget->RequestList();
 }
 
 void MainWindow::DoGroupPlayHome()
