@@ -21,8 +21,20 @@ public:
 	explicit MenuIcon(QWidget *parent = nullptr);
 	~MenuIcon();
 
+	enum menuIndex {
+		MENU_AUDIO_CD = 0,
+		MENU_PLAYLIST,
+		MENU_BROWSER,
+		MENU_ISERVICE,
+		MENU_INPUT,
+		MENU_FM_RADIO,
+		MENU_DAB_RADIO,
+		MENU_GROUP_PLAY,
+		MENU_MAX
+	};
+
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(const QList<CJsonNode> &NodeList);
+	void SetNodeList(const QList<CJsonNode> &NodeList, int menuType = MENU_AUDIO_CD);
 	void ClearNodeList();
 
 	QListView::ViewMode GetViewMode();

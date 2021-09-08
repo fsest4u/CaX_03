@@ -26,6 +26,7 @@ void MenuIconDelegate::SlotClickCoverArt(int nType, QString rawData)
 	}
 	else
 	{
+		// for i-service
 		emit SigSelectCoverArt(nType, rawData);
 	}
 

@@ -3,6 +3,12 @@
 
 #include <QWidget>
 
+#include "util/CJsonNode.h"
+
+class FmRadioManager;
+class MenuInfo;
+class MenuIcon;
+
 namespace Ui {
 class FMRadioWindow;
 }
@@ -12,12 +18,30 @@ class FMRadioWindow : public QWidget
 	Q_OBJECT
 
 public:
-	explicit FMRadioWindow(QWidget *parent = nullptr);
+	explicit FMRadioWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~FMRadioWindow();
 
+	void RequestList();
+
+private slots:
+
+//	void SlotSubmenu();
+
+	void SlotSelectCoverArt(int nType);
+
+	void SlotRespList(QList<CJsonNode> list);
 
 
 private:
+
+	void ConnectSigToSlot();
+
+	void SetFmRadioHome(QList<CJsonNode> &list);
+
+	FmRadioManager	*m_pMgr;
+	MenuInfo			*m_pMenuInfo;
+	MenuIcon			*m_pMenuIcon;
+
 	Ui::FMRadioWindow *ui;
 };
 

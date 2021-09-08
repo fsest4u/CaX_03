@@ -40,6 +40,7 @@
 #define		KEY_KEYWORD			"Str"
 #define		KEY_LEFT			"Left"
 #define		KEY_RIGHT			"Right"
+#define		KEY_APP			"App"
 
 
 //////////////////////////////////////////////////
@@ -76,6 +77,7 @@
 #define		VAL_PLAYLIST		"Playlist"
 #define		VAL_CATEGORY		"Cat"
 #define		VAL_INPUT			"Input"
+#define		VAL_FM_RADIO		"FmRadio"
 
 
 //////////////////////////////////////////////////

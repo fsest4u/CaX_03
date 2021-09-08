@@ -100,7 +100,7 @@ void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 	SetIServiceHome(list);
 
 	m_pMenuInfo->SetTitle(ISERVICE_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
 void IServiceWindow::RequestIServiceURL(int nServiceType, QString url)
@@ -512,7 +512,7 @@ void IServiceWindow::DoQobuzHome()
 	SetQobuzHome(list);
 
 	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
 void IServiceWindow::DoQobuzSearch()
@@ -524,7 +524,7 @@ void IServiceWindow::DoQobuzSearch()
 	SetQobuzSearch(list);
 
 	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
 void IServiceWindow::DoQobuzRecommend()
@@ -536,7 +536,7 @@ void IServiceWindow::DoQobuzRecommend()
 	SetQobuzRecommend(list);
 
 	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
 void IServiceWindow::DoQobuzFavorite()
@@ -548,7 +548,7 @@ void IServiceWindow::DoQobuzFavorite()
 	SetQobuzFavorite(list);
 
 	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
 
@@ -561,7 +561,7 @@ void IServiceWindow::DoRecommendAlbum()
 	SetRecommendAlbum(list);
 
 	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
 void IServiceWindow::DoRecommendPlaylist()
@@ -573,7 +573,7 @@ void IServiceWindow::DoRecommendPlaylist()
 	SetRecommendPlaylist(list);
 
 	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
 

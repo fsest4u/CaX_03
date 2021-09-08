@@ -647,10 +647,9 @@ void MainWindow::DoInputHome()
 
 void MainWindow::DoFmRadioHome()
 {
-	FMRadioWindow *widget = new FMRadioWindow;
+	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr);
 	AddWidget(widget);
-
-
+	widget->RequestList();
 }
 
 void MainWindow::DoDabRadioHome()

@@ -11,7 +11,7 @@
 #include "util/loading.h"
 #include "util/log.h"
 
-#define INPUT_TITLE	"Input"
+#define MAIN_TITLE	"Input"
 
 
 InputWindow::InputWindow(QWidget *parent, const QString &addr) :
@@ -59,8 +59,8 @@ void InputWindow::InputHome(QList<CJsonNode> list)
 
 	SetInputHome(list);
 
-	m_pMenuInfo->SetTitle(INPUT_TITLE);
-	m_pMenuIcon->SetNodeList(list);
+	m_pMenuInfo->SetTitle(MAIN_TITLE);
+	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_INPUT);
 }
 
 void InputWindow::SlotSelectCoverArt(int nType)
@@ -78,52 +78,49 @@ void InputWindow::ConnectSigToSlot()
 void InputWindow::SetInputHome(QList<CJsonNode> &srclist)
 {
 	QList<CJsonNode> dstList;
-	int nID = -1;
+	int index = 0;
 	QString strCover = "";
 
 	foreach (CJsonNode node, srclist)
 	{
 		if (node.GetString(KEY_RIGHT).contains("AES/EBU"))
 		{
-			nID = 0;
 			strCover = ":/resource/baseline_search_black_24dp.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("COAXIAL"))
 		{
-			nID = 1;
 			strCover = ":/resource/baseline_search_black_24dp.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("TOSLINK"))
 		{
-			nID = 2;
 			strCover = ":/resource/baseline_search_black_24dp.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("ANALOG IN"))
 		{
-			nID = 3;
 			strCover = ":/resource/baseline_search_black_24dp.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("AUX IN"))
 		{
-			nID = 4;
 			strCover = ":/resource/baseline_search_black_24dp.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("PHONO IN"))
 		{
-			nID = 5;
 			strCover = ":/resource/baseline_search_black_24dp.png";
 		}
 		else
 		{
 			LogDebug("not found type");
+			strCover = "";
 			continue;
 		}
-		node.AddInt(KEY_ID_UPPER, nID);
-		node.AddInt(KEY_TYPE, nID);
+
 		node.Add(KEY_COVER_ART, strCover);
-		node.Add(KEY_NAME, node.GetString(KEY_LEFT) + "/" + node.GetString(KEY_RIGHT));
+		node.AddInt(KEY_ID_UPPER, index);
+		node.AddInt(KEY_TYPE, index);
 
 		dstList.append(node);
+
+		index++;
 	}
 	srclist = dstList;
 }
