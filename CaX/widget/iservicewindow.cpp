@@ -52,12 +52,6 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr)
 
 IServiceWindow::~IServiceWindow()
 {
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
-
 	delete ui;
 
 	if (m_pAirableMgr)
@@ -90,15 +84,20 @@ IServiceWindow::~IServiceWindow()
 		m_pMenuList = nullptr;
 	}
 
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
+	}
 
 }
 
-void IServiceWindow::RequestIServiceHome(QList<CJsonNode> list)
+void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 {
 	ui->gridLayoutTop->addWidget(m_pMenuInfo);
 	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
 
-	SetCoverArtServiceHome(list);
+	SetIServiceHome(list);
 
 	m_pMenuInfo->SetTitle(ISERVICE_TITLE);
 	m_pMenuIcon->SetNodeList(list);
@@ -578,11 +577,11 @@ void IServiceWindow::DoRecommendPlaylist()
 }
 
 
-void IServiceWindow::SetCoverArtServiceHome(QList<CJsonNode> &srcList)
+void IServiceWindow::SetIServiceHome(QList<CJsonNode> &srclist)
 {
 	QList<CJsonNode> dstList;
 	QString strCover = "";
-	foreach (CJsonNode node, srcList)
+	foreach (CJsonNode node, srclist)
 	{
 		if (node.GetInt(KEY_TYPE) == iIServiceType_Qobuz)
 		{
@@ -624,7 +623,7 @@ void IServiceWindow::SetCoverArtServiceHome(QList<CJsonNode> &srcList)
 		node.Add(KEY_COVER_ART, strCover);
 		dstList.append(node);
 	}
-	srcList = dstList;
+	srclist = dstList;
 }
 
 void IServiceWindow::SetQobuzHome(QList<CJsonNode> &srclist)

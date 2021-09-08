@@ -635,15 +635,14 @@ void MainWindow::DoIServiceHome()
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
 	AddWidget(widget);
-	widget->RequestIServiceHome(m_IServiceList);
+	widget->IServiceHome(m_IServiceList);
 }
 
 void MainWindow::DoInputHome()
 {
-	InputWindow *widget = new InputWindow;
+	InputWindow *widget = new InputWindow(this, m_strAddr);
 	AddWidget(widget);
-
-
+	widget->InputHome(m_InputList);
 }
 
 void MainWindow::DoFmRadioHome()

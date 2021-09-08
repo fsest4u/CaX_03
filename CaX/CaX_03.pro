@@ -22,6 +22,7 @@ SOURCES += \
     manager/basemanager.cpp \
     manager/browsermanager.cpp \
     manager/devicemanager.cpp \
+    manager/inputmanager.cpp \
     manager/mymusicmanager.cpp \
     manager/observermanager.cpp \
     manager/playmanager.cpp \
@@ -85,6 +86,7 @@ HEADERS += \
     manager/browsermanager.h \
     manager/devicemanager.h \
     manager/imanager.h \
+    manager/inputmanager.h \
     manager/mymusicmanager.h \
     manager/observermanager.h \
     manager/playmanager.h \

@@ -20,6 +20,14 @@
 #define SRC_MUSIC_DB		"Music DB"
 #define SRC_BROWSER			"File"
 #define SRC_AUDIO_CD		"Audio CD"
+
+#define SRC_AES_EBU			"AES"
+#define SRC_COAXIAL			"COAXIAL"
+#define SRC_TOSLINK			"TOSLINK"
+#define SRC_ANALOG_IN		"ANALOG IN"
+#define SRC_AUX_IN			"AUX IN"
+#define SRC_PHONO_IN		"PHONO IN"
+
 #define SRC_FM_RADIO		"FM Radio"
 #define SRC_I_RADIO			"i-Radio"
 #define SRC_PODCAST			"Podcasts"
@@ -381,9 +389,18 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 		SetCoverArt(node.GetString(KEY_COVER_ART));
 		SetQueueList(node.GetInt64(KEY_TIME_STAMP));
 	}
+	else if (!strSrc.compare(SRC_AES_EBU)
+			 || !strSrc.compare(SRC_COAXIAL)
+			 || !strSrc.compare(SRC_TOSLINK)
+			 || !strSrc.compare(SRC_ANALOG_IN)
+			 || !strSrc.compare(SRC_AUX_IN)
+			 || !strSrc.compare(SRC_PHONO_IN) )
+	{
+		LogDebug("todo src is [%s]", strSrc.toUtf8().data());
+	}
 	else if (!strSrc.compare(SRC_FM_RADIO))
 	{
-
+		LogDebug("todo src is [%s]", strSrc.toUtf8().data());
 	}
 	else if (!strSrc.compare(SRC_I_RADIO)
 			 || !strSrc.compare(SRC_PODCAST)
@@ -395,7 +412,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !strSrc.compare(SRC_AIRABLE_UPNP)
 			 || !strSrc.compare(SRC_QOBUZ) )
 	{
-
+		LogDebug("todo src is [%s]", strSrc.toUtf8().data());
 	}
 
 }

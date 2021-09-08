@@ -5,10 +5,6 @@
 
 #include "util/CJsonNode.h"
 
-namespace Ui {
-class IServiceWindow;
-}
-
 class AirableManager;
 class QobuzManager;
 
@@ -16,6 +12,10 @@ class MenuInfo;
 class MenuIcon;
 class MenuList;
 class Loading;
+
+namespace Ui {
+class IServiceWindow;
+}
 
 class IServiceWindow : public QWidget
 {
@@ -25,7 +25,8 @@ public:
 	explicit IServiceWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~IServiceWindow();
 
-	void RequestIServiceHome(QList<CJsonNode> list);
+	void IServiceHome(QList<CJsonNode> list);
+
 	void RequestIServiceURL(int nServiceType, QString url = "");
 	void RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount);
 	void RequestQobuzGenre();
@@ -57,8 +58,8 @@ private slots:
 	void SlotSubmenu();
 	void SlotSort();
 
-	void SlotSelectCoverArt(int nServiceType);
-	void SlotSelectCoverArt(int nServiceType, QString rawData);
+	void SlotSelectCoverArt(int nType);
+	void SlotSelectCoverArt(int nType, QString rawData);
 	void SlotSelectURL(QString rawData);
 	void SlotReqArt(QString url, int index);
 
@@ -85,7 +86,7 @@ private:
 	void DoRecommendAlbum();
 	void DoRecommendPlaylist();
 
-	void SetCoverArtServiceHome(QList<CJsonNode> &srclist);
+	void SetIServiceHome(QList<CJsonNode> &srclist);
 	void SetQobuzHome(QList<CJsonNode> &srclist);
 	void SetQobuzSearch(QList<CJsonNode> &srclist);
 	void SetQobuzRecommend(QList<CJsonNode> &srclist);

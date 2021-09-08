@@ -38,6 +38,8 @@
 #define		KEY_SVC_TYPE		"SvcType"
 #define		KEY_START			"Start"
 #define		KEY_KEYWORD			"Str"
+#define		KEY_LEFT			"Left"
+#define		KEY_RIGHT			"Right"
 
 
 //////////////////////////////////////////////////
@@ -71,8 +73,9 @@
 #define		VAL_RECOMMEND		"Recommend"
 #define		VAL_FAVORITE		"Favorite"
 #define		VAL_GENRE			"Genre"
-#define		VAL_PLAYLIST			"Playlist"
-#define		VAL_CATEGORY			"Cat"
+#define		VAL_PLAYLIST		"Playlist"
+#define		VAL_CATEGORY		"Cat"
+#define		VAL_INPUT			"Input"
 
 
 //////////////////////////////////////////////////
