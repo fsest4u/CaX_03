@@ -169,7 +169,7 @@ void MyMusicManager::SlotRespInfo(QString json, int nCmdID)
 	}
 
 	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result))
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
 		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
 		return;

@@ -113,7 +113,7 @@ void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 void FmRadioManager::ParseList(CJsonNode node)
 {
 	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result))
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
 		emit SigRespError("there is no result");
 		return;

@@ -68,5 +68,56 @@ void DabRadioManager::RequestRecordSet()
 
 void DabRadioManager::SlotRespInfo(QString json, int nCmdID)
 {
+	CJsonNode node;
+	if (!node.SetContent(json))
+	{
+		emit SigRespError("invalid json");
+		return;
+	}
 
+	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+
+	QString strMsg;
+	bool	bSuccess = false;
+	if (!node.GetBool(VAL_SUCCESS, bSuccess) || !bSuccess)
+	{
+		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
+		{
+			emit SigRespError("unknown error");
+			return;
+		}
+
+		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
+	switch (nCmdID)
+	{
+	case DAB_LIST:
+		ParseList(node);
+		break;
+	case DAB_PLAY:
+		break;
+	case DAB_MAX:
+		LogWarning("Invalid command ID");
+		break;
+	}
+}
+
+void DabRadioManager::ParseList(CJsonNode node)
+{
+	CJsonNode result;
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+	{
+		emit SigRespError("there is no result");
+		return;
+	}
+
+	QList<CJsonNode> nodeList;
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		nodeList.append(result.GetArrayAt(i));
+	}
+
+	emit SigRespList(nodeList);
 }

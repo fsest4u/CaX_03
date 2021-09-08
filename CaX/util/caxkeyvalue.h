@@ -85,6 +85,17 @@
 // response - key
 //////////////////////////////////////////////////
 
+#define		KEY_AUDIO_CD		"AudioCd"
+#define		KEY_ISERVICE		"IService"
+#define		KEY_INPUT			"Input"
+#define		KEY_FM_RADIO		"FmRadio"
+#define		KEY_GROUP_PLAY		"GroupPlay"
+#define		KEY_SETUP			"Setup"
+
+#define		KEY_SCAN_DB			"ScanDB"
+#define		KEY_IS_DEL_DB		"IsDelDB"
+#define		KEY_EVENT_ID		"EventID"
+
 #define		KEY_ALBUM			"Album"
 #define		KEY_ARTIST			"Artist"
 #define		KEY_COMPOSER		"Composer"
@@ -114,6 +125,7 @@
 #define		KEY_DURATION		"Duration"
 #define		KEY_PLAY_TIME		"PlayTime"
 #define		KEY_REPEAT			"Repeat"
+
 
 //////////////////////////////////////////////////
 // response - value

@@ -180,7 +180,7 @@ void AirableManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
 void AirableManager::ParseURL(CJsonNode node)
 {
 	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result))
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
 		emit SigRespError("there is no result");
 		return;

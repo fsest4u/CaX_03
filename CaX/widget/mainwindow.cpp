@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 	, m_bInput(false)
 	, m_bFMRadio(false)
 	, m_bGroupPlay(false)
-	, m_bSigma(false)
+//	, m_bSigma(false)
 	, m_bScanDB(false)
 	, m_bIsDel(false)
 	, m_nEventID(-1)
@@ -359,9 +359,9 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 		if (!node.GetString(DEVICE_VERSION, strVersion) || strVersion.isEmpty()) { return; }
 		if (!node.GetString(DEVICE_WOL_ADDR, strWolAddr) || strWolAddr.isEmpty()) { return; }
 		if (!node.GetString(DEVICE_UUID, strUUID) || strUUID.isEmpty()) { return; }
-		if (!node.GetBool(MAIN_MENU_FM_RADIO, m_bFMRadio)) { return; }
-		if (!node.GetBool(MAIN_MENU_GROUP_PLAY, m_bGroupPlay)) { return; }
-		if (!node.GetBool(MAIN_MENU_INPUT, m_bInput)) { return; }
+		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio)) { return; }
+		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay)) { return; }
+		if (!node.GetBool(KEY_INPUT, m_bInput)) { return; }
 
 		m_bConnect = true;
 		m_strCurrentMac = strMac;
@@ -386,22 +386,22 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	CJsonNode nodeInput;
 
 	bool    bAudioCD = false;
-	bool    bSigma = false;
+//	bool    bSigma = false;
 	bool    bScanDB = false;
 	bool    bIsDelDB = false;
 	int     nEventID = false;
 
-	if (!node.GetBool(MAIN_MENU_AUDIO_CD, bAudioCD)) { bAudioCD = false; }
+	if (!node.GetBool(KEY_AUDIO_CD, bAudioCD)) { bAudioCD = false; }
 	// todo-dylee
 //	if (!node.GetBool(RES_KEY_SCAN_DB, bSigma)) { bSigma = false; }
-//	if (!node.GetBool(RES_KEY_SCAN_DB, bScanDB)) { bScanDB = false; }
-//	if (!node.GetBool(RES_KEY_SCAN_DB, bIsDelDB)) { bIsDelDB = false; }
-	if (!node.GetInt(MAIN_EVENT_ID, nEventID)) { nEventID = -1; }
-	if (!node.GetArray(MAIN_MENU_SETUP, nodeSetup)) { nodeSetup.Clear(); }
-	if (!node.GetArray(MAIN_MENU_ISERVICE, nodeIService)) { nodeIService.Clear(); }
-	if (!node.GetArray(MAIN_MENU_INPUT, nodeInput)) { nodeInput.Clear(); }
+	if (!node.GetBool(KEY_SCAN_DB, bScanDB)) { bScanDB = false; }
+	if (!node.GetBool(KEY_IS_DEL_DB, bIsDelDB)) { bIsDelDB = false; }
+	if (!node.GetInt(KEY_EVENT_ID, nEventID)) { nEventID = -1; }
+	if (!node.GetArray(KEY_SETUP, nodeSetup)) { nodeSetup.Clear(); }
+	if (!node.GetArray(KEY_ISERVICE, nodeIService)) { nodeIService.Clear(); }
+	if (!node.GetArray(KEY_INPUT, nodeInput)) { nodeInput.Clear(); }
 
-	m_bSigma = bSigma;
+//	m_bSigma = bSigma;
 	m_bScanDB = bScanDB;
 	m_bIsDel = bIsDelDB;
 

@@ -107,7 +107,7 @@ private:
 	bool			m_bInput;
 	bool			m_bFMRadio;
 	bool			m_bGroupPlay;
-	bool            m_bSigma;
+//	bool            m_bSigma;
 	bool            m_bScanDB;
 	bool            m_bIsDel;
 

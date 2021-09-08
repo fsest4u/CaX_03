@@ -72,6 +72,8 @@ void SideMenu::SetEnableInput(bool bEnable)
 void SideMenu::SetEnableFMRadio(bool bEnable)
 {
 	m_bFMRadio = bEnable;
+	// like mobile-app
+	m_bDABRadio = bEnable;
 }
 
 void SideMenu::SetEnableDABRadio(bool bEnable)

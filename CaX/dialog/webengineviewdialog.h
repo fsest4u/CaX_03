@@ -8,7 +8,7 @@ namespace Ui {
 class WebEngineViewDialog;
 }
 
-class RequestInterceptor;
+//class RequestInterceptor;
 
 class WebEngineViewDialog : public QDialog
 {
@@ -36,7 +36,7 @@ private:
 
 
 	QWebEngineView		*m_WebView;
-	RequestInterceptor	*m_WebInterceptor;
+//	RequestInterceptor	*m_WebInterceptor;
 
 	bool				m_bLogin;
 

@@ -62,14 +62,8 @@
 // main window
 //////////////////////////////////////////////////
 
-#define	MAIN_MENU_AUDIO_CD			"AudioCd"
-#define	MAIN_MENU_ISERVICE			"IService"
-#define	MAIN_MENU_INPUT				"Input"
-#define	MAIN_MENU_FM_RADIO			"FmRadio"
-#define	MAIN_MENU_GROUP_PLAY		"GroupPlay"
-#define	MAIN_MENU_SETUP				"Setup"
 
-#define MAIN_EVENT_ID				"EventID"
+
 
 #define PLAY_NOW					0
 #define PLAY_LAST					1
