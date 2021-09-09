@@ -26,6 +26,8 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
+	m_pMenuInfo->SetSubmenuFmRadio();
+
 }
 
 FMRadioWindow::~FMRadioWindow()

@@ -17,6 +17,11 @@ public:
 	explicit MenuInfo(QWidget *parent = nullptr);
 	~MenuInfo();
 
+	enum iServiceSubmenuType {
+		ISERVICE_NONE,
+		ISERVICE_MAX
+	};
+
 	enum fmSubmenuType {
 		FM_SEARCH_ALL_DELETE = Qt::UserRole + 0,
 		FM_SEARCH_ALL,
@@ -37,7 +42,10 @@ public:
 
 	void SetTitle(const QString title);
 
-	QRect GetSubmenuRect();
+	void SetSubmenuIService();
+	void SetSubmenuFmRadio();
+	void SetSubmenuDabRadio();
+
 
 protected:
 
@@ -54,7 +62,6 @@ private:
 
 
 
-	void SetSubmenuDialog();
 
 	void ShowSubmenuDialog();
 

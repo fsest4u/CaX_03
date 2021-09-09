@@ -25,6 +25,9 @@ DABRadioWindow::DABRadioWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+
+	m_pMenuInfo->SetSubmenuDabRadio();
+
 }
 
 DABRadioWindow::~DABRadioWindow()

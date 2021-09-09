@@ -20,8 +20,6 @@ MenuInfo::MenuInfo(QWidget *parent) :
 	ui->frameSubmenu->installEventFilter(this);
 	ui->frameSort->installEventFilter(this);
 
-	SetSubmenuDialog();
-
 }
 
 MenuInfo::~MenuInfo()
@@ -40,10 +38,6 @@ void MenuInfo::SetTitle(const QString title)
 	ui->labelTitle->setText(title);
 }
 
-QRect MenuInfo::GetSubmenuRect()
-{
-	return ui->frameSubmenu->geometry();
-}
 
 bool MenuInfo::eventFilter(QObject *object, QEvent *event)
 {
@@ -70,7 +64,29 @@ bool MenuInfo::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
-void MenuInfo::SetSubmenuDialog()
+void MenuInfo::SetSubmenuIService()
+{
+	QList<CJsonNode> list;
+
+	QList<int> listID = {
+		ISERVICE_NONE
+	};
+	QList<QString> listName = {
+		"Test"
+	};
+
+	CJsonNode node(JSON_OBJECT);
+	for (int i = 0; i < listID.count(); i++)
+	{
+		node.AddInt(KEY_ID_UPPER, listID.at(i));
+		node.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+		node.Add(KEY_NAME, listName.at(i));
+		list.append(node);
+	}
+	m_pSubmenuDlg->SetItemList(list);
+}
+
+void MenuInfo::SetSubmenuFmRadio()
 {
 	QList<CJsonNode> list;
 
@@ -80,6 +96,36 @@ void MenuInfo::SetSubmenuDialog()
 		FM_ADD,
 		FM_DELETE,
 		FM_RESERVE_LIST
+	};
+	QList<QString> listName = {
+		"Delete and search all",
+		"Search all",
+		"Add",
+		"Delete",
+		"Reserved list"
+	};
+
+	CJsonNode node(JSON_OBJECT);
+	for (int i = 0; i < listID.count(); i++)
+	{
+		node.AddInt(KEY_ID_UPPER, listID.at(i));
+		node.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+		node.Add(KEY_NAME, listName.at(i));
+		list.append(node);
+	}
+	m_pSubmenuDlg->SetItemList(list);
+}
+
+void MenuInfo::SetSubmenuDabRadio()
+{
+	QList<CJsonNode> list;
+
+	QList<int> listID = {
+		DAB_SEARCH_ALL_DELETE,
+		DAB_SEARCH_ALL,
+//		DAB_ADD,
+		DAB_DELETE,
+		DAB_RESERVE_LIST
 	};
 	QList<QString> listName = {
 		"Delete and search all",

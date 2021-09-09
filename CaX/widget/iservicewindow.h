@@ -55,7 +55,7 @@ private slots:
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
-	void SlotSubmenu();
+	void SlotSubmenu(int index);
 	void SlotSort();
 
 	void SlotSelectCoverArt(int nType);

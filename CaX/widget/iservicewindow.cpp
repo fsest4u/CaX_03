@@ -48,6 +48,9 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr)
 	m_pQobuzMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+
+	m_pMenuInfo->SetSubmenuIService();
+
 }
 
 IServiceWindow::~IServiceWindow()
@@ -189,7 +192,7 @@ void IServiceWindow::SlotPlayRandom()
 	LogDebug("click play random");
 }
 
-void IServiceWindow::SlotSubmenu()
+void IServiceWindow::SlotSubmenu(int index)
 {
 	LogDebug("click submenu");
 }
@@ -478,7 +481,7 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(m_pMenuInfo, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pMenuInfo, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pMenuInfo, SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pMenuInfo, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
 	connect(m_pMenuInfo, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 
 	connect(m_pMenuIcon->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
