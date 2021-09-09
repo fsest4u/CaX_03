@@ -3,12 +3,14 @@
 
 #include <QWidget>
 
+#define CATEGORY_TYPE_NONE	200
+#define SORT_TYPE_NONE	200
+
 namespace Ui {
 class MusicInfo;
 }
 
-class SortDialog;
-class CategoryDialog;
+class SubmenuDialog;
 
 class MusicInfo : public QWidget
 {
@@ -43,11 +45,32 @@ signals:
 
 private:
 
+	enum categoryType {
+		CAT_GENRE = Qt::UserRole + CATEGORY_TYPE_NONE,
+		CAT_MOOD,
+		CAT_FOLDER,
+		CAT_YEAR,
+		CAT_MAX
+	};
+
+	enum sortType {
+		SORT_BY_GENRE = Qt::UserRole + SORT_TYPE_NONE,
+		SORT_BY_MOOD,
+		SORT_BY_FOLDER,
+		SORT_BY_YEAR,
+		SORT_BY_RATING,
+		SORT_BY_SAMPLE_RATE,
+		SORT_BY_MAX
+	};
+
 	void ShowCategoryDialog();
 	void ShowSortDialog();
 
-	CategoryDialog	*m_pCatDlg;
-	SortDialog		*m_pSortDlg;
+	void SetCategoryDialog();
+	void SetSortDialog();
+
+	SubmenuDialog	*m_pCatDlg;
+	SubmenuDialog	*m_pSortDlg;
 
 	Ui::MusicInfo *ui;
 };

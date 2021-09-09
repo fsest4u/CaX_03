@@ -3,14 +3,16 @@
 #include "musicinfo.h"
 #include "ui_musicinfo.h"
 
-#include "dialog/categorydialog.h"
+#include "dialog/submenudialog.h"
 #include "dialog/sortdialog.h"
+
+#include "util/caxkeyvalue.h"
 #include "util/log.h"
 
 MusicInfo::MusicInfo(QWidget *parent)
 	: QWidget(parent)
-	, m_pCatDlg(new CategoryDialog(this))
-	, m_pSortDlg(new SortDialog(this))
+	, m_pCatDlg(new SubmenuDialog(this))
+	, m_pSortDlg(new SubmenuDialog(this))
 	, ui(new Ui::MusicInfo)
 {
 	ui->setupUi(this);
@@ -27,7 +29,8 @@ MusicInfo::MusicInfo(QWidget *parent)
 	ui->frameSort->installEventFilter(this);
 	ui->frameSort2->installEventFilter(this);
 
-
+	SetCategoryDialog();
+	SetSortDialog();
 }
 
 MusicInfo::~MusicInfo()
@@ -167,5 +170,65 @@ void MusicInfo::ShowSortDialog()
 	{
 		m_pSortDlg->close();
 	}
+}
+
+void MusicInfo::SetCategoryDialog()
+{
+	QList<CJsonNode> list;
+
+	QList<int> listID = {
+		CAT_GENRE,
+		CAT_MOOD,
+		CAT_FOLDER,
+		CAT_YEAR
+	};
+	QList<QString> listName = {
+		"Sorted by Genre",
+		"Sorted by Mood",
+		"Sorted by Folder",
+		"Sorted by Year"
+	};
+
+	CJsonNode node(JSON_OBJECT);
+	for (int i = 0; i < listID.count(); i++)
+	{
+		node.AddInt(KEY_ID_UPPER, listID.at(i));
+		node.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+		node.Add(KEY_NAME, listName.at(i));
+		list.append(node);
+	}
+	m_pCatDlg->SetItemList(list);
+}
+
+void MusicInfo::SetSortDialog()
+{
+	QList<CJsonNode> list;
+
+	QList<int> listID = {
+		SORT_BY_GENRE,
+		SORT_BY_MOOD,
+		SORT_BY_FOLDER,
+		SORT_BY_YEAR,
+		SORT_BY_RATING,
+		SORT_BY_SAMPLE_RATE
+	};
+	QList<QString> listName = {
+		"Sorted by Genre",
+		"Sorted by Mood",
+		"Sorted by Folder",
+		"Sorted by Year",
+		"Sorted by Rating",
+		"Sorted by Sample rate"
+	};
+
+	CJsonNode node(JSON_OBJECT);
+	for (int i = 0; i < listID.count(); i++)
+	{
+		node.AddInt(KEY_ID_UPPER, listID.at(i));
+		node.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+		node.Add(KEY_NAME, listName.at(i));
+		list.append(node);
+	}
+	m_pSortDlg->SetItemList(list);
 }
 

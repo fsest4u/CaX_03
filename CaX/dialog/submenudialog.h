@@ -1,27 +1,34 @@
-#ifndef CATEGORYDIALOG_H
-#define CATEGORYDIALOG_H
+#ifndef SUBMENUDIALOG_H
+#define SUBMENUDIALOG_H
 
 #include <QDialog>
 #include <QModelIndex>
 
+#include "util/CJsonNode.h"
+
+
 namespace Ui {
-class CategoryDialog;
+class SubmenuDialog;
 }
 
 class QListView;
 class QStandardItemModel;
 class CategoryDelegate;
 
-class CategoryDialog : public QDialog
+class SubmenuDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit CategoryDialog(QWidget *parent = nullptr);
-	~CategoryDialog();
+	explicit SubmenuDialog(QWidget *parent = nullptr);
+	~SubmenuDialog();
 
 	int GetID() const;
 	void SetID(int nID);
+
+	QList<CJsonNode> GetItemList() const;
+	void SetItemList(const QList<CJsonNode> &ItemList);
+	void ClearItemList();
 
 signals:
 
@@ -33,6 +40,8 @@ private slots:
 
 private:
 
+
+
 	void Initialize();
 	void SetMenu();
 	void ClearMenu();
@@ -41,9 +50,11 @@ private:
 	QStandardItemModel	*m_Model;
 	CategoryDelegate	*m_Delegate;
 
+	QList<CJsonNode>	m_ItemList;
+
 	int					m_nID;
 
-	Ui::CategoryDialog *ui;
+	Ui::SubmenuDialog *ui;
 };
 
-#endif // CATEGORYDIALOG_H
+#endif // SUBMENUDIALOG_H

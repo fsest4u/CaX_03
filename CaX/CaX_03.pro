@@ -9,12 +9,10 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dialog/categorydelegate.cpp \
-    dialog/categorydialog.cpp \
     dialog/logindialog.cpp \
     dialog/searchdialog.cpp \
-    dialog/sortdelegate.cpp \
-    dialog/sortdialog.cpp \
+    dialog/submenudelegate.cpp \
+    dialog/submenudialog.cpp \
     dialog/webengineviewdialog.cpp \
     main.cpp \
     manager/airablemanager.cpp \
@@ -74,13 +72,11 @@ SOURCES += \
     widget/topwindow.cpp
 
 HEADERS += \
-    dialog/categorydelegate.h \
-    dialog/categorydialog.h \
     dialog/logindialog.h \
     dialog/requestinterceptor.h \
     dialog/searchdialog.h \
-    dialog/sortdelegate.h \
-    dialog/sortdialog.h \
+    dialog/submenudelegate.h \
+    dialog/submenudialog.h \
     dialog/webengineviewdialog.h \
     manager/airablemanager.h \
     manager/appmanager.h \
@@ -147,10 +143,9 @@ HEADERS += \
     widget/topwindow.h
 
 FORMS += \
-    dialog/categorydialog.ui \
     dialog/logindialog.ui \
     dialog/searchdialog.ui \
-    dialog/sortdialog.ui \
+    dialog/submenudialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
     widget/base/albuminfo.ui \

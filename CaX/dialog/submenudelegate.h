@@ -4,7 +4,6 @@
 #include <QStyledItemDelegate>
 
 #define CATEGORY_ROLE_NONE	100
-#define CATEGORY_TYPE_NONE	200
 
 class CategoryDelegate : public QStyledItemDelegate
 {
@@ -18,13 +17,7 @@ public:
 		CAT_ROLE_MAX
 	};
 
-	enum categoryType {
-		CAT_GENRE = Qt::UserRole + CATEGORY_TYPE_NONE,
-		CAT_MOOD,
-		CAT_FOLDER,
-		CAT_YEAR,
-		CAT_MAX
-	};
+
 
 private:
 
