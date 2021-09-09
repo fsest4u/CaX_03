@@ -25,18 +25,16 @@ public:
 
 private slots:
 
-//	void SlotSubmenu();
-
+	void SlotSubmenu(int nID);
 	void SlotSelectCoverArt(int nType);
-
 	void SlotRespList(QList<CJsonNode> list);
-
+	void SlotRespRecordList(QList<CJsonNode> list);
 
 private:
 
 	void ConnectSigToSlot();
 
-	void SetFmRadioHome(QList<CJsonNode> &list);
+	void SetHome(QList<CJsonNode> &list);
 
 	FmRadioManager	*m_pMgr;
 	MenuInfo			*m_pMenuInfo;

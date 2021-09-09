@@ -4,7 +4,6 @@
 #include "ui_musicinfo.h"
 
 #include "dialog/submenudialog.h"
-#include "dialog/sortdialog.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -132,45 +131,6 @@ bool MusicInfo::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
-void MusicInfo::ShowCategoryDialog()
-{
-	if (m_pCatDlg->isHidden())
-	{
-		m_pCatDlg->move(mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).x() - m_pCatDlg->width()
-						, mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).y());
-
-		if (m_pCatDlg->exec())
-		{
-			int id = m_pCatDlg->GetID();
-			LogDebug("sort type id [%d]", id);
-			// emit signal sort...
-		}
-	}
-	else
-	{
-		m_pCatDlg->close();
-	}
-}
-
-void MusicInfo::ShowSortDialog()
-{
-	if (m_pSortDlg->isHidden())
-	{
-		m_pSortDlg->move(mapToGlobal(this->geometry().bottomRight()).x() - m_pSortDlg->width()
-						 , mapToGlobal(this->geometry().bottomRight()).y());
-
-		if (m_pSortDlg->exec())
-		{
-			int id = m_pSortDlg->GetID();
-			LogDebug("sort type id [%d]", id);
-			// emit signal sort...
-		}
-	}
-	else
-	{
-		m_pSortDlg->close();
-	}
-}
 
 void MusicInfo::SetCategoryDialog()
 {
@@ -232,3 +192,42 @@ void MusicInfo::SetSortDialog()
 	m_pSortDlg->SetItemList(list);
 }
 
+void MusicInfo::ShowCategoryDialog()
+{
+	if (m_pCatDlg->isHidden())
+	{
+		m_pCatDlg->move(mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).x() - m_pCatDlg->width()
+						, mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).y());
+
+		if (m_pCatDlg->exec())
+		{
+			int id = m_pCatDlg->GetID();
+			LogDebug("sort type id [%d]", id);
+			// emit signal sort...
+		}
+	}
+	else
+	{
+		m_pCatDlg->close();
+	}
+}
+
+void MusicInfo::ShowSortDialog()
+{
+	if (m_pSortDlg->isHidden())
+	{
+		m_pSortDlg->move(mapToGlobal(this->geometry().bottomRight()).x() - m_pSortDlg->width()
+						 , mapToGlobal(this->geometry().bottomRight()).y());
+
+		if (m_pSortDlg->exec())
+		{
+			int id = m_pSortDlg->GetID();
+			LogDebug("sort type id [%d]", id);
+			// emit signal sort...
+		}
+	}
+	else
+	{
+		m_pSortDlg->close();
+	}
+}

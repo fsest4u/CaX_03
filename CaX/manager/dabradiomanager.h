@@ -12,11 +12,11 @@ public:
 
 	void RequestList();
 	void RequestPlay(int index);
-	void RequestSeek();
+	void RequestSeek(bool bDel);
 	void RequestSeekStop();
 //	void RequestAdd();
-	void RequestDelete();
-	void RequestSet();
+	void RequestDelete(int index);
+	void RequestSet(int index, QString name);
 	void RequestRecordList();
 	void RequestRecordSet();
 
@@ -24,6 +24,7 @@ signals:
 
 	void SigRespError(QString errMsg);
 	void SigRespList(QList<CJsonNode> list);
+	void SigRespRecordList(QList<CJsonNode> list);
 
 private slots:
 
@@ -45,6 +46,8 @@ private:
 	};
 
 	void ParseList(CJsonNode node);
+	void ParseRecordList(CJsonNode node);
+
 };
 
 #endif // DABRADIOMANAGER_H

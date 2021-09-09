@@ -40,7 +40,9 @@
 #define		KEY_KEYWORD			"Str"
 #define		KEY_LEFT			"Left"
 #define		KEY_RIGHT			"Right"
-#define		KEY_APP			"App"
+#define		KEY_APP				"App"
+#define		KEY_CLEAR			"Clear"
+#define		KEY_FREQ			"Freq"
 
 
 //////////////////////////////////////////////////
@@ -79,6 +81,12 @@
 #define		VAL_INPUT			"Input"
 #define		VAL_FM_RADIO		"FmRadio"
 #define		VAL_DAB_RADIO		"Dab"
+#define		VAL_SEEK			"Seek"
+#define		VAL_SEEK_STOP		"SeekStop"
+#define		VAL_ADD				"Add"
+#define		VAL_DEL				"Del"
+#define		VAL_SET				"Set"
+#define		VAL_RECORD_LIST		"RecordList"
 
 
 //////////////////////////////////////////////////

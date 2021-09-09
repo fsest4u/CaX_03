@@ -122,12 +122,12 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 //		{
 //			if (!ParseGroupPlayEvent(node))	{	continue;	}
 //		}
-//		else
-//		{
-//			LoggingError("====================================");
-//			LoggingError("This command is not supported [%s]", strCmd0.toUtf8().data());
-//			LoggingError("====================================");
-//		}
+		else
+		{
+			LogWarning("====================================");
+			LogWarning("This command is not supported [%s]", strCmd0.toUtf8().data());
+			LogWarning("====================================");
+		}
 	}
 }
 

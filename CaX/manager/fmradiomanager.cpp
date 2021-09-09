@@ -36,39 +36,71 @@ void FmRadioManager::RequestPlay(int index)
 	RequestCommand(node, FM_PLAY);
 }
 
-void FmRadioManager::RequestSeek()
+void FmRadioManager::RequestSeek(bool bDel)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_SEEK);
+	node.Add	(KEY_CLEAR,		bDel);
 
+	RequestCommand(node, FM_SEEK);
 }
 
 void FmRadioManager::RequestSeekStop()
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_SEEK_STOP);
 
+	RequestCommand(node, FM_SEEK_STOP);
 }
 
-void FmRadioManager::RequestAdd()
+void FmRadioManager::RequestAdd(int64_t freq, QString name)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_ADD);
+	node.Add	(KEY_FREQ,		freq);
+	node.Add	(KEY_NAME,		name);
 
+	RequestCommand(node, FM_ADD);
 }
 
-void FmRadioManager::RequestDelete()
+void FmRadioManager::RequestDelete(int index)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_DEL);
+	node.AddInt	(KEY_INDEX,		index);
 
+	RequestCommand(node, FM_DELETE);
 }
 
-void FmRadioManager::RequestSet()
+void FmRadioManager::RequestSet(int index, QString name)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_SET);
+	node.AddInt	(KEY_INDEX,		index);
+	node.Add	(KEY_NAME,		name);
 
+	RequestCommand(node, FM_SET);
 }
 
 void FmRadioManager::RequestRecordList()
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_RECORD_LIST);
 
+	RequestCommand(node, FM_RECORD_LIST);
 }
 
 void FmRadioManager::RequestRecordSet()
 {
+	CJsonNode node(JSON_OBJECT);
 
+	RequestCommand(node, FM_RECORD_SET);
 }
 
 void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
@@ -102,6 +134,12 @@ void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 		ParseList(node);
 		break;
 	case FM_PLAY:
+	case FM_SEEK:
+	case FM_ADD:
+	case FM_DELETE:
+		break;
+	case FM_RECORD_LIST:
+		ParseRecordList(node);
 		break;
 	case FM_MAX:
 		LogWarning("Invalid command ID");
@@ -126,4 +164,22 @@ void FmRadioManager::ParseList(CJsonNode node)
 	}
 
 	emit SigRespList(nodeList);
+}
+
+void FmRadioManager::ParseRecordList(CJsonNode node)
+{
+	CJsonNode result;
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+	{
+		emit SigRespError("there is no result");
+		return;
+	}
+
+	QList<CJsonNode> nodeList;
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		nodeList.append(result.GetArrayAt(i));
+	}
+
+	emit SigRespRecordList(nodeList);
 }

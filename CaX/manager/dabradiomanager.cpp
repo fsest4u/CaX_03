@@ -36,34 +36,60 @@ void DabRadioManager::RequestPlay(int index)
 	RequestCommand(node, DAB_PLAY);
 }
 
-void DabRadioManager::RequestSeek()
+void DabRadioManager::RequestSeek(bool bDel)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_DAB_RADIO);
+	node.Add	(KEY_CMD1,		VAL_SEEK);
+	node.Add	(KEY_CLEAR,		bDel);
 
+	RequestCommand(node, DAB_SEEK);
 }
 
 void DabRadioManager::RequestSeekStop()
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_DAB_RADIO);
+	node.Add	(KEY_CMD1,		VAL_SEEK_STOP);
 
+	RequestCommand(node, DAB_SEEK_STOP);
 }
 
-void DabRadioManager::RequestDelete()
+void DabRadioManager::RequestDelete(int index)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_DAB_RADIO);
+	node.Add	(KEY_CMD1,		VAL_DEL);
+	node.AddInt	(KEY_INDEX,		index);
 
+	RequestCommand(node, DAB_DELETE);
 }
 
-void DabRadioManager::RequestSet()
+void DabRadioManager::RequestSet(int index, QString name)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_DAB_RADIO);
+	node.Add	(KEY_CMD1,		VAL_SET);
+	node.AddInt	(KEY_INDEX,		index);
+	node.Add	(KEY_NAME,		name);
 
+	RequestCommand(node, DAB_SET);
 }
 
 void DabRadioManager::RequestRecordList()
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_DAB_RADIO);
+	node.Add	(KEY_CMD1,		VAL_RECORD_LIST);
 
+	RequestCommand(node, DAB_RECORD_LIST);
 }
 
 void DabRadioManager::RequestRecordSet()
 {
+	CJsonNode node(JSON_OBJECT);
 
+	RequestCommand(node, DAB_RECORD_SET);
 }
 
 void DabRadioManager::SlotRespInfo(QString json, int nCmdID)
@@ -97,6 +123,12 @@ void DabRadioManager::SlotRespInfo(QString json, int nCmdID)
 		ParseList(node);
 		break;
 	case DAB_PLAY:
+	case DAB_SEEK:
+	case DAB_SEEK_STOP:
+	case DAB_DELETE:
+		break;
+	case DAB_RECORD_LIST:
+		ParseRecordList(node);
 		break;
 	case DAB_MAX:
 		LogWarning("Invalid command ID");
@@ -120,4 +152,22 @@ void DabRadioManager::ParseList(CJsonNode node)
 	}
 
 	emit SigRespList(nodeList);
+}
+
+void DabRadioManager::ParseRecordList(CJsonNode node)
+{
+	CJsonNode result;
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+	{
+		emit SigRespError("there is no result");
+		return;
+	}
+
+	QList<CJsonNode> nodeList;
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		nodeList.append(result.GetArrayAt(i));
+	}
+
+	emit SigRespRecordList(nodeList);
 }

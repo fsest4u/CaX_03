@@ -25,15 +25,16 @@ public:
 
 private slots:
 
+	void SlotSubmenu(int nID);
 	void SlotSelectCoverArt(int nType);
-
 	void SlotRespList(QList<CJsonNode> list);
+	void SlotRespRecordList(QList<CJsonNode> list);
 
 private:
 
 	void ConnectSigToSlot();
 
-	void SetDabRadioHome(QList<CJsonNode> &list);
+	void SetHome(QList<CJsonNode> &list);
 
 	DabRadioManager	*m_pMgr;
 	MenuInfo		*m_pMenuInfo;

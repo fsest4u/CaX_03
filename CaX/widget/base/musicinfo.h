@@ -63,11 +63,11 @@ private:
 		SORT_BY_MAX
 	};
 
-	void ShowCategoryDialog();
-	void ShowSortDialog();
-
 	void SetCategoryDialog();
 	void SetSortDialog();
+
+	void ShowCategoryDialog();
+	void ShowSortDialog();
 
 	SubmenuDialog	*m_pCatDlg;
 	SubmenuDialog	*m_pSortDlg;
