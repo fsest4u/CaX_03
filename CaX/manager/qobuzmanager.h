@@ -12,8 +12,8 @@ public:
 
 	void RequestLogin(QString userID = "", QString password = "");
 	void RequestSearch(int nType, QString keyword, int nStart, int nCount);
-	void RequestGenre();
-	void RequestRecommend(int nType, QString strID, int nStart, int nCount);
+	void RequestGenre(QString strID = "");
+	void RequestRecommend(int nType, QString strID, int nStart, int nCount, QString strGenreID = "");
 	void RequestFavorite(int nType, int nStart, int nCount);
 	void RequestPlaylist(int nStart, int nCount);
 	void RequestCategory(int nType, QString strID, int nStart, int nCount);
@@ -29,6 +29,7 @@ signals:
 	void SigRespLoginSuccess();
 
 	void SigRespList(QList<CJsonNode> nodeList);
+	void SigRespGenreSubList(QList<CJsonNode> nodeList);
 
 private slots:
 
@@ -41,6 +42,7 @@ private:
 		QOBUZ_CATEGORY,
 		QOBUZ_SEARCH,
 		QOBUZ_GENRE,
+		QOBUZ_GENRE_SUB,
 		QOBUZ_RECOMMEND,
 		QOBUZ_FAVORITE,
 		QOBUZ_PLAYLIST,
@@ -51,6 +53,7 @@ private:
 	};
 
 	void ParseList(CJsonNode node);
+	void ParseGenreSubList(CJsonNode node);
 
 };
 

@@ -29,8 +29,8 @@ public:
 
 	void RequestIServiceURL(int nServiceType, QString url = "");
 	void RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount);
-	void RequestQobuzGenre();
-	void RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount);
+	void RequestQobuzGenre(QString strID = "");
+	void RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount, QString strGenreID = "");
 	void RequestQobuzFavorite(int nType, int nStart, int nCount);
 	void RequestQobuzPlaylist(int nStart, int nCount);
 	void RequestQobuzCategory(int nType, QString strID, int nStart, int nCount);
@@ -69,6 +69,7 @@ private slots:
 	void SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAuth);
 
 	void SlotRespList(QList<CJsonNode> list);
+	void SlotRespGenreSubList(QList<CJsonNode> list);
 
 	void SlotRespAuth(int nServiceType);
 	void SlotRespURL(int nServiceType, QList<CJsonNode> list);
@@ -85,6 +86,7 @@ private:
 
 	void DoRecommendAlbum();
 	void DoRecommendPlaylist();
+	void DoRecommendGenre(int nType, QString strID);
 
 	void SetIServiceHome(QList<CJsonNode> &srclist);
 	void SetQobuzHome(QList<CJsonNode> &srclist);
@@ -94,6 +96,7 @@ private:
 
 	void SetRecommendAlbum(QList<CJsonNode> &srclist);
 	void SetRecommendPlaylist(QList<CJsonNode> &srclist);
+	void SetRecommendGenre(QList<CJsonNode> &srclist, QString strID);
 
 
 	AirableManager		*m_pAirableMgr;
@@ -106,6 +109,8 @@ private:
 
 	QString				m_WebURL;
 	int					m_ServiceType;
+
+	bool				m_bGenreSubmenu;
 
 
 	Ui::IServiceWindow *ui;

@@ -45,16 +45,22 @@ void QobuzManager::RequestSearch(int nType, QString keyword, int nStart, int nCo
 	RequestCommand(node, QOBUZ_SEARCH);
 }
 
-void QobuzManager::RequestGenre()
+void QobuzManager::RequestGenre(QString strID)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0,		VAL_QOBUZ);
 	node.Add(KEY_CMD1,		VAL_GENRE);
+	int nCmdID = QOBUZ_GENRE;
+	if (!strID.isEmpty())
+	{
+		node.Add(KEY_ID_UPPER, strID);
+		nCmdID = QOBUZ_GENRE_SUB;
+	}
 
-	RequestCommand(node, QOBUZ_GENRE);
+	RequestCommand(node, nCmdID);
 }
 
-void QobuzManager::RequestRecommend(int nType, QString strID, int nStart, int nCount)
+void QobuzManager::RequestRecommend(int nType, QString strID, int nStart, int nCount, QString strGenreID)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0,		VAL_QOBUZ);
@@ -63,6 +69,10 @@ void QobuzManager::RequestRecommend(int nType, QString strID, int nStart, int nC
 	node.Add(KEY_ID_UPPER,		strID);
 	node.AddInt(KEY_START,		nStart);
 	node.AddInt(KEY_COUNT,		nCount);
+	if (!strGenreID.isEmpty())
+	{
+		node.Add(KEY_GENRE_ID, strGenreID);
+	}
 
 	RequestCommand(node, QOBUZ_RECOMMEND);
 }
@@ -186,6 +196,9 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 		case QOBUZ_PLAYLIST:
 			ParseList(node);
 			break;
+		case QOBUZ_GENRE_SUB:
+			ParseGenreSubList(node);
+			break;
 		case QOBUZ_PLAY:
 			break;
 		case QOBUZ_ADD:
@@ -216,5 +229,23 @@ void QobuzManager::ParseList(CJsonNode node)
 	}
 
 	emit SigRespList(nodeList);
+}
+
+void QobuzManager::ParseGenreSubList(CJsonNode node)
+{
+	CJsonNode result;
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+	{
+		emit SigRespError("there is no result");
+		return;
+	}
+
+	QList<CJsonNode> nodeList;
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		nodeList.append(result.GetArrayAt(i));
+	}
+
+	emit SigRespGenreSubList(nodeList);
 }
 

@@ -51,6 +51,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr)
 
 	m_pMenuInfo->SetSubmenuIService();
 
+	m_bGenreSubmenu = false;
 }
 
 IServiceWindow::~IServiceWindow()
@@ -122,20 +123,20 @@ void IServiceWindow::RequestQobuzSearch(int nType, QString keyword, int nStart, 
 	m_pQobuzMgr->RequestSearch(nType, keyword, nStart, nCount);
 }
 
-void IServiceWindow::RequestQobuzGenre()
+void IServiceWindow::RequestQobuzGenre(QString strID)
 {
 	ui->gridLayoutTop->addWidget(m_pMenuInfo);
 	ui->gridLayoutBottom->addWidget(m_pMenuList);
 
-	m_pQobuzMgr->RequestGenre();
+	m_pQobuzMgr->RequestGenre(strID);
 }
 
-void IServiceWindow::RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount)
+void IServiceWindow::RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount, QString strGenreID)
 {
 	ui->gridLayoutTop->addWidget(m_pMenuInfo);
 	ui->gridLayoutBottom->addWidget(m_pMenuList);
 
-	m_pQobuzMgr->RequestRecommend(nType, strID, nStart, nCount);
+	m_pQobuzMgr->RequestRecommend(nType, strID, nStart, nCount, strGenreID);
 }
 
 void IServiceWindow::RequestQobuzFavorite(int nType, int nStart, int nCount)
@@ -322,15 +323,43 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 
 		if (nType & iQobuzType_Mask_Track)
 		{
-			LogDebug("click qobuz track");
 			m_pQobuzMgr->RequestPlay(node);
 
 		}
-		else
+		else if (m_bGenreSubmenu)
+		{
+			LogDebug("fixed genre submenu display...");
+			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+			emit SigAddWidget(widget);
+			widget->DoRecommendGenre(nType, strID);
+		}
+		else if (nType & iQobuzType_Mask_Album)
 		{
 			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 			emit SigAddWidget(widget);
 			widget->RequestQobuzCategory(nType, strID, 0, 50);
+		}
+		else if (nType & iQobuzType_Mask_Menu_Genre)
+		{
+			int nItemType = node.GetInt("ItemType");
+			if (nItemType & iQobuzType_Mask_Album)
+			{
+				QString strGenreID = node.GetString(KEY_GENRE_ID);
+
+				IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+				emit SigAddWidget(widget);
+				widget->RequestQobuzRecommend(nType, strID, 0, 50, strGenreID);
+			}
+			else
+			{
+				IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+				emit SigAddWidget(widget);
+				widget->RequestQobuzGenre(strID);
+			}
+		}
+		else
+		{
+			LogDebug("not supported");
 		}
 	}
 	else
@@ -442,6 +471,12 @@ void IServiceWindow::SlotRespList(QList<CJsonNode> list)
 
 }
 
+void IServiceWindow::SlotRespGenreSubList(QList<CJsonNode> list)
+{
+	m_pMenuList->SetNodeList(list);
+	m_bGenreSubmenu = true;
+}
+
 void IServiceWindow::SlotRespAuth(int nServiceType)
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
@@ -493,6 +528,7 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
 	connect(m_pQobuzMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
+	connect(m_pQobuzMgr, SIGNAL(SigRespGenreSubList(QList<CJsonNode>)), this, SLOT(SlotRespGenreSubList(QList<CJsonNode>)));
 
 
 	connect(m_pAirableMgr, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
@@ -554,7 +590,6 @@ void IServiceWindow::DoQobuzFavorite()
 	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
-
 void IServiceWindow::DoRecommendAlbum()
 {
 	ui->gridLayoutTop->addWidget(m_pMenuInfo);
@@ -579,7 +614,17 @@ void IServiceWindow::DoRecommendPlaylist()
 	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
 }
 
+void IServiceWindow::DoRecommendGenre(int nType, QString strID)
+{
+	ui->gridLayoutTop->addWidget(m_pMenuInfo);
+	ui->gridLayoutBottom->addWidget(m_pMenuList);
 
+	QList<CJsonNode> list;
+	SetRecommendGenre(list, strID);
+
+	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
+	m_pMenuList->SetNodeList(list);
+}
 void IServiceWindow::SetIServiceHome(QList<CJsonNode> &srclist)
 {
 	QList<CJsonNode> dstList;
@@ -770,7 +815,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	nodeGenre.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
 	nodeGenre.Add(KEY_NAME, "Genre");
 	nodeGenre.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
-	nodeGenre.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeGenre.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeGenre.AddInt("MenuDepth", 2);
 
 	CJsonNode nodeBestSellers(JSON_OBJECT);
@@ -779,7 +824,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	nodeBestSellers.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
 	nodeBestSellers.Add(KEY_NAME, "BestSellers");
 	nodeBestSellers.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
-	nodeBestSellers.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeBestSellers.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeBestSellers.AddInt("MenuDepth", 2);
 
 	CJsonNode nodeMostStreamd(JSON_OBJECT);
@@ -788,7 +833,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	nodeMostStreamd.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
 	nodeMostStreamd.Add(KEY_NAME, "MostStreamd");
 	nodeMostStreamd.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
-	nodeMostStreamd.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeMostStreamd.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeMostStreamd.AddInt("MenuDepth", 2);
 
 	CJsonNode nodeNewReleases(JSON_OBJECT);
@@ -797,7 +842,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	nodeNewReleases.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
 	nodeNewReleases.Add(KEY_NAME, "NewReleases");
 	nodeNewReleases.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
-	nodeNewReleases.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeNewReleases.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeNewReleases.AddInt("MenuDepth", 2);
 
 	CJsonNode nodePressAward(JSON_OBJECT);
@@ -806,7 +851,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	nodePressAward.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
 	nodePressAward.Add(KEY_NAME, "PressAward");
 	nodePressAward.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
-	nodePressAward.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodePressAward.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodePressAward.AddInt("MenuDepth", 2);
 
 	CJsonNode nodeEditorPicks(JSON_OBJECT);
@@ -815,7 +860,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	nodeEditorPicks.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
 	nodeEditorPicks.Add(KEY_NAME, "EditorPicks");
 	nodeEditorPicks.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
-	nodeEditorPicks.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeEditorPicks.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeEditorPicks.AddInt("MenuDepth", 2);
 
 	CJsonNode nodeMostFeatured(JSON_OBJECT);
@@ -824,7 +869,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	nodeMostFeatured.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
 	nodeMostFeatured.Add(KEY_NAME, "MostFeatured");
 	nodeMostFeatured.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
-	nodeMostFeatured.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeMostFeatured.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeMostFeatured.AddInt("MenuDepth", 2);
 
 	srclist.append(nodeGenre);
@@ -858,4 +903,74 @@ void IServiceWindow::SetRecommendPlaylist(QList<CJsonNode> &srclist)
 
 	srclist.append(nodeLastCreated);
 	srclist.append(nodeEditorPicks);
+}
+
+void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &srclist, QString strID)
+{
+	CJsonNode nodeBestSellers(JSON_OBJECT);
+	nodeBestSellers.Add(KEY_ID_UPPER, "best-sellers");
+	nodeBestSellers.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
+	nodeBestSellers.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeBestSellers.Add(KEY_TOP, "BestSellers");
+	nodeBestSellers.Add(KEY_GENRE_ID, strID);
+	nodeBestSellers.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
+	nodeBestSellers.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeBestSellers.AddInt("MenuDepth", 2);
+
+	CJsonNode nodeMostStreamd(JSON_OBJECT);
+	nodeMostStreamd.Add(KEY_ID_UPPER, "most-streamed");
+	nodeMostStreamd.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
+	nodeMostStreamd.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeMostStreamd.Add(KEY_TOP, "MostStreamd");
+	nodeMostStreamd.Add(KEY_GENRE_ID, strID);
+	nodeMostStreamd.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
+	nodeMostStreamd.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeMostStreamd.AddInt("MenuDepth", 2);
+
+	CJsonNode nodeNewReleases(JSON_OBJECT);
+	nodeNewReleases.Add(KEY_ID_UPPER, "new-releases");
+	nodeNewReleases.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
+	nodeNewReleases.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeNewReleases.Add(KEY_TOP, "NewReleases");
+	nodeNewReleases.Add(KEY_GENRE_ID, strID);
+	nodeNewReleases.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
+	nodeNewReleases.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeNewReleases.AddInt("MenuDepth", 2);
+
+	CJsonNode nodePressAward(JSON_OBJECT);
+	nodePressAward.Add(KEY_ID_UPPER, "press-awards");
+	nodePressAward.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
+	nodePressAward.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodePressAward.Add(KEY_TOP, "PressAward");
+	nodePressAward.Add(KEY_GENRE_ID, strID);
+	nodePressAward.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
+	nodePressAward.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodePressAward.AddInt("MenuDepth", 2);
+
+	CJsonNode nodeEditorPicks(JSON_OBJECT);
+	nodeEditorPicks.Add(KEY_ID_UPPER, "editor-picks");
+	nodeEditorPicks.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
+	nodeEditorPicks.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeEditorPicks.Add(KEY_TOP, "EditorPicks");
+	nodeEditorPicks.Add(KEY_GENRE_ID, strID);
+	nodeEditorPicks.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
+	nodeEditorPicks.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeEditorPicks.AddInt("MenuDepth", 2);
+
+	CJsonNode nodeMostFeatured(JSON_OBJECT);
+	nodeMostFeatured.Add(KEY_ID_UPPER, "most-featured");
+	nodeMostFeatured.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
+	nodeMostFeatured.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeMostFeatured.Add(KEY_TOP, "MostFeatured");
+	nodeMostFeatured.Add(KEY_GENRE_ID, strID);
+	nodeMostFeatured.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
+	nodeMostFeatured.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
+	nodeMostFeatured.AddInt("MenuDepth", 2);
+
+	srclist.append(nodeBestSellers);
+	srclist.append(nodeMostStreamd);
+	srclist.append(nodeNewReleases);
+	srclist.append(nodePressAward);
+	srclist.append(nodeEditorPicks);
+	srclist.append(nodeMostFeatured);
 }

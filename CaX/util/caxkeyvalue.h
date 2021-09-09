@@ -43,6 +43,7 @@
 #define		KEY_APP				"App"
 #define		KEY_CLEAR			"Clear"
 #define		KEY_FREQ			"Freq"
+#define		KEY_GENRE_ID		"GenreID"
 
 
 //////////////////////////////////////////////////
