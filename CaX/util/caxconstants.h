@@ -54,8 +54,8 @@
 #define COVERART_HEIGHT				100
 #define CATEGORY_CONT_WIDTH			100
 #define CATEGORY_CONT_HEIGHT		100
-#define SONG_CONT_WIDTH				70
-#define SONG_CONT_HEIGHT			70
+#define SONG_CONT_WIDTH				30
+#define SONG_CONT_HEIGHT			30
 
 
 //////////////////////////////////////////////////

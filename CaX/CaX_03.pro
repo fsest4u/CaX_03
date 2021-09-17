@@ -101,15 +101,14 @@ HEADERS += \
     util/StringLib.h \
     util/TMapData.h \
     util/TMapDataDef.h \
-    util/airable.h \
     util/caxconstants.h \
     util/caxkeyvalue.h \
     util/loading.h \
     util/log.h \
-    util/qobuz.h \
     util/settingio.h \
     util/sqlconstatns.h \
     util/waitingspinnerwidget.h \
+    widget/airable.h \
     widget/audiocdwindow.h \
     widget/base/albuminfo.h \
     widget/base/categoryconts.h \
@@ -127,6 +126,7 @@ HEADERS += \
     widget/base/songcontscover.h \
     widget/base/songcontsdelegate.h \
     widget/base/songcontseditor.h \
+    widget/browser.h \
     widget/browserwindow.h \
     widget/dabradiowindow.h \
     widget/fmradiowindow.h \
@@ -137,6 +137,7 @@ HEADERS += \
     widget/mymusicwindow.h \
     widget/playlistwindow.h \
     widget/playwindow.h \
+    widget/qobuz.h \
     widget/setupwindow.h \
     widget/sidemenu.h \
     widget/sidemenudelegate.h \

@@ -9,8 +9,8 @@
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
-#include "util/airable.h"
-#include "util/qobuz.h"
+#include "widget/airable.h"
+#include "widget/qobuz.h"
 
 #include "base/menuinfo.h"
 #include "base/menuicon.h"
@@ -22,25 +22,22 @@
 #include "dialog/webengineviewdialog.h"
 #include "dialog/searchdialog.h"
 
-#include "manager/airablemanager.h"
-#include "manager/qobuzmanager.h"
-
 #define ISERVICE_TITLE	"Internet Service"
-#define QOBUZ_TITLE	"Qobuz"
+#define QOBUZ_TITLE		"Qobuz"
 
 
 
-IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr)
-	: QWidget(parent)
-	, m_pAirableMgr(new AirableManager)
-	, m_pQobuzMgr(new QobuzManager)
-	, m_pMenuInfo(new MenuInfo(this))
-	, m_pMenuIcon(new MenuIcon(this))
-	, m_pMenuList(new MenuList(this))
-	, m_pLoading(new Loading(parent))
-	, m_WebURL("")
-	, m_ServiceType(-1)
-	, ui(new Ui::IServiceWindow)
+IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
+	QWidget(parent),
+	m_pAirableMgr(new AirableManager),
+	m_pQobuzMgr(new QobuzManager),
+	m_pMenuInfo(new MenuInfo(this)),
+	m_pMenuIcon(new MenuIcon(this)),
+	m_pMenuList(new MenuList(this)),
+	m_pLoading(new Loading(parent)),
+	m_WebURL(""),
+	m_ServiceType(-1),
+	ui(new Ui::IServiceWindow)
 {
 	ui->setupUi(this);
 
