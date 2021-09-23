@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>936</width>
-    <height>77</height>
+    <height>97</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,6 +59,17 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QLabel" name="labelTitle">
+        <property name="font">
+         <font>
+          <family>Segoe UI Semibold</family>
+          <pointsize>22</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>title</string>
         </property>
@@ -66,6 +77,15 @@
       </item>
       <item>
        <widget class="QLabel" name="labelArtist">
+        <property name="font">
+         <font>
+          <family>Segoe UI Semilight</family>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>artist</string>
         </property>
@@ -109,50 +129,204 @@
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QPushButton" name="btnInfo">
+           <property name="minimumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  border-image: url(:/resource/Icon-playinfo-20.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playinfo-20-o.png);
+}</string>
+           </property>
            <property name="text">
-            <string>info</string>
+            <string/>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnPlaylist">
+           <property name="minimumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  border-image: url(:/resource/Icon-playtext-20.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playtext-20-o.png);
+}
+</string>
+           </property>
            <property name="text">
-            <string>playlist</string>
+            <string/>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnPrev">
-           <property name="text">
-            <string>prev</string>
+           <property name="minimumSize">
+            <size>
+             <width>26</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>26</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  border-image: url(:/resource/Icon-playrew-26.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playrew-26-o.png);
+}
+
+</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnPlay">
-           <property name="text">
-            <string>play/pause</string>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  border-image: url(:/resource/Icon-playplay-40.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playplay-40-o.png);
+}
+
+</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnNext">
-           <property name="text">
-            <string>next</string>
+           <property name="minimumSize">
+            <size>
+             <width>26</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>26</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  border-image: url(:/resource/Icon-playff-26.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playff-26-o.png);
+}
+</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnRandom">
-           <property name="text">
-            <string>random</string>
+           <property name="minimumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  border-image: url(:/resource/Icon-playrandom-20.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playrandom-20-o.png);
+}
+</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnRepeat">
-           <property name="text">
-            <string>repeat</string>
+           <property name="minimumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  border-image: url(:/resource/Icon-playreplay1-20.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playreplay1-20-o.png);
+}
+</string>
            </property>
           </widget>
          </item>
@@ -170,8 +344,16 @@
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLabel" name="labelCurTime">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semilight</family>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255, 255, 255);</string>
+           </property>
            <property name="text">
-            <string>TextLabel</string>
+            <string>00:00</string>
            </property>
           </widget>
          </item>
@@ -184,8 +366,16 @@
          </item>
          <item>
           <widget class="QLabel" name="labelTotalTime">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semilight</family>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255, 255, 255);</string>
+           </property>
            <property name="text">
-            <string>TextLabel</string>
+            <string>00:00</string>
            </property>
           </widget>
          </item>
@@ -206,15 +396,39 @@
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <widget class="QPushButton" name="btnDevice">
-        <property name="text">
-         <string>device</string>
+        <property name="minimumSize">
+         <size>
+          <width>52</width>
+          <height>30</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelDevice">
+        <property name="maximumSize">
+         <size>
+          <width>52</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI Semilight</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+  color: rgb(255, 255, 255);
+  border-image: url(:/resource/Icon-playdevices-52.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playdevices-52-o.png);
+}
+</string>
+        </property>
         <property name="text">
-         <string>device</string>
+         <string>X##</string>
         </property>
        </widget>
       </item>
@@ -232,15 +446,39 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QPushButton" name="btnVolume">
-        <property name="text">
-         <string>volume</string>
+        <property name="minimumSize">
+         <size>
+          <width>52</width>
+          <height>30</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelVolume">
+        <property name="maximumSize">
+         <size>
+          <width>52</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI Semilight</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+  color: rgb(255, 255, 255);
+  text-align: right;
+  border-image: url(:/resource/Icon-playvolume-52.png);
+}
+
+QPushButton:hover
+{
+  border-image: url(:/resource/Icon-playvolume-52-o.png);
+}</string>
+        </property>
         <property name="text">
-         <string>volume</string>
+         <string>100</string>
         </property>
        </widget>
       </item>

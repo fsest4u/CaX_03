@@ -193,11 +193,7 @@ win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/jansson.lib
 else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/libjansson.a
 
 RESOURCES += \
-    resource.qrc \
     resource.qrc
 
-DISTFILES += \
-    resource/baseline_menu_black_24dp.png \
-    resource/baseline_search_black_24dp.png \
-    resource/outline_arrow_back_black_24dp.png \
-    resource/outline_arrow_forward_black_24dp.png
+
+
