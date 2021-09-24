@@ -7,8 +7,6 @@
 
 #include "util/CJsonNode.h"
 
-#define	PLAY_NONE	1000
-
 
 class PlayManager : public BaseManager
 {
@@ -17,8 +15,8 @@ public:
 	explicit PlayManager(QObject *parent = nullptr);
 	~PlayManager();
 
-	enum reqPlayIndex {
-		PLAY_STATE = Qt::UserRole + PLAY_NONE,
+	enum {
+		PLAY_STATE = 0,
 		PLAY_VOLUME,
 		PLAY_SEEK,
 		PLAY_SHUFFLE,
@@ -29,15 +27,14 @@ public:
 		PLAY_MAX
 	};
 
-	enum playModeIndex {
-		PLAY_MODE_UNKNOWN		= -1,
-		PLAY_MODE_PLAY			= 0,
-		PLAY_MODE_PAUSE			= 1,
-		PLAY_MODE_NEXT			= 2,
-		PLAY_MODE_PREV			= 3,
-		PLAY_MODE_STOP			= 4,
-		PLAY_MODE_RECORD		= 5,
-		PLAY_MODE_MAX			= 10
+	enum {
+		PLAY_MODE_PLAY = 0,
+		PLAY_MODE_PAUSE,
+		PLAY_MODE_NEXT,
+		PLAY_MODE_PREV,
+		PLAY_MODE_STOP,
+		PLAY_MODE_RECORD,
+		PLAY_MODE_MAX
 	};
 
 	void RequestPlayState(int mode);	// play, pause, next, prev, stop, record

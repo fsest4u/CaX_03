@@ -6,8 +6,8 @@
 #include "util/CJsonNode.h"
 
 class InputManager;
-class MenuInfo;
-class MenuIcon;
+class InfoService;
+class IconService;
 
 namespace Ui {
 class InputWindow;
@@ -34,8 +34,8 @@ private:
 	void SetInputHome(QList<CJsonNode> &list);
 
 	InputManager		*m_pMgr;
-	MenuInfo			*m_pMenuInfo;
-	MenuIcon			*m_pMenuIcon;
+	InfoService			*m_pInfoService;
+	IconService			*m_pIconService;
 
 	Ui::InputWindow *ui;
 };

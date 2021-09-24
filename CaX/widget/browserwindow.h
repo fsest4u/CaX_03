@@ -6,9 +6,9 @@
 #include "util/CJsonNode.h"
 
 class BrowserManager;
-class MenuInfo;
-class MenuIcon;
-class MenuList;
+class InfoService;
+class IconService;
+class ListService;
 class Loading;
 
 namespace Ui {
@@ -48,9 +48,9 @@ private:
 	void SetCoverArt(QList<CJsonNode> &list);
 
 	BrowserManager		*m_pMgr;
-	MenuInfo			*m_pMenuInfo;
-	MenuIcon			*m_pMenuIcon;
-	MenuList			*m_pMenuList;
+	InfoService			*m_pInfoService;
+	IconService			*m_pIconService;
+	ListService			*m_pListService;
 
 	Loading				*m_pLoading;
 

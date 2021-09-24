@@ -10,11 +10,11 @@
 #include "util/log.h"
 
 
-#include "base/menuinfo.h"
-#include "base/menuicon.h"
-#include "base/menuicondelegate.h"
-#include "base/menulist.h"
-#include "base/menulistdelegate.h"
+#include "base/infoservice.h"
+#include "base/iconservice.h"
+#include "base/iconservicedelegate.h"
+#include "base/listservice.h"
+#include "base/listservicedelegate.h"
 
 #include "dialog/logindialog.h"
 
@@ -23,9 +23,9 @@
 BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString &root) :
 	QWidget(parent),
 	m_pMgr(new BrowserManager),
-	m_pMenuInfo(new MenuInfo(this)),
-	m_pMenuIcon(new MenuIcon(this)),
-	m_pMenuList(new MenuList(this)),
+	m_pInfoService(new InfoService(this)),
+	m_pIconService(new IconService(this)),
+	m_pListService(new ListService(this)),
 	m_pLoading(new Loading(this)),
 	ui(new Ui::BrowserWindow)
 {
@@ -47,22 +47,22 @@ BrowserWindow::~BrowserWindow()
 		m_pMgr = nullptr;
 	}
 
-	if (m_pMenuInfo)
+	if (m_pInfoService)
 	{
-		delete m_pMenuInfo;
-		m_pMenuInfo = nullptr;
+		delete m_pInfoService;
+		m_pInfoService = nullptr;
 	}
 
-	if (m_pMenuIcon)
+	if (m_pIconService)
 	{
-		delete m_pMenuIcon;
-		m_pMenuIcon = nullptr;
+		delete m_pIconService;
+		m_pIconService = nullptr;
 	}
 
-	if (m_pMenuList)
+	if (m_pListService)
 	{
-		delete m_pMenuList;
-		m_pMenuList = nullptr;
+		delete m_pListService;
+		m_pListService = nullptr;
 	}
 
 	if (m_pLoading)
@@ -74,8 +74,8 @@ BrowserWindow::~BrowserWindow()
 
 void BrowserWindow::RequestRoot()
 {
-//	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-//	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+//	ui->gridLayoutTop->addWidget(m_pInfoService);
+//	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	m_pMgr->RequestRoot();
 
@@ -83,8 +83,8 @@ void BrowserWindow::RequestRoot()
 
 void BrowserWindow::RequestFolder(QString strPath)
 {
-//	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-//	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+//	ui->gridLayoutTop->addWidget(m_pInfoService);
+//	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	if (!m_Root.isEmpty())
 		strPath = m_Root + "/" + strPath;
@@ -145,22 +145,22 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 	if ( iFolderType_Mask_Root & nType
 		 || iFolderType_Mask_Dir & nType)
 	{
-		ui->gridLayoutTop->addWidget(m_pMenuInfo);
-		ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+		ui->gridLayoutTop->addWidget(m_pInfoService);
+		ui->gridLayoutBottom->addWidget(m_pIconService);
 
 		SetCoverArt(list);
 
-		m_pMenuInfo->SetTitle(m_Root);
-		m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_BROWSER);
+		m_pInfoService->SetTitle(m_Root);
+		m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);
 	}
 	// song
 	else
 	{
-		ui->gridLayoutTop->addWidget(m_pMenuInfo);
-		ui->gridLayoutBottom->addWidget(m_pMenuList);
+		ui->gridLayoutTop->addWidget(m_pInfoService);
+		ui->gridLayoutBottom->addWidget(m_pListService);
 
-		m_pMenuInfo->SetTitle(m_Root);
-		m_pMenuList->SetNodeList(list, MenuList::MENU_BROWSER);
+		m_pInfoService->SetTitle(m_Root);
+		m_pListService->SetNodeList(list, ListService::LIST_SERVICE_BROWSER);
 
 		// get play time
 	}
@@ -180,10 +180,10 @@ void BrowserWindow::SlotRespNodeUpdate(CJsonNode node, int nIndex)
 	if (nIndex < 0)
 		return;
 
-	QStandardItem *item = m_pMenuList->GetModel()->item(nIndex);
-	item->setData(node.GetString(KEY_BOT), MenuListDelegate::MENU_LIST_ROLE_BOT);
-	item->setData(node.GetString(KEY_DURATION), MenuListDelegate::MENU_LIST_ROLE_DURATION);
-	m_pMenuList->GetModel()->setItem(nIndex, item);
+	QStandardItem *item = m_pListService->GetModel()->item(nIndex);
+	item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_BOT);
+	item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_DURATION);
+	m_pListService->GetModel()->setItem(nIndex, item);
 }
 
 void BrowserWindow::ConnectSigToSlot()
@@ -191,17 +191,17 @@ void BrowserWindow::ConnectSigToSlot()
 	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));		// recursive
 
 
-	connect(m_pMenuInfo, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pMenuInfo, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pMenuInfo, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
-	connect(m_pMenuInfo, SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
+	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 
-//	connect(m_pMenuIcon->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
-	connect(m_pMenuIcon->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
-	connect(m_pMenuList->GetDelegate(), SIGNAL(SigSelectIcon(QString)), this, SLOT(SlotSelectURL(QString)));
-	connect(m_pMenuList->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
-	connect(m_pMenuList, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
-	connect(m_pMenuList, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
+	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectIcon(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
+	connect(m_pListService, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespNodeUpdate(CJsonNode, int)), this, SLOT(SlotRespNodeUpdate(CJsonNode, int)));

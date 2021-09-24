@@ -37,7 +37,7 @@ private slots:
 
 private:
 
-	enum reqQobuzIndex {
+	enum {
 		QOBUZ_LOGIN = 0,
 		QOBUZ_CATEGORY,
 		QOBUZ_SEARCH,

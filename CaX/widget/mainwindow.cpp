@@ -19,7 +19,7 @@
 
 #include "widget/sidemenu.h"
 #include "widget/sidemenudelegate.h"
-#include "widget/mymusicwindow.h"
+#include "widget/musicdbwindow.h"
 #include "widget/audiocdwindow.h"
 #include "widget/playlistwindow.h"
 #include "widget/browserwindow.h"
@@ -453,37 +453,37 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 
 	switch (menuIndex)
 	{
-	case SideMenuDelegate::SIDE_MY_MUSIC:
+	case SideMenuDelegate::SIDEMENU_SERVICE_MY_MUSIC:
 		DoMyMusicHome();
 		break;
-	case SideMenuDelegate::SIDE_AUDIO_CD:
+	case SideMenuDelegate::SIDEMENU_SERVICE_AUDIO_CD:
 		DoAudioCDHome();
 		break;
-	case SideMenuDelegate::SIDE_PLAYLIST:
+	case SideMenuDelegate::SIDEMENU_SERVICE_PLAYLIST:
 		DoPlaylistHome();
 		break;
-	case SideMenuDelegate::SIDE_BROWSER:
+	case SideMenuDelegate::SIDEMENU_SERVICE_BROWSER:
 		DoBrowserHome();
 		break;
-	case SideMenuDelegate::SIDE_ISERVICE:
+	case SideMenuDelegate::SIDEMENU_SERVICE_ISERVICE:
 		DoIServiceHome();
 		break;
-	case SideMenuDelegate::SIDE_INPUT:
+	case SideMenuDelegate::SIDEMENU_SERVICE_INPUT:
 		DoInputHome();
 		break;
-	case SideMenuDelegate::SIDE_FM_RADIO:
+	case SideMenuDelegate::SIDEMENU_SERVICE_FM_RADIO:
 		DoFmRadioHome();
 		break;
-	case SideMenuDelegate::SIDE_DAB_RADIO:
+	case SideMenuDelegate::SIDEMENU_SERVICE_DAB_RADIO:
 		DoDabRadioHome();
 		break;
-	case SideMenuDelegate::SIDE_GROUP_PLAY:
+	case SideMenuDelegate::SIDEMENU_SERVICE_GROUP_PLAY:
 		DoGroupPlayHome();
 		break;
-	case SideMenuDelegate::SIDE_SETUP:
+	case SideMenuDelegate::SIDEMENU_SERVICE_SETUP:
 		DoSetupHome();
 		break;
-	case SideMenuDelegate::SIDE_POWER_OFF:
+	case SideMenuDelegate::SIDEMENU_SERVICE_POWER_OFF:
 		break;
 	default:
 		break;
@@ -602,7 +602,7 @@ void MainWindow::ConnectForApp()
 
 void MainWindow::DoMyMusicHome()
 {
-	MyMusicWindow *widget = new MyMusicWindow(this, m_strAddr);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestMusicHome();
 }

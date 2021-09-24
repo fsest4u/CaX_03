@@ -32,8 +32,8 @@ private slots:
 
 private:
 
-	enum reqBrowserIndex {
-		BROWSER_ROOT,
+	enum {
+		BROWSER_ROOT = 0,
 		BROWSER_FOLDER,
 		BROWSER_COPY,
 		BROWSER_MOVE,

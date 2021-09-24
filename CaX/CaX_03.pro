@@ -23,7 +23,7 @@ SOURCES += \
     manager/devicemanager.cpp \
     manager/fmradiomanager.cpp \
     manager/inputmanager.cpp \
-    manager/mymusicmanager.cpp \
+    manager/musicdbmanager.cpp \
     manager/observermanager.cpp \
     manager/playmanager.cpp \
     manager/qobuzmanager.cpp \
@@ -40,21 +40,21 @@ SOURCES += \
     util/settingio.cpp \
     util/waitingspinnerwidget.cpp \
     widget/audiocdwindow.cpp \
-    widget/base/albuminfo.cpp \
-    widget/base/categoryconts.cpp \
-    widget/base/categorycontsdelegate.cpp \
-    widget/base/categorycontseditor.cpp \
-    widget/base/menuicon.cpp \
-    widget/base/menuicondelegate.cpp \
-    widget/base/menuiconeditor.cpp \
-    widget/base/menuinfo.cpp \
-    widget/base/menulist.cpp \
-    widget/base/menulistdelegate.cpp \
-    widget/base/menulisteditor.cpp \
-    widget/base/musicinfo.cpp \
-    widget/base/songconts.cpp \
-    widget/base/songcontsdelegate.cpp \
-    widget/base/songcontseditor.cpp \
+    widget/base/iconservice.cpp \
+    widget/base/iconservicedelegate.cpp \
+    widget/base/iconserviceeditor.cpp \
+    widget/base/icontracks.cpp \
+    widget/base/icontracksdelegate.cpp \
+    widget/base/icontrackseditor.cpp \
+    widget/base/infohome.cpp \
+    widget/base/infoservice.cpp \
+    widget/base/infotracks.cpp \
+    widget/base/listservice.cpp \
+    widget/base/listservicedelegate.cpp \
+    widget/base/listserviceeditor.cpp \
+    widget/base/listtracks.cpp \
+    widget/base/listtracksdelegate.cpp \
+    widget/base/listtrackseditor.cpp \
     widget/browserwindow.cpp \
     widget/dabradiowindow.cpp \
     widget/fmradiowindow.cpp \
@@ -62,7 +62,7 @@ SOURCES += \
     widget/inputwindow.cpp \
     widget/iservicewindow.cpp \
     widget/mainwindow.cpp \
-    widget/mymusicwindow.cpp \
+    widget/musicdbwindow.cpp \
     widget/playlistwindow.cpp \
     widget/playwindow.cpp \
     widget/setupwindow.cpp \
@@ -86,7 +86,7 @@ HEADERS += \
     manager/fmradiomanager.h \
     manager/imanager.h \
     manager/inputmanager.h \
-    manager/mymusicmanager.h \
+    manager/musicdbmanager.h \
     manager/observermanager.h \
     manager/playmanager.h \
     manager/qobuzmanager.h \
@@ -109,21 +109,21 @@ HEADERS += \
     util/waitingspinnerwidget.h \
     widget/airable.h \
     widget/audiocdwindow.h \
-    widget/base/albuminfo.h \
-    widget/base/categoryconts.h \
-    widget/base/categorycontsdelegate.h \
-    widget/base/categorycontseditor.h \
-    widget/base/menuicon.h \
-    widget/base/menuicondelegate.h \
-    widget/base/menuiconeditor.h \
-    widget/base/menuinfo.h \
-    widget/base/menulist.h \
-    widget/base/menulistdelegate.h \
-    widget/base/menulisteditor.h \
-    widget/base/musicinfo.h \
-    widget/base/songconts.h \
-    widget/base/songcontsdelegate.h \
-    widget/base/songcontseditor.h \
+    widget/base/iconservice.h \
+    widget/base/iconservicedelegate.h \
+    widget/base/iconserviceeditor.h \
+    widget/base/icontracks.h \
+    widget/base/icontracksdelegate.h \
+    widget/base/icontrackseditor.h \
+    widget/base/infohome.h \
+    widget/base/infoservice.h \
+    widget/base/infotracks.h \
+    widget/base/listservice.h \
+    widget/base/listservicedelegate.h \
+    widget/base/listserviceeditor.h \
+    widget/base/listtracks.h \
+    widget/base/listtracksdelegate.h \
+    widget/base/listtrackseditor.h \
     widget/browser.h \
     widget/browserwindow.h \
     widget/dabradiowindow.h \
@@ -132,7 +132,7 @@ HEADERS += \
     widget/inputwindow.h \
     widget/iservicewindow.h \
     widget/mainwindow.h \
-    widget/mymusicwindow.h \
+    widget/musicdbwindow.h \
     widget/playlistwindow.h \
     widget/playwindow.h \
     widget/qobuz.h \
@@ -147,17 +147,17 @@ FORMS += \
     dialog/submenudialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
-    widget/base/albuminfo.ui \
-    widget/base/categoryconts.ui \
-    widget/base/categorycontseditor.ui \
-    widget/base/menuicon.ui \
-    widget/base/menuiconeditor.ui \
-    widget/base/menuinfo.ui \
-    widget/base/menulist.ui \
-    widget/base/menulisteditor.ui \
-    widget/base/musicinfo.ui \
-    widget/base/songconts.ui \
-    widget/base/songcontseditor.ui \
+    widget/base/iconservice.ui \
+    widget/base/iconserviceeditor.ui \
+    widget/base/icontracks.ui \
+    widget/base/icontrackseditor.ui \
+    widget/base/infohome.ui \
+    widget/base/infoservice.ui \
+    widget/base/infotracks.ui \
+    widget/base/listservice.ui \
+    widget/base/listserviceeditor.ui \
+    widget/base/listtracks.ui \
+    widget/base/listtrackseditor.ui \
     widget/browserwindow.ui \
     widget/dabradiowindow.ui \
     widget/fmradiowindow.ui \
@@ -165,7 +165,7 @@ FORMS += \
     widget/inputwindow.ui \
     widget/iservicewindow.ui \
     widget/mainwindow.ui \
-    widget/mymusicwindow.ui \
+    widget/musicdbwindow.ui \
     widget/playlistwindow.ui \
     widget/playwindow.ui \
     widget/setupwindow.ui \

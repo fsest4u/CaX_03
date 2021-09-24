@@ -32,7 +32,7 @@ private slots:
 
 private:
 
-	enum reqFmRadioIndex {
+	enum {
 		FM_LIST = 0,
 		FM_PLAY,
 		FM_SEEK,

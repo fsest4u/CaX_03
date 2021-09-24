@@ -1,20 +1,18 @@
-#ifndef CATEGORYDELEGATE_H
-#define CATEGORYDELEGATE_H
+#ifndef SUBMENUDELEGATE_H
+#define SUBMENUDELEGATE_H
 
 #include <QStyledItemDelegate>
 
-#define CATEGORY_ROLE_NONE	100
-
-class CategoryDelegate : public QStyledItemDelegate
+class SubmenuDelegate : public QStyledItemDelegate
 {
 public:
-	CategoryDelegate();
+	SubmenuDelegate();
 
-	enum categoryRole {
-		CAT_ROLE_ID = Qt::UserRole + CATEGORY_ROLE_NONE,
-		CAT_ROLE_ICON,
-		CAT_ROLE_TITLE,
-		CAT_ROLE_MAX
+	enum {
+		SUBMENU_ID = Qt::UserRole + 0,
+		SUBMENU_ICON,
+		SUBMENU_TITLE,
+		SUBMENU_MAX
 	};
 
 
@@ -26,4 +24,4 @@ private:
 
 };
 
-#endif // CATEGORYDELEGATE_H
+#endif // SUBMENUDELEGATE_H

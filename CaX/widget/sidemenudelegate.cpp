@@ -21,8 +21,8 @@ void SideMenuDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	subFont.setWeight(subFont.weight() - 2);
 	QFontMetrics fm(font);
 
-	QIcon icon = qvariant_cast<QIcon>(index.data(SIDE_ROLE_ICON));
-	QString title = qvariant_cast<QString>(index.data(SIDE_ROLE_TITLE));
+	QIcon icon = qvariant_cast<QIcon>(index.data(SIDEMENU_ICON));
+	QString title = qvariant_cast<QString>(index.data(SIDEMENU_TITLE));
 
 	QSize iconSize = icon.actualSize(option.decorationSize);
 
@@ -47,7 +47,7 @@ void SideMenuDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
 QSize SideMenuDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	QIcon icon = qvariant_cast<QIcon>(index.data(SIDE_ROLE_ICON));
+	QIcon icon = qvariant_cast<QIcon>(index.data(SIDEMENU_ICON));
 	QSize iconSize = icon.actualSize(option.decorationSize);
 	QFont font = QApplication::font();
 	QFontMetrics fm(font);

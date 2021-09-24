@@ -6,8 +6,8 @@
 #include "util/CJsonNode.h"
 
 class DabRadioManager;
-class MenuInfo;
-class MenuIcon;
+class InfoService;
+class IconService;
 
 namespace Ui {
 class DABRadioWindow;
@@ -37,8 +37,8 @@ private:
 	void SetHome(QList<CJsonNode> &list);
 
 	DabRadioManager	*m_pMgr;
-	MenuInfo		*m_pMenuInfo;
-	MenuIcon		*m_pMenuIcon;
+	InfoService		*m_pInfoService;
+	IconService		*m_pIconService;
 
 	Ui::DABRadioWindow *ui;
 };

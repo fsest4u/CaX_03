@@ -6,8 +6,8 @@
 #include "util/CJsonNode.h"
 
 class FmRadioManager;
-class MenuInfo;
-class MenuIcon;
+class InfoService;
+class IconService;
 
 namespace Ui {
 class FMRadioWindow;
@@ -37,8 +37,8 @@ private:
 	void SetHome(QList<CJsonNode> &list);
 
 	FmRadioManager	*m_pMgr;
-	MenuInfo			*m_pMenuInfo;
-	MenuIcon			*m_pMenuIcon;
+	InfoService			*m_pInfoService;
+	IconService			*m_pIconService;
 
 	Ui::FMRadioWindow *ui;
 };

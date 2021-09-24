@@ -12,11 +12,11 @@
 #include "widget/airable.h"
 #include "widget/qobuz.h"
 
-#include "base/menuinfo.h"
-#include "base/menuicon.h"
-#include "base/menuicondelegate.h"
-#include "base/menulist.h"
-#include "base/menulistdelegate.h"
+#include "base/infoservice.h"
+#include "base/iconservice.h"
+#include "base/iconservicedelegate.h"
+#include "base/listservice.h"
+#include "base/listservicedelegate.h"
 
 #include "dialog/logindialog.h"
 #include "dialog/webengineviewdialog.h"
@@ -31,9 +31,9 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
 	m_pAirableMgr(new AirableManager),
 	m_pQobuzMgr(new QobuzManager),
-	m_pMenuInfo(new MenuInfo(this)),
-	m_pMenuIcon(new MenuIcon(this)),
-	m_pMenuList(new MenuList(this)),
+	m_pInfoService(new InfoService(this)),
+	m_pIconService(new IconService(this)),
+	m_pListService(new ListService(this)),
 	m_pLoading(new Loading(parent)),
 	m_WebURL(""),
 	m_ServiceType(-1),
@@ -46,7 +46,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pMenuInfo->SetSubmenuIService();
+	m_pInfoService->SetSubmenuIService();
 
 	m_bGenreSubmenu = false;
 }
@@ -67,22 +67,22 @@ IServiceWindow::~IServiceWindow()
 		m_pQobuzMgr = nullptr;
 	}
 
-	if (m_pMenuInfo)
+	if (m_pInfoService)
 	{
-		delete m_pMenuInfo;
-		m_pMenuInfo = nullptr;
+		delete m_pInfoService;
+		m_pInfoService = nullptr;
 	}
 
-	if (m_pMenuIcon)
+	if (m_pIconService)
 	{
-		delete m_pMenuIcon;
-		m_pMenuIcon = nullptr;
+		delete m_pIconService;
+		m_pIconService = nullptr;
 	}
 
-	if (m_pMenuList)
+	if (m_pListService)
 	{
-		delete m_pMenuList;
-		m_pMenuList = nullptr;
+		delete m_pListService;
+		m_pListService = nullptr;
 	}
 
 	if (m_pLoading)
@@ -95,67 +95,67 @@ IServiceWindow::~IServiceWindow()
 
 void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	SetIServiceHome(list);
 
-	m_pMenuInfo->SetTitle(ISERVICE_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
+	m_pInfoService->SetTitle(ISERVICE_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
 void IServiceWindow::RequestIServiceURL(int nServiceType, QString url)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	m_pAirableMgr->RequestURL(nServiceType, url);
 }
 
 void IServiceWindow::RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	m_pQobuzMgr->RequestSearch(nType, keyword, nStart, nCount);
 }
 
 void IServiceWindow::RequestQobuzGenre(QString strID)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	m_pQobuzMgr->RequestGenre(strID);
 }
 
 void IServiceWindow::RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount, QString strGenreID)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	m_pQobuzMgr->RequestRecommend(nType, strID, nStart, nCount, strGenreID);
 }
 
 void IServiceWindow::RequestQobuzFavorite(int nType, int nStart, int nCount)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	m_pQobuzMgr->RequestFavorite(nType, nStart, nCount);
 }
 
 void IServiceWindow::RequestQobuzPlaylist(int nStart, int nCount)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	m_pQobuzMgr->RequestPlaylist(nStart, nCount);
 }
 
 void IServiceWindow::RequestQobuzCategory(int nType, QString strID, int nStart, int nCount)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	m_pQobuzMgr->RequestCategory(nType, strID, nStart, nCount);
 }
@@ -464,13 +464,13 @@ void IServiceWindow::SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAut
 
 void IServiceWindow::SlotRespList(QList<CJsonNode> list)
 {
-	m_pMenuList->SetNodeList(list);
+	m_pListService->SetNodeList(list);
 
 }
 
 void IServiceWindow::SlotRespGenreSubList(QList<CJsonNode> list)
 {
-	m_pMenuList->SetNodeList(list);
+	m_pListService->SetNodeList(list);
 	m_bGenreSubmenu = true;
 }
 
@@ -485,23 +485,23 @@ void IServiceWindow::SlotRespAuth(int nServiceType)
 void IServiceWindow::SlotRespURL(int nServiceType, QList<CJsonNode> list)
 {
 	m_ServiceType = nServiceType;
-	m_pMenuInfo->SetTitle(ISERVICE_TITLE);
-	m_pMenuList->SetNodeList(list);
+	m_pInfoService->SetTitle(ISERVICE_TITLE);
+	m_pListService->SetNodeList(list);
 }
 
 void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	if (QListView::IconMode == mode)
 	{
-		QStandardItem *item = m_pMenuIcon->GetModel()->item(nIndex);
-		item->setData(fileName, MenuIconDelegate::MENU_ICON_ROLE_COVER);
-		m_pMenuIcon->GetModel()->setItem(nIndex, item);
+		QStandardItem *item = m_pIconService->GetModel()->item(nIndex);
+		item->setData(fileName, IconServiceDelegate::ICON_SERVICE_COVER);
+		m_pIconService->GetModel()->setItem(nIndex, item);
 	}
 	else
 	{
-		QStandardItem *item = m_pMenuList->GetModel()->item(nIndex);
-		item->setData(fileName, MenuListDelegate::MENU_LIST_ROLE_ART);
-		m_pMenuList->GetModel()->setItem(nIndex, item);
+		QStandardItem *item = m_pListService->GetModel()->item(nIndex);
+		item->setData(fileName, ListServiceDelegate::LIST_SERVICE_ART);
+		m_pListService->GetModel()->setItem(nIndex, item);
 	}
 }
 
@@ -511,16 +511,16 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(this, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
 
-	connect(m_pMenuInfo, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pMenuInfo, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pMenuInfo, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
-	connect(m_pMenuInfo, SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
+	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 
-	connect(m_pMenuIcon->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
-	connect(m_pMenuIcon->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
-	connect(m_pMenuList->GetDelegate(), SIGNAL(SigSelectIcon(QString)), this, SLOT(SlotSelectURL(QString)));
-	connect(m_pMenuList->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
-	connect(m_pMenuList, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
+	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectIcon(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
 
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
@@ -541,86 +541,86 @@ void IServiceWindow::ConnectSigToSlot()
 
 void IServiceWindow::DoQobuzHome()
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	QList<CJsonNode> list;
 	SetQobuzHome(list);
 
-	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
 void IServiceWindow::DoQobuzSearch()
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	QList<CJsonNode> list;
 	SetQobuzSearch(list);
 
-	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
 void IServiceWindow::DoQobuzRecommend()
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	QList<CJsonNode> list;
 	SetQobuzRecommend(list);
 
-	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
 void IServiceWindow::DoQobuzFavorite()
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	QList<CJsonNode> list;
 	SetQobuzFavorite(list);
 
-	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
 void IServiceWindow::DoRecommendAlbum()
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	QList<CJsonNode> list;
 	SetRecommendAlbum(list);
 
-	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
 void IServiceWindow::DoRecommendPlaylist()
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	QList<CJsonNode> list;
 	SetRecommendPlaylist(list);
 
-	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_ISERVICE);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
 void IServiceWindow::DoRecommendGenre(int nType, QString strID)
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuList);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pListService);
 
 	QList<CJsonNode> list;
 	SetRecommendGenre(list, strID);
 
-	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
-	m_pMenuList->SetNodeList(list);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pListService->SetNodeList(list);
 }
 void IServiceWindow::SetIServiceHome(QList<CJsonNode> &list)
 {

@@ -32,7 +32,7 @@ private slots:
 
 private:
 
-	enum reqDabRadioIndex {
+	enum {
 		DAB_LIST = 0,
 		DAB_PLAY,
 		DAB_SEEK,

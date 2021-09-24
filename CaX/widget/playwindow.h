@@ -52,7 +52,7 @@ private slots:
 
 private:
 
-	enum playRepeatMode {
+	enum {
 		PLAY_REPEAT_NORMAL = 0,
 		PLAY_REPEAT_RANDOM,
 		PLAY_REPEAT_ONCE,

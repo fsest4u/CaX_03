@@ -39,7 +39,7 @@ private slots:
 
 private:
 
-	enum reqAiableIndex {
+	enum {
 		AIRABLE_LOGIN = 0,
 		AIRABLE_LOGOUT,
 		AIRABLE_AUTH,

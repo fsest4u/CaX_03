@@ -3,12 +3,12 @@
 
 #include "submenudelegate.h"
 
-CategoryDelegate::CategoryDelegate()
+SubmenuDelegate::SubmenuDelegate()
 {
 
 }
 
-void CategoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void SubmenuDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	QStyledItemDelegate::paint(painter, option, index);
 
@@ -21,7 +21,7 @@ void CategoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	subFont.setWeight(subFont.weight() - 2);
 	QFontMetrics fm(font);
 
-//	QIcon icon = qvariant_cast<QIcon>(index.data(CAT_ROLE_ICON));
+//	QIcon icon = qvariant_cast<QIcon>(index.data(SUBMENU_ICON));
 //	QSize iconSize = icon.actualSize(option.decorationSize);
 //	QRect iconRect = option.rect;
 
@@ -32,7 +32,7 @@ void CategoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 //							   iconRect.top() + iconSize.height() / 2 + 3),
 //						icon.pixmap(iconSize.width(), iconSize.height()));
 
-	QString icon = qvariant_cast<QString>(index.data(CAT_ROLE_ICON));
+	QString icon = qvariant_cast<QString>(index.data(SUBMENU_ICON));
 	QRect iconRect = option.rect;
 	iconRect.setRight(20 + 30);
 	iconRect.setTop(iconRect.top() + 5);
@@ -43,7 +43,7 @@ void CategoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 		painter->drawImage(iconRect, image);
 	}
 
-	QString title = qvariant_cast<QString>(index.data(CAT_ROLE_TITLE));
+	QString title = qvariant_cast<QString>(index.data(SUBMENU_TITLE));
 	QRect titleRect = option.rect;
 
 	titleRect.setLeft(iconRect.right());
@@ -57,9 +57,9 @@ void CategoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
 }
 
-QSize CategoryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize SubmenuDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	QIcon icon = qvariant_cast<QIcon>(index.data(CAT_ROLE_ICON));
+	QIcon icon = qvariant_cast<QIcon>(index.data(SUBMENU_ICON));
 	QSize iconSize = icon.actualSize(option.decorationSize);
 	QFont font = QApplication::font();
 	QFontMetrics fm(font);

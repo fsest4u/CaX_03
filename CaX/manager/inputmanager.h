@@ -22,7 +22,7 @@ private slots:
 
 private:
 
-	enum reqInputIndex {
+	enum {
 		INPUT_NORMAL = 0,
 		INPUT_MAX
 	};

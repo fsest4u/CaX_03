@@ -8,9 +8,9 @@
 class AirableManager;
 class QobuzManager;
 
-class MenuInfo;
-class MenuIcon;
-class MenuList;
+class InfoService;
+class IconService;
+class ListService;
 class Loading;
 
 namespace Ui {
@@ -101,9 +101,9 @@ private:
 
 	AirableManager		*m_pAirableMgr;
 	QobuzManager		*m_pQobuzMgr;
-	MenuInfo			*m_pMenuInfo;
-	MenuIcon			*m_pMenuIcon;
-	MenuList			*m_pMenuList;
+	InfoService			*m_pInfoService;
+	IconService			*m_pIconService;
+	ListService			*m_pListService;
 
 	Loading				*m_pLoading;
 

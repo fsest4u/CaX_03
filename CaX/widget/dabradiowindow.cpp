@@ -1,9 +1,9 @@
 #include "dabradiowindow.h"
 #include "ui_dabradiowindow.h"
 
-#include "base/menuinfo.h"
-#include "base/menuicon.h"
-#include "base/menuicondelegate.h"
+#include "base/infoservice.h"
+#include "base/iconservice.h"
+#include "base/iconservicedelegate.h"
 
 #include "manager/dabradiomanager.h"
 
@@ -16,8 +16,8 @@
 DABRadioWindow::DABRadioWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
 	m_pMgr(new DabRadioManager),
-	m_pMenuInfo(new MenuInfo(this)),
-	m_pMenuIcon(new MenuIcon(this)),
+	m_pInfoService(new InfoService(this)),
+	m_pIconService(new IconService(this)),
 	ui(new Ui::DABRadioWindow)
 {
 	ui->setupUi(this);
@@ -26,7 +26,7 @@ DABRadioWindow::DABRadioWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pMenuInfo->SetSubmenuDabRadio();
+	m_pInfoService->SetSubmenuDabRadio();
 
 }
 
@@ -40,23 +40,23 @@ DABRadioWindow::~DABRadioWindow()
 		m_pMgr = nullptr;
 	}
 
-	if (m_pMenuInfo)
+	if (m_pInfoService)
 	{
-		delete m_pMenuInfo;
-		m_pMenuInfo = nullptr;
+		delete m_pInfoService;
+		m_pInfoService = nullptr;
 	}
 
-	if (m_pMenuIcon)
+	if (m_pIconService)
 	{
-		delete m_pMenuIcon;
-		m_pMenuIcon = nullptr;
+		delete m_pIconService;
+		m_pIconService = nullptr;
 	}
 }
 
 void DABRadioWindow::RequestList()
 {
-	ui->gridLayoutTop->addWidget(m_pMenuInfo);
-	ui->gridLayoutBottom->addWidget(m_pMenuIcon);
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	m_pMgr->RequestList();
 }
@@ -64,19 +64,19 @@ void DABRadioWindow::RequestList()
 void DABRadioWindow::SlotSubmenu(int nID)
 {
 	LogDebug("click sub menu [%d]", nID);
-	if (MenuInfo::DAB_SEARCH_ALL_DELETE == nID)
+	if (InfoService::DAB_SEARCH_ALL_DELETE == nID)
 	{
 		m_pMgr->RequestSeek(true);
 	}
-	else if (MenuInfo::DAB_SEARCH_ALL == nID)
+	else if (InfoService::DAB_SEARCH_ALL == nID)
 	{
 		m_pMgr->RequestSeek(false);
 	}
-	else if (MenuInfo::DAB_DELETE == nID)
+	else if (InfoService::DAB_DELETE == nID)
 	{
 //		m_pMgr->RequestDelete();
 	}
-	else if (MenuInfo::DAB_RESERVE_LIST == nID)
+	else if (InfoService::DAB_RESERVE_LIST == nID)
 	{
 		m_pMgr->RequestRecordList();
 	}
@@ -91,26 +91,26 @@ void DABRadioWindow::SlotRespList(QList<CJsonNode> list)
 {
 	SetHome(list);
 
-	m_pMenuInfo->SetTitle(MAIN_TITLE);
-	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_DAB_RADIO);
+	m_pInfoService->SetTitle(MAIN_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_DAB_RADIO);
 }
 
 void DABRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 {
 //	SetHome(list);
 
-//	m_pMenuInfo->SetTitle(MAIN_TITLE);
-//	m_pMenuIcon->SetNodeList(list, MenuIcon::MENU_DAB_RADIO);
+//	m_pInfoService->SetTitle(MAIN_TITLE);
+//	m_pIconService->SetNodeList(list, IconService::SERVICE_DAB_RADIO);
 }
 
 void DABRadioWindow::ConnectSigToSlot()
 {
-	connect(m_pMenuInfo, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pMenuInfo, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pMenuInfo, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
-	connect(m_pMenuInfo, SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
+	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 
-	connect(m_pMenuIcon->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));

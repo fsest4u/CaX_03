@@ -12,7 +12,7 @@ SubmenuDialog::SubmenuDialog(QWidget *parent)
 	:QDialog(parent)
 	, m_ListView(new QListView)
 	, m_Model(new QStandardItemModel)
-	, m_Delegate(new CategoryDelegate)
+	, m_Delegate(new SubmenuDelegate)
 	, ui(new Ui::SubmenuDialog)
 {
 	ui->setupUi(this);
@@ -53,8 +53,8 @@ void SubmenuDialog::SetID(int nID)
 
 void SubmenuDialog::SlotSelectItem(QModelIndex index)
 {
-	int id = qvariant_cast<int>(index.data(CategoryDelegate::CAT_ROLE_ID));
-	QString title = qvariant_cast<QString>(index.data(CategoryDelegate::CAT_ROLE_TITLE));
+	int id = qvariant_cast<int>(index.data(SubmenuDelegate::SUBMENU_ID));
+	QString title = qvariant_cast<QString>(index.data(SubmenuDelegate::SUBMENU_TITLE));
 	m_nID = id;
 
 	LogDebug("id [%d] title [%s]", id, title.toUtf8().data());
@@ -80,30 +80,30 @@ void SubmenuDialog::SetMenu()
 {
 //	QStandardItem *item0 = new QStandardItem;
 //	QIcon icon0(":/resource/Icon-playbar-volume-160.png");
-	//	item0->setData(CAT_GENRE, CategoryDelegate::CAT_ROLE_ID);
-//	item0->setData(icon0, CategoryDelegate::CAT_ROLE_ICON);
-//	item0->setData("Sorted by Genre", CategoryDelegate::CAT_ROLE_TITLE);
+	//	item0->setData(CAT_GENRE, SubmenuDelegate::SUBMENU_ID);
+//	item0->setData(icon0, SubmenuDelegate::SUBMENU_ICON);
+//	item0->setData("Sorted by Genre", SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item0);
 
 //	QStandardItem *item1 = new QStandardItem;
 //	QIcon icon1(":/resource/Icon-playbar-volume-160.png");
-//	item1->setData(CAT_MOOD, CategoryDelegate::CAT_ROLE_ID);
-//	item1->setData(icon1, CategoryDelegate::CAT_ROLE_ICON);
-//	item1->setData("Sorted by Mood", CategoryDelegate::CAT_ROLE_TITLE);
+//	item1->setData(CAT_MOOD, SubmenuDelegate::SUBMENU_ID);
+//	item1->setData(icon1, SubmenuDelegate::SUBMENU_ICON);
+//	item1->setData("Sorted by Mood", SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item1);
 
 //	QStandardItem *item2 = new QStandardItem;
 //	QIcon icon2(":/resource/Icon-playbar-volume-160.png");
-//	item2->setData(CAT_FOLDER, CategoryDelegate::CAT_ROLE_ID);
-//	item2->setData(icon2, CategoryDelegate::CAT_ROLE_ICON);
-//	item2->setData("Sorted by Folder", CategoryDelegate::CAT_ROLE_TITLE);
+//	item2->setData(CAT_FOLDER, SubmenuDelegate::SUBMENU_ID);
+//	item2->setData(icon2, SubmenuDelegate::SUBMENU_ICON);
+//	item2->setData("Sorted by Folder", SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item2);
 
 //	QStandardItem *item3 = new QStandardItem;
 //	QIcon icon3(":/resource/Icon-playbar-volume-160.png");
-//	item3->setData(CAT_YEAR, CategoryDelegate::CAT_ROLE_ID);
-//	item3->setData(icon3, CategoryDelegate::CAT_ROLE_ICON);
-//	item3->setData("Sorted by Year", CategoryDelegate::CAT_ROLE_TITLE);
+//	item3->setData(CAT_YEAR, SubmenuDelegate::SUBMENU_ID);
+//	item3->setData(icon3, SubmenuDelegate::SUBMENU_ICON);
+//	item3->setData("Sorted by Year", SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item3);
 
 //	ui->gridLayout->addWidget(m_ListView);
@@ -127,9 +127,9 @@ void SubmenuDialog::SetItemList(const QList<CJsonNode> &ItemList)
 	foreach (CJsonNode node, m_ItemList)
 	{
 		QStandardItem *item = new QStandardItem;
-		item->setData(node.GetInt(KEY_ID_UPPER), CategoryDelegate::CAT_ROLE_ID);
-		item->setData(node.GetString(KEY_COVER_ART), CategoryDelegate::CAT_ROLE_ICON);
-		item->setData(node.GetString(KEY_NAME), CategoryDelegate::CAT_ROLE_TITLE);
+		item->setData(node.GetInt(KEY_ID_UPPER), SubmenuDelegate::SUBMENU_ID);
+		item->setData(node.GetString(KEY_COVER_ART), SubmenuDelegate::SUBMENU_ICON);
+		item->setData(node.GetString(KEY_NAME), SubmenuDelegate::SUBMENU_TITLE);
 		m_Model->appendRow(item);
 	}
 	ui->gridLayout->addWidget(m_ListView);

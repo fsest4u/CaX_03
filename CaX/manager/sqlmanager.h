@@ -3,17 +3,14 @@
 
 #include <QObject>
 
-#define CATEGORY_NONE	2000
-#define SORT_NONE		3000
-
 class SQLManager : public QObject
 {
 	Q_OBJECT
 public:
 	explicit SQLManager(QObject *parent = nullptr);
 
-	enum categoryType {
-		CATEGORY_ALBUM = Qt::UserRole + CATEGORY_NONE,
+	enum {
+		CATEGORY_ALBUM = 0,
 		CATEGORY_ALBUMARTIST,
 		CATEGORY_ARTIST,
 		CATEGORY_COMPOSER,
@@ -24,8 +21,8 @@ public:
 		CATEGORY_MAX
 	};
 
-	enum sortType {
-		SORT_TRACK = Qt::UserRole + SORT_NONE,
+	enum {
+		SORT_TRACK = 0,
 		SORT_GENRE,
 		SORT_MOOD,
 		SORT_FOLDER,

@@ -13,7 +13,7 @@ class SubmenuDialog;
 
 class QListView;
 class QStandardItemModel;
-class CategoryDelegate;
+class SubmenuDelegate;
 
 class SubmenuDialog : public QDialog
 {
@@ -48,7 +48,7 @@ private:
 
 	QListView			*m_ListView;
 	QStandardItemModel	*m_Model;
-	CategoryDelegate	*m_Delegate;
+	SubmenuDelegate		*m_Delegate;
 
 	QList<CJsonNode>	m_ItemList;
 
