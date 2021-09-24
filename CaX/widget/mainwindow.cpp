@@ -625,8 +625,9 @@ void MainWindow::DoPlaylistHome()
 
 void MainWindow::DoBrowserHome()
 {
-	BrowserWindow *widget = new BrowserWindow;
+	BrowserWindow *widget = new BrowserWindow(this, m_strAddr);
 	AddWidget(widget);
+	widget->RequestRoot();
 
 
 }

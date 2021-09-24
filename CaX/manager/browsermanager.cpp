@@ -7,6 +7,8 @@
 BrowserManager::BrowserManager(QObject *parent)
 {
 	Q_UNUSED(parent)
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int, int)), this, SLOT(SlotRespInfo(QString, int, int)));
 
 }
 
@@ -18,17 +20,40 @@ BrowserManager::~BrowserManager()
 void BrowserManager::RequestRoot()
 {
 	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_ROOT);
+	node.Add	(KEY_DIR_ONLY,	false);
+	node.Add	(KEY_IMAGE,		false);
 
 	RequestCommand(node, BROWSER_ROOT);
-
 }
 
-void BrowserManager::RequestFolder()
+void BrowserManager::RequestFolder(QString strPath)
 {
 	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_FOLDER);
+	// path : folder path, cd, net, upnp ...
+	node.Add	(KEY_PATH,		strPath);
+	node.Add	(KEY_DIR_ONLY,	false);
+	node.Add	(KEY_IMAGE,		false);
 
 	RequestCommand(node, BROWSER_FOLDER);
 }
+
+void BrowserManager::RequestInfoBot(QString strPath, int nIndex)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_INFO);
+	node.Add	(KEY_CMD2,		VAL_BOT);
+	node.Add	(KEY_PATH,		strPath);
+
+	RequestCommand(node, BROWSER_INFO_BOT, nIndex);
+
+}
+
+
 
 void BrowserManager::RequestCopy()
 {
@@ -72,7 +97,7 @@ void BrowserManager::RequestPlay()
 	RequestCommand(node, BROWSER_PLAY);
 }
 
-void BrowserManager::SlotRespInfo(QString json, int nCmdID)
+void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 {
 	CJsonNode node;
 	if (!node.SetContent(json))
@@ -100,9 +125,12 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID)
 	switch (nCmdID)
 	{
 	case BROWSER_ROOT:
-		ParseRoot(node);
-		break;
 	case BROWSER_FOLDER:
+		ParseFolder(node);
+		break;
+	case BROWSER_INFO_BOT:
+		ParseInfoBot(node, nIndex);
+		break;
 	case BROWSER_COPY:
 	case BROWSER_MOVE:
 	case BROWSER_DELETE:
@@ -112,7 +140,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID)
 		break;
 //	case BROWSER_PLAYLIST:
 //	case BROWSER_INFO:
-//	case BROWSER_INFO_BOT:
+
 //	case BROWSER_SET_ART:
 //	case BROWSER_CONVERT:
 //	case BROWSER_REPLAYGAIN_SET:
@@ -126,7 +154,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID)
 	}
 }
 
-void BrowserManager::ParseRoot(CJsonNode node)
+void BrowserManager::ParseFolder(CJsonNode node)
 {
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
@@ -142,4 +170,9 @@ void BrowserManager::ParseRoot(CJsonNode node)
 	}
 
 	emit SigRespList(nodeList);
+}
+
+void BrowserManager::ParseInfoBot(CJsonNode node, int nIndex)
+{
+	emit SigRespNodeUpdate(node, nIndex);
 }

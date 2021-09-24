@@ -55,8 +55,19 @@ void MenuIcon::SetNodeList(const QList<CJsonNode> &NodeList, int menuType)
 	m_NodeList = NodeList;
 	if (MENU_BROWSER == menuType)
 	{
-		LogDebug("todo-dylee");
-		return;
+		foreach (CJsonNode node, m_NodeList)
+		{
+			QStandardItem *item = new QStandardItem;
+			item->setData(node.GetString(KEY_PATH), MenuIconDelegate::MENU_ICON_ROLE_ID);
+			item->setData(node.GetInt(KEY_TYPE), MenuIconDelegate::MENU_ICON_ROLE_TYPE);
+			item->setData(node.GetString(KEY_COVER_ART), MenuIconDelegate::MENU_ICON_ROLE_COVER);
+			item->setData(node.GetString(KEY_PATH), MenuIconDelegate::MENU_ICON_ROLE_TITLE);
+			item->setData(node.ToCompactString(), MenuIconDelegate::MENU_ICON_ROLE_RAW);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+		}
 	}
 	else if (MENU_ISERVICE == menuType)
 	{
@@ -90,8 +101,11 @@ void MenuIcon::SetNodeList(const QList<CJsonNode> &NodeList, int menuType)
 			m_ListView->openPersistentEditor(modelIndex);
 		}
 	}
-	else if (MENU_FM_RADIO == menuType)
+	else if (MENU_FM_RADIO == menuType
+			 || MENU_DAB_RADIO == menuType)
 	{
+		LogDebug("todo-dylee dab radio");
+
 		foreach (CJsonNode node, m_NodeList)
 		{
 			QStandardItem *item = new QStandardItem;
@@ -105,11 +119,6 @@ void MenuIcon::SetNodeList(const QList<CJsonNode> &NodeList, int menuType)
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 		}
-	}
-	else if (MENU_DAB_RADIO == menuType)
-	{
-		LogDebug("todo-dylee");
-		return;
 	}
 
 	ui->gridLayout->addWidget(m_ListView);

@@ -132,10 +132,6 @@ QPushButton:hover
            <property name="text">
             <string/>
            </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/resource/baseline_menu_black_24dp.png</normaloff>:/resource/baseline_menu_black_24dp.png</iconset>
-           </property>
           </widget>
          </item>
          <item>
@@ -199,10 +195,6 @@ QPushButton:hover
            <property name="text">
             <string/>
            </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/resource/outline_arrow_back_black_24dp.png</normaloff>:/resource/outline_arrow_back_black_24dp.png</iconset>
-           </property>
           </widget>
          </item>
          <item>
@@ -223,8 +215,7 @@ QPushButton:hover
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">
-QPushButton
+            <string notr="true">QPushButton
 {
   border-image: url(:/resource/Icon-rig.png);
 }
@@ -236,10 +227,6 @@ QPushButton:hover
            </property>
            <property name="text">
             <string/>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/resource/outline_arrow_forward_black_24dp.png</normaloff>:/resource/outline_arrow_forward_black_24dp.png</iconset>
            </property>
           </widget>
          </item>
@@ -354,8 +341,7 @@ color: rgb(255, 255, 255);</string>
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">
-QPushButton
+            <string notr="true">QPushButton
 {
   border-image: url(:/resource/Icon-search.png);
 }
@@ -367,10 +353,6 @@ QPushButton:hover
            </property>
            <property name="text">
             <string/>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/resource/baseline_search_black_24dp.png</normaloff>:/resource/baseline_search_black_24dp.png</iconset>
            </property>
           </widget>
          </item>

@@ -40,6 +40,20 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QLabel" name="labelBottom">
+     <property name="text">
+      <string>bottom</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelDuration">
+     <property name="text">
+      <string>duration</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

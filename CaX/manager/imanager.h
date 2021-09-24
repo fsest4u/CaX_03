@@ -16,7 +16,7 @@ public:
 	virtual TCPClient *GetTcpClient() const = 0;
 	virtual void SetTcpClient(TCPClient *pTcpClient) = 0;
 
-	virtual void RequestCommand(CJsonNode node, int nCmdID) = 0;
+	virtual void RequestCommand(CJsonNode node, int nCmdID, int nIndex) = 0;
 	virtual void RequestCoverArt(QString fullpath, int index, int mode) = 0;
 	virtual void RequestCoverArt(QString fullpath) = 0;
 

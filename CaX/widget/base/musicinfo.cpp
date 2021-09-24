@@ -153,7 +153,7 @@ void MusicInfo::SetCategoryDialog()
 	for (int i = 0; i < listID.count(); i++)
 	{
 		node.AddInt(KEY_ID_UPPER, listID.at(i));
-		node.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+		node.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 		node.Add(KEY_NAME, listName.at(i));
 		list.append(node);
 	}
@@ -185,7 +185,7 @@ void MusicInfo::SetSortDialog()
 	for (int i = 0; i < listID.count(); i++)
 	{
 		node.AddInt(KEY_ID_UPPER, listID.at(i));
-		node.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+		node.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 		node.Add(KEY_NAME, listName.at(i));
 		list.append(node);
 	}

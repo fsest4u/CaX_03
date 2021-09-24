@@ -75,37 +75,37 @@ void InputWindow::ConnectSigToSlot()
 
 }
 
-void InputWindow::SetInputHome(QList<CJsonNode> &srclist)
+void InputWindow::SetInputHome(QList<CJsonNode> &list)
 {
-	QList<CJsonNode> dstList;
+	QList<CJsonNode> tempList;
 	int index = 0;
 	QString strCover = "";
 
-	foreach (CJsonNode node, srclist)
+	foreach (CJsonNode node, list)
 	{
 		if (node.GetString(KEY_RIGHT).contains("AES/EBU"))
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("COAXIAL"))
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("TOSLINK"))
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("ANALOG IN"))
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("AUX IN"))
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("PHONO IN"))
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else
 		{
@@ -118,9 +118,9 @@ void InputWindow::SetInputHome(QList<CJsonNode> &srclist)
 		node.AddInt(KEY_ID_UPPER, index);
 		node.AddInt(KEY_TYPE, index);
 
-		dstList.append(node);
+		tempList.append(node);
 
 		index++;
 	}
-	srclist = dstList;
+	list = tempList;
 }

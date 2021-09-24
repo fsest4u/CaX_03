@@ -19,12 +19,12 @@ void MenuIconDelegate::SlotClickCoverArt(int nType, QString rawData)
 		return;
 	}
 
-	if (node.GetString("ItemType").isEmpty())
-	{
-		emit SigSelectCoverArt(nType);
+//	if (node.GetString("ItemType").isEmpty())
+//	{
+//		emit SigSelectCoverArt(nType);
 
-	}
-	else
+//	}
+//	else
 	{
 		// for i-service
 		emit SigSelectCoverArt(nType, rawData);

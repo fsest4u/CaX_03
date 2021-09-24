@@ -134,7 +134,7 @@ void SideMenu::Initialize()
 void SideMenu::SetMenu()
 {
 	QStandardItem *item0 = new QStandardItem;
-	QIcon icon0(":/resource/baseline_menu_black_24dp.png");
+	QIcon icon0(":/resource/Icon-playbar-volume-160.png");
 	item0->setData(SideMenuDelegate::SIDE_MY_MUSIC, SideMenuDelegate::SIDE_ROLE_ID);
 	item0->setData(icon0, SideMenuDelegate::SIDE_ROLE_ICON);
 	item0->setData("My Music", SideMenuDelegate::SIDE_ROLE_TITLE);
@@ -143,7 +143,7 @@ void SideMenu::SetMenu()
 	if (m_bAudioCD)
 	{
 		QStandardItem *item1 = new QStandardItem;
-		QIcon icon1(":/resource/baseline_menu_black_24dp.png");
+		QIcon icon1(":/resource/Icon-playbar-volume-160.png");
 		item1->setData(SideMenuDelegate::SIDE_AUDIO_CD, SideMenuDelegate::SIDE_ROLE_ID);
 		item1->setData(icon1, SideMenuDelegate::SIDE_ROLE_ICON);
 		item1->setData("Audio CD", SideMenuDelegate::SIDE_ROLE_TITLE);
@@ -151,21 +151,21 @@ void SideMenu::SetMenu()
 	}
 
 	QStandardItem *item2 = new QStandardItem;
-	QIcon icon2(":/resource/baseline_menu_black_24dp.png");
+	QIcon icon2(":/resource/Icon-playbar-volume-160.png");
 	item2->setData(SideMenuDelegate::SIDE_PLAYLIST, SideMenuDelegate::SIDE_ROLE_ID);
 	item2->setData(icon2, SideMenuDelegate::SIDE_ROLE_ICON);
 	item2->setData("Playlist", SideMenuDelegate::SIDE_ROLE_TITLE);
 	m_Model->appendRow(item2);
 
 	QStandardItem *item3 = new QStandardItem;
-	QIcon icon3(":/resource/baseline_menu_black_24dp.png");
+	QIcon icon3(":/resource/Icon-playbar-volume-160.png");
 	item3->setData(SideMenuDelegate::SIDE_BROWSER, SideMenuDelegate::SIDE_ROLE_ID);
 	item3->setData(icon3, SideMenuDelegate::SIDE_ROLE_ICON);
 	item3->setData("Browser", SideMenuDelegate::SIDE_ROLE_TITLE);
 	m_Model->appendRow(item3);
 
 	QStandardItem *item4 = new QStandardItem;
-	QIcon icon4(":/resource/baseline_menu_black_24dp.png");
+	QIcon icon4(":/resource/Icon-playbar-volume-160.png");
 	item4->setData(SideMenuDelegate::SIDE_ISERVICE, SideMenuDelegate::SIDE_ROLE_ID);
 	item4->setData(icon4, SideMenuDelegate::SIDE_ROLE_ICON);
 	item4->setData("I-Service", SideMenuDelegate::SIDE_ROLE_TITLE);
@@ -174,7 +174,7 @@ void SideMenu::SetMenu()
 	if (m_bInput)
 	{
 		QStandardItem *item5 = new QStandardItem;
-		QIcon icon5(":/resource/baseline_menu_black_24dp.png");
+		QIcon icon5(":/resource/Icon-playbar-volume-160.png");
 		item5->setData(SideMenuDelegate::SIDE_INPUT, SideMenuDelegate::SIDE_ROLE_ID);
 		item5->setData(icon5, SideMenuDelegate::SIDE_ROLE_ICON);
 		item5->setData("Input", SideMenuDelegate::SIDE_ROLE_TITLE);
@@ -183,7 +183,7 @@ void SideMenu::SetMenu()
 	if (m_bFMRadio)
 	{
 		QStandardItem *item6 = new QStandardItem;
-		QIcon icon6(":/resource/baseline_menu_black_24dp.png");
+		QIcon icon6(":/resource/Icon-playbar-volume-160.png");
 		item6->setData(SideMenuDelegate::SIDE_FM_RADIO, SideMenuDelegate::SIDE_ROLE_ID);
 		item6->setData(icon6, SideMenuDelegate::SIDE_ROLE_ICON);
 		item6->setData("FM Radio", SideMenuDelegate::SIDE_ROLE_TITLE);
@@ -192,7 +192,7 @@ void SideMenu::SetMenu()
 	if (m_bDABRadio)
 	{
 		QStandardItem *item7 = new QStandardItem;
-		QIcon icon7(":/resource/baseline_menu_black_24dp.png");
+		QIcon icon7(":/resource/Icon-playbar-volume-160.png");
 		item7->setData(SideMenuDelegate::SIDE_DAB_RADIO, SideMenuDelegate::SIDE_ROLE_ID);
 		item7->setData(icon7, SideMenuDelegate::SIDE_ROLE_ICON);
 		item7->setData("DAB Radio", SideMenuDelegate::SIDE_ROLE_TITLE);
@@ -201,7 +201,7 @@ void SideMenu::SetMenu()
 	if (m_bGroupPlay)
 	{
 		QStandardItem *item8 = new QStandardItem;
-		QIcon icon8(":/resource/baseline_menu_black_24dp.png");
+		QIcon icon8(":/resource/Icon-playbar-volume-160.png");
 		item8->setData(SideMenuDelegate::SIDE_GROUP_PLAY, SideMenuDelegate::SIDE_ROLE_ID);
 		item8->setData(icon8, SideMenuDelegate::SIDE_ROLE_ICON);
 		item8->setData("Group Play", SideMenuDelegate::SIDE_ROLE_TITLE);
@@ -209,14 +209,14 @@ void SideMenu::SetMenu()
 	}
 
 	QStandardItem *item9 = new QStandardItem;
-	QIcon icon9(":/resource/baseline_menu_black_24dp.png");
+	QIcon icon9(":/resource/Icon-playbar-volume-160.png");
 	item9->setData(SideMenuDelegate::SIDE_SETUP, SideMenuDelegate::SIDE_ROLE_ID);
 	item9->setData(icon9, SideMenuDelegate::SIDE_ROLE_ICON);
 	item9->setData("Setup", SideMenuDelegate::SIDE_ROLE_TITLE);
 	m_Model->appendRow(item9);
 
 	QStandardItem *item10 = new QStandardItem;
-	QIcon icon10(":/resource/baseline_menu_black_24dp.png");
+	QIcon icon10(":/resource/Icon-playbar-volume-160.png");
 	item10->setData(SideMenuDelegate::SIDE_POWER_OFF, SideMenuDelegate::SIDE_ROLE_ID);
 	item10->setData(icon10, SideMenuDelegate::SIDE_ROLE_ICON);
 	item10->setData("Power Off", SideMenuDelegate::SIDE_ROLE_TITLE);

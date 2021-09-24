@@ -39,7 +39,7 @@ void BaseManager::SetTcpClient(TCPClient *pTcpClient)
 	m_pTcpClient = pTcpClient;
 }
 
-void BaseManager::RequestCommand(CJsonNode node, int nCmdID)
+void BaseManager::RequestCommand(CJsonNode node, int nCmdID, int nIndex)
 {
 	if (!m_pTcpClient)
 	{
@@ -48,7 +48,7 @@ void BaseManager::RequestCommand(CJsonNode node, int nCmdID)
 	}
 
 	QByteArray jsonData = node.ToCompactByteArray();
-	m_pTcpClient->RequestCommand(jsonData, nCmdID);
+	m_pTcpClient->RequestCommand(jsonData, nCmdID, nIndex);
 
 }
 

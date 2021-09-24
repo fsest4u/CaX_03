@@ -34,7 +34,7 @@ TCPClient::~TCPClient()
 	}
 }
 
-void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID)
+void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 {
 	LogDebug("RequestCmd : [%s]", jsonData.data());
 
@@ -64,8 +64,14 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID)
 
 		QString jsonValue = QString::fromUtf8(m_pReply->readAll());
 		//LoggingDebug("Network Success : [%s]", jsonValue.toUtf8().data());
-		emit SigRespInfo(jsonValue, nCmdID);
-
+		if (nIndex < 0)
+		{
+			emit SigRespInfo(jsonValue, nCmdID);
+		}
+		else
+		{
+			emit SigRespInfo(jsonValue, nCmdID, nIndex);
+		}
 	}
 	else
 	{

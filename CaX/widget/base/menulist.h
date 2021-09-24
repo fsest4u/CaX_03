@@ -21,6 +21,18 @@ public:
 	explicit MenuList(QWidget *parent = nullptr);
 	~MenuList();
 
+	enum menuIndex {
+		MENU_AUDIO_CD = 0,
+		MENU_PLAYLIST,
+		MENU_BROWSER,
+		MENU_ISERVICE,
+		MENU_INPUT,
+		MENU_FM_RADIO,
+		MENU_DAB_RADIO,
+		MENU_GROUP_PLAY,
+		MENU_MAX
+	};
+
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
 
@@ -29,11 +41,12 @@ public:
 
 	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(const QList<CJsonNode> &NodeList);
+	void SetNodeList(const QList<CJsonNode> &NodeList, int menuType = MENU_AUDIO_CD);
 
 signals:
 
 	void SigReqArt(QString url, int nIndex);
+	void SigReqInfoBot(QString path, int index);
 
 private:
 

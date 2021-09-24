@@ -120,21 +120,21 @@ void FMRadioWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
 }
 
-void FMRadioWindow::SetHome(QList<CJsonNode> &srclist)
+void FMRadioWindow::SetHome(QList<CJsonNode> &list)
 {
-	QList<CJsonNode> dstList;
+	QList<CJsonNode> tempList;
 	int index = 0;
 	QString strCover = "";
 
-	foreach (CJsonNode node, srclist)
+	foreach (CJsonNode node, list)
 	{
-		strCover = ":/resource/baseline_search_black_24dp.png";
+		strCover = ":/resource/Icon-playbar-volume-160.png";
 		node.Add(KEY_COVER_ART, strCover);
 //		node.AddInt(KEY_ID_UPPER, index);
 		node.AddInt(KEY_TYPE, index);
 
-		dstList.append(node);
+		tempList.append(node);
 		index++;
 	}
-	srclist = dstList;
+	list = tempList;
 }

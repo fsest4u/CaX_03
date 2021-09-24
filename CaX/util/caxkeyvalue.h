@@ -44,6 +44,9 @@
 #define		KEY_CLEAR			"Clear"
 #define		KEY_FREQ			"Freq"
 #define		KEY_GENRE_ID		"GenreID"
+#define		KEY_DIR_ONLY		"DirOnly"
+#define		KEY_IMAGE			"Image"
+#define		KEY_PATH			"Path"
 
 
 //////////////////////////////////////////////////
@@ -88,6 +91,11 @@
 #define		VAL_DEL				"Del"
 #define		VAL_SET				"Set"
 #define		VAL_RECORD_LIST		"RecordList"
+
+#define		VAL_BROWSER			"Browser"
+#define		VAL_ROOT			"Root"
+#define		VAL_FOLDER			"Folder"
+#define		VAL_BOT				"Bot"
 
 
 //////////////////////////////////////////////////

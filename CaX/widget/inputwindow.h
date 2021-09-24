@@ -31,7 +31,7 @@ private:
 
 	void ConnectSigToSlot();
 
-	void SetInputHome(QList<CJsonNode> &srclist);
+	void SetInputHome(QList<CJsonNode> &list);
 
 	InputManager		*m_pMgr;
 	MenuInfo			*m_pMenuInfo;

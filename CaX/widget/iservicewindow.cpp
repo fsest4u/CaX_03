@@ -507,8 +507,8 @@ void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 void IServiceWindow::ConnectSigToSlot()
 {
-	// recursive
-	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));
+	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));		// recursive
+
 	connect(this, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
 
 	connect(m_pMenuInfo, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
@@ -622,43 +622,43 @@ void IServiceWindow::DoRecommendGenre(int nType, QString strID)
 	m_pMenuInfo->SetTitle(QOBUZ_TITLE);
 	m_pMenuList->SetNodeList(list);
 }
-void IServiceWindow::SetIServiceHome(QList<CJsonNode> &srclist)
+void IServiceWindow::SetIServiceHome(QList<CJsonNode> &list)
 {
-	QList<CJsonNode> dstList;
+	QList<CJsonNode> tempList;
 	QString strCover = "";
-	foreach (CJsonNode node, srclist)
+	foreach (CJsonNode node, list)
 	{
 		if (node.GetInt(KEY_TYPE) == iIServiceType_Qobuz)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_Radios)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_Podcasts)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_Tidal)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_Deezer)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_Napster)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_HighResAudio)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_AmazonMusic)
 		{
-			strCover = ":/resource/baseline_search_black_24dp.png";
+			strCover = ":/resource/Icon-playbar-volume-160.png";
 		}
 		else
 		{
@@ -666,47 +666,47 @@ void IServiceWindow::SetIServiceHome(QList<CJsonNode> &srclist)
 			continue;
 		}
 		node.Add(KEY_COVER_ART, strCover);
-		dstList.append(node);
+		tempList.append(node);
 	}
-	srclist = dstList;
+	list = tempList;
 }
 
-void IServiceWindow::SetQobuzHome(QList<CJsonNode> &srclist)
+void IServiceWindow::SetQobuzHome(QList<CJsonNode> &list)
 {
 	CJsonNode nodeSearch(JSON_OBJECT);
 	nodeSearch.AddInt(KEY_TYPE, iQobuzType_Mask_Search);
-	nodeSearch.AddString(KEY_COVER_ART, ":/resource/baseline_search_black_24dp.png");
+	nodeSearch.AddString(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeSearch.AddString(KEY_NAME, "Search");
 
 	CJsonNode nodeRecommend(JSON_OBJECT);
 	nodeRecommend.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend);
-	nodeRecommend.AddString(KEY_COVER_ART, ":/resource/baseline_search_black_24dp.png");
+	nodeRecommend.AddString(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeRecommend.AddString(KEY_NAME, "Recommend");
 
 	CJsonNode nodeFavorite(JSON_OBJECT);
 	nodeFavorite.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite);
-	nodeFavorite.AddString(KEY_COVER_ART, ":/resource/baseline_search_black_24dp.png");
+	nodeFavorite.AddString(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeFavorite.AddString(KEY_NAME, "Favorite");
 
 	CJsonNode nodePlaylist(JSON_OBJECT);
 	nodePlaylist.AddInt(KEY_TYPE, iQobuzType_Mask_UserPlaylist);
-	nodePlaylist.AddString(KEY_COVER_ART, ":/resource/baseline_search_black_24dp.png");
+	nodePlaylist.AddString(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodePlaylist.AddString(KEY_NAME, "Playlist");
 
-	srclist.append(nodeSearch);
-	srclist.append(nodeRecommend);
-	srclist.append(nodeFavorite);
-	srclist.append(nodePlaylist);
+	list.append(nodeSearch);
+	list.append(nodeRecommend);
+	list.append(nodeFavorite);
+	list.append(nodePlaylist);
 
 }
 
-void IServiceWindow::SetQobuzSearch(QList<CJsonNode> &srclist)
+void IServiceWindow::SetQobuzSearch(QList<CJsonNode> &list)
 {
 	CJsonNode nodeArtist(JSON_OBJECT);
 	nodeArtist.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Artist);
 	nodeArtist.Add(KEY_NAME, "Artist");
 	nodeArtist.Add(KEY_CMD1, "m_SearchArtist");
-	nodeArtist.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeArtist.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeArtist.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeArtist.AddInt("ItemType", iQobuzType_Mask_Search | iQobuzType_Mask_Artist);
 	nodeArtist.AddInt("MenuDepth", 1);
@@ -715,7 +715,7 @@ void IServiceWindow::SetQobuzSearch(QList<CJsonNode> &srclist)
 	nodeAlbum.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Album);
 	nodeAlbum.Add(KEY_NAME, "Album");
 	nodeAlbum.Add(KEY_CMD1, "m_SearchAlbum");
-	nodeAlbum.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeAlbum.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeAlbum.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeAlbum.AddInt("ItemType", iQobuzType_Mask_Search | iQobuzType_Mask_Album);
 	nodeAlbum.AddInt("MenuDepth", 1);
@@ -724,7 +724,7 @@ void IServiceWindow::SetQobuzSearch(QList<CJsonNode> &srclist)
 	nodeTrack.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Track);
 	nodeTrack.Add(KEY_NAME, "Track");
 	nodeTrack.Add(KEY_CMD1, "m_SearchTrack");
-	nodeTrack.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeTrack.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeTrack.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeTrack.AddInt("ItemType", iQobuzType_Mask_Search | iQobuzType_Mask_Track);
 	nodeTrack.AddInt("MenuDepth", 1);
@@ -733,24 +733,24 @@ void IServiceWindow::SetQobuzSearch(QList<CJsonNode> &srclist)
 	nodePlaylist.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Playlist);
 	nodePlaylist.Add(KEY_NAME, "Playlist");
 	nodePlaylist.Add(KEY_CMD1, "m_SearchPlaylist");
-	nodePlaylist.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodePlaylist.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodePlaylist.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodePlaylist.AddInt("ItemType", iQobuzType_Mask_Search | iQobuzType_Mask_Playlist);
 	nodePlaylist.AddInt("MenuDepth", 1);
 
-	srclist.append(nodeArtist);
-	srclist.append(nodeAlbum);
-	srclist.append(nodeTrack);
-	srclist.append(nodePlaylist);
+	list.append(nodeArtist);
+	list.append(nodeAlbum);
+	list.append(nodeTrack);
+	list.append(nodePlaylist);
 }
 
-void IServiceWindow::SetQobuzRecommend(QList<CJsonNode> &srclist)
+void IServiceWindow::SetQobuzRecommend(QList<CJsonNode> &list)
 {
 	CJsonNode nodeAlbum(JSON_OBJECT);
 	nodeAlbum.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album);
 	nodeAlbum.Add(KEY_NAME, "Album");
 	nodeAlbum.Add(KEY_CMD1, "m_RecommendAlbum");
-	nodeAlbum.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeAlbum.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeAlbum.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeAlbum.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album);
 	nodeAlbum.AddInt("MenuDepth", 1);
@@ -759,23 +759,23 @@ void IServiceWindow::SetQobuzRecommend(QList<CJsonNode> &srclist)
 	nodePlaylist.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist);
 	nodePlaylist.Add(KEY_NAME, "Playlist");
 	nodePlaylist.Add(KEY_CMD1, "m_RecommendPlaylist");
-	nodePlaylist.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodePlaylist.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodePlaylist.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodePlaylist.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist);
 	nodePlaylist.AddInt("MenuDepth", 1);
 
-	srclist.append(nodeAlbum);
-	srclist.append(nodePlaylist);
+	list.append(nodeAlbum);
+	list.append(nodePlaylist);
 }
 
-void IServiceWindow::SetQobuzFavorite(QList<CJsonNode> &srclist)
+void IServiceWindow::SetQobuzFavorite(QList<CJsonNode> &list)
 {
 	// m_QobuzFavorite
 	CJsonNode nodeArtist(JSON_OBJECT);
 	nodeArtist.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist);
 	nodeArtist.Add(KEY_NAME, "Artist");
 	nodeArtist.Add(KEY_CMD1, "m_FavoriteArtist");
-	nodeArtist.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeArtist.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeArtist.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeArtist.AddInt("ItemType", iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist);
 	nodeArtist.AddInt("MenuDepth", 1);
@@ -784,7 +784,7 @@ void IServiceWindow::SetQobuzFavorite(QList<CJsonNode> &srclist)
 	nodeAlbum.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album);
 	nodeAlbum.Add(KEY_NAME, "Album");
 	nodeAlbum.Add(KEY_CMD1, "m_FavoriteAlbum");
-	nodeAlbum.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeAlbum.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeAlbum.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeAlbum.AddInt("ItemType", iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album);
 	nodeAlbum.AddInt("MenuDepth", 1);
@@ -793,23 +793,23 @@ void IServiceWindow::SetQobuzFavorite(QList<CJsonNode> &srclist)
 	nodeTrack.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track);
 	nodeTrack.Add(KEY_NAME, "Track");
 	nodeTrack.Add(KEY_CMD1, "m_FavoriteTrack");
-	nodeTrack.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeTrack.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeTrack.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeTrack.AddInt("ItemType", iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track);
 	nodeTrack.AddInt("MenuDepth", 1);
 
-	srclist.append(nodeArtist);
-	srclist.append(nodeAlbum);
-	srclist.append(nodeTrack);
+	list.append(nodeArtist);
+	list.append(nodeAlbum);
+	list.append(nodeTrack);
 
 }
 
-void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
+void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 {
 	CJsonNode nodeGenre(JSON_OBJECT);
 	nodeGenre.Add(KEY_ID_UPPER, "Genre");
 	nodeGenre.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeGenre.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeGenre.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeGenre.Add(KEY_NAME, "Genre");
 	nodeGenre.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeGenre.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
@@ -818,7 +818,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	CJsonNode nodeBestSellers(JSON_OBJECT);
 	nodeBestSellers.Add(KEY_ID_UPPER, "best-sellers");
 	nodeBestSellers.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeBestSellers.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeBestSellers.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeBestSellers.Add(KEY_NAME, "BestSellers");
 	nodeBestSellers.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeBestSellers.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
@@ -827,7 +827,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	CJsonNode nodeMostStreamd(JSON_OBJECT);
 	nodeMostStreamd.Add(KEY_ID_UPPER, "most-streamed");
 	nodeMostStreamd.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostStreamd.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeMostStreamd.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeMostStreamd.Add(KEY_NAME, "MostStreamd");
 	nodeMostStreamd.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeMostStreamd.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
@@ -836,7 +836,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	CJsonNode nodeNewReleases(JSON_OBJECT);
 	nodeNewReleases.Add(KEY_ID_UPPER, "new-releases");
 	nodeNewReleases.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeNewReleases.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeNewReleases.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeNewReleases.Add(KEY_NAME, "NewReleases");
 	nodeNewReleases.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeNewReleases.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
@@ -845,7 +845,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	CJsonNode nodePressAward(JSON_OBJECT);
 	nodePressAward.Add(KEY_ID_UPPER, "press-awards");
 	nodePressAward.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodePressAward.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodePressAward.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodePressAward.Add(KEY_NAME, "PressAward");
 	nodePressAward.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodePressAward.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
@@ -854,7 +854,7 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	CJsonNode nodeEditorPicks(JSON_OBJECT);
 	nodeEditorPicks.Add(KEY_ID_UPPER, "editor-picks");
 	nodeEditorPicks.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeEditorPicks.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeEditorPicks.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeEditorPicks.Add(KEY_NAME, "EditorPicks");
 	nodeEditorPicks.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeEditorPicks.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
@@ -863,27 +863,27 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &srclist)
 	CJsonNode nodeMostFeatured(JSON_OBJECT);
 	nodeMostFeatured.Add(KEY_ID_UPPER, "most-featured");
 	nodeMostFeatured.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostFeatured.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeMostFeatured.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeMostFeatured.Add(KEY_NAME, "MostFeatured");
 	nodeMostFeatured.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeMostFeatured.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeMostFeatured.AddInt("MenuDepth", 2);
 
-	srclist.append(nodeGenre);
-	srclist.append(nodeBestSellers);
-	srclist.append(nodeMostStreamd);
-	srclist.append(nodeNewReleases);
-	srclist.append(nodePressAward);
-	srclist.append(nodeEditorPicks);
-	srclist.append(nodeMostFeatured);
+	list.append(nodeGenre);
+	list.append(nodeBestSellers);
+	list.append(nodeMostStreamd);
+	list.append(nodeNewReleases);
+	list.append(nodePressAward);
+	list.append(nodeEditorPicks);
+	list.append(nodeMostFeatured);
 }
 
-void IServiceWindow::SetRecommendPlaylist(QList<CJsonNode> &srclist)
+void IServiceWindow::SetRecommendPlaylist(QList<CJsonNode> &list)
 {
 	CJsonNode nodeLastCreated(JSON_OBJECT);
 	nodeLastCreated.Add(KEY_ID_UPPER, "last-created");
 	nodeLastCreated.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
-	nodeLastCreated.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeLastCreated.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeLastCreated.Add(KEY_NAME, "LastCreated");
 	nodeLastCreated.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeLastCreated.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
@@ -892,22 +892,22 @@ void IServiceWindow::SetRecommendPlaylist(QList<CJsonNode> &srclist)
 	CJsonNode nodeEditorPicks(JSON_OBJECT);
 	nodeEditorPicks.Add(KEY_ID_UPPER, "editor-picks");
 	nodeEditorPicks.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
-	nodeEditorPicks.Add(KEY_COVER_ART, ":/resource/baseline_menu_black_24dp.png");
+	nodeEditorPicks.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
 	nodeEditorPicks.Add(KEY_NAME, "EditorPicks");
 	nodeEditorPicks.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeEditorPicks.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
 	nodeEditorPicks.AddInt("MenuDepth", 2);
 
-	srclist.append(nodeLastCreated);
-	srclist.append(nodeEditorPicks);
+	list.append(nodeLastCreated);
+	list.append(nodeEditorPicks);
 }
 
-void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &srclist, QString strID)
+void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 {
 	CJsonNode nodeBestSellers(JSON_OBJECT);
 	nodeBestSellers.Add(KEY_ID_UPPER, "best-sellers");
 	nodeBestSellers.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeBestSellers.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeBestSellers.Add(KEY_ICON, ":/resource/Icon-playbar-volume-160.png");
 	nodeBestSellers.Add(KEY_TOP, "BestSellers");
 	nodeBestSellers.Add(KEY_GENRE_ID, strID);
 	nodeBestSellers.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -917,7 +917,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &srclist, QString strID)
 	CJsonNode nodeMostStreamd(JSON_OBJECT);
 	nodeMostStreamd.Add(KEY_ID_UPPER, "most-streamed");
 	nodeMostStreamd.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostStreamd.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeMostStreamd.Add(KEY_ICON, ":/resource/Icon-playbar-volume-160.png");
 	nodeMostStreamd.Add(KEY_TOP, "MostStreamd");
 	nodeMostStreamd.Add(KEY_GENRE_ID, strID);
 	nodeMostStreamd.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -927,7 +927,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &srclist, QString strID)
 	CJsonNode nodeNewReleases(JSON_OBJECT);
 	nodeNewReleases.Add(KEY_ID_UPPER, "new-releases");
 	nodeNewReleases.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeNewReleases.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeNewReleases.Add(KEY_ICON, ":/resource/Icon-playbar-volume-160.png");
 	nodeNewReleases.Add(KEY_TOP, "NewReleases");
 	nodeNewReleases.Add(KEY_GENRE_ID, strID);
 	nodeNewReleases.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -937,7 +937,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &srclist, QString strID)
 	CJsonNode nodePressAward(JSON_OBJECT);
 	nodePressAward.Add(KEY_ID_UPPER, "press-awards");
 	nodePressAward.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodePressAward.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodePressAward.Add(KEY_ICON, ":/resource/Icon-playbar-volume-160.png");
 	nodePressAward.Add(KEY_TOP, "PressAward");
 	nodePressAward.Add(KEY_GENRE_ID, strID);
 	nodePressAward.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -947,7 +947,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &srclist, QString strID)
 	CJsonNode nodeEditorPicks(JSON_OBJECT);
 	nodeEditorPicks.Add(KEY_ID_UPPER, "editor-picks");
 	nodeEditorPicks.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeEditorPicks.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeEditorPicks.Add(KEY_ICON, ":/resource/Icon-playbar-volume-160.png");
 	nodeEditorPicks.Add(KEY_TOP, "EditorPicks");
 	nodeEditorPicks.Add(KEY_GENRE_ID, strID);
 	nodeEditorPicks.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -957,17 +957,17 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &srclist, QString strID)
 	CJsonNode nodeMostFeatured(JSON_OBJECT);
 	nodeMostFeatured.Add(KEY_ID_UPPER, "most-featured");
 	nodeMostFeatured.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostFeatured.Add(KEY_ICON, ":/resource/baseline_menu_black_24dp.png");
+	nodeMostFeatured.Add(KEY_ICON, ":/resource/Icon-playbar-volume-160.png");
 	nodeMostFeatured.Add(KEY_TOP, "MostFeatured");
 	nodeMostFeatured.Add(KEY_GENRE_ID, strID);
 	nodeMostFeatured.AddInt("QobuzMenu", iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeMostFeatured.AddInt("ItemType", iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album);
 	nodeMostFeatured.AddInt("MenuDepth", 2);
 
-	srclist.append(nodeBestSellers);
-	srclist.append(nodeMostStreamd);
-	srclist.append(nodeNewReleases);
-	srclist.append(nodePressAward);
-	srclist.append(nodeEditorPicks);
-	srclist.append(nodeMostFeatured);
+	list.append(nodeBestSellers);
+	list.append(nodeMostStreamd);
+	list.append(nodeNewReleases);
+	list.append(nodePressAward);
+	list.append(nodeEditorPicks);
+	list.append(nodeMostFeatured);
 }

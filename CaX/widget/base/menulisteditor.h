@@ -27,6 +27,12 @@ public:
 	QString GetTitle() const;
 	void SetTitle(const QString &Title);
 
+	QString GetBottom() const;
+	void SetBottom(const QString &Bottom);
+
+	QString GetDuration() const;
+	void SetDuration(const QString &Duration);
+
 	QString GetArt() const;
 	void SetArt(const QString &Art);
 

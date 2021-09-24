@@ -79,28 +79,28 @@ void SubmenuDialog::Initialize()
 void SubmenuDialog::SetMenu()
 {
 //	QStandardItem *item0 = new QStandardItem;
-//	QIcon icon0(":/resource/baseline_menu_black_24dp.png");
-//	item0->setData(CAT_GENRE, CategoryDelegate::CAT_ROLE_ID);
+//	QIcon icon0(":/resource/Icon-playbar-volume-160.png");
+	//	item0->setData(CAT_GENRE, CategoryDelegate::CAT_ROLE_ID);
 //	item0->setData(icon0, CategoryDelegate::CAT_ROLE_ICON);
 //	item0->setData("Sorted by Genre", CategoryDelegate::CAT_ROLE_TITLE);
 //	m_Model->appendRow(item0);
 
 //	QStandardItem *item1 = new QStandardItem;
-//	QIcon icon1(":/resource/baseline_menu_black_24dp.png");
+//	QIcon icon1(":/resource/Icon-playbar-volume-160.png");
 //	item1->setData(CAT_MOOD, CategoryDelegate::CAT_ROLE_ID);
 //	item1->setData(icon1, CategoryDelegate::CAT_ROLE_ICON);
 //	item1->setData("Sorted by Mood", CategoryDelegate::CAT_ROLE_TITLE);
 //	m_Model->appendRow(item1);
 
 //	QStandardItem *item2 = new QStandardItem;
-//	QIcon icon2(":/resource/baseline_menu_black_24dp.png");
+//	QIcon icon2(":/resource/Icon-playbar-volume-160.png");
 //	item2->setData(CAT_FOLDER, CategoryDelegate::CAT_ROLE_ID);
 //	item2->setData(icon2, CategoryDelegate::CAT_ROLE_ICON);
 //	item2->setData("Sorted by Folder", CategoryDelegate::CAT_ROLE_TITLE);
 //	m_Model->appendRow(item2);
 
 //	QStandardItem *item3 = new QStandardItem;
-//	QIcon icon3(":/resource/baseline_menu_black_24dp.png");
+//	QIcon icon3(":/resource/Icon-playbar-volume-160.png");
 //	item3->setData(CAT_YEAR, CategoryDelegate::CAT_ROLE_ID);
 //	item3->setData(icon3, CategoryDelegate::CAT_ROLE_ICON);
 //	item3->setData("Sorted by Year", CategoryDelegate::CAT_ROLE_TITLE);

@@ -88,15 +88,15 @@ private:
 	void DoRecommendPlaylist();
 	void DoRecommendGenre(int nType, QString strID);
 
-	void SetIServiceHome(QList<CJsonNode> &srclist);
-	void SetQobuzHome(QList<CJsonNode> &srclist);
-	void SetQobuzSearch(QList<CJsonNode> &srclist);
-	void SetQobuzRecommend(QList<CJsonNode> &srclist);
-	void SetQobuzFavorite(QList<CJsonNode> &srclist);
+	void SetIServiceHome(QList<CJsonNode> &list);
+	void SetQobuzHome(QList<CJsonNode> &list);
+	void SetQobuzSearch(QList<CJsonNode> &list);
+	void SetQobuzRecommend(QList<CJsonNode> &list);
+	void SetQobuzFavorite(QList<CJsonNode> &list);
 
-	void SetRecommendAlbum(QList<CJsonNode> &srclist);
-	void SetRecommendPlaylist(QList<CJsonNode> &srclist);
-	void SetRecommendGenre(QList<CJsonNode> &srclist, QString strID);
+	void SetRecommendAlbum(QList<CJsonNode> &list);
+	void SetRecommendPlaylist(QList<CJsonNode> &list);
+	void SetRecommendGenre(QList<CJsonNode> &list, QString strID);
 
 
 	AirableManager		*m_pAirableMgr;

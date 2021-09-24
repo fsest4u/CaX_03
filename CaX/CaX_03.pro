@@ -53,7 +53,6 @@ SOURCES += \
     widget/base/menulisteditor.cpp \
     widget/base/musicinfo.cpp \
     widget/base/songconts.cpp \
-    widget/base/songcontscover.cpp \
     widget/base/songcontsdelegate.cpp \
     widget/base/songcontseditor.cpp \
     widget/browserwindow.cpp \
@@ -123,7 +122,6 @@ HEADERS += \
     widget/base/menulisteditor.h \
     widget/base/musicinfo.h \
     widget/base/songconts.h \
-    widget/base/songcontscover.h \
     widget/base/songcontsdelegate.h \
     widget/base/songcontseditor.h \
     widget/browser.h \
@@ -159,7 +157,6 @@ FORMS += \
     widget/base/menulisteditor.ui \
     widget/base/musicinfo.ui \
     widget/base/songconts.ui \
-    widget/base/songcontscover.ui \
     widget/base/songcontseditor.ui \
     widget/browserwindow.ui \
     widget/dabradiowindow.ui \

@@ -20,21 +20,32 @@ class BrowserWindow : public QWidget
 	Q_OBJECT
 
 public:
-	explicit BrowserWindow(QWidget *parent = nullptr, const QString &addr = "");
+	explicit BrowserWindow(QWidget *parent = nullptr, const QString &addr = "", const QString &root = "");
 	~BrowserWindow();
 
 	void RequestRoot();
-	void RequestFolder();
+	void RequestFolder(QString strPath);
+
+signals:
+
+	void SigAddWidget(QWidget *widget);
+
 
 private slots:
 
+	void SlotAddWidget(QWidget *widget);
+
 	void SlotSubmenu(int nID);
-	void SlotSelectCoverArt(int nType);
+	void SlotSelectCoverArt(int nType, QString rawData);
 	void SlotRespList(QList<CJsonNode> list);
+	void SlotReqInfoBot(QString strPath, int nIndex);
+	void SlotRespNodeUpdate(CJsonNode node, int nIndex);
 
 private:
 
 	void ConnectSigToSlot();
+
+	void SetCoverArt(QList<CJsonNode> &list);
 
 	BrowserManager		*m_pMgr;
 	MenuInfo			*m_pMenuInfo;
@@ -42,6 +53,8 @@ private:
 	MenuList			*m_pMenuList;
 
 	Loading				*m_pLoading;
+
+	QString				m_Root;
 
 	Ui::BrowserWindow *ui;
 };

@@ -18,7 +18,7 @@ public:
 	TCPClient *GetTcpClient() const;
 	void SetTcpClient(TCPClient *pTcpClient);
 
-	void RequestCommand(CJsonNode node, int nCmdID = -1);
+	void RequestCommand(CJsonNode node, int nCmdID = -1, int nIndex = -1);
 	void RequestCoverArt(QString fullpath, int index, int mode);
 	void RequestCoverArt(QString fullpath);
 

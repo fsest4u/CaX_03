@@ -23,6 +23,9 @@ MenuListEditor::MenuListEditor(QWidget *parent) :
 
 	ui->labelImageIcon->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
+
+	ui->labelBottom->hide();
+	ui->labelDuration->hide();
 }
 
 MenuListEditor::~MenuListEditor()
@@ -60,6 +63,28 @@ void MenuListEditor::SetTitle(const QString &Title)
 	ui->labelTitle->setText(Title);
 }
 
+QString MenuListEditor::GetBottom() const
+{
+	return ui->labelBottom->text();
+}
+
+void MenuListEditor::SetBottom(const QString &Bottom)
+{
+	ui->labelBottom->show();
+	ui->labelBottom->setText(Bottom);
+}
+
+QString MenuListEditor::GetDuration() const
+{
+	return ui->labelDuration->text();
+}
+
+void MenuListEditor::SetDuration(const QString &Duration)
+{
+	ui->labelDuration->show();
+	ui->labelDuration->setText(Duration);
+}
+
 QString MenuListEditor::GetIcon() const
 {
 	return m_Icon;
@@ -75,15 +100,15 @@ void MenuListEditor::SetIcon(const QString &Icon)
 	QString filename = "";
 	if (!m_Icon.compare(ICON_SEARCH))
 	{
-		filename = ":/resource/baseline_search_black_24dp.png";
+		filename = ":/resource/Icon-playbar-volume-160.png";
 	}
 	else if (!m_Icon.compare(ICON_REC_LIST))
 	{
-		filename = ":/resource/baseline_search_black_24dp.png";
+		filename = ":/resource/Icon-playbar-volume-160.png";
 	}
 	else
 	{
-		filename = ":/resource/baseline_search_black_24dp.png";
+		filename = ":/resource/Icon-playbar-volume-160.png";
 	}
 
 	QImage image;

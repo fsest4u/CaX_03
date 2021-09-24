@@ -67,6 +67,8 @@ void MenuListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
 	widget->SetID(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(MENU_LIST_ROLE_TYPE)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_TITLE)));
+	widget->SetBottom(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_BOT)));
+	widget->SetDuration(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_DURATION)));
 	widget->SetIcon(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_ICON)));
 	widget->SetArt(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_ART)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(MENU_LIST_ROLE_RAW)));
@@ -79,6 +81,8 @@ void MenuListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
 	model->setData(index, widget->GetID(), MENU_LIST_ROLE_ID);
 	model->setData(index, widget->GetType(), MENU_LIST_ROLE_TYPE);
 	model->setData(index, widget->GetTitle(), MENU_LIST_ROLE_TITLE);
+	model->setData(index, widget->GetBottom(), MENU_LIST_ROLE_BOT);
+	model->setData(index, widget->GetDuration(), MENU_LIST_ROLE_DURATION);
 	model->setData(index, widget->GetIcon(), MENU_LIST_ROLE_ICON);
 	model->setData(index, widget->GetArt(), MENU_LIST_ROLE_ART);
 	model->setData(index, widget->GetRawData(), MENU_LIST_ROLE_RAW);

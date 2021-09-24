@@ -71,30 +71,61 @@ QList<CJsonNode> MenuList::GetNodeList() const
 	return m_NodeList;
 }
 
-void MenuList::SetNodeList(const QList<CJsonNode> &NodeList)
+void MenuList::SetNodeList(const QList<CJsonNode> &NodeList, int menuType)
 {
 	m_NodeList = NodeList;
 	int index = 0;
-	foreach (CJsonNode node, m_NodeList)
+
+	if (MENU_BROWSER == menuType)
 	{
-//		LogDebug("type : [%d]", node.GetInt(KEY_TYPE));
-//		LogDebug("icon : [%s]", node.GetString(KEY_ICON).toUtf8().data());
-//		LogDebug("title : [%s]", node.GetString(KEY_TOP).toUtf8().data());
-//		LogDebug("url : [%s]", node.GetString(VAL_URL).toUtf8().data());
-		QStandardItem *item = new QStandardItem;
-		item->setData(node.GetString(KEY_ID_UPPER), MenuListDelegate::MENU_LIST_ROLE_ID);
-		item->setData(node.GetInt(KEY_TYPE), MenuListDelegate::MENU_LIST_ROLE_TYPE);
-		item->setData(node.GetString(KEY_TOP), MenuListDelegate::MENU_LIST_ROLE_TITLE);
-		item->setData(node.GetString(KEY_ICON), MenuListDelegate::MENU_LIST_ROLE_ICON);
-//		item->setData(node.GetString(KEY_ART), MenuListDelegate::MENU_LIST_ROLE_ART);
-		item->setData(node.ToCompactString(), MenuListDelegate::MENU_LIST_ROLE_RAW);
+		foreach (CJsonNode node, m_NodeList)
+		{
+	//		LogDebug("type : [%d]", node.GetInt(KEY_TYPE));
+	//		LogDebug("icon : [%s]", node.GetString(KEY_ICON).toUtf8().data());
+	//		LogDebug("title : [%s]", node.GetString(KEY_TOP).toUtf8().data());
+	//		LogDebug("url : [%s]", node.GetString(VAL_URL).toUtf8().data());
+			QStandardItem *item = new QStandardItem;
+			item->setData(node.GetString(KEY_ID_UPPER), MenuListDelegate::MENU_LIST_ROLE_ID);
+			item->setData(node.GetInt(KEY_TYPE), MenuListDelegate::MENU_LIST_ROLE_TYPE);
+			item->setData(node.GetString(KEY_PATH), MenuListDelegate::MENU_LIST_ROLE_TITLE);
+			item->setData(node.GetString(KEY_BOT), MenuListDelegate::MENU_LIST_ROLE_BOT);
+			item->setData(node.GetString(KEY_DURATION), MenuListDelegate::MENU_LIST_ROLE_DURATION);
+			item->setData(node.GetString(KEY_ICON), MenuListDelegate::MENU_LIST_ROLE_ICON);
+	//		item->setData(node.GetString(KEY_ART), MenuListDelegate::MENU_LIST_ROLE_ART);
+			item->setData(node.ToCompactString(), MenuListDelegate::MENU_LIST_ROLE_RAW);
 
-		m_Model->appendRow(item);
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
 
-		emit SigReqArt(node.GetString(KEY_ART), index);
-		index++;
+			emit SigReqInfoBot(node.GetString(KEY_PATH), index);
+			emit SigReqArt(node.GetString(KEY_ART), index);
+			index++;
+		}
+	}
+	else
+	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+	//		LogDebug("type : [%d]", node.GetInt(KEY_TYPE));
+	//		LogDebug("icon : [%s]", node.GetString(KEY_ICON).toUtf8().data());
+	//		LogDebug("title : [%s]", node.GetString(KEY_TOP).toUtf8().data());
+	//		LogDebug("url : [%s]", node.GetString(VAL_URL).toUtf8().data());
+			QStandardItem *item = new QStandardItem;
+			item->setData(node.GetString(KEY_ID_UPPER), MenuListDelegate::MENU_LIST_ROLE_ID);
+			item->setData(node.GetInt(KEY_TYPE), MenuListDelegate::MENU_LIST_ROLE_TYPE);
+			item->setData(node.GetString(KEY_TOP), MenuListDelegate::MENU_LIST_ROLE_TITLE);
+			item->setData(node.GetString(KEY_ICON), MenuListDelegate::MENU_LIST_ROLE_ICON);
+	//		item->setData(node.GetString(KEY_ART), MenuListDelegate::MENU_LIST_ROLE_ART);
+			item->setData(node.ToCompactString(), MenuListDelegate::MENU_LIST_ROLE_RAW);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+			emit SigReqArt(node.GetString(KEY_ART), index);
+			index++;
+		}
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
