@@ -98,7 +98,23 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 	}
 	else if (ICON_TRACKS_PLAYLIST == type)
 	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+			QStandardItem *item = new QStandardItem;
+			int nID = node.GetString(KEY_ID_LOWER).toInt();
+			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
+			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TOP);
+			item->setData("", IconTracksDelegate::ICON_TRACKS_BOTTOM);
+			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
+			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
+			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
 
+			emit SigReqCoverArt(nID, index);
+			index++;
+		}
 	}
 
 	ui->gridLayout->addWidget(m_ListView);

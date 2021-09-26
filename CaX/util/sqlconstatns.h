@@ -440,4 +440,6 @@ order by PlsSong.Seq	\
 #define SQL_UPDATE_RATING_OF_FOLDER			"update Folder set Rating=%1 where Folder.ROWID=%2"
 //#define SQL_UPDATE_RATING_OF_SONG			"update Song set Rating=%1 where Song.ROWID=%2"
 
+#define SQL_PL
+
 #endif // SQLCONSTATNS_H

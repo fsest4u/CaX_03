@@ -621,10 +621,9 @@ void MainWindow::DoAudioCDHome()
 
 void MainWindow::DoPlaylistHome()
 {
-	PlaylistWindow *widget = new PlaylistWindow;
+	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
 	AddWidget(widget);
-
-
+	widget->PlayList();
 }
 
 void MainWindow::DoBrowserHome()

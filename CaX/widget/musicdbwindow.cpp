@@ -20,17 +20,17 @@
 #include "base/listtracksdelegate.h"
 
 
-MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr)
-	: QWidget(parent)
-	, m_pMgr(new MusicDBManager)
-	, m_pInfoHome(new InfoHome(this))
-	, m_pInfoTracks(new InfoTracks(this))
-	, m_pIconTracks(new IconTracks(this))
-	, m_pListTracks(new ListTracks(this))
-	, m_pLoading(new Loading(this))
-//	, m_pCatThread(new QThread)
-//	, m_pSongThread(new QThread)
-	, ui(new Ui::MusicDBWindow)
+MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
+	QWidget(parent),
+	m_pMgr(new MusicDBManager),
+	m_pInfoHome(new InfoHome(this)),
+	m_pInfoTracks(new InfoTracks(this)),
+	m_pIconTracks(new IconTracks(this)),
+	m_pListTracks(new ListTracks(this)),
+	m_pLoading(new Loading(this)),
+//	m_pCatThread(new QThread),
+//	m_pSongThread(new QThread),
+	ui(new Ui::MusicDBWindow)
 {
 	ui->setupUi(this);
 
@@ -272,7 +272,6 @@ void MusicDBWindow::SlotAlbumSort()
 
 void MusicDBWindow::SlotReqCategoryCover(int nID, int nIndex)
 {
-
 	QString strCat = m_pMgr->GetCategoryName(m_nCategory);
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(nID);

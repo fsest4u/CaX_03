@@ -28,6 +28,7 @@ SOURCES += \
     manager/inputmanager.cpp \
     manager/musicdbmanager.cpp \
     manager/observermanager.cpp \
+    manager/playlistmanager.cpp \
     manager/playmanager.cpp \
     manager/qobuzmanager.cpp \
     manager/sqlmanager.cpp \
@@ -94,6 +95,7 @@ HEADERS += \
     manager/inputmanager.h \
     manager/musicdbmanager.h \
     manager/observermanager.h \
+    manager/playlistmanager.h \
     manager/playmanager.h \
     manager/qobuzmanager.h \
     manager/sqlmanager.h \

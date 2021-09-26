@@ -6,9 +6,6 @@
 
 #include "util/CJsonNode.h"
 
-namespace Ui {
-class MusicDBWindow;
-}
 
 class MusicDBManager;
 class InfoHome;
@@ -16,6 +13,11 @@ class InfoTracks;
 class IconTracks;
 class ListTracks;
 class Loading;
+
+
+namespace Ui {
+class MusicDBWindow;
+}
 
 class MusicDBWindow : public QWidget
 {

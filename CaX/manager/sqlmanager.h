@@ -45,6 +45,7 @@ public:
 	QString GetQueryRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
 
 
+
 signals:
 
 };
