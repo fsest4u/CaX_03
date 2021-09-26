@@ -209,6 +209,11 @@ void MainWindow::SlotAddWidget(QWidget *widget)
 	AddWidget(widget);
 }
 
+void MainWindow::SlotRemoveWidget(QWidget *widget)
+{
+	RemoveWidget(widget);
+}
+
 void MainWindow::ReadSettings()
 {
 	SettingIO settings;
@@ -393,7 +398,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	if (!node.GetBool(KEY_AUDIO_CD, bAudioCD)) { bAudioCD = false; }
 	// todo-dylee
-//	if (!node.GetBool(RES_KEY_SCAN_DB, bSigma)) { bSigma = false; }
+//	if (!node.GetBool(KEY_SIGMA, bSigma)) { bSigma = false; }
 	if (!node.GetBool(KEY_SCAN_DB, bScanDB)) { bScanDB = false; }
 	if (!node.GetBool(KEY_IS_DEL_DB, bIsDelDB)) { bIsDelDB = false; }
 	if (!node.GetInt(KEY_EVENT_ID, nEventID)) { nEventID = -1; }
@@ -407,7 +412,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	m_nEventID = nEventID;
 	m_bAudioCD = bAudioCD;
-//	m_MainMenu->SetVisibleAudioCD(m_bAudioCD);
+	m_pSideMenu->SetEnableAudioCD(m_bAudioCD);
 
 	if (!nodeSetup.IsNull()) {
 		m_SetUpList.clear();
@@ -609,10 +614,9 @@ void MainWindow::DoMyMusicHome()
 
 void MainWindow::DoAudioCDHome()
 {
-	AudioCDWindow *widget = new AudioCDWindow;
+	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
 	AddWidget(widget);
-
-
+	widget->TrackList();
 }
 
 void MainWindow::DoPlaylistHome()
@@ -694,6 +698,12 @@ void MainWindow::AddWidget(QWidget *widget)
 	idx = ui->stackMain->addWidget(widget);
 	ui->stackMain->setCurrentIndex(idx);
 
+	UpdateStackState();
+}
+
+void MainWindow::RemoveWidget(QWidget *widget)
+{
+	ui->stackMain->removeWidget(widget);
 	UpdateStackState();
 }
 

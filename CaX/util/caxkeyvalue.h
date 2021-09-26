@@ -34,6 +34,7 @@
 #define		KEY_URL				"Url"
 #define		KEY_ART				"Art"
 #define		KEY_ACTS			"Acts"
+#define		KEY_TRACK			"Track"
 #define		KEY_TRACKS			"Tracks"
 #define		KEY_SVC_TYPE		"SvcType"
 #define		KEY_START			"Start"
@@ -47,6 +48,10 @@
 #define		KEY_DIR_ONLY		"DirOnly"
 #define		KEY_IMAGE			"Image"
 #define		KEY_PATH			"Path"
+#define		KEY_SOURCE			"Source"
+#define		KEY_TEMPO			"Tempo"
+#define		KEY_CDYEAR			"CdYear"
+#define		KEY_CDNUMBER			"CdNumber"
 
 
 //////////////////////////////////////////////////
@@ -96,6 +101,10 @@
 #define		VAL_ROOT			"Root"
 #define		VAL_FOLDER			"Folder"
 #define		VAL_BOT				"Bot"
+#define		VAL_AUDIO_CD		"AudioCd"
+#define		VAL_EJECT			"Eject"
+#define		VAL_RIP_INFO			"RipInfo"
+#define		VAL_RIP			"Rip"
 
 
 //////////////////////////////////////////////////
@@ -121,10 +130,12 @@
 #define		KEY_FOLDER			"Folder"
 #define		KEY_YEAR			"Year"
 #define		KEY_SONG			"Song"
+#define		KEY_ALBUM_ARTIST			"AlbumArtist"
 
 #define		KEY_ID_LOWER		"id"
 #define		KEY_ID_UPPER		"ID"
 #define		KEY_TITLE			"title"
+#define		KEY_TITLE_CAP		"Title"
 #define		KEY_SUBTITLE		"subtitle"
 #define		KEY_COUNT			"count"
 #define		KEY_TOTAL			"total"
@@ -134,6 +145,7 @@
 #define		KEY_FAVORITE		"favorite"
 #define		KEY_RATING			"rating"
 #define		KEY_TIME			"time"
+#define		KEY_TIME_CAP		"Time"
 
 #define		KEY_PLAY_STATE		"PlayState"
 #define		KEY_SRC				"Src"

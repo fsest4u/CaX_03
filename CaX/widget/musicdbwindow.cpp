@@ -137,10 +137,10 @@ void MusicDBWindow::SlotRespMusicInfo(CJsonNode node)
 
 }
 
-void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> nodeList)
+void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 {
 //	m_pIconTracks->SetBackgroundTask(m_pCatThread);
-	m_pIconTracks->SetContentList(nodeList);
+	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
 	m_pLoading->Stop();
 //	m_pCatThread->start();
 }
@@ -162,10 +162,10 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 
 }
 
-void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> nodeList)
+void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
 {
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
-	m_pListTracks->SetContentList(nodeList);
+	m_pListTracks->SetContentList(list);
 	m_pLoading->Stop();
 //	m_pSongThread->start();
 }

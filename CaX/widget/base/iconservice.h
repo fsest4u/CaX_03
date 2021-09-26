@@ -22,9 +22,7 @@ public:
 	~IconService();
 
 	enum {
-		ICON_SERVICE_AUDIO_CD = 0,
-		ICON_SERVICE_PLAYLIST,
-		ICON_SERVICE_BROWSER,
+		ICON_SERVICE_BROWSER = 0,
 		ICON_SERVICE_ISERVICE,
 		ICON_SERVICE_INPUT,
 		ICON_SERVICE_FM_RADIO,
@@ -34,7 +32,7 @@ public:
 	};
 
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = ICON_SERVICE_AUDIO_CD);
+	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = ICON_SERVICE_BROWSER);
 	void ClearNodeList();
 
 	QListView::ViewMode GetViewMode();

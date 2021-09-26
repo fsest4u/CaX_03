@@ -14,12 +14,11 @@ public:
 	enum {
 		ICON_TRACKS_ID = Qt::UserRole + 0,
 		ICON_TRACKS_COVER,
-		ICON_TRACKS_TITLE,
-		ICON_TRACKS_SUBTITLE,
+		ICON_TRACKS_TOP,
+		ICON_TRACKS_BOTTOM,
 		ICON_TRACKS_COUNT,
 		ICON_TRACKS_FAVORITE,
 		ICON_TRACKS_RATING,
-		ICON_TRACKS_INDEX,
 		ICON_TRACKS_MAX
 	};
 
@@ -37,8 +36,8 @@ private slots:
 
 	void commitAndCloseEditor();
 	void SlotClickCoverArt(int nID);
-	void SlotClickTitle(int nID);
-	void SlotClickSubtitle(int nID);
+	void SlotClickTop(int nID);
+	void SlotClickBottom(int nID);
 	void SlotClickCount(int nID);
 	void SlotClickFavorite(int nID, int nFavorite);
 	void SlotClickRating(int nID, int nRating);

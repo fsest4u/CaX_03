@@ -21,11 +21,11 @@ public:
 	QString GetCoverArt();
 	void SetCoverArt(const QString &value);
 
-	QString GetTitle();
-	void SetTitle(const QString &value);
+	QString GetTop();
+	void SetTop(const QString &value);
 
-	QString GetSubtitle();
-	void SetSubtitle(const QString &value);
+	QString GetBottom();
+	void SetBottom(const QString &value);
 
 	QString GetCount();
 	void SetCount(const QString &value);
@@ -39,8 +39,8 @@ public:
 signals:
 
 	void SigClickCoverArt(int nID);
-	void SigClickTitle(int nID);
-	void SigClickSubtitle(int nID);
+	void SigClickTop(int nID);
+	void SigClickBottom(int nID);
 	void SigClickCount(int nID);
 	void SigClickFavorite(int nID, int nFavorite);
 	void SigClickRating(int nID, int nRating);

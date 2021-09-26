@@ -42,34 +42,69 @@ IconTracks::~IconTracks()
 	}
 }
 
-
-void IconTracks::SetContentList(QList<CJsonNode> nodeList)
+QList<CJsonNode> IconTracks::GetNodeList() const
 {
-	m_NodeList = nodeList;
-	int index = 0;
-	foreach (CJsonNode node, m_NodeList)
-	{
-		QStandardItem *item = new QStandardItem;
-		int nID = node.GetString(KEY_ID_LOWER).toInt();
-		item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
-		item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TITLE);
-		item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
-		item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
-		item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
-		item->setData(node.GetString(KEY_RATING), IconTracksDelegate::ICON_TRACKS_RATING);
-		item->setData(index, IconTracksDelegate::ICON_TRACKS_INDEX);
-		m_Model->appendRow(item);
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
+	return m_NodeList;
+}
 
-		emit SigReqCoverArt(nID, index);
-		index++;
+void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
+{
+	m_NodeList = list;
+	int index = 0;
+	if (ICON_TRACKS_MUSIC_DB == type)
+	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+			QStandardItem *item = new QStandardItem;
+			int nID = node.GetString(KEY_ID_LOWER).toInt();
+			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
+			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TOP);
+			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_BOTTOM);
+			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
+			item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
+			item->setData(node.GetString(KEY_RATING), IconTracksDelegate::ICON_TRACKS_RATING);
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+			emit SigReqCoverArt(nID, index);
+			index++;
+		}
+	}
+	else if (ICON_TRACKS_AUDIO_CD == type)
+	{
+		int totalTime = 0;
+		foreach (CJsonNode node, m_NodeList)
+		{
+			int time = node.GetInt(KEY_TIME_CAP);
+			QStandardItem *item = new QStandardItem;
+			int nID = node.GetString(KEY_TRACK).toInt();
+			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
+			item->setData(":/resource/Icon-playbar-volume-160.png", IconTracksDelegate::ICON_TRACKS_COVER);
+			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TOP);
+			item->setData(time, IconTracksDelegate::ICON_TRACKS_BOTTOM);
+			item->setData("", IconTracksDelegate::ICON_TRACKS_COUNT);
+			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
+			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+			index++;
+
+			totalTime += time;
+		}
+		emit SigCalcTotalTime(totalTime);
+	}
+	else if (ICON_TRACKS_PLAYLIST == type)
+	{
+
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
 }
 
-void IconTracks::ClearContentList()
+void IconTracks::ClearNodeList()
 {
 	m_Model->clear();
 	ui->gridLayout->removeWidget(m_ListView);

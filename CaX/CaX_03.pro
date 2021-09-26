@@ -9,14 +9,17 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dialog/cdripinfodialog.cpp \
     dialog/logindialog.cpp \
     dialog/searchdialog.cpp \
     dialog/submenudelegate.cpp \
     dialog/submenudialog.cpp \
+    dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
     main.cpp \
     manager/airablemanager.cpp \
     manager/appmanager.cpp \
+    manager/audiocdmanager.cpp \
     manager/basemanager.cpp \
     manager/browsermanager.cpp \
     manager/dabradiomanager.cpp \
@@ -71,14 +74,17 @@ SOURCES += \
     widget/topwindow.cpp
 
 HEADERS += \
+    dialog/cdripinfodialog.h \
     dialog/logindialog.h \
     dialog/requestinterceptor.h \
     dialog/searchdialog.h \
     dialog/submenudelegate.h \
     dialog/submenudialog.h \
+    dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
     manager/airablemanager.h \
     manager/appmanager.h \
+    manager/audiocdmanager.h \
     manager/basemanager.h \
     manager/browsermanager.h \
     manager/dabradiomanager.h \
@@ -142,9 +148,11 @@ HEADERS += \
     widget/topwindow.h
 
 FORMS += \
+    dialog/cdripinfodialog.ui \
     dialog/logindialog.ui \
     dialog/searchdialog.ui \
     dialog/submenudialog.ui \
+    dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
     widget/base/iconservice.ui \

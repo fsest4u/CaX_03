@@ -100,14 +100,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="labelTitle">
+       <widget class="QLabel" name="labelTop">
         <property name="text">
          <string>title</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelSubTitle">
+       <widget class="QLabel" name="labelBottom">
         <property name="text">
          <string>subtitle</string>
         </property>

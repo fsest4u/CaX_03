@@ -39,21 +39,15 @@ IconService::~IconService()
 	}
 }
 
-void IconService::ClearNodeList()
-{
-	m_Model->clear();
-	ui->gridLayout->removeWidget(m_ListView);
-}
-
 QList<CJsonNode> IconService::GetNodeList() const
 {
 	return m_NodeList;
 }
 
-void IconService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
+void IconService::SetNodeList(const QList<CJsonNode> &list, int type)
 {
-	m_NodeList = NodeList;
-	if (ICON_SERVICE_BROWSER == nService)
+	m_NodeList = list;
+	if (ICON_SERVICE_BROWSER == type)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
@@ -69,7 +63,7 @@ void IconService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			m_ListView->openPersistentEditor(modelIndex);
 		}
 	}
-	else if (ICON_SERVICE_ISERVICE == nService)
+	else if (ICON_SERVICE_ISERVICE == type)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
@@ -85,7 +79,7 @@ void IconService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			m_ListView->openPersistentEditor(modelIndex);
 		}
 	}
-	else if (ICON_SERVICE_INPUT == nService)
+	else if (ICON_SERVICE_INPUT == type)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
@@ -101,8 +95,8 @@ void IconService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			m_ListView->openPersistentEditor(modelIndex);
 		}
 	}
-	else if (ICON_SERVICE_FM_RADIO == nService
-			 || ICON_SERVICE_DAB_RADIO == nService)
+	else if (ICON_SERVICE_FM_RADIO == type
+			 || ICON_SERVICE_DAB_RADIO == type)
 	{
 		LogDebug("todo-dylee dab radio");
 
@@ -122,6 +116,12 @@ void IconService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
+}
+
+void IconService::ClearNodeList()
+{
+	m_Model->clear();
+	ui->gridLayout->removeWidget(m_ListView);
 }
 
 QListView::ViewMode IconService::GetViewMode()

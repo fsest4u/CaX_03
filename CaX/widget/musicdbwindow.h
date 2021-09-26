@@ -39,9 +39,9 @@ private slots:
 
 	void SlotRespError(QString errMsg);
 	void SlotRespMusicInfo(CJsonNode node);
-	void SlotRespCategoryList(QList<CJsonNode> nodeList);
+	void SlotRespCategoryList(QList<CJsonNode> list);
 	void SlotRespCategoryInfo(CJsonNode node);
-	void SlotRespSongsOfCategory(QList<CJsonNode> nodeList);
+	void SlotRespSongsOfCategory(QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 	void SlotMusicPlayAll();

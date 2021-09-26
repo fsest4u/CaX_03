@@ -15,8 +15,8 @@ IconTracksEditor::IconTracksEditor(QWidget *parent) :
 	m_CoverArt.clear();
 
 	ui->labelCoverArt->installEventFilter(this);
-	ui->labelTitle->installEventFilter(this);
-	ui->labelSubTitle->installEventFilter(this);
+	ui->labelTop->installEventFilter(this);
+	ui->labelBottom->installEventFilter(this);
 	ui->labelCount->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
 	ui->labelRating->installEventFilter(this);
@@ -68,25 +68,25 @@ void IconTracksEditor::SetCoverArt(const QString &value)
 	}
 }
 
-QString IconTracksEditor::GetTitle()
+QString IconTracksEditor::GetTop()
 {
-	return ui->labelTitle->text();
+	return ui->labelTop->text();
 }
 
-void IconTracksEditor::SetTitle(const QString &value)
+void IconTracksEditor::SetTop(const QString &value)
 {
-	ui->labelTitle->setText(value);
+	ui->labelTop->setText(value);
 }
 
-QString IconTracksEditor::GetSubtitle()
+QString IconTracksEditor::GetBottom()
 {
-	return ui->labelSubTitle->text();
+	return ui->labelBottom->text();
 
 }
 
-void IconTracksEditor::SetSubtitle(const QString &value)
+void IconTracksEditor::SetBottom(const QString &value)
 {
-	ui->labelSubTitle->setText(value);
+	ui->labelBottom->setText(value);
 }
 
 QString IconTracksEditor::GetCount()
@@ -97,6 +97,11 @@ QString IconTracksEditor::GetCount()
 
 void IconTracksEditor::SetCount(const QString &value)
 {
+	if (value.isEmpty())
+	{
+		ui->labelCount->hide();
+	}
+
 	ui->labelCount->setText(value);
 }
 
@@ -108,6 +113,11 @@ int IconTracksEditor::GetRating() const
 
 void IconTracksEditor::SetRating(const int &value)
 {
+	if (value < 0)
+	{
+		ui->labelRating->hide();
+	}
+
 	ui->labelRating->setText(QString("%1").arg(value));
 }
 
@@ -118,6 +128,11 @@ int IconTracksEditor::GetFavorite() const
 
 void IconTracksEditor::SetFavorite(const int &value)
 {
+	if (value < 0)
+	{
+		ui->labelFavorite->hide();
+	}
+
 	ui->labelFavorite->setText(QString("%1").arg(value));
 }
 
@@ -129,13 +144,13 @@ bool IconTracksEditor::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigClickCoverArt(m_ID);
 		}
-		else if (object == ui->labelTitle)
+		else if (object == ui->labelTop)
 		{
-			emit SigClickTitle(m_ID);
+			emit SigClickTop(m_ID);
 		}
-		else if (object == ui->labelSubTitle)
+		else if (object == ui->labelBottom)
 		{
-			emit SigClickSubtitle(m_ID);
+			emit SigClickBottom(m_ID);
 		}
 		else if (object == ui->labelCount)
 		{

@@ -21,8 +21,16 @@ public:
 	explicit IconTracks(QWidget *parent = nullptr);
 	~IconTracks();
 
-	void SetContentList(QList<CJsonNode> nodeList);
-	void ClearContentList();
+	enum {
+		ICON_TRACKS_MUSIC_DB = 0,
+		ICON_TRACKS_AUDIO_CD,
+		ICON_TRACKS_PLAYLIST,
+		ICON_TRACKS_MAX
+	};
+
+	QList<CJsonNode> GetNodeList() const;
+	void SetNodeList(QList<CJsonNode> &list, int type);
+	void ClearNodeList();
 
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
@@ -35,6 +43,7 @@ public:
 signals:
 
 	void SigReqCoverArt(int nID, int nIndex);
+	void SigCalcTotalTime(int time);
 
 private slots:
 

@@ -144,19 +144,19 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
 
-	QString strMsg;
-	bool	bSuccess = false;
-	if (!node.GetBool(VAL_SUCCESS, bSuccess) || !bSuccess)
+	QString message = node.GetString(VAL_MSG);
+	bool success = node.GetBool(VAL_SUCCESS);
+	if (!success)
 	{
-		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
+		if (message.isEmpty())
 		{
-			emit SigRespError("unknown error");
+			emit SigRespError("unknown error - message is empty");
 			return;
 		}
 
-		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
+		emit SigRespError(message.left((MSG_LIMIT_COUNT)));
 		return;
 	}
 
@@ -168,10 +168,10 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
 	{
-		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
+		emit SigRespError(message.left(MSG_LIMIT_COUNT));
 		return;
 	}
 
@@ -189,8 +189,8 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_SONGS_OF_CATEGORY:
 		ParseSongsOfCategory(result);
 		break;
-	default:
-		LogWarning("Invalid command ID");
+	case MUSICDB_MAX:
+		emit SigRespError("invalid command id");
 		break;
 	}
 

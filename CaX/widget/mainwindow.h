@@ -34,6 +34,7 @@ public slots:
 	void SlotBtnSearch();
 
 	void SlotAddWidget(QWidget *widget);
+	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotInitDeviceList(bool bSelect);
 	void SlotRespError(QString errMsg);
@@ -82,6 +83,7 @@ private:
 	void DoSetupHome();
 
 	void AddWidget(QWidget *widget);
+	void RemoveWidget(QWidget *widget);
 	void RemoveAllWidget();
 
 	void UpdateStackState();
