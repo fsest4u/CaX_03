@@ -286,14 +286,6 @@ void MainWindow::ObserverDisconnect()
 	m_pObsMgr->RequestDisconnectObserver();
 }
 
-void MainWindow::SetTitle(bool bEnable)
-{
-	QString devName = bEnable ? m_pDeviceMgr->GetDevValue(m_strCurrentMac, DEVICE_DEV) : QString("Select Device");
-	QString title = QString("%1 [%2]").arg(TR_APPLICATION).arg(devName);
-	setWindowTitle(title);
-	ui->widgetTop->SetTitle(devName);
-}
-
 void MainWindow::SlotInitDeviceList(bool bSelect)
 {
 	LogDebug("Load Stop.........");
@@ -607,6 +599,7 @@ void MainWindow::ConnectForApp()
 
 void MainWindow::DoMyMusicHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Music DB"));
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestMusicHome();
@@ -614,6 +607,7 @@ void MainWindow::DoMyMusicHome()
 
 void MainWindow::DoAudioCDHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Audio CD"));
 	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->TrackList();
@@ -621,6 +615,7 @@ void MainWindow::DoAudioCDHome()
 
 void MainWindow::DoPlaylistHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Playlist"));
 	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->PlayList();
@@ -628,6 +623,7 @@ void MainWindow::DoPlaylistHome()
 
 void MainWindow::DoBrowserHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Browser"));
 	BrowserWindow *widget = new BrowserWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestRoot();
@@ -637,6 +633,7 @@ void MainWindow::DoBrowserHome()
 
 void MainWindow::DoIServiceHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Internet service"));
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->IServiceHome(m_IServiceList);
@@ -644,6 +641,7 @@ void MainWindow::DoIServiceHome()
 
 void MainWindow::DoInputHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Input"));
 	InputWindow *widget = new InputWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->InputHome(m_InputList);
@@ -651,6 +649,7 @@ void MainWindow::DoInputHome()
 
 void MainWindow::DoFmRadioHome()
 {
+	ui->widgetTop->SetMainTitle(tr("FM radio"));
 	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestList();
@@ -658,6 +657,7 @@ void MainWindow::DoFmRadioHome()
 
 void MainWindow::DoDabRadioHome()
 {
+	ui->widgetTop->SetMainTitle(tr("DAB radio"));
 	DABRadioWindow *widget = new DABRadioWindow(this, m_strAddr);
 	AddWidget(widget);
 	widget->RequestList();
@@ -665,6 +665,7 @@ void MainWindow::DoDabRadioHome()
 
 void MainWindow::DoGroupPlayHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Group play"));
 	GroupPlayWindow *widget = new GroupPlayWindow;
 	AddWidget(widget);
 
@@ -673,6 +674,7 @@ void MainWindow::DoGroupPlayHome()
 
 void MainWindow::DoSetupHome()
 {
+	ui->widgetTop->SetMainTitle(tr("Setup"));
 	SetupWindow *widget = new SetupWindow;
 	AddWidget(widget);
 

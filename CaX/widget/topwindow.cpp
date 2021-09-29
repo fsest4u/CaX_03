@@ -14,9 +14,9 @@ TopWindow::~TopWindow()
 	delete ui;
 }
 
-void TopWindow::SetTitle(QString title)
+void TopWindow::SetMainTitle(QString title)
 {
-	ui->labelDevice->setText(title);
+	ui->labelTitle->setText(title);
 }
 
 QPushButton *TopWindow::GetBtnMenu()

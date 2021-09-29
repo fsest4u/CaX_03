@@ -16,7 +16,7 @@ public:
 	explicit TopWindow(QWidget *parent = nullptr);
 	~TopWindow();
 
-	void SetTitle(QString title);
+	void SetMainTitle(QString title);
 
 	QPushButton* GetBtnMenu();
 	QPushButton* GetBtnPrev();

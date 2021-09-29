@@ -60,9 +60,6 @@ private:
 	void ObserverConnect();
 	void ObserverDisconnect();
 
-	void SetTitle(bool bEnable);
-
-
 	void InitMain();
 	void InitMenu(bool bEnable);
 
