@@ -32,7 +32,7 @@ public:
 		SORT_MAX
 	};
 
-	QString GetQueryMyMusicInfo();
+	QString GetQueryMusicDBInfo();
 	QString GetQueryCategoryList(int nCategory = CATEGORY_ALBUM, int nSort = SORT_TRACK);
 	QString GetQueryCategoryInfo(int nID, int nCategory = CATEGORY_ALBUM);
 	QString GetQuerySongsOfCategory(int nID, int nCategory = CATEGORY_ALBUM, int nSort = SORT_TRACK);

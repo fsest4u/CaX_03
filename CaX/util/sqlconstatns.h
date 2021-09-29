@@ -7,7 +7,7 @@
 
 // 카테고리별 개수 가져오기 --------------------------------------------------------------------------
 
-#define SQL_MY_MUSIC_INFO	"	\
+#define SQL_MUSIC_DB_INFO	"	\
 select	\
 	(select count(*) from (select * from Song group by song.AlbumID)) as Album	\
 	, (select count(*) from (select * from Song group by song.ArtistID)) as Artist	\

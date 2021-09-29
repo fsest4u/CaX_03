@@ -30,7 +30,7 @@ public:
 		MUSICDB_MAX
 	};
 
-	void RequestMusicInfo();
+	void RequestMusicDBInfo();
 	void RequestCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestCategoryInfo(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestSongsOfCategory(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);

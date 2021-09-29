@@ -101,7 +101,7 @@ void MusicDBWindow::RequestMusicHome()
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
 
 	m_pLoading->Start();
-	m_pMgr->RequestMusicInfo();
+	m_pMgr->RequestMusicDBInfo();
 	m_pMgr->RequestCategoryList(m_nCategory);
 
 }

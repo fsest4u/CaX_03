@@ -8,9 +8,9 @@ SQLManager::SQLManager(QObject *parent)
 
 }
 
-QString SQLManager::GetQueryMyMusicInfo()
+QString SQLManager::GetQueryMusicDBInfo()
 {
-	return SQL_MY_MUSIC_INFO;
+	return SQL_MUSIC_DB_INFO;
 }
 
 QString SQLManager::GetQueryCategoryList(int nCategory, int nSort)

@@ -25,14 +25,14 @@ MusicDBManager::~MusicDBManager()
 	}
 }
 
-void MusicDBManager::RequestMusicInfo()
+void MusicDBManager::RequestMusicDBInfo()
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
 	node.Add(KEY_CMD1, VAL_SONG);
 	node.Add(KEY_AS, true);
 	node.Add(KEY_AL, false);
-	node.Add(KEY_SQL, m_pSql->GetQueryMyMusicInfo());
+	node.Add(KEY_SQL, m_pSql->GetQueryMusicDBInfo());
 	RequestCommand(node, MUSICDB_INFO);
 }
 

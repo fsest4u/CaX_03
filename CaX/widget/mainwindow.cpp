@@ -450,8 +450,8 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 
 	switch (menuIndex)
 	{
-	case SideMenuDelegate::SIDEMENU_SERVICE_MY_MUSIC:
-		DoMyMusicHome();
+	case SideMenuDelegate::SIDEMENU_SERVICE_MUSIC_DB:
+		DoMusicDBHome();
 		break;
 	case SideMenuDelegate::SIDEMENU_SERVICE_AUDIO_CD:
 		DoAudioCDHome();
@@ -491,7 +491,7 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 void MainWindow::SlotRespAirableLogout()
 {
 	RemoveAllWidget();
-	DoMyMusicHome();
+	DoMusicDBHome();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -597,7 +597,7 @@ void MainWindow::ConnectForApp()
 
 }
 
-void MainWindow::DoMyMusicHome()
+void MainWindow::DoMusicDBHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Music DB"));
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);

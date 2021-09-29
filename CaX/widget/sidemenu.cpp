@@ -135,7 +135,7 @@ void SideMenu::SetMenu()
 {
 	QStandardItem *item0 = new QStandardItem;
 	QIcon icon0(":/resource/Icon-playbar-volume-160.png");
-	item0->setData(SideMenuDelegate::SIDEMENU_SERVICE_MY_MUSIC, SideMenuDelegate::SIDEMENU_ID);
+	item0->setData(SideMenuDelegate::SIDEMENU_SERVICE_MUSIC_DB, SideMenuDelegate::SIDEMENU_ID);
 	item0->setData(icon0, SideMenuDelegate::SIDEMENU_ICON);
 	item0->setData("My Music", SideMenuDelegate::SIDEMENU_TITLE);
 	m_Model->appendRow(item0);

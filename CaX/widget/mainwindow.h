@@ -68,7 +68,7 @@ private:
 	void ConnectForApp();
 
 	// side menu
-	void DoMyMusicHome();
+	void DoMusicDBHome();
 	void DoAudioCDHome();
 	void DoPlaylistHome();
 	void DoBrowserHome();
