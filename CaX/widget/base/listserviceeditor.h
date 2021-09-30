@@ -52,7 +52,7 @@ protected:
 
 private:
 
-	QString			m_StrID;
+	QString		m_StrID;
 	int			m_nType;
 	QString		m_Icon;
 	QString		m_Art;

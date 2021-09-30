@@ -52,10 +52,10 @@
 
 #define COVERART_WIDTH				100
 #define COVERART_HEIGHT				100
-#define CATEGORY_CONT_WIDTH			100
-#define CATEGORY_CONT_HEIGHT		100
-#define SONG_CONT_WIDTH				30
-#define SONG_CONT_HEIGHT			30
+#define ICON_ITEM_WIDTH				100
+#define ICON_ITEM_HEIGHT			100
+#define LIST_ITEM_WIDTH				30
+#define LIST_ITEM_HEIGHT			30
 
 
 //////////////////////////////////////////////////

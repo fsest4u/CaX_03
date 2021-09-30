@@ -24,7 +24,7 @@ public:
 
 signals:
 
-	void SigRespDeviceInfo(QString deviceInfo);
+	void SigRespDeviceItem(QString deviceInfo);
 
 public slots:
 

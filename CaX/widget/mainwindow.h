@@ -5,18 +5,18 @@
 
 #include "util/CJsonNode.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
 class Loading;
 class SideMenu;
 
-class SSDPManager;
 class DeviceManager;
-class ObserverManager;
+class DeviceListWindow;
 
+class ObserverManager;
 class AppManager;
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -36,11 +36,14 @@ public slots:
 	void SlotAddWidget(QWidget *widget);
 	void SlotRemoveWidget(QWidget *widget);
 
-	void SlotInitDeviceList(bool bSelect);
+	void SlotDeviceItem(int state);
 	void SlotRespError(QString errMsg);
 	void SlotDisconnectObserver();
 	void SlotRespDeviceInfo(CJsonNode node);
 	void SlotRespObserverInfo(CJsonNode node);
+
+	void SlotSelectDevice(QString mac);
+	void SlotSelectCancel(QString mac);
 
 	void SlotSelectSideMenu(int menuIndex);
 
@@ -68,6 +71,7 @@ private:
 	void ConnectForApp();
 
 	// side menu
+	void DoDeviceListHome();
 	void DoMusicDBHome();
 	void DoAudioCDHome();
 	void DoPlaylistHome();
@@ -79,8 +83,6 @@ private:
 	void DoGroupPlayHome();
 	void DoSetupHome();
 
-	void AddWidget(QWidget *widget);
-	void RemoveWidget(QWidget *widget);
 	void RemoveAllWidget();
 
 	void UpdateStackState();
@@ -88,10 +90,10 @@ private:
 	Loading			*m_pLoading;
 	SideMenu		*m_pSideMenu;
 
-	SSDPManager		*m_pSsdpMgr;
-	DeviceManager	*m_pDeviceMgr;
-	ObserverManager	*m_pObsMgr;
+	DeviceManager		*m_pDeviceMgr;
+	DeviceListWindow	*m_pDeviceWin;
 
+	ObserverManager	*m_pObsMgr;
 	AppManager		*m_pAppMgr;
 
 

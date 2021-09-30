@@ -7,11 +7,11 @@
 
 #include "util/CJsonNode.h"
 
+class ListServiceDelegate;
+
 namespace Ui {
 class ListService;
 }
-
-class ListServiceDelegate;
 
 class ListService : public QWidget
 {

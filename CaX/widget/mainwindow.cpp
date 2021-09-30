@@ -4,12 +4,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "manager/ssdpmanager.h"
 #include "manager/devicemanager.h"
 #include "manager/observermanager.h"
 #include "manager/appmanager.h"
 
-#include "network/udpclient.h"
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
@@ -19,6 +17,7 @@
 
 #include "widget/sidemenu.h"
 #include "widget/sidemenudelegate.h"
+#include "widget/devicelistwindow.h"
 #include "widget/musicdbwindow.h"
 #include "widget/audiocdwindow.h"
 #include "widget/playlistwindow.h"
@@ -36,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, m_pLoading(new Loading(this))
 	, m_pSideMenu(new SideMenu(this))
-	, m_pSsdpMgr(new SSDPManager)
 	, m_pDeviceMgr(new DeviceManager)
+	, m_pDeviceWin(new DeviceListWindow(this))
 	, m_pObsMgr(new ObserverManager)
 	, m_pAppMgr(new AppManager)
 	, m_strCurrentMac("")
@@ -57,12 +56,15 @@ MainWindow::MainWindow(QWidget *parent)
 
 	LogDebug("Application Start.. [%s]", "Good!!");
 	ConnectSigToSlot();
+	ReadSettings();
 	InitMain();
 }
 
 MainWindow::~MainWindow()
 {
 	delete ui;
+
+	WriteSettings();
 
 	if (m_pSideMenu)
 	{
@@ -76,11 +78,6 @@ MainWindow::~MainWindow()
 		m_pLoading = nullptr;
 	}
 
-	if (m_pSsdpMgr)
-	{
-		delete m_pSsdpMgr;
-		m_pSsdpMgr = nullptr;
-	}
 
 	if (m_pObsMgr)
 	{
@@ -98,6 +95,12 @@ MainWindow::~MainWindow()
 	{
 		delete m_pDeviceMgr;
 		m_pDeviceMgr = nullptr;
+	}
+
+	if (m_pDeviceWin)
+	{
+		delete m_pDeviceWin;
+		m_pDeviceWin = nullptr;
 	}
 
 //	if (m_pMusicWin)
@@ -204,16 +207,6 @@ void MainWindow::SlotBtnSearch()
 
 }
 
-void MainWindow::SlotAddWidget(QWidget *widget)
-{
-	AddWidget(widget);
-}
-
-void MainWindow::SlotRemoveWidget(QWidget *widget)
-{
-	RemoveWidget(widget);
-}
-
 void MainWindow::ReadSettings()
 {
 	SettingIO settings;
@@ -237,8 +230,8 @@ void MainWindow::ReadSettings()
 		CJsonNode nodeWol;
 		if (nodeWol.SetContent(strNodeWol))
 		{
-			LogDebug("[%s]", nodeWol.ToTabedByteArray().data());
-			m_pDeviceMgr->SetNodeWol(nodeWol);
+			LogDebug("ReadSettings [%s]", nodeWol.ToCompactByteArray().data());
+			m_pDeviceMgr->SetDeviceListWol(nodeWol);
 		}
 		else
 		{
@@ -261,10 +254,10 @@ void MainWindow::WriteSettings()
 	settings.setValue("recent_addr", m_strAddr);
 
 	// save wol list
-	CJsonNode nodeWol = m_pDeviceMgr->GetNodeWol();
+	CJsonNode nodeWol = m_pDeviceMgr->GetDeviceListWol();
 	if (!nodeWol.IsNull())
 	{
-		LogDebug("WriteSettings wol [%s]", nodeWol.ToCompactString().toUtf8().data());
+		LogDebug("WriteSettings wol [%s]", nodeWol.ToCompactByteArray().data());
 		settings.setValue("node_wol", nodeWol.ToCompactString());
 	}
 
@@ -273,10 +266,12 @@ void MainWindow::WriteSettings()
 
 void MainWindow::ObserverConnect()
 {
-	if (m_strCurrentMac.isEmpty())	return;
+	if (m_strCurrentMac.isEmpty())
+		return;
 
-	QString strAddr = m_pDeviceMgr->GetDevValue(m_strCurrentMac, DEVICE_ADDR);
-	if (strAddr.isEmpty())	return;
+	QString strAddr = m_pDeviceMgr->GetDeviceValue(m_strCurrentMac, DEVICE_ADDR);
+	if (strAddr.isEmpty())
+		return;
 
 	m_pObsMgr->RequestObserverInfo(strAddr);
 }
@@ -286,37 +281,11 @@ void MainWindow::ObserverDisconnect()
 	m_pObsMgr->RequestDisconnectObserver();
 }
 
-void MainWindow::SlotInitDeviceList(bool bSelect)
+void MainWindow::SlotDeviceItem(int state)
 {
-	LogDebug("Load Stop.........");
-	m_pLoading->Stop();
+	Q_UNUSED(state)
 
-	if (bSelect)
-	{
-		// temp-dylee auto connect
-		m_strCurrentMac = "00:17:B8:10:05:3F";
-		if (m_strCurrentMac.isEmpty())	return;
-
-		QString strAddr = m_pDeviceMgr->GetDevValue(m_strCurrentMac, DEVICE_ADDR);
-		if (strAddr.isEmpty())	return;
-
-		m_strAddr = strAddr;
-		WriteSettings();
-
-		ui->widgetPlay->SetAddr(m_strAddr);
-		m_pAppMgr->SetAddr(m_strAddr);
-
-		m_pAppMgr->RequestDeviceInfo();
-	}
-	else
-	{
-//		ResetMainMenu();
-//		ResetContentWidget();
-
-
-		// init ui....
-	}
-
+	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
 }
 
 void MainWindow::SlotRespError(QString errMsg)
@@ -348,9 +317,6 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 		QString strVersion;
 		QString strWolAddr;
 		QString strUUID;
-//		bool bFMRadio;
-//		bool bGroupPlay;
-//		bool bInput;
 
 		if (!node.GetString(DEVICE_MAC, strMac) || strMac.isEmpty()) { return; }
 		if (!node.GetString(DEVICE_VERSION, strVersion) || strVersion.isEmpty()) { return; }
@@ -363,16 +329,11 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 		m_bConnect = true;
 		m_strCurrentMac = strMac;
 
-//		m_bFMRadio = bFMRadio;
-//		m_bGroupPlay = bGroupPlay;
-//		m_bInput = bInput;
-
-		m_pDeviceMgr->AddWolDevice(strMac, strVersion, strWolAddr, strUUID);
+		m_pDeviceMgr->AddDeviceWol(strMac, strVersion, strWolAddr, strUUID);
 
 		ObserverConnect();
-//		InitMainMenu();
-//		ResetContentWidget();
 
+		DoMusicDBHome();
 	}
 }
 
@@ -430,15 +391,48 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	//	emit SigTaskList();
 }
 
+void MainWindow::SlotSelectDevice(QString mac)
+{
+	if (mac.isEmpty())
+		return;
+
+	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
+	if (strAddr.isEmpty())	return;
+
+	m_strAddr = strAddr;
+	WriteSettings();
+
+	ui->widgetPlay->SetAddr(m_strAddr);
+	m_pAppMgr->SetAddr(m_strAddr);
+
+	m_pAppMgr->RequestDeviceInfo();
+}
+
+void MainWindow::SlotSelectCancel(QString mac)
+{
+	if (mac.isEmpty() || mac.compare(m_strCurrentMac))
+		return;
+
+	ObserverDisconnect();
+}
+
 
 void MainWindow::SlotDisconnectObserver()
 {
 	// exit application
-	if (!m_bConnect)	return;
+	if (!m_bConnect)
+	{
+		return;
+	}
 
-	if (!m_pDeviceMgr)	return;
-
-	m_pDeviceMgr->DelDevice(m_strCurrentMac);
+	if (m_pDeviceMgr)
+	{
+		int index = m_pDeviceMgr->CheckDevice(m_strCurrentMac);
+		if (index >= 0)
+		{
+			m_pDeviceMgr->DelDevice(index);
+		}
+	}
 
 //	ResetMainMenu();
 	//	ResetContentWidget();
@@ -525,10 +519,9 @@ void MainWindow::InitMain()
 {
 //	instead of MainWindow::ConnectForUI()
 //	InitMenu(true);
+	DoDeviceListHome();
 
-	m_pLoading->Start();
-	m_pSsdpMgr->RequestDeviceInfo();
-
+	m_pDeviceMgr->RequestDevice();
 	m_pSideMenu->HideMenu();
 
 	UpdateStackState();
@@ -585,8 +578,7 @@ void MainWindow::ConnectForUI()
 
 void MainWindow::ConnectForApp()
 {
-	connect(m_pSsdpMgr->GetUdpClient(), SIGNAL(SigRespDeviceInfo(QString)),	m_pDeviceMgr, SLOT(SlotRespDeviceInfo(QString)));
-	connect(m_pDeviceMgr, SIGNAL(SigInitDeviceList(bool)),	this, SLOT(SlotInitDeviceList(bool)));
+	connect(m_pDeviceMgr, SIGNAL(SigDeviceItem(int)), this, SLOT(SlotDeviceItem(int)));
 //	connect(m_pDeviceMenu, SIGNAL(SigDeviceSelect(QListWidgetItem*)), this,	SLOT(SlotDeviceSelect(QListWidgetItem*)));
 	connect(m_pAppMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespDeviceInfo(CJsonNode)), this, SLOT(SlotRespDeviceInfo(CJsonNode)));
@@ -595,13 +587,22 @@ void MainWindow::ConnectForApp()
 	connect(m_pObsMgr, SIGNAL(SigRespObserverInfo(CJsonNode)), this, SLOT(SlotRespObserverInfo(CJsonNode)));
 	connect(m_pObsMgr, SIGNAL(SigRespNowPlay(CJsonNode)), ui->widgetPlay, SLOT(SlotRespNowPlay(CJsonNode)));
 
+	connect(m_pDeviceWin, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
+	connect(m_pDeviceWin, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
+
+}
+
+void MainWindow::DoDeviceListHome()
+{
+	ui->widgetTop->SetMainTitle(tr("Select device"));
+	SlotAddWidget(m_pDeviceWin);
 }
 
 void MainWindow::DoMusicDBHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Music DB"));
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->RequestMusicHome();
 }
 
@@ -609,7 +610,7 @@ void MainWindow::DoAudioCDHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Audio CD"));
 	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->TrackList();
 }
 
@@ -617,7 +618,7 @@ void MainWindow::DoPlaylistHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Playlist"));
 	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->PlayList();
 }
 
@@ -625,7 +626,7 @@ void MainWindow::DoBrowserHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Browser"));
 	BrowserWindow *widget = new BrowserWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->RequestRoot();
 
 
@@ -635,7 +636,7 @@ void MainWindow::DoIServiceHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Internet service"));
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->IServiceHome(m_IServiceList);
 }
 
@@ -643,7 +644,7 @@ void MainWindow::DoInputHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Input"));
 	InputWindow *widget = new InputWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->InputHome(m_InputList);
 }
 
@@ -651,7 +652,7 @@ void MainWindow::DoFmRadioHome()
 {
 	ui->widgetTop->SetMainTitle(tr("FM radio"));
 	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->RequestList();
 }
 
@@ -659,7 +660,7 @@ void MainWindow::DoDabRadioHome()
 {
 	ui->widgetTop->SetMainTitle(tr("DAB radio"));
 	DABRadioWindow *widget = new DABRadioWindow(this, m_strAddr);
-	AddWidget(widget);
+	SlotAddWidget(widget);
 	widget->RequestList();
 }
 
@@ -667,7 +668,7 @@ void MainWindow::DoGroupPlayHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Group play"));
 	GroupPlayWindow *widget = new GroupPlayWindow;
-	AddWidget(widget);
+	SlotAddWidget(widget);
 
 
 }
@@ -676,12 +677,10 @@ void MainWindow::DoSetupHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Setup"));
 	SetupWindow *widget = new SetupWindow;
-	AddWidget(widget);
-
-
+	SlotAddWidget(widget);
 }
 
-void MainWindow::AddWidget(QWidget *widget)
+void MainWindow::SlotAddWidget(QWidget *widget)
 {
 	auto idx = ui->stackMain->currentIndex();
 	auto cnt = ui->stackMain->count() - 1;
@@ -702,7 +701,7 @@ void MainWindow::AddWidget(QWidget *widget)
 	UpdateStackState();
 }
 
-void MainWindow::RemoveWidget(QWidget *widget)
+void MainWindow::SlotRemoveWidget(QWidget *widget)
 {
 	ui->stackMain->removeWidget(widget);
 	UpdateStackState();

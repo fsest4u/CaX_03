@@ -222,6 +222,13 @@ void SideMenu::SetMenu()
 	item10->setData("Power Off", SideMenuDelegate::SIDEMENU_TITLE);
 	m_Model->appendRow(item10);
 
+	QStandardItem *item11 = new QStandardItem;
+	QIcon icon11(":/resource/Icon-playbar-volume-160.png");
+	item11->setData(SideMenuDelegate::SIDEMENU_SERVICE_POWER_ON, SideMenuDelegate::SIDEMENU_ID);
+	item11->setData(icon11, SideMenuDelegate::SIDEMENU_ICON);
+	item11->setData("Power on", SideMenuDelegate::SIDEMENU_TITLE);
+	m_Model->appendRow(item11);
+
 	ui->gridLayout->addWidget(m_ListView);
 }
 

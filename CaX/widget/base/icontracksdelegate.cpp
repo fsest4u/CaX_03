@@ -116,7 +116,7 @@ QSize IconTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	return QSize(CATEGORY_CONT_WIDTH, CATEGORY_CONT_HEIGHT + 50);
+	return QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT + 50);
 }
 
 QWidget *IconTracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const

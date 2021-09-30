@@ -1,0 +1,117 @@
+#include "listdevice.h"
+#include "ui_listdevice.h"
+
+#include "listdevicedelegate.h"
+
+#include "util/caxkeyvalue.h"
+#include "util/log.h"
+
+ListDevice::ListDevice(QWidget *parent) :
+	QWidget(parent),
+	m_ListView(new QListView),
+	m_Model(new QStandardItemModel),
+	m_Delegate(new ListDeviceDelegate),
+	ui(new Ui::ListDevice)
+{
+	ui->setupUi(this);
+
+	Initialize();
+}
+
+ListDevice::~ListDevice()
+{
+	delete ui;
+
+	if (m_ListView)
+	{
+		delete m_ListView;
+		m_ListView = nullptr;
+	}
+	if (m_Model)
+	{
+		delete m_Model;
+		m_Model = nullptr;
+	}
+	if (m_Delegate)
+	{
+		delete m_Delegate;
+		m_Delegate = nullptr;
+	}
+}
+
+QListView::ViewMode ListDevice::GetViewMode() const
+{
+	return m_ListView->viewMode();
+}
+
+void ListDevice::SetViewMode(QListView::ViewMode mode)
+{
+	m_ListView->setViewMode(mode);
+//	m_Delegate->SetViewMode(mode);
+}
+
+QStandardItemModel *ListDevice::GetModel() const
+{
+	return m_Model;
+}
+
+void ListDevice::SetModel(QStandardItemModel *Model)
+{
+	m_Model = Model;
+}
+
+ListDeviceDelegate *ListDevice::GetDelegate() const
+{
+	return m_Delegate;
+}
+
+void ListDevice::SetDelegate(ListDeviceDelegate *Delegate)
+{
+	m_Delegate = Delegate;
+}
+
+void ListDevice::ClearNodeList()
+{
+	m_Model->clear();
+	ui->gridLayout->removeWidget(m_ListView);
+}
+
+QList<CJsonNode> ListDevice::GetNodeList() const
+{
+	return m_NodeList;
+}
+
+void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
+{
+	m_NodeList = NodeList;
+
+	m_Model->clear();
+	foreach (CJsonNode node, m_NodeList)
+	{
+		LogDebug("mac : [%s]", node.GetString(KEY_MAC).toUtf8().data());
+		LogDebug("addr : [%s]", node.GetString(KEY_ADDR).toUtf8().data());
+		LogDebug("val : [%s]", node.GetString(KEY_VAL).toUtf8().data());
+		LogDebug("dev : [%s]", node.GetString(KEY_DEV).toUtf8().data());
+
+		QStandardItem *item = new QStandardItem;
+		item->setData(node.GetString(KEY_MAC), ListDeviceDelegate::LIST_DEVICE_MAC);
+		item->setData(node.GetString(KEY_ADDR), ListDeviceDelegate::LIST_DEVICE_ADDR);
+		item->setData(node.GetString(KEY_VAL), ListDeviceDelegate::LIST_DEVICE_VAL);
+		item->setData(node.GetString(KEY_DEV), ListDeviceDelegate::LIST_DEVICE_DEV);
+
+		m_Model->appendRow(item);
+		QModelIndex modelIndex = m_Model->indexFromItem(item);
+		m_ListView->openPersistentEditor(modelIndex);
+	}
+
+	ui->gridLayout->addWidget(m_ListView);
+}
+
+void ListDevice::Initialize()
+{
+	m_ListView->setItemDelegate(m_Delegate);
+	m_ListView->setModel(m_Model);
+	m_ListView->setResizeMode(QListView::Adjust);
+	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	SetViewMode(QListView::ListMode);
+}

@@ -3,10 +3,9 @@
 
 #include <QObject>
 
-#include <QMap>
-#include <QVariant>
-
 #include "util/CJsonNode.h"
+
+class SSDPManager;
 
 class DeviceManager :
 	public QObject
@@ -18,36 +17,52 @@ public:
 	explicit DeviceManager(QObject *parent = 0);
 	~DeviceManager();
 
-	CJsonNode		GetNodeDevice()					{ return m_NodeDevice; }
-	int				GetNodeDeviceCount();
+	enum {
+		DEVICE_NONE = -1,
+		DEVICE_ADD = 0,
+		DEVICE_DEL,
+		DEVICE_MAX
+	};
 
-	CJsonNode		GetNodeWol()					{ return m_NodeWol; }
-	void			SetNodeWol(CJsonNode nodeWol)	{ m_NodeWol = nodeWol; }
+	void RequestDevice();
 
-	QString			GetDevValue(QString strMac, QString strKey);
-	QString			GetWolValue(QString strMac, QString strKey);
+	// device list
+	CJsonNode		GetDeviceList() const;
+	void			SetDeviceList(const CJsonNode &list);
+	int				GetDeviceCount();
 
-	bool			DelDevice(QString strMac);
+	void			AddDevice(QString mac, QString addr, QString caName, QString caDev);
+	void			DelDevice(int index);
+	int				CheckDevice(QString mac);
 
-	bool			AddWolDevice(QString strMac, QString strVersion, QString strWolAddr, QString strUUID);
-	bool			DelWolDevice(QString strMac);
+	QString			GetDeviceValue(QString mac, QString key);
+
+	// wol list
+	CJsonNode		GetDeviceListWol() const;
+	void			SetDeviceListWol(const CJsonNode &list);
+
+	void			AddDeviceWol(QString mac, QString version, QString addrWol, QString uuid);
+	void			DelDeviceWol(int index);
+	int				CheckDeviceWol(QString mac);
+
+	QString			GetDeviceValueWol(QString mac, QString key);
 
 signals:
 
-	void			SigInitDeviceList(bool bSelect);
+	void			SigDeviceItem(int state);
 
 public slots:
 
-	void			SlotRespDeviceInfo(QString deviceData);
+	void			SlotRespDeviceItem(QString deviceData);
 
 private:
 
-	QString			FindDeviceInfo(QString strDeviceInfo, QString strPrefix);
-	bool			AddDevice(QString strMac, QString strAddr, QString strCaName, QString strCaDev);
-	void			InitDeviceList(int nState);
+	SSDPManager		*m_pSsdpMgr;
 
-	CJsonNode		m_NodeDevice;
-	CJsonNode		m_NodeWol;
+	QString			GetValue(QString deviceItem, QString key);
+
+	CJsonNode		m_DeviceList;
+	CJsonNode		m_DeviceListWol;
 
 };
 

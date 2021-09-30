@@ -53,6 +53,9 @@ SOURCES += \
     widget/base/infohome.cpp \
     widget/base/infoservice.cpp \
     widget/base/infotracks.cpp \
+    widget/base/listdevice.cpp \
+    widget/base/listdevicedelegate.cpp \
+    widget/base/listdeviceeditor.cpp \
     widget/base/listservice.cpp \
     widget/base/listservicedelegate.cpp \
     widget/base/listserviceeditor.cpp \
@@ -61,6 +64,7 @@ SOURCES += \
     widget/base/listtrackseditor.cpp \
     widget/browserwindow.cpp \
     widget/dabradiowindow.cpp \
+    widget/devicelistwindow.cpp \
     widget/fmradiowindow.cpp \
     widget/groupplaywindow.cpp \
     widget/inputwindow.cpp \
@@ -126,6 +130,9 @@ HEADERS += \
     widget/base/infohome.h \
     widget/base/infoservice.h \
     widget/base/infotracks.h \
+    widget/base/listdevice.h \
+    widget/base/listdevicedelegate.h \
+    widget/base/listdeviceeditor.h \
     widget/base/listservice.h \
     widget/base/listservicedelegate.h \
     widget/base/listserviceeditor.h \
@@ -135,6 +142,7 @@ HEADERS += \
     widget/browser.h \
     widget/browserwindow.h \
     widget/dabradiowindow.h \
+    widget/devicelistwindow.h \
     widget/fmradiowindow.h \
     widget/groupplaywindow.h \
     widget/inputwindow.h \
@@ -164,12 +172,15 @@ FORMS += \
     widget/base/infohome.ui \
     widget/base/infoservice.ui \
     widget/base/infotracks.ui \
+    widget/base/listdevice.ui \
+    widget/base/listdeviceeditor.ui \
     widget/base/listservice.ui \
     widget/base/listserviceeditor.ui \
     widget/base/listtracks.ui \
     widget/base/listtrackseditor.ui \
     widget/browserwindow.ui \
     widget/dabradiowindow.ui \
+    widget/devicelistwindow.ui \
     widget/fmradiowindow.ui \
     widget/groupplaywindow.ui \
     widget/inputwindow.ui \

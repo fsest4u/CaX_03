@@ -1,190 +1,167 @@
 #include "devicemanager.h"
 
-#include "util/log.h"
+#include "manager/ssdpmanager.h"
+#include "network/udpclient.h"
+
 #include "util/caxconstants.h"
+#include "util/caxkeyvalue.h"
+#include "util/log.h"
 
 
-DeviceManager::DeviceManager(QObject *parent)
-	: QObject(parent)
-	, m_NodeDevice(CJsonNode(JSON_OBJECT))
-	, m_NodeWol(CJsonNode(JSON_OBJECT))
+DeviceManager::DeviceManager(QObject *parent) :
+	QObject(parent),
+	m_pSsdpMgr(new SSDPManager)
 {
+	m_DeviceList.Clear();
+	m_DeviceListWol.Clear();
+
+	connect(m_pSsdpMgr->GetUdpClient(), SIGNAL(SigRespDeviceItem(QString)),	this, SLOT(SlotRespDeviceItem(QString)));
 
 }
 
 DeviceManager::~DeviceManager()
 {
-	m_NodeDevice.Clear();
-	m_NodeWol.Clear();
+	m_DeviceList.Clear();
+	m_DeviceListWol.Clear();
+
+	if (m_pSsdpMgr)
+	{
+		delete m_pSsdpMgr;
+		m_pSsdpMgr = nullptr;
+	}
 }
 
-QString DeviceManager::FindDeviceInfo(QString strDeviceInfo, QString strPrefix)
+void DeviceManager::RequestDevice()
 {
-	QString strDeviceValue;
-	int index = strDeviceInfo.lastIndexOf(strPrefix);
-	if (index >= 0)
-	{
-		index = strDeviceInfo.length() - index - QString(strPrefix).length() - 1;
-		strDeviceValue = strDeviceInfo.right(index);
-	}
-	else
-	{
-		strDeviceValue.clear();
-	}
-
-	return strDeviceValue;
+	m_pSsdpMgr->RequestDeviceInfo();
 }
 
-bool DeviceManager::AddDevice(QString strMac, QString strAddr, QString strCaName, QString strCaDev)
+CJsonNode DeviceManager::GetDeviceList() const
 {
-	bool bAdd = false;
-
-	CJsonNode nodeCheck;
-	if (m_NodeDevice.GetObject(strMac, nodeCheck))
-	{
-		bAdd = false;
-//		LogDebug("nodeCheck [%s]", nodeCheck.ToCompactByteArray().data());
-	}
-	else
-	{
-		CJsonNode nodeDevice(JSON_OBJECT);
-		nodeDevice.Add(DEVICE_MAC, strMac);
-		nodeDevice.Add(DEVICE_ADDR, strAddr);
-		nodeDevice.Add(DEVICE_VAL, strCaName);
-		nodeDevice.Add(DEVICE_DEV, strCaDev);
-		m_NodeDevice.Add(strMac, nodeDevice);
-
-		bAdd = true;
-	}
-
-	return bAdd;
+	return m_DeviceList;
 }
 
-bool DeviceManager::DelDevice(QString strMac)
+void DeviceManager::SetDeviceList(const CJsonNode &list)
 {
-	bool bChange = false;
-
-	if (!m_NodeDevice.IsNull() && !m_NodeDevice.GetObject(strMac).IsNull())
-	{
-		m_NodeDevice.Del(strMac);
-		bChange = true;
-	}
-	else
-		bChange = false;
-
-	return bChange;
+	m_DeviceList = list;
 }
 
-
-void DeviceManager::InitDeviceList(int nState)
+int DeviceManager::GetDeviceCount()
 {
-	bool bSelect = (nState == 1) ? true : false;
-
-	QStringList listStrMac;
-	QList<CJsonNode> listNodeDev;
-
-	QString strAddr;
-	QString strMac;
-	QString strVal;
-	QString strDev;
-
-	int nCount = m_NodeDevice.GetObjectList(listStrMac, listNodeDev);
-	for (int i = 0; i < nCount; i++)
-	{
-		listNodeDev[i].GetString(DEVICE_ADDR, strAddr);
-		listNodeDev[i].GetString(DEVICE_MAC, strMac);
-		listNodeDev[i].GetString(DEVICE_VAL, strVal);
-		listNodeDev[i].GetString(DEVICE_DEV, strDev);
-
-		LogDebug("[%s][%s][%s][%s]"
-					 , strAddr.toUtf8().data()
-					 , strMac.toUtf8().data()
-					 , strVal.toUtf8().data()
-					 , strDev.toUtf8().data());
-	}
-
-	emit SigInitDeviceList(bSelect);
+	return m_DeviceList.ArraySize();
 }
 
-
-QString DeviceManager::GetDevValue(QString strMac, QString strKey)
+void DeviceManager::AddDevice(QString mac, QString addr, QString caName, QString caDev)
 {
-	QString strValue;
-	CJsonNode nodeCheck;
-	if (m_NodeDevice.GetObject(strMac, nodeCheck))
-	{
-		nodeCheck.GetString(strKey, strValue);
-		LogDebug("GetDevValue [%s][%s]", strKey.toUtf8().data(), strValue.toUtf8().data());
-	}
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_MAC, mac);
+	node.Add(KEY_ADDR, addr);
+	node.Add(KEY_VAL, caName);
+	node.Add(KEY_DEV, caDev);
 
-	return strValue;
+	m_DeviceList.AppendArray(node);
 
 }
 
-QString DeviceManager::GetWolValue(QString strMac, QString strKey)
+void DeviceManager::DelDevice(int index)
 {
-	QString strValue;
-	CJsonNode nodeDevice(JSON_OBJECT);;
-
-	if (m_NodeWol.GetObject(strMac, nodeDevice))
-	{
-		nodeDevice.GetString(strKey, strValue);
-		LogDebug("GetWolValue [%s][%s]", strKey.toUtf8().data(), strValue.toUtf8().data());
-	}
-
-	return strValue;
-
+	m_DeviceList.RemoveArray(index);
 }
 
-bool DeviceManager::AddWolDevice(QString strMac, QString strVersion, QString strWolAddr, QString strUUID)
+int DeviceManager::CheckDevice(QString mac)
 {
-	QString devAddr = GetDevValue(strMac, DEVICE_ADDR);
-	QString devName = GetDevValue(strMac, DEVICE_DEV);
-
-	if ( devAddr.isEmpty() || devName.isEmpty() )	return false;
-
-	bool bAdd = false;
-	CJsonNode nodeCheck;
-	if (m_NodeWol.GetObject(strMac, nodeCheck))
+	int index = -1;
+	for (int i = 0; i < m_DeviceList.ArraySize(); i++)
 	{
-		bAdd = false;
-//		LogDebug("nodeCheck [%s]", nodeCheck.ToCompactByteArray().data());
-	}
-	else
-	{
-		CJsonNode nodeDevice(JSON_OBJECT);
-		nodeDevice.Add(DEVICE_ADDR, devAddr);
-		nodeDevice.Add(DEVICE_MAC, strMac);
-		nodeDevice.Add(DEVICE_VAL, devName);
-		nodeDevice.Add(DEVICE_APP, true);
-		nodeDevice.Add(DEVICE_MAC, strMac);
-		nodeDevice.Add(DEVICE_VERSION, strVersion);
-		nodeDevice.Add(DEVICE_WOL_ADDR, strWolAddr);
-		nodeDevice.Add(DEVICE_UUID, strUUID);
-		m_NodeWol.Add(strMac, nodeDevice);
-
-		bAdd = true;
+		if (!mac.compare(m_DeviceList.GetArrayAt(i).GetString(KEY_MAC)))
+		{
+			index = i;
+			break;
+		}
 	}
 
-	return bAdd;
+	return index;
 }
 
-bool DeviceManager::DelWolDevice(QString strMac)
+QString DeviceManager::GetDeviceValue(QString mac, QString key)
 {
-	bool bChange = false;
-
-	if (m_NodeWol.Del(strMac))	bChange = true;
-	else						bChange = false;
-
-	return bChange;
+	QString value;
+	int index = CheckDevice(mac);
+	CJsonNode node = m_DeviceList.GetArrayAt(index);
+	if (!node.IsNull())
+	{
+		value = node.GetString(key);
+	}
+	return value;
 }
+
+CJsonNode DeviceManager::GetDeviceListWol() const
+{
+	return m_DeviceListWol;
+}
+
+void DeviceManager::SetDeviceListWol(const CJsonNode &list)
+{
+	m_DeviceListWol = list;
+}
+
+void DeviceManager::AddDeviceWol(QString mac, QString version, QString addrWol, QString uuid)
+{
+	QString devAddr = GetDeviceValue(mac, DEVICE_ADDR);
+	QString devName = GetDeviceValue(mac, DEVICE_DEV);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(DEVICE_ADDR, devAddr);
+	node.Add(DEVICE_MAC, mac);
+	node.Add(DEVICE_VAL, devName);
+	node.Add(DEVICE_APP, true);
+	node.Add(DEVICE_VERSION, version);
+	node.Add(DEVICE_WOL_ADDR, addrWol);
+	node.Add(DEVICE_UUID, uuid);
+
+	m_DeviceListWol.AppendArray(node);
+}
+
+void DeviceManager::DelDeviceWol(int index)
+{
+	m_DeviceListWol.RemoveArray(index);
+}
+
+int DeviceManager::CheckDeviceWol(QString mac)
+{
+	int index = -1;
+	for (int i = 0; i < m_DeviceListWol.ArraySize(); i++)
+	{
+		if (!mac.compare(m_DeviceListWol.GetArrayAt(i).GetString(KEY_MAC)))
+		{
+			index = i;
+			break;
+		}
+	}
+
+	return index;
+}
+
+QString DeviceManager::GetDeviceValueWol(QString mac, QString key)
+{
+	QString value;
+	int index = CheckDeviceWol(mac);
+	CJsonNode node = m_DeviceListWol.GetArrayAt(index);
+	if (!node.IsNull())
+	{
+		value = node.GetString(key);
+	}
+	return value;
+}
+
+
 
 ///////////////////////////////////////////////////////////
 // Slots
 ///////////////////////////////////////////////////////////
-void DeviceManager::SlotRespDeviceInfo(QString deviceData)
+void DeviceManager::SlotRespDeviceItem(QString deviceData)
 {
-	QStringList arrDeviceInfo = QString(deviceData).split(SSDP_CRLF);
+	QStringList deviceItems = QString(deviceData).split(SSDP_CRLF);
 
 	QString strAddr = "";
 	QString strMac = "";
@@ -192,39 +169,45 @@ void DeviceManager::SlotRespDeviceInfo(QString deviceData)
 	QString strCaDev = "";
 
 	bool	bWebServer = false;
-	int		nState = 0;
+	int 	state = DEVICE_NONE;
 
-	foreach (QString strDeviceInfo, arrDeviceInfo)
+	foreach (QString deviceItem, deviceItems)
 	{
-		if (strDeviceInfo.startsWith(SSDP_NT))
+		if (deviceItem.startsWith(SSDP_NT))
 		{
-			if (strDeviceInfo.lastIndexOf(SSDP_ST_DATA) >= 0)
+			if (deviceItem.lastIndexOf(SSDP_ST_DATA) >= 0)
 			{
 				bWebServer = true;
 			}
 		}
-		else if (strDeviceInfo.startsWith(SSDP_ST))
+		else if (deviceItem.startsWith(SSDP_ST))
 		{
-			if (strDeviceInfo.lastIndexOf(SSDP_ST_DATA) >= 0)
+			if (deviceItem.lastIndexOf(SSDP_ST_DATA) >= 0)
 			{
 				bWebServer = true;
-				nState = 1;
+				state = DEVICE_ADD;
 			}
 		}
-		else if (strDeviceInfo.startsWith(SSDP_NTS))
+		else if (deviceItem.startsWith(SSDP_NTS))
 		{
-			if (strDeviceInfo.lastIndexOf(SSDP_NTS_DATA) >= 0)		nState = 1;
-			else													nState = 2;
+			if (deviceItem.lastIndexOf(SSDP_NTS_DATA) >= 0)
+				state = DEVICE_ADD;
+			else
+				state = DEVICE_DEL;
 		}
-		else if (strDeviceInfo.startsWith(SSDP_LOCATION))			strAddr = FindDeviceInfo(strDeviceInfo, SSDP_LOCATION);
-		else if (strDeviceInfo.startsWith(SSDP_MAC_ADDR))			strMac = FindDeviceInfo(strDeviceInfo, SSDP_MAC_ADDR);
-		else if (strDeviceInfo.startsWith(SSDP_CA_NAME))			strCaName = FindDeviceInfo(strDeviceInfo, SSDP_CA_NAME);
-		else if (strDeviceInfo.startsWith(SSDP_CA_DEVICE))			strCaDev = FindDeviceInfo(strDeviceInfo, SSDP_CA_DEVICE);
+		else if (deviceItem.startsWith(SSDP_LOCATION))
+			strAddr = GetValue(deviceItem, SSDP_LOCATION);
+		else if (deviceItem.startsWith(SSDP_MAC_ADDR))
+			strMac = GetValue(deviceItem, SSDP_MAC_ADDR);
+		else if (deviceItem.startsWith(SSDP_CA_NAME))
+			strCaName = GetValue(deviceItem, SSDP_CA_NAME);
+		else if (deviceItem.startsWith(SSDP_CA_DEVICE))
+			strCaDev = GetValue(deviceItem, SSDP_CA_DEVICE);
 
 	}
 
 	if (!bWebServer
-		|| nState == 0
+		|| state <= DEVICE_NONE
 		|| strAddr.isEmpty()
 		|| strMac.isEmpty()
 		|| strCaName.isEmpty()
@@ -235,27 +218,40 @@ void DeviceManager::SlotRespDeviceInfo(QString deviceData)
 	}
 
 	// add or delete device
-	if (nState == 1 && !AddDevice(strMac, strAddr, strCaName, strCaDev))
+	if (state == DEVICE_ADD)
 	{
-//		LogDebug("already add or fail to add");
-		return;
+		int index = CheckDevice(strMac);
+		if (index < 0)
+		{
+			AddDevice(strMac, strAddr, strCaName, strCaDev);
+			emit SigDeviceItem(state);
+		}
 	}
-	else if (nState == 2 && !DelDevice(strMac))
+	else if (state == DEVICE_DEL)
 	{
-//		LogDebug("already delete or fail to delete");
-		return;
+		int index = CheckDevice(strMac);
+		if (index >= 0)
+		{
+			DelDevice(index);
+			emit SigDeviceItem(state);
+		}
 	}
 
-	// change device list
-	InitDeviceList(nState);
 }
 
-int DeviceManager::GetNodeDeviceCount()
+QString DeviceManager::GetValue(QString deviceItem, QString key)
 {
+	QString value;
+	int index = deviceItem.lastIndexOf(key);
+	if (index >= 0)
+	{
+		index = deviceItem.length() - index - QString(key).length() - 1;
+		value = deviceItem.right(index);
+	}
+	else
+	{
+		value.clear();
+	}
 
-	QStringList listStrMac;
-	QList<CJsonNode> listNodeDev;
-
-	int nCount = m_NodeDevice.GetObjectList(listStrMac, listNodeDev);
-	return nCount;
+	return value;
 }

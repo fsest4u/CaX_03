@@ -155,6 +155,11 @@
 #define		KEY_PLAY_TIME		"PlayTime"
 #define		KEY_REPEAT			"Repeat"
 
+#define		KEY_MAC				"Mac"
+#define		KEY_ADDR			"Addr"
+#define		KEY_VAL				"Val"
+#define		KEY_DEV				"Dev"
+
 
 //////////////////////////////////////////////////
 // response - value

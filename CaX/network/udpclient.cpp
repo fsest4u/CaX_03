@@ -180,7 +180,7 @@ void UDPClient::SlotSSDPReadData()
 
 	}
 
-	emit SigRespDeviceInfo(QString(ssdpData));
+	emit SigRespDeviceItem(QString(ssdpData));
 
 }
 
