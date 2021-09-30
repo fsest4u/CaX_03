@@ -355,6 +355,8 @@ void MainWindow::SlotSelectDevice(QString mac)
 	m_pAppMgr->SetAddr(m_strAddr);
 
 	m_pAppMgr->RequestDeviceInfo();
+
+	RemoveAllWidget();
 }
 
 void MainWindow::SlotSelectCancel(QString mac)
@@ -367,7 +369,6 @@ void MainWindow::SlotSelectCancel(QString mac)
 
 void MainWindow::SlotWolDevice(QString mac)
 {
-	LogDebug("good wol device");
 	if (mac.isEmpty())
 		return;
 
@@ -376,11 +377,13 @@ void MainWindow::SlotWolDevice(QString mac)
 		return;
 
 	m_pDeviceMgr->RequestDevicePowerOn(strAddr, mac);
+
+	RemoveAllWidget();
 }
 
 void MainWindow::SlotWolCancel(QString mac)
 {
-	LogDebug("good wol cancel");
+	LogDebug("SlotWolCancel");
 }
 
 
@@ -392,6 +395,8 @@ void MainWindow::SlotDisconnectObserver()
 		return;
 	}
 
+	m_bConnect = false;
+
 	if (m_pDeviceMgr)
 	{
 		int index = m_pDeviceMgr->CheckDevice(m_strCurrentMac);
@@ -401,7 +406,7 @@ void MainWindow::SlotDisconnectObserver()
 		}
 	}
 
-//	DoDeviceListHome();
+	DoDeviceListHome();
 
 }
 
@@ -552,7 +557,7 @@ void MainWindow::ConnectForUI()
 void MainWindow::ConnectForApp()
 {
 	connect(m_pDeviceMgr, SIGNAL(SigDeviceItem(int)), this, SLOT(SlotDeviceItem(int)));
-//	connect(m_pDeviceMenu, SIGNAL(SigDeviceSelect(QListWidgetItem*)), this,	SLOT(SlotDeviceSelect(QListWidgetItem*)));
+	connect(m_pDeviceMgr, SIGNAL(SigAutoConnectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespDeviceInfo(CJsonNode)), this, SLOT(SlotRespDeviceInfo(CJsonNode)));
 
@@ -563,12 +568,13 @@ void MainWindow::ConnectForApp()
 	connect(m_pDeviceWin, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(m_pDeviceWin, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
 
-	connect(this, SIGNAL(SigPowerOffDevice(bool)), m_pAppMgr, SLOT(SlotPowerOffDevice(bool)));
 }
 
 void MainWindow::DoDeviceListHome()
 {
 	RemoveAllWidget();
+
+	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
 
 	ui->widgetTop->SetMainTitle(tr("Select device"));
 	m_pDeviceWin->SetTitle(tr("Select device"));
@@ -680,9 +686,8 @@ void MainWindow::DoPowerOff()
 			}
 		}
 
-		emit SigPowerOffDevice(bWol);
+		m_pAppMgr->RequestDevicePowerOff(bWol);
 
-		ObserverDisconnect();
 	}
 
 }

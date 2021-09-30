@@ -61,6 +61,11 @@ void ListDeviceEditor::SetDev(const QString &Dev)
 	m_Dev = Dev;
 }
 
+QFrame *ListDeviceEditor::GetFrameCancel()
+{
+	return ui->frameCancel;
+}
+
 bool ListDeviceEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)

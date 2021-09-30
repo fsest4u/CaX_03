@@ -177,17 +177,15 @@ void UDPClient::SlotSSDPReadData()
 //		LogDebug("1 Message from: %s ", sender.toString().toUtf8().data());
 //		LogDebug("1 Message from: %d ", senderPort);
 //		LogDebug("1 Message from: %s ", ssdpData.data());
-
 	}
 
 	emit SigRespDeviceItem(QString(ssdpData));
-
 }
 
 
 void UDPClient::SlotMSearchReadData()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 	while( m_pSocketMSearch->hasPendingDatagrams() )
 	{
 		QByteArray ssdpData;
@@ -198,16 +196,16 @@ void UDPClient::SlotMSearchReadData()
 
 		m_pSocketMSearch->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
 
-//		LoggingDebug("2 Message from: %s ", sender.toString().toUtf8().data());
-//		LoggingDebug("2 Message from: %d ", senderPort);
-//		LoggingDebug("2 Message from: %s ", ssdpData.data());
+//		LogDebug("2 Message from: %s ", sender.toString().toUtf8().data());
+//		LogDebug("2 Message from: %d ", senderPort);
+//		LogDebug("2 Message from: %s ", ssdpData.data());
 
 	}
 }
 
 void UDPClient::SlotWolReadData()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 	while (m_pSocketWol->hasPendingDatagrams())
 	{
 		QByteArray ssdpData;
@@ -218,9 +216,9 @@ void UDPClient::SlotWolReadData()
 
 		m_pSocketWol->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
 
-//		LoggingDebug("3 Message from: %s ", sender.toString().toUtf8().data());
-//		LoggingDebug("3 Message from: %d ", senderPort);
-//		LoggingDebug("3 Message from: %s ", ssdpData.data());
+//		LogDebug("3 Message from: %s ", sender.toString().toUtf8().data());
+//		LogDebug("3 Message from: %d ", senderPort);
+//		LogDebug("3 Message from: %s ", ssdpData.data());
 
 	}
 }

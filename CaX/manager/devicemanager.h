@@ -51,6 +51,7 @@ public:
 signals:
 
 	void			SigDeviceItem(int state);
+	void			SigAutoConnectDevice(QString mac);
 
 public slots:
 
@@ -64,6 +65,8 @@ private:
 
 	CJsonNode		m_DeviceList;
 	CJsonNode		m_DeviceListWol;
+
+	QString			m_AutoMac;
 
 };
 

@@ -15,6 +15,7 @@ public:
 	~AppManager();
 
 	void RequestDeviceInfo();
+	void RequestDevicePowerOff(bool bWol);
 
 signals:
 
@@ -27,7 +28,6 @@ private slots:
 	void SlotRespDeviceInfo(QString json, int nCmdID);
 	void SlotRespCoverInfo();
 
-	void SlotPowerOffDevice(bool bWol);
 
 };
 

@@ -10,7 +10,8 @@
 
 DeviceManager::DeviceManager(QObject *parent) :
 	QObject(parent),
-	m_pSsdpMgr(new SSDPManager)
+	m_pSsdpMgr(new SSDPManager),
+	m_AutoMac("")
 {
 	m_DeviceList.Clear();
 	m_DeviceListWol.Clear();
@@ -38,8 +39,8 @@ void DeviceManager::RequestDeviceInfo()
 
 void DeviceManager::RequestDevicePowerOn(QString wolAddr, QString mac)
 {
+	m_AutoMac = mac;
 	m_pSsdpMgr->RequestDevicePowerOn(wolAddr, mac);
-
 }
 
 CJsonNode DeviceManager::GetDeviceList() const
@@ -236,6 +237,15 @@ void DeviceManager::SlotRespDeviceItem(QString deviceData)
 		{
 			AddDevice(strMac, strAddr, strCaName, strCaDev);
 			emit SigDeviceItem(state);
+			return;
+		}
+
+		if (!m_AutoMac.compare(strMac))
+		{
+			LogDebug("auto connect device");
+			m_AutoMac.clear();
+			emit SigAutoConnectDevice(strMac);
+			return;
 		}
 	}
 	else if (state == DEVICE_DEL)
@@ -245,6 +255,7 @@ void DeviceManager::SlotRespDeviceItem(QString deviceData)
 		{
 			DelDevice(index);
 			emit SigDeviceItem(state);
+			return;
 		}
 	}
 

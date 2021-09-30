@@ -26,10 +26,6 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 
-signals:
-
-	void SigPowerOffDevice(bool bWol);
-
 public slots:
 
 	void SlotBtnMenu();

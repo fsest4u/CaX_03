@@ -26,6 +26,17 @@ void AppManager::RequestDeviceInfo()
 	RequestCommand(node);
 }
 
+void AppManager::RequestDevicePowerOff(bool bWol)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, KEY_SETUP);
+	node.Add(KEY_CMD1, VAL_POWER_OFF);
+	node.Add(KEY_WOL, bWol);
+
+	RequestCommand(node);
+
+}
+
 void AppManager::SlotRespDeviceInfo(QString json, int nCmdID)
 {
 	Q_UNUSED(nCmdID)
@@ -46,13 +57,4 @@ void AppManager::SlotRespCoverInfo()
 	emit SigRespCoverInfo();
 }
 
-void AppManager::SlotPowerOffDevice(bool bWol)
-{
-	CJsonNode node(JSON_OBJECT);
-	node.Add(KEY_CMD0, KEY_SETUP);
-	node.Add(KEY_CMD1, VAL_POWER_OFF);
-	node.Add(KEY_WOL, bWol);
 
-	RequestCommand(node);
-
-}
