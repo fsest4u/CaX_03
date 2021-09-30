@@ -4,10 +4,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "dialog/poweroffdialog.h"
+
 #include "manager/devicemanager.h"
 #include "manager/observermanager.h"
 #include "manager/appmanager.h"
-
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
@@ -31,26 +32,29 @@
 
 const QString SETTINGS_GROUP = "MainWindow";
 
-MainWindow::MainWindow(QWidget *parent)
-	: QMainWindow(parent)
-	, m_pLoading(new Loading(this))
-	, m_pSideMenu(new SideMenu(this))
-	, m_pDeviceMgr(new DeviceManager)
-	, m_pDeviceWin(new DeviceListWindow(this))
-	, m_pObsMgr(new ObserverManager)
-	, m_pAppMgr(new AppManager)
-	, m_strCurrentMac("")
-	, m_strAddr("")
-	, m_bConnect(false)
-	, m_bAudioCD(false)
-	, m_bInput(false)
-	, m_bFMRadio(false)
-	, m_bGroupPlay(false)
-//	, m_bSigma(false)
-	, m_bScanDB(false)
-	, m_bIsDel(false)
-	, m_nEventID(-1)
-	, ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) :
+	QMainWindow(parent),
+	m_pLoading(new Loading(this)),
+	m_pSideMenu(new SideMenu(this)),
+	m_pDeviceMgr(new DeviceManager),
+	m_pDeviceWin(new DeviceListWindow),
+	m_pObsMgr(new ObserverManager),
+	m_pAppMgr(new AppManager),
+	m_strCurrentMac(""),
+	m_strAddr(""),
+	m_strVersion(""),
+	m_strWolAddr(""),
+	m_strUuid(""),
+	m_bConnect(false),
+	m_bAudioCD(false),
+	m_bInput(false),
+	m_bFMRadio(false),
+	m_bGroupPlay(false),
+//	m_bSigma(false),
+	m_bScanDB(false),
+	m_bIsDel(false),
+	m_nEventID(-1),
+	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
 
@@ -103,65 +107,6 @@ MainWindow::~MainWindow()
 		m_pDeviceWin = nullptr;
 	}
 
-//	if (m_pMusicWin)
-//	{
-//		delete m_pMusicWin;
-//		m_pMusicWin = nullptr;
-//	}
-
-//	if (m_pCDWin)
-//	{
-//		delete m_pCDWin;
-//		m_pCDWin = nullptr;
-//	}
-
-//	if (m_pPlayListWin)
-//	{
-//		delete m_pPlayListWin;
-//		m_pPlayListWin = nullptr;
-//	}
-
-//	if (m_pBrowserWin)
-//	{
-//		delete m_pBrowserWin;
-//		m_pBrowserWin = nullptr;
-//	}
-
-//	if (m_pIServiceWin)
-//	{
-//		delete m_pIServiceWin;
-//		m_pIServiceWin = nullptr;
-//	}
-
-//	if (m_pInputWin)
-//	{
-//		delete m_pInputWin;
-//		m_pInputWin = nullptr;
-//	}
-
-//	if (m_pFMWin)
-//	{
-//		delete m_pFMWin;
-//		m_pFMWin = nullptr;
-//	}
-
-//	if (m_pDABWin)
-//	{
-//		delete m_pDABWin;
-//		m_pDABWin = nullptr;
-//	}
-
-//	if (m_pGroupWin)
-//	{
-//		delete m_pGroupWin;
-//		m_pGroupWin = nullptr;
-//	}
-
-//	if (m_pSetupWin)
-//	{
-//		delete m_pSetupWin;
-//		m_pSetupWin = nullptr;
-//	}
 }
 
 void MainWindow::SlotBtnMenu()
@@ -307,29 +252,19 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 	{
 		LogCritical("Error [%s]", strMsg.toUtf8().data());
 		ObserverDisconnect();
-//		ResetMainMenu();
-//		ResetContentWidget();
 		return;
 	}
 	else
 	{
-		QString strMac;
-		QString strVersion;
-		QString strWolAddr;
-		QString strUUID;
-
-		if (!node.GetString(DEVICE_MAC, strMac) || strMac.isEmpty()) { return; }
-		if (!node.GetString(DEVICE_VERSION, strVersion) || strVersion.isEmpty()) { return; }
-		if (!node.GetString(DEVICE_WOL_ADDR, strWolAddr) || strWolAddr.isEmpty()) { return; }
-		if (!node.GetString(DEVICE_UUID, strUUID) || strUUID.isEmpty()) { return; }
+		if (!node.GetString(DEVICE_MAC, m_strCurrentMac) || m_strCurrentMac.isEmpty()) { return; }
+		if (!node.GetString(DEVICE_VERSION, m_strVersion) || m_strVersion.isEmpty()) { return; }
+		if (!node.GetString(DEVICE_WOL_ADDR, m_strWolAddr) || m_strWolAddr.isEmpty()) { return; }
+		if (!node.GetString(DEVICE_UUID, m_strUuid) || m_strUuid.isEmpty()) { return; }
 		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio)) { return; }
 		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay)) { return; }
 		if (!node.GetBool(KEY_INPUT, m_bInput)) { return; }
 
 		m_bConnect = true;
-		m_strCurrentMac = strMac;
-
-		m_pDeviceMgr->AddDeviceWol(strMac, strVersion, strWolAddr, strUUID);
 
 		ObserverConnect();
 
@@ -397,7 +332,8 @@ void MainWindow::SlotSelectDevice(QString mac)
 		return;
 
 	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
-	if (strAddr.isEmpty())	return;
+	if (strAddr.isEmpty())
+		return;
 
 	m_strAddr = strAddr;
 	WriteSettings();
@@ -434,8 +370,8 @@ void MainWindow::SlotDisconnectObserver()
 		}
 	}
 
-//	ResetMainMenu();
-	//	ResetContentWidget();
+//	DoDeviceListHome();
+
 }
 
 void MainWindow::SlotSelectSideMenu(int menuIndex)
@@ -475,6 +411,7 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 		DoSetupHome();
 		break;
 	case SideMenuDelegate::SIDEMENU_SERVICE_POWER_OFF:
+		DoPowerOff();
 		break;
 	default:
 		break;
@@ -484,8 +421,10 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 
 void MainWindow::SlotRespAirableLogout()
 {
-	RemoveAllWidget();
-	DoMusicDBHome();
+//	RemoveAllWidget();
+//	DoMusicDBHome();
+
+	DoDeviceListHome();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -519,9 +458,10 @@ void MainWindow::InitMain()
 {
 //	instead of MainWindow::ConnectForUI()
 //	InitMenu(true);
+
 	DoDeviceListHome();
 
-	m_pDeviceMgr->RequestDevice();
+	m_pDeviceMgr->RequestDeviceInfo();
 	m_pSideMenu->HideMenu();
 
 	UpdateStackState();
@@ -529,7 +469,6 @@ void MainWindow::InitMain()
 	m_IServiceList.clear();
 	m_InputList.clear();
 	m_SetUpList.clear();
-
 
 }
 
@@ -590,11 +529,15 @@ void MainWindow::ConnectForApp()
 	connect(m_pDeviceWin, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(m_pDeviceWin, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
 
+	connect(this, SIGNAL(SigPowerOffDevice(bool)), m_pAppMgr, SLOT(SlotPowerOffDevice(bool)));
 }
 
 void MainWindow::DoDeviceListHome()
 {
+	RemoveAllWidget();
+
 	ui->widgetTop->SetMainTitle(tr("Select device"));
+	m_pDeviceWin->SetTitle(tr("Select device"));
 	SlotAddWidget(m_pDeviceWin);
 }
 
@@ -680,6 +623,35 @@ void MainWindow::DoSetupHome()
 	SlotAddWidget(widget);
 }
 
+void MainWindow::DoPowerOff()
+{
+	PowerOffDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		int index = m_pDeviceMgr->CheckDeviceWol(m_strCurrentMac);
+
+		bool bWol = dialog.GetBtnWol()->isChecked();
+		if (bWol)
+		{
+			if (index < 0)
+			{
+				m_pDeviceMgr->AddDeviceWol(m_strCurrentMac, m_strVersion, m_strWolAddr, m_strUuid);
+			}
+		}
+		else
+		{
+			if (index >= 0)
+			{
+				m_pDeviceMgr->DelDeviceWol(index);
+			}
+		}
+
+		emit SigPowerOffDevice(bWol);
+
+		ObserverDisconnect();
+	}
+
+}
 void MainWindow::SlotAddWidget(QWidget *widget)
 {
 	auto idx = ui->stackMain->currentIndex();

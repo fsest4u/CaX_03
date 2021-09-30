@@ -24,7 +24,7 @@ public:
 		DEVICE_MAX
 	};
 
-	void RequestDevice();
+	void RequestDeviceInfo();
 
 	// device list
 	CJsonNode		GetDeviceList() const;

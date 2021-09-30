@@ -26,6 +26,10 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 
+signals:
+
+	void SigPowerOffDevice(bool bWol);
+
 public slots:
 
 	void SlotBtnMenu();
@@ -82,6 +86,7 @@ private:
 	void DoDabRadioHome();
 	void DoGroupPlayHome();
 	void DoSetupHome();
+	void DoPowerOff();
 
 	void RemoveAllWidget();
 
@@ -101,6 +106,10 @@ private:
 
 	QString			m_strCurrentMac;
 	QString			m_strAddr;
+
+	QString			m_strVersion;
+	QString			m_strWolAddr;
+	QString			m_strUuid;
 
 	bool			m_bConnect;
 

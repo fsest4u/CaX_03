@@ -27,6 +27,8 @@ private slots:
 	void SlotRespDeviceInfo(QString json, int nCmdID);
 	void SlotRespCoverInfo();
 
+	void SlotPowerOffDevice(bool bWol);
+
 };
 
 #endif // APPMANAGER_H

@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     dialog/cdripinfodialog.cpp \
     dialog/logindialog.cpp \
+    dialog/poweroffdialog.cpp \
     dialog/searchdialog.cpp \
     dialog/submenudelegate.cpp \
     dialog/submenudialog.cpp \
@@ -81,6 +82,7 @@ SOURCES += \
 HEADERS += \
     dialog/cdripinfodialog.h \
     dialog/logindialog.h \
+    dialog/poweroffdialog.h \
     dialog/requestinterceptor.h \
     dialog/searchdialog.h \
     dialog/submenudelegate.h \
@@ -160,6 +162,7 @@ HEADERS += \
 FORMS += \
     dialog/cdripinfodialog.ui \
     dialog/logindialog.ui \
+    dialog/poweroffdialog.ui \
     dialog/searchdialog.ui \
     dialog/submenudialog.ui \
     dialog/trackinfodialog.ui \

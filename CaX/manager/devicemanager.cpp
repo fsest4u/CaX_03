@@ -31,7 +31,7 @@ DeviceManager::~DeviceManager()
 	}
 }
 
-void DeviceManager::RequestDevice()
+void DeviceManager::RequestDeviceInfo()
 {
 	m_pSsdpMgr->RequestDeviceInfo();
 }

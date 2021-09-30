@@ -88,11 +88,6 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 	m_Model->clear();
 	foreach (CJsonNode node, m_NodeList)
 	{
-		LogDebug("mac : [%s]", node.GetString(KEY_MAC).toUtf8().data());
-		LogDebug("addr : [%s]", node.GetString(KEY_ADDR).toUtf8().data());
-		LogDebug("val : [%s]", node.GetString(KEY_VAL).toUtf8().data());
-		LogDebug("dev : [%s]", node.GetString(KEY_DEV).toUtf8().data());
-
 		QStandardItem *item = new QStandardItem;
 		item->setData(node.GetString(KEY_MAC), ListDeviceDelegate::LIST_DEVICE_MAC);
 		item->setData(node.GetString(KEY_ADDR), ListDeviceDelegate::LIST_DEVICE_ADDR);

@@ -45,3 +45,14 @@ void AppManager::SlotRespCoverInfo()
 {
 	emit SigRespCoverInfo();
 }
+
+void AppManager::SlotPowerOffDevice(bool bWol)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, KEY_SETUP);
+	node.Add(KEY_CMD1, VAL_POWER_OFF);
+	node.Add(KEY_WOL, bWol);
+
+	RequestCommand(node);
+
+}

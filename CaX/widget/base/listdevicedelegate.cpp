@@ -52,17 +52,14 @@ QWidget *ListDeviceDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	ListDeviceEditor *editor = new ListDeviceEditor(parent);
 	connect(editor, SIGNAL(SigClickDevice(QString)), this, SLOT(SlotClickDevice(QString)));
 	connect(editor, SIGNAL(SigClickCancel(QString)), this, SLOT(SlotClickCancel(QString)));
+
+	editor->GetFrameCancel()->hide();
+
 	return editor;
 }
 
 void ListDeviceDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-	LogDebug("====");
-	LogDebug("mac : [%s]", qvariant_cast<QString>(index.data(LIST_DEVICE_MAC)).toUtf8().data());
-	LogDebug("addr : [%s]", qvariant_cast<QString>(index.data(LIST_DEVICE_ADDR)).toUtf8().data());
-	LogDebug("val : [%s]", qvariant_cast<QString>(index.data(LIST_DEVICE_VAL)).toUtf8().data());
-	LogDebug("dev : [%s]", qvariant_cast<QString>(index.data(LIST_DEVICE_DEV)).toUtf8().data());
-
 	ListDeviceEditor *widget = static_cast<ListDeviceEditor*>(editor);
 	widget->blockSignals(true);
 	widget->SetMac(qvariant_cast<QString>(index.data(LIST_DEVICE_MAC)));
@@ -70,7 +67,6 @@ void ListDeviceDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->SetVal(qvariant_cast<QString>(index.data(LIST_DEVICE_VAL)));
 	widget->SetDev(qvariant_cast<QString>(index.data(LIST_DEVICE_DEV)));
 	widget->blockSignals(false);
-
 }
 
 void ListDeviceDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
@@ -80,7 +76,6 @@ void ListDeviceDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 	model->setData(index, widget->GetAddr(), LIST_DEVICE_ADDR);
 	model->setData(index, widget->GetVal(), LIST_DEVICE_VAL);
 	model->setData(index, widget->GetDev(), LIST_DEVICE_DEV);
-
 }
 
 void ListDeviceDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

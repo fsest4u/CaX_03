@@ -52,6 +52,7 @@
 #define		KEY_TEMPO			"Tempo"
 #define		KEY_CDYEAR			"CdYear"
 #define		KEY_CDNUMBER			"CdNumber"
+#define		KEY_WOL				"WOL"
 
 
 //////////////////////////////////////////////////
@@ -105,6 +106,9 @@
 #define		VAL_EJECT			"Eject"
 #define		VAL_RIP_INFO			"RipInfo"
 #define		VAL_RIP			"Rip"
+#define		VAL_SETUP			"Setup"
+#define		VAL_POWER_OFF		"PowerOff"
+
 
 
 //////////////////////////////////////////////////
