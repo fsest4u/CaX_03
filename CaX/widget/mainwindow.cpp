@@ -172,11 +172,19 @@ void MainWindow::ReadSettings()
 	QString strNodeWol = settings.value("node_wol").toString();
 	if (!strNodeWol.isEmpty())
 	{
-		CJsonNode nodeWol;
-		if (nodeWol.SetContent(strNodeWol))
+		CJsonNode nodeList;
+		if (nodeList.SetContent(strNodeWol))
 		{
-			LogDebug("ReadSettings [%s]", nodeWol.ToCompactByteArray().data());
-			m_pDeviceMgr->SetDeviceListWol(nodeWol);
+			LogDebug("ReadSettings [%s]", nodeList.ToCompactByteArray().data());
+			if (!nodeList.IsNull() && nodeList.ArraySize() > 0)
+			{
+//				for (int i = 0; i < nodeList.ArraySize(); i++)
+//				{
+//					CJsonNode node = nodeList.GetArrayAt(i);
+//					LogDebug("wol [%s]", node.ToCompactByteArray().data());
+//				}
+				m_pDeviceMgr->SetDeviceListWol(nodeList);
+			}
 		}
 		else
 		{
@@ -199,11 +207,16 @@ void MainWindow::WriteSettings()
 	settings.setValue("recent_addr", m_strAddr);
 
 	// save wol list
-	CJsonNode nodeWol = m_pDeviceMgr->GetDeviceListWol();
-	if (!nodeWol.IsNull())
+	CJsonNode nodeList = m_pDeviceMgr->GetDeviceListWol();
+	if (!nodeList.IsNull() && nodeList.ArraySize() > 0)
 	{
-		LogDebug("WriteSettings wol [%s]", nodeWol.ToCompactByteArray().data());
-		settings.setValue("node_wol", nodeWol.ToCompactString());
+//		for (int i = 0; i < nodeList.ArraySize(); i++)
+//		{
+//			CJsonNode node = nodeList.GetArrayAt(i);
+//			LogDebug("wol [%s]", node.ToCompactByteArray().data());
+//		}
+		LogDebug("wol list [%s]", nodeList.ToCompactByteArray().data());
+		settings.setValue("node_wol", nodeList.ToCompactString());
 	}
 
 	settings.endGroup();
@@ -352,6 +365,24 @@ void MainWindow::SlotSelectCancel(QString mac)
 	ObserverDisconnect();
 }
 
+void MainWindow::SlotWolDevice(QString mac)
+{
+	LogDebug("good wol device");
+	if (mac.isEmpty())
+		return;
+
+	QString strAddr = m_pDeviceMgr->GetDeviceValueWol(mac, DEVICE_WOL_ADDR);
+	if (strAddr.isEmpty())
+		return;
+
+	m_pDeviceMgr->RequestDevicePowerOn(strAddr, mac);
+}
+
+void MainWindow::SlotWolCancel(QString mac)
+{
+	LogDebug("good wol cancel");
+}
+
 
 void MainWindow::SlotDisconnectObserver()
 {
@@ -412,6 +443,9 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 		break;
 	case SideMenuDelegate::SIDEMENU_SERVICE_POWER_OFF:
 		DoPowerOff();
+		break;
+	case SideMenuDelegate::SIDEMENU_SERVICE_POWER_ON:
+		DoPowerOn();
 		break;
 	default:
 		break;
@@ -652,6 +686,20 @@ void MainWindow::DoPowerOff()
 	}
 
 }
+
+void MainWindow::DoPowerOn()
+{
+	ui->widgetTop->SetMainTitle(tr("Power on"));
+	DeviceListWindow *widget = new DeviceListWindow;
+	SlotAddWidget(widget);
+
+	connect(widget, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotWolDevice(QString)));
+	connect(widget, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotWolCancel(QString)));
+
+	widget->SetTitle(tr("Power on"));
+	widget->SetDeviceList(m_pDeviceMgr->GetDeviceListWol());
+}
+
 void MainWindow::SlotAddWidget(QWidget *widget)
 {
 	auto idx = ui->stackMain->currentIndex();

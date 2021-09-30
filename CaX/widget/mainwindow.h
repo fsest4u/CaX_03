@@ -49,6 +49,9 @@ public slots:
 	void SlotSelectDevice(QString mac);
 	void SlotSelectCancel(QString mac);
 
+	void SlotWolDevice(QString mac);
+	void SlotWolCancel(QString mac);
+
 	void SlotSelectSideMenu(int menuIndex);
 
 
@@ -87,6 +90,7 @@ private:
 	void DoGroupPlayHome();
 	void DoSetupHome();
 	void DoPowerOff();
+	void DoPowerOn();
 
 	void RemoveAllWidget();
 

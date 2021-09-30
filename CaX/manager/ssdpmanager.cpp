@@ -34,6 +34,11 @@ void SSDPManager::RequestDeviceInfo()
 	m_pUdpClient->SendSocketMSearch(strSearch);
 }
 
+void SSDPManager::RequestDevicePowerOn(QString strWolAddr, QString strMac)
+{
+	m_pUdpClient->SendSocketWol(strWolAddr, strMac);
+}
+
 QString SSDPManager::MakeStringMSearch()
 {
 	//QString SendString = QString("M-SEARCH * HTTP/1.1\r\nHost: %1:%2\r\nMAN: \"ssdp:discover\"\r\nST: %3\r\nMX: 3\r\n\r\n").arg(SSDP_ADDR).arg(SSDP_PORT).arg(SSDP_ST_DATA);
@@ -55,10 +60,5 @@ UDPClient *SSDPManager::GetUdpClient() const
 void SSDPManager::SetUdpClient(UDPClient *pUdpClient)
 {
 	m_pUdpClient = pUdpClient;
-}
-
-void SSDPManager::SlotPowerOnDevice(QString strWolAddr, QString strMac)
-{
-	m_pUdpClient->SendSocketWol(strWolAddr, strMac);
 }
 

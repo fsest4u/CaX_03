@@ -15,13 +15,11 @@ public:
 	~SSDPManager();
 
 	void RequestDeviceInfo();
+	void RequestDevicePowerOn(QString strWolAddr, QString strMac);
 
 	UDPClient *GetUdpClient() const;
 	void SetUdpClient(UDPClient *pUdpClient);
 
-public slots:
-
-	void SlotPowerOnDevice(QString strWolAddr, QString strMac);
 
 private:
 

@@ -36,6 +36,12 @@ void DeviceManager::RequestDeviceInfo()
 	m_pSsdpMgr->RequestDeviceInfo();
 }
 
+void DeviceManager::RequestDevicePowerOn(QString wolAddr, QString mac)
+{
+	m_pSsdpMgr->RequestDevicePowerOn(wolAddr, mac);
+
+}
+
 CJsonNode DeviceManager::GetDeviceList() const
 {
 	return m_DeviceList;
@@ -120,6 +126,11 @@ void DeviceManager::AddDeviceWol(QString mac, QString version, QString addrWol, 
 	node.Add(DEVICE_UUID, uuid);
 
 	m_DeviceListWol.AppendArray(node);
+//	for (int i = 0; i < m_DeviceListWol.ArraySize(); i++)
+//	{
+//		CJsonNode node2 = m_DeviceListWol.GetArrayAt(i);
+//		LogDebug("node [%s] : ", node2.ToCompactByteArray().data());
+//	}
 }
 
 void DeviceManager::DelDeviceWol(int index)

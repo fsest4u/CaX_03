@@ -19,8 +19,16 @@ public:
 	explicit DeviceListWindow(QWidget *parent = nullptr);
 	~DeviceListWindow();
 
+//	enum {
+//		MODE_DEVICE_SELECT = Qt::UserRole + 0,
+//		MODE_DEVICE_POWER_ON
+//	};
+
 	CJsonNode GetDeviceList() const;
 	void SetDeviceList(const CJsonNode &list);
+
+	QString GetTitle() const;
+	void SetTitle(const QString &Title);
 
 signals:
 
@@ -37,8 +45,8 @@ private:
 	void ConnectSigToSlot();
 
 	ListDevice	*m_pListDevice;
-
 	CJsonNode	m_NodeList;
+
 	Ui::DeviceListWindow *ui;
 };
 

@@ -47,6 +47,16 @@ void DeviceListWindow::SetDeviceList(const CJsonNode &list)
 	m_pListDevice->SetNodeList(nodeList);
 }
 
+QString DeviceListWindow::GetTitle() const
+{
+	return ui->labelTitle->text();
+}
+
+void DeviceListWindow::SetTitle(const QString &Title)
+{
+	ui->labelTitle->setText(Title);
+}
+
 void DeviceListWindow::SlotSelectDevice(QString mac)
 {
 	emit SigSelectDevice(mac);

@@ -25,6 +25,7 @@ public:
 	};
 
 	void RequestDeviceInfo();
+	void RequestDevicePowerOn(QString wolAddr, QString mac);
 
 	// device list
 	CJsonNode		GetDeviceList() const;
