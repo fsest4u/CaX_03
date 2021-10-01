@@ -67,7 +67,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 
-			emit SigReqCoverArt(nID, index);
+			emit SigReqCoverArt(nID, index, QListView::IconMode);
 			index++;
 		}
 	}
@@ -112,7 +112,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 
-			emit SigReqCoverArt(nID, index);
+			emit SigReqCoverArt(nID, index, QListView::IconMode);
 			index++;
 		}
 	}
@@ -160,7 +160,7 @@ void IconTracks::SlotReqCoverArt()
 	{
 		int nID = node.GetString(KEY_ID_LOWER).toInt();
 		QThread::msleep(5);
-		emit SigReqCoverArt(nID, index);
+		emit SigReqCoverArt(nID, index, QListView::IconMode);
 		index++;
 	}
 }

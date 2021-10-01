@@ -18,6 +18,7 @@ public:
 	void SetTitle(const QString title);
 	void SetSubtitle(const QString subtitle);
 	void SetInfo(const QString info);
+	void SetCoverArt(QString coverArt);
 
 protected:
 

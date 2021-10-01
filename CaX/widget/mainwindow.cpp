@@ -602,7 +602,7 @@ void MainWindow::DoPlaylistHome()
 	ui->widgetTop->SetMainTitle(tr("Playlist"));
 	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
 	SlotAddWidget(widget);
-	widget->PlayList();
+	widget->Playlist();
 }
 
 void MainWindow::DoBrowserHome()

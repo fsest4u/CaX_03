@@ -22,11 +22,10 @@ void IconTracksDelegate::commitAndCloseEditor()
 	emit closeEditor(widget);
 }
 
-void IconTracksDelegate::SlotClickCoverArt(int nID)
+void IconTracksDelegate::SlotClickCoverArt(int id, QString coverArt)
 {
-//	LogDebug("click cover art");
-	emit SigSelectCoverArt(nID);
-
+	LogDebug("click cover art");
+	emit SigSelectCoverArt(id, coverArt);
 }
 
 void IconTracksDelegate::SlotClickTop(int nID)
@@ -126,7 +125,7 @@ QWidget *IconTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 
 	IconTracksEditor *editor = new IconTracksEditor(parent);
 //	connect(editor, SIGNAL(editingFinished()), this, SLOT(commitAndCloseEditor()));
-	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
+	connect(editor, SIGNAL(SigClickCoverArt(int, QString)), this, SLOT(SlotClickCoverArt(int, QString)));
 	connect(editor, SIGNAL(SigClickTop(int)), this, SLOT(SlotClickTop(int)));
 	connect(editor, SIGNAL(SigClickBottom(int)), this, SLOT(SlotClickBottom(int)));
 	connect(editor, SIGNAL(SigClickCount(int)), this, SLOT(SlotClickCount(int)));

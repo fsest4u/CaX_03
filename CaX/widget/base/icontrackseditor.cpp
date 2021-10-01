@@ -142,7 +142,7 @@ bool IconTracksEditor::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelCoverArt)
 		{
-			emit SigClickCoverArt(m_ID);
+			emit SigClickCoverArt(m_ID, m_CoverArt);
 		}
 		else if (object == ui->labelTop)
 		{

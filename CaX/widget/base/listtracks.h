@@ -21,8 +21,9 @@ public:
 	explicit ListTracks(QWidget *parent = nullptr);
 	~ListTracks();
 
-	void SetContentList(QList<CJsonNode> nodeList);
-	void ClearContentList();
+	QList<CJsonNode> GetNodeList() const;
+	void SetNodeList(QList<CJsonNode> list);
+	void ClearNodeList();
 
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
@@ -34,7 +35,7 @@ public:
 
 signals:
 
-	void SigReqCoverArt(int nID, int nIndex);
+	void SigReqCoverArt(int id, int index, int mode);
 
 private slots:
 

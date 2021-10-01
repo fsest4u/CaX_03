@@ -62,13 +62,12 @@ private slots:
 	void SlotAlbumSubmenu();
 	void SlotAlbumSort();
 
-	void SlotReqCategoryCover(int nID, int nIndex);
 	void SlotSelectCategory(int nID);
 	void SlotSelectCount(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
 
-	void SlotReqSongCover(int nID, int nIndex);
+	void SlotReqCoverArt(int id, int index, int mode);
 
 	void SlotSelectPlay(int nID);
 	void SlotSelectMore(int nID);

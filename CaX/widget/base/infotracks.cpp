@@ -36,6 +36,29 @@ void InfoTracks::SetInfo(const QString info)
 	ui->labelInfo->setText(info);
 }
 
+void InfoTracks::SetCoverArt(QString coverArt)
+{
+	bool bFoundImage = false;
+	if (QFile::exists(coverArt))
+	{
+		QImage image;
+		if (image.load(coverArt))
+		{
+//			painter->drawImage(coverRect, image);
+			QPixmap pixmap = QPixmap::fromImage(image);
+			ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
+													   , ui->labelCoverArt->height()
+													   , Qt::KeepAspectRatio));
+			bFoundImage = true;
+		}
+	}
+
+	if (!bFoundImage)
+	{
+//		painter->drawImage(coverRect, m_Image);
+	}
+}
+
 bool InfoTracks::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)

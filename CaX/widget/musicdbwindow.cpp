@@ -147,25 +147,23 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 {
-
 	QString count = node.GetString(KEY_COUNT);
 	QString total = node.GetString(KEY_TOTAL);
 	QString extension = node.GetString(KEY_EXTENSION);
 	QString samplerate = node.GetString(KEY_SAMPLERATE);
 	QString bps = node.GetString(KEY_BPS);
 
-	QString info = count + "|" + total + "|" + extension + "|" + samplerate + "|" + bps;
+	QString info = count + " | " + total + " | " + extension + " | " + samplerate + " | " + bps;
 
 	m_pInfoTracks->SetTitle(node.GetString(KEY_TITLE));
 	m_pInfoTracks->SetSubtitle("Artist : " + node.GetString(KEY_ARTIST));
 	m_pInfoTracks->SetInfo(info);
-
 }
 
 void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
 {
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
-	m_pListTracks->SetContentList(list);
+	m_pListTracks->SetNodeList(list);
 	m_pLoading->Stop();
 //	m_pSongThread->start();
 }
@@ -270,15 +268,6 @@ void MusicDBWindow::SlotAlbumSort()
 
 }
 
-void MusicDBWindow::SlotReqCategoryCover(int nID, int nIndex)
-{
-	QString strCat = m_pMgr->GetCategoryName(m_nCategory);
-	QStringList lsAddr = m_pMgr->GetAddr().split(":");
-	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(nID);
-
-	m_pMgr->RequestCoverArt(fullpath, nIndex, QListView::IconMode);
-}
-
 void MusicDBWindow::SlotSelectCategory(int nID)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
@@ -302,13 +291,22 @@ void MusicDBWindow::SlotSelectRating(int nID, int nRating)
 	m_pMgr->RequestRating(nID, nRating, m_nCategory);
 }
 
-void MusicDBWindow::SlotReqSongCover(int nID, int nIndex)
+void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 {
-	QString strCat = m_pMgr->GetCategoryName(-1);
-	QStringList lsAddr = m_pMgr->GetAddr().split(":");
-	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(nID);
+	QString strCat;
+	if (QListView::IconMode == mode)
+	{
+		strCat = m_pMgr->GetCategoryName(m_nCategory);
+	}
+	else
+	{
+		QString strCat = m_pMgr->GetCategoryName(-1);
+	}
 
-	m_pMgr->RequestCoverArt(fullpath, nIndex, QListView::ListMode);
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(id);
+
+	m_pMgr->RequestCoverArt(fullpath, index, mode);
 }
 
 void MusicDBWindow::SlotSelectPlay(int nID)
@@ -353,13 +351,13 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks, SIGNAL(SigSubmenu()), this, SLOT(SlotAlbumSubmenu()));
 	connect(m_pInfoTracks, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
 
-	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int)), this, SLOT(SlotReqCategoryCover(int, int)));
+	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCategory(int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCount(int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
 
-	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int)), this, SLOT(SlotReqSongCover(int, int)));
+	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMore(int)), this, SLOT(SlotSelectMore(int)));
 

@@ -38,7 +38,7 @@ public:
 
 signals:
 
-	void SigClickCoverArt(int nID);
+	void SigClickCoverArt(int id, QString coverArt);
 	void SigClickTop(int nID);
 	void SigClickBottom(int nID);
 	void SigClickCount(int nID);

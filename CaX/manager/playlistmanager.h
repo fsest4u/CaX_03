@@ -13,23 +13,28 @@ public:
 	~PlaylistManager();
 
 	void RequestPlaylist();
-	void RequestTrackList();
+	void RequestPlaylistInfo(int id);
+	void RequestTrackList(int id);
+	void RequestPlayTrack(int id);
+	void RequestPlayTracks(QList<int> ids);
+	void RequestPlayPlaylist(int id);
+	void RequestPlayPlaylists(QList<int> ids);
 	void RequestNew();
 	void RequestRename();
 	void RequestDelete();
 	void RequestAddTrack();
 	void RequestDelTrack();
 	void RequestSwap();
-	void RequestPlay();
-	void RequestPlayTracks();
 	void RequestExport();
 
 signals:
 
 	void SigRespError(QString msg);
 	void SigRespPlaylist(QList<CJsonNode> list);
-
+	void SigRespPlaylistInfo(CJsonNode node);
+	void SigRespTrackList(QList<CJsonNode> list);
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
+
 
 private slots:
 
@@ -41,20 +46,25 @@ private:
 
 	enum {
 		PLAYLIST_LIST = 0,
+		PLAYLIST_INFO,
 		PLAYLIST_TRACK_LIST,
+		PLAYLIST_PLAY_TRACK,
+		PLAYLIST_PLAY_TRACKS,
+		PLAYLIST_PLAY_PLAYLIST,
+		PLAYLIST_PLAY_PLAYLISTS,
 		PLAYLIST_NEW,
 		PLAYLIST_RENAME,
 		PLAYLIST_DELETE,
 		PLAYLIST_ADD_TRACK,
 		PLAYLIST_DEL_TRACK,
 		PLAYLIST_SWAP,
-		PLAYLIST_PLAY,
-		PLAYLIST_PLAY_TRACKS,
+
 		PLAYLIST_EXPORT,
 		PLAYLIST_MAX
 	};
 
 	void ParsePlaylist(CJsonNode result);
+	void ParseTrackList(CJsonNode result);
 
 	SQLManager	*m_pSql;
 	QList<CJsonNode>	m_NodeList;

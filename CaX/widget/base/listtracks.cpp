@@ -1,4 +1,5 @@
 #include <QThread>
+//#include <QListView>
 
 #include "listtracks.h"
 #include "ui_listtracks.h"
@@ -41,12 +42,18 @@ ListTracks::~ListTracks()
 	}
 }
 
-void ListTracks::SetContentList(QList<CJsonNode> nodeList)
+QList<CJsonNode> ListTracks::GetNodeList() const
 {
-	m_NodeList = nodeList;
+	return m_NodeList;
+}
+
+void ListTracks::SetNodeList(QList<CJsonNode> list)
+{
+	m_NodeList = list;
 	int index = 0;
 	foreach (CJsonNode node, m_NodeList)
 	{
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
 		QStandardItem *item = new QStandardItem;
 		int nID = node.GetString(KEY_ID_LOWER).toInt();
 		item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
@@ -60,13 +67,13 @@ void ListTracks::SetContentList(QList<CJsonNode> nodeList)
 		QModelIndex modelIndex = m_Model->indexFromItem(item);
 		m_ListView->openPersistentEditor(modelIndex);
 
-		emit SigReqCoverArt(nID, index);
+		emit SigReqCoverArt(nID, index, QListView::ListMode);
 		index++;
 	}
 	ui->gridLayout->addWidget(m_ListView);
 }
 
-void ListTracks::ClearContentList()
+void ListTracks::ClearNodeList()
 {
 	m_Model->clear();
 	ui->gridLayout->removeWidget(m_ListView);
@@ -105,7 +112,7 @@ void ListTracks::SlotReqCoverArt()
 	{
 		int nID = node.GetString(KEY_ID_LOWER).toInt();
 		QThread::msleep(5);
-		emit SigReqCoverArt(nID, index);
+		emit SigReqCoverArt(nID, index, QListView::ListMode);
 		index++;
 	}
 }

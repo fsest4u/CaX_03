@@ -54,6 +54,8 @@
 #define		KEY_CDNUMBER			"CdNumber"
 #define		KEY_WOL				"WOL"
 
+#define		KEY_PLS				"Pls"
+
 
 //////////////////////////////////////////////////
 // command - value
@@ -138,6 +140,7 @@
 
 #define		KEY_ID_LOWER		"id"
 #define		KEY_ID_UPPER		"ID"
+#define		KEY_IDS				"IDs"
 #define		KEY_TITLE			"title"
 #define		KEY_TITLE_CAP		"Title"
 #define		KEY_SUBTITLE		"subtitle"

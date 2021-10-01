@@ -27,7 +27,7 @@ public:
 
 signals:
 
-	void SigSelectCoverArt(int nID);
+	void SigSelectCoverArt(int id, QString coverArt);
 	void SigSelectCount(int nID);
 	void SigSelectFavorite(int nID, int nFavorite);
 	void SigSelectRating(int nID, int nRating);
@@ -35,7 +35,7 @@ signals:
 private slots:
 
 	void commitAndCloseEditor();
-	void SlotClickCoverArt(int nID);
+	void SlotClickCoverArt(int id, QString coverArt);
 	void SlotClickTop(int nID);
 	void SlotClickBottom(int nID);
 	void SlotClickCount(int nID);

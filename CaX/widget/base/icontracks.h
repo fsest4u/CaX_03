@@ -42,7 +42,7 @@ public:
 
 signals:
 
-	void SigReqCoverArt(int nID, int nIndex);
+	void SigReqCoverArt(int id, int index, int mode);
 	void SigCalcTotalTime(int time);
 
 private slots:
