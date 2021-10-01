@@ -47,7 +47,7 @@ void PlayManager::RequestVolume(int value)
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_PLAY);
 	node.Add	(KEY_CMD1,		VAL_SET_VOLUME);
-	node.AddInt	(KEY_VOLUME,	value);
+	node.AddInt	(KEY_VOLUME_CAP,	value);
 	RequestCommand(node, PLAY_VOLUME);
 }
 

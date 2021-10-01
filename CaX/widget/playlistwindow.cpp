@@ -163,19 +163,19 @@ void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
 	m_pMgr->RequestCoverArt(fullpath, index, mode);
 }
 
-void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int nIndex, int mode)
+void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 {
 	if (QListView::IconMode == mode)
 	{
-		QStandardItem *item = m_pIconTracks->GetModel()->item(nIndex);
+		QStandardItem *item = m_pIconTracks->GetModel()->item(index);
 		item->setData(coverArt, IconTracksDelegate::ICON_TRACKS_COVER);
-		m_pIconTracks->GetModel()->setItem(nIndex, item);
+		m_pIconTracks->GetModel()->setItem(index, item);
 	}
 	else
 	{
-		QStandardItem *item = m_pListTracks->GetModel()->item(nIndex);
+		QStandardItem *item = m_pListTracks->GetModel()->item(index);
 		item->setData(coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
-		m_pListTracks->GetModel()->setItem(nIndex, item);
+		m_pListTracks->GetModel()->setItem(index, item);
 	}
 }
 

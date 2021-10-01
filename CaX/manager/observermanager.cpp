@@ -22,12 +22,6 @@ ObserverManager::~ObserverManager()
 	}
 }
 
-void ObserverManager::ConnectSigToSlot()
-{
-	connect(m_pObsClient, SIGNAL(SigConnect(QStringList)), this, SLOT(SlotRespObserverInfo(QStringList)));
-	connect(m_pObsClient, SIGNAL(SigDisconnect()), this, SLOT(SlotDisconnectObserver()));
-}
-
 
 
 ///////////////////////////////////////////////////////////
@@ -118,10 +112,10 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 //		{
 //			if (!ParseDabEvent(node))		{	continue;	}
 //		}
-//		else if (strCmd0.contains(KEY_GROUP_PLAY))
-//		{
-//			if (!ParseGroupPlayEvent(node))	{	continue;	}
-//		}
+		else if (strCmd0.contains(KEY_GROUP_PLAY))
+		{
+			if (!ParseGroupPlayEvent(node))	{	continue;	}
+		}
 		else
 		{
 			LogWarning("====================================");
@@ -135,3 +129,26 @@ void ObserverManager::SlotDisconnectObserver()
 {
 	emit SigDisconnectObserver();
 }
+
+void ObserverManager::ConnectSigToSlot()
+{
+	connect(m_pObsClient, SIGNAL(SigConnect(QStringList)), this, SLOT(SlotRespObserverInfo(QStringList)));
+	connect(m_pObsClient, SIGNAL(SigDisconnect()), this, SLOT(SlotDisconnectObserver()));
+}
+
+bool ObserverManager::ParseGroupPlayEvent(CJsonNode rootNode)
+{
+	if (rootNode.GetBool(KEY_DEV_LIST_UPDATE))
+	{
+		emit SigRespGroupPlayUpdate();
+	}
+	else
+	{
+		LogWarning("====================================");
+		LogWarning("This command is not supported [%s]", KEY_DEV_LIST_UPDATE);
+		LogWarning("====================================");
+	}
+
+	return true;
+}
+

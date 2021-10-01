@@ -78,6 +78,16 @@ void IconServiceEditor::SetTitle(const QString &value)
 	ui->labelTitle->setText(value);
 }
 
+QString IconServiceEditor::GetSubtitle()
+{
+	return ui->labelSubtitle->text();
+}
+
+void IconServiceEditor::SetSubtitle(const QString &value)
+{
+	ui->labelSubtitle->setText(value);
+}
+
 QString IconServiceEditor::GetRawData() const
 {
 	return m_RawData;

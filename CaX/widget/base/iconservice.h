@@ -43,11 +43,16 @@ public:
 
 signals:
 
+	void SigReqCoverArt(int id, int index, int mode);
+
 private slots:
 
 private:
 
 	void Initialize();
+	QString GetGroupPlayStatus(int type);
+	QString GetActiveChannel(int type);
+	int	GetCoverID(QString url);
 
 	QListView				*m_ListView;
 	QStandardItemModel		*m_Model;

@@ -26,6 +26,7 @@ SOURCES += \
     manager/dabradiomanager.cpp \
     manager/devicemanager.cpp \
     manager/fmradiomanager.cpp \
+    manager/groupplaymanager.cpp \
     manager/inputmanager.cpp \
     manager/musicdbmanager.cpp \
     manager/observermanager.cpp \
@@ -97,6 +98,7 @@ HEADERS += \
     manager/dabradiomanager.h \
     manager/devicemanager.h \
     manager/fmradiomanager.h \
+    manager/groupplaymanager.h \
     manager/imanager.h \
     manager/inputmanager.h \
     manager/musicdbmanager.h \

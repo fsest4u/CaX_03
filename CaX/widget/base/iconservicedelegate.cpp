@@ -69,11 +69,14 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 {
 	IconServiceEditor *widget = static_cast<IconServiceEditor*>(editor);
 	widget->blockSignals(true);
+
 	widget->SetID(qvariant_cast<int>(index.data(ICON_SERVICE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(ICON_SERVICE_TYPE)));
 	widget->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
+	widget->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
+
 	widget->blockSignals(false);
 }
 
@@ -84,6 +87,7 @@ void IconServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetType(), ICON_SERVICE_TYPE);
 	model->setData(index, widget->GetCoverArt(), ICON_SERVICE_COVER);
 	model->setData(index, widget->GetTitle(), ICON_SERVICE_TITLE);
+	model->setData(index, widget->GetSubtitle(), ICON_SERVICE_SUBTITLE);
 	model->setData(index, widget->GetRawData(), ICON_SERVICE_RAW);
 }
 

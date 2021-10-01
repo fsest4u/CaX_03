@@ -64,6 +64,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="labelSubtitle">
+        <property name="text">
+         <string>subtitle</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

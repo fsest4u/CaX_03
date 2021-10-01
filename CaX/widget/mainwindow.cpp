@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
 	delete ui;
+	ui = nullptr;
 
 	WriteSettings();
 
@@ -406,8 +407,10 @@ void MainWindow::SlotDisconnectObserver()
 		}
 	}
 
-	DoDeviceListHome();
-
+	if (ui)
+	{
+		DoDeviceListHome();
+	}
 }
 
 void MainWindow::SlotSelectSideMenu(int menuIndex)
@@ -650,9 +653,12 @@ void MainWindow::DoDabRadioHome()
 void MainWindow::DoGroupPlayHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Group play"));
-	GroupPlayWindow *widget = new GroupPlayWindow;
+	GroupPlayWindow *widget = new GroupPlayWindow(this, m_strAddr);
 	SlotAddWidget(widget);
+	widget->GroupPlayList(m_nEventID);
 
+	// event
+	connect(m_pObsMgr, SIGNAL(SigRespGroupPlayUpdate()), widget, SLOT(SlotRespGroupPlayUpdate()));
 
 }
 

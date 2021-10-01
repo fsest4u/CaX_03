@@ -19,7 +19,8 @@
 
 #define		KEY_KEY				"Key"
 #define		KEY_POSITION		"Pos"
-#define		KEY_VOLUME			"Volume"
+#define		KEY_VOLUME			"volume"
+#define		KEY_VOLUME_CAP		"Volume"
 #define		KEY_COVER_ART		"CoverArt"
 #define		KEY_TIME_STAMP		"TS"
 #define		KEY_PAGE_CNT		"PageCnt"
@@ -55,7 +56,12 @@
 #define		KEY_WOL				"WOL"
 
 #define		KEY_PLS				"Pls"
-
+#define		KEY_SELF				"Self"
+#define		KEY_DEV_LIST			"DevList"
+#define		KEY_CLIENT_LIST			"ClientList"
+#define		KEY_ENABLED			"enabled"
+#define		KEY_ENABLE_CAP		"Enable"
+#define		KEY_DEV_LIST_UPDATE		"DevListUpdated"
 
 //////////////////////////////////////////////////
 // command - value
@@ -110,6 +116,9 @@
 #define		VAL_RIP			"Rip"
 #define		VAL_SETUP			"Setup"
 #define		VAL_POWER_OFF		"PowerOff"
+#define		VAL_GROUP_PLAY		"GroupPlay"
+#define		VAL_DEV_LIST		"DevList"
+#define		VAL_ENABLE		"Enable"
 
 
 
@@ -166,6 +175,12 @@
 #define		KEY_ADDR			"Addr"
 #define		KEY_VAL				"Val"
 #define		KEY_DEV				"Dev"
+
+#define		KEY_MAC_ADDR		"macAddr"
+#define		KEY_CA_NAME			"caName"
+#define		KEY_ART_URL			"ArtUrl"
+#define		KEY_GROUP_PLAY_STATUS	"groupPlayStatus"
+#define		KEY_ACTIVE_CHANNEL		"activeChannel"
 
 
 //////////////////////////////////////////////////

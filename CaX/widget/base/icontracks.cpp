@@ -51,6 +51,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 {
 	m_NodeList = list;
 	int index = 0;
+
 	if (ICON_TRACKS_MUSIC_DB == type)
 	{
 		foreach (CJsonNode node, m_NodeList)

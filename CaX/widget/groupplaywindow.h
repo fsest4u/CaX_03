@@ -3,6 +3,13 @@
 
 #include <QWidget>
 
+#include "util/CJsonNode.h"
+
+class GroupPlayManager;
+class InfoService;
+class IconService;
+class Loading;
+
 namespace Ui {
 class GroupPlayWindow;
 }
@@ -12,10 +19,34 @@ class GroupPlayWindow : public QWidget
 	Q_OBJECT
 
 public:
-	explicit GroupPlayWindow(QWidget *parent = nullptr);
+	explicit GroupPlayWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~GroupPlayWindow();
 
+	void GroupPlayList(int eventID);
+
+private slots:
+
+	void SlotRespError(QString message);
+	void SlotRespGroupPlayList(QList<CJsonNode> list);
+
+	void SlotReqCoverArt(int id, int index, int mode);
+	void SlotCoverArtUpdate(QString coverArt, int index, int mode);
+	void SlotSelectCoverArt(int type, QString rawData);
+
+	void SlotRespGroupPlayUpdate();
+
 private:
+
+	void ConnectSigToSlot();
+
+	GroupPlayManager	*m_pMgr;
+	InfoService			*m_pInfoService;
+	IconService			*m_pIconService;
+
+	Loading				*m_pLoading;
+
+	int					m_nEventID;
+
 	Ui::GroupPlayWindow *ui;
 };
 

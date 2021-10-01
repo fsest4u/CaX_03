@@ -26,6 +26,8 @@ signals:
 	void		SigRespNowPlay(CJsonNode node);
 //	void		SigRespInfo(QStringList jsonValueList);
 
+	void		SigRespGroupPlayUpdate();
+
 public slots:
 
 	void		SlotRespObserverInfo(QStringList jsonValueList);
@@ -35,6 +37,9 @@ public slots:
 private:
 
 	void		ConnectSigToSlot();
+
+	bool		ParseGroupPlayEvent				(CJsonNode rootNode);
+
 
 	ObserverClient		*m_pObsClient;
 

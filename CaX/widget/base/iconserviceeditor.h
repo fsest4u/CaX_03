@@ -27,6 +27,9 @@ public:
 	QString GetTitle();
 	void SetTitle(const QString &value);
 
+	QString GetSubtitle();
+	void SetSubtitle(const QString &value);
+
 	QString GetRawData() const;
 	void SetRawData(const QString &RawData);
 
