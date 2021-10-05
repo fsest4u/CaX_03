@@ -6,7 +6,6 @@
 #include "util/CJsonNode.h"
 
 class AudioCDManager;
-
 class InfoTracks;
 class IconTracks;
 class ListTracks;
@@ -42,7 +41,7 @@ private slots:
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespCDRipInfo(CJsonNode node);
 
-	void SlotSelectCoverArt(int id);
+	void SlotSelectCoverArt(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
 
 
@@ -50,7 +49,7 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
-	QString MainInfo();
+	QString MakeInfo();
 
 
 	AudioCDManager		*m_pMgr;

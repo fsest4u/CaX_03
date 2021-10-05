@@ -27,8 +27,8 @@ public:
 	void Playlist();
 	void PlaylistInfo(int id, QString coverArt);
 	void TrackList(int id);
-	void PlayTrack(int id);
-	void PlayTracks(QList<int> ids);
+	void TrackPlay(int id);
+	void TracksPlay(QList<int> ids);
 
 signals:
 

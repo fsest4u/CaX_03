@@ -21,18 +21,30 @@ InfoTracks::~InfoTracks()
 	delete ui;
 }
 
-void InfoTracks::SetTitle(const QString title)
+void InfoTracks::SetTitle(QString title)
 {
+	if (title.isEmpty())
+	{
+		title = tr("no title");
+	}
 	ui->labelTitle->setText(title);
 }
 
-void InfoTracks::SetSubtitle(const QString subtitle)
+void InfoTracks::SetSubtitle(QString subtitle)
 {
+	if (subtitle.isEmpty())
+	{
+		subtitle = tr("no title");
+	}
 	ui->labelSubtitle->setText(subtitle);
 }
 
-void InfoTracks::SetInfo(const QString info)
+void InfoTracks::SetInfo(QString info)
 {
+	if (info.isEmpty())
+	{
+		info = tr("-");
+	}
 	ui->labelInfo->setText(info);
 }
 
@@ -43,6 +55,19 @@ void InfoTracks::SetCoverArt(QString coverArt)
 	{
 		QImage image;
 		if (image.load(coverArt))
+		{
+//			painter->drawImage(coverRect, image);
+			QPixmap pixmap = QPixmap::fromImage(image);
+			ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
+													   , ui->labelCoverArt->height()
+													   , Qt::KeepAspectRatio));
+			bFoundImage = true;
+		}
+	}
+	else
+	{
+		QImage image;
+		if (image.load(":/resource/Icon-playbar-volume-160.png"))
 		{
 //			painter->drawImage(coverRect, image);
 			QPixmap pixmap = QPixmap::fromImage(image);

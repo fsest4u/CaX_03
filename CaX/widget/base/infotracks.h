@@ -15,9 +15,9 @@ public:
 	explicit InfoTracks(QWidget *parent = nullptr);
 	~InfoTracks();
 
-	void SetTitle(const QString title);
-	void SetSubtitle(const QString subtitle);
-	void SetInfo(const QString info);
+	void SetTitle(QString title);
+	void SetSubtitle(QString subtitle);
+	void SetInfo(QString info);
 	void SetCoverArt(QString coverArt);
 
 protected:

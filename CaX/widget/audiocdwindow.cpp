@@ -76,6 +76,10 @@ void AudioCDWindow::TrackList()
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
 
+	QList<int> list;
+	list.append(0);
+	CDRipInfo(-1, list);
+
 	m_pMgr->RequestTrackList();
 }
 
@@ -109,11 +113,11 @@ void AudioCDWindow::CDRip(CJsonNode node, QList<CJsonNode> list)
 }
 
 void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
-{
+{	
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_AUDIO_CD);
 
 	m_TotalCount = QString("%1 songs").arg(list.count());
-	m_pInfoTracks->SetInfo( MainInfo() );
+	m_pInfoTracks->SetInfo( MakeInfo() );
 
 }
 
@@ -137,37 +141,51 @@ void AudioCDWindow::SlotRespTrackInfo(CJsonNode node)
 
 void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 {
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	CJsonNode tracks = node.GetArray(KEY_TRACKS);
 	CJsonNode track = tracks.GetArrayAt(0);
 
-	CDRipInfoDialog dialog;
-	dialog.SetTitle(track.GetString(KEY_TITLE_CAP));
-	dialog.SetArtist(track.GetString(KEY_ARTIST));
-	dialog.SetGenre(track.GetString(KEY_GENRE));
-	dialog.SetComposer(track.GetString(KEY_COMPOSER));
-	dialog.SetMood(track.GetString(KEY_MOOD));
-	dialog.SetTempo(track.GetString(KEY_TEMPO));
-	dialog.SetYear(track.GetString(KEY_YEAR));
-	if (dialog.exec() == QDialog::Accepted)
+	QStringList formats = node.GetStringList(KEY_FORMATS);
+	int index = node.GetInt(KEY_FORMAT);
+	if (formats.count() > index)
 	{
-//		CDRip(node, list);
+		m_Format = formats.at(index);
 	}
+	m_pInfoTracks->SetCoverArt(node.GetString(KEY_COVER_ART));
+	m_pInfoTracks->SetTitle(node.GetString(KEY_ALBUM));
+	m_pInfoTracks->SetSubtitle(node.GetString(KEY_ALBUM_ARTIST));
+	m_pInfoTracks->SetInfo(MakeInfo());
+
+//	CDRipInfoDialog dialog;
+//	dialog.SetTitle(track.GetString(KEY_TITLE_CAP));
+//	dialog.SetArtist(track.GetString(KEY_ARTIST));
+//	dialog.SetGenre(track.GetString(KEY_GENRE));
+//	dialog.SetComposer(track.GetString(KEY_COMPOSER));
+//	dialog.SetMood(track.GetString(KEY_MOOD));
+//	dialog.SetTempo(track.GetString(KEY_TEMPO));
+//	dialog.SetYear(track.GetString(KEY_YEAR));
+//	if (dialog.exec() == QDialog::Accepted)
+//	{
+////		CDRip(node, list);
+//	}
 }
 
-void AudioCDWindow::SlotSelectCoverArt(int id)
+void AudioCDWindow::SlotSelectCoverArt(int id, QString coverArt)
 {
-//	TrackPlay(id);
+	Q_UNUSED(coverArt)
 
-	// temp_code, dylee
-	QList<int> list;
-	list.append(id - 1);
-	CDRipInfo(-1, list);
+	TrackPlay(id);
+
+//	// temp_code, dylee
+//	QList<int> list;
+//	list.append(id - 1);
+//	CDRipInfo(-1, list);
 }
 
 void AudioCDWindow::SlotCalcTotalTime(int time)
 {
 	m_TotalTime = QString("%1").arg(time);
-	m_pInfoTracks->SetInfo( MainInfo() );
+	m_pInfoTracks->SetInfo( MakeInfo() );
 }
 
 void AudioCDWindow::ConnectSigToSlot()
@@ -179,18 +197,29 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCDRipInfo(CJsonNode)), this, SLOT(SlotRespCDRipInfo(CJsonNode)));
 
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
 	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
 
 }
 
-QString AudioCDWindow::MainInfo()
+QString AudioCDWindow::MakeInfo()
 {
-	return QString("%1 | %2 | %3 | %4")
-			.arg(m_TotalCount)
-			.arg(m_TotalTime)
-			.arg(m_Format)
-			.arg(m_Date);
+	QString info = m_TotalCount;
+
+	if (!m_TotalTime.isEmpty())
+	{
+		info += " | " + m_TotalTime;
+	}
+	if (!m_Format.isEmpty())
+	{
+		info += " | " + m_Format;
+	}
+	if (!m_Date.isEmpty())
+	{
+		info += " | " + m_Date;
+	}
+
+	return info;
 }
 
 

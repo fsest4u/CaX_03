@@ -99,9 +99,10 @@ void PlaylistWindow::TrackList(int id)
 	m_pMgr->RequestTrackList(id);
 }
 
-void PlaylistWindow::PlayTrack(int id)
+void PlaylistWindow::TrackPlay(int id)
 {
-	m_pMgr->RequestPlayTrack(id);
+	m_pMgr->RequestTrackPlay(id);
+
 	// temp_code, dylee
 //	QList<int> ids;
 //	ids.append(id);
@@ -190,7 +191,7 @@ void PlaylistWindow::SlotSelectCoverArt(int id, QString coverArt)
 
 void PlaylistWindow::SlotSelectPlay(int id)
 {
-	PlayTrack(id);
+	TrackPlay(id);
 }
 
 void PlaylistWindow::ConnectSigToSlot()

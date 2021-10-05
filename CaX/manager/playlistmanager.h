@@ -15,10 +15,10 @@ public:
 	void RequestPlaylist();
 	void RequestPlaylistInfo(int id);
 	void RequestTrackList(int id);
-	void RequestPlayTrack(int id);
-	void RequestPlayTracks(QList<int> ids);
-	void RequestPlayPlaylist(int id);
-	void RequestPlayPlaylists(QList<int> ids);
+	void RequestTrackPlay(int id);
+	void RequestTracksPlay(QList<int> ids);
+	void RequestPlaylistPlay(int id);
+	void RequestPlaylistsPlay(QList<int> ids);
 	void RequestNew();
 	void RequestRename();
 	void RequestDelete();

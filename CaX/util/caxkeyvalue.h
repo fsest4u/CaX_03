@@ -62,6 +62,8 @@
 #define		KEY_ENABLED			"enabled"
 #define		KEY_ENABLE_CAP		"Enable"
 #define		KEY_DEV_LIST_UPDATE		"DevListUpdated"
+#define		KEY_FORMATS		"Formats"
+#define		KEY_FORMAT		"Format"
 
 //////////////////////////////////////////////////
 // command - value

@@ -56,7 +56,7 @@ void PlaylistManager::RequestTrackList(int id)
 	RequestCommand(node, PLAYLIST_TRACK_LIST);
 }
 
-void PlaylistManager::RequestPlayTrack(int id)
+void PlaylistManager::RequestTrackPlay(int id)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_MUSIC_DB);
@@ -68,7 +68,7 @@ void PlaylistManager::RequestPlayTrack(int id)
 	RequestCommand(node, PLAYLIST_PLAY_TRACK);
 }
 
-void PlaylistManager::RequestPlayTracks(QList<int> ids)
+void PlaylistManager::RequestTracksPlay(QList<int> ids)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_MUSIC_DB);
@@ -89,7 +89,7 @@ void PlaylistManager::RequestPlayTracks(QList<int> ids)
 	RequestCommand(node, PLAYLIST_PLAY_TRACKS);
 }
 
-void PlaylistManager::RequestPlayPlaylist(int id)
+void PlaylistManager::RequestPlaylistPlay(int id)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_PLAYLIST);
