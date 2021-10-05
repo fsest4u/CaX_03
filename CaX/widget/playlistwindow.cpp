@@ -182,7 +182,6 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 
 void PlaylistWindow::SlotSelectCoverArt(int id, QString coverArt)
 {
-	LogDebug("click id [%d]", id);
 	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 	emit SigAddWidget(widget);
 	widget->PlaylistInfo(id, coverArt);

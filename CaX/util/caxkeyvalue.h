@@ -64,6 +64,9 @@
 #define		KEY_DEV_LIST_UPDATE		"DevListUpdated"
 #define		KEY_FORMATS		"Formats"
 #define		KEY_FORMAT		"Format"
+#define		KEY_ITEM_TYPE		"ItemType"
+#define		KEY_QOBUZ_MENU		"QobuzMenu"
+#define		KEY_MENU_DEPTH		"MenuDepth"
 
 //////////////////////////////////////////////////
 // command - value
@@ -122,7 +125,26 @@
 #define		VAL_DEV_LIST		"DevList"
 #define		VAL_ENABLE		"Enable"
 
+#define		VAL_ALBUM			"Album"
+#define		VAL_ARTIST			"Artist"
+#define		VAL_COMPOSER		"Composer"
+#define		VAL_GENRE			"Genre"
+#define		VAL_MOOD			"Mood"
+#define		VAL_TRACK			"Track"
 
+#define		VAL_ID_BEST_SELLERS		"best-sellers"
+#define		VAL_ID_MOST_STREAMED	"most-streamed"
+#define		VAL_ID_NEW_RELEASES		"new-releases"
+#define		VAL_ID_PRESS_AWARDS		"press-awards"
+#define		VAL_ID_EDITOR_PICKS		"editor-picks"
+#define		VAL_ID_MOST_FEATURED	"most-featured"
+
+#define		VAL_BEST_SELLERS	"BestSellers"
+#define		VAL_MOST_STREAMED	"MostStreamd"
+#define		VAL_NEW_RELEASES	"NewReleases"
+#define		VAL_PRESS_AWARDS	"PressAward"
+#define		VAL_EDITOR_PICKS	"EditorPicks"
+#define		VAL_MOST_FEATURED	"MostFeatured"
 
 //////////////////////////////////////////////////
 // response - key

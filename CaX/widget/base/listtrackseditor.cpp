@@ -49,24 +49,19 @@ void ListTracksEditor::SetCoverArt(const QString &value)
 {
 	m_CoverArt = value;
 
-	bool bFoundImage = false;
-	if (QFile::exists(m_CoverArt))
+	if (m_CoverArt.isEmpty())
 	{
-		QImage image;
-		if (image.load(m_CoverArt))
-		{
-//			painter->drawImage(coverRect, image);
-			QPixmap pixmap = QPixmap::fromImage(image);
-			ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
-													   , ui->labelCoverArt->height()
-													   , Qt::KeepAspectRatio));
-			bFoundImage = true;
-		}
+		m_CoverArt = ":/resource/Icon-playbar-volume-160.png";
 	}
 
-	if (!bFoundImage)
+	QImage image;
+	if (image.load(m_CoverArt))
 	{
-//		painter->drawImage(coverRect, m_Image);
+//		painter->drawImage(coverRect, image);
+		QPixmap pixmap = QPixmap::fromImage(image);
+		ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
+												   , ui->labelCoverArt->height()
+												   , Qt::KeepAspectRatio));
 	}
 }
 

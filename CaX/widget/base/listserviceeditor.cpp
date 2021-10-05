@@ -120,6 +120,7 @@ void ListServiceEditor::SetIcon(const QString &Icon)
 												   , ui->labelImageIcon->height()
 												   , Qt::KeepAspectRatio));
 	}
+
 }
 
 QString ListServiceEditor::GetArt() const
@@ -131,25 +132,21 @@ void ListServiceEditor::SetArt(const QString &Art)
 {
 	m_Art = Art;
 
-	bool bFoundImage = false;
-	if (QFile::exists(m_Art))
+	if (m_Art.isEmpty())
 	{
-		QImage image;
-		if (image.load(m_Art))
-		{
-//			painter->drawImage(coverRect, image);
-			QPixmap pixmap = QPixmap::fromImage(image);
-			ui->labelImageIcon->setPixmap(pixmap.scaled(ui->labelImageIcon->width()
-													   , ui->labelImageIcon->height()
-													   , Qt::KeepAspectRatio));
-			bFoundImage = true;
-		}
+		m_Art = ":/resource/Icon-playbar-volume-160.png";
 	}
 
-	if (!bFoundImage)
+	QImage image;
+	if (image.load(m_Art))
 	{
-//		painter->drawImage(coverRect, m_Image);
+//		painter->drawImage(coverRect, image);
+		QPixmap pixmap = QPixmap::fromImage(image);
+		ui->labelImageIcon->setPixmap(pixmap.scaled(ui->labelImageIcon->width()
+												   , ui->labelImageIcon->height()
+												   , Qt::KeepAspectRatio));
 	}
+
 }
 
 QString ListServiceEditor::GetRawData() const

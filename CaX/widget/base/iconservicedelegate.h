@@ -23,6 +23,9 @@ public:
 	QListView::ViewMode GetViewMode() const;
 	void SetViewMode(const QListView::ViewMode &ViewMode);
 
+	int GetServiceType() const;
+	void SetServiceType(int nService);
+
 signals:
 
 	void SigSelectCoverArt(int nType);
@@ -44,6 +47,7 @@ private:
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QListView::ViewMode m_ViewMode;
+	int					m_nServiceType;
 
 };
 

@@ -72,7 +72,7 @@ private slots:
 	void SlotRespGenreSubList(QList<CJsonNode> list);
 
 	void SlotRespAuth(int nServiceType);
-	void SlotRespURL(int nServiceType, QList<CJsonNode> list);
+	void SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 private:
@@ -98,6 +98,7 @@ private:
 	void SetRecommendPlaylist(QList<CJsonNode> &list);
 	void SetRecommendGenre(QList<CJsonNode> &list, QString strID);
 
+	void SetInfoTitle(QString title);
 
 	AirableManager		*m_pAirableMgr;
 	QobuzManager		*m_pQobuzMgr;

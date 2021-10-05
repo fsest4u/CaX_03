@@ -51,10 +51,12 @@ QString IconServiceEditor::GetCoverArt()
 
 void IconServiceEditor::SetCoverArt(const QString &value)
 {
-	if (value.isEmpty())
-		return;
-
 	m_CoverArt = value;
+
+	if (m_CoverArt.isEmpty())
+	{
+		m_CoverArt = ":/resource/Icon-playbar-volume-160.png";
+	}
 
 	QImage image;
 	if (image.load(m_CoverArt))

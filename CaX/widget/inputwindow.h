@@ -25,7 +25,7 @@ public:
 
 private slots:
 
-	void SlotSelectCoverArt(int nType, QString coverArt);
+	void SlotSelectCoverArt(int nType);
 
 private:
 

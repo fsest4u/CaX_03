@@ -1,9 +1,12 @@
 #include "iconservicedelegate.h"
 #include "iconserviceeditor.h"
 
+#include "iconservice.h"
+
 #include "util/caxconstants.h"
-#include "util/log.h"
+#include "util/caxkeyvalue.h"
 #include "util/CJsonNode.h"
+#include "util/log.h"
 
 IconServiceDelegate::IconServiceDelegate()
 {
@@ -19,12 +22,16 @@ void IconServiceDelegate::SlotClickCoverArt(int nType, QString rawData)
 		return;
 	}
 
-//	if (node.GetString("ItemType").isEmpty())
-//	{
-//		emit SigSelectCoverArt(nType);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-//	}
-//	else
+	if (IconService::ICON_SERVICE_INPUT == m_nServiceType
+			|| IconService::ICON_SERVICE_FM_RADIO == m_nServiceType
+			|| IconService::ICON_SERVICE_DAB_RADIO == m_nServiceType
+			|| (IconService::ICON_SERVICE_ISERVICE == m_nServiceType && node.GetString(KEY_ITEM_TYPE).isEmpty()))
+	{
+		emit SigSelectCoverArt(nType);
+	}
+	else
 	{
 		// for i-service
 		emit SigSelectCoverArt(nType, rawData);
@@ -95,6 +102,16 @@ void IconServiceDelegate::updateEditorGeometry(QWidget *editor, const QStyleOpti
 {
 	Q_UNUSED(index)
 	editor->setGeometry(option.rect);
+}
+
+int IconServiceDelegate::GetServiceType() const
+{
+	return m_nServiceType;
+}
+
+void IconServiceDelegate::SetServiceType(int nService)
+{
+	m_nServiceType = nService;
 }
 
 QListView::ViewMode IconServiceDelegate::GetViewMode() const

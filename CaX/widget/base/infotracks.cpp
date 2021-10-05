@@ -50,38 +50,21 @@ void InfoTracks::SetInfo(QString info)
 
 void InfoTracks::SetCoverArt(QString coverArt)
 {
-	bool bFoundImage = false;
-	if (QFile::exists(coverArt))
+	if (coverArt.isEmpty())
 	{
-		QImage image;
-		if (image.load(coverArt))
-		{
-//			painter->drawImage(coverRect, image);
-			QPixmap pixmap = QPixmap::fromImage(image);
-			ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
-													   , ui->labelCoverArt->height()
-													   , Qt::KeepAspectRatio));
-			bFoundImage = true;
-		}
-	}
-	else
-	{
-		QImage image;
-		if (image.load(":/resource/Icon-playbar-volume-160.png"))
-		{
-//			painter->drawImage(coverRect, image);
-			QPixmap pixmap = QPixmap::fromImage(image);
-			ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
-													   , ui->labelCoverArt->height()
-													   , Qt::KeepAspectRatio));
-			bFoundImage = true;
-		}
+		coverArt = ":/resource/Icon-playbar-volume-160.png";
 	}
 
-	if (!bFoundImage)
+	QImage image;
+	if (image.load(coverArt))
 	{
-//		painter->drawImage(coverRect, m_Image);
+//			painter->drawImage(coverRect, image);
+		QPixmap pixmap = QPixmap::fromImage(image);
+		ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
+												   , ui->labelCoverArt->height()
+												   , Qt::KeepAspectRatio));
 	}
+
 }
 
 bool InfoTracks::eventFilter(QObject *object, QEvent *event)
