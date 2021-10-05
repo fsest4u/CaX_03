@@ -63,15 +63,17 @@ void InputWindow::InputHome(QList<CJsonNode> list)
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_INPUT);
 }
 
-void InputWindow::SlotSelectCoverArt(int nType)
+void InputWindow::SlotSelectCoverArt(int nType, QString coverArt)
 {
+	Q_UNUSED(coverArt)
+
 	m_pMgr->RequestInput(nType);
 }
 
 void InputWindow::ConnectSigToSlot()
 {
 
-	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
 
 }
 
