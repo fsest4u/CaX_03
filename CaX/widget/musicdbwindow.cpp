@@ -132,7 +132,7 @@ void MusicDBWindow::SlotRespMusicInfo(CJsonNode node)
 {
 	m_pInfoHome->SetAlbumCnt(node.GetString(KEY_ALBUM));
 	m_pInfoHome->SetArtistCnt(node.GetString(KEY_ARTIST));
-	m_pInfoHome->SetComposerCnt(node.GetString(KEY_COMPOSER));
+	m_pInfoHome->SetGenreCnt(node.GetString(KEY_GENRE));
 	m_pInfoHome->SetTrackCnt(node.GetString(KEY_SONG));
 
 }
@@ -215,9 +215,9 @@ void MusicDBWindow::SlotMusicTrack()
 
 }
 
-void MusicDBWindow::SlotMusicComposer()
+void MusicDBWindow::SlotMusicGenre()
 {
-	LogDebug("music Composer");
+	LogDebug("music Genre");
 
 }
 
@@ -268,7 +268,7 @@ void MusicDBWindow::SlotAlbumSort()
 
 }
 
-void MusicDBWindow::SlotSelectCategory(int nID)
+void MusicDBWindow::SlotSelectCategory(int nID, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
 	widget->RequestCategoryHome(nID, m_nCategory);
@@ -340,7 +340,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome, SIGNAL(SigAlbum()), this, SLOT(SlotMusicAlbum()));
 	connect(m_pInfoHome, SIGNAL(SigArtist()), this, SLOT(SlotMusicArtist()));
 	connect(m_pInfoHome, SIGNAL(SigTrack()), this, SLOT(SlotMusicTrack()));
-	connect(m_pInfoHome, SIGNAL(SigComposer()), this, SLOT(SlotMusicComposer()));
+	connect(m_pInfoHome, SIGNAL(SigGenre()), this, SLOT(SlotMusicGenre()));
 //	connect(m_pInfoHome, SIGNAL(SigSubmenu()), this, SLOT(SlotMusicSubmenu()));
 	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotMusicSubmenu2()));
 	connect(m_pInfoHome, SIGNAL(SigDisplayMode()), this, SLOT(SlotMusicDisplayMode()));
@@ -352,7 +352,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCategory(int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCategory(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCount(int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));

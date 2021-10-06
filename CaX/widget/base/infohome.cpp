@@ -21,7 +21,7 @@ InfoHome::InfoHome(QWidget *parent)
 	ui->frameAlbum->installEventFilter(this);
 	ui->frameArtist->installEventFilter(this);
 	ui->frameTrack->installEventFilter(this);
-	ui->frameComposer->installEventFilter(this);
+	ui->frameGenre->installEventFilter(this);
 	ui->frameSubmenu->installEventFilter(this);
 	ui->frameSubmenu2->installEventFilter(this);
 	ui->frameDisplayMode->installEventFilter(this);
@@ -65,9 +65,9 @@ void InfoHome::SetTrackCnt(const QString count)
 
 }
 
-void InfoHome::SetComposerCnt(const QString count)
+void InfoHome::SetGenreCnt(const QString count)
 {
-	ui->labelComposerCnt->setText(count);
+	ui->labelGenreCnt->setText(count);
 
 }
 
@@ -102,9 +102,9 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigTrack();
 		}
-		else if (object == ui->frameComposer)
+		else if (object == ui->frameGenre)
 		{
-			emit SigComposer();
+			emit SigGenre();
 		}
 		else if (object == ui->frameSubmenu)
 		{

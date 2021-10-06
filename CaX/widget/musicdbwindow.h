@@ -51,7 +51,7 @@ private slots:
 	void SlotMusicAlbum();
 	void SlotMusicArtist();
 	void SlotMusicTrack();
-	void SlotMusicComposer();
+	void SlotMusicGenre();
 	void SlotMusicSubmenu();
 	void SlotMusicSubmenu2();
 	void SlotMusicDisplayMode();
@@ -62,7 +62,7 @@ private slots:
 	void SlotAlbumSubmenu();
 	void SlotAlbumSort();
 
-	void SlotSelectCategory(int nID);
+	void SlotSelectCategory(int nID, QString coverArt);
 	void SlotSelectCount(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);

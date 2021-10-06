@@ -20,7 +20,7 @@ public:
 	void SetAlbumCnt(const QString count);
 	void SetArtistCnt(const QString count);
 	void SetTrackCnt(const QString count);
-	void SetComposerCnt(const QString count);
+	void SetGenreCnt(const QString count);
 	void SetSortName(const QString name);
 
 protected:
@@ -34,7 +34,7 @@ signals:
 	void SigAlbum();
 	void SigArtist();
 	void SigTrack();
-	void SigComposer();
+	void SigGenre();
 //	void SigSubmenu();
 	void SigSubmenu2();
 	void SigDisplayMode();
