@@ -6,6 +6,7 @@
 
 InputManager::InputManager()
 {
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
 
 }
 

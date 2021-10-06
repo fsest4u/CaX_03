@@ -145,6 +145,7 @@
 #define		VAL_PRESS_AWARDS	"PressAward"
 #define		VAL_EDITOR_PICKS	"EditorPicks"
 #define		VAL_MOST_FEATURED	"MostFeatured"
+#define		VAL_GROUP		"Group"
 
 //////////////////////////////////////////////////
 // response - key

@@ -125,7 +125,7 @@ private:
 
 	QList<CJsonNode> m_IServiceList;
 	QList<CJsonNode> m_InputList;
-	QList<CJsonNode> m_SetUpList;
+	QList<CJsonNode> m_SetupList;
 
 	Ui::MainWindow *ui;
 };

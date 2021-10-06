@@ -317,9 +317,9 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	m_pSideMenu->SetEnableAudioCD(m_bAudioCD);
 
 	if (!nodeSetup.IsNull()) {
-		m_SetUpList.clear();
+		m_SetupList.clear();
 		for(int i = 0; i < nodeSetup.ArraySize(); i++) {
-			m_SetUpList.append(nodeSetup.GetArrayAt(i));
+			m_SetupList.append(nodeSetup.GetArrayAt(i));
 		}
 	}
 	if (!nodeIService.IsNull()) {
@@ -510,7 +510,7 @@ void MainWindow::InitMain()
 
 	m_IServiceList.clear();
 	m_InputList.clear();
-	m_SetUpList.clear();
+	m_SetupList.clear();
 
 }
 
@@ -665,8 +665,10 @@ void MainWindow::DoGroupPlayHome()
 void MainWindow::DoSetupHome()
 {
 	ui->widgetTop->SetMainTitle(tr("Setup"));
-	SetupWindow *widget = new SetupWindow;
+	SetupWindow *widget = new SetupWindow(this, m_strAddr);
 	SlotAddWidget(widget);
+	widget->SetupHome(m_SetupList, m_nEventID);
+
 }
 
 void MainWindow::DoPowerOff()

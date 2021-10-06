@@ -33,6 +33,7 @@ SOURCES += \
     manager/playlistmanager.cpp \
     manager/playmanager.cpp \
     manager/qobuzmanager.cpp \
+    manager/setupmanager.cpp \
     manager/sqlmanager.cpp \
     manager/ssdpmanager.cpp \
     network/observerclient.cpp \
@@ -106,6 +107,7 @@ HEADERS += \
     manager/playlistmanager.h \
     manager/playmanager.h \
     manager/qobuzmanager.h \
+    manager/setupmanager.h \
     manager/sqlmanager.h \
     manager/ssdpmanager.h \
     network/observerclient.h \
@@ -156,6 +158,7 @@ HEADERS += \
     widget/playlistwindow.h \
     widget/playwindow.h \
     widget/qobuz.h \
+    widget/setup.h \
     widget/setupwindow.h \
     widget/sidemenu.h \
     widget/sidemenudelegate.h \

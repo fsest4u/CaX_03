@@ -92,4 +92,5 @@
 #define Is_Song_File(x)					( ((x) & iFolderType_Mask_Song) && !((x) & iFolderType_Mask_Pls) )
 #define Is_Song_Image_File(x)			( Is_Song_File(x) || ( (x) & iFolderType_Mask_Image ) )
 #define Is_Song_Dir(x)					( Is_Song_File(x) || ( (x) & iFolderType_Mask_Dir ) )
+
 #endif // BROWSER_H
