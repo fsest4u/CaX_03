@@ -138,7 +138,7 @@ void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
 
 	m_pInfoTracks->SetTitle(node.GetString(KEY_TITLE));
 	m_pInfoTracks->SetSubtitle("Artist : " + node.GetString(KEY_ARTIST));
-	m_pInfoTracks->SetInfo(info);
+//	m_pInfoTracks->SetInfo(info);
 }
 
 void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)

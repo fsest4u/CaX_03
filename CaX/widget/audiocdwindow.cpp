@@ -117,7 +117,7 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_AUDIO_CD);
 
 	m_TotalCount = QString("%1 songs").arg(list.count());
-	m_pInfoTracks->SetInfo( MakeInfo() );
+//	m_pInfoTracks->SetInfo( MakeInfo() );
 
 }
 
@@ -154,7 +154,7 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 	m_pInfoTracks->SetCoverArt(node.GetString(KEY_COVER_ART));
 	m_pInfoTracks->SetTitle(node.GetString(KEY_ALBUM));
 	m_pInfoTracks->SetSubtitle(node.GetString(KEY_ALBUM_ARTIST));
-	m_pInfoTracks->SetInfo(MakeInfo());
+//	m_pInfoTracks->SetInfo(MakeInfo());
 
 //	CDRipInfoDialog dialog;
 //	dialog.SetTitle(track.GetString(KEY_TITLE_CAP));
@@ -185,7 +185,7 @@ void AudioCDWindow::SlotSelectCoverArt(int id, QString coverArt)
 void AudioCDWindow::SlotCalcTotalTime(int time)
 {
 	m_TotalTime = QString("%1").arg(time);
-	m_pInfoTracks->SetInfo( MakeInfo() );
+//	m_pInfoTracks->SetInfo( MakeInfo() );
 }
 
 void AudioCDWindow::ConnectSigToSlot()

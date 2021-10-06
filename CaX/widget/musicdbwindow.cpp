@@ -157,7 +157,7 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 
 	m_pInfoTracks->SetTitle(node.GetString(KEY_TITLE));
 	m_pInfoTracks->SetSubtitle("Artist : " + node.GetString(KEY_ARTIST));
-	m_pInfoTracks->SetInfo(info);
+//	m_pInfoTracks->SetInfo(info);
 }
 
 void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
@@ -268,12 +268,13 @@ void MusicDBWindow::SlotAlbumSort()
 
 }
 
-void MusicDBWindow::SlotSelectCategory(int nID, QString coverArt)
+void MusicDBWindow::SlotSelectCoverArt(int nID, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
-	widget->RequestCategoryHome(nID, m_nCategory);
-
 	emit SigAddWidget(widget);
+
+	widget->RequestCategoryHome(nID, m_nCategory);
+	widget->SetCoverArt(coverArt);
 }
 
 void MusicDBWindow::SlotSelectCount(int nID)
@@ -352,7 +353,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCategory(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCount(int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
@@ -362,5 +363,10 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMore(int)), this, SLOT(SlotSelectMore(int)));
 
 
+}
+
+void MusicDBWindow::SetCoverArt(QString coverArt)
+{
+	m_pInfoTracks->SetCoverArt(coverArt);
 }
 

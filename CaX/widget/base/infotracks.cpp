@@ -39,14 +39,14 @@ void InfoTracks::SetSubtitle(QString subtitle)
 	ui->labelSubtitle->setText(subtitle);
 }
 
-void InfoTracks::SetInfo(QString info)
-{
-	if (info.isEmpty())
-	{
-		info = tr("-");
-	}
-	ui->labelInfo->setText(info);
-}
+//void InfoTracks::SetInfo(QString info)
+//{
+//	if (info.isEmpty())
+//	{
+//		info = tr("-");
+//	}
+//	ui->labelInfo->setText(info);
+//}
 
 void InfoTracks::SetCoverArt(QString coverArt)
 {

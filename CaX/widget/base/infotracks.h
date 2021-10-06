@@ -17,7 +17,7 @@ public:
 
 	void SetTitle(QString title);
 	void SetSubtitle(QString subtitle);
-	void SetInfo(QString info);
+//	void SetInfo(QString info);
 	void SetCoverArt(QString coverArt);
 
 protected:

@@ -62,7 +62,7 @@ private slots:
 	void SlotAlbumSubmenu();
 	void SlotAlbumSort();
 
-	void SlotSelectCategory(int nID, QString coverArt);
+	void SlotSelectCoverArt(int nID, QString coverArt);
 	void SlotSelectCount(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
@@ -76,6 +76,8 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
+
+	void SetCoverArt(QString coverArt);
 
 	MusicDBManager	*m_pMgr;
 	InfoHome		*m_pInfoHome;
