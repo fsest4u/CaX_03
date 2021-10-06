@@ -90,11 +90,31 @@ void BrowserManager::RequestRename()
 	RequestCommand(node, BROWSER_RENAME);
 }
 
-void BrowserManager::RequestPlay()
+void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringList files)
 {
 	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_PLAY);
+	node.AddInt	(KEY_WHERE,		0);
+	node.Add(KEY_SUB_DIR, true);
+	node.Add(KEY_ROOT, root);
+	if (dirs.count() > 0)
+	{
+		node.Add(KEY_DIRS, dirs);
+	}
+	if (files.count() > 0)
+	{
+		node.Add(KEY_FILES, files);
+	}
 
-	RequestCommand(node, BROWSER_PLAY);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	RequestCommand(node, BROWSER_TRACK_PLAY);
+}
+
+void BrowserManager::RequestPlaylistPlay(QString path, QList<int> indexes)
+{
+
 }
 
 void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
@@ -131,16 +151,16 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_INFO_BOT:
 		ParseInfoBot(node, nIndex);
 		break;
+	case BROWSER_TRACK_PLAY:
+		break;
+	case BROWSER_PLAYLIST_PLAY:
+		break;
 	case BROWSER_COPY:
 	case BROWSER_MOVE:
 	case BROWSER_DELETE:
 	case BROWSER_CREATE:
 	case BROWSER_RENAME:
-	case BROWSER_PLAY:
-		break;
-//	case BROWSER_PLAYLIST:
 //	case BROWSER_INFO:
-
 //	case BROWSER_SET_ART:
 //	case BROWSER_CONVERT:
 //	case BROWSER_REPLAYGAIN_SET:

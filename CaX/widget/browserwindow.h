@@ -37,6 +37,7 @@ private slots:
 
 	void SlotSubmenu(int nID);
 	void SlotSelectCoverArt(int nType, QString rawData);
+	void SlotSelectURL(QString rawData);
 	void SlotRespList(QList<CJsonNode> list);
 	void SlotReqInfoBot(QString strPath, int nIndex);
 	void SlotRespNodeUpdate(CJsonNode node, int nIndex);

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>762</width>
+    <width>798</width>
     <height>98</height>
    </rect>
   </property>
@@ -260,6 +260,21 @@ QLabel:hover
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QFrame" name="frame_4">
            <property name="minimumSize">
@@ -492,7 +507,7 @@ QLabel:hover
         <property name="font">
          <font>
           <family>Segoe UI Semibold</family>
-          <pointsize>48</pointsize>
+          <pointsize>28</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>

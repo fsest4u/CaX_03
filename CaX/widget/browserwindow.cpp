@@ -137,6 +137,23 @@ void BrowserWindow::SlotSelectCoverArt(int nType, QString rawData)
 	}
 }
 
+void BrowserWindow::SlotSelectURL(QString rawData)
+{
+	CJsonNode node(JSON_OBJECT);
+	if (!node.SetContent(rawData))
+	{
+		return;
+	}
+
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	QStringList dirs;
+	QStringList files;
+
+	files.append(node.GetString(KEY_PATH));
+	m_pMgr->RequestTrackPlay(m_Root, dirs, files);
+}
+
 void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 {
 	CJsonNode node = list[0];
@@ -150,7 +167,14 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 
 		SetCoverArt(list);
 
-		m_pInfoService->SetTitle(m_Root);
+		if (m_Root.isEmpty())
+		{
+			m_pInfoService->SetTitle(tr("Browser"));
+		}
+		else
+		{
+			m_pInfoService->SetTitle(m_Root);
+		}
 		m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);
 	}
 	// song

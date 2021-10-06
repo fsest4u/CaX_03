@@ -18,7 +18,8 @@ public:
 	void RequestDelete();
 	void RequestCreate();
 	void RequestRename();
-	void RequestPlay();
+	void RequestTrackPlay(QString root, QStringList dirs, QStringList files);
+	void RequestPlaylistPlay(QString path, QList<int> indexes);
 
 signals:
 
@@ -40,8 +41,8 @@ private:
 		BROWSER_DELETE,
 		BROWSER_CREATE,
 		BROWSER_RENAME,
-		BROWSER_PLAY,
-//		BROWSER_PLAYLIST,
+		BROWSER_TRACK_PLAY,
+		BROWSER_PLAYLIST_PLAY,
 //		BROWSER_INFO,
 		BROWSER_INFO_BOT,
 //		BROWSER_SET_ART,

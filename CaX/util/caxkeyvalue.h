@@ -206,7 +206,10 @@
 #define		KEY_ART_URL			"ArtUrl"
 #define		KEY_GROUP_PLAY_STATUS	"groupPlayStatus"
 #define		KEY_ACTIVE_CHANNEL		"activeChannel"
-
+#define		KEY_SUB_DIR			"SubDir"
+#define		KEY_ROOT			"Root"
+#define		KEY_DIRS			"Dirs"
+#define		KEY_FILES			"Files"
 
 //////////////////////////////////////////////////
 // response - value
