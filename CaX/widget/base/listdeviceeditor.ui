@@ -70,12 +70,12 @@
         <property name="styleSheet">
          <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-rig.png);
+  border-image: url(&quot;:/resource/browser-img160-hdd-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-rig-o.png);
+  border-image: url(&quot;:/resource/browser-img160-hdd-h@3x.png&quot;);
 }</string>
         </property>
         <property name="text">
@@ -127,12 +127,12 @@ QLabel:hover
         <property name="styleSheet">
          <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-playdevices-52.png);
+  border-image: url(&quot;:/resource/browser-img160-brank-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-playdevices-52-o.png);
+  border-image: url(&quot;:/resource/browser-img160-brank-h@3x.png&quot;);
 }</string>
         </property>
         <property name="text">
@@ -187,12 +187,12 @@ QLabel:hover
         <property name="styleSheet">
          <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-playdevices-52.png);
+  border-image: url(&quot;:/resource/browser-img160-brank-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-playdevices-52-o.png);
+  border-image: url(&quot;:/resource/browser-img160-brank-h@3x.png&quot;);
 }</string>
         </property>
         <property name="text">

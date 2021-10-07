@@ -72,6 +72,15 @@ private slots:
 	void SlotSelectPlay(int nID);
 	void SlotSelectMore(int nID);
 
+	void SlotRespClassifyArtist(QList<CJsonNode> list);
+	void SlotRespClassifyGenre(QList<CJsonNode> list);
+	void SlotRespClassifyComposer(QList<CJsonNode> list);
+
+	void SlotClassifyArtist(bool bAdd, QString id);
+	void SlotClassifyGenre(bool bAdd, QString id);
+	void SlotClassifyComposer(bool bAdd, QString id);
+
+
 
 private:
 
@@ -91,7 +100,9 @@ private:
 //	QThread			*m_pSongThread;
 
 	int				m_nCategory;
-
+	QString			m_ArtistID;
+	QString			m_GenreID;
+	QString			m_ComposerID;
 
 	Ui::MusicDBWindow *ui;
 };

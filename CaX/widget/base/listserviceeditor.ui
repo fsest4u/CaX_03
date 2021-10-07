@@ -27,7 +27,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QLabel" name="labelImageIcon">
+    <widget class="QLabel" name="labelIcon">
      <property name="text">
       <string>cover</string>
      </property>

@@ -8,11 +8,15 @@
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
-InfoHome::InfoHome(QWidget *parent)
-	: QWidget(parent)
-	, m_pCatDlg(new SubmenuDialog(this))
-	, m_pSortDlg(new SubmenuDialog(this))
-	, ui(new Ui::InfoHome)
+InfoHome::InfoHome(QWidget *parent)	:
+	QWidget(parent),
+	m_pCatDlg(new SubmenuDialog(this)),
+	m_pSortDlg(new SubmenuDialog(this)),
+	m_ClassifyMenu(new QMenu(this)),
+	m_GenreMenu(new QMenu(tr("Genre"), this)),
+	m_ArtistMenu(new QMenu(tr("Artist"), this)),
+	m_ComposerMenu(new QMenu(tr("Composer"), this)),
+	ui(new Ui::InfoHome)
 {
 	ui->setupUi(this);
 
@@ -24,12 +28,19 @@ InfoHome::InfoHome(QWidget *parent)
 	ui->frameGenre->installEventFilter(this);
 	ui->frameSubmenu->installEventFilter(this);
 	ui->frameSubmenu2->installEventFilter(this);
-	ui->frameDisplayMode->installEventFilter(this);
 	ui->frameSort->installEventFilter(this);
-	ui->frameSort2->installEventFilter(this);
+	ui->frameIncDec->installEventFilter(this);
+	ui->frameResize->installEventFilter(this);
+
+	ui->frameClassifyArtist->installEventFilter(this);
+	ui->frameClassifyGenre->installEventFilter(this);
+	ui->frameClassifyComposer->installEventFilter(this);
+	ui->frameClassifyTemp->installEventFilter(this);
+	ui->frameClassifyTemp_2->installEventFilter(this);
 
 	SetCategoryDialog();
 	SetSortDialog();
+	SetClassifyMenu();
 }
 
 InfoHome::~InfoHome()
@@ -43,6 +54,30 @@ InfoHome::~InfoHome()
 	{
 		delete m_pSortDlg;
 		m_pSortDlg = nullptr;
+	}
+
+	if (m_ClassifyMenu)
+	{
+		delete m_ClassifyMenu;
+		m_ClassifyMenu = nullptr;
+	}
+
+	if (m_GenreMenu)
+	{
+		delete m_GenreMenu;
+		m_GenreMenu = nullptr;
+	}
+
+	if (m_ArtistMenu)
+	{
+		delete m_ArtistMenu;
+		m_ArtistMenu = nullptr;
+	}
+
+	if (m_ComposerMenu)
+	{
+		delete m_ComposerMenu;
+		m_ComposerMenu = nullptr;
 	}
 
 	delete ui;
@@ -114,21 +149,58 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigSubmenu2();
 		}
-		else if (object == ui->frameDisplayMode)
+		else if (object == ui->frameSort)
 		{
 			emit SigDisplayMode();
 		}
-		else if (object == ui->frameSort)
+		else if (object == ui->frameIncDec)
 		{
 			ShowSortDialog();
 		}
-		else if (object == ui->frameSort2)
+		else if (object == ui->frameResize)
 		{
 			ShowSortDialog();
 		}
+		else if (object == ui->frameClassifyArtist)
+		{
+			DoClickClassifyArtist();
+		}
+		else if (object == ui->frameClassifyGenre)
+		{
+			DoClickClassifyGenre();
+		}
+		else if (object == ui->frameClassifyComposer)
+		{
+			DoClickClassifyComposer();
+		}
+
 	}
 
 	return QObject::eventFilter(object, event);
+}
+
+void InfoHome::SlotArtistMenu(QAction *action)
+{
+	LogDebug("Artist id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+	ui->frameClassifyArtist->show();
+	ui->labelClassifyArtist->setText(action->text());
+	emit SigClassifyArtist(true, action->data().toString());
+}
+
+void InfoHome::SlotGenreMenu(QAction *action)
+{
+	LogDebug("Genre id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+	ui->frameClassifyGenre->show();
+	ui->labelClassifyGenre->setText(action->text());
+	emit SigClassifyGenre(true, action->data().toString());
+}
+
+void InfoHome::SlotComposerMenu(QAction *action)
+{
+	LogDebug("Composer id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+	ui->frameClassifyComposer->show();
+	ui->labelClassifyComposer->setText(action->text());
+	emit SigClassifyComposer(true, action->data().toString());
 }
 
 
@@ -190,6 +262,76 @@ void InfoHome::SetSortDialog()
 		list.append(node);
 	}
 	m_pSortDlg->SetItemList(list);
+}
+
+void InfoHome::SetClassifyMenu()
+{
+	m_ClassifyMenu->setStyleSheet("QMenu { menu-scrollable: 1; }");
+
+	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_ArtistMenu));
+	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_GenreMenu));
+	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_ComposerMenu));
+
+	ui->btnClassify->setMenu(m_ClassifyMenu);
+
+	ui->frameClassifyArtist->hide();
+	ui->frameClassifyGenre->hide();
+	ui->frameClassifyComposer->hide();
+	ui->frameClassifyTemp->hide();
+	ui->frameClassifyTemp_2->hide();
+}
+
+void InfoHome::DoClickClassifyArtist()
+{
+	ui->frameClassifyArtist->hide();
+	emit SigClassifyArtist(false, "");
+}
+
+void InfoHome::DoClickClassifyGenre()
+{
+	ui->frameClassifyGenre->hide();
+	emit SigClassifyGenre(false, "");
+}
+
+void InfoHome::DoClickClassifyComposer()
+{
+	ui->frameClassifyComposer->hide();
+	emit SigClassifyComposer(false, "");
+}
+
+void InfoHome::SetClassifyArtistMenu(QList<CJsonNode> list)
+{
+	foreach (CJsonNode node, list)
+	{
+		QAction *action = new QAction(node.GetString(KEY_NAME_LOWER), this);
+		action->setData(node.GetString(KEY_ID_LOWER));
+		m_ArtistMenu->addAction(action);
+	}
+	connect(m_ArtistMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotArtistMenu(QAction*)));
+}
+
+void InfoHome::SetClassifyGenreMenu(QList<CJsonNode> list)
+{
+	foreach (CJsonNode node, list)
+	{
+		QAction *action = new QAction(node.GetString(KEY_NAME_LOWER), this);
+		action->setData(node.GetString(KEY_ID_LOWER));
+		m_GenreMenu->addAction(action);
+	}
+	connect(m_GenreMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotGenreMenu(QAction*)));
+
+}
+
+void InfoHome::SetClassifyComposerMenu(QList<CJsonNode> list)
+{
+	foreach (CJsonNode node, list)
+	{
+		QAction *action = new QAction(node.GetString(KEY_NAME_LOWER), this);
+		action->setData(node.GetString(KEY_ID_LOWER));
+		m_ComposerMenu->addAction(action);
+	}
+	connect(m_ComposerMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotComposerMenu(QAction*)));
+
 }
 
 void InfoHome::ShowCategoryDialog()

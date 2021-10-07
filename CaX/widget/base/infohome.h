@@ -2,6 +2,9 @@
 #define INFOHOME_H
 
 #include <QWidget>
+#include <QMenu>
+
+#include "util/CJsonNode.h"
 
 namespace Ui {
 class InfoHome;
@@ -23,6 +26,10 @@ public:
 	void SetGenreCnt(const QString count);
 	void SetSortName(const QString name);
 
+	void SetClassifyArtistMenu(QList<CJsonNode> list);
+	void SetClassifyGenreMenu(QList<CJsonNode> list);
+	void SetClassifyComposerMenu(QList<CJsonNode> list);
+
 protected:
 
 	bool eventFilter(QObject *object, QEvent *event);
@@ -39,6 +46,17 @@ signals:
 	void SigSubmenu2();
 	void SigDisplayMode();
 //	void SigSort();
+
+	void SigClassifyArtist(bool bAdd, QString id);
+	void SigClassifyGenre(bool bAdd, QString id);
+	void SigClassifyComposer(bool bAdd, QString id);
+
+
+private slots:
+
+	void SlotArtistMenu(QAction* action);
+	void SlotGenreMenu(QAction* action);
+	void SlotComposerMenu(QAction* action);
 
 private:
 
@@ -63,11 +81,24 @@ private:
 	void SetCategoryDialog();
 	void SetSortDialog();
 
+	void SetClassifyMenu();
+
+	void DoClickClassifyArtist();
+	void DoClickClassifyGenre();
+	void DoClickClassifyComposer();
+
+
+
 	void ShowCategoryDialog();
 	void ShowSortDialog();
 
 	SubmenuDialog	*m_pCatDlg;
 	SubmenuDialog	*m_pSortDlg;
+
+	QMenu		*m_ClassifyMenu;
+	QMenu		*m_GenreMenu;
+	QMenu		*m_ArtistMenu;
+	QMenu		*m_ComposerMenu;
 
 	Ui::InfoHome *ui;
 };

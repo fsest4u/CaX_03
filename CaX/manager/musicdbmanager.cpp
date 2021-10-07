@@ -36,14 +36,33 @@ void MusicDBManager::RequestMusicDBInfo()
 	RequestCommand(node, MUSICDB_INFO);
 }
 
-void MusicDBManager::RequestCategoryList(int nCategory)
+void MusicDBManager::RequestCategoryList(int nCategory, QString artistID, QString genreID, QString composerID)
 {
+	QString whereArtist = "";
+	QString whereGenre = "";
+	QString whereComposer = "";
+
+	if (!artistID.isEmpty())
+	{
+		whereArtist = " and Song.ArtistID = " + artistID;
+	}
+	if (!genreID.isEmpty())
+	{
+		whereGenre = " and Song.GenreID = " + genreID;
+	}
+	if (!composerID.isEmpty())
+	{
+		whereComposer = " and Song.ComposerID = " + composerID;
+	}
+
+	QString query = m_pSql->GetQueryCategoryList(nCategory).arg(whereArtist).arg(whereGenre).arg(whereComposer);
+
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
 	node.Add(KEY_CMD1, VAL_SONG);
 	node.Add(KEY_AS, true);
 	node.Add(KEY_AL, false);
-	node.Add(KEY_SQL, m_pSql->GetQueryCategoryList(nCategory));
+	node.Add(KEY_SQL, query);
 	RequestCommand(node, MUSICDB_CATEGORY_LIST);
 }
 
@@ -98,6 +117,30 @@ void MusicDBManager::RequestRating(int nID, int nRating, int nCategory)
 	node.Add	(KEY_CMD1,		VAL_SONG);
 	node.Add	(KEY_SQL,		m_pSql->GetQueryRating(nID, nRating, nCategory));
 	RequestCommand(node, MUSICDB_UPDATE_RATING);
+}
+
+void MusicDBManager::RequestClassifyList(int nCategory)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add	(KEY_AS,		true);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryClassifyArtist(nCategory));
+
+	int nCmdID;
+	switch (nCategory)
+	{
+	case SQLManager::CATEGORY_ARTIST:
+		nCmdID = MUSICDB_CLASSIFY_ARTIST;
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		nCmdID = MUSICDB_CLASSIFY_GENRE;
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		nCmdID = MUSICDB_CLASSIFY_COMPOSER;
+		break;
+	}
+	RequestCommand(node, nCmdID);
 }
 
 QString MusicDBManager::GetCategoryName(int nCategory)
@@ -189,6 +232,15 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_SONGS_OF_CATEGORY:
 		ParseSongsOfCategory(result);
 		break;
+	case MUSICDB_CLASSIFY_ARTIST:
+		ParseClassifyArtist(result);
+		break;
+	case MUSICDB_CLASSIFY_GENRE:
+		ParseClassifyGenre(result);
+		break;
+	case MUSICDB_CLASSIFY_COMPOSER:
+		ParseClassifyComposer(result);
+		break;
 	case MUSICDB_MAX:
 		emit SigRespError("invalid command id");
 		break;
@@ -250,16 +302,38 @@ void MusicDBManager::ParseCategoryInfo(CJsonNode result)
 
 void MusicDBManager::ParseSongsOfCategory(CJsonNode result)
 {
-//	LogDebug("result : [%s]", result.ToCompactByteArray().data());
+	QList<CJsonNode> list = ParseResultNode(result);
+	emit SigRespSongsOfCategory(list);
+}
 
-	m_NodeList.clear();
+void MusicDBManager::ParseClassifyArtist(CJsonNode result)
+{
+	QList<CJsonNode> list = ParseResultNode(result);
+	emit SigRespClassifyArtist(list);
+}
+
+void MusicDBManager::ParseClassifyGenre(CJsonNode result)
+{
+	QList<CJsonNode> list = ParseResultNode(result);
+	emit SigRespClassifyGenre(list);
+}
+
+void MusicDBManager::ParseClassifyComposer(CJsonNode result)
+{
+	QList<CJsonNode> list = ParseResultNode(result);
+	emit SigRespClassifyComposer(list);
+}
+
+QList<CJsonNode> MusicDBManager::ParseResultNode(CJsonNode result)
+{
+	QList<CJsonNode> list;
+	list.clear();
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
-		m_NodeList.append(result.GetArrayAt(i));
-		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
-
+		list.append(result.GetArrayAt(i));
+		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
 	}
 
-	emit SigRespSongsOfCategory(m_NodeList);
+	return list;
 }
 

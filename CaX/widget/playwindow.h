@@ -34,12 +34,10 @@ private slots:
 
 	void SlotClickCoverArt();
 	void SlotBtnInfo();
-	void SlotBtnPlaylist();
 	void SlotBtnPlayPrev();
 	void SlotBtnPlay();
 	void SlotBtnPlayNext();
 	void SlotBtnRandom();
-	void SlotBtnRepeat();
 	void SlotBtnDevice();
 	void SlotBtnVolume();
 	void SlotSliderReleased();

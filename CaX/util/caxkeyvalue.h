@@ -28,6 +28,7 @@
 
 #define		KEY_TYPE			"Type"
 #define		KEY_NAME			"Name"
+#define		KEY_NAME_LOWER		"name"
 #define		KEY_USER			"User"
 #define		KEY_PASS			"Pass"
 #define		KEY_ICON			"Icon"

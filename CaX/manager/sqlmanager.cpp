@@ -206,3 +206,23 @@ QString SQLManager::GetQueryRating(int nID, int nRating, int nCategory)
 	}
 	return query;
 }
+
+QString SQLManager::GetQueryClassifyArtist(int nCategory)
+{
+	QString query;
+
+	switch (nCategory)
+	{
+	case CATEGORY_ARTIST:
+		query = QString(SQL_CLASSIFY).arg("Artist");
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_CLASSIFY).arg("Genre");
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_CLASSIFY).arg("Composer");
+		break;
+	}
+
+	return query;
+}

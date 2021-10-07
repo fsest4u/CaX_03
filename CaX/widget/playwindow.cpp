@@ -110,12 +110,6 @@ void PlayWindow::SlotBtnInfo()
 	m_pMgr->RequestSongInfo(m_ID);
 }
 
-void PlayWindow::SlotBtnPlaylist()
-{
-	// todo-dylee
-	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_STOP);
-}
-
 void PlayWindow::SlotBtnPlayPrev()
 {
 	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PREV);
@@ -139,11 +133,6 @@ void PlayWindow::SlotBtnPlayNext()
 }
 
 void PlayWindow::SlotBtnRandom()
-{
-	m_pMgr->RequestRepeatMode();
-}
-
-void PlayWindow::SlotBtnRepeat()
 {
 	m_pMgr->RequestRepeatMode();
 }
@@ -224,12 +213,10 @@ void PlayWindow::ConnectSigToSlot()
 	ui->labelCoverArt->installEventFilter(this);
 
 	connect(ui->btnInfo, SIGNAL(clicked()), this, SLOT(SlotBtnInfo()));
-	connect(ui->btnPlaylist, SIGNAL(clicked()), this, SLOT(SlotBtnPlaylist()));
 	connect(ui->btnPrev, SIGNAL(clicked()), this, SLOT(SlotBtnPlayPrev()));
 	connect(ui->btnPlay, SIGNAL(clicked()), this, SLOT(SlotBtnPlay()));
 	connect(ui->btnNext, SIGNAL(clicked()), this, SLOT(SlotBtnPlayNext()));
 	connect(ui->btnRandom, SIGNAL(clicked()), this, SLOT(SlotBtnRandom()));
-	connect(ui->btnRepeat, SIGNAL(clicked()), this, SLOT(SlotBtnRepeat()));
 	connect(ui->btnDevice, SIGNAL(clicked()), this, SLOT(SlotBtnDevice()));
 	connect(ui->btnVolume, SIGNAL(clicked()), this, SLOT(SlotBtnVolume()));
 	connect(ui->horizontalSlider, SIGNAL(sliderReleased()), this, SLOT(SlotSliderReleased()));
@@ -264,12 +251,10 @@ void PlayWindow::InitUI()
 void PlayWindow::EnableUI(bool bEnable)
 {
 	ui->btnInfo->setEnabled(bEnable);
-	ui->btnPlaylist->setEnabled(bEnable);
 	ui->btnPrev->setEnabled(bEnable);
 	ui->btnPlay->setEnabled(bEnable);
 	ui->btnNext->setEnabled(bEnable);
 	ui->btnRandom->setEnabled(bEnable);
-	ui->btnRepeat->setEnabled(bEnable);
 	ui->btnVolume->setEnabled(bEnable);
 
 	ui->horizontalSlider->setEnabled(bEnable);

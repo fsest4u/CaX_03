@@ -83,7 +83,10 @@
             <item row="0" column="0">
              <widget class="QLabel" name="labelCoverArt">
               <property name="text">
-               <string>cover art</string>
+               <string>-</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -246,44 +249,13 @@
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-playinfo-20.png);
+  border-image: url(&quot;:/resource/btm-btn20-info-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-playinfo-20-o.png);
+  border-image: url(&quot;:/resource/btm-btn20-info-h@3x.png&quot;);
 }</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnPlaylist">
-                 <property name="minimumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton
-{
-  border-image: url(:/resource/Icon-playtext-20.png);
-}
-
-QPushButton:hover
-{
-  border-image: url(:/resource/Icon-playtext-20-o.png);
-}
-</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -307,12 +279,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-playrew-26.png);
+  border-image: url(&quot;:/resource/btm-btn26-rew-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-playrew-26-o.png);
+  border-image: url(&quot;:/resource/btm-btn26-rew-h@3x.png&quot;);
 }
 
 </string>
@@ -336,12 +308,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-playplay-40.png);
+  border-image: url(&quot;:/resource/btm-btn40-play-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-playplay-40-o.png);
+  border-image: url(&quot;:/resource/btm-btn40-play-h@3x.png&quot;);
 }
 
 </string>
@@ -365,12 +337,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-playff-26.png);
+  border-image: url(&quot;:/resource/btm-btn26-ff-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-playff-26-o.png);
+  border-image: url(&quot;:/resource/btm-btn26-ff-h@3x.png&quot;);
 }
 </string>
                  </property>
@@ -393,40 +365,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-playrandom-20.png);
+  border-image: url(&quot;:/resource/btm-btn20-random-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-playrandom-20-o.png);
-}
-</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnRepeat">
-                 <property name="minimumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton
-{
-  border-image: url(:/resource/Icon-playreplay1-20.png);
-}
-
-QPushButton:hover
-{
-  border-image: url(:/resource/Icon-playreplay1-20-o.png);
+  border-image: url(&quot;:/resource/btm-btn20-random-h@3x.png&quot;);
 }
 </string>
                  </property>
@@ -557,17 +501,17 @@ QPushButton:hover
             <string notr="true">QPushButton
 {
   color: rgb(255, 255, 255);
-  border-image: url(:/resource/Icon-playdevices-52.png);
+  border-image: url(&quot;:/resource/btm-btn50-device-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-playdevices-52-o.png);
+  border-image: url(&quot;:/resource/btm-btn50-device-h@3x.png&quot;);
 }
 </string>
            </property>
            <property name="text">
-            <string>X##</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -599,13 +543,13 @@ QPushButton:hover
           <widget class="QPushButton" name="btnVolume">
            <property name="minimumSize">
             <size>
-             <width>52</width>
+             <width>30</width>
              <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>52</width>
+             <width>30</width>
              <height>30</height>
             </size>
            </property>
@@ -620,16 +564,16 @@ QPushButton:hover
 {
   color: rgb(255, 255, 255);
   text-align: right;
-  border-image: url(:/resource/Icon-playvolume-52.png);
+  border-image: url(&quot;:/resource/btm-btn30-volume-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-playvolume-52-o.png);
+  border-image: url(&quot;:/resource/btm-btn30-volume-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
-            <string>100</string>
+            <string/>
            </property>
           </widget>
          </item>

@@ -21,7 +21,7 @@ ListServiceEditor::ListServiceEditor(QWidget *parent) :
 	m_Art.clear();
 	m_RawData.clear();
 
-	ui->labelImageIcon->installEventFilter(this);
+	ui->labelIcon->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
 
 	ui->labelBottom->hide();
@@ -116,8 +116,8 @@ void ListServiceEditor::SetIcon(const QString &Icon)
 	{
 //		painter->drawImage(coverRect, image);
 		QPixmap pixmap = QPixmap::fromImage(image);
-		ui->labelImageIcon->setPixmap(pixmap.scaled(ui->labelImageIcon->width()
-												   , ui->labelImageIcon->height()
+		ui->labelIcon->setPixmap(pixmap.scaled(ui->labelIcon->width()
+												   , ui->labelIcon->height()
 												   , Qt::KeepAspectRatio));
 	}
 
@@ -142,8 +142,8 @@ void ListServiceEditor::SetArt(const QString &Art)
 	{
 //		painter->drawImage(coverRect, image);
 		QPixmap pixmap = QPixmap::fromImage(image);
-		ui->labelImageIcon->setPixmap(pixmap.scaled(ui->labelImageIcon->width()
-												   , ui->labelImageIcon->height()
+		ui->labelIcon->setPixmap(pixmap.scaled(ui->labelIcon->width()
+												   , ui->labelIcon->height()
 												   , Qt::KeepAspectRatio));
 	}
 
@@ -163,7 +163,7 @@ bool ListServiceEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->labelImageIcon)
+		if (object == ui->labelIcon)
 		{
 			emit SigClickIcon(m_RawData);
 		}

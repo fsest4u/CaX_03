@@ -28,6 +28,9 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
 	m_pLoading(new Loading(this)),
+	m_ArtistID(""),
+	m_GenreID(""),
+	m_ComposerID(""),
 //	m_pCatThread(new QThread),
 //	m_pSongThread(new QThread),
 	ui(new Ui::MusicDBWindow)
@@ -39,7 +42,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_nCategory = SQLManager::CATEGORY_ALBUM;
-
 }
 
 MusicDBWindow::~MusicDBWindow()
@@ -130,16 +132,39 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 
 void MusicDBWindow::SlotRespMusicInfo(CJsonNode node)
 {
-	m_pInfoHome->SetAlbumCnt(node.GetString(KEY_ALBUM));
-	m_pInfoHome->SetArtistCnt(node.GetString(KEY_ARTIST));
-	m_pInfoHome->SetGenreCnt(node.GetString(KEY_GENRE));
-	m_pInfoHome->SetTrackCnt(node.GetString(KEY_SONG));
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	QString strAlbumCnt = node.GetString(KEY_ALBUM);
+	QString strArtistCnt = node.GetString(KEY_ARTIST);
+	QString strGenreCnt = node.GetString(KEY_GENRE);
+	QString strTrackCnt = node.GetString(KEY_SONG);
+
+	if (strAlbumCnt.toInt() > 0)
+	{
+		m_pInfoHome->SetAlbumCnt(strAlbumCnt);
+	}
+	if (strArtistCnt.toInt() > 0)
+	{
+		m_pInfoHome->SetArtistCnt(node.GetString(KEY_ARTIST));
+		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_ARTIST);
+	}
+	if (strGenreCnt.toInt() > 0)
+	{
+		m_pInfoHome->SetGenreCnt(node.GetString(KEY_GENRE));
+		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_GENRE);
+	}
+	if (strTrackCnt.toInt() > 0)
+	{
+		m_pInfoHome->SetTrackCnt(node.GetString(KEY_SONG));
+		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_COMPOSER);
+	}
 
 }
 
 void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 {
 //	m_pIconTracks->SetBackgroundTask(m_pCatThread);
+	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
 	m_pLoading->Stop();
 //	m_pCatThread->start();
@@ -324,6 +349,66 @@ void MusicDBWindow::SlotSelectMore(int nID)
 	m_pListTracks->SetViewMode(mode);
 }
 
+void MusicDBWindow::SlotRespClassifyArtist(QList<CJsonNode> list)
+{
+	m_pInfoHome->SetClassifyArtistMenu(list);
+}
+
+void MusicDBWindow::SlotRespClassifyGenre(QList<CJsonNode> list)
+{
+	m_pInfoHome->SetClassifyGenreMenu(list);
+}
+
+void MusicDBWindow::SlotRespClassifyComposer(QList<CJsonNode> list)
+{
+	m_pInfoHome->SetClassifyComposerMenu(list);
+}
+
+void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
+{
+	LogDebug("artist add [%d] id [%s]", bAdd, id.toUtf8().data());
+	if (bAdd)
+	{
+		m_ArtistID = id;
+	}
+	else
+	{
+		m_ArtistID = "";
+	}
+
+	m_pMgr->RequestCategoryList(m_nCategory, m_ArtistID, m_GenreID, m_ComposerID);
+}
+
+void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
+{
+	LogDebug("genre add [%d] id [%s]", bAdd, id.toUtf8().data());
+	if (bAdd)
+	{
+		m_GenreID = id;
+	}
+	else
+	{
+		m_GenreID = "";
+	}
+
+	m_pMgr->RequestCategoryList(m_nCategory, m_ArtistID, m_GenreID, m_ComposerID);
+}
+
+void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
+{
+	LogDebug("composer add [%d] id [%s]", bAdd, id.toUtf8().data());
+	if (bAdd)
+	{
+		m_ComposerID = id;
+	}
+	else
+	{
+		m_ComposerID = "";
+	}
+
+	m_pMgr->RequestCategoryList(m_nCategory, m_ArtistID, m_GenreID, m_ComposerID);
+}
+
 void MusicDBWindow::ConnectSigToSlot()
 {
 	// recursive
@@ -335,6 +420,9 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespSongsOfCategory(QList<CJsonNode>)), this, SLOT(SlotRespSongsOfCategory(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+	connect(m_pMgr, SIGNAL(SigRespClassifyArtist(QList<CJsonNode>)), this, SLOT(SlotRespClassifyArtist(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespClassifyGenre(QList<CJsonNode>)), this, SLOT(SlotRespClassifyGenre(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespClassifyComposer(QList<CJsonNode>)), this, SLOT(SlotRespClassifyComposer(QList<CJsonNode>)));
 
 	connect(m_pInfoHome, SIGNAL(SigPlayAll()), this, SLOT(SlotMusicPlayAll()));
 	connect(m_pInfoHome, SIGNAL(SigPlayRandom()), this, SLOT(SlotMusicPlayRandom()));
@@ -346,6 +434,10 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotMusicSubmenu2()));
 	connect(m_pInfoHome, SIGNAL(SigDisplayMode()), this, SLOT(SlotMusicDisplayMode()));
 //	connect(m_pInfoHome, SIGNAL(SigSort()), this, SLOT(SlotMusicSort()));
+	connect(m_pInfoHome, SIGNAL(SigClassifyArtist(bool, QString)), this, SLOT(SlotClassifyArtist(bool, QString)));
+	connect(m_pInfoHome, SIGNAL(SigClassifyGenre(bool, QString)), this, SLOT(SlotClassifyGenre(bool, QString)));
+	connect(m_pInfoHome, SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
+
 
 	connect(m_pInfoTracks, SIGNAL(SigPlayAll()), this, SLOT(SlotAlbumPlayAll()));
 	connect(m_pInfoTracks, SIGNAL(SigPlayRandom()), this, SLOT(SlotAlbumPlayRandom()));

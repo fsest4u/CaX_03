@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1113</width>
-    <height>128</height>
+    <height>142</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -154,7 +154,7 @@
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QLabel" name="labelImagePlayAll">
+          <widget class="QLabel" name="labelPlayAll">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -170,12 +170,12 @@
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-52-play.png);
+  border-image: url(&quot;:/resource/top-btn52-play-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-52-play-o.png);
+  border-image: url(&quot;:/resource/top-btn52-play-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -223,16 +223,16 @@ QLabel:hover
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QLabel" name="labelImagePlayRandom">
+          <widget class="QLabel" name="labelPlayRandom">
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-52-random.png);
+  border-image: url(&quot;:/resource/top-btn52-random-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-52-random-o.png);
+  border-image: url(&quot;:/resource/top-btn52-random-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -280,16 +280,16 @@ QLabel:hover
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QLabel" name="labelImageSubMenu">
+          <widget class="QLabel" name="labelSubMenu">
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-52-smenu.png);
+  border-image: url(&quot;:/resource/top-btn52-menu-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-52-smenu-o.png);
+  border-image: url(&quot;:/resource/top-btn52-menu-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -378,7 +378,7 @@ QLabel:hover
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-68-genre.png);
+  border-image: url(&quot;:/resource/top-icon68-genre@3x.png&quot;);
 }</string>
               </property>
               <property name="text">
@@ -536,7 +536,7 @@ QLabel:hover
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-68-album.png);
+  border-image: url(&quot;:/resource/top-icon68-album@3x.png&quot;);
 }</string>
               </property>
              </widget>
@@ -691,7 +691,7 @@ QLabel:hover
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-68-artist.png);
+  border-image: url(&quot;:/resource/top-icon68-artist@3x.png&quot;);
 }</string>
               </property>
              </widget>
@@ -846,7 +846,7 @@ QLabel:hover
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-68-track.png);
+  border-image: url(&quot;:/resource/top-icon68-track@3x.png&quot;);
 }</string>
               </property>
              </widget>
@@ -973,16 +973,16 @@ QLabel:hover
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QLabel" name="labelImageSubmenu2">
+          <widget class="QLabel" name="labelSubmenu2">
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-52-smenu.png);
+  border-image: url(&quot;:/resource/top-btn52-menu-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-52-smenu-o.png);
+  border-image: url(&quot;:/resource/top-btn52-menu-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -1040,7 +1040,7 @@ QLabel:hover
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QGridLayout" name="gridLayout_24">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -1053,13 +1053,7 @@ QLabel:hover
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <property name="horizontalSpacing">
-          <number>4</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
+         <item>
           <widget class="QFrame" name="frame_6">
            <property name="minimumSize">
             <size>
@@ -1095,28 +1089,42 @@ QLabel:hover
             <property name="spacing">
              <number>0</number>
             </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label">
+            <item row="1" column="0">
+             <widget class="QPushButton" name="btnClassify">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="styleSheet">
-               <string notr="true">QLabel
+               <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-82-classify.png);
+  color: rgb(52, 174, 214);
+  border-image: url(&quot;:/resource/top-btn82-classify-add-n@3x.png&quot;);
 }
 
-QLabel:hover
+QPushButton:hover
 {
-  border-image: url(:/resource/Icon-82-classify-o.png);
+  color: rgb(52, 174, 214);
+  border-image: url(&quot;:/resource/top-btn82-classify-add-h@3x.png&quot;);
 }</string>
               </property>
               <property name="text">
-               <string/>
+               <string>classify</string>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>22</height>
+               </size>
               </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-         <item row="0" column="1">
+         <item>
           <widget class="QFrame" name="frame_7">
            <property name="minimumSize">
             <size>
@@ -1153,16 +1161,16 @@ QLabel:hover
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="label_2">
+             <widget class="QLabel" name="labelFavorite">
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-22-favorite.png);
+  border-image: url(&quot;:/resource/top-btn22-classify-like-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-22-favorite-o.png);
+  border-image: url(&quot;:/resource/top-btn22-classify-like-h@3x.png&quot;);
 }</string>
               </property>
              </widget>
@@ -1170,7 +1178,7 @@ QLabel:hover
            </layout>
           </widget>
          </item>
-         <item row="0" column="2">
+         <item>
           <widget class="QFrame" name="frame_8">
            <property name="minimumSize">
             <size>
@@ -1207,17 +1215,329 @@ QLabel:hover
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="label_3">
+             <widget class="QLabel" name="labelRating">
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-22-rating.png);
+  border-image: url(&quot;:/resource/top-btn22-classify-rank-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-22-rating-o.png);
+  border-image: url(&quot;:/resource/top-btn22-classify-rank-h@3x.png&quot;);
 }</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_9">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QFrame" name="frameClassifyArtist">
+           <property name="minimumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelClassifyArtist">
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+  border-image: url(:/resource/top-btn82-classify-add-n.png);
+}
+
+QLabel:hover
+{
+  border-image: url(:/resource/top-btn82-classify-add-h.png);
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frameClassifyGenre">
+           <property name="minimumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelClassifyGenre">
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+  border-image: url(:/resource/top-btn82-classify-add-n.png);
+}
+
+QLabel:hover
+{
+  border-image: url(:/resource/top-btn82-classify-add-h.png);
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frameClassifyComposer">
+           <property name="minimumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_24">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelClassifyComposer">
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+  border-image: url(:/resource/top-btn82-classify-add-n.png);
+}
+
+QLabel:hover
+{
+  border-image: url(:/resource/top-btn82-classify-add-h.png);
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frameClassifyTemp">
+           <property name="minimumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_28">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelClassifyTemp">
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+  border-image: url(:/resource/top-btn82-classify-add-n.png);
+}
+
+QLabel:hover
+{
+  border-image: url(:/resource/top-btn82-classify-add-h.png);
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frameClassifyTemp_2">
+           <property name="minimumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>82</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_29">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelClassifyTemp_2">
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+  border-image: url(:/resource/top-btn82-classify-add-n.png);
+}
+
+QLabel:hover
+{
+  border-image: url(:/resource/top-btn82-classify-add-h.png);
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -1277,7 +1597,7 @@ QLabel:hover
           <number>0</number>
          </property>
          <item>
-          <widget class="QFrame" name="frameDisplayMode">
+          <widget class="QFrame" name="frameSort">
            <property name="minimumSize">
             <size>
              <width>130</width>
@@ -1313,22 +1633,19 @@ QLabel:hover
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="labelImageDisplayMode">
+             <widget class="QLabel" name="labelSort">
               <property name="styleSheet">
                <string notr="true">QLabel
 {
   color: rgb(52, 174, 214);
-  border-image: url(:/resource/Icon-130-sort.png);
+  border-image: url(&quot;:/resource/top-btn130-sort-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
   color: rgb(255, 255, 255);
-  border-image: url(:/resource/Icon-130-sort-o.png);
+  border-image: url(&quot;:/resource/top-btn130-sort-h@3x.png&quot;);
 }</string>
-              </property>
-              <property name="text">
-               <string>sorted by genre</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -1339,7 +1656,7 @@ QLabel:hover
           </widget>
          </item>
          <item>
-          <widget class="QFrame" name="frameSort">
+          <widget class="QFrame" name="frameIncDec">
            <property name="minimumSize">
             <size>
              <width>22</width>
@@ -1375,16 +1692,16 @@ QLabel:hover
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="labelSort">
+             <widget class="QLabel" name="labelIncDec">
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-22-sortd.png);
+  border-image: url(&quot;:/resource/top-btn22-sortu-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-22-sortd-o.png);
+  border-image: url(&quot;:/resource/top-btn22-sortu-h@3x.png&quot;);
 }</string>
               </property>
               <property name="text">
@@ -1412,7 +1729,7 @@ QLabel:hover
           </spacer>
          </item>
          <item>
-          <widget class="QFrame" name="frameSort2">
+          <widget class="QFrame" name="frameResize">
            <property name="minimumSize">
             <size>
              <width>22</width>
@@ -1448,16 +1765,16 @@ QLabel:hover
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="labelImageSort2">
+             <widget class="QLabel" name="labelResize">
               <property name="styleSheet">
                <string notr="true">QLabel
 {
-  border-image: url(:/resource/Icon-22-iconsize.png);
+  border-image: url(&quot;:/resource/top-bar22-iconsize-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(:/resource/Icon-22-iconsize-o.png);
+  border-image: url(&quot;:/resource/top-bar22-iconsize-n@3x.png&quot;);
 }</string>
               </property>
              </widget>

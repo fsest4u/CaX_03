@@ -27,17 +27,23 @@ public:
 		MUSICDB_PLAY_SONG,
 		MUSICDB_UPDATE_FAVORITE,
 		MUSICDB_UPDATE_RATING,
+		MUSICDB_CLASSIFY_ARTIST,
+		MUSICDB_CLASSIFY_GENRE,
+		MUSICDB_CLASSIFY_COMPOSER,
 		MUSICDB_MAX
 	};
 
 	void RequestMusicDBInfo();
-	void RequestCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM, QString artistID = "", QString genreID = "", QString composerID = "");
 	void RequestCategoryInfo(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestSongsOfCategory(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 
 	void RequestPlaySong(int nID, int nWhere = PLAY_NOW);
 	void RequestFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
+
+	void RequestClassifyList(int nCategory);
+
 
 //	int GetCntAlbum() const { return m_CntAlbum; }
 //	int GetCntArtist() const { return m_CntArtist; }
@@ -56,6 +62,10 @@ signals:
 	void SigRespCategoryList(QList<CJsonNode> nodeList);
 	void SigRespCategoryInfo(CJsonNode node);
 	void SigRespSongsOfCategory(QList<CJsonNode> nodeList);
+	void SigRespClassifyArtist(QList<CJsonNode> list);
+	void SigRespClassifyGenre(QList<CJsonNode> list);
+	void SigRespClassifyComposer(QList<CJsonNode> list);
+
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
 
@@ -74,6 +84,12 @@ private:
 	void ParseCategoryList(CJsonNode result);
 	void ParseCategoryInfo(CJsonNode result);
 	void ParseSongsOfCategory(CJsonNode result);
+	void ParseClassifyArtist(CJsonNode result);
+	void ParseClassifyGenre(CJsonNode result);
+	void ParseClassifyComposer(CJsonNode result);
+
+	QList<CJsonNode> ParseResultNode(CJsonNode result);
+
 
 
 	SQLManager	*m_pSql;

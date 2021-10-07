@@ -44,6 +44,7 @@ public:
 	QString GetQueryFavorite(int nID, int nFavorite, int nCategory = CATEGORY_ALBUM);
 	QString GetQueryRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
 
+	QString GetQueryClassifyArtist(int nCategory);
 
 
 signals:

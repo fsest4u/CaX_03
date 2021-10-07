@@ -286,8 +286,8 @@ QNetworkInterface UDPClient::CheckIP()
 	{
 		LogDebug("macList hardwareAddress : ", macList.at(i).hardwareAddress().data());
 		QString str = macList.at(i).hardwareAddress();       // MAC
-		if(str != "" )  // windows 에서..
-//		if(str != "00:00:00:00:00:00") linux 에서..
+		if(str != "" )  // at windows os
+//		if(str != "00:00:00:00:00:00") // at linux os
 		{
 			macAddress = str;
 			break;

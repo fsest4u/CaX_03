@@ -121,12 +121,12 @@
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-menu.png);
+  border-image: url(&quot;:/resource/top-btn40-menu-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-menu-o.png);
+  border-image: url(&quot;:/resource/top-btn40-menu-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -151,12 +151,12 @@ QPushButton:hover
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-hom-40.png);
+  border-image: url(&quot;:/resource/top-btn40-home-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-hom-40-o.png);
+  border-image: url(&quot;:/resource/top-btn40-home-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -184,12 +184,12 @@ QPushButton:hover
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-lef-40.png);
+  border-image: url(&quot;:/resource/top-btn40-rew-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-lef-40-o.png);
+  border-image: url(&quot;:/resource/top-btn40-rew-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -217,12 +217,12 @@ QPushButton:hover
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-rig.png);
+  border-image: url(&quot;:/resource/top-btn40-ff-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-rig-o.png);
+  border-image: url(&quot;:/resource/top-btn40-ff-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -343,12 +343,12 @@ color: rgb(255, 255, 255);</string>
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  border-image: url(:/resource/Icon-search.png);
+  border-image: url(&quot;:/resource/top-searchbar52-off@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(:/resource/Icon-search-o.png);
+  border-image: url(&quot;:/resource/top-btn52-search-h@3x.png&quot;);
 }</string>
            </property>
            <property name="text">
