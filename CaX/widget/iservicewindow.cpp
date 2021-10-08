@@ -12,11 +12,11 @@
 #include "widget/airable.h"
 #include "widget/qobuz.h"
 
-#include "base/infoservice.h"
-#include "base/iconservice.h"
-#include "base/iconservicedelegate.h"
-#include "base/listservice.h"
-#include "base/listservicedelegate.h"
+#include "formTop/infoservice.h"
+#include "formBottom/iconservice.h"
+#include "formBottom/iconservicedelegate.h"
+#include "formBottom/listservice.h"
+#include "formBottom/listservicedelegate.h"
 
 #include "dialog/logindialog.h"
 #include "dialog/webengineviewdialog.h"
@@ -504,7 +504,7 @@ void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 	else
 	{
 		QStandardItem *item = m_pListService->GetModel()->item(nIndex);
-		item->setData(fileName, ListServiceDelegate::LIST_SERVICE_ART);
+		item->setData(fileName, ListServiceDelegate::LIST_SERVICE_COVER_ART);
 		m_pListService->GetModel()->setItem(nIndex, item);
 	}
 }
@@ -522,7 +522,7 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
-	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectIcon(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
 

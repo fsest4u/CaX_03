@@ -10,11 +10,11 @@
 #include "util/log.h"
 
 
-#include "base/infoservice.h"
-#include "base/iconservice.h"
-#include "base/iconservicedelegate.h"
-#include "base/listservice.h"
-#include "base/listservicedelegate.h"
+#include "formTop/infoservice.h"
+#include "formBottom/iconservice.h"
+#include "formBottom/iconservicedelegate.h"
+#include "formBottom/listservice.h"
+#include "formBottom/listservicedelegate.h"
 
 #include "dialog/logindialog.h"
 
@@ -205,7 +205,7 @@ void BrowserWindow::SlotRespNodeUpdate(CJsonNode node, int nIndex)
 		return;
 
 	QStandardItem *item = m_pListService->GetModel()->item(nIndex);
-	item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_BOT);
+	item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_SUBTITLE);
 	item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_DURATION);
 	m_pListService->GetModel()->setItem(nIndex, item);
 }
@@ -222,7 +222,7 @@ void BrowserWindow::ConnectSigToSlot()
 
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
-	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectIcon(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
 	connect(m_pListService, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));

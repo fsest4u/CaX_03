@@ -25,7 +25,7 @@ public:
 
 private slots:
 
-	void SlotSelectIcon(QString rawData);
+	void SlotSelectCoverArt(QString rawData);
 	void SlotSelectTitle(QString rawData);
 
 	void SlotRespList(QList<CJsonNode> list);

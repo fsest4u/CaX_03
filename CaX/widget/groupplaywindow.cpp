@@ -5,9 +5,9 @@
 
 #include "manager/groupplaymanager.h"
 
-#include "base/infoservice.h"
-#include "base/iconservice.h"
-#include "base/iconservicedelegate.h"
+#include "formTop/infoservice.h"
+#include "formBottom/iconservice.h"
+#include "formBottom/iconservicedelegate.h"
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"

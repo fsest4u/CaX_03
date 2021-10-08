@@ -3,12 +3,12 @@
 #include "playlistwindow.h"
 #include "ui_playlistwindow.h"
 
-#include "base/infoservice.h"
-#include "base/infotracks.h"
-#include "base/icontracks.h"
-#include "base/icontracksdelegate.h"
-#include "base/listtracks.h"
-#include "base/listtracksdelegate.h"
+#include "formTop/infoservice.h"
+#include "formTop/infotracks.h"
+#include "formBottom/icontracks.h"
+#include "formBottom/icontracksdelegate.h"
+#include "formBottom/listtracks.h"
+#include "formBottom/listtracksdelegate.h"
 
 #include "manager/playlistmanager.h"
 #include "manager/sqlmanager.h"

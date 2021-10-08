@@ -38,11 +38,11 @@ signals:
 
 	void SigPlayAll();
 	void SigPlayRandom();
-	void SigAlbum();
-	void SigArtist();
-	void SigTrack();
-	void SigGenre();
 //	void SigSubmenu();
+	void SigGenreList();
+	void SigAlbumList();
+	void SigArtistList();
+	void SigTrackList();
 	void SigSubmenu2();
 	void SigDisplayMode();
 //	void SigSort();

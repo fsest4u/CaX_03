@@ -1,8 +1,8 @@
 #include "devicelistwindow.h"
 #include "ui_devicelistwindow.h"
 
-#include "base/listdevice.h"
-#include "base/listdevicedelegate.h"
+#include "formBottom/listdevice.h"
+#include "formBottom/listdevicedelegate.h"
 
 #include "util/loading.h"
 #include "util/log.h"

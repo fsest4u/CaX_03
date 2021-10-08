@@ -125,25 +125,25 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigPlayRandom();
 		}
-		else if (object == ui->frameAlbum)
-		{
-			emit SigAlbum();
-		}
-		else if (object == ui->frameArtist)
-		{
-			emit SigArtist();
-		}
-		else if (object == ui->frameTrack)
-		{
-			emit SigTrack();
-		}
-		else if (object == ui->frameGenre)
-		{
-			emit SigGenre();
-		}
 		else if (object == ui->frameSubmenu)
 		{
 			ShowCategoryDialog();
+		}
+		else if (object == ui->frameGenre)
+		{
+			emit SigGenreList();
+		}
+		else if (object == ui->frameAlbum)
+		{
+			emit SigAlbumList();
+		}
+		else if (object == ui->frameArtist)
+		{
+			emit SigArtistList();
+		}
+		else if (object == ui->frameTrack)
+		{
+			emit SigTrackList();
 		}
 		else if (object == ui->frameSubmenu2)
 		{

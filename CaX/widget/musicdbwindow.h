@@ -48,11 +48,11 @@ private slots:
 
 	void SlotMusicPlayAll();
 	void SlotMusicPlayRandom();
-	void SlotMusicAlbum();
-	void SlotMusicArtist();
-	void SlotMusicTrack();
-	void SlotMusicGenre();
 	void SlotMusicSubmenu();
+	void SlotGenreList();
+	void SlotAlbumList();
+	void SlotArtistList();
+	void SlotTrackList();
 	void SlotMusicSubmenu2();
 	void SlotMusicDisplayMode();
 	void SlotMusicSort();

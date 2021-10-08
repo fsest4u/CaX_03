@@ -12,12 +12,12 @@
 #include "util/loading.h"
 #include "util/log.h"
 
-#include "base/infohome.h"
-#include "base/infotracks.h"
-#include "base/icontracks.h"
-#include "base/icontracksdelegate.h"
-#include "base/listtracks.h"
-#include "base/listtracksdelegate.h"
+#include "formTop/infohome.h"
+#include "formTop/infotracks.h"
+#include "formBottom/icontracks.h"
+#include "formBottom/icontracksdelegate.h"
+#include "formBottom/listtracks.h"
+#include "formBottom/listtracksdelegate.h"
 
 
 MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
@@ -222,33 +222,36 @@ void MusicDBWindow::SlotMusicPlayRandom()
 
 }
 
-void MusicDBWindow::SlotMusicAlbum()
-{
-	LogDebug("music Album");
-
-}
-
-void MusicDBWindow::SlotMusicArtist()
-{
-	LogDebug("music Artist");
-
-}
-
-void MusicDBWindow::SlotMusicTrack()
-{
-	LogDebug("music Track");
-
-}
-
-void MusicDBWindow::SlotMusicGenre()
-{
-	LogDebug("music Genre");
-
-}
-
 void MusicDBWindow::SlotMusicSubmenu()
 {
 	LogDebug("music Submenu");
+
+}
+
+void MusicDBWindow::SlotGenreList()
+{
+	m_pIconTracks->ClearNodeList();
+	m_nCategory = SQLManager::CATEGORY_GENRE;
+	m_pMgr->RequestCategoryList(m_nCategory);
+}
+
+void MusicDBWindow::SlotAlbumList()
+{
+	m_pIconTracks->ClearNodeList();
+	m_nCategory = SQLManager::CATEGORY_ALBUM;
+	m_pMgr->RequestCategoryList(m_nCategory);
+}
+
+void MusicDBWindow::SlotArtistList()
+{
+	m_pIconTracks->ClearNodeList();
+	m_nCategory = SQLManager::CATEGORY_ARTIST;
+	m_pMgr->RequestCategoryList(m_nCategory);
+}
+
+void MusicDBWindow::SlotTrackList()
+{
+	LogDebug("music Track");
 
 }
 
@@ -426,11 +429,11 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoHome, SIGNAL(SigPlayAll()), this, SLOT(SlotMusicPlayAll()));
 	connect(m_pInfoHome, SIGNAL(SigPlayRandom()), this, SLOT(SlotMusicPlayRandom()));
-	connect(m_pInfoHome, SIGNAL(SigAlbum()), this, SLOT(SlotMusicAlbum()));
-	connect(m_pInfoHome, SIGNAL(SigArtist()), this, SLOT(SlotMusicArtist()));
-	connect(m_pInfoHome, SIGNAL(SigTrack()), this, SLOT(SlotMusicTrack()));
-	connect(m_pInfoHome, SIGNAL(SigGenre()), this, SLOT(SlotMusicGenre()));
 //	connect(m_pInfoHome, SIGNAL(SigSubmenu()), this, SLOT(SlotMusicSubmenu()));
+	connect(m_pInfoHome, SIGNAL(SigGenreList()), this, SLOT(SlotGenreList()));
+	connect(m_pInfoHome, SIGNAL(SigAlbumList()), this, SLOT(SlotAlbumList()));
+	connect(m_pInfoHome, SIGNAL(SigArtistList()), this, SLOT(SlotArtistList()));
+	connect(m_pInfoHome, SIGNAL(SigTrackList()), this, SLOT(SlotTrackList()));
 	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotMusicSubmenu2()));
 	connect(m_pInfoHome, SIGNAL(SigDisplayMode()), this, SLOT(SlotMusicDisplayMode()));
 //	connect(m_pInfoHome, SIGNAL(SigSort()), this, SLOT(SlotMusicSort()));

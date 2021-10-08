@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormPlay</class>
+ <widget class="QWidget" name="FormPlay">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>216</width>
+    <height>64</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QLabel" name="labelPlayAll">
+     <property name="minimumSize">
+      <size>
+       <width>52</width>
+       <height>52</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>52</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+  border-image: url(&quot;:/resource/top-btn52-play-n@3x.png&quot;);
+}
+
+QLabel:hover
+{
+  border-image: url(&quot;:/resource/top-btn52-play-h@3x.png&quot;);
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelPlayRandom">
+     <property name="minimumSize">
+      <size>
+       <width>52</width>
+       <height>52</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>52</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+  border-image: url(&quot;:/resource/top-btn52-random-n@3x.png&quot;);
+}
+
+QLabel:hover
+{
+  border-image: url(&quot;:/resource/top-btn52-random-h@3x.png&quot;);
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelFavorite">
+     <property name="minimumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+  border-image: url(&quot;:/resource/play-btn28-like-n@3x.png&quot;);
+}
+
+QLabel:hover
+{
+  border-image: url(&quot;:/resource/play-btn28-like-h@3x.png&quot;);
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelRating">
+     <property name="minimumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+  border-image: url(&quot;:/resource/play-btn28-rank-n@3x.png&quot;);
+}
+
+QLabel:hover
+{
+  border-image: url(&quot;:/resource/play-btn28-rank-h@3x.png&quot;);
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_Submenu">
+     <property name="minimumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+  border-image: url(&quot;:/resource/play-btn28-menu-n@3x.png&quot;);
+}
+
+QLabel:hover
+{
+  border-image: url(&quot;:/resource/play-btn28-menu-h@3x.png&quot;);
+}</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

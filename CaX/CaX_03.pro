@@ -47,28 +47,34 @@ SOURCES += \
     util/settingio.cpp \
     util/waitingspinnerwidget.cpp \
     widget/audiocdwindow.cpp \
-    widget/base/iconservice.cpp \
-    widget/base/iconservicedelegate.cpp \
-    widget/base/iconserviceeditor.cpp \
-    widget/base/icontracks.cpp \
-    widget/base/icontracksdelegate.cpp \
-    widget/base/icontrackseditor.cpp \
-    widget/base/infohome.cpp \
-    widget/base/infoservice.cpp \
-    widget/base/infotracks.cpp \
-    widget/base/listdevice.cpp \
-    widget/base/listdevicedelegate.cpp \
-    widget/base/listdeviceeditor.cpp \
-    widget/base/listservice.cpp \
-    widget/base/listservicedelegate.cpp \
-    widget/base/listserviceeditor.cpp \
-    widget/base/listtracks.cpp \
-    widget/base/listtracksdelegate.cpp \
-    widget/base/listtrackseditor.cpp \
     widget/browserwindow.cpp \
     widget/dabradiowindow.cpp \
     widget/devicelistwindow.cpp \
     widget/fmradiowindow.cpp \
+    widget/form/formclassify.cpp \
+    widget/form/formcoverart.cpp \
+    widget/form/formlabel.cpp \
+    widget/form/formplay.cpp \
+    widget/form/formsort.cpp \
+    widget/form/formtitle.cpp \
+    widget/formBottom/iconservice.cpp \
+    widget/formBottom/iconservicedelegate.cpp \
+    widget/formBottom/iconserviceeditor.cpp \
+    widget/formBottom/icontracks.cpp \
+    widget/formBottom/icontracksdelegate.cpp \
+    widget/formBottom/icontrackseditor.cpp \
+    widget/formBottom/listdevice.cpp \
+    widget/formBottom/listdevicedelegate.cpp \
+    widget/formBottom/listdeviceeditor.cpp \
+    widget/formBottom/listservice.cpp \
+    widget/formBottom/listservicedelegate.cpp \
+    widget/formBottom/listserviceeditor.cpp \
+    widget/formBottom/listtracks.cpp \
+    widget/formBottom/listtracksdelegate.cpp \
+    widget/formBottom/listtrackseditor.cpp \
+    widget/formTop/infohome.cpp \
+    widget/formTop/infoservice.cpp \
+    widget/formTop/infotracks.cpp \
     widget/groupplaywindow.cpp \
     widget/inputwindow.cpp \
     widget/iservicewindow.cpp \
@@ -127,29 +133,35 @@ HEADERS += \
     util/waitingspinnerwidget.h \
     widget/airable.h \
     widget/audiocdwindow.h \
-    widget/base/iconservice.h \
-    widget/base/iconservicedelegate.h \
-    widget/base/iconserviceeditor.h \
-    widget/base/icontracks.h \
-    widget/base/icontracksdelegate.h \
-    widget/base/icontrackseditor.h \
-    widget/base/infohome.h \
-    widget/base/infoservice.h \
-    widget/base/infotracks.h \
-    widget/base/listdevice.h \
-    widget/base/listdevicedelegate.h \
-    widget/base/listdeviceeditor.h \
-    widget/base/listservice.h \
-    widget/base/listservicedelegate.h \
-    widget/base/listserviceeditor.h \
-    widget/base/listtracks.h \
-    widget/base/listtracksdelegate.h \
-    widget/base/listtrackseditor.h \
     widget/browser.h \
     widget/browserwindow.h \
     widget/dabradiowindow.h \
     widget/devicelistwindow.h \
     widget/fmradiowindow.h \
+    widget/form/formclassify.h \
+    widget/form/formcoverart.h \
+    widget/form/formlabel.h \
+    widget/form/formplay.h \
+    widget/form/formsort.h \
+    widget/form/formtitle.h \
+    widget/formBottom/iconservice.h \
+    widget/formBottom/iconservicedelegate.h \
+    widget/formBottom/iconserviceeditor.h \
+    widget/formBottom/icontracks.h \
+    widget/formBottom/icontracksdelegate.h \
+    widget/formBottom/icontrackseditor.h \
+    widget/formBottom/listdevice.h \
+    widget/formBottom/listdevicedelegate.h \
+    widget/formBottom/listdeviceeditor.h \
+    widget/formBottom/listservice.h \
+    widget/formBottom/listservicedelegate.h \
+    widget/formBottom/listserviceeditor.h \
+    widget/formBottom/listtracks.h \
+    widget/formBottom/listtracksdelegate.h \
+    widget/formBottom/listtrackseditor.h \
+    widget/formTop/infohome.h \
+    widget/formTop/infoservice.h \
+    widget/formTop/infotracks.h \
     widget/groupplaywindow.h \
     widget/inputwindow.h \
     widget/iservicewindow.h \
@@ -173,23 +185,29 @@ FORMS += \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
-    widget/base/iconservice.ui \
-    widget/base/iconserviceeditor.ui \
-    widget/base/icontracks.ui \
-    widget/base/icontrackseditor.ui \
-    widget/base/infohome.ui \
-    widget/base/infoservice.ui \
-    widget/base/infotracks.ui \
-    widget/base/listdevice.ui \
-    widget/base/listdeviceeditor.ui \
-    widget/base/listservice.ui \
-    widget/base/listserviceeditor.ui \
-    widget/base/listtracks.ui \
-    widget/base/listtrackseditor.ui \
     widget/browserwindow.ui \
     widget/dabradiowindow.ui \
     widget/devicelistwindow.ui \
     widget/fmradiowindow.ui \
+    widget/form/formclassify.ui \
+    widget/form/formcoverart.ui \
+    widget/form/formlabel.ui \
+    widget/form/formplay.ui \
+    widget/form/formsort.ui \
+    widget/form/formtitle.ui \
+    widget/formBottom/iconservice.ui \
+    widget/formBottom/iconserviceeditor.ui \
+    widget/formBottom/icontracks.ui \
+    widget/formBottom/icontrackseditor.ui \
+    widget/formBottom/listdevice.ui \
+    widget/formBottom/listdeviceeditor.ui \
+    widget/formBottom/listservice.ui \
+    widget/formBottom/listserviceeditor.ui \
+    widget/formBottom/listtracks.ui \
+    widget/formBottom/listtrackseditor.ui \
+    widget/formTop/infohome.ui \
+    widget/formTop/infoservice.ui \
+    widget/formTop/infotracks.ui \
     widget/groupplaywindow.ui \
     widget/inputwindow.ui \
     widget/iservicewindow.ui \

@@ -1,9 +1,9 @@
 #include "setupwindow.h"
 #include "ui_setupwindow.h"
 
-#include "base/infoservice.h"
-#include "base/listservice.h"
-#include "base/listservicedelegate.h"
+#include "formTop/infoservice.h"
+#include "formBottom/listservice.h"
+#include "formBottom/listservicedelegate.h"
 
 #include "manager/setupmanager.h"
 
@@ -66,7 +66,7 @@ void SetupWindow::SetupHome(QList<CJsonNode> list, int eventID)
 	m_pListService->SetNodeList(list, ListService::LIST_SERVICE_SETUP);
 }
 
-void SetupWindow::SlotSelectIcon(QString rawData)
+void SetupWindow::SlotSelectCoverArt(QString rawData)
 {
 	LogDebug("good choice icon [%s]", rawData.toUtf8().data());
 }
@@ -93,7 +93,7 @@ void SetupWindow::SlotRespList(QList<CJsonNode> list)
 
 void SetupWindow::ConnectSigToSlot()
 {
-	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectIcon(QString)), this, SLOT(SlotSelectIcon(QString)));
+	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectCoverArt(QString)));
 	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectTitle(QString)));
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));

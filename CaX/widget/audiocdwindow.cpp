@@ -7,11 +7,11 @@
 #include "util/loading.h"
 #include "util/log.h"
 
-#include "base/infotracks.h"
-#include "base/icontracks.h"
-#include "base/icontracksdelegate.h"
-#include "base/listtracks.h"
-#include "base/listtracksdelegate.h"
+#include "formTop/infotracks.h"
+#include "formBottom/icontracks.h"
+#include "formBottom/icontracksdelegate.h"
+#include "formBottom/listtracks.h"
+#include "formBottom/listtracksdelegate.h"
 
 #include "dialog/cdripinfodialog.h"
 #include "dialog/trackinfodialog.h"
