@@ -644,5 +644,29 @@
         <file>resource/volume-btn160.png</file>
         <file>resource/volume-btn160@2x.png</file>
         <file>resource/volume-btn160@3x.png</file>
+        <file>resource/selectd-bar150-cancel-h.png</file>
+        <file>resource/selectd-bar150-cancel-h@2x.png</file>
+        <file>resource/selectd-bar150-cancel-h@3x.png</file>
+        <file>resource/selectd-bar150-cancel-n.png</file>
+        <file>resource/selectd-bar150-cancel-n@2x.png</file>
+        <file>resource/selectd-bar150-cancel-n@3x.png</file>
+        <file>resource/selectd-bar550-select-h.png</file>
+        <file>resource/selectd-bar550-select-h@2x.png</file>
+        <file>resource/selectd-bar550-select-h@3x.png</file>
+        <file>resource/selectd-bar550-select-n.png</file>
+        <file>resource/selectd-bar550-select-n@2x.png</file>
+        <file>resource/selectd-bar550-select-n@3x.png</file>
+        <file>resource/selectd-icon40-liading.png</file>
+        <file>resource/selectd-icon40-liading@2x.png</file>
+        <file>resource/selectd-icon40-liading@3x.png</file>
+        <file>resource/selectd-icon40-loading.png</file>
+        <file>resource/selectd-icon40-loading@2x.png</file>
+        <file>resource/selectd-icon40-loading@3x.png</file>
+        <file>resource/top-btn82-classify-h.png</file>
+        <file>resource/top-btn82-classify-h@2x.png</file>
+        <file>resource/top-btn82-classify-h@3x.png</file>
+        <file>resource/top-btn82-classify-n.png</file>
+        <file>resource/top-btn82-classify-n@2x.png</file>
+        <file>resource/top-btn82-classify-n@3x.png</file>
     </qresource>
 </RCC>

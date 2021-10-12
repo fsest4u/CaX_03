@@ -6,7 +6,6 @@
 class SubmenuDialog;
 class FormTitle;
 class FormPlay;
-class FormClassify;
 class FormSort;
 
 namespace Ui {
@@ -69,12 +68,7 @@ private slots:
 	void SlotSort();
 	void SlotIncDec();
 	void SlotResize();
-	void SlotFilterClassify();
-	void SlotFilterFavorite();
-	void SlotFilterRating();
-	void SlotClassifyArtist();
-	void SlotClassifyGenre();
-	void SlotClassifyComposer();
+
 
 private:
 
@@ -85,7 +79,6 @@ private:
 	SubmenuDialog	*m_pSubmenuDlg;
 	FormTitle		*m_pFormTitle;
 	FormPlay		*m_pFormPlay;
-	FormClassify	*m_pFormClassify;
 	FormSort		*m_pFormSort;
 
 	Ui::InfoService *ui;

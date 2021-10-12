@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
-    <height>38</height>
+    <width>606</width>
+    <height>44</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,24 +19,24 @@
      <property name="minimumSize">
       <size>
        <width>81</width>
-       <height>26</height>
+       <height>22</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>81</width>
-       <height>26</height>
+       <height>22</height>
       </size>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/top-btn82-classify-add-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn82-classify-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/top-btn82-classify-add-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn82-classify-h@3x.png&quot;);
 }</string>
      </property>
     </widget>

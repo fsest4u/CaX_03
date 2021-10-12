@@ -46,9 +46,16 @@ private slots:
 	void SlotRespSongsOfCategory(QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
-	void SlotMusicPlayAll();
-	void SlotMusicPlayRandom();
-	void SlotMusicSubmenu();
+	void SlotPlayAll();
+	void SlotPlayRandom();
+	void SlotFavorite();
+	void SlotRating();
+	void SlotSubmenu();
+
+	void SlotSort();
+	void SlotIncDec();
+	void SlotResize();
+
 	void SlotGenreList();
 	void SlotAlbumList();
 	void SlotArtistList();

@@ -2,7 +2,6 @@
 #define INFOHOME_H
 
 #include <QWidget>
-#include <QMenu>
 
 #include "util/CJsonNode.h"
 
@@ -29,15 +28,15 @@ public:
 	void SetGenreCnt(const QString count);
 	void SetSortName(const QString name);
 
-	void SetClassifyArtistMenu(QList<CJsonNode> list);
-	void SetClassifyGenreMenu(QList<CJsonNode> list);
-	void SetClassifyComposerMenu(QList<CJsonNode> list);
+	FormPlay *GetFormPlay();
+	FormClassify *GetFormClassify();
+	FormSort *GetFormSort();
+
+
+
 
 signals:
 
-	void SigPlayAll();
-	void SigPlayRandom();
-//	void SigSubmenu();
 	void SigGenreList();
 	void SigAlbumList();
 	void SigArtistList();
@@ -46,33 +45,13 @@ signals:
 	void SigDisplayMode();
 //	void SigSort();
 
-	void SigClassifyArtist(bool bAdd, QString id);
-	void SigClassifyGenre(bool bAdd, QString id);
-	void SigClassifyComposer(bool bAdd, QString id);
+
 
 protected:
 
 	bool eventFilter(QObject *object, QEvent *event);
 
 private slots:
-
-	void SlotArtistMenu(QAction* action);
-	void SlotGenreMenu(QAction* action);
-	void SlotComposerMenu(QAction* action);
-	void SlotPlayAll();
-	void SlotPlayRandom();
-	void SlotFavorite();
-	void SlotRating();
-	void SlotSubmenu();
-	void SlotSort();
-	void SlotIncDec();
-	void SlotResize();
-	void SlotFilterClassify();
-	void SlotFilterFavorite();
-	void SlotFilterRating();
-	void SlotClassifyArtist();
-	void SlotClassifyGenre();
-	void SlotClassifyComposer();
 
 private:
 
@@ -94,17 +73,9 @@ private:
 		SORT_MAX
 	};
 
-	void ConnectSigToSlot();
 
 	void SetCategoryDialog();
 	void SetSortDialog();
-
-	void SetClassifyMenu();
-
-	void DoClickClassifyArtist();
-	void DoClickClassifyGenre();
-	void DoClickClassifyComposer();
-
 
 
 	void ShowCategoryDialog();
@@ -117,10 +88,6 @@ private:
 	FormSort		*m_pFormSort;
 
 
-	QMenu		*m_ClassifyMenu;
-	QMenu		*m_GenreMenu;
-	QMenu		*m_ArtistMenu;
-	QMenu		*m_ComposerMenu;
 
 	Ui::InfoHome *ui;
 };

@@ -12,12 +12,18 @@
 #include "util/loading.h"
 #include "util/log.h"
 
-#include "formTop/infohome.h"
-#include "formTop/infotracks.h"
-#include "formBottom/icontracks.h"
-#include "formBottom/icontracksdelegate.h"
-#include "formBottom/listtracks.h"
-#include "formBottom/listtracksdelegate.h"
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
+#include "widget/form/formclassify.h"
+
+#include "widget/formTop/infohome.h"
+#include "widget/formTop/infotracks.h"
+#include "widget/formBottom/icontracks.h"
+#include "widget/formBottom/icontracksdelegate.h"
+#include "widget/formBottom/listtracks.h"
+#include "widget/formBottom/listtracksdelegate.h"
+
+
 
 
 MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
@@ -210,21 +216,51 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 }
 
-void MusicDBWindow::SlotMusicPlayAll()
+void MusicDBWindow::SlotPlayAll()
 {
 	LogDebug("music PlayAll");
 
 }
 
-void MusicDBWindow::SlotMusicPlayRandom()
+void MusicDBWindow::SlotPlayRandom()
 {
 	LogDebug("music PlayRandom");
 
 }
 
-void MusicDBWindow::SlotMusicSubmenu()
+void MusicDBWindow::SlotFavorite()
+{
+	LogDebug("music favorite");
+
+}
+
+void MusicDBWindow::SlotRating()
+{
+	LogDebug("music rating");
+
+}
+
+void MusicDBWindow::SlotSubmenu()
 {
 	LogDebug("music Submenu");
+
+}
+
+void MusicDBWindow::SlotSort()
+{
+	LogDebug("good choice sort");
+
+}
+
+void MusicDBWindow::SlotIncDec()
+{
+	LogDebug("good choice inc dec");
+
+}
+
+void MusicDBWindow::SlotResize()
+{
+	LogDebug("good choice resize");
 
 }
 
@@ -354,17 +390,17 @@ void MusicDBWindow::SlotSelectMore(int nID)
 
 void MusicDBWindow::SlotRespClassifyArtist(QList<CJsonNode> list)
 {
-	m_pInfoHome->SetClassifyArtistMenu(list);
+	m_pInfoHome->GetFormClassify()->SetClassifyArtistMenu(list);
 }
 
 void MusicDBWindow::SlotRespClassifyGenre(QList<CJsonNode> list)
 {
-	m_pInfoHome->SetClassifyGenreMenu(list);
+	m_pInfoHome->GetFormClassify()->SetClassifyGenreMenu(list);
 }
 
 void MusicDBWindow::SlotRespClassifyComposer(QList<CJsonNode> list)
 {
-	m_pInfoHome->SetClassifyComposerMenu(list);
+	m_pInfoHome->GetFormClassify()->SetClassifyComposerMenu(list);
 }
 
 void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
@@ -427,9 +463,24 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespClassifyGenre(QList<CJsonNode>)), this, SLOT(SlotRespClassifyGenre(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyComposer(QList<CJsonNode>)), this, SLOT(SlotRespClassifyComposer(QList<CJsonNode>)));
 
-	connect(m_pInfoHome, SIGNAL(SigPlayAll()), this, SLOT(SlotMusicPlayAll()));
-	connect(m_pInfoHome, SIGNAL(SigPlayRandom()), this, SLOT(SlotMusicPlayRandom()));
-//	connect(m_pInfoHome, SIGNAL(SigSubmenu()), this, SLOT(SlotMusicSubmenu()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigRating()), this, SLOT(SlotRating()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassify()), this, SLOT(SlotFilterClassify()));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigFavorite()), this, SLOT(SlotFilterFavorite()));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigRating()), this, SLOT(SlotFilterRating()));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyArtist(bool, QString)), this, SLOT(SlotClassifyArtist(bool, QString)));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyGenre(bool, QString)), this, SLOT(SlotClassifyGenre(bool, QString)));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
+
+	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
+	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+
+
 	connect(m_pInfoHome, SIGNAL(SigGenreList()), this, SLOT(SlotGenreList()));
 	connect(m_pInfoHome, SIGNAL(SigAlbumList()), this, SLOT(SlotAlbumList()));
 	connect(m_pInfoHome, SIGNAL(SigArtistList()), this, SLOT(SlotArtistList()));
@@ -437,9 +488,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotMusicSubmenu2()));
 	connect(m_pInfoHome, SIGNAL(SigDisplayMode()), this, SLOT(SlotMusicDisplayMode()));
 //	connect(m_pInfoHome, SIGNAL(SigSort()), this, SLOT(SlotMusicSort()));
-	connect(m_pInfoHome, SIGNAL(SigClassifyArtist(bool, QString)), this, SLOT(SlotClassifyArtist(bool, QString)));
-	connect(m_pInfoHome, SIGNAL(SigClassifyGenre(bool, QString)), this, SLOT(SlotClassifyGenre(bool, QString)));
-	connect(m_pInfoHome, SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
+
 
 
 	connect(m_pInfoTracks, SIGNAL(SigPlayAll()), this, SLOT(SlotAlbumPlayAll()));

@@ -242,98 +242,146 @@ RESOURCES += \
 DISTFILES += \
     resource/Component 2-1.png \
     resource/Component 2-1.png \
+    resource/Component 2-1.png \
+    resource/Component 2-1@2x.png \
     resource/Component 2-1@2x.png \
     resource/Component 2-1@2x.png \
     resource/Component 2-1@3x.png \
     resource/Component 2-1@3x.png \
+    resource/Component 2-1@3x.png \
+    resource/Component 2-3.png \
     resource/Component 2-3.png \
     resource/Component 2-3.png \
     resource/Component 2-3@2x.png \
     resource/Component 2-3@2x.png \
+    resource/Component 2-3@2x.png \
+    resource/Component 2-3@3x.png \
     resource/Component 2-3@3x.png \
     resource/Component 2-3@3x.png \
     resource/Group 1464.png \
     resource/Group 1464.png \
+    resource/Group 1464.png \
+    resource/Group 1464@2x.png \
     resource/Group 1464@2x.png \
     resource/Group 1464@2x.png \
     resource/Group 1464@3x.png \
     resource/Group 1464@3x.png \
+    resource/Group 1464@3x.png \
+    resource/Group 1497.png \
     resource/Group 1497.png \
     resource/Group 1497.png \
     resource/Group 1497@2x.png \
     resource/Group 1497@2x.png \
+    resource/Group 1497@2x.png \
+    resource/Group 1497@3x.png \
     resource/Group 1497@3x.png \
     resource/Group 1497@3x.png \
     resource/Group 1903.png \
     resource/Group 1903.png \
+    resource/Group 1903.png \
+    resource/Group 1903@2x.png \
     resource/Group 1903@2x.png \
     resource/Group 1903@2x.png \
     resource/Group 1903@3x.png \
     resource/Group 1903@3x.png \
+    resource/Group 1903@3x.png \
+    resource/Group 1973.png \
     resource/Group 1973.png \
     resource/Group 1973.png \
     resource/Group 1973@2x.png \
     resource/Group 1973@2x.png \
+    resource/Group 1973@2x.png \
+    resource/Group 1973@3x.png \
     resource/Group 1973@3x.png \
     resource/Group 1973@3x.png \
     resource/Group 1978.png \
     resource/Group 1978.png \
+    resource/Group 1978.png \
+    resource/Group 1978@2x.png \
     resource/Group 1978@2x.png \
     resource/Group 1978@2x.png \
     resource/Group 1978@3x.png \
     resource/Group 1978@3x.png \
+    resource/Group 1978@3x.png \
+    resource/Group 2003.png \
     resource/Group 2003.png \
     resource/Group 2003.png \
     resource/Group 2003@2x.png \
     resource/Group 2003@2x.png \
+    resource/Group 2003@2x.png \
+    resource/Group 2003@3x.png \
     resource/Group 2003@3x.png \
     resource/Group 2003@3x.png \
     resource/Group 2031.png \
     resource/Group 2031.png \
+    resource/Group 2031.png \
+    resource/Group 2031@2x.png \
     resource/Group 2031@2x.png \
     resource/Group 2031@2x.png \
     resource/Group 2031@3x.png \
     resource/Group 2031@3x.png \
+    resource/Group 2031@3x.png \
+    resource/Group 2033.png \
     resource/Group 2033.png \
     resource/Group 2033.png \
     resource/Group 2033@2x.png \
     resource/Group 2033@2x.png \
+    resource/Group 2033@2x.png \
+    resource/Group 2033@3x.png \
     resource/Group 2033@3x.png \
     resource/Group 2033@3x.png \
     resource/Group 2034.png \
     resource/Group 2034.png \
+    resource/Group 2034.png \
+    resource/Group 2034@2x.png \
     resource/Group 2034@2x.png \
     resource/Group 2034@2x.png \
     resource/Group 2034@3x.png \
     resource/Group 2034@3x.png \
+    resource/Group 2034@3x.png \
+    resource/Group 2094.png \
     resource/Group 2094.png \
     resource/Group 2094.png \
     resource/Group 2094@2x.png \
     resource/Group 2094@2x.png \
+    resource/Group 2094@2x.png \
+    resource/Group 2094@3x.png \
     resource/Group 2094@3x.png \
     resource/Group 2094@3x.png \
     resource/Group 2095.png \
     resource/Group 2095.png \
+    resource/Group 2095.png \
+    resource/Group 2095@2x.png \
     resource/Group 2095@2x.png \
     resource/Group 2095@2x.png \
     resource/Group 2095@3x.png \
     resource/Group 2095@3x.png \
+    resource/Group 2095@3x.png \
+    resource/Path 289.png \
     resource/Path 289.png \
     resource/Path 289.png \
     resource/Path 289@2x.png \
     resource/Path 289@2x.png \
+    resource/Path 289@2x.png \
+    resource/Path 289@3x.png \
     resource/Path 289@3x.png \
     resource/Path 289@3x.png \
     resource/Rectangle 380.png \
     resource/Rectangle 380.png \
+    resource/Rectangle 380.png \
+    resource/Rectangle 380@2x.png \
     resource/Rectangle 380@2x.png \
     resource/Rectangle 380@2x.png \
     resource/Rectangle 380@3x.png \
     resource/Rectangle 380@3x.png \
+    resource/Rectangle 380@3x.png \
+    resource/Rectangle 383.png \
     resource/Rectangle 383.png \
     resource/Rectangle 383.png \
     resource/Rectangle 383@2x.png \
     resource/Rectangle 383@2x.png \
+    resource/Rectangle 383@2x.png \
+    resource/Rectangle 383@3x.png \
     resource/Rectangle 383@3x.png \
     resource/Rectangle 383@3x.png \
     resource/audiocd-popup-btn110-ok-h.png \
@@ -772,6 +820,24 @@ DISTFILES += \
     resource/search-icon24-on.png \
     resource/search-icon24-on@2x.png \
     resource/search-icon24-on@3x.png \
+    resource/selectd-bar150-cancel-h.png \
+    resource/selectd-bar150-cancel-h@2x.png \
+    resource/selectd-bar150-cancel-h@3x.png \
+    resource/selectd-bar150-cancel-n.png \
+    resource/selectd-bar150-cancel-n@2x.png \
+    resource/selectd-bar150-cancel-n@3x.png \
+    resource/selectd-bar550-select-h.png \
+    resource/selectd-bar550-select-h@2x.png \
+    resource/selectd-bar550-select-h@3x.png \
+    resource/selectd-bar550-select-n.png \
+    resource/selectd-bar550-select-n@2x.png \
+    resource/selectd-bar550-select-n@3x.png \
+    resource/selectd-icon40-liading.png \
+    resource/selectd-icon40-liading@2x.png \
+    resource/selectd-icon40-liading@3x.png \
+    resource/selectd-icon40-loading.png \
+    resource/selectd-icon40-loading@2x.png \
+    resource/selectd-icon40-loading@3x.png \
     resource/submenu-icon40-audiocd.png \
     resource/submenu-icon40-audiocd@2x.png \
     resource/submenu-icon40-audiocd@3x.png \
@@ -894,6 +960,12 @@ DISTFILES += \
     resource/top-btn82-classify-add-n.png \
     resource/top-btn82-classify-add-n@2x.png \
     resource/top-btn82-classify-add-n@3x.png \
+    resource/top-btn82-classify-h.png \
+    resource/top-btn82-classify-h@2x.png \
+    resource/top-btn82-classify-h@3x.png \
+    resource/top-btn82-classify-n.png \
+    resource/top-btn82-classify-n@2x.png \
+    resource/top-btn82-classify-n@3x.png \
     resource/top-icon20-musicx-logo.png \
     resource/top-icon20-musicx-logo@2x.png \
     resource/top-icon20-musicx-logo@3x.png \

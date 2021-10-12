@@ -6,7 +6,6 @@
 #include "widget/form/formtitle.h"
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
-#include "widget/form/formclassify.h"
 
 #include "dialog/submenudialog.h"
 
@@ -18,7 +17,6 @@ InfoService::InfoService(QWidget *parent) :
 	m_pSubmenuDlg(new SubmenuDialog(this)),
 	m_pFormTitle(new FormTitle(this)),
 	m_pFormPlay(new FormPlay(this)),
-	m_pFormClassify(new FormClassify(this)),
 	m_pFormSort(new FormSort(this)),
 	ui(new Ui::InfoService)
 {
@@ -46,12 +44,6 @@ InfoService::~InfoService()
 	{
 		delete m_pFormPlay;
 		m_pFormPlay = nullptr;
-	}
-
-	if (m_pFormClassify)
-	{
-		delete m_pFormClassify;
-		m_pFormClassify = nullptr;
 	}
 
 	if (m_pFormSort)
@@ -128,47 +120,11 @@ void InfoService::SlotResize()
 
 }
 
-void InfoService::SlotFilterClassify()
-{
-	LogDebug("good choice filter classify");
-
-}
-
-void InfoService::SlotFilterFavorite()
-{
-	LogDebug("good choice filter favorite");
-
-}
-
-void InfoService::SlotFilterRating()
-{
-	LogDebug("good choice filter rating");
-
-}
-
-void InfoService::SlotClassifyArtist()
-{
-	LogDebug("good choice classify artist");
-
-}
-
-void InfoService::SlotClassifyGenre()
-{
-	LogDebug("good choice classify genre");
-
-}
-
-void InfoService::SlotClassifyComposer()
-{
-	LogDebug("good choice classify composer");
-
-}
 
 void InfoService::ConnectSigToSlot()
 {
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
-	ui->gridLayoutFormClassify->addWidget(m_pFormClassify);
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 
 	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
@@ -181,12 +137,6 @@ void InfoService::ConnectSigToSlot()
 	connect(m_pFormSort, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 	connect(m_pFormSort, SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
 	connect(m_pFormSort, SIGNAL(SigResize()), this, SLOT(SlotResize()));
-	connect(m_pFormClassify, SIGNAL(SigClassify()), this, SLOT(SlotFilterClassify()));
-	connect(m_pFormClassify, SIGNAL(SigFavorite()), this, SLOT(SlotFilterFavorite()));
-	connect(m_pFormClassify, SIGNAL(SigRating()), this, SLOT(SlotFilterRating()));
-	connect(m_pFormClassify, SIGNAL(SigArtist()), this, SLOT(SlotClassifyArtist()));
-	connect(m_pFormClassify, SIGNAL(SigGenre()), this, SLOT(SlotClassifyGenre()));
-	connect(m_pFormClassify, SIGNAL(SigComposer()), this, SLOT(SlotClassifyComposer()));
 
 }
 
