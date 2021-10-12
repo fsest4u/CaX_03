@@ -58,8 +58,14 @@ InfoService::~InfoService()
 
 void InfoService::SetTitle(const QString title)
 {
-//	ui->labelTitle->setText(title);
+	m_pFormTitle->SetTitleFontSize(42);
 	m_pFormTitle->SetTitle(title);
+}
+
+void InfoService::SetSubtitle(const QString title)
+{
+	m_pFormTitle->SetSubtitleFontSize(42);
+	m_pFormTitle->SetSubtitle(title);
 }
 
 void InfoService::SlotTitle()

@@ -169,11 +169,11 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 
 		if (m_Root.isEmpty())
 		{
-			m_pInfoService->SetTitle(tr("Browser"));
+			m_pInfoService->SetSubtitle(tr("Browser"));
 		}
 		else
 		{
-			m_pInfoService->SetTitle(m_Root);
+			m_pInfoService->SetSubtitle(m_Root);
 		}
 		m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);
 	}
@@ -183,7 +183,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		ui->gridLayoutTop->addWidget(m_pInfoService);
 		ui->gridLayoutBottom->addWidget(m_pListService);
 
-		m_pInfoService->SetTitle(m_Root);
+		m_pInfoService->SetSubtitle(m_Root);
 		m_pListService->SetNodeList(list, ListService::LIST_SERVICE_BROWSER);
 
 		// get play time

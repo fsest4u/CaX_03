@@ -100,7 +100,7 @@ void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 
 	SetIServiceHome(list);
 
-	m_pInfoService->SetTitle(ISERVICE_TITLE);
+	m_pInfoService->SetSubtitle(ISERVICE_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -489,7 +489,7 @@ void IServiceWindow::SlotRespAuth(int nServiceType)
 void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list)
 {
 	m_ServiceType = nServiceType;
-	m_pInfoService->SetTitle(title);
+	m_pInfoService->SetSubtitle(title);
 	m_pListService->SetNodeList(list);
 }
 
@@ -551,7 +551,7 @@ void IServiceWindow::DoQobuzHome()
 	QList<CJsonNode> list;
 	SetQobuzHome(list);
 
-	m_pInfoService->SetTitle(QOBUZ_TITLE);
+	m_pInfoService->SetSubtitle(QOBUZ_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -563,7 +563,7 @@ void IServiceWindow::DoQobuzSearch()
 	QList<CJsonNode> list;
 	SetQobuzSearch(list);
 
-	m_pInfoService->SetTitle(tr("Search"));
+	m_pInfoService->SetSubtitle(tr("Search"));
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -575,7 +575,7 @@ void IServiceWindow::DoQobuzRecommend()
 	QList<CJsonNode> list;
 	SetQobuzRecommend(list);
 
-	m_pInfoService->SetTitle(tr("Recommend"));
+	m_pInfoService->SetSubtitle(tr("Recommend"));
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -587,7 +587,7 @@ void IServiceWindow::DoQobuzFavorite()
 	QList<CJsonNode> list;
 	SetQobuzFavorite(list);
 
-	m_pInfoService->SetTitle(tr("Favorite"));
+	m_pInfoService->SetSubtitle(tr("Favorite"));
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -599,7 +599,7 @@ void IServiceWindow::DoRecommendAlbum()
 	QList<CJsonNode> list;
 	SetRecommendAlbum(list);
 
-	m_pInfoService->SetTitle(tr("Album"));
+	m_pInfoService->SetSubtitle(tr("Album"));
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -611,7 +611,7 @@ void IServiceWindow::DoRecommendPlaylist()
 	QList<CJsonNode> list;
 	SetRecommendPlaylist(list);
 
-	m_pInfoService->SetTitle(tr("Playlist"));
+	m_pInfoService->SetSubtitle(tr("Playlist"));
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -623,7 +623,7 @@ void IServiceWindow::DoRecommendGenre(int nType, QString strID)
 	QList<CJsonNode> list;
 	SetRecommendGenre(list, strID);
 
-	m_pInfoService->SetTitle(tr("Genre"));
+	m_pInfoService->SetSubtitle(tr("Genre"));
 	m_pListService->SetNodeList(list);
 }
 void IServiceWindow::SetIServiceHome(QList<CJsonNode> &list)
@@ -978,5 +978,5 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 
 void IServiceWindow::SetInfoTitle(QString title)
 {
-	m_pInfoService->SetTitle(title);
+	m_pInfoService->SetSubtitle(title);
 }

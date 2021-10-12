@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>932</width>
-    <height>123</height>
+    <width>1063</width>
+    <height>163</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -27,16 +27,16 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>0</number>
+    <number>60</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>30</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>60</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>10</number>
    </property>
    <property name="spacing">
     <number>0</number>
@@ -191,7 +191,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>98</width>
+          <width>10</width>
           <height>20</height>
          </size>
         </property>
@@ -779,7 +779,7 @@ QLabel:hover
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>9</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QFrame" name="frameFormClassify">

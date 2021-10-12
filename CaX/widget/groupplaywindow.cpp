@@ -65,7 +65,7 @@ void GroupPlayWindow::GroupPlayList(int eventID)
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pIconService);
 
-	m_pInfoService->SetTitle(tr("Group play"));
+	m_pInfoService->SetSubtitle(tr("Group play"));
 
 	m_pMgr->RequestGroupPlayList(m_nEventID);
 }

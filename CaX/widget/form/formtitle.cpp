@@ -11,6 +11,9 @@ FormTitle::FormTitle(QWidget *parent) :
 
 	ui->labelTitle->installEventFilter(this);
 	ui->labelSubtitle->installEventFilter(this);
+
+	ui->labelTitle->hide();
+	ui->labelSubtitle->hide();
 }
 
 FormTitle::~FormTitle()
@@ -25,6 +28,7 @@ QString FormTitle::GetTitle()
 
 void FormTitle::SetTitle(QString title)
 {
+	ui->labelTitle->show();
 	ui->labelTitle->setText(title);
 }
 
@@ -41,6 +45,7 @@ QString FormTitle::GetSubtitle()
 
 void FormTitle::SetSubtitle(QString subtitle)
 {
+	ui->labelSubtitle->show();
 	ui->labelSubtitle->setText(subtitle);
 }
 

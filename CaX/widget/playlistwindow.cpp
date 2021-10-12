@@ -81,7 +81,7 @@ void PlaylistWindow::Playlist()
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
 
-	m_pInfoService->SetTitle(tr("Playlist"));
+	m_pInfoService->SetSubtitle(tr("Playlist"));
 
 	m_pMgr->RequestPlaylist();
 }

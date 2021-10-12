@@ -91,7 +91,7 @@ void DABRadioWindow::SlotRespList(QList<CJsonNode> list)
 {
 	SetHome(list);
 
-	m_pInfoService->SetTitle(MAIN_TITLE);
+	m_pInfoService->SetSubtitle(MAIN_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_DAB_RADIO);
 }
 
@@ -99,7 +99,7 @@ void DABRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 {
 //	SetHome(list);
 
-//	m_pInfoService->SetTitle(MAIN_TITLE);
+//	m_pInfoService->SetSubtitle(MAIN_TITLE);
 //	m_pIconService->SetNodeList(list, IconService::SERVICE_DAB_RADIO);
 }
 

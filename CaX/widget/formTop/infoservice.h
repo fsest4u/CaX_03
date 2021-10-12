@@ -44,6 +44,7 @@ public:
 	};
 
 	void SetTitle(const QString title);
+	void SetSubtitle(const QString title);
 
 	void SetSubmenuIService();
 	void SetSubmenuFmRadio();
