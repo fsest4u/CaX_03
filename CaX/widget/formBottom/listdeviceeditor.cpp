@@ -61,9 +61,16 @@ void ListDeviceEditor::SetDev(const QString &Dev)
 	m_Dev = Dev;
 }
 
-QFrame *ListDeviceEditor::GetFrameCancel()
+void ListDeviceEditor::SetLabelCancelShow(bool bShow)
 {
-	return ui->frameCancel;
+	if (bShow)
+	{
+		ui->labelCancel->show();
+	}
+	else
+	{
+		ui->labelCancel->hide();
+	}
 }
 
 bool ListDeviceEditor::eventFilter(QObject *object, QEvent *event)

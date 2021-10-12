@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+class FormCoverArt;
+class FormTitle;
+
 namespace Ui {
 class IconServiceEditor;
 }
@@ -22,13 +25,13 @@ public:
 	void SetType(int Type);
 
 	QString GetCoverArt();
-	void SetCoverArt(const QString &value);
+	void SetCoverArt(const QString &coverArt);
 
 	QString GetTitle();
-	void SetTitle(const QString &value);
+	void SetTitle(const QString &title);
 
 	QString GetSubtitle();
-	void SetSubtitle(const QString &value);
+	void SetSubtitle(const QString &subtitle);
 
 	QString GetRawData() const;
 	void SetRawData(const QString &RawData);
@@ -43,11 +46,22 @@ protected:
 
 	bool eventFilter(QObject *object, QEvent *event);
 
+private slots:
+
+	void SlotCoverArt();
+	void SlotTitle();
+	void SlotSubtitle();
+
 private:
+
+	void ConnectSigToSlot();
+
+	FormCoverArt	*m_pFormCoverArt;
+	FormTitle		*m_pFormTitle;
 
 	int		m_ID;
 	int		m_Type;
-	QString m_CoverArt;
+//	QString m_CoverArt;
 	QString m_RawData;
 
 	Ui::IconServiceEditor *ui;

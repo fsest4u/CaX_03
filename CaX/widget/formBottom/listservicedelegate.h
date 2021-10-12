@@ -13,10 +13,10 @@ public:
 	enum {
 		LIST_SERVICE_ID = Qt::UserRole + 0,
 		LIST_SERVICE_TYPE,
+		LIST_SERVICE_COVER_ART,
 		LIST_SERVICE_TITLE,
-		LIST_SERVICE_ICON,
-		LIST_SERVICE_ART,
-		LIST_SERVICE_BOT,
+		LIST_SERVICE_SUBTITLE,
+//		LIST_SERVICE_ART,
 		LIST_SERVICE_DURATION,
 		LIST_SERVICE_RAW,
 		LIST_SERVICE_MAX
@@ -27,12 +27,12 @@ public:
 
 signals:
 
-	void SigSelectIcon(QString rawData);
+	void SigSelectCoverArt(QString rawData);
 	void SigSelectTitle(QString rawData);
 
 private slots:
 
-	void SlotClickIcon(QString rawData);
+	void SlotClickCoverArt(QString rawData);
 	void SlotClickTitle(QString rawData);
 
 private:

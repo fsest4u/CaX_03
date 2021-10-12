@@ -36,8 +36,8 @@ private slots:
 
 	void commitAndCloseEditor();
 	void SlotClickCoverArt(int id, QString coverArt);
-	void SlotClickTop(int nID);
-	void SlotClickBottom(int nID);
+	void SlotClickTitle(int nID);
+	void SlotClickSubtitle(int nID);
 	void SlotClickCount(int nID);
 	void SlotClickFavorite(int nID, int nFavorite);
 	void SlotClickRating(int nID, int nRating);

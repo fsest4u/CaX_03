@@ -6,11 +6,14 @@
 
 #include "util/CJsonNode.h"
 
+class SubmenuDialog;
+class FormPlay;
+class FormClassify;
+class FormSort;
+
 namespace Ui {
 class InfoHome;
 }
-
-class SubmenuDialog;
 
 class InfoHome : public QWidget
 {
@@ -30,10 +33,6 @@ public:
 	void SetClassifyGenreMenu(QList<CJsonNode> list);
 	void SetClassifyComposerMenu(QList<CJsonNode> list);
 
-protected:
-
-	bool eventFilter(QObject *object, QEvent *event);
-
 signals:
 
 	void SigPlayAll();
@@ -51,12 +50,29 @@ signals:
 	void SigClassifyGenre(bool bAdd, QString id);
 	void SigClassifyComposer(bool bAdd, QString id);
 
+protected:
+
+	bool eventFilter(QObject *object, QEvent *event);
 
 private slots:
 
 	void SlotArtistMenu(QAction* action);
 	void SlotGenreMenu(QAction* action);
 	void SlotComposerMenu(QAction* action);
+	void SlotPlayAll();
+	void SlotPlayRandom();
+	void SlotFavorite();
+	void SlotRating();
+	void SlotSubmenu();
+	void SlotSort();
+	void SlotIncDec();
+	void SlotResize();
+	void SlotFilterClassify();
+	void SlotFilterFavorite();
+	void SlotFilterRating();
+	void SlotClassifyArtist();
+	void SlotClassifyGenre();
+	void SlotClassifyComposer();
 
 private:
 
@@ -78,6 +94,8 @@ private:
 		SORT_MAX
 	};
 
+	void ConnectSigToSlot();
+
 	void SetCategoryDialog();
 	void SetSortDialog();
 
@@ -94,6 +112,10 @@ private:
 
 	SubmenuDialog	*m_pCatDlg;
 	SubmenuDialog	*m_pSortDlg;
+	FormPlay		*m_pFormPlay;
+	FormClassify	*m_pFormClassify;
+	FormSort		*m_pFormSort;
+
 
 	QMenu		*m_ClassifyMenu;
 	QMenu		*m_GenreMenu;

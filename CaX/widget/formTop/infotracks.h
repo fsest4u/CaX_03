@@ -3,6 +3,11 @@
 
 #include <QWidget>
 
+class FormCoverArt;
+class FormTitle;
+class FormPlay;
+class FormSort;
+
 namespace Ui {
 class InfoTracks;
 }
@@ -20,10 +25,6 @@ public:
 //	void SetInfo(QString info);
 	void SetCoverArt(QString coverArt);
 
-protected:
-
-	bool eventFilter(QObject *object, QEvent *event);
-
 signals:
 
 	void SigPlayAll();
@@ -31,7 +32,29 @@ signals:
 	void SigSubmenu();
 	void SigSort();
 
+private slots:
+
+	void SlotCoverArt();
+	void SlotTitle();
+	void SlotSubtitle();
+	void SlotPlayAll();
+	void SlotPlayRandom();
+	void SlotFavorite();
+	void SlotRating();
+	void SlotSubmenu();
+	void SlotSort();
+	void SlotIncDec();
+	void SlotResize();
+
 private:
+
+	void ConnectSigToSlot();
+
+	FormCoverArt	*m_pFormCoverArt;
+	FormTitle		*m_pFormTitle;
+	FormPlay		*m_pFormPlay;
+	FormSort		*m_pFormSort;
+
 	Ui::InfoTracks *ui;
 };
 

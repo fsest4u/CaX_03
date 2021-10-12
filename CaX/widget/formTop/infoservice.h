@@ -3,11 +3,15 @@
 
 #include <QWidget>
 
+class SubmenuDialog;
+class FormTitle;
+class FormPlay;
+class FormClassify;
+class FormSort;
+
 namespace Ui {
 class InfoService;
 }
-
-class SubmenuDialog;
 
 class InfoService : public QWidget
 {
@@ -46,11 +50,6 @@ public:
 	void SetSubmenuFmRadio();
 	void SetSubmenuDabRadio();
 
-
-protected:
-
-	bool eventFilter(QObject *object, QEvent *event);
-
 signals:
 
 	void SigPlayAll();
@@ -58,14 +57,36 @@ signals:
 	void SigSubmenu(int nID);
 	void SigSort();
 
+private slots:
+
+	void SlotTitle();
+	void SlotSubtitle();
+	void SlotPlayAll();
+	void SlotPlayRandom();
+	void SlotFavorite();
+	void SlotRating();
+	void SlotSubmenu();
+	void SlotSort();
+	void SlotIncDec();
+	void SlotResize();
+	void SlotFilterClassify();
+	void SlotFilterFavorite();
+	void SlotFilterRating();
+	void SlotClassifyArtist();
+	void SlotClassifyGenre();
+	void SlotClassifyComposer();
+
 private:
 
-
-
+	void ConnectSigToSlot();
 
 	void ShowSubmenuDialog();
 
-	SubmenuDialog		*m_pSubmenuDlg;
+	SubmenuDialog	*m_pSubmenuDlg;
+	FormTitle		*m_pFormTitle;
+	FormPlay		*m_pFormPlay;
+	FormClassify	*m_pFormClassify;
+	FormSort		*m_pFormSort;
 
 	Ui::InfoService *ui;
 };

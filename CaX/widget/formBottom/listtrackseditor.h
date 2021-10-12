@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class FormCoverArt;
+
 namespace Ui {
 class ListTracksEditor;
 }
@@ -20,22 +22,22 @@ public:
 	void SetID(int ID);
 
 	QString GetCoverArt() const;
-	void SetCoverArt(const QString &value);
+	void SetCoverArt(const QString &coverArt);
 
 	QString GetTitle();
-	void SetTitle(const QString &value);
+	void SetTitle(const QString &title);
 
 	QString GetTime();
-	void SetTime(const QString &value);
+	void SetTime(const QString &time);
 
 	QString GetArtist();
-	void SetArtist(const QString &value);
+	void SetArtist(const QString &artist);
 
 	QString GetAlbum();
-	void SetAlbum(const QString &value);
+	void SetAlbum(const QString &album);
 
 	QString GetGenre();
-	void SetGenre(const QString &value);
+	void SetGenre(const QString &genre);
 
 signals:
 
@@ -53,10 +55,18 @@ protected:
 
 	bool eventFilter(QObject *object, QEvent *event);
 
+private slots:
+
+	void SlotCoverArt();
+
 private:
 
+	void ConnectSigToSlot();
+
+	FormCoverArt	*m_pFormCoverArt;
+
 	int		m_ID;
-	QString m_CoverArt;
+//	QString m_CoverArt;
 
 	Ui::ListTracksEditor *ui;
 };

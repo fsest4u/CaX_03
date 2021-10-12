@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
-#include <QFrame>
+#include <QLabel>
 
 namespace Ui {
 class ListDeviceEditor;
@@ -29,7 +29,7 @@ public:
 	QString GetDev() const;
 	void SetDev(const QString &Dev);
 
-	QFrame* GetFrameCancel();
+	void SetLabelCancelShow(bool bShow);
 
 signals:
 

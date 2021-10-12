@@ -15,6 +15,15 @@ public:
 	explicit FormClassify(QWidget *parent = nullptr);
 	~FormClassify();
 
+signals:
+
+	void SigClassify();
+	void SigFavorite();
+	void SigRating();
+	void SigArtist();
+	void SigGenre();
+	void SigComposer();
+
 protected:
 
 	bool eventFilter(QObject *object, QEvent *event);

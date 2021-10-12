@@ -128,6 +128,42 @@ void InfoService::SlotResize()
 
 }
 
+void InfoService::SlotFilterClassify()
+{
+	LogDebug("good choice filter classify");
+
+}
+
+void InfoService::SlotFilterFavorite()
+{
+	LogDebug("good choice filter favorite");
+
+}
+
+void InfoService::SlotFilterRating()
+{
+	LogDebug("good choice filter rating");
+
+}
+
+void InfoService::SlotClassifyArtist()
+{
+	LogDebug("good choice classify artist");
+
+}
+
+void InfoService::SlotClassifyGenre()
+{
+	LogDebug("good choice classify genre");
+
+}
+
+void InfoService::SlotClassifyComposer()
+{
+	LogDebug("good choice classify composer");
+
+}
+
 void InfoService::ConnectSigToSlot()
 {
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
@@ -145,6 +181,12 @@ void InfoService::ConnectSigToSlot()
 	connect(m_pFormSort, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 	connect(m_pFormSort, SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
 	connect(m_pFormSort, SIGNAL(SigResize()), this, SLOT(SlotResize()));
+	connect(m_pFormClassify, SIGNAL(SigClassify()), this, SLOT(SlotFilterClassify()));
+	connect(m_pFormClassify, SIGNAL(SigFavorite()), this, SLOT(SlotFilterFavorite()));
+	connect(m_pFormClassify, SIGNAL(SigRating()), this, SLOT(SlotFilterRating()));
+	connect(m_pFormClassify, SIGNAL(SigArtist()), this, SLOT(SlotClassifyArtist()));
+	connect(m_pFormClassify, SIGNAL(SigGenre()), this, SLOT(SlotClassifyGenre()));
+	connect(m_pFormClassify, SIGNAL(SigComposer()), this, SLOT(SlotClassifyComposer()));
 
 }
 

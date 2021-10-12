@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class FormCoverArt;
+
 namespace Ui {
 class ListServiceEditor;
 }
@@ -21,20 +23,20 @@ public:
 	int GetType() const;
 	void SetType(int nType);
 
-	QString GetIcon() const;
-	void SetIcon(const QString &Icon);
+	QString GetCoverArt() const;
+	void SetCoverArt(const QString &coverArt);
 
 	QString GetTitle() const;
-	void SetTitle(const QString &Title);
+	void SetTitle(const QString &title);
 
-	QString GetBottom() const;
-	void SetBottom(const QString &Bottom);
+	QString GetSubtitle() const;
+	void SetSubtitle(const QString &subtitle);
 
 	QString GetDuration() const;
 	void SetDuration(const QString &Duration);
 
-	QString GetArt() const;
-	void SetArt(const QString &Art);
+//	QString GetArt() const;
+//	void SetArt(const QString &Art);
 
 	QString GetRawData() const;
 	void SetRawData(const QString &RawData);
@@ -43,19 +45,27 @@ public:
 
 signals:
 
-	void SigClickIcon(QString rawData);
+	void SigClickCoverArt(QString rawData);
 	void SigClickTitle(QString rawData);
 
 protected:
 
 	bool eventFilter(QObject *object, QEvent *event);
 
+private slots:
+
+	void SlotCoverArt();
+
 private:
+
+	void ConnectSigToSlot();
+
+	FormCoverArt	*m_pFormCoverArt;
 
 	QString		m_StrID;
 	int			m_nType;
-	QString		m_Icon;
-	QString		m_Art;
+//	QString		m_Icon;
+//	QString		m_Art;
 	QString		m_RawData;
 
 	Ui::ListServiceEditor *ui;

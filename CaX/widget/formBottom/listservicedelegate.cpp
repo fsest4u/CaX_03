@@ -19,9 +19,9 @@ void ListServiceDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
 	m_ViewMode = ViewMode;
 }
 
-void ListServiceDelegate::SlotClickIcon(QString rawData)
+void ListServiceDelegate::SlotClickCoverArt(QString rawData)
 {
-	emit SigSelectIcon(rawData);
+	emit SigSelectCoverArt(rawData);
 }
 
 void ListServiceDelegate::SlotClickTitle(QString rawData)
@@ -50,7 +50,7 @@ QWidget *ListServiceDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	Q_UNUSED(index)
 
 	ListServiceEditor *editor = new ListServiceEditor(parent);
-	connect(editor, SIGNAL(SigClickIcon(QString)), this, SLOT(SlotClickIcon(QString)));
+	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
 	connect(editor, SIGNAL(SigClickTitle(QString)), this, SLOT(SlotClickTitle(QString)));
 
 	return editor;
@@ -66,11 +66,11 @@ void ListServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<QString>(index.data(LIST_SERVICE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(LIST_SERVICE_TYPE)));
+	widget->SetCoverArt(qvariant_cast<QString>(index.data(LIST_SERVICE_COVER_ART)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_SERVICE_TITLE)));
-	widget->SetBottom(qvariant_cast<QString>(index.data(LIST_SERVICE_BOT)));
+	widget->SetSubtitle(qvariant_cast<QString>(index.data(LIST_SERVICE_SUBTITLE)));
 	widget->SetDuration(qvariant_cast<QString>(index.data(LIST_SERVICE_DURATION)));
-	widget->SetIcon(qvariant_cast<QString>(index.data(LIST_SERVICE_ICON)));
-	widget->SetArt(qvariant_cast<QString>(index.data(LIST_SERVICE_ART)));
+//	widget->SetArt(qvariant_cast<QString>(index.data(LIST_SERVICE_ART)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(LIST_SERVICE_RAW)));
 	widget->blockSignals(false);
 }
@@ -80,11 +80,11 @@ void ListServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	ListServiceEditor *widget = static_cast<ListServiceEditor*>(editor);
 	model->setData(index, widget->GetID(), LIST_SERVICE_ID);
 	model->setData(index, widget->GetType(), LIST_SERVICE_TYPE);
+	model->setData(index, widget->GetCoverArt(), LIST_SERVICE_COVER_ART);
 	model->setData(index, widget->GetTitle(), LIST_SERVICE_TITLE);
-	model->setData(index, widget->GetBottom(), LIST_SERVICE_BOT);
+	model->setData(index, widget->GetSubtitle(), LIST_SERVICE_SUBTITLE);
 	model->setData(index, widget->GetDuration(), LIST_SERVICE_DURATION);
-	model->setData(index, widget->GetIcon(), LIST_SERVICE_ICON);
-	model->setData(index, widget->GetArt(), LIST_SERVICE_ART);
+//	model->setData(index, widget->GetArt(), LIST_SERVICE_ART);
 	model->setData(index, widget->GetRawData(), LIST_SERVICE_RAW);
 }
 

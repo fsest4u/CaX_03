@@ -87,10 +87,10 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_ID_UPPER), ListServiceDelegate::LIST_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), ListServiceDelegate::LIST_SERVICE_TYPE);
+			item->setData(node.GetString(KEY_ICON), ListServiceDelegate::LIST_SERVICE_COVER_ART);
 			item->setData(node.GetString(KEY_PATH), ListServiceDelegate::LIST_SERVICE_TITLE);
-			item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_BOT);
+			item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_SUBTITLE);
 			item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_DURATION);
-			item->setData(node.GetString(KEY_ICON), ListServiceDelegate::LIST_SERVICE_ICON);
 	//		item->setData(node.GetString(KEY_ART), ListServiceDelegate::LIST_SERVICE_ART);
 			item->setData(node.ToCompactString(), ListServiceDelegate::LIST_SERVICE_RAW);
 
@@ -138,8 +138,8 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_ID_UPPER), ListServiceDelegate::LIST_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), ListServiceDelegate::LIST_SERVICE_TYPE);
+			item->setData(node.GetString(KEY_ICON), ListServiceDelegate::LIST_SERVICE_COVER_ART);
 			item->setData(node.GetString(KEY_TOP), ListServiceDelegate::LIST_SERVICE_TITLE);
-			item->setData(node.GetString(KEY_ICON), ListServiceDelegate::LIST_SERVICE_ICON);
 	//		item->setData(node.GetString(KEY_ART), ListServiceDelegate::LIST_SERVICE_ART);
 			item->setData(node.ToCompactString(), ListServiceDelegate::LIST_SERVICE_RAW);
 

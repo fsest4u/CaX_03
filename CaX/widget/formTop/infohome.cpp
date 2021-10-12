@@ -3,6 +3,10 @@
 #include "infohome.h"
 #include "ui_infohome.h"
 
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
+#include "widget/form/formclassify.h"
+
 #include "dialog/submenudialog.h"
 
 #include "util/caxkeyvalue.h"
@@ -12,6 +16,9 @@ InfoHome::InfoHome(QWidget *parent)	:
 	QWidget(parent),
 	m_pCatDlg(new SubmenuDialog(this)),
 	m_pSortDlg(new SubmenuDialog(this)),
+	m_pFormPlay(new FormPlay(this)),
+	m_pFormClassify(new FormClassify(this)),
+	m_pFormSort(new FormSort(this)),
 	m_ClassifyMenu(new QMenu(this)),
 	m_GenreMenu(new QMenu(tr("Genre"), this)),
 	m_ArtistMenu(new QMenu(tr("Artist"), this)),
@@ -20,23 +27,17 @@ InfoHome::InfoHome(QWidget *parent)	:
 {
 	ui->setupUi(this);
 
-	ui->framePlayAll->installEventFilter(this);
-	ui->framePlayRandom->installEventFilter(this);
+	ConnectSigToSlot();
+
 	ui->frameAlbum->installEventFilter(this);
 	ui->frameArtist->installEventFilter(this);
 	ui->frameTrack->installEventFilter(this);
 	ui->frameGenre->installEventFilter(this);
-	ui->frameSubmenu->installEventFilter(this);
 	ui->frameSubmenu2->installEventFilter(this);
-	ui->frameSort->installEventFilter(this);
-	ui->frameIncDec->installEventFilter(this);
-	ui->frameResize->installEventFilter(this);
 
-	ui->frameClassifyArtist->installEventFilter(this);
-	ui->frameClassifyGenre->installEventFilter(this);
-	ui->frameClassifyComposer->installEventFilter(this);
-	ui->frameClassifyTemp->installEventFilter(this);
-	ui->frameClassifyTemp_2->installEventFilter(this);
+	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
+	ui->gridLayoutFormClassify->addWidget(m_pFormClassify);
+	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 
 	SetCategoryDialog();
 	SetSortDialog();
@@ -54,6 +55,24 @@ InfoHome::~InfoHome()
 	{
 		delete m_pSortDlg;
 		m_pSortDlg = nullptr;
+	}
+
+	if (m_pFormPlay)
+	{
+		delete m_pFormPlay;
+		m_pFormPlay = nullptr;
+	}
+
+	if (m_pFormClassify)
+	{
+		delete m_pFormClassify;
+		m_pFormClassify = nullptr;
+	}
+
+	if (m_pFormSort)
+	{
+		delete m_pFormSort;
+		m_pFormSort = nullptr;
 	}
 
 	if (m_ClassifyMenu)
@@ -108,7 +127,7 @@ void InfoHome::SetGenreCnt(const QString count)
 
 void InfoHome::SetSortName(const QString name)
 {
-	ui->labelSort->setText(name);
+//	ui->labelSort->setText(name);
 
 }
 
@@ -117,19 +136,7 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->framePlayAll)
-		{
-			emit SigPlayAll();
-		}
-		else if (object == ui->framePlayRandom)
-		{
-			emit SigPlayRandom();
-		}
-		else if (object == ui->frameSubmenu)
-		{
-			ShowCategoryDialog();
-		}
-		else if (object == ui->frameGenre)
+		if (object == ui->frameGenre)
 		{
 			emit SigGenreList();
 		}
@@ -149,30 +156,18 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigSubmenu2();
 		}
-		else if (object == ui->frameSort)
-		{
-			emit SigDisplayMode();
-		}
-		else if (object == ui->frameIncDec)
-		{
-			ShowSortDialog();
-		}
-		else if (object == ui->frameResize)
-		{
-			ShowSortDialog();
-		}
-		else if (object == ui->frameClassifyArtist)
-		{
-			DoClickClassifyArtist();
-		}
-		else if (object == ui->frameClassifyGenre)
-		{
-			DoClickClassifyGenre();
-		}
-		else if (object == ui->frameClassifyComposer)
-		{
-			DoClickClassifyComposer();
-		}
+//		else if (object == ui->frameClassifyArtist)
+//		{
+//			DoClickClassifyArtist();
+//		}
+//		else if (object == ui->frameClassifyGenre)
+//		{
+//			DoClickClassifyGenre();
+//		}
+//		else if (object == ui->frameClassifyComposer)
+//		{
+//			DoClickClassifyComposer();
+//		}
 
 	}
 
@@ -182,25 +177,129 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 void InfoHome::SlotArtistMenu(QAction *action)
 {
 	LogDebug("Artist id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
-	ui->frameClassifyArtist->show();
-	ui->labelClassifyArtist->setText(action->text());
+//	ui->frameClassifyArtist->show();
+//	ui->labelClassifyArtist->setText(action->text());
 	emit SigClassifyArtist(true, action->data().toString());
 }
 
 void InfoHome::SlotGenreMenu(QAction *action)
 {
 	LogDebug("Genre id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
-	ui->frameClassifyGenre->show();
-	ui->labelClassifyGenre->setText(action->text());
+//	ui->frameClassifyGenre->show();
+//	ui->labelClassifyGenre->setText(action->text());
 	emit SigClassifyGenre(true, action->data().toString());
 }
 
 void InfoHome::SlotComposerMenu(QAction *action)
 {
 	LogDebug("Composer id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
-	ui->frameClassifyComposer->show();
-	ui->labelClassifyComposer->setText(action->text());
+//	ui->frameClassifyComposer->show();
+//	ui->labelClassifyComposer->setText(action->text());
 	emit SigClassifyComposer(true, action->data().toString());
+}
+
+void InfoHome::SlotPlayAll()
+{
+	LogDebug("good choice play all");
+
+}
+
+void InfoHome::SlotPlayRandom()
+{
+	LogDebug("good choice play random");
+
+}
+
+void InfoHome::SlotFavorite()
+{
+	LogDebug("good choice favorite");
+
+}
+
+void InfoHome::SlotRating()
+{
+	LogDebug("good choice rating");
+
+}
+
+void InfoHome::SlotSubmenu()
+{
+	LogDebug("good choice submenu");
+
+}
+
+void InfoHome::SlotSort()
+{
+	LogDebug("good choice sort");
+
+}
+
+void InfoHome::SlotIncDec()
+{
+	LogDebug("good choice inc dec");
+
+}
+
+void InfoHome::SlotResize()
+{
+	LogDebug("good choice resize");
+
+}
+
+void InfoHome::SlotFilterClassify()
+{
+	LogDebug("good choice filter classify");
+
+}
+
+void InfoHome::SlotFilterFavorite()
+{
+	LogDebug("good choice filter favorite");
+
+}
+
+void InfoHome::SlotFilterRating()
+{
+	LogDebug("good choice filter rating");
+
+}
+
+void InfoHome::SlotClassifyArtist()
+{
+	LogDebug("good choice classify artist");
+
+}
+
+void InfoHome::SlotClassifyGenre()
+{
+	LogDebug("good choice classify genre");
+
+}
+
+void InfoHome::SlotClassifyComposer()
+{
+	LogDebug("good choice classify composer");
+
+}
+
+
+void InfoHome::ConnectSigToSlot()
+{
+	connect(m_pFormPlay, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pFormPlay, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pFormPlay, SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
+	connect(m_pFormPlay, SIGNAL(SigRating()), this, SLOT(SlotRating()));
+	connect(m_pFormPlay, SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pFormSort, SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pFormSort, SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
+	connect(m_pFormSort, SIGNAL(SigResize()), this, SLOT(SlotResize()));
+	connect(m_pFormClassify, SIGNAL(SigClassify()), this, SLOT(SlotFilterClassify()));
+	connect(m_pFormClassify, SIGNAL(SigFavorite()), this, SLOT(SlotFilterFavorite()));
+	connect(m_pFormClassify, SIGNAL(SigRating()), this, SLOT(SlotFilterRating()));
+	connect(m_pFormClassify, SIGNAL(SigArtist()), this, SLOT(SlotClassifyArtist()));
+	connect(m_pFormClassify, SIGNAL(SigGenre()), this, SLOT(SlotClassifyGenre()));
+	connect(m_pFormClassify, SIGNAL(SigComposer()), this, SLOT(SlotClassifyComposer()));
+
 }
 
 
@@ -272,31 +371,31 @@ void InfoHome::SetClassifyMenu()
 	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_GenreMenu));
 	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_ComposerMenu));
 
-	ui->btnClassify->setMenu(m_ClassifyMenu);
+//	ui->btnClassify->setMenu(m_ClassifyMenu);
 
-	ui->frameClassifyArtist->hide();
-	ui->frameClassifyGenre->hide();
-	ui->frameClassifyComposer->hide();
-	ui->frameClassifyTemp->hide();
-	ui->frameClassifyTemp_2->hide();
+//	ui->frameClassifyArtist->hide();
+//	ui->frameClassifyGenre->hide();
+//	ui->frameClassifyComposer->hide();
+//	ui->frameClassifyTemp->hide();
+//	ui->frameClassifyTemp_2->hide();
 }
 
 void InfoHome::DoClickClassifyArtist()
 {
-	ui->frameClassifyArtist->hide();
-	emit SigClassifyArtist(false, "");
+//	ui->frameClassifyArtist->hide();
+//	emit SigClassifyArtist(false, "");
 }
 
 void InfoHome::DoClickClassifyGenre()
 {
-	ui->frameClassifyGenre->hide();
-	emit SigClassifyGenre(false, "");
+//	ui->frameClassifyGenre->hide();
+//	emit SigClassifyGenre(false, "");
 }
 
 void InfoHome::DoClickClassifyComposer()
 {
-	ui->frameClassifyComposer->hide();
-	emit SigClassifyComposer(false, "");
+//	ui->frameClassifyComposer->hide();
+//	emit SigClassifyComposer(false, "");
 }
 
 void InfoHome::SetClassifyArtistMenu(QList<CJsonNode> list)
@@ -336,22 +435,22 @@ void InfoHome::SetClassifyComposerMenu(QList<CJsonNode> list)
 
 void InfoHome::ShowCategoryDialog()
 {
-	if (m_pCatDlg->isHidden())
-	{
-		m_pCatDlg->move(mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).x() - m_pCatDlg->width()
-						, mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).y());
+//	if (m_pCatDlg->isHidden())
+//	{
+//		m_pCatDlg->move(mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).x() - m_pCatDlg->width()
+//						, mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).y());
 
-		if (m_pCatDlg->exec())
-		{
-			int id = m_pCatDlg->GetID();
-			LogDebug("sort type id [%d]", id);
-			// emit signal sort...
-		}
-	}
-	else
-	{
-		m_pCatDlg->close();
-	}
+//		if (m_pCatDlg->exec())
+//		{
+//			int id = m_pCatDlg->GetID();
+//			LogDebug("sort type id [%d]", id);
+//			// emit signal sort...
+//		}
+//	}
+//	else
+//	{
+//		m_pCatDlg->close();
+//	}
 }
 
 void InfoHome::ShowSortDialog()
