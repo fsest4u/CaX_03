@@ -56,13 +56,13 @@ InfoTracks::~InfoTracks()
 
 void InfoTracks::SetTitle(QString title)
 {
-//	ui->labelTitle->setText(title);
+	m_pFormTitle->SetTitleFontSize(42);
 	m_pFormTitle->SetTitle(title);
 }
 
 void InfoTracks::SetSubtitle(QString subtitle)
 {
-//	ui->labelSubtitle->setText(subtitle);
+	m_pFormTitle->SetSubtitleFontSize(20);
 	m_pFormTitle->SetSubtitle(subtitle);
 }
 

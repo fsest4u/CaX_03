@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>829</width>
-    <height>160</height>
+    <height>170</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,6 +26,21 @@
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>10</number>
+   </property>
    <item>
     <widget class="QFrame" name="frameFormCoverArt">
      <property name="minimumSize">
@@ -48,19 +63,19 @@
      </property>
      <layout class="QGridLayout" name="gridLayoutFormCoverArt">
       <property name="leftMargin">
-       <number>9</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>9</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>9</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>9</number>
+       <number>0</number>
       </property>
       <property name="spacing">
-       <number>6</number>
+       <number>0</number>
       </property>
      </layout>
     </widget>
@@ -91,6 +106,18 @@
       </property>
       <item>
        <widget class="QFrame" name="frameFormTitle">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>110</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>110</height>
+         </size>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -99,7 +126,7 @@
         </property>
         <layout class="QGridLayout" name="gridLayoutFormTitle">
          <property name="leftMargin">
-          <number>0</number>
+          <number>20</number>
          </property>
          <property name="topMargin">
           <number>0</number>
@@ -108,6 +135,9 @@
           <number>0</number>
          </property>
          <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
           <number>0</number>
          </property>
         </layout>
@@ -126,7 +156,7 @@
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>20</number>
          </property>
          <property name="topMargin">
           <number>0</number>
@@ -162,19 +192,19 @@
            </property>
            <layout class="QGridLayout" name="gridLayoutFormPlay">
             <property name="leftMargin">
-             <number>9</number>
+             <number>0</number>
             </property>
             <property name="topMargin">
-             <number>9</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
-             <number>9</number>
+             <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>9</number>
+             <number>0</number>
             </property>
             <property name="spacing">
-             <number>6</number>
+             <number>0</number>
             </property>
            </layout>
           </widget>
@@ -206,7 +236,23 @@
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QGridLayout" name="gridLayoutFormSort"/>
+           <layout class="QGridLayout" name="gridLayoutFormSort">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+           </layout>
           </widget>
          </item>
         </layout>

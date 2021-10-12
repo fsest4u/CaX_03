@@ -187,7 +187,7 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 	QString info = count + " | " + total + " | " + extension + " | " + samplerate + " | " + bps;
 
 	m_pInfoTracks->SetTitle(node.GetString(KEY_TITLE));
-	m_pInfoTracks->SetSubtitle("Artist : " + node.GetString(KEY_ARTIST));
+	m_pInfoTracks->SetSubtitle(node.GetString(KEY_ARTIST));
 //	m_pInfoTracks->SetInfo(info);
 }
 
