@@ -57,13 +57,13 @@
      </property>
      <layout class="QGridLayout" name="gridLayoutTop">
       <property name="leftMargin">
-       <number>0</number>
+       <number>60</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>30</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>60</number>
       </property>
       <property name="bottomMargin">
        <number>0</number>
