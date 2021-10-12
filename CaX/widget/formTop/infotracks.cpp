@@ -94,31 +94,6 @@ void InfoTracks::SetCoverArt(QString coverArt)
 	m_pFormCoverArt->SetCoverArt(coverArt);
 }
 
-bool InfoTracks::eventFilter(QObject *object, QEvent *event)
-{
-	if (event->type() == QMouseEvent::MouseButtonPress)
-	{
-//		if (object == ui->framePlayAll)
-//		{
-//			emit SigPlayAll();
-//		}
-//		else if (object == ui->framePlayRandom)
-//		{
-//			emit SigPlayRandom();
-//		}
-//		else if (object == ui->frameSubmenu)
-//		{
-//			emit SigSubmenu();
-//		}
-//		else if (object == ui->frameSort)
-//		{
-//			emit SigSort();
-//		}
-	}
-
-	return QObject::eventFilter(object, event);
-}
-
 void InfoTracks::SlotCoverArt()
 {
 	LogDebug("good choice cover art");
@@ -166,13 +141,26 @@ void InfoTracks::SlotSubmenu()
 
 }
 
+void InfoTracks::SlotSort()
+{
+	LogDebug("good choice sort");
+
+}
+
+void InfoTracks::SlotIncDec()
+{
+	LogDebug("good choice inc dec");
+
+}
+
+void InfoTracks::SlotResize()
+{
+	LogDebug("good choice resize");
+
+}
+
 void InfoTracks::ConnectSigToSlot()
 {
-
-//	ui->framePlayAll->installEventFilter(this);
-//	ui->framePlayRandom->installEventFilter(this);
-//	ui->frameSubmenu->installEventFilter(this);
-//	ui->frameSort->installEventFilter(this);
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
@@ -187,5 +175,8 @@ void InfoTracks::ConnectSigToSlot()
 	connect(m_pFormPlay, SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
 	connect(m_pFormPlay, SIGNAL(SigRating()), this, SLOT(SlotRating()));
 	connect(m_pFormPlay, SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pFormSort, SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pFormSort, SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
+	connect(m_pFormSort, SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }

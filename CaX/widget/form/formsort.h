@@ -15,6 +15,16 @@ public:
 	explicit FormSort(QWidget *parent = nullptr);
 	~FormSort();
 
+signals:
+
+	void SigSort();
+	void SigIncDec();
+	void SigResize();
+
+protected:
+
+	bool eventFilter(QObject *object, QEvent *event);
+
 private:
 	Ui::FormSort *ui;
 };

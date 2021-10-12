@@ -70,32 +70,6 @@ void InfoService::SetTitle(const QString title)
 	m_pFormTitle->SetTitle(title);
 }
 
-
-bool InfoService::eventFilter(QObject *object, QEvent *event)
-{
-	if (event->type() == QMouseEvent::MouseButtonPress)
-	{
-//		if (object == ui->framePlayAll)
-//		{
-//			emit SigPlayAll();
-//		}
-//		else if (object == ui->framePlayRandom)
-//		{
-//			emit SigPlayRandom();
-//		}
-//		else if (object == ui->frameSubmenu)
-//		{
-//			ShowSubmenuDialog();
-//		}
-//		else if (object == ui->frameSort)
-//		{
-//			emit SigSort();
-//		}
-	}
-
-	return QObject::eventFilter(object, event);
-}
-
 void InfoService::SlotTitle()
 {
 	LogDebug("good choice title");
@@ -136,6 +110,24 @@ void InfoService::SlotSubmenu()
 
 }
 
+void InfoService::SlotSort()
+{
+	LogDebug("good choice sort");
+
+}
+
+void InfoService::SlotIncDec()
+{
+	LogDebug("good choice inc dec");
+
+}
+
+void InfoService::SlotResize()
+{
+	LogDebug("good choice resize");
+
+}
+
 void InfoService::ConnectSigToSlot()
 {
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
@@ -150,6 +142,9 @@ void InfoService::ConnectSigToSlot()
 	connect(m_pFormPlay, SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
 	connect(m_pFormPlay, SIGNAL(SigRating()), this, SLOT(SlotRating()));
 	connect(m_pFormPlay, SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pFormSort, SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pFormSort, SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
+	connect(m_pFormSort, SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 
