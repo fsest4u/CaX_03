@@ -9,7 +9,6 @@ ListDeviceEditor::ListDeviceEditor(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->labelPlus->installEventFilter(this);
 	ui->labelDevice->installEventFilter(this);
 	ui->labelCancel->installEventFilter(this);
 
@@ -77,11 +76,7 @@ bool ListDeviceEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->labelPlus)
-		{
-			// nothing
-		}
-		else if (object == ui->labelDevice)
+		if (object == ui->labelDevice)
 		{
 			emit SigClickDevice(m_Mac);
 		}

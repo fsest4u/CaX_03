@@ -25,7 +25,6 @@ public:
 
 	PlayManager *GetManager() {	return m_pMgr;	}
 
-
 protected:
 
 	bool eventFilter(QObject *object, QEvent *event);

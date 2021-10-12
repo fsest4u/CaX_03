@@ -89,7 +89,6 @@ private:
 	void DoPowerOn();
 
 	void RemoveAllWidget();
-
 	void UpdateStackState();
 
 	Loading			*m_pLoading;

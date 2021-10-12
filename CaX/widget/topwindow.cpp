@@ -24,6 +24,11 @@ QPushButton *TopWindow::GetBtnMenu()
 	return ui->btnMenu;
 }
 
+QPushButton *TopWindow::GetBtnHome()
+{
+	return ui->btnHome;
+}
+
 QPushButton *TopWindow::GetBtnPrev()
 {
 	return ui->btnPrev;

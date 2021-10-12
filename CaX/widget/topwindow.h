@@ -19,6 +19,7 @@ public:
 	void SetMainTitle(QString title);
 
 	QPushButton* GetBtnMenu();
+	QPushButton* GetBtnHome();
 	QPushButton* GetBtnPrev();
 	QPushButton* GetBtnNext();
 	QPushButton* GetBtnSearch();

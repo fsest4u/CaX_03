@@ -66,8 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-	delete ui;
-	ui = nullptr;
+
 
 	WriteSettings();
 
@@ -108,6 +107,8 @@ MainWindow::~MainWindow()
 		m_pDeviceWin = nullptr;
 	}
 
+	delete ui;
+//	ui = nullptr;
 }
 
 void MainWindow::SlotBtnMenu()
@@ -232,11 +233,20 @@ void MainWindow::ObserverConnect()
 	if (strAddr.isEmpty())
 		return;
 
+	m_bConnect = true;
+	ui->widgetTop->setDisabled(false);
+	ui->widgetPlay->setDisabled(false);
+
 	m_pObsMgr->RequestObserverInfo(strAddr);
+
 }
 
 void MainWindow::ObserverDisconnect()
 {
+	m_bConnect = false;
+	ui->widgetTop->setDisabled(true);
+	ui->widgetPlay->setDisabled(true);
+
 	m_pObsMgr->RequestDisconnectObserver();
 }
 
@@ -277,8 +287,6 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio)) { return; }
 		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay)) { return; }
 		if (!node.GetBool(KEY_INPUT, m_bInput)) { return; }
-
-		m_bConnect = true;
 
 		ObserverConnect();
 
@@ -390,14 +398,6 @@ void MainWindow::SlotWolCancel(QString mac)
 
 void MainWindow::SlotDisconnectObserver()
 {
-	// exit application
-	if (!m_bConnect)
-	{
-		return;
-	}
-
-	m_bConnect = false;
-
 	if (m_pDeviceMgr)
 	{
 		int index = m_pDeviceMgr->CheckDevice(m_strCurrentMac);
@@ -407,7 +407,7 @@ void MainWindow::SlotDisconnectObserver()
 		}
 	}
 
-	if (ui)
+//	if (ui)
 	{
 		DoDeviceListHome();
 	}
@@ -466,6 +466,7 @@ void MainWindow::SlotRespAirableLogout()
 //	RemoveAllWidget();
 //	DoMusicDBHome();
 
+	// ??
 	DoDeviceListHome();
 }
 
@@ -575,13 +576,17 @@ void MainWindow::ConnectForApp()
 
 void MainWindow::DoDeviceListHome()
 {
+	ui->widgetTop->setDisabled(true);
+	ui->widgetPlay->setDisabled(true);
+
 	RemoveAllWidget();
 
-	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
+	SlotAddWidget(m_pDeviceWin);
 
 	ui->widgetTop->SetMainTitle(tr("Select device"));
 	m_pDeviceWin->SetTitle(tr("Select device"));
-	SlotAddWidget(m_pDeviceWin);
+	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
+
 }
 
 void MainWindow::DoMusicDBHome()
@@ -711,6 +716,7 @@ void MainWindow::DoPowerOn()
 
 	widget->SetTitle(tr("Power on"));
 	widget->SetDeviceList(m_pDeviceMgr->GetDeviceListWol());
+
 }
 
 void MainWindow::SlotAddWidget(QWidget *widget)
@@ -748,7 +754,9 @@ void MainWindow::RemoveAllWidget()
 		auto backWidget = ui->stackMain->widget(i);
 		ui->stackMain->removeWidget(backWidget);
 	}
+
 }
+
 
 void MainWindow::UpdateStackState()
 {
@@ -791,3 +799,5 @@ void MainWindow::UpdateStackState()
 	ui->widgetTop->GetBtnNext()->setEnabled(true);
 	ui->widgetTop->GetBtnPrev()->setEnabled(true);
 }
+
+

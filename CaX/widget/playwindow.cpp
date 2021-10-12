@@ -83,7 +83,6 @@ void PlayWindow::SetAddr(const QString &addr)
 	m_pMgr->SetAddr(addr);
 }
 
-
 bool PlayWindow::eventFilter(QObject *object, QEvent *event)
 {
 	if(event->type() == QMouseEvent::MouseButtonPress)
