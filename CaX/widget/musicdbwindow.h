@@ -69,10 +69,10 @@ private slots:
 	void SlotAlbumSubmenu();
 	void SlotAlbumSort();
 
-	void SlotSelectCoverArt(int nID, QString coverArt);
 	void SlotSelectCount(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
+	void SlotSelectTitle(int nID, QString coverArt);
 
 	void SlotReqCoverArt(int id, int index, int mode);
 

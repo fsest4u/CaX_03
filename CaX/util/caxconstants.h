@@ -50,10 +50,8 @@
 
 #define PORT_IMAGE_SERVER			"50006"
 
-#define COVERART_WIDTH				100
-#define COVERART_HEIGHT				100
-#define ICON_ITEM_WIDTH				100
-#define ICON_ITEM_HEIGHT			100
+#define ICON_ITEM_WIDTH				195
+#define ICON_ITEM_HEIGHT			220
 #define LIST_ITEM_WIDTH				30
 #define LIST_ITEM_HEIGHT			30
 

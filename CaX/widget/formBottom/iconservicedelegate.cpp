@@ -8,14 +8,22 @@
 #include "util/CJsonNode.h"
 #include "util/log.h"
 
+#include "widget/form/formcoverart.h"
+#include "widget/form/formtitle.h"
+
+
 IconServiceDelegate::IconServiceDelegate()
 {
 
 }
 
-void IconServiceDelegate::SlotClickCoverArt(int nType, QString rawData)
+void IconServiceDelegate::SlotClickPlay(int nType)
 {
-	LogDebug("click cover art");
+	emit SigSelectPlay(nType);
+}
+
+void IconServiceDelegate::SlotClickTitle(int nType, QString rawData)
+{
 	CJsonNode node(JSON_OBJECT);
 	if (!node.SetContent(rawData))
 	{
@@ -29,21 +37,15 @@ void IconServiceDelegate::SlotClickCoverArt(int nType, QString rawData)
 			|| IconService::ICON_SERVICE_DAB_RADIO == m_nServiceType
 			|| (IconService::ICON_SERVICE_ISERVICE == m_nServiceType && node.GetString(KEY_ITEM_TYPE).isEmpty()))
 	{
-		emit SigSelectCoverArt(nType);
+		emit SigSelectTitle(nType);
 	}
 	else
 	{
-		// for i-service
-		emit SigSelectCoverArt(nType, rawData);
+		emit SigSelectTitle(nType, rawData);
 	}
 
 }
 
-void IconServiceDelegate::SlotClickTitle(int nType)
-{
-	Q_UNUSED(nType)
-	LogDebug("click title");
-}
 
 void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
@@ -57,7 +59,7 @@ QSize IconServiceDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	return QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT + 50);
+	return QSize(ICON_ITEM_WIDTH - 35, ICON_ITEM_HEIGHT - 20);
 }
 
 QWidget *IconServiceDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -66,8 +68,8 @@ QWidget *IconServiceDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	Q_UNUSED(index)
 
 	IconServiceEditor *editor = new IconServiceEditor(parent);
-	connect(editor, SIGNAL(SigClickCoverArt(int, QString)), this, SLOT(SlotClickCoverArt(int, QString)));
-	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));
+	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
+	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 
 	return editor;
 }
@@ -79,10 +81,10 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 
 	widget->SetID(qvariant_cast<int>(index.data(ICON_SERVICE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(ICON_SERVICE_TYPE)));
-	widget->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
-	widget->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
-	widget->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
+	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
+	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
+	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
 
 	widget->blockSignals(false);
 }
@@ -92,10 +94,10 @@ void IconServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	IconServiceEditor *widget = static_cast<IconServiceEditor*>(editor);
 	model->setData(index, widget->GetID(), ICON_SERVICE_ID);
 	model->setData(index, widget->GetType(), ICON_SERVICE_TYPE);
-	model->setData(index, widget->GetCoverArt(), ICON_SERVICE_COVER);
-	model->setData(index, widget->GetTitle(), ICON_SERVICE_TITLE);
-	model->setData(index, widget->GetSubtitle(), ICON_SERVICE_SUBTITLE);
 	model->setData(index, widget->GetRawData(), ICON_SERVICE_RAW);
+	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_SERVICE_COVER);
+	model->setData(index, widget->GetFormTitle()->GetTitle(), ICON_SERVICE_TITLE);
+	model->setData(index, widget->GetFormTitle()->GetSubtitle(), ICON_SERVICE_SUBTITLE);
 }
 
 void IconServiceDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

@@ -180,12 +180,17 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 	}
 }
 
-void PlaylistWindow::SlotSelectCoverArt(int id, QString coverArt)
+void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 	emit SigAddWidget(widget);
 	widget->PlaylistInfo(id, coverArt);
 	widget->TrackList(id);
+}
+
+void PlaylistWindow::SlotSelectCount(int id)
+{
+	LogDebug("click Count");
 }
 
 void PlaylistWindow::SlotSelectPlay(int id)
@@ -206,7 +211,9 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCoverArt(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 
 }

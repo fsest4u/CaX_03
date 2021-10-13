@@ -170,7 +170,7 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 //	}
 }
 
-void AudioCDWindow::SlotSelectCoverArt(int id, QString coverArt)
+void AudioCDWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	Q_UNUSED(coverArt)
 
@@ -197,7 +197,8 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCDRipInfo(CJsonNode)), this, SLOT(SlotRespCDRipInfo(CJsonNode)));
 
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
 
 }

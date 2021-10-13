@@ -1,49 +1,19 @@
-#include <QApplication>
-#include <QPainter>
-#include <QFile>
-
 #include "icontracksdelegate.h"
 #include "icontrackseditor.h"
 
 #include "util/caxconstants.h"
 #include "util/log.h"
 
-#include "network/tcpclient.h"
+#include "widget/form/formcoverart.h"
+#include "widget/form/formtitle.h"
 
 IconTracksDelegate::IconTracksDelegate()
 {
-	m_Image = QImage(":/resource/outline_arrow_forward_black_24dp.png");
 }
 
-void IconTracksDelegate::commitAndCloseEditor()
+void IconTracksDelegate::SlotClickPlay(int nID)
 {
-	IconTracksEditor *widget = static_cast<IconTracksEditor*>(sender());
-	emit commitData(widget);
-	emit closeEditor(widget);
-}
-
-void IconTracksDelegate::SlotClickCoverArt(int id, QString coverArt)
-{
-	LogDebug("click cover art");
-	emit SigSelectCoverArt(id, coverArt);
-}
-
-void IconTracksDelegate::SlotClickTitle(int nID)
-{
-	Q_UNUSED(nID)
-	LogDebug("click title");
-}
-
-void IconTracksDelegate::SlotClickSubtitle(int nID)
-{
-	Q_UNUSED(nID)
-	LogDebug("click subtitle");
-}
-
-void IconTracksDelegate::SlotClickCount(int nID)
-{
-	Q_UNUSED(nID)
-	LogDebug("click count");
+	emit SigSelectPlay(nID);
 }
 
 void IconTracksDelegate::SlotClickFavorite(int nID, int nFavorite)
@@ -57,57 +27,21 @@ void IconTracksDelegate::SlotClickRating(int nID, int nRating)
 
 }
 
+void IconTracksDelegate::SlotClickTitle(int nID, QString coverArt)
+{
+	emit SigSelectTitle(nID, coverArt);
+}
+
+void IconTracksDelegate::SlotClickSubtitle(int nID, QString coverArt)
+{
+	emit SigSelectSubtitle(nID, coverArt);
+}
+
 void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	Q_UNUSED(painter)
 	Q_UNUSED(option)
 	Q_UNUSED(index)
-
-//	QStyledItemDelegate::paint(painter, option, index);
-//	painter->save();
-
-//	int nID = qvariant_cast<int>(index.data(ICON_TRACKS_ID));
-//	QString cover = qvariant_cast<QString>(index.data(ICON_TRACKS_COVER));
-//	QString title = qvariant_cast<QString>(index.data(ICON_TRACKS_TITLE));
-//	QString subtitle = qvariant_cast<QString>(index.data(ICON_TRACKS_SUBTITLE));
-//	QString count = qvariant_cast<QString>(index.data(ICON_TRACKS_COUNT));
-
-////	LogDebug("rect [%d] - [%d][%d][%d][%d]", nID, option.rect.top(), option.rect.bottom(), option.rect.left(), option.rect.right());
-
-//	QRect coverRect = option.rect;
-//	QRect titleRect = option.rect;
-//	QRect subtitleRect = option.rect;
-//	QRect countRect = option.rect;
-
-//	if (m_ViewMode == QListView::ViewMode::ListMode)
-//	{
-//		coverRect.setWidth(coverRect.height());
-//	}
-
-//	bool bFoundImage = false;
-//	if (QFile::exists(cover))
-//	{
-//		QImage image;
-//		if (image.load(cover))
-//		{
-//			painter->drawImage(coverRect, image);
-//			bFoundImage = true;
-//		}
-//	}
-
-//	if (!bFoundImage)
-//	{
-//		painter->drawImage(coverRect, m_Image);
-//	}
-
-//	QFont font = QApplication::font();
-
-//	painter->setFont(font);
-//	painter->drawText(titleRect, title);
-//	painter->drawText(subtitleRect, subtitle);
-//	painter->drawText(countRect, count);
-
-//	painter->restore();
 }
 
 QSize IconTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -115,7 +49,7 @@ QSize IconTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	return QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT + 50);
+	return QSize(ICON_ITEM_WIDTH - 35, ICON_ITEM_HEIGHT - 20);
 }
 
 QWidget *IconTracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -124,13 +58,11 @@ QWidget *IconTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	Q_UNUSED(index)
 
 	IconTracksEditor *editor = new IconTracksEditor(parent);
-//	connect(editor, SIGNAL(editingFinished()), this, SLOT(commitAndCloseEditor()));
-	connect(editor, SIGNAL(SigClickCoverArt(int, QString)), this, SLOT(SlotClickCoverArt(int, QString)));
-	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));
-	connect(editor, SIGNAL(SigClickSubtitle(int)), this, SLOT(SlotClickSubtitle(int)));
-	connect(editor, SIGNAL(SigClickCount(int)), this, SLOT(SlotClickCount(int)));
+	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
 	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
 	connect(editor, SIGNAL(SigClickRating(int, int)), this, SLOT(SlotClickRating(int, int)));
+	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
+	connect(editor, SIGNAL(SigClickSubtitle(int, QString)), this, SLOT(SlotClickSubtitle(int, QString)));
 
 	return editor;
 }
@@ -140,12 +72,12 @@ void IconTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	IconTracksEditor *widget = static_cast<IconTracksEditor*>(editor);
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<int>(index.data(ICON_TRACKS_ID)));
-	widget->SetCoverArt(qvariant_cast<QString>(index.data(ICON_TRACKS_COVER)));
-	widget->SetTitle(qvariant_cast<QString>(index.data(ICON_TRACKS_TOP)));
-	widget->SetSubtitle(qvariant_cast<QString>(index.data(ICON_TRACKS_BOTTOM)));
-//	widget->SetCount(qvariant_cast<QString>(index.data(ICON_TRACKS_COUNT)));
-//	widget->SetFavorite(qvariant_cast<int>(index.data(ICON_TRACKS_FAVORITE)));
-//	widget->SetRating(qvariant_cast<int>(index.data(ICON_TRACKS_RATING)));
+	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_TRACKS_COVER)));
+	widget->GetFormCoverArt()->SetCount(qvariant_cast<int>(index.data(ICON_TRACKS_COUNT)));
+	widget->GetFormCoverArt()->SetFavorite(qvariant_cast<int>(index.data(ICON_TRACKS_FAVORITE)));
+	widget->GetFormCoverArt()->SetRating(qvariant_cast<int>(index.data(ICON_TRACKS_RATING)));
+	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_TRACKS_TITLE)));
+	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_TRACKS_SUBTITLE)));
 	widget->blockSignals(false);
 }
 
@@ -153,12 +85,12 @@ void IconTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 {
 	IconTracksEditor *widget = static_cast<IconTracksEditor*>(editor);
 	model->setData(index, widget->GetID(), ICON_TRACKS_ID);
-	model->setData(index, widget->GetCoverArt(), ICON_TRACKS_COVER);
-	model->setData(index, widget->GetTitle(), ICON_TRACKS_TOP);
-	model->setData(index, widget->GetSubtitle(), ICON_TRACKS_BOTTOM);
-//	model->setData(index, widget->GetCount(), ICON_TRACKS_COUNT);
-//	model->setData(index, widget->GetFavorite(), ICON_TRACKS_FAVORITE);
-//	model->setData(index, widget->GetRating(), ICON_TRACKS_RATING);
+	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_TRACKS_COVER);
+	model->setData(index, widget->GetFormCoverArt()->GetCount(), ICON_TRACKS_COUNT);
+	model->setData(index, widget->GetFormCoverArt()->GetFavorite(), ICON_TRACKS_FAVORITE);
+	model->setData(index, widget->GetFormCoverArt()->GetRating(), ICON_TRACKS_RATING);
+	model->setData(index, widget->GetFormTitle()->GetTitle(), ICON_TRACKS_TITLE);
+	model->setData(index, widget->GetFormTitle()->GetSubtitle(), ICON_TRACKS_SUBTITLE);
 }
 
 void IconTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

@@ -25,7 +25,7 @@ public:
 
 private slots:
 
-	void SlotSelectCoverArt(int nType);
+	void SlotSelectTitle(int nType);
 
 private:
 

@@ -14,8 +14,8 @@ public:
 	enum {
 		ICON_TRACKS_ID = Qt::UserRole + 0,
 		ICON_TRACKS_COVER,
-		ICON_TRACKS_TOP,
-		ICON_TRACKS_BOTTOM,
+		ICON_TRACKS_TITLE,
+		ICON_TRACKS_SUBTITLE,
 		ICON_TRACKS_COUNT,
 		ICON_TRACKS_FAVORITE,
 		ICON_TRACKS_RATING,
@@ -27,20 +27,19 @@ public:
 
 signals:
 
-	void SigSelectCoverArt(int id, QString coverArt);
-	void SigSelectCount(int nID);
+	void SigSelectPlay(int nID);
 	void SigSelectFavorite(int nID, int nFavorite);
 	void SigSelectRating(int nID, int nRating);
+	void SigSelectTitle(int nID, QString coverArt);
+	void SigSelectSubtitle(int nID, QString coverArt);
 
 private slots:
 
-	void commitAndCloseEditor();
-	void SlotClickCoverArt(int id, QString coverArt);
-	void SlotClickTitle(int nID);
-	void SlotClickSubtitle(int nID);
-	void SlotClickCount(int nID);
+	void SlotClickPlay(int nID);
 	void SlotClickFavorite(int nID, int nFavorite);
 	void SlotClickRating(int nID, int nRating);
+	void SlotClickTitle(int nID, QString coverArt);
+	void SlotClickSubtitle(int nID, QString coverArt);
 
 private:
 
@@ -54,7 +53,6 @@ private:
 
 	QListView::ViewMode m_ViewMode;
 
-	QImage	m_Image;
 };
 
 #endif // ICONTRACKSDELEGATE_H

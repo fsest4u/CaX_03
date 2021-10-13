@@ -77,9 +77,9 @@
    <item>
     <widget class="QFrame" name="frameBottom">
      <property name="styleSheet">
-      <string notr="true">#frame_2
+      <string notr="true">QFrame
 {
-	background-color: rgb(170, 0, 127);
+border: 0px;
 }</string>
      </property>
      <property name="frameShape">

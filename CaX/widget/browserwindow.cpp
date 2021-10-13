@@ -104,8 +104,9 @@ void BrowserWindow::SlotSubmenu(int nID)
 
 }
 
-void BrowserWindow::SlotSelectCoverArt(int nType, QString rawData)
+void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 {
+	LogDebug("click title para 2 nType [%d]", nType);
 
 	CJsonNode node;
 	if (!node.SetContent(rawData))
@@ -114,7 +115,6 @@ void BrowserWindow::SlotSelectCoverArt(int nType, QString rawData)
 		return;
 	}
 
-	LogDebug("nType [%d]", nType);
 	if ( iFolderType_Mask_Dir & nType
 		 && iFolderType_Mask_Sub & nType )
 	{
@@ -214,14 +214,15 @@ void BrowserWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));		// recursive
 
-
 	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
 	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
 	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 
-//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
-	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int, QString)), this, SLOT(SlotSelectCoverArt(int, QString)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+
 	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
@@ -240,7 +241,28 @@ void BrowserWindow::SetCoverArt(QList<CJsonNode> &list)
 
 	foreach (CJsonNode node, list)
 	{
-		strCover = ":/resource/Icon-playbar-volume-160.png";
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		QString path = node.GetString(KEY_PATH);
+		if (!path.compare("HDD1"))
+		{
+			strCover = ":/resource/browser-img160-hdd-n@3x.png";
+
+		}
+		else if (!path.compare("NET"))
+		{
+			strCover = ":/resource/browser-img160-net-n@3x.png";
+
+		}
+		else if (!path.compare("UPnP"))
+		{
+			strCover = ":/resource/browser-img160-upnp-n@3x.png";
+
+		}
+		else
+		{
+			strCover = ":/resource/browser-img160-brank-n@3x.png";
+
+		}
 		node.Add(KEY_COVER_ART, strCover);
 //		node.AddInt(KEY_ID_UPPER, index);
 //		node.AddInt(KEY_TYPE, index);

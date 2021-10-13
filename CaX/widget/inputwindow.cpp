@@ -63,7 +63,7 @@ void InputWindow::InputHome(QList<CJsonNode> list)
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_INPUT);
 }
 
-void InputWindow::SlotSelectCoverArt(int nType)
+void InputWindow::SlotSelectTitle(int nType)
 {
 	m_pMgr->RequestInput(nType);
 }
@@ -71,7 +71,9 @@ void InputWindow::SlotSelectCoverArt(int nType)
 void InputWindow::ConnectSigToSlot()
 {
 
-	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 }
 
@@ -85,27 +87,27 @@ void InputWindow::SetInputHome(QList<CJsonNode> &list)
 	{
 		if (node.GetString(KEY_RIGHT).contains("AES/EBU"))
 		{
-			strCover = ":/resource/Icon-playbar-volume-160.png";
+			strCover = ":/resource/input-img160-aesebu-n@3x.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("COAXIAL"))
 		{
-			strCover = ":/resource/Icon-playbar-volume-160.png";
+			strCover = ":/resource/input-img160-coaxial-n@3x.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("TOSLINK"))
 		{
-			strCover = ":/resource/Icon-playbar-volume-160.png";
+			strCover = ":/resource/input-img160-toslink-n@3x.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("ANALOG IN"))
 		{
-			strCover = ":/resource/Icon-playbar-volume-160.png";
+			strCover = ":/resource/input-img160-analogin-n@3x.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("AUX IN"))
 		{
-			strCover = ":/resource/Icon-playbar-volume-160.png";
+			strCover = ":/resource/input-img160-auxin-n@3x.png";
 		}
 		else if (node.GetString(KEY_RIGHT).contains("PHONO IN"))
 		{
-			strCover = ":/resource/Icon-playbar-volume-160.png";
+			strCover = ":/resource/input-img160-ponoin-n@3x.png";
 		}
 		else
 		{

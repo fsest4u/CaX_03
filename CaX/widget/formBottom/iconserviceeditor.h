@@ -24,33 +24,23 @@ public:
 	int GetType() const;
 	void SetType(int Type);
 
-	QString GetCoverArt();
-	void SetCoverArt(const QString &coverArt);
-
-	QString GetTitle();
-	void SetTitle(const QString &title);
-
-	QString GetSubtitle();
-	void SetSubtitle(const QString &subtitle);
-
 	QString GetRawData() const;
 	void SetRawData(const QString &RawData);
+
+	FormCoverArt *GetFormCoverArt() const;
+	FormTitle *GetFormTitle() const;
 
 
 signals:
 
-	void SigClickCoverArt(int nType, QString rawData = "");
-	void SigClickTitle(int nType);
+	void SigClickPlay(int nType);
+	void SigClickTitle(int nType, QString rawData = "");
 
-protected:
-
-	bool eventFilter(QObject *object, QEvent *event);
 
 private slots:
 
-	void SlotCoverArt();
+	void SlotPlay();
 	void SlotTitle();
-	void SlotSubtitle();
 
 private:
 
@@ -61,7 +51,6 @@ private:
 
 	int		m_ID;
 	int		m_Type;
-//	QString m_CoverArt;
 	QString m_RawData;
 
 	Ui::IconServiceEditor *ui;

@@ -5,6 +5,7 @@
 
 #include "icontracksdelegate.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
@@ -59,8 +60,8 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
-			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TOP);
-			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_BOTTOM);
+			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TITLE);
+			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
 			item->setData(node.GetString(KEY_RATING), IconTracksDelegate::ICON_TRACKS_RATING);
@@ -81,9 +82,9 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_TRACK).toInt();
 			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
-			item->setData(":/resource/Icon-playbar-volume-160.png", IconTracksDelegate::ICON_TRACKS_COVER);
-			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TOP);
-			item->setData(time, IconTracksDelegate::ICON_TRACKS_BOTTOM);
+			item->setData(":/resource/playlist-img160-albumart-h@3x.png", IconTracksDelegate::ICON_TRACKS_COVER);
+			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
+			item->setData(time, IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData("", IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
@@ -104,8 +105,8 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
-			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TOP);
-			item->setData("", IconTracksDelegate::ICON_TRACKS_BOTTOM);
+			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TITLE);
+			item->setData("", IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
@@ -172,6 +173,7 @@ void IconTracks::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	SetViewMode(QListView::IconMode);
 
 }

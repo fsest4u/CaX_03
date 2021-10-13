@@ -3,6 +3,7 @@
 
 #include "iconservicedelegate.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
@@ -132,7 +133,8 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetInt(KEY_MAC_ADDR), IconServiceDelegate::ICON_SERVICE_ID);
-			item->setData(":/resource/Icon-playbar-volume-160.png", IconServiceDelegate::ICON_SERVICE_COVER);
+			item->setData(node.GetInt(KEY_MAC_ADDR), IconServiceDelegate::ICON_SERVICE_TYPE);
+			item->setData(":/resource/groupp-img160-n@3x.png", IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_CA_NAME), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(subtitle, IconServiceDelegate::ICON_SERVICE_SUBTITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
@@ -187,6 +189,7 @@ void IconService::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	SetViewMode(QListView::IconMode);
 }
 

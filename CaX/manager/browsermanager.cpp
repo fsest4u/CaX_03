@@ -7,7 +7,7 @@
 BrowserManager::BrowserManager(QObject *parent)
 {
 	Q_UNUSED(parent)
-	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
+//	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int, int)), this, SLOT(SlotRespInfo(QString, int, int)));
 
 }

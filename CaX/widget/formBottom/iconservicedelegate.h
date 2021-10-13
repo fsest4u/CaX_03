@@ -28,13 +28,14 @@ public:
 
 signals:
 
-	void SigSelectCoverArt(int nType);
-	void SigSelectCoverArt(int nType, QString rawData);
+	void SigSelectPlay(int nType);
+	void SigSelectTitle(int nType);
+	void SigSelectTitle(int nType, QString rawData);
 
 private slots:
 
-	void SlotClickCoverArt(int nType, QString rawData);
-	void SlotClickTitle(int nType);
+	void SlotClickPlay(int nType);
+	void SlotClickTitle(int nType, QString rawData);
 
 private:
 

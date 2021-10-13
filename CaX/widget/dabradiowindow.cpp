@@ -82,7 +82,7 @@ void DABRadioWindow::SlotSubmenu(int nID)
 	}
 }
 
-void DABRadioWindow::SlotSelectCoverArt(int nType)
+void DABRadioWindow::SlotSelectTitle(int nType)
 {
 	m_pMgr->RequestPlay(nType);
 }
@@ -110,7 +110,9 @@ void DABRadioWindow::ConnectSigToSlot()
 	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
 	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 
-	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
@@ -125,7 +127,7 @@ void DABRadioWindow::SetHome(QList<CJsonNode> &list)
 
 	foreach (CJsonNode node, list)
 	{
-		strCover = ":/resource/Icon-playbar-volume-160.png";
+		strCover = ":/resource/radio-img160-channelicon-n@3x.png";
 		node.Add(KEY_COVER_ART, strCover);
 //		node.AddInt(KEY_ID_UPPER, index);
 		node.AddInt(KEY_TYPE, index);

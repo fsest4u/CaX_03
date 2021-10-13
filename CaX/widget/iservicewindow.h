@@ -58,8 +58,8 @@ private slots:
 	void SlotSubmenu(int index);
 	void SlotSort();
 
-	void SlotSelectCoverArt(int nType);
-	void SlotSelectCoverArt(int nType, QString rawData);
+	void SlotSelectTitle(int nType);
+	void SlotSelectTitle(int nType, QString rawData);
 	void SlotSelectURL(QString rawData);
 	void SlotReqArt(QString url, int index);
 

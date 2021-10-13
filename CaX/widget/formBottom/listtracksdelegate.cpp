@@ -14,7 +14,7 @@
 
 ListTracksDelegate::ListTracksDelegate()
 {
-	m_Image = QImage(":/resource/outline_arrow_forward_black_24dp.png");
+	m_Image = QImage(":/resource/browser-img160-brank-n@3x.png");
 }
 
 void ListTracksDelegate::SlotClickCoverArt(int nID)
@@ -140,7 +140,6 @@ QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	Q_UNUSED(index)
 
 	ListTracksEditor *editor = new ListTracksEditor(parent);
-//	connect(editor, SIGNAL(editingFinished()), this, SLOT(commitAndCloseEditor()));
 	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
 	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));

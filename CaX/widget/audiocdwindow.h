@@ -41,7 +41,7 @@ private slots:
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespCDRipInfo(CJsonNode node);
 
-	void SlotSelectCoverArt(int id, QString coverArt);
+	void SlotSelectTitle(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
 
 
