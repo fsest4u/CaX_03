@@ -32,11 +32,11 @@ public:
 
 signals:
 
-	void SigAddWidget(QWidget *widget);
+	void SigAddWidget(QWidget *widget, QString title);
 
 private slots:
 
-	void SlotAddWidget(QWidget *widget);
+	void SlotAddWidget(QWidget *widget, QString title);
 
 	void SlotRespError(QString message);
 	void SlotRespPlaylist(QList<CJsonNode> list);

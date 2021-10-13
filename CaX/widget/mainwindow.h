@@ -29,11 +29,12 @@ public:
 public slots:
 
 	void SlotBtnMenu();
+	void SlotBtnHome();
 	void SlotBtnPrev();
 	void SlotBtnNext();
 	void SlotBtnSearch();
 
-	void SlotAddWidget(QWidget *widget);
+	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotDeviceItem(int state);
@@ -53,11 +54,6 @@ public slots:
 
 	void SlotRespAirableLogout();
 
-
-protected:
-
-	bool eventFilter(QObject *obj, QEvent *event);
-
 private:
 
 	void ReadSettings();
@@ -67,7 +63,6 @@ private:
 	void ObserverDisconnect();
 
 	void InitMain();
-	void InitMenu(bool bEnable);
 
 	void ConnectSigToSlot();
 	void ConnectForUI();

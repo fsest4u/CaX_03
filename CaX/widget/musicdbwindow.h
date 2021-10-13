@@ -33,11 +33,11 @@ public:
 signals:
 
 //	void SigCategoryInfo(int nID, int nCategory);
-	void SigAddWidget(QWidget *widget);
+	void SigAddWidget(QWidget *widget, QString);
 
 private slots:
 
-	void SlotAddWidget(QWidget *widget);
+	void SlotAddWidget(QWidget *widget, QString);
 
 	void SlotRespError(QString errMsg);
 	void SlotRespMusicInfo(CJsonNode node);

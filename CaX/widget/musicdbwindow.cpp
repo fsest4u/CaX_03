@@ -125,9 +125,9 @@ void MusicDBWindow::RequestCategoryHome(int nID, int nCategory)
 	m_pMgr->RequestSongsOfCategory(nID, m_nCategory);
 }
 
-void MusicDBWindow::SlotAddWidget(QWidget *widget)
+void MusicDBWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget);	// recursive
+	emit SigAddWidget(widget, title);	// recursive
 }
 
 void MusicDBWindow::SlotRespError(QString errMsg)
@@ -335,7 +335,7 @@ void MusicDBWindow::SlotAlbumSort()
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
-	emit SigAddWidget(widget);
+	emit SigAddWidget(widget, tr("Music DB"));
 
 	widget->RequestCategoryHome(nID, m_nCategory);
 	widget->SetCoverArt(coverArt);
@@ -452,7 +452,7 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 void MusicDBWindow::ConnectSigToSlot()
 {
 	// recursive
-	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));
+	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespMusicInfo(CJsonNode)), this, SLOT(SlotRespMusicInfo(CJsonNode)));

@@ -109,9 +109,9 @@ void PlaylistWindow::TrackPlay(int id)
 //	m_pMgr->RequestPlayTracks(ids);
 }
 
-void PlaylistWindow::SlotAddWidget(QWidget *widget)
+void PlaylistWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget);		// recursive
+	emit SigAddWidget(widget, title);		// recursive
 }
 
 void PlaylistWindow::SlotRespError(QString message)
@@ -183,7 +183,7 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
-	emit SigAddWidget(widget);
+	emit SigAddWidget(widget, tr("Playlist"));
 	widget->PlaylistInfo(id, coverArt);
 	widget->TrackList(id);
 }
@@ -200,7 +200,7 @@ void PlaylistWindow::SlotSelectPlay(int id)
 
 void PlaylistWindow::ConnectSigToSlot()
 {
-	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));		// recursive
+	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 

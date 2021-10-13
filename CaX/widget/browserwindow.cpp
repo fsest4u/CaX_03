@@ -94,9 +94,9 @@ void BrowserWindow::RequestFolder(QString strPath)
 
 }
 
-void BrowserWindow::SlotAddWidget(QWidget *widget)
+void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget);		// recursive
+	emit SigAddWidget(widget, title);		// recursive
 }
 
 void BrowserWindow::SlotSubmenu(int nID)
@@ -121,7 +121,7 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 		LogDebug("iFolderType_Mask_Sub");
 
 		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_Root);
-		emit SigAddWidget(widget);
+		emit SigAddWidget(widget, tr("Browser"));
 
 		QString strPath = node.GetString(KEY_PATH);
 		widget->RequestFolder(strPath);
@@ -212,7 +212,7 @@ void BrowserWindow::SlotRespNodeUpdate(CJsonNode node, int nIndex)
 
 void BrowserWindow::ConnectSigToSlot()
 {
-	connect(this, SIGNAL(SigAddWidget(QWidget*)), parent(), SLOT(SlotAddWidget(QWidget*)));		// recursive
+	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
 
 	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));

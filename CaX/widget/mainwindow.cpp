@@ -58,16 +58,15 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	LogDebug("Application Start.. [%s]", "Good!!");
 	ConnectSigToSlot();
+
 	ReadSettings();
+
 	InitMain();
 }
 
 MainWindow::~MainWindow()
 {
-
-
 	WriteSettings();
 
 	if (m_pSideMenu)
@@ -108,14 +107,12 @@ MainWindow::~MainWindow()
 	}
 
 	delete ui;
-//	ui = nullptr;
 }
 
 void MainWindow::SlotBtnMenu()
 {
 	if (m_pSideMenu->isHidden())
 	{
-//		LogDebug("show side menu");
 		m_pSideMenu->SetEnableInput(m_bInput);
 		m_pSideMenu->SetEnableFMRadio(m_bFMRadio);
 		m_pSideMenu->SetEnableGroupPlay(m_bGroupPlay);
@@ -126,10 +123,23 @@ void MainWindow::SlotBtnMenu()
 	}
 	else
 	{
-//		LogDebug("hide side menu");
 		m_pSideMenu->HideMenu();
 	}
 
+}
+
+void MainWindow::SlotBtnHome()
+{
+	RemoveAllWidget();
+
+	if (m_bConnect)
+	{
+		DoMusicDBHome();
+	}
+	else
+	{
+		DoDeviceListHome();
+	}
 }
 
 void MainWindow::SlotBtnPrev()
@@ -365,7 +375,6 @@ void MainWindow::SlotSelectDevice(QString mac)
 
 	m_pAppMgr->RequestDeviceInfo();
 
-	RemoveAllWidget();
 }
 
 void MainWindow::SlotSelectCancel(QString mac)
@@ -381,13 +390,13 @@ void MainWindow::SlotWolDevice(QString mac)
 	if (mac.isEmpty())
 		return;
 
+	RemoveAllWidget();
+
 	QString strAddr = m_pDeviceMgr->GetDeviceValueWol(mac, DEVICE_WOL_ADDR);
 	if (strAddr.isEmpty())
 		return;
 
 	m_pDeviceMgr->RequestDevicePowerOn(strAddr, mac);
-
-	RemoveAllWidget();
 }
 
 void MainWindow::SlotWolCancel(QString mac)
@@ -398,6 +407,9 @@ void MainWindow::SlotWolCancel(QString mac)
 
 void MainWindow::SlotDisconnectObserver()
 {
+	RemoveAllWidget();
+	DoDeviceListHome();
+
 	if (m_pDeviceMgr)
 	{
 		int index = m_pDeviceMgr->CheckDevice(m_strCurrentMac);
@@ -405,11 +417,6 @@ void MainWindow::SlotDisconnectObserver()
 		{
 			m_pDeviceMgr->DelDevice(index);
 		}
-	}
-
-//	if (ui)
-	{
-		DoDeviceListHome();
 	}
 }
 
@@ -449,6 +456,9 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 	case SideMenuDelegate::SIDEMENU_SERVICE_SETUP:
 		DoSetupHome();
 		break;
+	case SideMenuDelegate::SIDEMENU_SERVICE_SELECT_DEVICE:
+		DoDeviceListHome();
+		break;
 	case SideMenuDelegate::SIDEMENU_SERVICE_POWER_OFF:
 		DoPowerOff();
 		break;
@@ -463,45 +473,13 @@ void MainWindow::SlotSelectSideMenu(int menuIndex)
 
 void MainWindow::SlotRespAirableLogout()
 {
-//	RemoveAllWidget();
-//	DoMusicDBHome();
-
-	// ??
-	DoDeviceListHome();
+	DoMusicDBHome();
 }
 
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-	if (event->type() == QMouseEvent::MouseButtonPress)
-	{
-
-//		if (obj == ui->widgetTop->GetBtnMenu())
-//		{
-//			SlotBtnMenu();
-//		}
-//		else if (obj == ui->widgetTop->GetBtnPrev())
-//		{
-//			SlotBtnPrev();
-//		}
-//		else if (obj == ui->widgetTop->GetBtnNext())
-//		{
-//			SlotBtnNext();
-//		}
-//		else if (obj == ui->widgetTop->GetBtnSearch())
-//		{
-//			SlotBtnSearch();
-//		}
-
-	}
-
-	return QObject::eventFilter(obj, event);
-}
 
 void MainWindow::InitMain()
 {
-//	instead of MainWindow::ConnectForUI()
-//	InitMenu(true);
-
+	RemoveAllWidget();
 	DoDeviceListHome();
 
 	m_pDeviceMgr->RequestDeviceInfo();
@@ -515,26 +493,6 @@ void MainWindow::InitMain()
 
 }
 
-void MainWindow::InitMenu(bool bEnable)
-{
-
-	if (bEnable)
-	{
-//		ui->widgetTop->GetBtnMenu()->installEventFilter(this);
-//		ui->widgetTop->GetBtnPrev()->installEventFilter(this);
-//		ui->widgetTop->GetBtnNext()->installEventFilter(this);
-//		ui->widgetTop->GetBtnSearch()->installEventFilter(this);
-	}
-	else
-	{
-//		ui->widgetTop->GetBtnMenu()->removeEventFilter(this);
-//		ui->widgetTop->GetBtnPrev()->removeEventFilter(this);
-//		ui->widgetTop->GetBtnNext()->removeEventFilter(this);
-//		ui->widgetTop->GetBtnSearch()->removeEventFilter(this);
-
-	}
-}
-
 void MainWindow::ConnectSigToSlot()
 {
 	ConnectForUI();
@@ -545,6 +503,7 @@ void MainWindow::ConnectForUI()
 {
 	// top menu
 	connect(ui->widgetTop->GetBtnMenu(), SIGNAL(clicked()), this, SLOT(SlotBtnMenu()));
+	connect(ui->widgetTop->GetBtnHome(), SIGNAL(clicked()), this, SLOT(SlotBtnHome()));
 	connect(ui->widgetTop->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPrev()));
 	connect(ui->widgetTop->GetBtnNext(), SIGNAL(clicked()), this, SLOT(SlotBtnNext()));
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
@@ -579,11 +538,8 @@ void MainWindow::DoDeviceListHome()
 	ui->widgetTop->setDisabled(true);
 	ui->widgetPlay->setDisabled(true);
 
-	RemoveAllWidget();
+	SlotAddWidget(m_pDeviceWin, tr("Select device"));
 
-	SlotAddWidget(m_pDeviceWin);
-
-	ui->widgetTop->SetMainTitle(tr("Select device"));
 	m_pDeviceWin->SetTitle(tr("Select device"));
 	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
 
@@ -591,33 +547,29 @@ void MainWindow::DoDeviceListHome()
 
 void MainWindow::DoMusicDBHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Music DB"));
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Music DB"));
 	widget->RequestMusicHome();
 }
 
 void MainWindow::DoAudioCDHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Audio CD"));
 	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Audio CD"));
 	widget->TrackList();
 }
 
 void MainWindow::DoPlaylistHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Playlist"));
 	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Playlist"));
 	widget->Playlist();
 }
 
 void MainWindow::DoBrowserHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Browser"));
 	BrowserWindow *widget = new BrowserWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Browser"));
 	widget->RequestRoot();
 
 
@@ -625,41 +577,36 @@ void MainWindow::DoBrowserHome()
 
 void MainWindow::DoIServiceHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Internet service"));
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Internet service"));
 	widget->IServiceHome(m_IServiceList);
 }
 
 void MainWindow::DoInputHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Input"));
 	InputWindow *widget = new InputWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Input"));
 	widget->InputHome(m_InputList);
 }
 
 void MainWindow::DoFmRadioHome()
 {
-	ui->widgetTop->SetMainTitle(tr("FM radio"));
 	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("FM radio"));
 	widget->RequestList();
 }
 
 void MainWindow::DoDabRadioHome()
 {
-	ui->widgetTop->SetMainTitle(tr("DAB radio"));
 	DABRadioWindow *widget = new DABRadioWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("DAB radio"));
 	widget->RequestList();
 }
 
 void MainWindow::DoGroupPlayHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Group play"));
 	GroupPlayWindow *widget = new GroupPlayWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Group play"));
 	widget->GroupPlayList(m_nEventID);
 
 	// event
@@ -669,9 +616,8 @@ void MainWindow::DoGroupPlayHome()
 
 void MainWindow::DoSetupHome()
 {
-	ui->widgetTop->SetMainTitle(tr("Setup"));
 	SetupWindow *widget = new SetupWindow(this, m_strAddr);
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Setup"));
 	widget->SetupHome(m_SetupList, m_nEventID);
 
 }
@@ -707,9 +653,8 @@ void MainWindow::DoPowerOff()
 
 void MainWindow::DoPowerOn()
 {
-	ui->widgetTop->SetMainTitle(tr("Power on"));
 	DeviceListWindow *widget = new DeviceListWindow;
-	SlotAddWidget(widget);
+	SlotAddWidget(widget, tr("Power on"));
 
 	connect(widget, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotWolDevice(QString)));
 	connect(widget, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotWolCancel(QString)));
@@ -719,7 +664,7 @@ void MainWindow::DoPowerOn()
 
 }
 
-void MainWindow::SlotAddWidget(QWidget *widget)
+void MainWindow::SlotAddWidget(QWidget *widget, QString title)
 {
 	auto idx = ui->stackMain->currentIndex();
 	auto cnt = ui->stackMain->count() - 1;
@@ -736,6 +681,7 @@ void MainWindow::SlotAddWidget(QWidget *widget)
 
 	idx = ui->stackMain->addWidget(widget);
 	ui->stackMain->setCurrentIndex(idx);
+	ui->widgetTop->AddTitle(title);
 
 	UpdateStackState();
 }
@@ -743,6 +689,8 @@ void MainWindow::SlotAddWidget(QWidget *widget)
 void MainWindow::SlotRemoveWidget(QWidget *widget)
 {
 	ui->stackMain->removeWidget(widget);
+	ui->widgetTop->RemoveTitle();
+
 	UpdateStackState();
 }
 
@@ -754,14 +702,14 @@ void MainWindow::RemoveAllWidget()
 		auto backWidget = ui->stackMain->widget(i);
 		ui->stackMain->removeWidget(backWidget);
 	}
-
 }
-
 
 void MainWindow::UpdateStackState()
 {
 	auto idx = ui->stackMain->currentIndex();
 	auto cnt = ui->stackMain->count();
+
+	ui->widgetTop->SetTitle(idx);
 
 	// Update buttons depending on the page count.
 	auto hasPage = cnt > 0;

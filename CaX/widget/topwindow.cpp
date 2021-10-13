@@ -7,6 +7,7 @@ TopWindow::TopWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	m_TitleList.clear();
 }
 
 TopWindow::~TopWindow()
@@ -14,8 +15,24 @@ TopWindow::~TopWindow()
 	delete ui;
 }
 
-void TopWindow::SetMainTitle(QString title)
+void TopWindow::AddTitle(QString title)
 {
+	m_TitleList.append(title);
+}
+
+void TopWindow::RemoveTitle()
+{
+	m_TitleList.removeLast();
+}
+
+void TopWindow::SetTitle(int index)
+{
+	int count = m_TitleList.count();
+	if (count <= index)
+	{
+		return;
+	}
+	QString title = m_TitleList.at(index);
 	ui->labelTitle->setText(title);
 }
 

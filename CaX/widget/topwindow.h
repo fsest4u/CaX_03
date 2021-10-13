@@ -16,7 +16,9 @@ public:
 	explicit TopWindow(QWidget *parent = nullptr);
 	~TopWindow();
 
-	void SetMainTitle(QString title);
+	void AddTitle(QString title);
+	void RemoveTitle();
+	void SetTitle(int index);
 
 	QPushButton* GetBtnMenu();
 	QPushButton* GetBtnHome();
@@ -25,6 +27,9 @@ public:
 	QPushButton* GetBtnSearch();
 
 private:
+
+	QList<QString> m_TitleList;
+
 	Ui::TopWindow *ui;
 };
 
