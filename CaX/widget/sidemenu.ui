@@ -89,19 +89,20 @@ background-color: rgba(255, 255, 255, 0.01);
        <widget class="QFrame" name="frameMenu">
         <property name="minimumSize">
          <size>
-          <width>200</width>
+          <width>250</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>250</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">#frameMenu {
-background-color: rgb(255, 255, 255);
+         <string notr="true">#frameMenu
+{
+	background-color: rgb(52, 174, 214);
 }</string>
         </property>
         <property name="frameShape">
