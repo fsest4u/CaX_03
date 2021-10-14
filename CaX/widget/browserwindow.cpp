@@ -38,8 +38,9 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormPlay()->ShowPlayAll();
-	m_pInfoService->GetFormPlay()->ShowPlayRandom();
+//	m_pInfoService->GetFormPlay()->ShowPlayAll();
+//	m_pInfoService->GetFormPlay()->ShowPlayRandom();
+
 	m_pInfoService->GetFormPlay()->ShowSubmenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 
@@ -94,10 +95,6 @@ void BrowserWindow::RequestFolder(QString strPath)
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
 
-	if (!m_Root.isEmpty())
-		strPath = m_Root + "/" + strPath;
-
-	m_Root = strPath;
 	m_pMgr->RequestFolder(strPath);
 
 }
@@ -143,12 +140,16 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 		 && iFolderType_Mask_Sub & nType )
 	{
 		LogDebug("iFolderType_Mask_Sub");
+		QString strPath = node.GetString(KEY_PATH);
+		if (!m_Root.isEmpty())
+			strPath = m_Root + "/" + strPath;
+
+		m_Root = strPath;
 
 		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_Root);
 		emit SigAddWidget(widget, tr("Browser"));
 
-		QString strPath = node.GetString(KEY_PATH);
-		widget->RequestFolder(strPath);
+		widget->RequestFolder(m_Root);
 	}
 	else if (iFolderType_Mask_Song & nType
 			 && (iFolderType_Mask_Play_Top & nType
@@ -244,7 +245,7 @@ void BrowserWindow::ConnectSigToSlot()
 
 	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
-	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
+//	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
 	connect(m_pListService, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));

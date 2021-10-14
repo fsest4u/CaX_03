@@ -100,6 +100,36 @@ void PlaylistManager::RequestPlaylistPlay(int id)
 	RequestCommand(node, PLAYLIST_PLAY_PLAYLIST);
 }
 
+void PlaylistManager::RequestPlaylistsPlay(QList<int> ids)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAYLIST);
+	node.Add(KEY_CMD1, VAL_PLAY);
+	node.AddInt(KEY_WHERE, 3);
+
+	CJsonNode nodeIDS(JSON_ARRAY);
+	foreach (int id, ids)
+	{
+		nodeIDS.AppendArray((int64_t)id);
+	}
+
+	node.Add(KEY_IDS, nodeIDS);
+
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	RequestCommand(node, PLAYLIST_PLAY_TRACKS);
+}
+
+void PlaylistManager::RequestRandom()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_REMOTE);
+	node.Add(KEY_KEY, VAL_SHUFFLE);
+
+	RequestCommand(node, PLAYLIST_RANDOM);
+
+}
+
 void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 {
 	CJsonNode node;
@@ -186,8 +216,9 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 		break;
 	case PLAYLIST_SWAP:
 		break;
-
 	case PLAYLIST_EXPORT:
+		break;
+	case PLAYLIST_RANDOM:
 		break;
 	}
 }

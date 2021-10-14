@@ -29,6 +29,8 @@ public:
 	void TrackList(int id);
 	void TrackPlay(int id);
 	void TracksPlay(QList<int> ids);
+	void PlaylistPlay(int id);
+	void PlaylistsPlay(QList<int> ids);
 
 signals:
 
@@ -67,6 +69,8 @@ private:
 	ListTracks		*m_pListTracks;
 
 	Loading			*m_pLoading;
+
+	QList<int>		m_IDs;
 
 	Ui::PlaylistWindow *ui;
 };

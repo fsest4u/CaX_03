@@ -57,6 +57,8 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowSubmenu();
+	m_pInfoTracks->GetFormPlay()->ShowFavorite();
+	m_pInfoTracks->GetFormPlay()->ShowRating();
 
 	m_pInfoTracks->GetFormSort()->ShowSort();
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
@@ -342,6 +344,18 @@ void MusicDBWindow::SlotAlbumSubmenu()
 
 }
 
+void MusicDBWindow::SlotAlbumFavorite()
+{
+	LogDebug("album favorite");
+
+}
+
+void MusicDBWindow::SlotAlbumRating()
+{
+	LogDebug("album rating");
+
+}
+
 void MusicDBWindow::SlotAlbumSort()
 {
 	LogDebug("album sort");
@@ -494,8 +508,6 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
-	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigRating()), this, SLOT(SlotRating()));
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
 
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassify()), this, SLOT(SlotFilterClassify()));
@@ -518,6 +530,8 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotAlbumPlayAll()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotAlbumPlayRandom()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotAlbumSubmenu()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigFavorite()), this, SLOT(SlotAlbumFavorite()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigRating()), this, SLOT(SlotAlbumRating()));
 
 	connect(m_pInfoTracks, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));

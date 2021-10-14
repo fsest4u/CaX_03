@@ -26,6 +26,7 @@ public:
 	void RequestDelTrack();
 	void RequestSwap();
 	void RequestExport();
+	void RequestRandom();
 
 signals:
 
@@ -58,8 +59,8 @@ private:
 		PLAYLIST_ADD_TRACK,
 		PLAYLIST_DEL_TRACK,
 		PLAYLIST_SWAP,
-
 		PLAYLIST_EXPORT,
+		PLAYLIST_RANDOM,
 		PLAYLIST_MAX
 	};
 

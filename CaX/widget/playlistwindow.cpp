@@ -109,12 +109,20 @@ void PlaylistWindow::TrackList(int id)
 
 void PlaylistWindow::TrackPlay(int id)
 {
-	m_pMgr->RequestTrackPlay(id);
+}
 
-	// temp_code, dylee
-//	QList<int> ids;
-//	ids.append(id);
-//	m_pMgr->RequestPlayTracks(ids);
+void PlaylistWindow::TracksPlay(QList<int> ids)
+{
+	m_pMgr->RequestTracksPlay(ids);
+}
+
+void PlaylistWindow::PlaylistPlay(int id)
+{
+	m_pMgr->RequestPlaylistPlay(id);
+}
+
+void PlaylistWindow::PlaylistsPlay(QList<int> ids)
+{
 }
 
 void PlaylistWindow::SlotAddWidget(QWidget *widget, QString title)
@@ -129,6 +137,11 @@ void PlaylistWindow::SlotRespError(QString message)
 
 void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 {
+	m_IDs.clear();
+	foreach (CJsonNode node, list)
+	{
+		m_IDs.append(node.GetString(KEY_ID_LOWER).toInt());
+	}
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_PLAYLIST);
 }
 
@@ -203,18 +216,19 @@ void PlaylistWindow::SlotSelectCount(int id)
 
 void PlaylistWindow::SlotSelectPlay(int id)
 {
-	TrackPlay(id);
+	m_pMgr->RequestTrackPlay(id);
 }
 
 void PlaylistWindow::SlotPlayAll()
 {
-	LogDebug("click play all");
+
+	m_pMgr->RequestPlaylistsPlay(m_IDs);
 
 }
 
 void PlaylistWindow::SlotPlayRandom()
 {
-	LogDebug("click play random");
+	m_pMgr->RequestRandom();
 
 }
 

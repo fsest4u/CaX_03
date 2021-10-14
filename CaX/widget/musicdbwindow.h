@@ -67,6 +67,8 @@ private slots:
 	void SlotAlbumPlayAll();
 	void SlotAlbumPlayRandom();
 	void SlotAlbumSubmenu();
+	void SlotAlbumFavorite();
+	void SlotAlbumRating();
 	void SlotAlbumSort();
 	void SlotAlbumIncDec();
 	void SlotAlbumResize();
