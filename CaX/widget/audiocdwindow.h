@@ -44,6 +44,8 @@ private slots:
 	void SlotSelectTitle(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
 
+	void SlotSubmenu();
+	void SlotResize();
 
 
 private:

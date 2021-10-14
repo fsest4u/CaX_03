@@ -15,6 +15,10 @@ public:
 	explicit FormSort(QWidget *parent = nullptr);
 	~FormSort();
 
+	void ShowSort();
+	void ShowIncDec();
+	void ShowResize();
+
 signals:
 
 	void SigSort();

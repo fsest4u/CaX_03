@@ -80,6 +80,16 @@ void InfoTracks::SetCoverArt(QString coverArt)
 	m_pFormCoverArt->SetCoverArt(coverArt);
 }
 
+FormPlay *InfoTracks::GetFormPlay()
+{
+	return m_pFormPlay;
+}
+
+FormSort *InfoTracks::GetFormSort()
+{
+	return m_pFormSort;
+}
+
 void InfoTracks::SlotCoverArt()
 {
 	LogDebug("good choice cover art");
@@ -97,54 +107,6 @@ void InfoTracks::SlotSubtitle()
 
 }
 
-void InfoTracks::SlotPlayAll()
-{
-	LogDebug("good choice play all");
-
-}
-
-void InfoTracks::SlotPlayRandom()
-{
-	LogDebug("good choice play random");
-
-}
-
-void InfoTracks::SlotFavorite()
-{
-	LogDebug("good choice favorite");
-
-}
-
-void InfoTracks::SlotRating()
-{
-	LogDebug("good choice rating");
-
-}
-
-void InfoTracks::SlotSubmenu()
-{
-	LogDebug("good choice submenu");
-
-}
-
-void InfoTracks::SlotSort()
-{
-	LogDebug("good choice sort");
-
-}
-
-void InfoTracks::SlotIncDec()
-{
-	LogDebug("good choice inc dec");
-
-}
-
-void InfoTracks::SlotResize()
-{
-	LogDebug("good choice resize");
-
-}
-
 void InfoTracks::ConnectSigToSlot()
 {
 
@@ -156,13 +118,5 @@ void InfoTracks::ConnectSigToSlot()
 	connect(m_pFormCoverArt, SIGNAL(SigCoverArt()), this, SLOT(SlotCoverArt()));
 	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));
-	connect(m_pFormPlay, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pFormPlay, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pFormPlay, SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
-	connect(m_pFormPlay, SIGNAL(SigRating()), this, SLOT(SlotRating()));
-	connect(m_pFormPlay, SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
-	connect(m_pFormSort, SIGNAL(SigSort()), this, SLOT(SlotSort()));
-	connect(m_pFormSort, SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
-	connect(m_pFormSort, SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }

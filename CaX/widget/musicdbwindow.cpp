@@ -23,9 +23,6 @@
 #include "widget/formBottom/listtracks.h"
 #include "widget/formBottom/listtracksdelegate.h"
 
-
-
-
 MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
 	m_pMgr(new MusicDBManager),
@@ -48,6 +45,23 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_nCategory = SQLManager::CATEGORY_ALBUM;
+
+	m_pInfoHome->GetFormPlay()->ShowPlayAll();
+	m_pInfoHome->GetFormPlay()->ShowPlayRandom();
+	m_pInfoHome->GetFormPlay()->ShowSubmenu();
+
+	m_pInfoHome->GetFormSort()->ShowSort();
+	m_pInfoHome->GetFormSort()->ShowIncDec();
+	m_pInfoHome->GetFormSort()->ShowResize();
+
+	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
+	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
+	m_pInfoTracks->GetFormPlay()->ShowSubmenu();
+
+	m_pInfoTracks->GetFormSort()->ShowSort();
+	m_pInfoTracks->GetFormSort()->ShowIncDec();
+	m_pInfoTracks->GetFormSort()->ShowResize();
+
 }
 
 MusicDBWindow::~MusicDBWindow()
@@ -310,17 +324,6 @@ void MusicDBWindow::SlotMusicSubmenu2()
 
 }
 
-void MusicDBWindow::SlotMusicDisplayMode()
-{
-	LogDebug("music Display mode");
-}
-
-void MusicDBWindow::SlotMusicSort()
-{
-	LogDebug("frame Sort");
-
-}
-
 void MusicDBWindow::SlotAlbumPlayAll()
 {
 	LogDebug("album play all");
@@ -342,6 +345,18 @@ void MusicDBWindow::SlotAlbumSubmenu()
 void MusicDBWindow::SlotAlbumSort()
 {
 	LogDebug("album sort");
+
+}
+
+void MusicDBWindow::SlotAlbumIncDec()
+{
+	LogDebug("album inc dec");
+
+}
+
+void MusicDBWindow::SlotAlbumResize()
+{
+	LogDebug("album resize");
 
 }
 
@@ -494,21 +509,20 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
-
 	connect(m_pInfoHome, SIGNAL(SigGenreList()), this, SLOT(SlotGenreList()));
 	connect(m_pInfoHome, SIGNAL(SigAlbumList()), this, SLOT(SlotAlbumList()));
 	connect(m_pInfoHome, SIGNAL(SigArtistList()), this, SLOT(SlotArtistList()));
 	connect(m_pInfoHome, SIGNAL(SigTrackList()), this, SLOT(SlotTrackList()));
 	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotMusicSubmenu2()));
-	connect(m_pInfoHome, SIGNAL(SigDisplayMode()), this, SLOT(SlotMusicDisplayMode()));
-//	connect(m_pInfoHome, SIGNAL(SigSort()), this, SLOT(SlotMusicSort()));
 
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotAlbumPlayAll()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotAlbumPlayRandom()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotAlbumSubmenu()));
 
-
-	connect(m_pInfoTracks, SIGNAL(SigPlayAll()), this, SLOT(SlotAlbumPlayAll()));
-	connect(m_pInfoTracks, SIGNAL(SigPlayRandom()), this, SLOT(SlotAlbumPlayRandom()));
-	connect(m_pInfoTracks, SIGNAL(SigSubmenu()), this, SLOT(SlotAlbumSubmenu()));
 	connect(m_pInfoTracks, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec()), this, SLOT(SlotAlbumIncDec()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotAlbumResize()));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCount(int)));

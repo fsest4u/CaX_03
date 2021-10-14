@@ -30,11 +30,8 @@ public:
 	void SetSortName(const QString name);
 
 	FormPlay *GetFormPlay();
-	FormClassify *GetFormClassify();
 	FormSort *GetFormSort();
-
-
-
+	FormClassify *GetFormClassify();
 
 signals:
 
@@ -43,10 +40,6 @@ signals:
 	void SigArtistList();
 	void SigTrackList();
 	void SigSubmenu2();
-	void SigDisplayMode();
-//	void SigSort();
-
-
 
 protected:
 

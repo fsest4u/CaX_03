@@ -9,14 +9,15 @@
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
+
 #include "widget/airable.h"
 #include "widget/qobuz.h"
-
-#include "formTop/infoservice.h"
-#include "formBottom/iconservice.h"
-#include "formBottom/iconservicedelegate.h"
-#include "formBottom/listservice.h"
-#include "formBottom/listservicedelegate.h"
+#include "widget/form/formsort.h"
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
+#include "widget/formBottom/listservice.h"
+#include "widget/formBottom/listservicedelegate.h"
 
 #include "dialog/logindialog.h"
 #include "dialog/webengineviewdialog.h"
@@ -47,6 +48,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoService->SetSubmenuIService();
+	m_pInfoService->GetFormSort()->ShowResize();
 
 	m_bGenreSubmenu = false;
 }
@@ -180,24 +182,9 @@ void IServiceWindow::SlotRespAirableLogout()
 	emit SigRespLogout();			// recursive
 }
 
-void IServiceWindow::SlotPlayAll()
+void IServiceWindow::SlotResize()
 {
-	LogDebug("click play all");
-}
-
-void IServiceWindow::SlotPlayRandom()
-{
-	LogDebug("click play random");
-}
-
-void IServiceWindow::SlotSubmenu(int index)
-{
-	LogDebug("click submenu");
-}
-
-void IServiceWindow::SlotSort()
-{
-	LogDebug("click sort");
+	LogDebug("click resize");
 }
 
 void IServiceWindow::SlotSelectTitle(int nType)
@@ -515,11 +502,6 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(this, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
 
-	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
-	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
-
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
@@ -541,6 +523,8 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pAirableMgr, SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAuth(int)));
 	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QString, QList<CJsonNode>)), this, SLOT(SlotRespURL(int, QString, QList<CJsonNode>)));
 	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 

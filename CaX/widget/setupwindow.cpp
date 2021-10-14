@@ -1,9 +1,9 @@
 #include "setupwindow.h"
 #include "ui_setupwindow.h"
 
-#include "formTop/infoservice.h"
-#include "formBottom/listservice.h"
-#include "formBottom/listservicedelegate.h"
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/listservice.h"
+#include "widget/formBottom/listservicedelegate.h"
 
 #include "manager/setupmanager.h"
 

@@ -1,9 +1,11 @@
 #include "dabradiowindow.h"
 #include "ui_dabradiowindow.h"
 
-#include "formTop/infoservice.h"
-#include "formBottom/iconservice.h"
-#include "formBottom/iconservicedelegate.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
 
 #include "manager/dabradiomanager.h"
 
@@ -27,6 +29,7 @@ DABRadioWindow::DABRadioWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoService->SetSubmenuDabRadio();
+	m_pInfoService->GetFormSort()->ShowResize();
 
 }
 
@@ -61,26 +64,31 @@ void DABRadioWindow::RequestList()
 	m_pMgr->RequestList();
 }
 
-void DABRadioWindow::SlotSubmenu(int nID)
+void DABRadioWindow::SlotResize()
 {
-	LogDebug("click sub menu [%d]", nID);
-	if (InfoService::DAB_SEARCH_ALL_DELETE == nID)
-	{
-		m_pMgr->RequestSeek(true);
-	}
-	else if (InfoService::DAB_SEARCH_ALL == nID)
-	{
-		m_pMgr->RequestSeek(false);
-	}
-	else if (InfoService::DAB_DELETE == nID)
-	{
-//		m_pMgr->RequestDelete();
-	}
-	else if (InfoService::DAB_RESERVE_LIST == nID)
-	{
-		m_pMgr->RequestRecordList();
-	}
+	LogDebug("click resize");
 }
+
+//void DABRadioWindow::SlotSubmenu(int nID)
+//{
+//	LogDebug("click sub menu [%d]", nID);
+//	if (InfoService::DAB_SEARCH_ALL_DELETE == nID)
+//	{
+//		m_pMgr->RequestSeek(true);
+//	}
+//	else if (InfoService::DAB_SEARCH_ALL == nID)
+//	{
+//		m_pMgr->RequestSeek(false);
+//	}
+//	else if (InfoService::DAB_DELETE == nID)
+//	{
+////		m_pMgr->RequestDelete();
+//	}
+//	else if (InfoService::DAB_RESERVE_LIST == nID)
+//	{
+//		m_pMgr->RequestRecordList();
+//	}
+//}
 
 void DABRadioWindow::SlotSelectTitle(int nType)
 {
@@ -105,17 +113,14 @@ void DABRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 
 void DABRadioWindow::ConnectSigToSlot()
 {
-	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
-	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
-
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
+
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 

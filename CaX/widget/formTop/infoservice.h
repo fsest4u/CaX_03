@@ -50,25 +50,13 @@ public:
 	void SetSubmenuFmRadio();
 	void SetSubmenuDabRadio();
 
-signals:
-
-	void SigPlayAll();
-	void SigPlayRandom();
-	void SigSubmenu(int nID);
-	void SigSort();
+	FormPlay *GetFormPlay();
+	FormSort *GetFormSort();
 
 private slots:
 
 	void SlotTitle();
 	void SlotSubtitle();
-	void SlotPlayAll();
-	void SlotPlayRandom();
-	void SlotFavorite();
-	void SlotRating();
-	void SlotSubmenu();
-	void SlotSort();
-	void SlotIncDec();
-	void SlotResize();
 
 
 private:

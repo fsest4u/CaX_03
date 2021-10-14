@@ -9,6 +9,10 @@ FormSort::FormSort(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	ui->labelSort->hide();
+	ui->labelIncDec->hide();
+	ui->labelResize->hide();
+
 	ui->labelSort->installEventFilter(this);
 	ui->labelIncDec->installEventFilter(this);
 	ui->labelResize->installEventFilter(this);
@@ -17,6 +21,24 @@ FormSort::FormSort(QWidget *parent) :
 FormSort::~FormSort()
 {
 	delete ui;
+}
+
+void FormSort::ShowSort()
+{
+	ui->labelSort->show();
+
+}
+
+void FormSort::ShowIncDec()
+{
+	ui->labelIncDec->show();
+
+}
+
+void FormSort::ShowResize()
+{
+	ui->labelResize->show();
+
 }
 
 bool FormSort::eventFilter(QObject *object, QEvent *event)

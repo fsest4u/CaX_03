@@ -144,15 +144,16 @@ FormPlay *InfoHome::GetFormPlay()
 	return m_pFormPlay;
 }
 
+FormSort *InfoHome::GetFormSort()
+{
+	return m_pFormSort;
+}
+
 FormClassify *InfoHome::GetFormClassify()
 {
 	return m_pFormClassify;
 }
 
-FormSort *InfoHome::GetFormSort()
-{
-	return m_pFormSort;
-}
 
 bool InfoHome::eventFilter(QObject *object, QEvent *event)
 {

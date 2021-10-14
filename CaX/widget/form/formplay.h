@@ -15,6 +15,12 @@ public:
 	explicit FormPlay(QWidget *parent = nullptr);
 	~FormPlay();
 
+	void ShowPlayAll();
+	void ShowPlayRandom();
+	void ShowFavorite();
+	void ShowRating();
+	void ShowSubmenu();
+
 signals:
 
 	void SigPlayAll();

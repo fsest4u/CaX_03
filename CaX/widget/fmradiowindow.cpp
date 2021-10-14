@@ -1,9 +1,12 @@
 #include "fmradiowindow.h"
 #include "ui_fmradiowindow.h"
 
-#include "formTop/infoservice.h"
-#include "formBottom/iconservice.h"
-#include "formBottom/iconservicedelegate.h"
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
 
 #include "manager/fmradiomanager.h"
 
@@ -27,6 +30,8 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoService->SetSubmenuFmRadio();
+	m_pInfoService->GetFormPlay()->ShowSubmenu();
+	m_pInfoService->GetFormSort()->ShowResize();
 
 }
 
@@ -61,29 +66,36 @@ void FMRadioWindow::RequestList()
 	m_pMgr->RequestList();
 }
 
-void FMRadioWindow::SlotSubmenu(int nID)
+void FMRadioWindow::SlotSubmenu()
 {
-	LogDebug("click sub menu [%d]", nID);
-	if (InfoService::FM_SEARCH_ALL_DELETE == nID)
-	{
-		m_pMgr->RequestSeek(true);
-	}
-	else if (InfoService::FM_SEARCH_ALL == nID)
-	{
-		m_pMgr->RequestSeek(false);
-	}
-	else if (InfoService::FM_ADD == nID)
-	{
-//		m_pMgr->RequestAdd();
-	}
-	else if (InfoService::FM_DELETE == nID)
-	{
-//		m_pMgr->RequestDelete();
-	}
-	else if (InfoService::FM_RESERVE_LIST == nID)
-	{
-		m_pMgr->RequestRecordList();
-	}
+	LogDebug("click sub menu");
+//	LogDebug("click sub menu [%d]", nID);
+//	if (InfoService::FM_SEARCH_ALL_DELETE == nID)
+//	{
+//		m_pMgr->RequestSeek(true);
+//	}
+//	else if (InfoService::FM_SEARCH_ALL == nID)
+//	{
+//		m_pMgr->RequestSeek(false);
+//	}
+//	else if (InfoService::FM_ADD == nID)
+//	{
+////		m_pMgr->RequestAdd();
+//	}
+//	else if (InfoService::FM_DELETE == nID)
+//	{
+////		m_pMgr->RequestDelete();
+//	}
+//	else if (InfoService::FM_RESERVE_LIST == nID)
+//	{
+//		m_pMgr->RequestRecordList();
+	//	}
+}
+
+void FMRadioWindow::SlotResize()
+{
+	LogDebug("click resize");
+
 }
 
 void FMRadioWindow::SlotSelectTitle(int nType)
@@ -109,10 +121,6 @@ void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 
 void FMRadioWindow::ConnectSigToSlot()
 {
-	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
-	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
 
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
@@ -120,6 +128,10 @@ void FMRadioWindow::ConnectSigToSlot()
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
+
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+
 }
 
 void FMRadioWindow::SetHome(QList<CJsonNode> &list)

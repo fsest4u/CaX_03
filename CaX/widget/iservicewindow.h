@@ -53,10 +53,7 @@ private slots:
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRespAirableLogout();
 
-	void SlotPlayAll();
-	void SlotPlayRandom();
-	void SlotSubmenu(int index);
-	void SlotSort();
+	void SlotResize();
 
 	void SlotSelectTitle(int nType);
 	void SlotSelectTitle(int nType, QString rawData);

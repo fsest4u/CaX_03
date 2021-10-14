@@ -35,7 +35,11 @@ private slots:
 
 	void SlotAddWidget(QWidget *widget, QString title);
 
-	void SlotSubmenu(int nID);
+	void SlotPlayAll();
+	void SlotPlayRandom();
+	void SlotSubmenu();
+	void SlotResize();
+
 	void SlotSelectTitle(int nType, QString rawData);
 	void SlotSelectURL(QString rawData);
 	void SlotRespList(QList<CJsonNode> list);

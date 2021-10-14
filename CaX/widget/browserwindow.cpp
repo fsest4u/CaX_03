@@ -9,12 +9,14 @@
 #include "util/loading.h"
 #include "util/log.h"
 
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
 
-#include "formTop/infoservice.h"
-#include "formBottom/iconservice.h"
-#include "formBottom/iconservicedelegate.h"
-#include "formBottom/listservice.h"
-#include "formBottom/listservicedelegate.h"
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
+#include "widget/formBottom/listservice.h"
+#include "widget/formBottom/listservicedelegate.h"
 
 #include "dialog/logindialog.h"
 
@@ -35,6 +37,12 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString
 	m_Root = root;
 
 	ConnectSigToSlot();
+
+	m_pInfoService->GetFormPlay()->ShowPlayAll();
+	m_pInfoService->GetFormPlay()->ShowPlayRandom();
+	m_pInfoService->GetFormPlay()->ShowSubmenu();
+	m_pInfoService->GetFormSort()->ShowResize();
+
 }
 
 BrowserWindow::~BrowserWindow()
@@ -99,8 +107,24 @@ void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
 	emit SigAddWidget(widget, title);		// recursive
 }
 
-void BrowserWindow::SlotSubmenu(int nID)
+void BrowserWindow::SlotPlayAll()
 {
+	LogDebug("click play all");
+}
+
+void BrowserWindow::SlotPlayRandom()
+{
+	LogDebug("click play random");
+}
+
+void BrowserWindow::SlotSubmenu()
+{
+	LogDebug("click sub menu");
+}
+
+void BrowserWindow::SlotResize()
+{
+	LogDebug("click resize");
 
 }
 
@@ -214,11 +238,6 @@ void BrowserWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
 
-	connect(m_pInfoService, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pInfoService, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService, SIGNAL(SigSubmenu(int)), this, SLOT(SlotSubmenu(int)));
-	connect(m_pInfoService, SIGNAL(SigSort()), this, SLOT(SlotSort()));
-
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
@@ -230,6 +249,11 @@ void BrowserWindow::ConnectSigToSlot()
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespNodeUpdate(CJsonNode, int)), this, SLOT(SlotRespNodeUpdate(CJsonNode, int)));
+
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 

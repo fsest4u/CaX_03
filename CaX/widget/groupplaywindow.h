@@ -35,6 +35,8 @@ private slots:
 
 	void SlotRespGroupPlayUpdate();
 
+	void SlotResize();
+
 private:
 
 	void ConnectSigToSlot();

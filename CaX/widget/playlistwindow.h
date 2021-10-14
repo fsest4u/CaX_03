@@ -49,6 +49,13 @@ private slots:
 	void SlotSelectCount(int id);
 	void SlotSelectPlay(int id);
 
+	void SlotPlayAll();
+	void SlotPlayRandom();
+	void SlotSubmenu();
+	void SlotResize();
+
+
+
 private:
 
 	void ConnectSigToSlot();

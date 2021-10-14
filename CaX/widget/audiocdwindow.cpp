@@ -7,11 +7,14 @@
 #include "util/loading.h"
 #include "util/log.h"
 
-#include "formTop/infotracks.h"
-#include "formBottom/icontracks.h"
-#include "formBottom/icontracksdelegate.h"
-#include "formBottom/listtracks.h"
-#include "formBottom/listtracksdelegate.h"
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infotracks.h"
+#include "widget/formBottom/icontracks.h"
+#include "widget/formBottom/icontracksdelegate.h"
+#include "widget/formBottom/listtracks.h"
+#include "widget/formBottom/listtracksdelegate.h"
 
 #include "dialog/cdripinfodialog.h"
 #include "dialog/trackinfodialog.h"
@@ -34,6 +37,9 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+
+	m_pInfoTracks->GetFormPlay()->ShowSubmenu();
+	m_pInfoTracks->GetFormSort()->ShowResize();
 }
 
 AudioCDWindow::~AudioCDWindow()
@@ -185,7 +191,19 @@ void AudioCDWindow::SlotSelectTitle(int id, QString coverArt)
 void AudioCDWindow::SlotCalcTotalTime(int time)
 {
 	m_TotalTime = QString("%1").arg(time);
-//	m_pInfoTracks->SetInfo( MakeInfo() );
+	//	m_pInfoTracks->SetInfo( MakeInfo() );
+}
+
+void AudioCDWindow::SlotSubmenu()
+{
+	LogDebug("click sub menu");
+
+}
+
+void AudioCDWindow::SlotResize()
+{
+	LogDebug("click resize");
+
 }
 
 void AudioCDWindow::ConnectSigToSlot()
@@ -201,6 +219,8 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
 
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 }
 
 QString AudioCDWindow::MakeInfo()

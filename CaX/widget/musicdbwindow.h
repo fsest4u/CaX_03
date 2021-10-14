@@ -63,13 +63,13 @@ private slots:
 	void SlotArtistList();
 	void SlotTrackList();
 	void SlotMusicSubmenu2();
-	void SlotMusicDisplayMode();
-	void SlotMusicSort();
 
 	void SlotAlbumPlayAll();
 	void SlotAlbumPlayRandom();
 	void SlotAlbumSubmenu();
 	void SlotAlbumSort();
+	void SlotAlbumIncDec();
+	void SlotAlbumResize();
 
 	void SlotSelectCount(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);

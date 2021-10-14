@@ -78,54 +78,6 @@ void InfoService::SlotSubtitle()
 	LogDebug("good choice subtitle");
 }
 
-void InfoService::SlotPlayAll()
-{
-	LogDebug("good choice play all");
-
-}
-
-void InfoService::SlotPlayRandom()
-{
-	LogDebug("good choice play random");
-
-}
-
-void InfoService::SlotFavorite()
-{
-	LogDebug("good choice favorite");
-
-}
-
-void InfoService::SlotRating()
-{
-	LogDebug("good choice rating");
-
-}
-
-void InfoService::SlotSubmenu()
-{
-	LogDebug("good choice submenu");
-
-}
-
-void InfoService::SlotSort()
-{
-	LogDebug("good choice sort");
-
-}
-
-void InfoService::SlotIncDec()
-{
-	LogDebug("good choice inc dec");
-
-}
-
-void InfoService::SlotResize()
-{
-	LogDebug("good choice resize");
-
-}
-
 
 void InfoService::ConnectSigToSlot()
 {
@@ -135,15 +87,6 @@ void InfoService::ConnectSigToSlot()
 
 	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));
-	connect(m_pFormPlay, SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pFormPlay, SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pFormPlay, SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
-	connect(m_pFormPlay, SIGNAL(SigRating()), this, SLOT(SlotRating()));
-	connect(m_pFormPlay, SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
-	connect(m_pFormSort, SIGNAL(SigSort()), this, SLOT(SlotSort()));
-	connect(m_pFormSort, SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
-	connect(m_pFormSort, SIGNAL(SigResize()), this, SLOT(SlotResize()));
-
 }
 
 void InfoService::SetSubmenuIService()
@@ -226,6 +169,16 @@ void InfoService::SetSubmenuDabRadio()
 		list.append(node);
 	}
 	m_pSubmenuDlg->SetItemList(list);
+}
+
+FormPlay *InfoService::GetFormPlay()
+{
+	return m_pFormPlay;
+}
+
+FormSort *InfoService::GetFormSort()
+{
+	return m_pFormSort;
 }
 
 void InfoService::ShowSubmenuDialog()

@@ -1,9 +1,11 @@
 #include "inputwindow.h"
 #include "ui_inputwindow.h"
 
-#include "formTop/infoservice.h"
-#include "formBottom/iconservice.h"
-#include "formBottom/iconservicedelegate.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
 
 #include "manager/inputmanager.h"
 
@@ -26,6 +28,8 @@ InputWindow::InputWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+
+	m_pInfoService->GetFormSort()->ShowResize();
 
 }
 
@@ -68,12 +72,20 @@ void InputWindow::SlotSelectTitle(int nType)
 	m_pMgr->RequestInput(nType);
 }
 
+void InputWindow::SlotResize()
+{
+	LogDebug("click resize");
+
+}
+
 void InputWindow::ConnectSigToSlot()
 {
 
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 

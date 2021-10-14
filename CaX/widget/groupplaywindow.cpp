@@ -5,9 +5,11 @@
 
 #include "manager/groupplaymanager.h"
 
-#include "formTop/infoservice.h"
-#include "formBottom/iconservice.h"
-#include "formBottom/iconservicedelegate.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
@@ -27,6 +29,9 @@ GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+
+	m_pInfoService->GetFormSort()->ShowResize();
+
 }
 
 GroupPlayWindow::~GroupPlayWindow()
@@ -136,6 +141,12 @@ void GroupPlayWindow::SlotRespGroupPlayUpdate()
 	m_pMgr->RequestGroupPlayList(m_nEventID);
 }
 
+void GroupPlayWindow::SlotResize()
+{
+	LogDebug("click resize");
+
+}
+
 void GroupPlayWindow::ConnectSigToSlot()
 {
 	connect(m_pIconService, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
@@ -148,6 +159,7 @@ void GroupPlayWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespGroupPlayList(QList<CJsonNode>)), this, SLOT(SlotRespGroupPlayList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 
 }

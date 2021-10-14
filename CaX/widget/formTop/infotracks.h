@@ -25,26 +25,14 @@ public:
 //	void SetInfo(QString info);
 	void SetCoverArt(QString coverArt);
 
-signals:
-
-	void SigPlayAll();
-	void SigPlayRandom();
-	void SigSubmenu();
-	void SigSort();
+	FormPlay *GetFormPlay();
+	FormSort *GetFormSort();
 
 private slots:
 
 	void SlotCoverArt();
 	void SlotTitle();
 	void SlotSubtitle();
-	void SlotPlayAll();
-	void SlotPlayRandom();
-	void SlotFavorite();
-	void SlotRating();
-	void SlotSubmenu();
-	void SlotSort();
-	void SlotIncDec();
-	void SlotResize();
 
 private:
 

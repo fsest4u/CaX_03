@@ -3,12 +3,15 @@
 #include "playlistwindow.h"
 #include "ui_playlistwindow.h"
 
-#include "formTop/infoservice.h"
-#include "formTop/infotracks.h"
-#include "formBottom/icontracks.h"
-#include "formBottom/icontracksdelegate.h"
-#include "formBottom/listtracks.h"
-#include "formBottom/listtracksdelegate.h"
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infoservice.h"
+#include "widget/formTop/infotracks.h"
+#include "widget/formBottom/icontracks.h"
+#include "widget/formBottom/icontracksdelegate.h"
+#include "widget/formBottom/listtracks.h"
+#include "widget/formBottom/listtracksdelegate.h"
 
 #include "manager/playlistmanager.h"
 #include "manager/sqlmanager.h"
@@ -33,6 +36,11 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+
+	m_pInfoService->GetFormPlay()->ShowPlayAll();
+	m_pInfoService->GetFormPlay()->ShowPlayRandom();
+	m_pInfoService->GetFormPlay()->ShowSubmenu();
+	m_pInfoService->GetFormSort()->ShowResize();
 }
 
 PlaylistWindow::~PlaylistWindow()
@@ -198,6 +206,30 @@ void PlaylistWindow::SlotSelectPlay(int id)
 	TrackPlay(id);
 }
 
+void PlaylistWindow::SlotPlayAll()
+{
+	LogDebug("click play all");
+
+}
+
+void PlaylistWindow::SlotPlayRandom()
+{
+	LogDebug("click play random");
+
+}
+
+void PlaylistWindow::SlotSubmenu()
+{
+	LogDebug("click sub menu");
+
+}
+
+void PlaylistWindow::SlotResize()
+{
+	LogDebug("click resize");
+
+}
+
 void PlaylistWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
@@ -215,5 +247,11 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+
+	// m_pInfoTracks ??
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }

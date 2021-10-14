@@ -25,7 +25,9 @@ public:
 
 private slots:
 
-	void SlotSubmenu(int nID);
+//	void SlotSubmenu(int nID);
+	void SlotResize();
+
 	void SlotSelectTitle(int nType);
 	void SlotRespList(QList<CJsonNode> list);
 	void SlotRespRecordList(QList<CJsonNode> list);
