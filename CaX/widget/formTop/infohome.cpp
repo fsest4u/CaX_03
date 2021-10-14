@@ -9,6 +9,8 @@
 
 #include "dialog/submenudialog.h"
 
+#include "manager/sqlmanager.h"
+
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
@@ -69,6 +71,43 @@ InfoHome::~InfoHome()
 	}
 
 	delete ui;
+}
+
+void InfoHome::SetTitle(const int nCategory)
+{
+	QString title = KEY_ALBUM;
+	switch (nCategory)
+	{
+	case SQLManager::CATEGORY_ALBUM:
+		title = KEY_ALBUM;
+		break;
+	case SQLManager::CATEGORY_ALBUMARTIST:
+		title = KEY_ALBUM_ARTIST;
+		break;
+	case SQLManager::CATEGORY_ARTIST:
+		title = KEY_ARTIST;
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		title = KEY_GENRE;
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		title = KEY_COMPOSER;
+		break;
+	case SQLManager::CATEGORY_MOOD:
+		title = KEY_MOOD;
+		break;
+	case SQLManager::CATEGORY_FOLDER:
+		title = KEY_FOLDER;
+		break;
+	case SQLManager::CATEGORY_YEAR:
+		title = KEY_YEAR;
+		break;
+	case SQLManager::CATEGORY_TRACK:
+		title = KEY_TRACK;
+		break;
+	}
+
+	ui->labelTitle->setText(title);
 }
 
 void InfoHome::SetAlbumCnt(const QString count)

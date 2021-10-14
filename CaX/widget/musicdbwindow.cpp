@@ -103,12 +103,14 @@ MusicDBWindow::~MusicDBWindow()
 //	}
 }
 
-void MusicDBWindow::RequestMusicHome()
+void MusicDBWindow::RequestMusicDBHome(int nCategory)
 {
+	m_nCategory = nCategory;
 	ui->gridLayoutTop->addWidget(m_pInfoHome);
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	m_pInfoHome->SetTitle(m_nCategory);
 
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	m_pMgr->RequestMusicDBInfo();
 	m_pMgr->RequestCategoryList(m_nCategory);
 
@@ -120,7 +122,7 @@ void MusicDBWindow::RequestCategoryHome(int nID, int nCategory)
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	ui->gridLayoutBottom->addWidget(m_pListTracks);
 
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	m_pMgr->RequestCategoryInfo(nID, m_nCategory);
 	m_pMgr->RequestSongsOfCategory(nID, m_nCategory);
 }
@@ -186,7 +188,12 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 
 	QString info = count + " | " + total + " | " + extension + " | " + samplerate + " | " + bps;
 
-	m_pInfoTracks->SetTitle(node.GetString(KEY_TITLE));
+	QString title = node.GetString(KEY_TITLE);
+	if (title.isEmpty())
+	{
+		title = "Track";
+	}
+	m_pInfoTracks->SetTitle(title);
 	m_pInfoTracks->SetSubtitle(node.GetString(KEY_ARTIST));
 //	m_pInfoTracks->SetInfo(info);
 }
@@ -266,29 +273,35 @@ void MusicDBWindow::SlotResize()
 
 void MusicDBWindow::SlotGenreList()
 {
-	m_pIconTracks->ClearNodeList();
-	m_nCategory = SQLManager::CATEGORY_GENRE;
-	m_pMgr->RequestCategoryList(m_nCategory);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	emit SigAddWidget(widget, tr("Genre"));
+
+	widget->RequestMusicDBHome(SQLManager::CATEGORY_GENRE);
 }
 
 void MusicDBWindow::SlotAlbumList()
 {
-	m_pIconTracks->ClearNodeList();
-	m_nCategory = SQLManager::CATEGORY_ALBUM;
-	m_pMgr->RequestCategoryList(m_nCategory);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	emit SigAddWidget(widget, tr("Album"));
+
+	widget->RequestMusicDBHome(SQLManager::CATEGORY_ALBUM);
 }
 
 void MusicDBWindow::SlotArtistList()
 {
-	m_pIconTracks->ClearNodeList();
-	m_nCategory = SQLManager::CATEGORY_ARTIST;
-	m_pMgr->RequestCategoryList(m_nCategory);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	emit SigAddWidget(widget, tr("Artist"));
+
+	widget->RequestMusicDBHome(SQLManager::CATEGORY_ARTIST);
 }
 
 void MusicDBWindow::SlotTrackList()
 {
-	LogDebug("music Track");
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	emit SigAddWidget(widget, tr("Track"));
 
+	widget->RequestCategoryHome(-1, SQLManager::CATEGORY_TRACK);
+	widget->SetCoverArt("");
 }
 
 void MusicDBWindow::SlotMusicSubmenu2()
@@ -366,7 +379,7 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 	}
 	else
 	{
-		QString strCat = m_pMgr->GetCategoryName(-1);
+		strCat = m_pMgr->GetCategoryName(-1);
 	}
 
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");

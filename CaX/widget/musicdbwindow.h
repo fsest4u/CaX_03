@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QThread>
 
+#include "manager/sqlmanager.h"
+
 #include "util/CJsonNode.h"
 
 
@@ -27,7 +29,7 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~MusicDBWindow();
 
-	void RequestMusicHome();
+	void RequestMusicDBHome(int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestCategoryHome(int nID, int nCategory);
 
 signals:

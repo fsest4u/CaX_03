@@ -164,6 +164,7 @@
 #define		KEY_EVENT_ID		"EventID"
 
 #define		KEY_ALBUM			"Album"
+#define		KEY_ALBUM_ARTIST			"AlbumArtist"
 #define		KEY_ARTIST			"Artist"
 #define		KEY_COMPOSER		"Composer"
 #define		KEY_GENRE			"Genre"
@@ -171,7 +172,6 @@
 #define		KEY_FOLDER			"Folder"
 #define		KEY_YEAR			"Year"
 #define		KEY_SONG			"Song"
-#define		KEY_ALBUM_ARTIST			"AlbumArtist"
 
 #define		KEY_ID_LOWER		"id"
 #define		KEY_ID_UPPER		"ID"

@@ -421,6 +421,7 @@ void MainWindow::SlotSelectDevice(QString mac)
 
 	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
 	QString strVal = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_VAL);
+
 	if (strAddr.isEmpty())
 		return;
 
@@ -607,7 +608,7 @@ void MainWindow::DoMusicDBHome()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);
 	SlotAddWidget(widget, tr("Music DB"));
-	widget->RequestMusicHome();
+	widget->RequestMusicDBHome();
 }
 
 void MainWindow::DoAudioCDHome()

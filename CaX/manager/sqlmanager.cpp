@@ -78,7 +78,7 @@ QString SQLManager::GetQueryCategoryInfo(int nID, int nCategory)
 	case CATEGORY_YEAR:
 		query = QString(SQL_YEAR_INFO).arg(nID);
 		break;
-	default:
+	case CATEGORY_TRACK:
 		query = SQL_TRACK_INFO;
 		break;
 	}
@@ -116,7 +116,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID, int nCategory, int nSort)
 	case CATEGORY_YEAR:
 		query = QString(SQL_SONGS_OF_YEAR).arg(nID);
 		break;
-	default:
+	case CATEGORY_TRACK:
 		query = SQL_SONGS_OF_TRACK;
 		break;
 	}

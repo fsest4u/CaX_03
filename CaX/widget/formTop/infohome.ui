@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1063</width>
-    <height>163</height>
+    <height>200</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -135,7 +135,7 @@
 }</string>
            </property>
            <property name="text">
-            <string>Music DB</string>
+            <string>-</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

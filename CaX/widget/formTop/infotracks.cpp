@@ -77,20 +77,6 @@ void InfoTracks::SetSubtitle(QString subtitle)
 
 void InfoTracks::SetCoverArt(QString coverArt)
 {
-//	if (coverArt.isEmpty())
-//	{
-//		coverArt = ":/resource/Icon-playbar-volume-160.png";
-//	}
-
-//	QImage image;
-//	if (image.load(coverArt))
-//	{
-////			painter->drawImage(coverRect, image);
-//		QPixmap pixmap = QPixmap::fromImage(image);
-//		ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
-//												   , ui->labelCoverArt->height()
-//												   , Qt::KeepAspectRatio));
-//	}
 	m_pFormCoverArt->SetCoverArt(coverArt);
 }
 

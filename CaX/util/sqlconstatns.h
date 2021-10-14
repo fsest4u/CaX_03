@@ -367,7 +367,7 @@ from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
-where Song.IsDel = 0	\
+where Song.IsDel = 0	%1 %2 %3 \
 "
 
 #define SQL_UPDATE_FAVORITE_OF_ALBUM		"update Album set Favorite=%1 where Album.ROWID=%2"
