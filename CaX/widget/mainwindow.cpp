@@ -274,13 +274,18 @@ void MainWindow::SlotRespError(QString errMsg)
 
 void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 {
-//	CloseNPMenu();
 
 	QString strMsg;
 	bool bSuccess;
 
-	if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty()) { return; }
-	if (!node.GetBool(VAL_SUCCESS, bSuccess)) { return; }
+	if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
+	{
+		return;
+	}
+	if (!node.GetBool(VAL_SUCCESS, bSuccess))
+	{
+		return;
+	}
 
 	if (!bSuccess)
 	{
@@ -290,13 +295,36 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 	}
 	else
 	{
-		if (!node.GetString(DEVICE_MAC, m_strCurrentMac) || m_strCurrentMac.isEmpty()) { return; }
-		if (!node.GetString(DEVICE_VERSION, m_strVersion) || m_strVersion.isEmpty()) { return; }
-		if (!node.GetString(DEVICE_WOL_ADDR, m_strWolAddr) || m_strWolAddr.isEmpty()) { return; }
-		if (!node.GetString(DEVICE_UUID, m_strUuid) || m_strUuid.isEmpty()) { return; }
-		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio)) { return; }
-		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay)) { return; }
-		if (!node.GetBool(KEY_INPUT, m_bInput)) { return; }
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+		if (!node.GetString(DEVICE_MAC, m_strCurrentMac) || m_strCurrentMac.isEmpty())
+		{
+			return;
+		}
+		if (!node.GetString(DEVICE_VERSION, m_strVersion) || m_strVersion.isEmpty())
+		{
+			return;
+		}
+		if (!node.GetString(DEVICE_WOL_ADDR, m_strWolAddr) || m_strWolAddr.isEmpty())
+		{
+			return;
+		}
+		if (!node.GetString(DEVICE_UUID, m_strUuid) || m_strUuid.isEmpty())
+		{
+			return;
+		}
+		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio))
+		{
+			return;
+		}
+		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay))
+		{
+			return;
+		}
+		if (!node.GetBool(KEY_INPUT, m_bInput))
+		{
+			return;
+		}
 
 		ObserverConnect();
 
@@ -316,15 +344,39 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	bool    bIsDelDB = false;
 	int     nEventID = false;
 
-	if (!node.GetBool(KEY_AUDIO_CD, bAudioCD)) { bAudioCD = false; }
+	if (!node.GetBool(KEY_AUDIO_CD, bAudioCD))
+	{
+		bAudioCD = false;
+	}
 	// todo-dylee
-//	if (!node.GetBool(KEY_SIGMA, bSigma)) { bSigma = false; }
-	if (!node.GetBool(KEY_SCAN_DB, bScanDB)) { bScanDB = false; }
-	if (!node.GetBool(KEY_IS_DEL_DB, bIsDelDB)) { bIsDelDB = false; }
-	if (!node.GetInt(KEY_EVENT_ID, nEventID)) { nEventID = -1; }
-	if (!node.GetArray(KEY_SETUP, nodeSetup)) { nodeSetup.Clear(); }
-	if (!node.GetArray(KEY_ISERVICE, nodeIService)) { nodeIService.Clear(); }
-	if (!node.GetArray(KEY_INPUT, nodeInput)) { nodeInput.Clear(); }
+//	if (!node.GetBool(KEY_SIGMA, bSigma))
+//	{
+//		bSigma = false;
+//	}
+	if (!node.GetBool(KEY_SCAN_DB, bScanDB))
+	{
+		bScanDB = false;
+	}
+	if (!node.GetBool(KEY_IS_DEL_DB, bIsDelDB))
+	{
+		bIsDelDB = false;
+	}
+	if (!node.GetInt(KEY_EVENT_ID, nEventID))
+	{
+		nEventID = -1;
+	}
+	if (!node.GetArray(KEY_SETUP, nodeSetup))
+	{
+		nodeSetup.Clear();
+	}
+	if (!node.GetArray(KEY_ISERVICE, nodeIService))
+	{
+		nodeIService.Clear();
+	}
+	if (!node.GetArray(KEY_INPUT, nodeInput))
+	{
+		nodeInput.Clear();
+	}
 
 //	m_bSigma = bSigma;
 	m_bScanDB = bScanDB;
@@ -334,26 +386,30 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	m_bAudioCD = bAudioCD;
 	m_pSideMenu->SetEnableAudioCD(m_bAudioCD);
 
-	if (!nodeSetup.IsNull()) {
+	if (!nodeSetup.IsNull())
+	{
 		m_SetupList.clear();
-		for(int i = 0; i < nodeSetup.ArraySize(); i++) {
+		for(int i = 0; i < nodeSetup.ArraySize(); i++)
+		{
 			m_SetupList.append(nodeSetup.GetArrayAt(i));
 		}
 	}
-	if (!nodeIService.IsNull()) {
+	if (!nodeIService.IsNull())
+	{
 		m_IServiceList.clear();
-		for(int i = 0; i < nodeIService.ArraySize(); i++) {
+		for(int i = 0; i < nodeIService.ArraySize(); i++)
+		{
 			m_IServiceList.append(nodeIService.GetArrayAt(i));
 		}
 	}
 	if (!nodeInput.IsNull()) {
 		m_InputList.clear();
-		for(int i = 0; i < nodeInput.ArraySize(); i++) {
+		for(int i = 0; i < nodeInput.ArraySize(); i++)
+		{
 			m_InputList.append(nodeInput.GetArrayAt(i));
 		}
 	}
 
-	// 최초 Response�"EventID"�받으� "Task" -> "List" Request르야 (EventID == 1)
 	// todo-dylee
 	//	emit SigTaskList();
 }
@@ -364,6 +420,7 @@ void MainWindow::SlotSelectDevice(QString mac)
 		return;
 
 	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
+	QString strVal = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_VAL);
 	if (strAddr.isEmpty())
 		return;
 
@@ -371,8 +428,9 @@ void MainWindow::SlotSelectDevice(QString mac)
 	WriteSettings();
 
 	ui->widgetPlay->SetAddr(m_strAddr);
-	m_pAppMgr->SetAddr(m_strAddr);
+	ui->widgetPlay->SetDeviceName(strVal);
 
+	m_pAppMgr->SetAddr(m_strAddr);
 	m_pAppMgr->RequestDeviceInfo();
 
 }

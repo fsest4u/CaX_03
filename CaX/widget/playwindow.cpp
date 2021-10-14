@@ -40,15 +40,16 @@
 #define SRC_QOBUZ			"Qobuz"
 
 
-PlayWindow::PlayWindow(QWidget *parent)
-	: QWidget(parent)
-	, m_pMgr(new PlayManager)
-	, m_Timer(nullptr)
-	, m_TotTime(0)
-	, m_CurTime(0)
-	, m_bPlay(false)
-	, m_CoverArt("")
-	, ui(new Ui::PlayWindow)
+PlayWindow::PlayWindow(QWidget *parent)	:
+	QWidget(parent),
+	m_pMgr(new PlayManager),
+	m_Timer(nullptr),
+	m_TotTime(0),
+	m_CurTime(0),
+	m_bPlay(false),
+	m_CoverArt(""),
+	m_DeviceName(""),
+	ui(new Ui::PlayWindow)
 {
 	ui->setupUi(this);
 
@@ -82,6 +83,19 @@ void PlayWindow::SetAddr(const QString &addr)
 {
 	m_pMgr->SetAddr(addr);
 }
+
+
+QString PlayWindow::GetDeviceName() const
+{
+	return m_DeviceName;
+}
+
+void PlayWindow::SetDeviceName(const QString &DeviceName)
+{
+	m_DeviceName = DeviceName;
+	ui->btnDevice->setText(m_DeviceName);
+}
+
 
 bool PlayWindow::eventFilter(QObject *object, QEvent *event)
 {
@@ -395,4 +409,3 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	}
 
 }
-

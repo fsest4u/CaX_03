@@ -25,6 +25,9 @@ public:
 
 	PlayManager *GetManager() {	return m_pMgr;	}
 
+	QString GetDeviceName() const;
+	void SetDeviceName(const QString &DeviceName);
+
 protected:
 
 	bool eventFilter(QObject *object, QEvent *event);
@@ -83,6 +86,7 @@ private:
 	int					m_nRepeatMode;
 
 	QString				m_CoverArt;
+	QString				m_DeviceName;
 
 	Ui::PlayWindow *ui;
 };

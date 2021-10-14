@@ -493,8 +493,8 @@ QPushButton:hover
            </property>
            <property name="font">
             <font>
-             <family>Segoe UI Semilight</family>
-             <pointsize>10</pointsize>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
             </font>
            </property>
            <property name="styleSheet">
@@ -511,7 +511,7 @@ QPushButton:hover
 </string>
            </property>
            <property name="text">
-            <string/>
+            <string>-</string>
            </property>
           </widget>
          </item>
