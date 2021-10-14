@@ -531,12 +531,6 @@
         <file>resource/top-bar22-iconsize-on.png</file>
         <file>resource/top-bar22-iconsize-on@2x.png</file>
         <file>resource/top-bar22-iconsize-on@3x.png</file>
-        <file>resource/top-btn130-sort-h.png</file>
-        <file>resource/top-btn130-sort-h@2x.png</file>
-        <file>resource/top-btn130-sort-h@3x.png</file>
-        <file>resource/top-btn130-sort-n.png</file>
-        <file>resource/top-btn130-sort-n@2x.png</file>
-        <file>resource/top-btn130-sort-n@3x.png</file>
         <file>resource/top-btn22-classify-like-h.png</file>
         <file>resource/top-btn22-classify-like-h@2x.png</file>
         <file>resource/top-btn22-classify-like-h@3x.png</file>
@@ -668,5 +662,11 @@
         <file>resource/top-btn82-classify-n.png</file>
         <file>resource/top-btn82-classify-n@2x.png</file>
         <file>resource/top-btn82-classify-n@3x.png</file>
+        <file>resource/top-btn130-sortb-h.png</file>
+        <file>resource/top-btn130-sortb-h@2x.png</file>
+        <file>resource/top-btn130-sortb-h@3x.png</file>
+        <file>resource/top-btn130-sortb-n.png</file>
+        <file>resource/top-btn130-sortb-n@2x.png</file>
+        <file>resource/top-btn130-sortb-n@3x.png</file>
     </qresource>
 </RCC>

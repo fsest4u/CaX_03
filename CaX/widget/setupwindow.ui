@@ -58,6 +58,12 @@
    </item>
    <item>
     <widget class="QFrame" name="frameBottom">
+     <property name="styleSheet">
+      <string notr="true">QFrame
+{
+border: 0px;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
