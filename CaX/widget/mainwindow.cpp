@@ -119,7 +119,7 @@ void MainWindow::SlotBtnMenu()
 
 		m_pSideMenu->resize(ui->centralwidget->frameGeometry().width(), ui->centralwidget->frameGeometry().height());
 		m_pSideMenu->move(mapToGlobal(ui->centralwidget->frameGeometry().topLeft()).x(), mapToGlobal(ui->centralwidget->frameGeometry().topLeft()).y());
-		m_pSideMenu->ShowMenu();
+		m_pSideMenu->ShowMenu(m_bConnect);
 	}
 	else
 	{
@@ -594,7 +594,7 @@ void MainWindow::ConnectForApp()
 
 void MainWindow::DoDeviceListHome()
 {
-	ui->widgetTop->setDisabled(true);
+//	ui->widgetTop->setDisabled(true);
 	ui->widgetPlay->setDisabled(true);
 
 	SlotAddWidget(m_pDeviceWin, tr("Select device"));

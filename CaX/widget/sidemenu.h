@@ -20,7 +20,7 @@ public:
 	explicit SideMenu(QWidget *parent = nullptr);
 	~SideMenu();
 
-	void ShowMenu();
+	void ShowMenu(bool connect);
 	void HideMenu();
 
 	void SetEnableAudioCD(bool bEnable);
@@ -44,7 +44,7 @@ private slots:
 private:
 
 	void Initialize();
-	void SetMenu();
+	void SetMenu(bool connect);
 	void ClearMenu();
 
 
