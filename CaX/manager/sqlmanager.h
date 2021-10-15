@@ -23,20 +23,28 @@ public:
 	};
 
 	enum {
-		SORT_TRACK = 0,
+		SORT_NAME = 0,
+		SORT_ALBUM,
+		SORT_ALBUM_ARTIST,
+		SORT_ARTIST,
 		SORT_GENRE,
-		SORT_MOOD,
-		SORT_FOLDER,
+		SORT_COMPOSER,
 		SORT_YEAR,
-		SORT_RATING,
-		SORT_SAMPLE_RATE,
 		SORT_MAX
 	};
 
 	QString GetQueryMusicDBInfo();
-	QString GetQueryCategoryList(int nCategory = CATEGORY_ALBUM, int nSort = SORT_TRACK);
+	QString GetQueryCategoryList(int nCategory = CATEGORY_ALBUM,
+								 int nSort = SORT_NAME,
+								 bool bIncrease = true,
+								 QString artistID = "",
+								 QString genreID = "",
+								 QString composerID = "");
 	QString GetQueryCategoryInfo(int nID, int nCategory = CATEGORY_ALBUM);
-	QString GetQuerySongsOfCategory(int nID, int nCategory = CATEGORY_ALBUM, int nSort = SORT_TRACK);
+	QString GetQuerySongsOfCategory(int nID,
+									int nCategory = CATEGORY_ALBUM,
+									int nSort = SORT_NAME,
+									bool bIncrease = true);
 
 	QString GetQueryPlaylist();
 	QString GetQueryPlaylistInfo(int nID);
@@ -46,6 +54,9 @@ public:
 	QString GetQueryRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
 
 	QString GetQueryClassifyArtist(int nCategory);
+
+	QString GetSort(int nSort);
+	QString GetIncrease(bool bIncrease);
 
 
 signals:

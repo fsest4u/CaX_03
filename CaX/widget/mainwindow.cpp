@@ -598,6 +598,7 @@ void MainWindow::DoDeviceListHome()
 void MainWindow::DoMusicDBHome()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);
+	widget->AddWidgetMusicDBHome();
 	SlotAddWidget(widget, tr("Music DB"));
 	widget->RequestMusicDBHome();
 }

@@ -37,9 +37,17 @@ public:
 	};
 
 	void RequestMusicDBInfo();
-	void RequestCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM, QString artistID = "", QString genreID = "", QString composerID = "");
+	void RequestCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM,
+							 int nSort = SQLManager::SORT_NAME,
+							 bool bIncrease = true,
+							 QString artistID = "",
+							 QString genreID = "",
+							 QString composerID = "");
 	void RequestCategoryInfo(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestSongsOfCategory(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestSongsOfCategory(int nID,
+								int nCategory = SQLManager::CATEGORY_ALBUM,
+								int nSort = SQLManager::SORT_NAME,
+								bool bIncrease = true);
 
 	void RequestPlayCategoryItems(int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestPlayCategoryItem(int nID, int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);

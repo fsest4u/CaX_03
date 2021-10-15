@@ -36,26 +36,19 @@ void MusicDBManager::RequestMusicDBInfo()
 	RequestCommand(node, MUSICDB_INFO);
 }
 
-void MusicDBManager::RequestCategoryList(int nCategory, QString artistID, QString genreID, QString composerID)
+void MusicDBManager::RequestCategoryList(int nCategory,
+										 int nSort,
+										 bool bIncrease,
+										 QString artistID,
+										 QString genreID,
+										 QString composerID)
 {
-	QString whereArtist = "";
-	QString whereGenre = "";
-	QString whereComposer = "";
-
-	if (!artistID.isEmpty())
-	{
-		whereArtist = " and Song.ArtistID = " + artistID;
-	}
-	if (!genreID.isEmpty())
-	{
-		whereGenre = " and Song.GenreID = " + genreID;
-	}
-	if (!composerID.isEmpty())
-	{
-		whereComposer = " and Song.ComposerID = " + composerID;
-	}
-
-	QString query = m_pSql->GetQueryCategoryList(nCategory).arg(whereArtist).arg(whereGenre).arg(whereComposer);
+	QString query = m_pSql->GetQueryCategoryList(nCategory,
+												 nSort,
+												 bIncrease,
+												 artistID,
+												 genreID,
+												 composerID);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -77,14 +70,22 @@ void MusicDBManager::RequestCategoryInfo(int nID, int nCategory)
 	RequestCommand(node, MUSICDB_CATEGORY_INFO);
 }
 
-void MusicDBManager::RequestSongsOfCategory(int nID, int nCategory)
+void MusicDBManager::RequestSongsOfCategory(int nID,
+											int nCategory,
+											int nSort,
+											bool bIncrease)
 {
+	QString query = m_pSql->GetQuerySongsOfCategory(nID,
+													nCategory,
+													nSort,
+													bIncrease);
+
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
 	node.Add(KEY_CMD1, VAL_SONG);
 	node.Add(KEY_AS, true);
 	node.Add(KEY_AL, false);
-	node.Add(KEY_SQL, m_pSql->GetQuerySongsOfCategory(nID, nCategory));
+	node.Add(KEY_SQL, query);
 	RequestCommand(node, MUSICDB_SONGS_OF_CATEGORY);
 }
 

@@ -31,6 +31,10 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pListTracks(new ListTracks(this)),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
 	m_nID(-1),
+	m_nSortCategory(SQLManager::SORT_NAME),
+	m_nSortTrack(SQLManager::SORT_NAME),
+	m_bIncreaseCategory(true),
+	m_bIncreaseTrack(true),
 	m_ArtistID(""),
 	m_GenreID(""),
 	m_ComposerID(""),
@@ -51,6 +55,7 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pInfoHome->GetFormSort()->ShowSort();
 	m_pInfoHome->GetFormSort()->ShowIncDec();
 	m_pInfoHome->GetFormSort()->ShowResize();
+	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
@@ -61,6 +66,7 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks->GetFormSort()->ShowSort();
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->ShowResize();
+	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 
 }
 
@@ -112,28 +118,39 @@ MusicDBWindow::~MusicDBWindow()
 //	}
 }
 
-void MusicDBWindow::RequestMusicDBHome(int nCategory)
+void MusicDBWindow::RequestMusicDBHome(int nCategory, int nSort, bool bIncrease)
 {
 	m_nCategory = nCategory;
-	ui->gridLayoutTop->addWidget(m_pInfoHome);
-	ui->gridLayoutBottom->addWidget(m_pIconTracks);
-	m_pInfoHome->SetTitle(m_nCategory);
+	m_nSortCategory = nSort;
+	m_bIncreaseCategory = bIncrease;
 
+	m_pInfoHome->SetTitle(m_nCategory);
 	m_pMgr->RequestMusicDBInfo();
-	m_pMgr->RequestCategoryList(m_nCategory);
+	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory);
 
 }
 
-void MusicDBWindow::RequestCategoryHome(int nID, int nCategory)
+void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool bIncrease)
 {
 	m_nID = nID;
 	m_nCategory = nCategory;
-
-	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	ui->gridLayoutBottom->addWidget(m_pListTracks);
+	m_nSortTrack = nSort;
+	m_bIncreaseTrack = bIncrease;
 
 	m_pMgr->RequestCategoryInfo(nID, m_nCategory);
-	m_pMgr->RequestSongsOfCategory(nID, m_nCategory);
+	m_pMgr->RequestSongsOfCategory(nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+}
+
+void MusicDBWindow::AddWidgetMusicDBHome()
+{
+	ui->gridLayoutTop->addWidget(m_pInfoHome);
+	ui->gridLayoutBottom->addWidget(m_pIconTracks);
+}
+
+void MusicDBWindow::AddWidgetCategoryHome()
+{
+	ui->gridLayoutTop->addWidget(m_pInfoTracks);
+	ui->gridLayoutBottom->addWidget(m_pListTracks);
 }
 
 void MusicDBWindow::SlotAddWidget(QWidget *widget, QString title)
@@ -208,6 +225,7 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
 {
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
+	m_pListTracks->ClearNodeList();
 	m_pListTracks->SetNodeList(list);
 //	m_pSongThread->start();
 }
@@ -263,10 +281,9 @@ void MusicDBWindow::SlotSort()
 
 }
 
-void MusicDBWindow::SlotIncDec()
+void MusicDBWindow::SlotIncDec(bool bIncrease)
 {
-	LogDebug("good choice inc dec");
-
+	RequestMusicDBHome(m_nCategory, m_nSortCategory, bIncrease);
 }
 
 void MusicDBWindow::SlotResize()
@@ -278,6 +295,7 @@ void MusicDBWindow::SlotResize()
 void MusicDBWindow::SlotGenreList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	widget->AddWidgetMusicDBHome();
 	emit SigAddWidget(widget, tr("Genre"));
 
 	widget->RequestMusicDBHome(SQLManager::CATEGORY_GENRE);
@@ -286,6 +304,7 @@ void MusicDBWindow::SlotGenreList()
 void MusicDBWindow::SlotAlbumList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	widget->AddWidgetMusicDBHome();
 	emit SigAddWidget(widget, tr("Album"));
 
 	widget->RequestMusicDBHome(SQLManager::CATEGORY_ALBUM);
@@ -294,6 +313,7 @@ void MusicDBWindow::SlotAlbumList()
 void MusicDBWindow::SlotArtistList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	widget->AddWidgetMusicDBHome();
 	emit SigAddWidget(widget, tr("Artist"));
 
 	widget->RequestMusicDBHome(SQLManager::CATEGORY_ARTIST);
@@ -302,6 +322,7 @@ void MusicDBWindow::SlotArtistList()
 void MusicDBWindow::SlotTrackList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	widget->AddWidgetCategoryHome();
 	emit SigAddWidget(widget, tr("Track"));
 
 	widget->RequestCategoryHome(-1, SQLManager::CATEGORY_TRACK);
@@ -348,10 +369,9 @@ void MusicDBWindow::SlotAlbumSort()
 
 }
 
-void MusicDBWindow::SlotAlbumIncDec()
+void MusicDBWindow::SlotAlbumIncDec(bool bIncrease)
 {
-	LogDebug("album inc dec");
-
+	RequestCategoryHome(m_nID, m_nCategory, m_nSortCategory, bIncrease);
 }
 
 void MusicDBWindow::SlotAlbumResize()
@@ -363,6 +383,7 @@ void MusicDBWindow::SlotAlbumResize()
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr());
+	widget->AddWidgetCategoryHome();
 	emit SigAddWidget(widget, tr("Music DB"));
 
 	widget->RequestCategoryHome(nID, m_nCategory);
@@ -444,7 +465,7 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 		m_ArtistID = "";
 	}
 
-	m_pMgr->RequestCategoryList(m_nCategory, m_ArtistID, m_GenreID, m_ComposerID);
+	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
 void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
@@ -459,7 +480,7 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 		m_GenreID = "";
 	}
 
-	m_pMgr->RequestCategoryList(m_nCategory, m_ArtistID, m_GenreID, m_ComposerID);
+	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
 void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
@@ -474,7 +495,7 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 		m_ComposerID = "";
 	}
 
-	m_pMgr->RequestCategoryList(m_nCategory, m_ArtistID, m_GenreID, m_ComposerID);
+	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
 void MusicDBWindow::ConnectSigToSlot()
@@ -504,7 +525,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
 
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigSort()), this, SLOT(SlotSort()));
-	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec()), this, SLOT(SlotIncDec()));
+	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotIncDec(bool)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 	connect(m_pInfoHome, SIGNAL(SigGenreList()), this, SLOT(SlotGenreList()));
@@ -521,7 +542,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoTracks, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec()), this, SLOT(SlotAlbumIncDec()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotAlbumIncDec(bool)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotAlbumResize()));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));

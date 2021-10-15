@@ -19,10 +19,13 @@ public:
 	void ShowIncDec();
 	void ShowResize();
 
+	bool GetIncrease() const;
+	void SetIncrease(bool bIncrease);
+
 signals:
 
 	void SigSort();
-	void SigIncDec();
+	void SigIncDec(bool bIncrease);
 	void SigResize();
 
 protected:
@@ -30,6 +33,9 @@ protected:
 	bool eventFilter(QObject *object, QEvent *event);
 
 private:
+
+	bool m_bIncrease;
+
 	Ui::FormSort *ui;
 };
 

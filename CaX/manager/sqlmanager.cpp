@@ -13,38 +13,94 @@ QString SQLManager::GetQueryMusicDBInfo()
 	return SQL_MUSIC_DB_INFO;
 }
 
-QString SQLManager::GetQueryCategoryList(int nCategory, int nSort)
+QString SQLManager::GetQueryCategoryList(int nCategory,
+										 int nSort,
+										 bool bIncrease,
+										 QString artistID,
+										 QString genreID,
+										 QString composerID)
 {
 	// todo-dylee
 	Q_UNUSED(nSort)
-
 	QString query;
+	QString sort = GetSort(nSort);
+	QString increase = GetIncrease(bIncrease);
+
+	QString whereArtist = "";
+	QString whereGenre = "";
+	QString whereComposer = "";
+
+	if (!artistID.isEmpty())
+	{
+		whereArtist = " and Song.ArtistID = " + artistID;
+	}
+	if (!genreID.isEmpty())
+	{
+		whereGenre = " and Song.GenreID = " + genreID;
+	}
+	if (!composerID.isEmpty())
+	{
+		whereComposer = " and Song.ComposerID = " + composerID;
+	}
 
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
-		query = SQL_ALBUM_LIST;
+		query = QString(SQL_ALBUM_LIST)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_ARTIST:
-		query = SQL_ARTIST_LIST;
+		query = QString(SQL_ARTIST_LIST)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_COMPOSER:
-		query = SQL_COMPOSER_LIST;
+		query = QString(SQL_COMPOSER_LIST)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_GENRE:
-		query = SQL_GENRE_LIST;
+		query = QString(SQL_GENRE_LIST)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_MOOD:
-		query = SQL_MOOD_LIST;
+		query = QString(SQL_MOOD_LIST)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_FOLDER:
 		query = SQL_FOLDER_LIST;
+		query = QString(SQL_ALBUM_LIST)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_YEAR:
-		query = SQL_YEAR_LIST;
-		break;
-	default:
-		query = "";
+		query = QString(SQL_YEAR_LIST)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(sort)
+				.arg(increase);
 		break;
 	}
 
@@ -86,38 +142,63 @@ QString SQLManager::GetQueryCategoryInfo(int nID, int nCategory)
 	return query;
 }
 
-QString SQLManager::GetQuerySongsOfCategory(int nID, int nCategory, int nSort)
+QString SQLManager::GetQuerySongsOfCategory(int nID,
+											int nCategory,
+											int nSort,
+											bool bIncrease)
 {
-	// todo-dylee
-	Q_UNUSED(nSort)
-
 	QString query;
+	QString sort = GetSort(nSort);
+	QString increase = GetIncrease(bIncrease);
 
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
-		query = QString(SQL_SONGS_OF_ALBUM).arg(nID);
+		query = QString(SQL_SONGS_OF_ALBUM)
+				.arg(nID)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_ARTIST:
-		query = QString(SQL_SONGS_OF_ARTIST).arg(nID);
+		query = QString(SQL_SONGS_OF_ARTIST)
+				.arg(nID)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_COMPOSER:
-		query = QString(SQL_SONGS_OF_COMPOSER).arg(nID);
+		query = QString(SQL_SONGS_OF_COMPOSER)
+				.arg(nID)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_GENRE:
-		query = QString(SQL_SONGS_OF_GENRE).arg(nID);
+		query = QString(SQL_SONGS_OF_GENRE)
+				.arg(nID)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_MOOD:
-		query = QString(SQL_SONGS_OF_MOOD).arg(nID);
+		query = QString(SQL_SONGS_OF_MOOD)
+				.arg(nID)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_FOLDER:
-		query = QString(SQL_SONGS_OF_FOLDER).arg(nID);
+		query = QString(SQL_SONGS_OF_FOLDER)
+				.arg(nID)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_YEAR:
-		query = QString(SQL_SONGS_OF_YEAR).arg(nID);
+		query = QString(SQL_SONGS_OF_YEAR)
+				.arg(nID)
+				.arg(sort)
+				.arg(increase);
 		break;
 	case CATEGORY_TRACK:
-		query = SQL_SONGS_OF_TRACK;
+		query = QString(SQL_SONGS_OF_TRACK)
+				.arg(sort)
+				.arg(increase);
 		break;
 	}
 	return query;
@@ -225,4 +306,52 @@ QString SQLManager::GetQueryClassifyArtist(int nCategory)
 	}
 
 	return query;
+}
+
+QString SQLManager::GetSort(int nSort)
+{
+	QString sort;
+
+	switch (nSort)
+	{
+	case SORT_NAME:
+		sort = "Name";
+		break;
+	case SORT_ALBUM:
+		sort = "AlbumID";
+		break;
+	case SORT_ALBUM_ARTIST:
+		sort = "AlbumArtistID";
+		break;
+	case SORT_ARTIST:
+		sort = "ArtistID";
+		break;
+	case SORT_GENRE:
+		sort = "GenreID";
+		break;
+	case SORT_COMPOSER:
+		sort = "ComposerID";
+		break;
+	case SORT_YEAR:
+		sort = "Year";
+		break;
+	}
+
+	return sort;
+
+}
+
+QString SQLManager::GetIncrease(bool bIncrease)
+{
+	QString increase;
+	if (bIncrease)
+	{
+		increase = "asc";
+	}
+	else
+	{
+		increase = "desc";
+	}
+
+	return increase;
 }

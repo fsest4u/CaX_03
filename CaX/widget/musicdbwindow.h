@@ -26,8 +26,16 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~MusicDBWindow();
 
-	void RequestMusicDBHome(int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestCategoryHome(int nID, int nCategory);
+	void RequestMusicDBHome(int nCategory = SQLManager::CATEGORY_ALBUM,
+							int nSort = SQLManager::SORT_NAME,
+							bool bIncrease = true);
+	void RequestCategoryHome(int nID,
+							 int nCategory,
+							 int nSort = SQLManager::SORT_NAME,
+							 bool bIncrease = true);
+
+	void AddWidgetMusicDBHome();
+	void AddWidgetCategoryHome();
 
 signals:
 
@@ -52,7 +60,7 @@ private slots:
 	void SlotSubmenu();
 
 	void SlotSort();
-	void SlotIncDec();
+	void SlotIncDec(bool bIncrease);
 	void SlotResize();
 
 	void SlotGenreList();
@@ -67,7 +75,7 @@ private slots:
 	void SlotAlbumFavorite();
 	void SlotAlbumRating();
 	void SlotAlbumSort();
-	void SlotAlbumIncDec();
+	void SlotAlbumIncDec(bool bIncrease);
 	void SlotAlbumResize();
 
 	void SlotSelectCount(int nID);
@@ -107,6 +115,11 @@ private:
 
 	int				m_nCategory;
 	int				m_nID;
+	int				m_nSortCategory;
+	int				m_nSortTrack;
+	bool			m_bIncreaseCategory;
+	bool			m_bIncreaseTrack;
+
 
 	QString			m_ArtistID;
 	QString			m_GenreID;
