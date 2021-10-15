@@ -38,6 +38,7 @@ private slots:
 	void SlotBtnInfo();
 	void SlotBtnPlayPrev();
 	void SlotBtnPlay();
+	void SlotBtnStop();
 	void SlotBtnPlayNext();
 	void SlotBtnRandom();
 	void SlotBtnDevice();

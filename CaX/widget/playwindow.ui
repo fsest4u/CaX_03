@@ -321,6 +321,35 @@ QPushButton:hover
                 </widget>
                </item>
                <item>
+                <widget class="QPushButton" name="btnStop">
+                 <property name="minimumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/btm-btn40-stop-n@3x.png&quot;);
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/btm-btn40-stop-h@3x.png&quot;);
+}
+
+</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QPushButton" name="btnNext">
                  <property name="minimumSize">
                   <size>

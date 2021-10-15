@@ -209,16 +209,27 @@ QLabel:hover
              <height>30</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="styleSheet">
             <string notr="true">QLabel
 {
+	color: rgb(52, 174, 214);
   border-image: url(&quot;:/resource/mid-icon30-play-n@3x.png&quot;);
 }
 
 QLabel:hover
 {
+	color: rgb(52, 174, 214);
   border-image: url(&quot;:/resource/top-btn52-play-h@3x.png&quot;);
 }</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>

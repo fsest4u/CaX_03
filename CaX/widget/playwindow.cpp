@@ -140,6 +140,11 @@ void PlayWindow::SlotBtnPlay()
 	}
 }
 
+void PlayWindow::SlotBtnStop()
+{
+	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_STOP);
+}
+
 void PlayWindow::SlotBtnPlayNext()
 {
 	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_NEXT);
@@ -228,6 +233,7 @@ void PlayWindow::ConnectSigToSlot()
 	connect(ui->btnInfo, SIGNAL(clicked()), this, SLOT(SlotBtnInfo()));
 	connect(ui->btnPrev, SIGNAL(clicked()), this, SLOT(SlotBtnPlayPrev()));
 	connect(ui->btnPlay, SIGNAL(clicked()), this, SLOT(SlotBtnPlay()));
+	connect(ui->btnStop, SIGNAL(clicked()), this, SLOT(SlotBtnStop()));
 	connect(ui->btnNext, SIGNAL(clicked()), this, SLOT(SlotBtnPlayNext()));
 	connect(ui->btnRandom, SIGNAL(clicked()), this, SLOT(SlotBtnRandom()));
 	connect(ui->btnDevice, SIGNAL(clicked()), this, SLOT(SlotBtnDevice()));
@@ -266,6 +272,7 @@ void PlayWindow::EnableUI(bool bEnable)
 	ui->btnInfo->setEnabled(bEnable);
 	ui->btnPrev->setEnabled(bEnable);
 	ui->btnPlay->setEnabled(bEnable);
+	ui->btnStop->setEnabled(bEnable);
 	ui->btnNext->setEnabled(bEnable);
 	ui->btnRandom->setEnabled(bEnable);
 	ui->btnVolume->setEnabled(bEnable);

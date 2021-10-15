@@ -668,5 +668,38 @@
         <file>resource/top-btn130-sortb-n.png</file>
         <file>resource/top-btn130-sortb-n@2x.png</file>
         <file>resource/top-btn130-sortb-n@3x.png</file>
+        <file>resource/btm-btn40-stop-h.png</file>
+        <file>resource/btm-btn40-stop-h@2x.png</file>
+        <file>resource/btm-btn40-stop-h@3x.png</file>
+        <file>resource/btm-btn40-stop-n.png</file>
+        <file>resource/btm-btn40-stop-n@2x.png</file>
+        <file>resource/btm-btn40-stop-n@3x.png</file>
+        <file>resource/internets-img160-amazonmusic-h.png</file>
+        <file>resource/internets-img160-amazonmusic-h@2x.png</file>
+        <file>resource/internets-img160-amazonmusic-h@3x.png</file>
+        <file>resource/internets-img160-amazonmusic-n.png</file>
+        <file>resource/internets-img160-amazonmusic-n@2x.png</file>
+        <file>resource/internets-img160-amazonmusic-n@3x.png</file>
+        <file>resource/internets-img160-highresaudio-h.png</file>
+        <file>resource/internets-img160-highresaudio-h@2x.png</file>
+        <file>resource/internets-img160-highresaudio-h@3x.png</file>
+        <file>resource/internets-img160-highresaudio-n.png</file>
+        <file>resource/internets-img160-highresaudio-n@2x.png</file>
+        <file>resource/internets-img160-highresaudio-n@3x.png</file>
+        <file>resource/internets-img160-podcast-h.png</file>
+        <file>resource/internets-img160-podcast-h@2x.png</file>
+        <file>resource/internets-img160-podcast-h@3x.png</file>
+        <file>resource/internets-img160-podcast-n.png</file>
+        <file>resource/internets-img160-podcast-n@2x.png</file>
+        <file>resource/internets-img160-podcast-n@3x.png</file>
+        <file>resource/mid-icon30-play-h.png</file>
+        <file>resource/mid-icon30-play-h@2x.png</file>
+        <file>resource/mid-icon30-play-h@3x.png</file>
+        <file>resource/submenu-icon40-aboutmusicx.png</file>
+        <file>resource/submenu-icon40-aboutmusicx@2x.png</file>
+        <file>resource/submenu-icon40-aboutmusicx@3x.png</file>
+        <file>resource/submenu-icon40-wolpoweron.png</file>
+        <file>resource/submenu-icon40-wolpoweron@2x.png</file>
+        <file>resource/submenu-icon40-wolpoweron@3x.png</file>
     </qresource>
 </RCC>

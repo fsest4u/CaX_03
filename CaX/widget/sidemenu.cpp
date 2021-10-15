@@ -218,14 +218,14 @@ void SideMenu::SetMenu(bool connect)
 		m_Model->appendRow(item9);
 
 		QStandardItem *item10= new QStandardItem;
-		QIcon icon10(":/resource/submenu-icon40-poweroff@3x.png");
+		QIcon icon10(":/resource/submenu-icon40-selectdevice@3x.png");
 		item10->setData(SideMenuDelegate::SIDEMENU_SERVICE_SELECT_DEVICE, SideMenuDelegate::SIDEMENU_ID);
 		item10->setData(icon10, SideMenuDelegate::SIDEMENU_ICON);
 		item10->setData("Select device", SideMenuDelegate::SIDEMENU_TITLE);
 		m_Model->appendRow(item10);
 
 		QStandardItem *item11 = new QStandardItem;
-		QIcon icon11(":/resource/submenu-icon40-poweroff@3x.png");
+		QIcon icon11(":/resource/submenu-icon40-wolpoweron@3x.png");
 		item11->setData(SideMenuDelegate::SIDEMENU_SERVICE_POWER_ON, SideMenuDelegate::SIDEMENU_ID);
 		item11->setData(icon11, SideMenuDelegate::SIDEMENU_ICON);
 		item11->setData("Power on", SideMenuDelegate::SIDEMENU_TITLE);
@@ -238,22 +238,36 @@ void SideMenu::SetMenu(bool connect)
 		item12->setData("Power Off", SideMenuDelegate::SIDEMENU_TITLE);
 		m_Model->appendRow(item12);
 
+		QStandardItem *item13 = new QStandardItem;
+		QIcon icon13(":/resource/submenu-icon40-aboutmusicx@3x.png");
+		item13->setData(SideMenuDelegate::SIDEMENU_SERVICE_ABOUT, SideMenuDelegate::SIDEMENU_ID);
+		item13->setData(icon13, SideMenuDelegate::SIDEMENU_ICON);
+		item13->setData("Power Off", SideMenuDelegate::SIDEMENU_TITLE);
+		m_Model->appendRow(item13);
+
 	}
 	else
 	{
 		QStandardItem *item10= new QStandardItem;
-		QIcon icon10(":/resource/submenu-icon40-poweroff@3x.png");
+		QIcon icon10(":/resource/submenu-icon40-selectdevice@3x.png");
 		item10->setData(SideMenuDelegate::SIDEMENU_SERVICE_SELECT_DEVICE, SideMenuDelegate::SIDEMENU_ID);
 		item10->setData(icon10, SideMenuDelegate::SIDEMENU_ICON);
 		item10->setData("Select device", SideMenuDelegate::SIDEMENU_TITLE);
 		m_Model->appendRow(item10);
 
 		QStandardItem *item11 = new QStandardItem;
-		QIcon icon11(":/resource/submenu-icon40-poweroff@3x.png");
+		QIcon icon11(":/resource/submenu-icon40-wolpoweron@3x.png");
 		item11->setData(SideMenuDelegate::SIDEMENU_SERVICE_POWER_ON, SideMenuDelegate::SIDEMENU_ID);
 		item11->setData(icon11, SideMenuDelegate::SIDEMENU_ICON);
 		item11->setData("Power on", SideMenuDelegate::SIDEMENU_TITLE);
 		m_Model->appendRow(item11);
+
+		QStandardItem *item13 = new QStandardItem;
+		QIcon icon13(":/resource/submenu-icon40-aboutmusicx@3x.png");
+		item13->setData(SideMenuDelegate::SIDEMENU_SERVICE_ABOUT, SideMenuDelegate::SIDEMENU_ID);
+		item13->setData(icon13, SideMenuDelegate::SIDEMENU_ICON);
+		item13->setData("About", SideMenuDelegate::SIDEMENU_TITLE);
+		m_Model->appendRow(item13);
 
 	}
 

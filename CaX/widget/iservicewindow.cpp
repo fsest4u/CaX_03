@@ -628,7 +628,7 @@ void IServiceWindow::SetIServiceHome(QList<CJsonNode> &list)
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_Podcasts)
 		{
-			strCover = ":/resource/playlist-img160-albumart-h@3x.png";
+			strCover = ":/resource/internets-img160-podcast-n@3x.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_Tidal)
 		{
@@ -644,11 +644,11 @@ void IServiceWindow::SetIServiceHome(QList<CJsonNode> &list)
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_HighResAudio)
 		{
-			strCover = ":/resource/playlist-img160-albumart-h@3x.png";
+			strCover = ":/resource/internets-img160-highresaudio-n@3x.png";
 		}
 		else if (node.GetInt(KEY_TYPE) == iIServiceType_AmazonMusic)
 		{
-			strCover = ":/resource/playlist-img160-albumart-h@3x.png";
+			strCover = ":/resource/internets-img160-amazonmusic-n@3x.png";
 		}
 		else
 		{
