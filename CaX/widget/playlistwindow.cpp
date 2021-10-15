@@ -18,7 +18,6 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
@@ -28,7 +27,6 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
-	m_pLoading(new Loading(this)),
 	ui(new Ui::PlaylistWindow)
 {
 	ui->setupUi(this);
@@ -77,11 +75,6 @@ PlaylistWindow::~PlaylistWindow()
 		m_pListTracks = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
 }
 
 void PlaylistWindow::Playlist()

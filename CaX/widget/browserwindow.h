@@ -9,7 +9,6 @@ class BrowserManager;
 class InfoService;
 class IconService;
 class ListService;
-class Loading;
 
 namespace Ui {
 class BrowserWindow;
@@ -56,8 +55,6 @@ private:
 	InfoService			*m_pInfoService;
 	IconService			*m_pIconService;
 	ListService			*m_pListService;
-
-	Loading				*m_pLoading;
 
 	QString				m_Root;
 

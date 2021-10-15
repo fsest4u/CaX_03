@@ -9,7 +9,6 @@ class AudioCDManager;
 class InfoTracks;
 class IconTracks;
 class ListTracks;
-class Loading;
 
 namespace Ui {
 class AudioCDWindow;
@@ -58,8 +57,6 @@ private:
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
-
-	Loading				*m_pLoading;
 
 	QString				m_TotalCount;
 	QString				m_TotalTime;

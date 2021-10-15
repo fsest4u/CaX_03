@@ -8,7 +8,6 @@
 class GroupPlayManager;
 class InfoService;
 class IconService;
-class Loading;
 
 namespace Ui {
 class GroupPlayWindow;
@@ -44,8 +43,6 @@ private:
 	GroupPlayManager	*m_pMgr;
 	InfoService			*m_pInfoService;
 	IconService			*m_pIconService;
-
-	Loading				*m_pLoading;
 
 	int					m_nEventID;
 

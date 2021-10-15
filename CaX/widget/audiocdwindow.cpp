@@ -4,7 +4,6 @@
 #include "manager/audiocdmanager.h"
 
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #include "widget/form/formplay.h"
@@ -25,7 +24,6 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
-	m_pLoading(new Loading(this)),
 	m_TotalCount(""),
 	m_TotalTime(""),
 	m_Format(""),
@@ -70,11 +68,6 @@ AudioCDWindow::~AudioCDWindow()
 		m_pListTracks = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
 }
 
 void AudioCDWindow::TrackList()

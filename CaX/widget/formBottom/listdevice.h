@@ -8,6 +8,7 @@
 #include "util/CJsonNode.h"
 
 class ListDeviceDelegate;
+class Loading;
 
 namespace Ui {
 class ListDevice;
@@ -41,6 +42,8 @@ private:
 	QListView			*m_ListView;
 	QStandardItemModel	*m_Model;
 	ListDeviceDelegate	*m_Delegate;
+
+	Loading					*m_pLoading;
 
 	QList<CJsonNode>	m_NodeList;
 

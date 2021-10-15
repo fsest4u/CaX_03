@@ -7,11 +7,12 @@
 
 #include "util/CJsonNode.h"
 
+class ListTracksDelegate;
+class Loading;
+
 namespace Ui {
 class ListTracks;
 }
-
-class ListTracksDelegate;
 
 class ListTracks : public QWidget
 {
@@ -45,11 +46,13 @@ private:
 
 	void Initialize();
 
-	QListView			*m_ListView;
-	QStandardItemModel	*m_Model;
-	ListTracksDelegate	*m_Delegate;
+	QListView				*m_ListView;
+	QStandardItemModel		*m_Model;
+	ListTracksDelegate		*m_Delegate;
 
-	QList<CJsonNode>	m_NodeList;
+	Loading					*m_pLoading;
+
+	QList<CJsonNode>		m_NodeList;
 
 	Ui::ListTracks *ui;
 };

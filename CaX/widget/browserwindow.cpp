@@ -6,7 +6,6 @@
 #include "manager/browsermanager.h"
 
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #include "widget/form/formplay.h"
@@ -28,7 +27,6 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString
 	m_pInfoService(new InfoService(this)),
 	m_pIconService(new IconService(this)),
 	m_pListService(new ListService(this)),
-	m_pLoading(new Loading(this)),
 	ui(new Ui::BrowserWindow)
 {
 	ui->setupUi(this);
@@ -74,11 +72,6 @@ BrowserWindow::~BrowserWindow()
 		m_pListService = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
 }
 
 void BrowserWindow::RequestRoot()

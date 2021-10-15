@@ -9,7 +9,6 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #include "widget/form/formplay.h"
@@ -30,7 +29,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
-	m_pLoading(new Loading(this)),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
 	m_nID(-1),
 	m_ArtistID(""),
@@ -100,11 +98,6 @@ MusicDBWindow::~MusicDBWindow()
 		m_pListTracks = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
 
 //	if (m_pCatThread)
 //	{
@@ -126,7 +119,6 @@ void MusicDBWindow::RequestMusicDBHome(int nCategory)
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
 	m_pInfoHome->SetTitle(m_nCategory);
 
-//	m_pLoading->Start();
 	m_pMgr->RequestMusicDBInfo();
 	m_pMgr->RequestCategoryList(m_nCategory);
 
@@ -140,7 +132,6 @@ void MusicDBWindow::RequestCategoryHome(int nID, int nCategory)
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	ui->gridLayoutBottom->addWidget(m_pListTracks);
 
-//	m_pLoading->Start();
 	m_pMgr->RequestCategoryInfo(nID, m_nCategory);
 	m_pMgr->RequestSongsOfCategory(nID, m_nCategory);
 }
@@ -152,7 +143,6 @@ void MusicDBWindow::SlotAddWidget(QWidget *widget, QString title)
 
 void MusicDBWindow::SlotRespError(QString errMsg)
 {
-	m_pLoading->Stop();
 	QMessageBox::warning(this, "Warning", errMsg);
 }
 
@@ -192,7 +182,6 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 //	m_pIconTracks->SetBackgroundTask(m_pCatThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
-	m_pLoading->Stop();
 //	m_pCatThread->start();
 }
 
@@ -220,7 +209,6 @@ void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
 {
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
 	m_pListTracks->SetNodeList(list);
-	m_pLoading->Stop();
 //	m_pSongThread->start();
 }
 

@@ -12,7 +12,6 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 #include "util/settingio.h"
 
@@ -34,7 +33,6 @@ const QString SETTINGS_GROUP = "MainWindow";
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
-	m_pLoading(new Loading(this)),
 	m_pSideMenu(new SideMenu(this)),
 	m_pDeviceMgr(new DeviceManager),
 	m_pDeviceWin(new DeviceListWindow),
@@ -74,13 +72,6 @@ MainWindow::~MainWindow()
 		delete m_pSideMenu;
 		m_pSideMenu = nullptr;
 	}
-
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
-
 
 	if (m_pObsMgr)
 	{

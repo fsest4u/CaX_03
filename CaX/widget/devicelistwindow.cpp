@@ -17,17 +17,29 @@ DeviceListWindow::DeviceListWindow(QWidget *parent) :
 	ConnectSigToSlot();
 
 	ui->gridLayout->addWidget(m_pListDevice);
+
+	m_pLoading = new Loading(ui->widget);
+	m_pLoading->Start();
+
 }
 
 DeviceListWindow::~DeviceListWindow()
 {
-	delete ui;
+	m_pLoading->Stop();
 
 	if (m_pListDevice)
 	{
 		delete m_pListDevice;
 		m_pListDevice = nullptr;
 	}
+
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
+	}
+
+	delete ui;
 }
 
 CJsonNode DeviceListWindow::GetDeviceList() const

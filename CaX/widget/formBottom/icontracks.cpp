@@ -7,15 +7,17 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/loading.h"
 #include "util/log.h"
 
 
-IconTracks::IconTracks(QWidget *parent)
-	: QWidget(parent)
-	, m_ListView(new QListView)
-	, m_Model(new QStandardItemModel)
-	, m_Delegate(new IconTracksDelegate)
-	, ui(new Ui::IconTracks)
+IconTracks::IconTracks(QWidget *parent) :
+	QWidget(parent),
+	m_ListView(new QListView),
+	m_Model(new QStandardItemModel),
+	m_Delegate(new IconTracksDelegate),
+	m_pLoading(new Loading(this)),
+	ui(new Ui::IconTracks)
 {
 	ui->setupUi(this);
 
@@ -40,6 +42,12 @@ IconTracks::~IconTracks()
 	{
 		delete m_Delegate;
 		m_Delegate = nullptr;
+	}
+
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
 	}
 }
 
@@ -120,6 +128,9 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
+
+	m_pLoading->Stop();
+
 }
 
 void IconTracks::ClearNodeList()
@@ -175,5 +186,7 @@ void IconTracks::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	SetViewMode(QListView::IconMode);
+
+	m_pLoading->Start();
 
 }

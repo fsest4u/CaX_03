@@ -7,14 +7,16 @@
 #include "listtracksdelegate.h"
 
 #include "util/caxkeyvalue.h"
+#include "util/loading.h"
 #include "util/log.h"
 
-ListTracks::ListTracks(QWidget *parent)
-	: QWidget(parent)
-	, m_ListView(new QListView)
-	, m_Model(new QStandardItemModel)
-	, m_Delegate(new ListTracksDelegate)
-	, ui(new Ui::ListTracks)
+ListTracks::ListTracks(QWidget *parent) :
+	QWidget(parent),
+	m_ListView(new QListView),
+	m_Model(new QStandardItemModel),
+	m_Delegate(new ListTracksDelegate),
+	m_pLoading(new Loading(this)),
+	ui(new Ui::ListTracks)
 {
 	ui->setupUi(this);
 
@@ -39,6 +41,12 @@ ListTracks::~ListTracks()
 	{
 		delete m_Delegate;
 		m_Delegate = nullptr;
+	}
+
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
 	}
 }
 
@@ -70,7 +78,11 @@ void ListTracks::SetNodeList(QList<CJsonNode> list)
 		emit SigReqCoverArt(nID, index, QListView::ListMode);
 		index++;
 	}
+
 	ui->gridLayout->addWidget(m_ListView);
+
+	m_pLoading->Stop();
+
 }
 
 void ListTracks::ClearNodeList()
@@ -124,4 +136,7 @@ void ListTracks::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
+
+	m_pLoading->Start();
+
 }

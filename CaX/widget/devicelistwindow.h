@@ -6,6 +6,7 @@
 #include "util/CJsonNode.h"
 
 class ListDevice;
+class Loading;
 
 namespace Ui {
 class DeviceListWindow;
@@ -44,8 +45,10 @@ private:
 
 	void ConnectSigToSlot();
 
-	ListDevice	*m_pListDevice;
-	CJsonNode	m_NodeList;
+	ListDevice				*m_pListDevice;
+	CJsonNode				m_NodeList;
+
+	Loading					*m_pLoading;
 
 	Ui::DeviceListWindow *ui;
 };

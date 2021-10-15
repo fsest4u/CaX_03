@@ -16,7 +16,7 @@ Loading::Loading(QWidget *parent)
 	m_Spinner->setLineWidth(10);
 	m_Spinner->setInnerRadius(30);
 	m_Spinner->setRevolutionsPerSecond(1);
-	m_Spinner->setColor(QColor(100, 100, 100));
+	m_Spinner->setColor(QColor(52, 174, 214));
 
 	// circle
 //	m_Spinner->setRoundness(0);

@@ -4,6 +4,7 @@
 #include "listservicedelegate.h"
 
 #include "util/caxkeyvalue.h"
+#include "util/loading.h"
 #include "util/log.h"
 
 ListService::ListService(QWidget *parent) :
@@ -11,6 +12,7 @@ ListService::ListService(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListServiceDelegate),
+	m_pLoading(new Loading(this)),
 	ui(new Ui::ListService)
 {
 	ui->setupUi(this);
@@ -36,6 +38,12 @@ ListService::~ListService()
 	{
 		delete m_Delegate;
 		m_Delegate = nullptr;
+	}
+
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
 	}
 }
 
@@ -153,6 +161,9 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
+
+	m_pLoading->Stop();
+
 }
 
 void ListService::Initialize()
@@ -162,5 +173,8 @@ void ListService::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
+
+	m_pLoading->Start();
+
 }
 

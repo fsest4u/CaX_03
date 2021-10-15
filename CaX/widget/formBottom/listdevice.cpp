@@ -4,6 +4,7 @@
 #include "listdevicedelegate.h"
 
 #include "util/caxkeyvalue.h"
+#include "util/loading.h"
 #include "util/log.h"
 
 ListDevice::ListDevice(QWidget *parent) :
@@ -11,6 +12,7 @@ ListDevice::ListDevice(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListDeviceDelegate),
+	m_pLoading(new Loading(this)),
 	ui(new Ui::ListDevice)
 {
 	ui->setupUi(this);
@@ -36,6 +38,12 @@ ListDevice::~ListDevice()
 	{
 		delete m_Delegate;
 		m_Delegate = nullptr;
+	}
+
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
 	}
 }
 
@@ -100,6 +108,7 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
+
 }
 
 void ListDevice::Initialize()
@@ -109,4 +118,6 @@ void ListDevice::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
+
+
 }

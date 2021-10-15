@@ -5,7 +5,6 @@
 
 #include "util/CJsonNode.h"
 
-class Loading;
 class SideMenu;
 
 class DeviceManager;
@@ -86,7 +85,6 @@ private:
 	void RemoveAllWidget();
 	void UpdateStackState();
 
-	Loading			*m_pLoading;
 	SideMenu		*m_pSideMenu;
 
 	DeviceManager		*m_pDeviceMgr;

@@ -5,6 +5,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/loading.h"
 #include "util/log.h"
 
 IconService::IconService(QWidget *parent) :
@@ -12,6 +13,7 @@ IconService::IconService(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconServiceDelegate),
+	m_pLoading(new Loading(this)),
 	ui(new Ui::IconService)
 {
 	ui->setupUi(this);
@@ -37,6 +39,12 @@ IconService::~IconService()
 	{
 		delete m_Delegate;
 		m_Delegate = nullptr;
+	}
+
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
 	}
 }
 
@@ -153,6 +161,9 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
+
+	m_pLoading->Stop();
+
 }
 
 void IconService::ClearNodeList()
@@ -191,6 +202,9 @@ void IconService::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	SetViewMode(QListView::IconMode);
+
+	m_pLoading->Start();
+
 }
 
 QString IconService::GetGroupPlayStatus(int type)

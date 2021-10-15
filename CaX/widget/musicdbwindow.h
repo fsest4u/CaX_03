@@ -8,14 +8,11 @@
 
 #include "util/CJsonNode.h"
 
-
 class MusicDBManager;
 class InfoHome;
 class InfoTracks;
 class IconTracks;
 class ListTracks;
-class Loading;
-
 
 namespace Ui {
 class MusicDBWindow;
@@ -104,8 +101,6 @@ private:
 	InfoTracks		*m_pInfoTracks;
 	IconTracks		*m_pIconTracks;
 	ListTracks		*m_pListTracks;
-
-	Loading			*m_pLoading;
 
 //	QThread			*m_pCatThread;
 //	QThread			*m_pSongThread;

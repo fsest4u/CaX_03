@@ -7,7 +7,6 @@
 #include "manager/qobuzmanager.h"
 
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #include "widget/airable.h"
@@ -35,7 +34,6 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	m_pInfoService(new InfoService(this)),
 	m_pIconService(new IconService(this)),
 	m_pListService(new ListService(this)),
-	m_pLoading(new Loading(parent)),
 	m_WebURL(""),
 	m_ServiceType(-1),
 	ui(new Ui::IServiceWindow)
@@ -85,12 +83,6 @@ IServiceWindow::~IServiceWindow()
 	{
 		delete m_pListService;
 		m_pListService = nullptr;
-	}
-
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
 	}
 
 }

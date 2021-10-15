@@ -11,7 +11,6 @@ class QobuzManager;
 class InfoService;
 class IconService;
 class ListService;
-class Loading;
 
 namespace Ui {
 class IServiceWindow;
@@ -102,8 +101,6 @@ private:
 	InfoService			*m_pInfoService;
 	IconService			*m_pIconService;
 	ListService			*m_pListService;
-
-	Loading				*m_pLoading;
 
 	QString				m_WebURL;
 	int					m_ServiceType;

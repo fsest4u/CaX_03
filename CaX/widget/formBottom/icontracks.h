@@ -7,11 +7,12 @@
 
 #include "util/CJsonNode.h"
 
+class IconTracksDelegate;
+class Loading;
+
 namespace Ui {
 class IconTracks;
 }
-
-class IconTracksDelegate;
 
 class IconTracks : public QWidget
 {
@@ -56,6 +57,8 @@ private:
 	QListView				*m_ListView;
 	QStandardItemModel		*m_Model;
 	IconTracksDelegate		*m_Delegate;
+
+	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 

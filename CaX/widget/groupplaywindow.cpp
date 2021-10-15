@@ -13,7 +13,6 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
@@ -21,7 +20,6 @@ GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
 	m_pMgr(new GroupPlayManager),
 	m_pInfoService(new InfoService(this)),
 	m_pIconService(new IconService(this)),
-	m_pLoading(new Loading(this)),
 	ui(new Ui::GroupPlayWindow)
 {
 	ui->setupUi(this);
@@ -54,12 +52,6 @@ GroupPlayWindow::~GroupPlayWindow()
 	{
 		delete m_pIconService;
 		m_pIconService = nullptr;
-	}
-
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
 	}
 
 }
