@@ -111,6 +111,8 @@ private:
 //	QThread			*m_pSongThread;
 
 	int				m_nCategory;
+	int				m_nID;
+
 	QString			m_ArtistID;
 	QString			m_GenreID;
 	QString			m_ComposerID;

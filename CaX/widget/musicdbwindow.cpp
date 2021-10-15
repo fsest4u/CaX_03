@@ -31,6 +31,8 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
 	m_pLoading(new Loading(this)),
+	m_nCategory(SQLManager::CATEGORY_ALBUM),
+	m_nID(-1),
 	m_ArtistID(""),
 	m_GenreID(""),
 	m_ComposerID(""),
@@ -43,8 +45,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
-
-	m_nCategory = SQLManager::CATEGORY_ALBUM;
 
 	m_pInfoHome->GetFormPlay()->ShowPlayAll();
 	m_pInfoHome->GetFormPlay()->ShowPlayRandom();
@@ -134,7 +134,9 @@ void MusicDBWindow::RequestMusicDBHome(int nCategory)
 
 void MusicDBWindow::RequestCategoryHome(int nID, int nCategory)
 {
+	m_nID = nID;
 	m_nCategory = nCategory;
+
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	ui->gridLayoutBottom->addWidget(m_pListTracks);
 
@@ -241,14 +243,12 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 void MusicDBWindow::SlotPlayAll()
 {
-	LogDebug("music PlayAll");
-
+	m_pMgr->RequestPlayCategoryItems(PLAY_CLEAR, m_nCategory);
 }
 
 void MusicDBWindow::SlotPlayRandom()
 {
-	LogDebug("music PlayRandom");
-
+	m_pMgr->RequestRandom();
 }
 
 void MusicDBWindow::SlotFavorite()
@@ -328,14 +328,12 @@ void MusicDBWindow::SlotMusicSubmenu2()
 
 void MusicDBWindow::SlotAlbumPlayAll()
 {
-	LogDebug("album play all");
-
+	m_pMgr->RequestPlayCategoryItem(m_nID, PLAY_CLEAR, m_nCategory);
 }
 
 void MusicDBWindow::SlotAlbumPlayRandom()
 {
-	LogDebug("album play random");
-
+	m_pMgr->RequestRandom();
 }
 
 void MusicDBWindow::SlotAlbumSubmenu()

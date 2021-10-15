@@ -198,6 +198,7 @@ select	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
 where Song.IsDel = 0 and Song.ComposerID = %1	\
 "
 
@@ -229,6 +230,7 @@ select	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 where Song.IsDel = 0 and Song.GenreID = %1	\
 "
 
@@ -260,6 +262,7 @@ select	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.MoodID = %1	\
 "
 
@@ -291,6 +294,7 @@ select	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Folder on Song.FolderID = Folder.ROWID	\
 where Song.IsDel = 0 and Song.FolderID = %1	\
 "
 

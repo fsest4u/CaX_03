@@ -88,6 +88,70 @@ void MusicDBManager::RequestSongsOfCategory(int nID, int nCategory)
 	RequestCommand(node, MUSICDB_SONGS_OF_CATEGORY);
 }
 
+void MusicDBManager::RequestPlayCategoryItems(int nWhere, int nCategory)
+{
+	QString strCat = GetCategoryName(nCategory);
+
+	CJsonNode node(JSON_OBJECT);
+
+	if (SQLManager::CATEGORY_YEAR == nCategory)
+	{
+		node.Add(KEY_ETC_ORDER, QString("Song.%1").arg(strCat));
+	}
+	else
+	{
+		CJsonNode orderInfo(JSON_OBJECT);
+		orderInfo.Add(VAL_CATEGORY, strCat);
+		orderInfo.AddInt(KEY_ORDER, 0);
+		node.Add(KEY_CAT_ORDER, orderInfo);
+	}
+
+	node.AddInt	(KEY_SONG_ORDER, 0);
+	node.AddInt	(KEY_WHERE, nWhere);
+	node.Add	(KEY_CMD0,	VAL_MUSIC_DB);
+	node.Add	(KEY_CMD1,	VAL_PLAY);
+	node.Add	(KEY_CMD2,	VAL_ALL);
+
+	RequestCommand(node, MUSICDB_PLAY_CATEGORY_ITEMS);
+}
+
+void MusicDBManager::RequestPlayCategoryItem(int nID, int nWhere, int nCategory)
+{
+	QString strCat = GetCategoryName(nCategory);
+
+	CJsonNode node(JSON_OBJECT);
+
+	if (SQLManager::CATEGORY_YEAR == nCategory)
+	{
+		node.Add	(KEY_CMD2,		VAL_YEAR);
+		CJsonNode yearArr(JSON_ARRAY);
+		yearArr.AppendArray((int64_t)nID);
+		node.Add(KEY_YEARS, yearArr);
+	}
+	else if (SQLManager::CATEGORY_TRACK == nCategory)
+	{
+		node.Add	(KEY_CMD2,		VAL_ALL);
+	}
+	else
+	{
+		node.Add	(KEY_CMD2,		VAL_ALL);
+
+		CJsonNode filterArr(JSON_ARRAY);
+		CJsonNode filterInfo(JSON_OBJECT);
+		filterInfo.Add(KEY_CATEGORY, strCat);
+		filterInfo.AddInt(KEY_ID_UPPER, nID);
+		filterArr.AppendArray(filterInfo);
+		node.Add(KEY_FILTERS, filterArr);
+	}
+
+	node.AddInt	(KEY_SONG_ORDER, 0);
+	node.AddInt	(KEY_WHERE, nWhere);
+	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
+	node.Add	(KEY_CMD1,		VAL_PLAY);
+
+	RequestCommand(node, MUSICDB_PLAY_CATEGORY_ITEM);
+}
+
 void MusicDBManager::RequestPlaySong(int nID, int nWhere)
 {
 	CJsonNode node(JSON_OBJECT);
@@ -97,8 +161,8 @@ void MusicDBManager::RequestPlaySong(int nID, int nWhere)
 	node.AddInt	(KEY_ID_UPPER,	nID);
 	node.AddInt	(KEY_WHERE,		nWhere);
 	node.AddInt	(KEY_SONG_ORDER, 0);
-	RequestCommand(node, MUSICDB_PLAY_SONG);
 
+	RequestCommand(node, MUSICDB_PLAY_SONG);
 }
 
 void MusicDBManager::RequestFavorite(int nID, int nFavorite, int nCategory)
@@ -141,6 +205,15 @@ void MusicDBManager::RequestClassifyList(int nCategory)
 		break;
 	}
 	RequestCommand(node, nCmdID);
+}
+
+void MusicDBManager::RequestRandom()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_REMOTE);
+	node.Add(KEY_KEY, VAL_SHUFFLE);
+
+	RequestCommand(node, MUSICDB_RANDOM);
 }
 
 QString MusicDBManager::GetCategoryName(int nCategory)
@@ -203,9 +276,11 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	if (nCmdID == MUSICDB_PLAY_SONG
+	if (nCmdID == MUSICDB_PLAY_CATEGORY_ITEMS
+			|| nCmdID == MUSICDB_PLAY_SONG
 			|| nCmdID == MUSICDB_UPDATE_FAVORITE
 			|| nCmdID == MUSICDB_UPDATE_RATING
+			|| nCmdID == MUSICDB_RANDOM
 			)
 	{
 		return;
@@ -232,6 +307,9 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_SONGS_OF_CATEGORY:
 		ParseSongsOfCategory(result);
 		break;
+//	case MUSICDB_PLAY_CATEGORY:
+//	case MUSICDB_PLAY_SONG:
+//		break;
 	case MUSICDB_CLASSIFY_ARTIST:
 		ParseClassifyArtist(result);
 		break;

@@ -117,7 +117,7 @@ void PlaylistManager::RequestPlaylistsPlay(QList<int> ids)
 
 //	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-	RequestCommand(node, PLAYLIST_PLAY_TRACKS);
+	RequestCommand(node, PLAYLIST_PLAY_PLAYLISTS);
 }
 
 void PlaylistManager::RequestRandom()
@@ -127,7 +127,6 @@ void PlaylistManager::RequestRandom()
 	node.Add(KEY_KEY, VAL_SHUFFLE);
 
 	RequestCommand(node, PLAYLIST_RANDOM);
-
 }
 
 void PlaylistManager::SlotRespInfo(QString json, int cmdID)
@@ -152,6 +151,16 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 		}
 
 		emit SigRespError(message.left((MSG_LIMIT_COUNT)));
+		return;
+	}
+
+	if (cmdID == PLAYLIST_PLAY_TRACK
+			|| cmdID == PLAYLIST_PLAY_TRACKS
+			|| cmdID == PLAYLIST_PLAY_PLAYLIST
+			|| cmdID == PLAYLIST_PLAY_PLAYLISTS
+			|| cmdID == PLAYLIST_RANDOM
+			)
+	{
 		return;
 	}
 

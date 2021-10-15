@@ -24,12 +24,15 @@ public:
 		MUSICDB_CATEGORY_LIST,
 		MUSICDB_CATEGORY_INFO,
 		MUSICDB_SONGS_OF_CATEGORY,
+		MUSICDB_PLAY_CATEGORY_ITEMS,
+		MUSICDB_PLAY_CATEGORY_ITEM,
 		MUSICDB_PLAY_SONG,
 		MUSICDB_UPDATE_FAVORITE,
 		MUSICDB_UPDATE_RATING,
 		MUSICDB_CLASSIFY_ARTIST,
 		MUSICDB_CLASSIFY_GENRE,
 		MUSICDB_CLASSIFY_COMPOSER,
+		MUSICDB_RANDOM,
 		MUSICDB_MAX
 	};
 
@@ -38,12 +41,15 @@ public:
 	void RequestCategoryInfo(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestSongsOfCategory(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 
-	void RequestPlaySong(int nID, int nWhere = PLAY_NOW);
+	void RequestPlayCategoryItems(int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestPlayCategoryItem(int nID, int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestPlaySong(int nID, int nWhere = PLAY_CLEAR);
 	void RequestFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
 
 	void RequestClassifyList(int nCategory);
 
+	void RequestRandom();
 
 //	int GetCntAlbum() const { return m_CntAlbum; }
 //	int GetCntArtist() const { return m_CntArtist; }

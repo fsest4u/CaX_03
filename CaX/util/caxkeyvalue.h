@@ -68,6 +68,11 @@
 #define		KEY_ITEM_TYPE		"ItemType"
 #define		KEY_QOBUZ_MENU		"QobuzMenu"
 #define		KEY_MENU_DEPTH		"MenuDepth"
+#define		KEY_ORDER			"Order"
+#define		KEY_CAT_ORDER		"CatOrder"
+#define		KEY_SONG_ORDER		"SongOrder"
+#define		KEY_CATEGORY		"Cat"
+#define		KEY_FILTERS			"Filters"
 
 //////////////////////////////////////////////////
 // command - value
@@ -147,6 +152,8 @@
 #define		VAL_EDITOR_PICKS	"EditorPicks"
 #define		VAL_MOST_FEATURED	"MostFeatured"
 #define		VAL_GROUP		"Group"
+#define		VAL_ALL			"All"
+#define		VAL_YEAR			"Year"
 
 //////////////////////////////////////////////////
 // response - key
@@ -164,13 +171,14 @@
 #define		KEY_EVENT_ID		"EventID"
 
 #define		KEY_ALBUM			"Album"
-#define		KEY_ALBUM_ARTIST			"AlbumArtist"
+#define		KEY_ALBUM_ARTIST	"AlbumArtist"
 #define		KEY_ARTIST			"Artist"
 #define		KEY_COMPOSER		"Composer"
 #define		KEY_GENRE			"Genre"
 #define		KEY_MOOD			"Mood"
 #define		KEY_FOLDER			"Folder"
 #define		KEY_YEAR			"Year"
+#define		KEY_YEARS			"Years"
 #define		KEY_SONG			"Song"
 
 #define		KEY_ID_LOWER		"id"
@@ -211,6 +219,7 @@
 #define		KEY_ROOT			"Root"
 #define		KEY_DIRS			"Dirs"
 #define		KEY_FILES			"Files"
+#define		KEY_ETC_ORDER		"EtcOrder"
 
 //////////////////////////////////////////////////
 // response - value
