@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QLabel" name="labelSort">
+    <widget class="QPushButton" name="btnSort">
      <property name="minimumSize">
       <size>
        <width>130</width>
@@ -43,14 +43,20 @@
        <height>22</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
-      <string notr="true">QLabel
+      <string notr="true">QPushButton
 {
   color: rgb(52, 174, 214);
   border-image: url(&quot;:/resource/top-btn130-sortb-n@3x.png&quot;);
 }
 
-QLabel:hover
+QPushButton:hover
 {
   color: rgb(255, 255, 255);
   border-image: url(&quot;:/resource/top-btn130-sortb-h@3x.png&quot;);

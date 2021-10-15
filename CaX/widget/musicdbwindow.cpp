@@ -145,12 +145,16 @@ void MusicDBWindow::AddWidgetMusicDBHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoHome);
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
+
+	AddSortMusicDBHome();
 }
 
 void MusicDBWindow::AddWidgetCategoryHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	ui->gridLayoutBottom->addWidget(m_pListTracks);
+
+	AddSortCategoryHome();
 }
 
 void MusicDBWindow::SlotAddWidget(QWidget *widget, QString title)
@@ -275,9 +279,9 @@ void MusicDBWindow::SlotSubmenu()
 
 }
 
-void MusicDBWindow::SlotSort()
+void MusicDBWindow::SlotSort(int sort)
 {
-	LogDebug("good choice sort");
+	RequestMusicDBHome(m_nCategory, sort, m_bIncreaseCategory);
 
 }
 
@@ -363,9 +367,10 @@ void MusicDBWindow::SlotAlbumRating()
 
 }
 
-void MusicDBWindow::SlotAlbumSort()
+void MusicDBWindow::SlotAlbumSort(int sort)
 {
-	LogDebug("album sort");
+
+	RequestCategoryHome(m_nID, m_nCategory, sort, m_bIncreaseTrack);
 
 }
 
@@ -524,7 +529,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyGenre(bool, QString)), this, SLOT(SlotClassifyGenre(bool, QString)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
 
-	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigSort()), this, SLOT(SlotSort()));
+	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigSort(int)), this, SLOT(SlotSort(int)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotIncDec(bool)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
@@ -540,8 +545,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigFavorite()), this, SLOT(SlotAlbumFavorite()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigRating()), this, SLOT(SlotAlbumRating()));
 
-	connect(m_pInfoTracks, SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort()), this, SLOT(SlotAlbumSort()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort(int)), this, SLOT(SlotAlbumSort(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotAlbumIncDec(bool)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotAlbumResize()));
 
@@ -562,5 +566,40 @@ void MusicDBWindow::ConnectSigToSlot()
 void MusicDBWindow::SetCoverArt(QString coverArt)
 {
 	m_pInfoTracks->SetCoverArt(coverArt);
+}
+
+void MusicDBWindow::AddSortMusicDBHome()
+{
+	QMap<int, QString> list;
+	list.insert(SQLManager::SORT_NAME, tr("Sort by Name"));
+	list.insert(SQLManager::SORT_ALBUM, tr("Sort by Album"));
+	list.insert(SQLManager::SORT_ALBUM_ARTIST, tr("Sort by Album Artist"));
+	list.insert(SQLManager::SORT_ARTIST, tr("Sort by Artist"));
+	list.insert(SQLManager::SORT_GENRE, tr("Sort by Genre"));
+	list.insert(SQLManager::SORT_COMPOSER, tr("Sort by Composer"));
+	list.insert(SQLManager::SORT_MOOD, tr("Sort by Mood"));
+	list.insert(SQLManager::SORT_FOLDER, tr("Sort by Folder"));
+	list.insert(SQLManager::SORT_YEAR, tr("Sort by Year"));
+
+	m_pInfoHome->GetFormSort()->SetSortMenu(list);
+	m_pInfoHome->GetFormSort()->SetSortMenuTitle(tr("Sort by Name"));
+}
+
+void MusicDBWindow::AddSortCategoryHome()
+{
+	QMap<int, QString> list;
+	list.insert(SQLManager::SORT_NAME, tr("Sort by Name"));
+	list.insert(SQLManager::SORT_ALBUM, tr("Sort by Album"));
+	list.insert(SQLManager::SORT_ALBUM_ARTIST, tr("Sort by Album Artist"));
+	list.insert(SQLManager::SORT_ARTIST, tr("Sort by Artist"));
+	list.insert(SQLManager::SORT_GENRE, tr("Sort by Genre"));
+	list.insert(SQLManager::SORT_COMPOSER, tr("Sort by Composer"));
+	list.insert(SQLManager::SORT_MOOD, tr("Sort by Mood"));
+	list.insert(SQLManager::SORT_FOLDER, tr("Sort by Folder"));
+	list.insert(SQLManager::SORT_YEAR, tr("Sort by Year"));
+
+	m_pInfoTracks->GetFormSort()->SetSortMenu(list);
+	m_pInfoTracks->GetFormSort()->SetSortMenuTitle(tr("Sort by Name"));
+
 }
 

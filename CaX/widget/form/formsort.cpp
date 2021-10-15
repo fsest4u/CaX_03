@@ -5,30 +5,39 @@
 
 FormSort::FormSort(QWidget *parent) :
 	QWidget(parent),
+	m_SortMenu(new QMenu(this)),
 	m_bIncrease(false),
 	ui(new Ui::FormSort)
 {
 	ui->setupUi(this);
 
-	ui->labelSort->hide();
+	ui->btnSort->hide();
 	ui->labelIncDec->hide();
 	ui->labelResize->hide();
 
-	ui->labelSort->installEventFilter(this);
+//	ui->btnSort->installEventFilter(this);
 	ui->labelIncDec->installEventFilter(this);
 	ui->labelResize->installEventFilter(this);
+
+	ui->btnSort->setMenu(m_SortMenu);
 
 	SetIncrease(m_bIncrease);
 }
 
 FormSort::~FormSort()
 {
+	if (m_SortMenu)
+	{
+		delete m_SortMenu;
+		m_SortMenu = nullptr;
+	}
+
 	delete ui;
 }
 
 void FormSort::ShowSort()
 {
-	ui->labelSort->show();
+	ui->btnSort->show();
 
 }
 
@@ -42,6 +51,23 @@ void FormSort::ShowResize()
 {
 	ui->labelResize->show();
 
+}
+
+void FormSort::SetSortMenu(QMap<int, QString> list)
+{
+	QMap<int, QString>::iterator i;
+	for (i = list.begin(); i!= list.end(); i++)
+	{
+		QAction *action = new QAction(i.value(), this);
+		action->setData(i.key());
+		m_SortMenu->addAction(action);
+	}
+	connect(m_SortMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotSortMenu(QAction*)));
+}
+
+void FormSort::SetSortMenuTitle(QString title)
+{
+	ui->btnSort->setText(title);
 }
 
 bool FormSort::GetIncrease() const
@@ -86,11 +112,7 @@ bool FormSort::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->labelSort)
-		{
-			emit SigSort();
-		}
-		else if (object == ui->labelIncDec)
+		if (object == ui->labelIncDec)
 		{
 			bool bIncrease = !m_bIncrease;
 			SetIncrease(bIncrease);
@@ -103,4 +125,11 @@ bool FormSort::eventFilter(QObject *object, QEvent *event)
 	}
 
 	return QObject::eventFilter(object, event);
+}
+
+void FormSort::SlotSortMenu(QAction *action)
+{
+	ui->btnSort->setText(action->text());
+
+	emit SigSort(action->data().toInt());
 }

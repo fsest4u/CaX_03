@@ -332,6 +332,12 @@ QString SQLManager::GetSort(int nSort)
 	case SORT_COMPOSER:
 		sort = "ComposerID";
 		break;
+	case SORT_MOOD:
+		sort = "MoodID";
+		break;
+	case SORT_FOLDER:
+		sort = "FolderID";
+		break;
 	case SORT_YEAR:
 		sort = "Year";
 		break;
