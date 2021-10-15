@@ -4,7 +4,8 @@
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
-BrowserManager::BrowserManager(QObject *parent)
+BrowserManager::BrowserManager(QObject *parent) :
+	m_bSubDir(true)
 {
 	Q_UNUSED(parent)
 //	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
@@ -95,8 +96,8 @@ void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringLis
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_BROWSER);
 	node.Add	(KEY_CMD1,		VAL_PLAY);
-	node.AddInt	(KEY_WHERE,		0);
-	node.Add(KEY_SUB_DIR, true);
+	node.AddInt	(KEY_WHERE,		PLAY_CLEAR);
+	node.Add(KEY_SUB_DIR, m_bSubDir);
 	node.Add(KEY_ROOT, root);
 	if (dirs.count() > 0)
 	{
@@ -116,6 +117,26 @@ void BrowserManager::RequestPlaylistPlay(QString path, QList<int> indexes)
 {
 
 }
+
+void BrowserManager::RequestRandom()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_REMOTE);
+	node.Add(KEY_KEY, VAL_SHUFFLE);
+
+	RequestCommand(node, BROWSER_RANDOM);
+}
+
+bool BrowserManager::GetSubDir() const
+{
+	return m_bSubDir;
+}
+
+void BrowserManager::SetSubDir(bool bSubDir)
+{
+	m_bSubDir = bSubDir;
+}
+
 
 void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 {
@@ -196,3 +217,4 @@ void BrowserManager::ParseInfoBot(CJsonNode node, int nIndex)
 {
 	emit SigRespNodeUpdate(node, nIndex);
 }
+

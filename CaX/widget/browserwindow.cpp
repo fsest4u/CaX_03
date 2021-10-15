@@ -33,11 +33,10 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString
 
 	m_pMgr->SetAddr(addr);
 	m_Root = root;
+	m_Dirs.clear();
+	m_Files.clear();
 
 	ConnectSigToSlot();
-
-//	m_pInfoService->GetFormPlay()->ShowPlayAll();
-//	m_pInfoService->GetFormPlay()->ShowPlayRandom();
 
 	m_pInfoService->GetFormPlay()->ShowSubmenu();
 	m_pInfoService->GetFormSort()->ShowResize();
@@ -99,12 +98,12 @@ void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
 
 void BrowserWindow::SlotPlayAll()
 {
-	LogDebug("click play all");
+	m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
 }
 
 void BrowserWindow::SlotPlayRandom()
 {
-	LogDebug("click play random");
+	m_pMgr->RequestRandom();
 }
 
 void BrowserWindow::SlotSubmenu()
@@ -137,12 +136,14 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 		if (!m_Root.isEmpty())
 			strPath = m_Root + "/" + strPath;
 
-		m_Root = strPath;
-
-		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_Root);
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), strPath);
 		emit SigAddWidget(widget, tr("Browser"));
 
-		widget->RequestFolder(m_Root);
+		if (iFolderType_Mask_Play_Top & nType)
+		{
+			widget->ShowFormPlay();
+		}
+		widget->RequestFolder(strPath);
 	}
 	else if (iFolderType_Mask_Song & nType
 			 && (iFolderType_Mask_Play_Top & nType
@@ -163,13 +164,13 @@ void BrowserWindow::SlotSelectURL(QString rawData)
 		return;
 	}
 
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-	QStringList dirs;
-	QStringList files;
+//	QStringList dirs;
+//	QStringList files;
 
-	files.append(node.GetString(KEY_PATH));
-	m_pMgr->RequestTrackPlay(m_Root, dirs, files);
+//	files.append(node.GetString(KEY_PATH));
+	m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
 }
 
 void BrowserWindow::SlotRespList(QList<CJsonNode> list)
@@ -183,7 +184,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		ui->gridLayoutTop->addWidget(m_pInfoService);
 		ui->gridLayoutBottom->addWidget(m_pIconService);
 
-		SetCoverArt(list);
+		SetList(list);
 
 		if (m_Root.isEmpty())
 		{
@@ -251,7 +252,7 @@ void BrowserWindow::ConnectSigToSlot()
 
 }
 
-void BrowserWindow::SetCoverArt(QList<CJsonNode> &list)
+void BrowserWindow::SetList(QList<CJsonNode> &list)
 {
 	QList<CJsonNode> tempList;
 	int index = 0;
@@ -260,27 +261,8 @@ void BrowserWindow::SetCoverArt(QList<CJsonNode> &list)
 	foreach (CJsonNode node, list)
 	{
 		LogDebug("node [%s]", node.ToCompactByteArray().data());
-		QString path = node.GetString(KEY_PATH);
-		if (!path.compare("HDD1"))
-		{
-			strCover = ":/resource/browser-img160-hdd-n@3x.png";
-
-		}
-		else if (!path.compare("NET"))
-		{
-			strCover = ":/resource/browser-img160-net-n@3x.png";
-
-		}
-		else if (!path.compare("UPnP"))
-		{
-			strCover = ":/resource/browser-img160-upnp-n@3x.png";
-
-		}
-		else
-		{
-			strCover = ":/resource/browser-img160-brank-n@3x.png";
-
-		}
+		AnalyzeNode(node);
+		strCover = GetCoverArtIcon(node);
 		node.Add(KEY_COVER_ART, strCover);
 //		node.AddInt(KEY_ID_UPPER, index);
 //		node.AddInt(KEY_TYPE, index);
@@ -289,4 +271,50 @@ void BrowserWindow::SetCoverArt(QList<CJsonNode> &list)
 		index++;
 	}
 	list = tempList;
+}
+
+void BrowserWindow::AnalyzeNode(CJsonNode node)
+{
+	int type = node.GetInt(KEY_TYPE);
+	QString path = node.GetString(KEY_PATH);
+
+	if (type & iFolderType_Mask_Dir)
+	{
+		m_Dirs.append(path);
+	}
+	else if (type & iFolderType_Mask_Song)
+	{
+		m_Files.append(path);
+	}
+}
+
+QString BrowserWindow::GetCoverArtIcon(CJsonNode node)
+{
+	QString path = node.GetString(KEY_PATH);
+	QString strCover;
+
+	if (!path.compare("HDD1"))
+	{
+		strCover = ":/resource/browser-img160-hdd-n@3x.png";
+	}
+	else if (!path.compare("NET"))
+	{
+		strCover = ":/resource/browser-img160-net-n@3x.png";
+	}
+	else if (!path.compare("UPnP"))
+	{
+		strCover = ":/resource/browser-img160-upnp-n@3x.png";
+	}
+	else
+	{
+		strCover = ":/resource/browser-img160-brank-n@3x.png";
+	}
+
+	return strCover;
+}
+
+void BrowserWindow::ShowFormPlay()
+{
+	m_pInfoService->GetFormPlay()->ShowPlayAll();
+	m_pInfoService->GetFormPlay()->ShowPlayRandom();
 }

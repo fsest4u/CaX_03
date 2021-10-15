@@ -242,7 +242,7 @@ void SideMenu::SetMenu(bool connect)
 		QIcon icon13(":/resource/submenu-icon40-aboutmusicx@3x.png");
 		item13->setData(SideMenuDelegate::SIDEMENU_SERVICE_ABOUT, SideMenuDelegate::SIDEMENU_ID);
 		item13->setData(icon13, SideMenuDelegate::SIDEMENU_ICON);
-		item13->setData("Power Off", SideMenuDelegate::SIDEMENU_TITLE);
+		item13->setData("About", SideMenuDelegate::SIDEMENU_TITLE);
 		m_Model->appendRow(item13);
 
 	}

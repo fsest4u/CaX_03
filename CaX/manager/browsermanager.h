@@ -20,6 +20,10 @@ public:
 	void RequestRename();
 	void RequestTrackPlay(QString root, QStringList dirs, QStringList files);
 	void RequestPlaylistPlay(QString path, QList<int> indexes);
+	void RequestRandom();
+
+	bool GetSubDir() const;
+	void SetSubDir(bool bSubDir);
 
 signals:
 
@@ -52,11 +56,14 @@ private:
 //		BROWSER_IMPORT,
 //		BROWSER_UPNP_FOLDER,
 //		BROWSER_UPNP_PLAY,
+		BROWSER_RANDOM,
 		BROWSER_MAX
 	};
 
 	void ParseFolder(CJsonNode node);
 	void ParseInfoBot(CJsonNode node, int nIndex);
+
+	bool	m_bSubDir;
 
 
 };

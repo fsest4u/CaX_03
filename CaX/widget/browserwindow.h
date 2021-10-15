@@ -49,7 +49,10 @@ private:
 
 	void ConnectSigToSlot();
 
-	void SetCoverArt(QList<CJsonNode> &list);
+	void SetList(QList<CJsonNode> &list);
+	void AnalyzeNode(CJsonNode node);
+	QString GetCoverArtIcon(CJsonNode node);
+	void ShowFormPlay();
 
 	BrowserManager		*m_pMgr;
 	InfoService			*m_pInfoService;
@@ -57,6 +60,8 @@ private:
 	ListService			*m_pListService;
 
 	QString				m_Root;
+	QStringList			m_Dirs;
+	QStringList			m_Files;
 
 	Ui::BrowserWindow *ui;
 };
