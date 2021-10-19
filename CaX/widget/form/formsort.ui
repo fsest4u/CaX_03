@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>207</width>
+    <width>227</width>
     <height>22</height>
    </rect>
   </property>
@@ -33,13 +33,13 @@
     <widget class="QPushButton" name="btnSort">
      <property name="minimumSize">
       <size>
-       <width>130</width>
+       <width>150</width>
        <height>22</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>130</width>
+       <width>150</width>
        <height>22</height>
       </size>
      </property>
@@ -53,13 +53,13 @@
       <string notr="true">QPushButton
 {
   color: rgb(52, 174, 214);
-  border-image: url(&quot;:/resource/top-btn130-sortb-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn150-sort-n@3x.png&quot;);
 }
 
 QPushButton:hover
 {
   color: rgb(255, 255, 255);
-  border-image: url(&quot;:/resource/top-btn130-sortb-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn150-sort-h@3x.png&quot;);
 }</string>
      </property>
     </widget>

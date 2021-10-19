@@ -662,12 +662,6 @@
         <file>resource/top-btn82-classify-n.png</file>
         <file>resource/top-btn82-classify-n@2x.png</file>
         <file>resource/top-btn82-classify-n@3x.png</file>
-        <file>resource/top-btn130-sortb-h.png</file>
-        <file>resource/top-btn130-sortb-h@2x.png</file>
-        <file>resource/top-btn130-sortb-h@3x.png</file>
-        <file>resource/top-btn130-sortb-n.png</file>
-        <file>resource/top-btn130-sortb-n@2x.png</file>
-        <file>resource/top-btn130-sortb-n@3x.png</file>
         <file>resource/btm-btn40-stop-h.png</file>
         <file>resource/btm-btn40-stop-h@2x.png</file>
         <file>resource/btm-btn40-stop-h@3x.png</file>
@@ -701,5 +695,23 @@
         <file>resource/submenu-icon40-wolpoweron.png</file>
         <file>resource/submenu-icon40-wolpoweron@2x.png</file>
         <file>resource/submenu-icon40-wolpoweron@3x.png</file>
+        <file>resource/internets-btn28-record-h.png</file>
+        <file>resource/internets-btn28-record-h@2x.png</file>
+        <file>resource/internets-btn28-record-h@3x.png</file>
+        <file>resource/internets-btn28-record-n.png</file>
+        <file>resource/internets-btn28-record-n@2x.png</file>
+        <file>resource/internets-btn28-record-n@3x.png</file>
+        <file>resource/internets-btn28-record-u.png</file>
+        <file>resource/internets-btn28-record-u@2x.png</file>
+        <file>resource/internets-btn28-record-u@3x.png</file>
+        <file>resource/top-btn22-sortd-n.png</file>
+        <file>resource/top-btn22-sortd-n@2x.png</file>
+        <file>resource/top-btn22-sortd-n@3x.png</file>
+        <file>resource/top-btn150-sort-h.png</file>
+        <file>resource/top-btn150-sort-h@2x.png</file>
+        <file>resource/top-btn150-sort-h@3x.png</file>
+        <file>resource/top-btn150-sort-n.png</file>
+        <file>resource/top-btn150-sort-n@2x.png</file>
+        <file>resource/top-btn150-sort-n@3x.png</file>
     </qresource>
 </RCC>
