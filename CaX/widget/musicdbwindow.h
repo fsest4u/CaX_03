@@ -107,6 +107,8 @@ private:
 	void AddSortMusicDBHome();
 	void AddSortCategoryHome();
 
+	void ClearClassifyMenu();
+
 	MusicDBManager	*m_pMgr;
 	InfoHome		*m_pInfoHome;
 	InfoTracks		*m_pInfoTracks;

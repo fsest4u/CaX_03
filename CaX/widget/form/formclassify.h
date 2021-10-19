@@ -19,8 +19,11 @@ public:
 	explicit FormClassify(QWidget *parent = nullptr);
 	~FormClassify();
 
+	void ClearClassifyArtistMenu();
 	void SetClassifyArtistMenu(QList<CJsonNode> list);
+	void ClearClassifyGenreMenu();
 	void SetClassifyGenreMenu(QList<CJsonNode> list);
+	void ClearClassifyComposerMenu();
 	void SetClassifyComposerMenu(QList<CJsonNode> list);
 
 signals:

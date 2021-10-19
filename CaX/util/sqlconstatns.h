@@ -36,9 +36,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Album.IsDel = 0	%1 %2 %3 \
 group by Song.AlbumID	\
 order by Song.%4 %5	\
-limit 0, 100	\
 "
-// todo-dylee, temp_code limit 0, 100
 
 #define SQL_ARTIST_LIST	"	\
 select	\

@@ -126,7 +126,7 @@ void MusicDBWindow::RequestMusicDBHome(int nCategory, int nSort, bool bIncrease)
 
 	m_pInfoHome->SetTitle(m_nCategory);
 	m_pMgr->RequestMusicDBInfo();
-	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory);
+	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 
 }
 
@@ -445,16 +445,19 @@ void MusicDBWindow::SlotSelectMore(int nID)
 
 void MusicDBWindow::SlotRespClassifyArtist(QList<CJsonNode> list)
 {
+	m_pInfoHome->GetFormClassify()->ClearClassifyArtistMenu();
 	m_pInfoHome->GetFormClassify()->SetClassifyArtistMenu(list);
 }
 
 void MusicDBWindow::SlotRespClassifyGenre(QList<CJsonNode> list)
 {
+	m_pInfoHome->GetFormClassify()->ClearClassifyGenreMenu();
 	m_pInfoHome->GetFormClassify()->SetClassifyGenreMenu(list);
 }
 
 void MusicDBWindow::SlotRespClassifyComposer(QList<CJsonNode> list)
 {
+	m_pInfoHome->GetFormClassify()->ClearClassifyComposerMenu();
 	m_pInfoHome->GetFormClassify()->SetClassifyComposerMenu(list);
 }
 
@@ -601,5 +604,12 @@ void MusicDBWindow::AddSortCategoryHome()
 	m_pInfoTracks->GetFormSort()->SetSortMenu(list);
 	m_pInfoTracks->GetFormSort()->SetSortMenuTitle(tr("Sort by Name"));
 
+}
+
+void MusicDBWindow::ClearClassifyMenu()
+{
+	m_pInfoHome->GetFormClassify()->ClearClassifyArtistMenu();
+	m_pInfoHome->GetFormClassify()->ClearClassifyGenreMenu();
+	m_pInfoHome->GetFormClassify()->ClearClassifyComposerMenu();
 }
 

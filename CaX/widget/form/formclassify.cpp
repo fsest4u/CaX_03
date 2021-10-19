@@ -57,6 +57,12 @@ FormClassify::~FormClassify()
 	delete ui;
 }
 
+void FormClassify::ClearClassifyArtistMenu()
+{
+	disconnect(m_ArtistMenu, SIGNAL(triggered(QAction*)));
+	m_ArtistMenu->clear();
+}
+
 void FormClassify::SetClassifyArtistMenu(QList<CJsonNode> list)
 {
 	foreach (CJsonNode node, list)
@@ -66,6 +72,12 @@ void FormClassify::SetClassifyArtistMenu(QList<CJsonNode> list)
 		m_ArtistMenu->addAction(action);
 	}
 	connect(m_ArtistMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotArtistMenu(QAction*)));
+}
+
+void FormClassify::ClearClassifyGenreMenu()
+{
+	disconnect(m_GenreMenu, SIGNAL(triggered(QAction*)));
+	m_GenreMenu->clear();
 }
 
 void FormClassify::SetClassifyGenreMenu(QList<CJsonNode> list)
@@ -78,6 +90,12 @@ void FormClassify::SetClassifyGenreMenu(QList<CJsonNode> list)
 	}
 	connect(m_GenreMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotGenreMenu(QAction*)));
 
+}
+
+void FormClassify::ClearClassifyComposerMenu()
+{
+	disconnect(m_ComposerMenu, SIGNAL(triggered(QAction*)));
+	m_ComposerMenu->clear();
 }
 
 void FormClassify::SetClassifyComposerMenu(QList<CJsonNode> list)
