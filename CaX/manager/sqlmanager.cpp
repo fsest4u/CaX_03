@@ -54,7 +54,7 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 	}
 	if (nRating > 0)
 	{
-		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nRating);
+		whereFavorite = QString(" and %1.Rating = %2").arg(category).arg(nRating);
 	}
 
 	switch (nCategory)

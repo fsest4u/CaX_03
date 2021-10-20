@@ -6,6 +6,7 @@
 FormPlay::FormPlay(QWidget *parent) :
 	QWidget(parent),
 	m_Favorite(0),
+	m_Rating(0),
 	ui(new Ui::FormPlay)
 {
 	ui->setupUi(this);
@@ -13,14 +14,19 @@ FormPlay::FormPlay(QWidget *parent) :
 	ui->labelPlayAll->hide();
 	ui->labelPlayRandom->hide();
 	ui->labelFavorite->hide();
-	ui->labelRating->hide();
 	ui->labelSubmenu->hide();
+	ui->frameRating->hide();
 
 	ui->labelPlayAll->installEventFilter(this);
 	ui->labelPlayRandom->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
-	ui->labelRating->installEventFilter(this);
 	ui->labelSubmenu->installEventFilter(this);
+
+	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
+	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
+	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
+	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
+	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 }
 
 FormPlay::~FormPlay()
@@ -45,7 +51,7 @@ void FormPlay::ShowFavorite()
 
 void FormPlay::ShowRating()
 {
-	ui->labelRating->show();
+	ui->frameRating->show();
 }
 
 void FormPlay::ShowSubmenu()
@@ -61,6 +67,44 @@ int FormPlay::GetRating() const
 void FormPlay::SetRating(int Rating)
 {
 	m_Rating = Rating;
+
+	QString style;
+
+	if (m_Rating == 1)
+	{
+		style = "mid-icon16-horizental-rankon-h1@3x.png";
+	}
+	else if (m_Rating == 2)
+	{
+		style = "mid-icon16-horizental-rankon-h2@3x.png";
+	}
+	else if (m_Rating == 3)
+	{
+		style = "mid-icon16-horizental-rankon-h3@3x.png";
+	}
+	else if (m_Rating == 4)
+	{
+		style = "mid-icon16-horizental-rankon-h4@3x.png";
+	}
+	else if (m_Rating == 5)
+	{
+		style = "mid-icon16-horizental-rankon-h5@3x.png";
+	}
+	else
+	{
+		style = "mid-icon16-horizental-rankon-h@3x.png";
+	}
+
+	style = QString("QFrame	\
+					{	\
+					  border-image: url(\":/resource/%1\");	\
+					}	\
+					QFrame:hover	\
+					{	\
+					  border-image: url(\":/resource/mid-icon16-horizental-rankon-h@3x.png\");	\
+					}").arg(style);
+
+	ui->frameRating->setStyleSheet(style);
 }
 
 int FormPlay::GetFavorite() const
@@ -125,10 +169,6 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 			}
 			emit SigFavorite(m_Favorite);
 		}
-		else if (object == ui->labelRating)
-		{
-			emit SigRating();
-		}
 		else if (object == ui->labelSubmenu)
 		{
 			emit SigSubmenu();
@@ -137,5 +177,35 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 
 	return QObject::eventFilter(object, event);
 
+}
+
+void FormPlay::SlotBtnRating1()
+{
+	SetRating(1);
+	SigRating(m_Rating);
+}
+
+void FormPlay::SlotBtnRating2()
+{
+	SetRating(2);
+	SigRating(m_Rating);
+}
+
+void FormPlay::SlotBtnRating3()
+{
+	SetRating(3);
+	SigRating(m_Rating);
+}
+
+void FormPlay::SlotBtnRating4()
+{
+	SetRating(4);
+	SigRating(m_Rating);
+}
+
+void FormPlay::SlotBtnRating5()
+{
+	SetRating(5);
+	SigRating(m_Rating);
 }
 

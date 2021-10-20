@@ -3,6 +3,8 @@
 #include "formcoverart.h"
 #include "ui_formcoverart.h"
 
+#include "util/log.h"
+
 FormCoverArt::FormCoverArt(QWidget *parent) :
 	QWidget(parent),
 	m_CoverArt(""),
@@ -13,14 +15,19 @@ FormCoverArt::FormCoverArt(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	ui->frameRating->hide();
 	ui->labelCheck->hide();
-	ui->labelRating->hide();
 	ui->labelFavorite->hide();
 	ui->labelPlay->hide();
 
-	ui->labelRating->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
+
+	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
+	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
+	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
+	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
+	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 }
 
 FormCoverArt::~FormCoverArt()
@@ -114,21 +121,56 @@ int FormCoverArt::GetRating() const
 
 void FormCoverArt::SetRating(int Rating)
 {
-	ui->labelRating->show();
+	ui->frameRating->show();
 	m_Rating = Rating;
+
+	QString style;
+
+	if (m_Rating == 1)
+	{
+		style = "mid-icon16-rankon-h1@3x.png";
+	}
+	else if (m_Rating == 2)
+	{
+		style = "mid-icon16-rankon-h2@3x.png";
+	}
+	else if (m_Rating == 3)
+	{
+		style = "mid-icon16-rankon-h3@3x.png";
+	}
+	else if (m_Rating == 4)
+	{
+		style = "mid-icon16-rankon-h4@3x.png";
+	}
+	else if (m_Rating == 5)
+	{
+		style = "mid-icon16-rankon-h5@3x.png";
+	}
+	else
+	{
+		style = "mid-icon16-rankon-h@3x.png";
+	}
+
+	style = QString("QFrame	\
+					{	\
+					  border-image: url(\":/resource/%1\");	\
+					}	\
+					QFrame:hover	\
+					{	\
+					  border-image: url(\":/resource/mid-icon16-rankon-h@3x.png\");	\
+					}").arg(style);
+
+	ui->frameRating->setStyleSheet(style);
+
 }
 
 bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->labelRating)
+		if (object == ui->labelFavorite)
 		{
-			emit SigRating();
-		}
-		else if (object == ui->labelFavorite)
-		{
-			emit SigFavorite();
+			emit SigFavorite(m_Favorite);
 		}
 		else if (object == ui->labelPlay)
 		{
@@ -145,4 +187,34 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 
 	return QObject::eventFilter(object, event);
 
+}
+
+void FormCoverArt::SlotBtnRating1()
+{
+	SetRating(1);
+	SigRating(m_Rating);
+}
+
+void FormCoverArt::SlotBtnRating2()
+{
+	SetRating(2);
+	SigRating(m_Rating);
+}
+
+void FormCoverArt::SlotBtnRating3()
+{
+	SetRating(3);
+	SigRating(m_Rating);
+}
+
+void FormCoverArt::SlotBtnRating4()
+{
+	SetRating(4);
+	SigRating(m_Rating);
+}
+
+void FormCoverArt::SlotBtnRating5()
+{
+	SetRating(5);
+	SigRating(m_Rating);
 }

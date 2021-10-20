@@ -74,7 +74,7 @@ private slots:
 	void SlotAlbumPlayRandom();
 	void SlotAlbumSubmenu();
 	void SlotAlbumFavorite(int nFavorite);
-	void SlotAlbumRating();
+	void SlotAlbumRating(int nRating);
 	void SlotAlbumSort(int sort);
 	void SlotAlbumIncDec(bool bIncrease);
 	void SlotAlbumResize();
@@ -95,7 +95,7 @@ private slots:
 	void SlotRespClassifyComposer(QList<CJsonNode> list);
 
 	void SlotFilterFavorite(int nFavorite);
-	void SlotFilterRating();
+	void SlotFilterRating(int nRating);
 	void SlotClassifyArtist(bool bAdd, QString id);
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
@@ -130,7 +130,7 @@ private:
 	bool			m_bIncreaseTrack;
 
 	int				m_nFavorite;
-
+	int				m_nRating;
 
 	QString			m_ArtistID;
 	QString			m_GenreID;

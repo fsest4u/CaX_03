@@ -59,23 +59,24 @@ FormCoverArt *IconTracksEditor::GetFormCoverArt() const
 	return m_pFormCoverArt;
 }
 
-void IconTracksEditor::SlotRating()
+void IconTracksEditor::SlotRating(int nRating)
 {
-	emit SigClickRating(m_ID, m_pFormCoverArt->GetRating());
+	emit SigClickRating(m_ID, nRating);
 }
 
-void IconTracksEditor::SlotFavorite()
+void IconTracksEditor::SlotFavorite(int nFavorite)
 {
-	if (m_pFormCoverArt->GetFavorite() == 0)
+	if (nFavorite == 0)
 	{
-		m_pFormCoverArt->SetFavorite(1);
+		nFavorite = 1;
 	}
 	else
 	{
-		m_pFormCoverArt->SetFavorite(0);
+		nFavorite = 0;
 	}
+	m_pFormCoverArt->SetFavorite(nFavorite);
 
-	emit SigClickFavorite(m_ID, m_pFormCoverArt->GetFavorite());
+	emit SigClickFavorite(m_ID, nFavorite);
 }
 
 void IconTracksEditor::SlotPlay()
@@ -99,8 +100,8 @@ void IconTracksEditor::ConnectSigToSlot()
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 
-	connect(m_pFormCoverArt, SIGNAL(SigRating()), this, SLOT(SlotRating()));
-	connect(m_pFormCoverArt, SIGNAL(SigFavorite()), this, SLOT(SlotFavorite()));
+	connect(m_pFormCoverArt, SIGNAL(SigRating(int)), this, SLOT(SlotRating(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigFavorite(int)), this, SLOT(SlotFavorite(int)));
 	connect(m_pFormCoverArt, SIGNAL(SigPlay()), this, SLOT(SlotPlay()));
 	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));

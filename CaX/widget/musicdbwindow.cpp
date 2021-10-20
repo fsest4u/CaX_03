@@ -36,6 +36,7 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_bIncreaseCategory(true),
 	m_bIncreaseTrack(true),
 	m_nFavorite(0),
+	m_nRating(0),
 	m_ArtistID(""),
 	m_GenreID(""),
 	m_ComposerID(""),
@@ -123,7 +124,14 @@ void MusicDBWindow::RequestMusicDBHome()
 {
 	m_pInfoHome->SetTitle(m_nCategory);
 	m_pMgr->RequestMusicDBInfo();
-	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID, m_nFavorite);
+	m_pMgr->RequestCategoryList(m_nCategory,
+								m_nSortCategory,
+								m_bIncreaseCategory,
+								m_ArtistID,
+								m_GenreID,
+								m_ComposerID,
+								m_nFavorite,
+								m_nRating);
 }
 
 void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool bIncrease)
@@ -235,6 +243,8 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 	m_pInfoTracks->SetSubtitle(artist);
 //	m_pInfoTracks->SetInfo(info);
 	m_pInfoTracks->GetFormPlay()->SetFavorite(favorite.toInt());
+	m_pInfoTracks->GetFormPlay()->SetRating(rating.toInt());
+
 }
 
 void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
@@ -376,10 +386,9 @@ void MusicDBWindow::SlotAlbumFavorite(int nFavorite)
 	m_pMgr->RequestUpdateFavorite(m_nID, nFavorite, m_nCategory);
 }
 
-void MusicDBWindow::SlotAlbumRating()
+void MusicDBWindow::SlotAlbumRating(int nRating)
 {
-	LogDebug("album rating");
-
+	m_pMgr->RequestUpdateRating(m_nID, nRating, m_nCategory);
 }
 
 void MusicDBWindow::SlotAlbumSort(int sort)
@@ -484,14 +493,14 @@ void MusicDBWindow::SlotRespClassifyComposer(QList<CJsonNode> list)
 
 void MusicDBWindow::SlotFilterFavorite(int nFavorite)
 {
-	LogDebug("filter favorite [%d]", nFavorite);
 	m_nFavorite = nFavorite;
 	RequestMusicDBHome();
 }
 
-void MusicDBWindow::SlotFilterRating()
+void MusicDBWindow::SlotFilterRating(int nRating)
 {
-	LogDebug("filter rating");
+	m_nRating = nRating;
+	RequestMusicDBHome();
 }
 
 void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
@@ -560,7 +569,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 //	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassify()), this, SLOT(SlotFilterClassify()));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigFavorite(int)), this, SLOT(SlotFilterFavorite(int)));
-	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigRating()), this, SLOT(SlotFilterRating()));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigRating(int)), this, SLOT(SlotFilterRating(int)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyArtist(bool, QString)), this, SLOT(SlotClassifyArtist(bool, QString)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyGenre(bool, QString)), this, SLOT(SlotClassifyGenre(bool, QString)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
@@ -579,7 +588,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotAlbumPlayRandom()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotAlbumSubmenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigFavorite(int)), this, SLOT(SlotAlbumFavorite(int)));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigRating()), this, SLOT(SlotAlbumRating()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigRating(int)), this, SLOT(SlotAlbumRating(int)));
 
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort(int)), this, SLOT(SlotAlbumSort(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotAlbumIncDec(bool)));

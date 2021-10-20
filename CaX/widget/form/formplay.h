@@ -32,12 +32,20 @@ signals:
 	void SigPlayAll();
 	void SigPlayRandom();
 	void SigFavorite(int Favorite);
-	void SigRating();
+	void SigRating(int Rating);
 	void SigSubmenu();
 
 protected:
 
 	bool eventFilter(QObject *object, QEvent *event);
+
+private slots:
+
+	void SlotBtnRating1();
+	void SlotBtnRating2();
+	void SlotBtnRating3();
+	void SlotBtnRating4();
+	void SlotBtnRating5();
 
 private:
 

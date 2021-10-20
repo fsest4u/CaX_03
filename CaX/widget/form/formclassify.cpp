@@ -14,19 +14,23 @@ FormClassify::FormClassify(QWidget *parent) :
 	m_ArtistMenu(new QMenu(tr("Artist"), this)),
 	m_ComposerMenu(new QMenu(tr("Composer"), this)),
 	m_Favorite(0),
+	m_Rating(0),
 	ui(new Ui::FormClassify)
 {
 	ui->setupUi(this);
 
-//	ui->btnClassify->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
-	ui->labelRating->installEventFilter(this);
 	ui->labelArtist->installEventFilter(this);
 	ui->labelGenre->installEventFilter(this);
 	ui->labelComposer->installEventFilter(this);
 
 	SetClassifyMenu();
 
+	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
+	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
+	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
+	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
+	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 }
 
 FormClassify::~FormClassify()
@@ -125,28 +129,77 @@ void FormClassify::SetFavorite(int Favorite)
 	if (m_Favorite == 0)
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-classify-like-n@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-classify-like-h@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/top-btn22-classify-like-n@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/top-btn22-classify-like-h@3x.png\");	\
+						}");
 
 	}
 	else
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-classify-like-h@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-classify-like-n@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/top-btn22-classify-like-h@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/top-btn22-classify-like-n@3x.png\");	\
+						}");
 
 	}
 	ui->labelFavorite->setStyleSheet(style);
+
+}
+
+int FormClassify::GetRating() const
+{
+	return m_Rating;
+}
+
+void FormClassify::SetRating(int Rating)
+{
+	m_Rating = Rating;
+
+	QString style;
+
+	if (m_Rating == 1)
+	{
+		style = "mid-icon16-horizental-rankon-h1@3x.png";
+	}
+	else if (m_Rating == 2)
+	{
+		style = "mid-icon16-horizental-rankon-h2@3x.png";
+	}
+	else if (m_Rating == 3)
+	{
+		style = "mid-icon16-horizental-rankon-h3@3x.png";
+	}
+	else if (m_Rating == 4)
+	{
+		style = "mid-icon16-horizental-rankon-h4@3x.png";
+	}
+	else if (m_Rating == 5)
+	{
+		style = "mid-icon16-horizental-rankon-h5@3x.png";
+	}
+	else
+	{
+		style = "mid-icon16-horizental-rankon-h@3x.png";
+	}
+
+	style = QString("QFrame	\
+					{	\
+					  border-image: url(\":/resource/%1\");	\
+					}	\
+					QFrame:hover	\
+					{	\
+					  border-image: url(\":/resource/mid-icon16-horizental-rankon-h@3x.png\");	\
+					}").arg(style);
+
+	ui->frameRating->setStyleSheet(style);
 
 }
 
@@ -154,11 +207,7 @@ bool FormClassify::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-//		if (object == ui->btnClassify)
-//		{
-//			emit SigClassify();
-//		}
-//		else
+
 		if (object == ui->labelFavorite)
 		{
 			if (m_Favorite == 0)
@@ -170,10 +219,6 @@ bool FormClassify::eventFilter(QObject *object, QEvent *event)
 				SetFavorite(0);
 			}
 			emit SigFavorite(m_Favorite);
-		}
-		else if (object == ui->labelRating)
-		{
-			emit SigRating();
 		}
 		else if (object == ui->labelArtist)
 		{
@@ -218,6 +263,36 @@ void FormClassify::SlotComposerMenu(QAction *action)
 	ui->labelComposer->setText(action->text());
 	ui->labelComposer->show();
 	emit SigClassifyComposer(true, action->data().toString());
+}
+
+void FormClassify::SlotBtnRating1()
+{
+	SetRating(1);
+	SigRating(m_Rating);
+}
+
+void FormClassify::SlotBtnRating2()
+{
+	SetRating(2);
+	SigRating(m_Rating);
+}
+
+void FormClassify::SlotBtnRating3()
+{
+	SetRating(3);
+	SigRating(m_Rating);
+}
+
+void FormClassify::SlotBtnRating4()
+{
+	SetRating(4);
+	SigRating(m_Rating);
+}
+
+void FormClassify::SlotBtnRating5()
+{
+	SetRating(5);
+	SigRating(m_Rating);
 }
 
 void FormClassify::SetClassifyMenu()

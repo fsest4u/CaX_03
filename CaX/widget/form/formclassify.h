@@ -29,11 +29,14 @@ public:
 	int GetFavorite() const;
 	void SetFavorite(int Favorite);
 
+	int GetRating() const;
+	void SetRating(int Rating);
+
 signals:
 
-//	void SigClassify();
+	//	void SigClassify();
 	void SigFavorite(int nFavorite);
-	void SigRating();
+	void SigRating(int nRating);
 	void SigClassifyArtist(bool bAdd, QString id);
 	void SigClassifyGenre(bool bAdd, QString id);
 	void SigClassifyComposer(bool bAdd, QString id);
@@ -48,6 +51,12 @@ private slots:
 	void SlotGenreMenu(QAction* action);
 	void SlotComposerMenu(QAction* action);
 
+	void SlotBtnRating1();
+	void SlotBtnRating2();
+	void SlotBtnRating3();
+	void SlotBtnRating4();
+	void SlotBtnRating5();
+
 private:
 
 	void SetClassifyMenu();
@@ -59,6 +68,7 @@ private:
 	QMenu		*m_ComposerMenu;
 
 	int			m_Favorite;
+	int			m_Rating;
 
 	Ui::FormClassify *ui;
 };
