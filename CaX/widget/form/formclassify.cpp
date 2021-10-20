@@ -13,11 +13,12 @@ FormClassify::FormClassify(QWidget *parent) :
 	m_GenreMenu(new QMenu(tr("Genre"), this)),
 	m_ArtistMenu(new QMenu(tr("Artist"), this)),
 	m_ComposerMenu(new QMenu(tr("Composer"), this)),
+	m_Favorite(0),
 	ui(new Ui::FormClassify)
 {
 	ui->setupUi(this);
 
-	ui->btnClassify->installEventFilter(this);
+//	ui->btnClassify->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
 	ui->labelRating->installEventFilter(this);
 	ui->labelArtist->installEventFilter(this);
@@ -110,17 +111,65 @@ void FormClassify::SetClassifyComposerMenu(QList<CJsonNode> list)
 
 }
 
+int FormClassify::GetFavorite() const
+{
+	return m_Favorite;
+}
+
+void FormClassify::SetFavorite(int Favorite)
+{
+	m_Favorite = Favorite;
+
+	QString style;
+
+	if (m_Favorite == 0)
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/top-btn22-classify-like-n@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/top-btn22-classify-like-h@3x.png\");	\
+								}");
+
+	}
+	else
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/top-btn22-classify-like-h@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/top-btn22-classify-like-n@3x.png\");	\
+								}");
+
+	}
+	ui->labelFavorite->setStyleSheet(style);
+
+}
+
 bool FormClassify::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->btnClassify)
+//		if (object == ui->btnClassify)
+//		{
+//			emit SigClassify();
+//		}
+//		else
+		if (object == ui->labelFavorite)
 		{
-			emit SigClassify();
-		}
-		else if (object == ui->labelFavorite)
-		{
-			emit SigFavorite();
+			if (m_Favorite == 0)
+			{
+				SetFavorite(1);
+			}
+			else
+			{
+				SetFavorite(0);
+			}
+			emit SigFavorite(m_Favorite);
 		}
 		else if (object == ui->labelRating)
 		{

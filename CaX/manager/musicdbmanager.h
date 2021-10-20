@@ -27,8 +27,9 @@ public:
 		MUSICDB_PLAY_CATEGORY_ITEMS,
 		MUSICDB_PLAY_CATEGORY_ITEM,
 		MUSICDB_PLAY_SONG,
-		MUSICDB_UPDATE_FAVORITE,
-		MUSICDB_UPDATE_RATING,
+		MUSICDB_UPDATE_CATEGORY_FAVORITE,
+		MUSICDB_UPDATE_CATEGORY_RATING,
+		MUSICDB_UPDATE_TRACK_FAVORITE,
 		MUSICDB_CLASSIFY_ARTIST,
 		MUSICDB_CLASSIFY_GENRE,
 		MUSICDB_CLASSIFY_COMPOSER,
@@ -42,7 +43,9 @@ public:
 							 bool bIncrease = true,
 							 QString artistID = "",
 							 QString genreID = "",
-							 QString composerID = "");
+							 QString composerID = "",
+							 int nFavorite = 0,
+							 int nRating = 0);
 	void RequestCategoryInfo(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestSongsOfCategory(int nID,
 								int nCategory = SQLManager::CATEGORY_ALBUM,
@@ -52,8 +55,10 @@ public:
 	void RequestPlayCategoryItems(int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestPlayCategoryItem(int nID, int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestPlaySong(int nID, int nWhere = PLAY_CLEAR);
-	void RequestFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestUpdateFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestUpdateRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
+
+	void RequestUpdateTrackFavorite(int nID, int nFavorite);
 
 	void RequestClassifyList(int nCategory);
 
@@ -68,7 +73,8 @@ public:
 //	int GetCntYear() const { return m_CntYear; }
 //	int GetCntTrack() const { return m_CntTrack; }
 
-	QString GetCategoryName(int nCategory);
+	SQLManager *GetSqlMgr() const;
+	void SetSqlMgr(SQLManager *pSql);
 
 signals:
 

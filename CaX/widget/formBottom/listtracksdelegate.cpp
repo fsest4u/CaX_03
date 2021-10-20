@@ -34,6 +34,11 @@ void ListTracksDelegate::SlotClickTitle(int nID)
 	LogDebug("click title");
 }
 
+void ListTracksDelegate::SlotClickFavorite(int nID, int nFavorite)
+{
+	emit SigSelectFavorite(nID, nFavorite);
+}
+
 void ListTracksDelegate::SlotClickTime(int nID)
 {
 	Q_UNUSED(nID);
@@ -143,6 +148,7 @@ QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
 	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));
+	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
 	connect(editor, SIGNAL(SigClickTime(int)), this, SLOT(SlotClickTime(int)));
 	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));
 	connect(editor, SIGNAL(SigClickAlbum(int)), this, SLOT(SlotClickAlbum(int)));
@@ -159,6 +165,7 @@ void ListTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->SetID(qvariant_cast<int>(index.data(LIST_TRACKS_ID)));
 	widget->SetCoverArt(qvariant_cast<QString>(index.data(LIST_TRACKS_COVER)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_TRACKS_TITLE)));
+	widget->SetFavorite(qvariant_cast<int>(index.data(LIST_TRACKS_FAVORITE)));
 	widget->SetTime(qvariant_cast<QString>(index.data(LIST_TRACKS_TIME)));
 	widget->SetArtist(qvariant_cast<QString>(index.data(LIST_TRACKS_ARTIST)));
 	widget->SetAlbum(qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM)));
@@ -172,6 +179,7 @@ void ListTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 	model->setData(index, widget->GetID(), LIST_TRACKS_ID);
 	model->setData(index, widget->GetCoverArt(), LIST_TRACKS_COVER);
 	model->setData(index, widget->GetTitle(), LIST_TRACKS_TITLE);
+	model->setData(index, widget->GetFavorite(), LIST_TRACKS_FAVORITE);
 	model->setData(index, widget->GetTime(), LIST_TRACKS_TIME);
 	model->setData(index, widget->GetArtist(), LIST_TRACKS_ARTIST);
 	model->setData(index, widget->GetAlbum(), LIST_TRACKS_ALBUM);

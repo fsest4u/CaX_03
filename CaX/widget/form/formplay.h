@@ -21,11 +21,17 @@ public:
 	void ShowRating();
 	void ShowSubmenu();
 
+	int GetFavorite() const;
+	void SetFavorite(int Favorite);
+
+	int GetRating() const;
+	void SetRating(int Rating);
+
 signals:
 
 	void SigPlayAll();
 	void SigPlayRandom();
-	void SigFavorite();
+	void SigFavorite(int Favorite);
 	void SigRating();
 	void SigSubmenu();
 
@@ -34,6 +40,10 @@ protected:
 	bool eventFilter(QObject *object, QEvent *event);
 
 private:
+
+	int m_Favorite;
+	int m_Rating;
+
 	Ui::FormPlay *ui;
 };
 

@@ -26,9 +26,7 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~MusicDBWindow();
 
-	void RequestMusicDBHome(int nCategory = SQLManager::CATEGORY_ALBUM,
-							int nSort = SQLManager::SORT_NAME,
-							bool bIncrease = true);
+	void RequestMusicDBHome();
 	void RequestCategoryHome(int nID,
 							 int nCategory,
 							 int nSort = SQLManager::SORT_NAME,
@@ -37,9 +35,12 @@ public:
 	void AddWidgetMusicDBHome();
 	void AddWidgetCategoryHome();
 
+	int GetCategory() const;
+	void SetCategory(int nCategory);
+
 signals:
 
-//	void SigCategoryInfo(int nID, int nCategory);
+	//	void SigCategoryInfo(int nID, int nCategory);
 	void SigAddWidget(QWidget *widget, QString);
 
 private slots:
@@ -55,8 +56,8 @@ private slots:
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
-	void SlotFavorite();
-	void SlotRating();
+	void SlotGetFavorite();
+	void SlotGetRating();
 	void SlotSubmenu();
 
 	void SlotSort(int sort);
@@ -72,26 +73,29 @@ private slots:
 	void SlotAlbumPlayAll();
 	void SlotAlbumPlayRandom();
 	void SlotAlbumSubmenu();
-	void SlotAlbumFavorite();
+	void SlotAlbumFavorite(int nFavorite);
 	void SlotAlbumRating();
 	void SlotAlbumSort(int sort);
 	void SlotAlbumIncDec(bool bIncrease);
 	void SlotAlbumResize();
 
-	void SlotSelectCount(int nID);
+	void SlotSelectPlay(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
 	void SlotSelectTitle(int nID, QString coverArt);
 
 	void SlotReqCoverArt(int id, int index, int mode);
 
-	void SlotSelectPlay(int nID);
-	void SlotSelectMore(int nID);
+	void SlotSelectTrackPlay(int nID);
+	void SlotSelectTrackMore(int nID);
+	void SlotSelectTrackFavorite(int nID, int nFavorite);
 
 	void SlotRespClassifyArtist(QList<CJsonNode> list);
 	void SlotRespClassifyGenre(QList<CJsonNode> list);
 	void SlotRespClassifyComposer(QList<CJsonNode> list);
 
+	void SlotFilterFavorite(int nFavorite);
+	void SlotFilterRating();
 	void SlotClassifyArtist(bool bAdd, QString id);
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
@@ -124,6 +128,8 @@ private:
 	int				m_nSortTrack;
 	bool			m_bIncreaseCategory;
 	bool			m_bIncreaseTrack;
+
+	int				m_nFavorite;
 
 
 	QString			m_ArtistID;

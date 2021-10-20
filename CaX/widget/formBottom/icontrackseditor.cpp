@@ -66,6 +66,15 @@ void IconTracksEditor::SlotRating()
 
 void IconTracksEditor::SlotFavorite()
 {
+	if (m_pFormCoverArt->GetFavorite() == 0)
+	{
+		m_pFormCoverArt->SetFavorite(1);
+	}
+	else
+	{
+		m_pFormCoverArt->SetFavorite(0);
+	}
+
 	emit SigClickFavorite(m_ID, m_pFormCoverArt->GetFavorite());
 }
 

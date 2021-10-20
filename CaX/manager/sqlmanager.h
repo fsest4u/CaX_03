@@ -41,7 +41,9 @@ public:
 								 bool bIncrease = true,
 								 QString artistID = "",
 								 QString genreID = "",
-								 QString composerID = "");
+								 QString composerID = "",
+								 int nFavorite = 0,
+								 int nRating = 0);
 	QString GetQueryCategoryInfo(int nID, int nCategory = CATEGORY_ALBUM);
 	QString GetQuerySongsOfCategory(int nID,
 									int nCategory = CATEGORY_ALBUM,
@@ -52,12 +54,14 @@ public:
 	QString GetQueryPlaylistInfo(int nID);
 	QString GetQuerySongsOfPlaylist(int nID);
 
-	QString GetQueryFavorite(int nID, int nFavorite, int nCategory = CATEGORY_ALBUM);
-	QString GetQueryRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
+	QString GetQueryUpdateCatFavorite(int nID, int nFavorite, int nCategory = CATEGORY_ALBUM);
+	QString GetQueryUpdateCatRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
+	QString GetQueryUpdateTrackFavorite(int nID, int nFavorite);
 
 	QString GetQueryClassifyArtist(int nCategory);
 
-	QString GetSort(int nSort);
+	QString GetCategoryName(int nCategory);
+	QString GetColumnName(int nSort);
 	QString GetIncrease(bool bIncrease);
 
 

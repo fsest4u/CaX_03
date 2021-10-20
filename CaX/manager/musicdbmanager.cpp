@@ -41,14 +41,18 @@ void MusicDBManager::RequestCategoryList(int nCategory,
 										 bool bIncrease,
 										 QString artistID,
 										 QString genreID,
-										 QString composerID)
+										 QString composerID,
+										 int nFavorite,
+										 int nRating)
 {
 	QString query = m_pSql->GetQueryCategoryList(nCategory,
 												 nSort,
 												 bIncrease,
 												 artistID,
 												 genreID,
-												 composerID);
+												 composerID,
+												 nFavorite,
+												 nRating);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -91,7 +95,7 @@ void MusicDBManager::RequestSongsOfCategory(int nID,
 
 void MusicDBManager::RequestPlayCategoryItems(int nWhere, int nCategory)
 {
-	QString strCat = GetCategoryName(nCategory);
+	QString strCat = m_pSql->GetCategoryName(nCategory);
 
 	CJsonNode node(JSON_OBJECT);
 
@@ -118,7 +122,7 @@ void MusicDBManager::RequestPlayCategoryItems(int nWhere, int nCategory)
 
 void MusicDBManager::RequestPlayCategoryItem(int nID, int nWhere, int nCategory)
 {
-	QString strCat = GetCategoryName(nCategory);
+	QString strCat = m_pSql->GetCategoryName(nCategory);
 
 	CJsonNode node(JSON_OBJECT);
 
@@ -166,22 +170,31 @@ void MusicDBManager::RequestPlaySong(int nID, int nWhere)
 	RequestCommand(node, MUSICDB_PLAY_SONG);
 }
 
-void MusicDBManager::RequestFavorite(int nID, int nFavorite, int nCategory)
+void MusicDBManager::RequestUpdateFavorite(int nID, int nFavorite, int nCategory)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_QUERY);
 	node.Add	(KEY_CMD1,		VAL_SONG);
-	node.Add	(KEY_SQL,		m_pSql->GetQueryFavorite(nID, nFavorite, nCategory));
-	RequestCommand(node, MUSICDB_UPDATE_FAVORITE);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryUpdateCatFavorite(nID, nFavorite, nCategory));
+	RequestCommand(node, MUSICDB_UPDATE_CATEGORY_FAVORITE);
 }
 
-void MusicDBManager::RequestRating(int nID, int nRating, int nCategory)
+void MusicDBManager::RequestUpdateRating(int nID, int nRating, int nCategory)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_QUERY);
 	node.Add	(KEY_CMD1,		VAL_SONG);
-	node.Add	(KEY_SQL,		m_pSql->GetQueryRating(nID, nRating, nCategory));
-	RequestCommand(node, MUSICDB_UPDATE_RATING);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryUpdateCatRating(nID, nRating, nCategory));
+	RequestCommand(node, MUSICDB_UPDATE_CATEGORY_RATING);
+}
+
+void MusicDBManager::RequestUpdateTrackFavorite(int nID, int nFavorite)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryUpdateTrackFavorite(nID, nFavorite));
+	RequestCommand(node, MUSICDB_UPDATE_TRACK_FAVORITE);
 }
 
 void MusicDBManager::RequestClassifyList(int nCategory)
@@ -217,39 +230,14 @@ void MusicDBManager::RequestRandom()
 	RequestCommand(node, MUSICDB_RANDOM);
 }
 
-QString MusicDBManager::GetCategoryName(int nCategory)
+SQLManager *MusicDBManager::GetSqlMgr() const
 {
-	QString strCat;
+	return m_pSql;
+}
 
-	switch(nCategory)
-	{
-	case SQLManager::CATEGORY_ALBUM:
-		strCat = KEY_ALBUM;
-		break;
-	case SQLManager::CATEGORY_ARTIST:
-		strCat = KEY_ARTIST;
-		break;
-	case SQLManager::CATEGORY_GENRE:
-		strCat = KEY_GENRE;
-		break;
-	case SQLManager::CATEGORY_COMPOSER:
-		strCat = KEY_COMPOSER;
-		break;
-	case SQLManager::CATEGORY_MOOD:
-		strCat = KEY_MOOD;
-		break;
-	case SQLManager::CATEGORY_FOLDER:
-		strCat = KEY_FOLDER;
-		break;
-	case SQLManager::CATEGORY_YEAR:
-		strCat = KEY_YEAR;
-		break;
-	default:	// Song
-		strCat = KEY_SONG;
-		break;
-	}
-
-	return strCat;
+void MusicDBManager::SetSqlMgr(SQLManager *pSql)
+{
+	m_pSql = pSql;
 }
 
 void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
@@ -279,8 +267,9 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 
 	if (nCmdID == MUSICDB_PLAY_CATEGORY_ITEMS
 			|| nCmdID == MUSICDB_PLAY_SONG
-			|| nCmdID == MUSICDB_UPDATE_FAVORITE
-			|| nCmdID == MUSICDB_UPDATE_RATING
+			|| nCmdID == MUSICDB_UPDATE_CATEGORY_FAVORITE
+			|| nCmdID == MUSICDB_UPDATE_CATEGORY_RATING
+			|| nCmdID == MUSICDB_UPDATE_TRACK_FAVORITE
 			|| nCmdID == MUSICDB_RANDOM
 			)
 	{

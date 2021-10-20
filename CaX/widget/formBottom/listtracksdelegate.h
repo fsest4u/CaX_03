@@ -14,6 +14,7 @@ public:
 		LIST_TRACKS_ID = Qt::UserRole + 0,
 		LIST_TRACKS_COVER,
 		LIST_TRACKS_TITLE,
+		LIST_TRACKS_FAVORITE,
 		LIST_TRACKS_TIME,
 		LIST_TRACKS_ARTIST,
 		LIST_TRACKS_ALBUM,
@@ -29,12 +30,14 @@ signals:
 
 	void SigSelectPlay(int nID);
 	void SigSelectMore(int nID);
+	void SigSelectFavorite(int nID, int nFavorite);
 
 private slots:
 
 	void SlotClickCoverArt(int nID);
 	void SlotClickPlay(int nID);
 	void SlotClickTitle(int nID);
+	void SlotClickFavorite(int nID, int nFavorite);
 	void SlotClickTime(int nID);
 	void SlotClickArtist(int nID);
 	void SlotClickAlbum(int nID);

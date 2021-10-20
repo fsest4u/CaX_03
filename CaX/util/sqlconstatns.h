@@ -27,85 +27,85 @@ select	\
 	Album.ROWID as id	\
 	, Album.Name as title	\
 	, Artist.Name as subtitle	\
-	, Album.Favorite as favorite	\
-	, Album.Rating as rating	\
+	, Album.favorite as favorite	\
+	, Album.rating as rating	\
 	, count(Album.ROWID) as count	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
-where Album.IsDel = 0	%1 %2 %3 \
+where Album.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.AlbumID	\
-order by Song.%4 %5	\
+order by Song.%6 %7	\
 "
 
 #define SQL_ARTIST_LIST	"	\
 select	\
 	Artist.ROWID as id	\
 	, Artist.Name as title	\
-	, Artist.Favorite as favorite	\
-	, Artist.Rating as rating	\
+	, Artist.favorite as favorite	\
+	, Artist.rating as rating	\
 	, count(Artist.ROWID) as count	\
 from Song	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
-where Artist.IsDel = 0	%1 %2 %3 \
+where Artist.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.ArtistID	\
-order by Song.%4 %5	\
+order by Song.%6 %7	\
 "
 
 #define SQL_COMPOSER_LIST	"	\
 select	\
 	Composer.ROWID as id	\
 	, Composer.Name as title	\
-	, Composer.Favorite as favorite	\
-	, Composer.Rating as rating	\
+	, Composer.favorite as favorite	\
+	, Composer.rating as rating	\
 	, count(Composer.ROWID) as count	\
 from Song	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
-where Composer.IsDel = 0	%1 %2 %3 \
+where Composer.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.ComposerID	\
-order by Song.%4 %5	\
+order by Song.%6 %7	\
 "
 
 #define SQL_GENRE_LIST	"	\
 select	\
 	Genre.ROWID as id	\
 	, Genre.Name as title	\
-	, Genre.Favorite as favorite	\
-	, Genre.Rating as rating	\
+	, Genre.favorite as favorite	\
+	, Genre.rating as rating	\
 	, count(Genre.ROWID) as count	\
 from Song	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
-where Genre.IsDel = 0	%1 %2 %3 \
+where Genre.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.GenreID	\
-order by Song.%4 %5	\
+order by Song.%6 %7	\
 "
 
 #define SQL_MOOD_LIST	"	\
 select	\
 	Mood.ROWID as id	\
 	, Mood.Name as title	\
-	, Mood.Favorite as favorite	\
-	, Mood.Rating as rating	\
+	, Mood.favorite as favorite	\
+	, Mood.rating as rating	\
 	, count(Mood.ROWID) as count	\
 from Song	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Mood.IsDel = 0	%1 %2 %3 \
+where Mood.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.MoodID	\
-order by Song.%4 %5	\
+order by Song.%6 %7	\
 "
 
 #define SQL_FOLDER_LIST	"	\
 select	\
 	Folder.ROWID as id	\
 	, Folder.Name as title	\
-	, Folder.Favorite as favorite	\
-	, Folder.Rating as rating	\
+	, Folder.favorite as favorite	\
+	, Folder.rating as rating	\
 	, count(Folder.ROWID) as count	\
 from Song	\
 inner join Folder on Song.FolderID = Folder.ROWID	\
-where Folder.IsDel = 0	%1 %2 %3 \
+where Folder.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.FolderID	\
-order by Song.%4 %5	\
+order by Song.%6 %7	\
 "
 
 #define SQL_YEAR_LIST	"	\
@@ -114,9 +114,9 @@ select	\
 	, Song.Year as title	\
 	, count(*) as count	\
 from Song	\
-where Song.IsDel = 0	%1 %2 %3 \
+where Song.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.Year	\
-order by Song.%4 %5	\
+order by Song.%6 %7	\
 "
 
 
@@ -126,6 +126,8 @@ order by Song.%4 %5	\
 select	\
 	Album.Name as title	\
 	, Artist.Name as Artist	\
+	, Album.favorite as favorite \
+	, Album.rating as rating \
 	, count(*) as count	\
 	, sum(song.nov_time) as total	\
 	, Song.FileName as extension	\
@@ -158,6 +160,8 @@ order by Song.%2 %3	\
 select	\
 	Artist.Name as title	\
 	, Artist.Name as Artist	\
+	, Artist.favorite as Favorite \
+	, Artist.rating as rating \
 	, count(*) as count	\
 	, sum(song.nov_time) as total	\
 	, Song.FileName as extension	\
@@ -190,6 +194,8 @@ order by Song.%2 %3	\
 select	\
 	Composer.Name as title	\
 	, Artist.Name as Artist	\
+	, Composer.favorite as favorite \
+	, Composer.rating as rating \
 	, count(*) as count	\
 	, sum(song.nov_time) as total	\
 	, Song.FileName as extension	\
@@ -223,6 +229,8 @@ order by Song.%2 %3	\
 select	\
 	Genre.Name as title	\
 	, Artist.Name as Artist	\
+	, Genre.favorite as favorite \
+	, Genre.rating as rating \
 	, count(*) as count	\
 	, sum(song.nov_time) as total	\
 	, Song.FileName as extension	\
@@ -256,6 +264,8 @@ order by Song.%2 %3	\
 select	\
 	Mood.Name as title	\
 	, Artist.Name as Artist	\
+	, Mood.favorite as favorite \
+	, Mood.rating as rating \
 	, count(*) as count	\
 	, sum(song.nov_time) as total	\
 	, Song.FileName as extension	\
@@ -289,6 +299,8 @@ order by Song.%2 %3	\
 select	\
 	Folder.Name as title	\
 	, Artist.Name as Artist	\
+	, Folder.favorite as favorite \
+	, Folder.rating as rating \
 	, count(*) as count	\
 	, sum(song.nov_time) as total	\
 	, Song.FileName as extension	\
@@ -387,7 +399,7 @@ order by Song.%1 %2	\
 #define SQL_UPDATE_FAVORITE_OF_COMPOSER		"update Composer set Favorite=%1 where Composer.ROWID=%2"
 #define SQL_UPDATE_FAVORITE_OF_MOOD			"update Mood set Favorite=%1 where Mood.ROWID=%2"
 #define SQL_UPDATE_FAVORITE_OF_FOLDER		"update Folder set Favorite=%1 where Folder.ROWID=%2"
-//#define SQL_UPDATE_FAVORITE_OF_SONG			"update Song set Favorite=%1 where Song.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_SONG			"update Song set Favorite=%1 where Song.ROWID=%2"
 
 #define SQL_UPDATE_RATING_OF_ALBUM			"update Album set Rating=%1 where Album.ROWID=%2"
 #define SQL_UPDATE_RATING_OF_ALBUMARTIST	"update AlbumArtist set Rating=%1 where AlbumArtist.ROWID=%2"

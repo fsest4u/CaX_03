@@ -27,6 +27,9 @@ public:
 	QString GetTitle();
 	void SetTitle(const QString &title);
 
+	int GetFavorite() const;
+	void SetFavorite(int Favorite);
+
 	QString GetTime();
 	void SetTime(const QString &time);
 
@@ -44,6 +47,7 @@ signals:
 	void SigClickCoverArt(int nID);
 	void SigClickPlay(int nID);
 	void SigClickTitle(int nID);
+	void SigClickFavorite(int nID, int Favorite);
 	void SigClickTime(int nID);
 	void SigClickArtist(int nID);
 	void SigClickAlbum(int nID);
@@ -66,7 +70,8 @@ private:
 	FormCoverArt	*m_pFormCoverArt;
 
 	int		m_ID;
-//	QString m_CoverArt;
+	int		m_Favorite;
+
 
 	Ui::ListTracksEditor *ui;
 };

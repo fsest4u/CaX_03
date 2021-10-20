@@ -1,5 +1,6 @@
 #include "sqlmanager.h"
 
+#include "util/caxkeyvalue.h"
 #include "util/sqlconstatns.h"
 
 SQLManager::SQLManager(QObject *parent)
@@ -18,17 +19,22 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 										 bool bIncrease,
 										 QString artistID,
 										 QString genreID,
-										 QString composerID)
+										 QString composerID,
+										 int nFavorite,
+										 int nRating)
 {
 	// todo-dylee
 	Q_UNUSED(nSort)
 	QString query;
-	QString sort = GetSort(nSort);
+	QString category = GetCategoryName(nCategory);
+	QString column = GetColumnName(nSort);
 	QString increase = GetIncrease(bIncrease);
 
 	QString whereArtist = "";
 	QString whereGenre = "";
 	QString whereComposer = "";
+	QString whereFavorite = "";
+	QString whereRating = "";
 
 	if (!artistID.isEmpty())
 	{
@@ -42,67 +48,48 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
 	}
+	if (nFavorite > 0)
+	{
+		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
+	}
+	if (nRating > 0)
+	{
+		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nRating);
+	}
 
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
-		query = QString(SQL_ALBUM_LIST)
-				.arg(whereArtist)
-				.arg(whereGenre)
-				.arg(whereComposer)
-				.arg(sort)
-				.arg(increase);
+		query = QString(SQL_ALBUM_LIST);
 		break;
 	case CATEGORY_ARTIST:
-		query = QString(SQL_ARTIST_LIST)
-				.arg(whereArtist)
-				.arg(whereGenre)
-				.arg(whereComposer)
-				.arg(sort)
-				.arg(increase);
+		query = QString(SQL_ARTIST_LIST);
 		break;
 	case CATEGORY_COMPOSER:
-		query = QString(SQL_COMPOSER_LIST)
-				.arg(whereArtist)
-				.arg(whereGenre)
-				.arg(whereComposer)
-				.arg(sort)
-				.arg(increase);
+		query = QString(SQL_COMPOSER_LIST);
 		break;
 	case CATEGORY_GENRE:
-		query = QString(SQL_GENRE_LIST)
-				.arg(whereArtist)
-				.arg(whereGenre)
-				.arg(whereComposer)
-				.arg(sort)
-				.arg(increase);
+		query = QString(SQL_GENRE_LIST);
 		break;
 	case CATEGORY_MOOD:
-		query = QString(SQL_MOOD_LIST)
-				.arg(whereArtist)
-				.arg(whereGenre)
-				.arg(whereComposer)
-				.arg(sort)
-				.arg(increase);
+		query = QString(SQL_MOOD_LIST);
 		break;
 	case CATEGORY_FOLDER:
-		query = SQL_FOLDER_LIST;
-		query = QString(SQL_ALBUM_LIST)
-				.arg(whereArtist)
-				.arg(whereGenre)
-				.arg(whereComposer)
-				.arg(sort)
-				.arg(increase);
+		query = QString(SQL_FOLDER_LIST);
 		break;
 	case CATEGORY_YEAR:
-		query = QString(SQL_YEAR_LIST)
-				.arg(whereArtist)
-				.arg(whereGenre)
-				.arg(whereComposer)
-				.arg(sort)
-				.arg(increase);
+		query = QString(SQL_YEAR_LIST);
 		break;
 	}
+
+	query = query
+			.arg(whereArtist)
+			.arg(whereGenre)
+			.arg(whereComposer)
+			.arg(whereFavorite)
+			.arg(whereRating)
+			.arg(column)
+			.arg(increase);
 
 	return query;
 }
@@ -148,7 +135,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 											bool bIncrease)
 {
 	QString query;
-	QString sort = GetSort(nSort);
+	QString column = GetColumnName(nSort);
 	QString increase = GetIncrease(bIncrease);
 
 	switch (nCategory)
@@ -156,51 +143,52 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 	case CATEGORY_ALBUM:
 		query = QString(SQL_SONGS_OF_ALBUM)
 				.arg(nID)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	case CATEGORY_ARTIST:
 		query = QString(SQL_SONGS_OF_ARTIST)
 				.arg(nID)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	case CATEGORY_COMPOSER:
 		query = QString(SQL_SONGS_OF_COMPOSER)
 				.arg(nID)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	case CATEGORY_GENRE:
 		query = QString(SQL_SONGS_OF_GENRE)
 				.arg(nID)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	case CATEGORY_MOOD:
 		query = QString(SQL_SONGS_OF_MOOD)
 				.arg(nID)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	case CATEGORY_FOLDER:
 		query = QString(SQL_SONGS_OF_FOLDER)
 				.arg(nID)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	case CATEGORY_YEAR:
 		query = QString(SQL_SONGS_OF_YEAR)
 				.arg(nID)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	case CATEGORY_TRACK:
 		query = QString(SQL_SONGS_OF_TRACK)
-				.arg(sort)
+				.arg(column)
 				.arg(increase);
 		break;
 	}
+
 	return query;
 }
 
@@ -219,7 +207,7 @@ QString SQLManager::GetQuerySongsOfPlaylist(int nID)
 	return QString(SQL_SONGS_OF_PLAYLIST).arg(nID);
 }
 
-QString SQLManager::GetQueryFavorite(int nID, int nFavorite, int nCategory)
+QString SQLManager::GetQueryUpdateCatFavorite(int nID, int nFavorite, int nCategory)
 {
 	QString query;
 
@@ -254,7 +242,7 @@ QString SQLManager::GetQueryFavorite(int nID, int nFavorite, int nCategory)
 
 }
 
-QString SQLManager::GetQueryRating(int nID, int nRating, int nCategory)
+QString SQLManager::GetQueryUpdateCatRating(int nID, int nRating, int nCategory)
 {
 	QString query;
 
@@ -288,6 +276,11 @@ QString SQLManager::GetQueryRating(int nID, int nRating, int nCategory)
 	return query;
 }
 
+QString SQLManager::GetQueryUpdateTrackFavorite(int nID, int nFavorite)
+{
+	return QString(SQL_UPDATE_FAVORITE_OF_SONG).arg(nFavorite).arg(nID);
+}
+
 QString SQLManager::GetQueryClassifyArtist(int nCategory)
 {
 	QString query;
@@ -308,7 +301,42 @@ QString SQLManager::GetQueryClassifyArtist(int nCategory)
 	return query;
 }
 
-QString SQLManager::GetSort(int nSort)
+QString SQLManager::GetCategoryName(int nCategory)
+{
+	QString strCat;
+
+	switch(nCategory)
+	{
+	case SQLManager::CATEGORY_ALBUM:
+		strCat = KEY_ALBUM;
+		break;
+	case SQLManager::CATEGORY_ARTIST:
+		strCat = KEY_ARTIST;
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		strCat = KEY_GENRE;
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		strCat = KEY_COMPOSER;
+		break;
+	case SQLManager::CATEGORY_MOOD:
+		strCat = KEY_MOOD;
+		break;
+	case SQLManager::CATEGORY_FOLDER:
+		strCat = KEY_FOLDER;
+		break;
+	case SQLManager::CATEGORY_YEAR:
+		strCat = KEY_YEAR;
+		break;
+	default:	// Song
+		strCat = KEY_SONG;
+		break;
+	}
+
+	return strCat;
+}
+
+QString SQLManager::GetColumnName(int nSort)
 {
 	QString sort;
 

@@ -6,8 +6,8 @@
 FormCoverArt::FormCoverArt(QWidget *parent) :
 	QWidget(parent),
 	m_CoverArt(""),
-	m_Rating(-1),
-	m_Favorite(-1),
+	m_Rating(0),
+	m_Favorite(0),
 	m_Count(-1),
 	ui(new Ui::FormCoverArt)
 {
@@ -77,6 +77,34 @@ void FormCoverArt::SetFavorite(int Favorite)
 {
 	ui->labelFavorite->show();
 	m_Favorite = Favorite;
+
+	QString style;
+
+	if (m_Favorite == 0)
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+								}");
+
+	}
+	else
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+								}");
+
+	}
+	ui->labelFavorite->setStyleSheet(style);
 }
 
 int FormCoverArt::GetRating() const

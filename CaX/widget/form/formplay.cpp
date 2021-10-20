@@ -5,6 +5,7 @@
 
 FormPlay::FormPlay(QWidget *parent) :
 	QWidget(parent),
+	m_Favorite(0),
 	ui(new Ui::FormPlay)
 {
 	ui->setupUi(this);
@@ -52,6 +53,54 @@ void FormPlay::ShowSubmenu()
 	ui->labelSubmenu->show();
 }
 
+int FormPlay::GetRating() const
+{
+	return m_Rating;
+}
+
+void FormPlay::SetRating(int Rating)
+{
+	m_Rating = Rating;
+}
+
+int FormPlay::GetFavorite() const
+{
+	return m_Favorite;
+}
+
+void FormPlay::SetFavorite(int Favorite)
+{
+	m_Favorite = Favorite;
+
+	QString style;
+
+	if (m_Favorite == 0)
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
+								}");
+
+	}
+	else
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
+								}");
+
+	}
+	ui->labelFavorite->setStyleSheet(style);
+}
+
 bool FormPlay::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
@@ -66,7 +115,15 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 		}
 		else if (object == ui->labelFavorite)
 		{
-			emit SigFavorite();
+			if (m_Favorite == 0)
+			{
+				SetFavorite(1);
+			}
+			else
+			{
+				SetFavorite(0);
+			}
+			emit SigFavorite(m_Favorite);
 		}
 		else if (object == ui->labelRating)
 		{
@@ -81,3 +138,4 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 
 }
+

@@ -10,6 +10,7 @@
 ListTracksEditor::ListTracksEditor(QWidget *parent) :
 	QWidget(parent),
 	m_pFormCoverArt(new FormCoverArt(this)),
+	m_Favorite(0),
 	ui(new Ui::ListTracksEditor)
 {
 	ui->setupUi(this);
@@ -74,6 +75,45 @@ void ListTracksEditor::SetTitle(const QString &title)
 	ui->labelTitle->setText(title);
 }
 
+int ListTracksEditor::GetFavorite() const
+{
+	return m_Favorite;
+}
+
+void ListTracksEditor::SetFavorite(int Favorite)
+{
+	ui->labelFavorite->show();
+	m_Favorite = Favorite;
+
+	QString style;
+
+	if (m_Favorite == 0)
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/play-btn12-like-n@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
+								}");
+
+	}
+	else
+	{
+		style = QString("QLabel	\
+								{	\
+								  border-image: url(\":/resource/play-btn12-like-u@3x.png\");	\
+								}	\
+								QLabel:hover	\
+								{	\
+								  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
+								}");
+
+	}
+	ui->labelFavorite->setStyleSheet(style);
+}
+
 QString ListTracksEditor::GetTime()
 {
 	return ui->labelTime->text();
@@ -131,6 +171,18 @@ bool ListTracksEditor::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigClickTitle(m_ID);
 		}
+		else if (object == ui->labelFavorite)
+		{
+			if (m_Favorite == 0)
+			{
+				SetFavorite(1);
+			}
+			else
+			{
+				SetFavorite(0);
+			}
+			emit SigClickFavorite(m_ID, m_Favorite);
+		}
 		else if (object == ui->labelTime)
 		{
 			emit SigClickTime(m_ID);
@@ -163,9 +215,12 @@ void ListTracksEditor::SlotCoverArt()
 
 void ListTracksEditor::ConnectSigToSlot()
 {
+	ui->labelFavorite->hide();
+
 //	ui->labelCoverArt->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
+	ui->labelFavorite->installEventFilter(this);
 	ui->labelTime->installEventFilter(this);
 	ui->labelArtist->installEventFilter(this);
 	ui->labelAlbum->installEventFilter(this);

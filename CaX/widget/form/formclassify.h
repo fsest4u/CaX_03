@@ -26,10 +26,13 @@ public:
 	void ClearClassifyComposerMenu();
 	void SetClassifyComposerMenu(QList<CJsonNode> list);
 
+	int GetFavorite() const;
+	void SetFavorite(int Favorite);
+
 signals:
 
-	void SigClassify();
-	void SigFavorite();
+//	void SigClassify();
+	void SigFavorite(int nFavorite);
 	void SigRating();
 	void SigClassifyArtist(bool bAdd, QString id);
 	void SigClassifyGenre(bool bAdd, QString id);
@@ -54,6 +57,8 @@ private:
 	QMenu		*m_GenreMenu;
 	QMenu		*m_ArtistMenu;
 	QMenu		*m_ComposerMenu;
+
+	int			m_Favorite;
 
 	Ui::FormClassify *ui;
 };
