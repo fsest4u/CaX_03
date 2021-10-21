@@ -483,27 +483,41 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 void MusicDBWindow::SlotAppendIconList()
 {
 	m_CurPage++;
-	m_pMgr->RequestCategoryList(m_nCategory,
-								m_nSortCategory,
-								m_bIncreaseCategory,
-								m_ArtistID,
-								m_GenreID,
-								m_ComposerID,
-								m_nFavorite,
-								m_nRating,
-								m_LimitCount * m_CurPage,
-								m_LimitCount);
+	if (m_TotalPage > m_CurPage)
+	{
+		m_pMgr->RequestCategoryList(m_nCategory,
+									m_nSortCategory,
+									m_bIncreaseCategory,
+									m_ArtistID,
+									m_GenreID,
+									m_ComposerID,
+									m_nFavorite,
+									m_nRating,
+									m_LimitCount * m_CurPage,
+									m_LimitCount);
+	}
+	else
+	{
+		m_CurPage = m_TotalPage - 1;
+	}
 }
 
 void MusicDBWindow::SlotAppendList()
 {
 	m_CurPage++;
-	m_pMgr->RequestSongsOfCategory(m_nID,
-								   m_nCategory,
-								   m_nSortTrack,
-								   m_bIncreaseTrack,
-								   m_LimitCount * m_CurPage,
-								   m_LimitCount);
+	if (m_TotalPage > m_CurPage)
+	{
+		m_pMgr->RequestSongsOfCategory(m_nID,
+									   m_nCategory,
+									   m_nSortTrack,
+									   m_bIncreaseTrack,
+									   m_LimitCount * m_CurPage,
+									   m_LimitCount);
+	}
+	else
+	{
+		m_CurPage = m_TotalPage - 1;
+	}
 }
 
 void MusicDBWindow::SlotSelectTrackPlay(int nID)
