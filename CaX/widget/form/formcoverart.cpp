@@ -24,11 +24,11 @@ FormCoverArt::FormCoverArt(QWidget *parent) :
 	ui->labelFavorite->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 
-	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
-	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
-	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
-	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
-	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
+//	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
+//	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
+//	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
+//	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
+//	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 }
 
 FormCoverArt::~FormCoverArt()
@@ -152,13 +152,17 @@ void FormCoverArt::SetRating(int Rating)
 		style = "mid-icon16-rankon-h@3x.png";
 	}
 
+//	style = QString("QFrame	\
+//					{	\
+//					  border-image: url(\":/resource/%1\");	\
+//					}	\
+//					QFrame:hover	\
+//					{	\
+//					  border-image: url(\":/resource/mid-icon16-rankon-h@3x.png\");	\
+//					}").arg(style);
 	style = QString("QFrame	\
 					{	\
-					  border-image: url(\":/resource/%1\");	\
-					}	\
-					QFrame:hover	\
-					{	\
-					  border-image: url(\":/resource/mid-icon16-rankon-h@3x.png\");	\
+						border-image: url(\":/resource/%1\");	\
 					}").arg(style);
 
 	ui->frameRating->setStyleSheet(style);
@@ -178,13 +182,6 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 			emit SigPlay();
 		}
 	}
-	else if (event->type() == QMouseEvent::MouseMove)
-	{
-		if (object == ui->labelFavorite)
-		{
-			LogDebug("move label favorite");
-		}
-	}
 	else if (event->type() == QMouseEvent::MouseButtonDblClick)
 	{
 		if (object == ui->frameCoverArt)
@@ -199,30 +196,30 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 
 void FormCoverArt::SlotBtnRating1()
 {
-	SetRating(1);
-	SigRating(m_Rating);
+//	SetRating(1);
+//	SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating2()
 {
-	SetRating(2);
-	SigRating(m_Rating);
+//	SetRating(2);
+//	SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating3()
 {
-	SetRating(3);
-	SigRating(m_Rating);
+//	SetRating(3);
+//	SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating4()
 {
-	SetRating(4);
-	SigRating(m_Rating);
+//	SetRating(4);
+//	SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating5()
 {
-	SetRating(5);
-	SigRating(m_Rating);
+//	SetRating(5);
+//	SigRating(m_Rating);
 }
