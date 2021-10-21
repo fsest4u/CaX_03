@@ -45,12 +45,16 @@ public:
 							 QString genreID = "",
 							 QString composerID = "",
 							 int nFavorite = 0,
-							 int nRating = 0);
+							 int nRating = 0,
+							 int nStartIndex = 0,
+							 int nLimitCount = 100);
 	void RequestCategoryInfo(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestSongsOfCategory(int nID,
 								int nCategory = SQLManager::CATEGORY_ALBUM,
 								int nSort = SQLManager::SORT_NAME,
-								bool bIncrease = true);
+								bool bIncrease = true,
+								int nStartIndex = 0,
+								int nLimitCount = 100);
 
 	void RequestPlayCategoryItems(int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestPlayCategoryItem(int nID, int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);

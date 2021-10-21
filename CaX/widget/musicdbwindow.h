@@ -85,6 +85,8 @@ private slots:
 	void SlotSelectTitle(int nID, QString coverArt);
 
 	void SlotReqCoverArt(int id, int index, int mode);
+	void SlotAppendIconList();
+	void SlotAppendList();
 
 	void SlotSelectTrackPlay(int nID);
 	void SlotSelectTrackMore(int nID);
@@ -113,6 +115,9 @@ private:
 
 	void ClearClassifyMenu();
 
+	int GetTotalCount(CJsonNode node);
+	void CalculatePage(int totalCount);
+
 	MusicDBManager	*m_pMgr;
 	InfoHome		*m_pInfoHome;
 	InfoTracks		*m_pInfoTracks;
@@ -135,6 +140,10 @@ private:
 	QString			m_ArtistID;
 	QString			m_GenreID;
 	QString			m_ComposerID;
+
+	int				m_LimitCount;
+	int				m_TotalPage;
+	int				m_CurPage;
 
 	Ui::MusicDBWindow *ui;
 };

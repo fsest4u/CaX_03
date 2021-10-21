@@ -40,6 +40,9 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_ArtistID(""),
 	m_GenreID(""),
 	m_ComposerID(""),
+	m_LimitCount(10),
+	m_TotalPage(0),
+	m_CurPage(0),
 //	m_pCatThread(new QThread),
 //	m_pSongThread(new QThread),
 	ui(new Ui::MusicDBWindow)
@@ -123,6 +126,8 @@ MusicDBWindow::~MusicDBWindow()
 void MusicDBWindow::RequestMusicDBHome()
 {
 	m_pInfoHome->SetTitle(m_nCategory);
+	m_pIconTracks->ClearNodeList();
+
 	m_pMgr->RequestMusicDBInfo();
 	m_pMgr->RequestCategoryList(m_nCategory,
 								m_nSortCategory,
@@ -131,7 +136,9 @@ void MusicDBWindow::RequestMusicDBHome()
 								m_GenreID,
 								m_ComposerID,
 								m_nFavorite,
-								m_nRating);
+								m_nRating,
+								m_LimitCount * m_CurPage,
+								m_LimitCount);
 }
 
 void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool bIncrease)
@@ -141,8 +148,14 @@ void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool 
 	m_nSortTrack = nSort;
 	m_bIncreaseTrack = bIncrease;
 
-	m_pMgr->RequestCategoryInfo(nID, m_nCategory);
-	m_pMgr->RequestSongsOfCategory(nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+	m_pListTracks->ClearNodeList();
+	m_pMgr->RequestCategoryInfo(m_nID, m_nCategory);
+	m_pMgr->RequestSongsOfCategory(m_nID,
+								   m_nCategory,
+								   m_nSortTrack,
+								   m_bIncreaseTrack,
+								   m_LimitCount * m_CurPage,
+								   m_LimitCount);
 }
 
 void MusicDBWindow::AddWidgetMusicDBHome()
@@ -184,6 +197,8 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 void MusicDBWindow::SlotRespMusicInfo(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	int totalCount = GetTotalCount(node);
+	CalculatePage(totalCount);
 
 	QString strAlbumCnt = node.GetString(KEY_ALBUM);
 	QString strArtistCnt = node.GetString(KEY_ARTIST);
@@ -215,7 +230,6 @@ void MusicDBWindow::SlotRespMusicInfo(CJsonNode node)
 void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 {
 //	m_pIconTracks->SetBackgroundTask(m_pCatThread);
-	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
 //	m_pCatThread->start();
 }
@@ -239,6 +253,9 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 	{
 		title = "Track";
 	}
+
+	CalculatePage(count.toInt());
+
 	m_pInfoTracks->SetTitle(title);
 	m_pInfoTracks->SetSubtitle(artist);
 //	m_pInfoTracks->SetInfo(info);
@@ -250,7 +267,6 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
 {
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
-	m_pListTracks->ClearNodeList();
 	m_pListTracks->SetNodeList(list);
 //	m_pSongThread->start();
 }
@@ -362,7 +378,6 @@ void MusicDBWindow::SlotTrackList()
 void MusicDBWindow::SlotMusicSubmenu2()
 {
 	LogDebug("music Submenu2");
-
 }
 
 void MusicDBWindow::SlotAlbumPlayAll()
@@ -378,7 +393,6 @@ void MusicDBWindow::SlotAlbumPlayRandom()
 void MusicDBWindow::SlotAlbumSubmenu()
 {
 	LogDebug("album submenu");
-
 }
 
 void MusicDBWindow::SlotAlbumFavorite(int nFavorite)
@@ -393,9 +407,7 @@ void MusicDBWindow::SlotAlbumRating(int nRating)
 
 void MusicDBWindow::SlotAlbumSort(int sort)
 {
-
 	RequestCategoryHome(m_nID, m_nCategory, sort, m_bIncreaseTrack);
-
 }
 
 void MusicDBWindow::SlotAlbumIncDec(bool bIncrease)
@@ -453,6 +465,31 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 	m_pMgr->RequestCoverArt(fullpath, index, mode);
 }
 
+void MusicDBWindow::SlotAppendIconList()
+{
+	m_CurPage++;
+	m_pMgr->RequestCategoryList(m_nCategory,
+								m_nSortCategory,
+								m_bIncreaseCategory,
+								m_ArtistID,
+								m_GenreID,
+								m_ComposerID,
+								m_nFavorite,
+								m_nRating,
+								m_LimitCount * m_CurPage,
+								m_LimitCount);
+}
+
+void MusicDBWindow::SlotAppendList()
+{
+	m_CurPage++;
+	m_pMgr->RequestSongsOfCategory(m_nID,
+								   m_nCategory,
+								   m_nSortTrack,
+								   m_bIncreaseTrack,
+								   m_LimitCount * m_CurPage,
+								   m_LimitCount);
+}
 
 void MusicDBWindow::SlotSelectTrackPlay(int nID)
 {
@@ -515,6 +552,7 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 		m_ArtistID = "";
 	}
 
+	m_pIconTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -530,6 +568,7 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 		m_GenreID = "";
 	}
 
+	m_pIconTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -545,6 +584,7 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 		m_ComposerID = "";
 	}
 
+	m_pIconTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -595,6 +635,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotAlbumResize()));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	connect(m_pIconTracks, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
@@ -602,6 +643,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectTrackPlay(int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMore(int)), this, SLOT(SlotSelectTrackMore(int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
@@ -655,4 +697,60 @@ void MusicDBWindow::ClearClassifyMenu()
 	m_pInfoHome->GetFormClassify()->ClearClassifyGenreMenu();
 	m_pInfoHome->GetFormClassify()->ClearClassifyComposerMenu();
 }
+
+int MusicDBWindow::GetTotalCount(CJsonNode node)
+{
+
+	int totalCount = 0;
+
+	switch (m_nCategory)
+	{
+	case SQLManager::CATEGORY_ALBUM:
+		totalCount = node.GetString(KEY_ALBUM).toInt();
+		break;
+//	case SQLManager::CATEGORY_ALBUMARTIST:
+//		totalCount = node.GetString(KEY_ALBUM_ARTIST).toInt();
+//		break;
+	case SQLManager::CATEGORY_ARTIST:
+		totalCount = node.GetString(KEY_ARTIST).toInt();
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		totalCount = node.GetString(KEY_COMPOSER).toInt();
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		totalCount = node.GetString(KEY_GENRE).toInt();
+		break;
+	case SQLManager::CATEGORY_MOOD:
+		totalCount = node.GetString(KEY_MOOD).toInt();
+		break;
+	case SQLManager::CATEGORY_FOLDER:
+		totalCount = node.GetString(KEY_FOLDER).toInt();
+		break;
+	case SQLManager::CATEGORY_YEAR:
+		totalCount = node.GetString(KEY_YEAR).toInt();
+		break;
+	case SQLManager::CATEGORY_TRACK:
+		totalCount = node.GetString(KEY_SONG).toInt();
+		break;
+	default:
+		break;
+	}
+
+	return totalCount;
+}
+
+void MusicDBWindow::CalculatePage(int totalCount)
+{
+	if (totalCount <= 0)
+	{
+		return;
+	}
+
+	m_TotalPage = totalCount / m_LimitCount;
+	m_CurPage = 0;
+	LogDebug("limit [%d] total [%d] current [%d]", m_LimitCount, m_TotalPage, m_CurPage);
+}
+
+
+
 

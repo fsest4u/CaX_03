@@ -713,23 +713,23 @@
         <file>resource/top-btn150-sort-n.png</file>
         <file>resource/top-btn150-sort-n@2x.png</file>
         <file>resource/top-btn150-sort-n@3x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h@2x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h@3x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h1.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h1@2x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h1@3x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h2.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h2@2x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h2@3x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h3.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h3@2x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h3@3x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h4.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h4@2x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h4@3x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h5.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h5@2x.png</file>
-        <file>resource/mid-icon16-horizental-rankon-h5@3x.png</file>
+        <file>resource/play-btn28-rank-sel0.png</file>
+        <file>resource/play-btn28-rank-sel0@2x.png</file>
+        <file>resource/play-btn28-rank-sel0@3x.png</file>
+        <file>resource/play-btn28-rank-sel1.png</file>
+        <file>resource/play-btn28-rank-sel1@2x.png</file>
+        <file>resource/play-btn28-rank-sel1@3x.png</file>
+        <file>resource/play-btn28-rank-sel2.png</file>
+        <file>resource/play-btn28-rank-sel2@2x.png</file>
+        <file>resource/play-btn28-rank-sel2@3x.png</file>
+        <file>resource/play-btn28-rank-sel3.png</file>
+        <file>resource/play-btn28-rank-sel3@2x.png</file>
+        <file>resource/play-btn28-rank-sel3@3x.png</file>
+        <file>resource/play-btn28-rank-sel4.png</file>
+        <file>resource/play-btn28-rank-sel4@2x.png</file>
+        <file>resource/play-btn28-rank-sel4@3x.png</file>
+        <file>resource/play-btn28-rank-sel5.png</file>
+        <file>resource/play-btn28-rank-sel5@2x.png</file>
+        <file>resource/play-btn28-rank-sel5@3x.png</file>
     </qresource>
 </RCC>

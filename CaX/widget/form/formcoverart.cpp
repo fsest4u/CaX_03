@@ -20,6 +20,7 @@ FormCoverArt::FormCoverArt(QWidget *parent) :
 	ui->labelFavorite->hide();
 	ui->labelPlay->hide();
 
+	ui->frameRating->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 
@@ -175,6 +176,13 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 		else if (object == ui->labelPlay)
 		{
 			emit SigPlay();
+		}
+	}
+	else if (event->type() == QMouseEvent::MouseMove)
+	{
+		if (object == ui->labelFavorite)
+		{
+			LogDebug("move label favorite");
 		}
 	}
 	else if (event->type() == QMouseEvent::MouseButtonDblClick)

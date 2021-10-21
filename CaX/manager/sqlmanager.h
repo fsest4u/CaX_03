@@ -43,12 +43,16 @@ public:
 								 QString genreID = "",
 								 QString composerID = "",
 								 int nFavorite = 0,
-								 int nRating = 0);
+								 int nRating = 0,
+								 int nStartIndex = 0,
+								 int nLimitCount = 100);
 	QString GetQueryCategoryInfo(int nID, int nCategory = CATEGORY_ALBUM);
 	QString GetQuerySongsOfCategory(int nID,
 									int nCategory = CATEGORY_ALBUM,
 									int nSort = SORT_NAME,
-									bool bIncrease = true);
+									bool bIncrease = true,
+									int nStartIndex = 0,
+									int nLimitCount = 100);
 
 	QString GetQueryPlaylist();
 	QString GetQueryPlaylistInfo(int nID);

@@ -1,4 +1,5 @@
 #include <QThread>
+#include <QScrollBar>
 
 #include "icontracks.h"
 #include "ui_icontracks.h"
@@ -16,6 +17,7 @@ IconTracks::IconTracks(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconTracksDelegate),
+	m_ScrollBar(nullptr),
 	m_pLoading(new Loading(this)),
 	ui(new Ui::IconTracks)
 {
@@ -58,12 +60,15 @@ QList<CJsonNode> IconTracks::GetNodeList() const
 
 void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 {
-	m_NodeList = list;
-	int index = 0;
+	m_pLoading->Start();
+
+	int index = m_NodeList.count();
+	m_NodeList.append(list);
+	LogDebug("list count [%d] index [%d]", m_NodeList.count(), index);
 
 	if (ICON_TRACKS_MUSIC_DB == type)
 	{
-		foreach (CJsonNode node, m_NodeList)
+		foreach (CJsonNode node, list)
 		{
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
@@ -84,7 +89,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 	else if (ICON_TRACKS_AUDIO_CD == type)
 	{
 		int totalTime = 0;
-		foreach (CJsonNode node, m_NodeList)
+		foreach (CJsonNode node, list)
 		{
 			int time = node.GetInt(KEY_TIME_CAP);
 			QStandardItem *item = new QStandardItem;
@@ -108,7 +113,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 	}
 	else if (ICON_TRACKS_PLAYLIST == type)
 	{
-		foreach (CJsonNode node, m_NodeList)
+		foreach (CJsonNode node, list)
 		{
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
@@ -178,6 +183,17 @@ void IconTracks::SlotReqCoverArt()
 	}
 }
 
+void IconTracks::SlotScrollValueChanged(int value)
+{
+	int min = m_ScrollBar->minimum();
+	int max = m_ScrollBar->maximum();
+	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
+	if (value >= max)
+	{
+		emit SigAppendIconList();
+	}
+}
+
 void IconTracks::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -187,6 +203,7 @@ void IconTracks::Initialize()
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	SetViewMode(QListView::IconMode);
 
-	m_pLoading->Start();
+	m_ScrollBar = m_ListView->verticalScrollBar();
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 
 }

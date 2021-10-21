@@ -21,7 +21,9 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 										 QString genreID,
 										 QString composerID,
 										 int nFavorite,
-										 int nRating)
+										 int nRating,
+										 int nStartIndex,
+										 int nLimitCount)
 {
 	// todo-dylee
 	Q_UNUSED(nSort)
@@ -89,7 +91,9 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 			.arg(whereFavorite)
 			.arg(whereRating)
 			.arg(column)
-			.arg(increase);
+			.arg(increase)
+			.arg(nStartIndex)
+			.arg(nLimitCount);
 
 	return query;
 }
@@ -132,7 +136,9 @@ QString SQLManager::GetQueryCategoryInfo(int nID, int nCategory)
 QString SQLManager::GetQuerySongsOfCategory(int nID,
 											int nCategory,
 											int nSort,
-											bool bIncrease)
+											bool bIncrease,
+											int nStartIndex,
+											int nLimitCount)
 {
 	QString query;
 	QString column = GetColumnName(nSort);
@@ -144,48 +150,64 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 		query = QString(SQL_SONGS_OF_ALBUM)
 				.arg(nID)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	case CATEGORY_ARTIST:
 		query = QString(SQL_SONGS_OF_ARTIST)
 				.arg(nID)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	case CATEGORY_COMPOSER:
 		query = QString(SQL_SONGS_OF_COMPOSER)
 				.arg(nID)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	case CATEGORY_GENRE:
 		query = QString(SQL_SONGS_OF_GENRE)
 				.arg(nID)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	case CATEGORY_MOOD:
 		query = QString(SQL_SONGS_OF_MOOD)
 				.arg(nID)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	case CATEGORY_FOLDER:
 		query = QString(SQL_SONGS_OF_FOLDER)
 				.arg(nID)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	case CATEGORY_YEAR:
 		query = QString(SQL_SONGS_OF_YEAR)
 				.arg(nID)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	case CATEGORY_TRACK:
 		query = QString(SQL_SONGS_OF_TRACK)
 				.arg(column)
-				.arg(increase);
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
 		break;
 	}
 

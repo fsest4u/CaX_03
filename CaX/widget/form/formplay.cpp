@@ -72,27 +72,27 @@ void FormPlay::SetRating(int Rating)
 
 	if (m_Rating == 1)
 	{
-		style = "mid-icon16-horizental-rankon-h1@3x.png";
+		style = "play-btn28-rank-sel1@3x.png";
 	}
 	else if (m_Rating == 2)
 	{
-		style = "mid-icon16-horizental-rankon-h2@3x.png";
+		style = "play-btn28-rank-sel2@3x.png";
 	}
 	else if (m_Rating == 3)
 	{
-		style = "mid-icon16-horizental-rankon-h3@3x.png";
+		style = "play-btn28-rank-sel3@3x.png";
 	}
 	else if (m_Rating == 4)
 	{
-		style = "mid-icon16-horizental-rankon-h4@3x.png";
+		style = "play-btn28-rank-sel4@3x.png";
 	}
 	else if (m_Rating == 5)
 	{
-		style = "mid-icon16-horizental-rankon-h5@3x.png";
+		style = "play-btn28-rank-sel5@3x.png";
 	}
 	else
 	{
-		style = "mid-icon16-horizental-rankon-h@3x.png";
+		style = "play-btn28-rank-sel0@3x.png";
 	}
 
 	style = QString("QFrame	\
@@ -101,7 +101,7 @@ void FormPlay::SetRating(int Rating)
 					}	\
 					QFrame:hover	\
 					{	\
-					  border-image: url(\":/resource/mid-icon16-horizental-rankon-h@3x.png\");	\
+					  border-image: url(\":/resource/play-btn28-rank-sel0@3x.png\");	\
 					}").arg(style);
 
 	ui->frameRating->setStyleSheet(style);

@@ -45,10 +45,12 @@ signals:
 
 	void SigReqCoverArt(int id, int index, int mode);
 	void SigCalcTotalTime(int time);
+	void SigAppendIconList();
 
 private slots:
 
 	void SlotReqCoverArt();
+	void SlotScrollValueChanged(int value);
 
 private:
 
@@ -57,6 +59,7 @@ private:
 	QListView				*m_ListView;
 	QStandardItemModel		*m_Model;
 	IconTracksDelegate		*m_Delegate;
+	QScrollBar				*m_ScrollBar;
 
 	Loading					*m_pLoading;
 

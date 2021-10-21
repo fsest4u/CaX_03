@@ -43,7 +43,9 @@ void MusicDBManager::RequestCategoryList(int nCategory,
 										 QString genreID,
 										 QString composerID,
 										 int nFavorite,
-										 int nRating)
+										 int nRating,
+										 int nStartIndex,
+										 int nLimitCount)
 {
 	QString query = m_pSql->GetQueryCategoryList(nCategory,
 												 nSort,
@@ -52,7 +54,9 @@ void MusicDBManager::RequestCategoryList(int nCategory,
 												 genreID,
 												 composerID,
 												 nFavorite,
-												 nRating);
+												 nRating,
+												 nStartIndex,
+												 nLimitCount);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -77,12 +81,16 @@ void MusicDBManager::RequestCategoryInfo(int nID, int nCategory)
 void MusicDBManager::RequestSongsOfCategory(int nID,
 											int nCategory,
 											int nSort,
-											bool bIncrease)
+											bool bIncrease,
+											int nStartIndex,
+											int nLimitCount)
 {
 	QString query = m_pSql->GetQuerySongsOfCategory(nID,
 													nCategory,
 													nSort,
-													bIncrease);
+													bIncrease,
+													nStartIndex,
+													nLimitCount);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);

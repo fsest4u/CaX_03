@@ -1,5 +1,5 @@
 #include <QThread>
-//#include <QListView>
+#include <QScrollBar>
 
 #include "listtracks.h"
 #include "ui_listtracks.h"
@@ -15,6 +15,7 @@ ListTracks::ListTracks(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListTracksDelegate),
+	m_ScrollBar(nullptr),
 	m_pLoading(new Loading(this)),
 	ui(new Ui::ListTracks)
 {
@@ -57,9 +58,13 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 
 void ListTracks::SetNodeList(QList<CJsonNode> list)
 {
-	m_NodeList = list;
-	int index = 0;
-	foreach (CJsonNode node, m_NodeList)
+	m_pLoading->Start();
+
+	int index = m_NodeList.count();
+	m_NodeList.append(list);
+	LogDebug("list count [%d] index [%d]", m_NodeList.count(), index);
+
+	foreach (CJsonNode node, list)
 	{
 		LogDebug("node [%s]", node.ToCompactByteArray().data());
 		QStandardItem *item = new QStandardItem;
@@ -133,6 +138,17 @@ void ListTracks::SlotReqCoverArt()
 	}
 }
 
+void ListTracks::SlotScrollValueChanged(int value)
+{
+	int min = m_ScrollBar->minimum();
+	int max = m_ScrollBar->maximum();
+	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
+	if (value >= max)
+	{
+		emit SigAppendList();
+	}
+}
+
 void ListTracks::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -141,6 +157,7 @@ void ListTracks::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
 
-	m_pLoading->Start();
+	m_ScrollBar = m_ListView->verticalScrollBar();
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 
 }
