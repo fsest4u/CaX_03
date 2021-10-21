@@ -91,25 +91,25 @@ void FormCoverArt::SetFavorite(int Favorite)
 	if (m_Favorite == 0)
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+						}");
 
 	}
 	else
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+						}");
 
 	}
 	ui->labelFavorite->setStyleSheet(style);
@@ -169,6 +169,36 @@ void FormCoverArt::SetRating(int Rating)
 
 }
 
+bool FormCoverArt::GetSelect() const
+{
+	return m_Select;
+}
+
+void FormCoverArt::SetSelect(bool Select)
+{
+	ui->labelCheck->show();
+	m_Select = Select;
+
+	QString style;
+
+	if (m_Select)
+	{
+		style = "playlist-icon30-select@3x.png";
+	}
+	else
+	{
+		style = "";
+	}
+
+	style = QString("QLabel	\
+					{	\
+					  border-image: url(\":/resource/%1\");	\
+					}").arg(style);
+
+	ui->labelCheck->setStyleSheet(style);
+
+}
+
 bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
@@ -180,13 +210,6 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 		else if (object == ui->labelPlay)
 		{
 			emit SigPlay();
-		}
-	}
-	else if (event->type() == QMouseEvent::MouseButtonDblClick)
-	{
-		if (object == ui->frameCoverArt)
-		{
-			emit SigCoverArt();
 		}
 	}
 

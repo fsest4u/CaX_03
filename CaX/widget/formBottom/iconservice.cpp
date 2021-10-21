@@ -55,6 +55,8 @@ QList<CJsonNode> IconService::GetNodeList() const
 
 void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 {
+	m_pLoading->Start();
+
 	m_Model->clear();
 	m_NodeList = list;
 	m_Delegate->SetServiceType(nService);
@@ -71,6 +73,7 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_PATH), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -87,6 +90,7 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_NAME), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -103,6 +107,7 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -122,6 +127,7 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -146,6 +152,7 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_CA_NAME), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(subtitle, IconServiceDelegate::ICON_SERVICE_SUBTITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -184,6 +191,16 @@ void IconService::SetViewMode(QListView::ViewMode mode)
 
 }
 
+QMap<int, bool> IconService::GetSelectMap() const
+{
+	return m_SelectMap;
+}
+
+void IconService::SetSelectMap(const QMap<int, bool> &SelectMap)
+{
+	m_SelectMap = SelectMap;
+}
+
 QStandardItemModel *IconService::GetModel()
 {
 	return m_Model;
@@ -192,6 +209,27 @@ QStandardItemModel *IconService::GetModel()
 IconServiceDelegate *IconService::GetDelegate()
 {
 	return m_Delegate;
+}
+
+void IconService::SlotDoubleClickItem(const QModelIndex &index)
+{
+	QStandardItem *item = m_Model->itemFromIndex(index);
+	bool bSelect = !qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
+	item->setData(bSelect, IconServiceDelegate::ICON_SERVICE_SELECT);
+
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
+
+	int row = index.row();
+	if (bSelect)
+	{
+		m_SelectMap.insert(row, bSelect);
+	}
+	else
+	{
+		m_SelectMap.remove(row);
+	}
+
 }
 
 void IconService::Initialize()
@@ -203,8 +241,7 @@ void IconService::Initialize()
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	SetViewMode(QListView::IconMode);
 
-	m_pLoading->Start();
-
+	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 }
 
 QString IconService::GetGroupPlayStatus(int type)

@@ -37,34 +37,6 @@ void ListTracksEditor::SetID(int ID)
 	m_ID = ID;
 }
 
-QString ListTracksEditor::GetCoverArt() const
-{
-//	return m_CoverArt;
-	return m_pFormCoverArt->GetCoverArt();
-}
-
-void ListTracksEditor::SetCoverArt(const QString &coverArt)
-{
-//	m_CoverArt = value;
-
-//	if (m_CoverArt.isEmpty())
-//	{
-//		m_CoverArt = ":/resource/Icon-playbar-volume-160.png";
-//	}
-
-//	QImage image;
-//	if (image.load(m_CoverArt))
-//	{
-////		painter->drawImage(coverRect, image);
-//		QPixmap pixmap = QPixmap::fromImage(image);
-//		ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
-//												   , ui->labelCoverArt->height()
-//												   , Qt::KeepAspectRatio));
-//	}
-
-	m_pFormCoverArt->SetCoverArt(coverArt);
-}
-
 QString ListTracksEditor::GetTitle()
 {
 	return ui->labelTitle->text();
@@ -90,25 +62,25 @@ void ListTracksEditor::SetFavorite(int Favorite)
 	if (m_Favorite == 0)
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/play-btn12-like-n@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/play-btn12-like-n@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
+						}");
 
 	}
 	else
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/play-btn12-like-u@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/play-btn12-like-u@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
+						}");
 
 	}
 	ui->labelFavorite->setStyleSheet(style);
@@ -154,15 +126,16 @@ void ListTracksEditor::SetGenre(const QString &genre)
 	ui->labelGenre->setText(genre);
 }
 
+FormCoverArt *ListTracksEditor::GetFormCoverArt() const
+{
+	return m_pFormCoverArt;
+}
+
 bool ListTracksEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-//		if (object == ui->labelCoverArt)
-//		{
-//			emit SigClickCoverArt(m_ID);
-//		}
-//		else
+
 		if (object == ui->labelPlay)
 		{
 			emit SigClickPlay(m_ID);
@@ -208,16 +181,10 @@ bool ListTracksEditor::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
-void ListTracksEditor::SlotCoverArt()
-{
-	emit SigClickCoverArt(m_ID);
-}
-
 void ListTracksEditor::ConnectSigToSlot()
 {
 	ui->labelFavorite->hide();
 
-//	ui->labelCoverArt->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
@@ -229,5 +196,4 @@ void ListTracksEditor::ConnectSigToSlot()
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArt()), this, SLOT(SlotCoverArt()));
 }

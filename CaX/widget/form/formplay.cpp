@@ -121,25 +121,25 @@ void FormPlay::SetFavorite(int Favorite)
 	if (m_Favorite == 0)
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
+						}");
 
 	}
 	else
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
+						}");
 
 	}
 	ui->labelFavorite->setStyleSheet(style);

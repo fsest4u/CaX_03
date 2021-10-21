@@ -23,9 +23,6 @@ public:
 	int GetType() const;
 	void SetType(int nType);
 
-	QString GetCoverArt() const;
-	void SetCoverArt(const QString &coverArt);
-
 	QString GetTitle() const;
 	void SetTitle(const QString &title);
 
@@ -35,13 +32,10 @@ public:
 	QString GetDuration() const;
 	void SetDuration(const QString &Duration);
 
-//	QString GetArt() const;
-//	void SetArt(const QString &Art);
-
 	QString GetRawData() const;
 	void SetRawData(const QString &RawData);
 
-
+	FormCoverArt *GetFormCoverArt() const;
 
 signals:
 
@@ -54,7 +48,6 @@ protected:
 
 private slots:
 
-	void SlotCoverArt();
 
 private:
 
@@ -64,8 +57,6 @@ private:
 
 	QString		m_StrID;
 	int			m_nType;
-//	QString		m_Icon;
-//	QString		m_Art;
 	QString		m_RawData;
 
 	Ui::ListServiceEditor *ui;

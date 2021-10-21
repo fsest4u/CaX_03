@@ -35,20 +35,28 @@ public:
 		LIST_SERVICE_MAX
 	};
 
+	void ClearNodeList();
+	QList<CJsonNode> GetNodeList() const;
+	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = LIST_SERVICE_AUDIO_CD);
+
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
+
+	QMap<int, bool> GetSelectMap() const;
+	void SetSelectMap(const QMap<int, bool> &SelectMap);
 
 	QStandardItemModel	*GetModel();
 	ListServiceDelegate	*GetDelegate();
 
-	void ClearNodeList();
-	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = LIST_SERVICE_AUDIO_CD);
 
 signals:
 
 	void SigReqArt(QString url, int nIndex);
 	void SigReqInfoBot(QString path, int index);
+
+private slots:
+
+	void SlotDoubleClickItem(const QModelIndex& index);
 
 private:
 
@@ -61,6 +69,7 @@ private:
 	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
+	QMap<int, bool>			m_SelectMap;
 
 	Ui::ListService *ui;
 };

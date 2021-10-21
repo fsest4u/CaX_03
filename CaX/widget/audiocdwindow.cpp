@@ -190,7 +190,14 @@ void AudioCDWindow::SlotCalcTotalTime(int time)
 void AudioCDWindow::SlotSubmenu()
 {
 	LogDebug("click sub menu");
-
+	// todo-dylee
+	QMap<int, bool> map = m_pIconTracks->GetSelectMap();
+	// for debug
+	QMap<int, bool>::iterator i;
+	for (i = map.begin(); i!= map.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+	}
 }
 
 void AudioCDWindow::SlotResize()

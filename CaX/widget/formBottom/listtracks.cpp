@@ -80,6 +80,8 @@ void ListTracks::SetNodeList(QList<CJsonNode> list)
 		item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 		item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
 		item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
+		item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
+
 		m_Model->appendRow(item);
 		QModelIndex modelIndex = m_Model->indexFromItem(item);
 		m_ListView->openPersistentEditor(modelIndex);
@@ -109,6 +111,16 @@ void ListTracks::SetViewMode(QListView::ViewMode mode)
 {
 	m_ListView->setViewMode(mode);
 	m_Delegate->SetViewMode(mode);
+}
+
+QMap<int, bool> ListTracks::GetSelectMap() const
+{
+	return m_SelectMap;
+}
+
+void ListTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
+{
+	m_SelectMap = SelectMap;
 }
 
 QStandardItemModel *ListTracks::GetModel()
@@ -149,6 +161,26 @@ void ListTracks::SlotScrollValueChanged(int value)
 	}
 }
 
+void ListTracks::SlotDoubleClickItem(const QModelIndex &index)
+{
+	QStandardItem *item = m_Model->itemFromIndex(index);
+	bool bSelect = !qvariant_cast<bool>(item->data(ListTracksDelegate::LIST_TRACKS_SELECT));
+	item->setData(bSelect, ListTracksDelegate::LIST_TRACKS_SELECT);
+
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
+
+	int row = index.row();
+	if (bSelect)
+	{
+		m_SelectMap.insert(row, bSelect);
+	}
+	else
+	{
+		m_SelectMap.remove(row);
+	}
+}
+
 void ListTracks::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -159,5 +191,6 @@ void ListTracks::Initialize()
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
+	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 
 }

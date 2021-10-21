@@ -313,7 +313,14 @@ void MusicDBWindow::SlotGetRating()
 void MusicDBWindow::SlotSubmenu()
 {
 	LogDebug("music Submenu");
-
+	// todo-dylee
+	QMap<int, bool> map = m_pIconTracks->GetSelectMap();
+	// for debug
+	QMap<int, bool>::iterator i;
+	for (i = map.begin(); i!= map.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+	}
 }
 
 void MusicDBWindow::SlotSort(int sort)
@@ -375,9 +382,9 @@ void MusicDBWindow::SlotTrackList()
 	widget->SetCoverArt("");
 }
 
-void MusicDBWindow::SlotMusicSubmenu2()
+void MusicDBWindow::SlotSubmenu2()
 {
-	LogDebug("music Submenu2");
+	LogDebug("click Submenu2");
 }
 
 void MusicDBWindow::SlotAlbumPlayAll()
@@ -393,6 +400,14 @@ void MusicDBWindow::SlotAlbumPlayRandom()
 void MusicDBWindow::SlotAlbumSubmenu()
 {
 	LogDebug("album submenu");
+	// todo-dylee
+	QMap<int, bool> map = m_pListTracks->GetSelectMap();
+	// for debug
+	QMap<int, bool>::iterator i;
+	for (i = map.begin(); i!= map.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+	}
 }
 
 void MusicDBWindow::SlotAlbumFavorite(int nFavorite)
@@ -622,7 +637,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome, SIGNAL(SigAlbumList()), this, SLOT(SlotAlbumList()));
 	connect(m_pInfoHome, SIGNAL(SigArtistList()), this, SLOT(SlotArtistList()));
 	connect(m_pInfoHome, SIGNAL(SigTrackList()), this, SLOT(SlotTrackList()));
-	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotMusicSubmenu2()));
+	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotSubmenu2()));
 
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotAlbumPlayAll()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotAlbumPlayRandom()));

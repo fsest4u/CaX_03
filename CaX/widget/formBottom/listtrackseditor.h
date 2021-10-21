@@ -17,12 +17,8 @@ public:
 	explicit ListTracksEditor(QWidget *parent = nullptr);
 	~ListTracksEditor();
 
-
 	int GetID() const;
 	void SetID(int ID);
-
-	QString GetCoverArt() const;
-	void SetCoverArt(const QString &coverArt);
 
 	QString GetTitle();
 	void SetTitle(const QString &title);
@@ -42,6 +38,8 @@ public:
 	QString GetGenre();
 	void SetGenre(const QString &genre);
 
+	FormCoverArt *GetFormCoverArt() const;
+
 signals:
 
 	void SigClickCoverArt(int nID);
@@ -60,8 +58,6 @@ protected:
 	bool eventFilter(QObject *object, QEvent *event);
 
 private slots:
-
-	void SlotCoverArt();
 
 private:
 

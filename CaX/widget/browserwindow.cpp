@@ -109,6 +109,22 @@ void BrowserWindow::SlotPlayRandom()
 void BrowserWindow::SlotSubmenu()
 {
 	LogDebug("click sub menu");
+	// todo-dylee
+	QMap<int, bool> map = m_pIconService->GetSelectMap();
+	// for debug
+	QMap<int, bool>::iterator i;
+	for (i = map.begin(); i!= map.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+	}
+
+	QMap<int, bool> map2 = m_pListService->GetSelectMap();
+	// for debug
+	QMap<int, bool>::iterator i2;
+	for (i2 = map2.begin(); i2!= map2.end(); i2++)
+	{
+		LogDebug("key2 [%d] value2 [%d]", i2.key(), i2.value());
+	}
 }
 
 void BrowserWindow::SlotResize()

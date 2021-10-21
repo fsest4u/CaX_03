@@ -9,7 +9,9 @@
 #include "util/caxconstants.h"
 #include "util/log.h"
 
-#include "network/tcpclient.h"
+#include "widget/form/formcoverart.h"
+
+//#include "network/tcpclient.h"
 
 
 ListTracksDelegate::ListTracksDelegate()
@@ -163,7 +165,8 @@ void ListTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<int>(index.data(LIST_TRACKS_ID)));
-	widget->SetCoverArt(qvariant_cast<QString>(index.data(LIST_TRACKS_COVER)));
+	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_TRACKS_COVER)));
+	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_TRACKS_SELECT)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_TRACKS_TITLE)));
 	widget->SetFavorite(qvariant_cast<int>(index.data(LIST_TRACKS_FAVORITE)));
 	widget->SetTime(qvariant_cast<QString>(index.data(LIST_TRACKS_TIME)));
@@ -177,7 +180,8 @@ void ListTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 {
 	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
 	model->setData(index, widget->GetID(), LIST_TRACKS_ID);
-	model->setData(index, widget->GetCoverArt(), LIST_TRACKS_COVER);
+	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), LIST_TRACKS_COVER);
+	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_TRACKS_SELECT);
 	model->setData(index, widget->GetTitle(), LIST_TRACKS_TITLE);
 	model->setData(index, widget->GetFavorite(), LIST_TRACKS_FAVORITE);
 	model->setData(index, widget->GetTime(), LIST_TRACKS_TIME);

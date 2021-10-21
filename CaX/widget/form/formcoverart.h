@@ -27,9 +27,11 @@ public:
 	int GetCount() const;
 	void SetCount(int Count);
 
+	bool GetSelect() const;
+	void SetSelect(bool Select);
+
 signals:
 
-	void SigCoverArt();
 	void SigRating(int nRating);
 	void SigFavorite(int nFavorite);
 	void SigPlay();
@@ -53,6 +55,7 @@ private:
 	int		m_Rating;
 	int		m_Favorite;
 	int		m_Count;
+	bool	m_Select;
 
 	Ui::FormCoverArt *ui;
 };

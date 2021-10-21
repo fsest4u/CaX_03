@@ -83,6 +83,7 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->SetType(qvariant_cast<int>(index.data(ICON_SERVICE_TYPE)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
+	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT)));
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
 	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
 
@@ -96,6 +97,7 @@ void IconServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetType(), ICON_SERVICE_TYPE);
 	model->setData(index, widget->GetRawData(), ICON_SERVICE_RAW);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_SERVICE_COVER);
+	model->setData(index, widget->GetFormCoverArt()->GetSelect(), ICON_SERVICE_SELECT);
 	model->setData(index, widget->GetFormTitle()->GetTitle(), ICON_SERVICE_TITLE);
 	model->setData(index, widget->GetFormTitle()->GetSubtitle(), ICON_SERVICE_SUBTITLE);
 }

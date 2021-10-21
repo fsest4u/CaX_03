@@ -84,25 +84,25 @@ void FormSort::SetIncrease(bool bIncrease)
 	if (bIncrease)
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-sortu-n@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-sortu-h@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/top-btn22-sortu-n@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/top-btn22-sortu-h@3x.png\");	\
+						}");
 
 	}
 	else
 	{
 		style = QString("QLabel	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-sortd-n@3x.png\");	\
-								}	\
-								QLabel:hover	\
-								{	\
-								  border-image: url(\":/resource/top-btn22-sortd-h@3x.png\");	\
-								}");
+						{	\
+						  border-image: url(\":/resource/top-btn22-sortd-n@3x.png\");	\
+						}	\
+						QLabel:hover	\
+						{	\
+						  border-image: url(\":/resource/top-btn22-sortd-h@3x.png\");	\
+						}");
 
 	}
 	ui->labelIncDec->setStyleSheet(style);

@@ -47,27 +47,6 @@ ListService::~ListService()
 	}
 }
 
-QListView::ViewMode ListService::GetViewMode()
-{
-	return m_ListView->viewMode();
-}
-
-void ListService::SetViewMode(QListView::ViewMode mode)
-{
-	m_ListView->setViewMode(mode);
-	m_Delegate->SetViewMode(mode);
-}
-
-QStandardItemModel *ListService::GetModel()
-{
-	return m_Model;
-}
-
-ListServiceDelegate *ListService::GetDelegate()
-{
-	return m_Delegate;
-}
-
 void ListService::ClearNodeList()
 {
 	m_Model->clear();
@@ -81,6 +60,8 @@ QList<CJsonNode> ListService::GetNodeList() const
 
 void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 {
+	m_pLoading->Start();
+
 	m_NodeList = NodeList;
 	int index = 0;
 
@@ -166,6 +147,57 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 }
 
+QListView::ViewMode ListService::GetViewMode()
+{
+	return m_ListView->viewMode();
+}
+
+void ListService::SetViewMode(QListView::ViewMode mode)
+{
+	m_ListView->setViewMode(mode);
+	m_Delegate->SetViewMode(mode);
+}
+
+QMap<int, bool> ListService::GetSelectMap() const
+{
+	return m_SelectMap;
+}
+
+void ListService::SetSelectMap(const QMap<int, bool> &SelectMap)
+{
+	m_SelectMap = SelectMap;
+}
+
+QStandardItemModel *ListService::GetModel()
+{
+	return m_Model;
+}
+
+ListServiceDelegate *ListService::GetDelegate()
+{
+	return m_Delegate;
+}
+
+void ListService::SlotDoubleClickItem(const QModelIndex &index)
+{
+	QStandardItem *item = m_Model->itemFromIndex(index);
+	bool bSelect = !qvariant_cast<bool>(item->data(ListServiceDelegate::LIST_SERVICE_SELECT));
+	item->setData(bSelect, ListServiceDelegate::LIST_SERVICE_SELECT);
+
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
+
+	int row = index.row();
+	if (bSelect)
+	{
+		m_SelectMap.insert(row, bSelect);
+	}
+	else
+	{
+		m_SelectMap.remove(row);
+	}
+}
+
 void ListService::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -174,7 +206,6 @@ void ListService::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
 
-	m_pLoading->Start();
-
+	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 }
 

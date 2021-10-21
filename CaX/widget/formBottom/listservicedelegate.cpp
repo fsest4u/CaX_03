@@ -4,6 +4,8 @@
 #include "util/caxconstants.h"
 #include "util/log.h"
 
+#include "widget/form/formcoverart.h"
+
 ListServiceDelegate::ListServiceDelegate()
 {
 
@@ -50,7 +52,7 @@ QWidget *ListServiceDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	Q_UNUSED(index)
 
 	ListServiceEditor *editor = new ListServiceEditor(parent);
-	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
+//	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
 	connect(editor, SIGNAL(SigClickTitle(QString)), this, SLOT(SlotClickTitle(QString)));
 
 	return editor;
@@ -66,7 +68,8 @@ void ListServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<QString>(index.data(LIST_SERVICE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(LIST_SERVICE_TYPE)));
-	widget->SetCoverArt(qvariant_cast<QString>(index.data(LIST_SERVICE_COVER_ART)));
+	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_SERVICE_COVER_ART)));
+	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_SERVICE_SELECT)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_SERVICE_TITLE)));
 	widget->SetSubtitle(qvariant_cast<QString>(index.data(LIST_SERVICE_SUBTITLE)));
 	widget->SetDuration(qvariant_cast<QString>(index.data(LIST_SERVICE_DURATION)));
@@ -80,7 +83,8 @@ void ListServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	ListServiceEditor *widget = static_cast<ListServiceEditor*>(editor);
 	model->setData(index, widget->GetID(), LIST_SERVICE_ID);
 	model->setData(index, widget->GetType(), LIST_SERVICE_TYPE);
-	model->setData(index, widget->GetCoverArt(), LIST_SERVICE_COVER_ART);
+	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), LIST_SERVICE_COVER_ART);
+	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_SERVICE_SELECT);
 	model->setData(index, widget->GetTitle(), LIST_SERVICE_TITLE);
 	model->setData(index, widget->GetSubtitle(), LIST_SERVICE_SUBTITLE);
 	model->setData(index, widget->GetDuration(), LIST_SERVICE_DURATION);

@@ -36,7 +36,10 @@ public:
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
 
-	QStandardItemModel		*GetModel();
+	QMap<int, bool> GetSelectMap() const;
+	void SetSelectMap(const QMap<int, bool> &SelectMap);
+
+	QStandardItemModel	*GetModel();
 	IconTracksDelegate	*GetDelegate();
 
 	void SetBackgroundTask(QThread *thread);
@@ -51,6 +54,7 @@ private slots:
 
 	void SlotReqCoverArt();
 	void SlotScrollValueChanged(int value);
+	void SlotDoubleClickItem(const QModelIndex& index);
 
 private:
 
@@ -64,6 +68,7 @@ private:
 	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
+	QMap<int, bool>			m_SelectMap;
 
 	Ui::IconTracks *ui;
 };

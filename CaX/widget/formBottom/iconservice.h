@@ -39,6 +39,9 @@ public:
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
 
+	QMap<int, bool> GetSelectMap() const;
+	void SetSelectMap(const QMap<int, bool> &SelectMap);
+
 	QStandardItemModel		*GetModel();
 	IconServiceDelegate		*GetDelegate();
 
@@ -47,6 +50,8 @@ signals:
 	void SigReqCoverArt(int id, int index, int mode);
 
 private slots:
+
+	void SlotDoubleClickItem(const QModelIndex& index);
 
 private:
 
@@ -62,6 +67,7 @@ private:
 	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
+	QMap<int, bool>			m_SelectMap;
 
 	Ui::IconService *ui;
 };

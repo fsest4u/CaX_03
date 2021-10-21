@@ -78,6 +78,8 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
 			item->setData(node.GetString(KEY_RATING), IconTracksDelegate::ICON_TRACKS_RATING);
+			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
@@ -101,6 +103,8 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			item->setData("", IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
+			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
@@ -123,6 +127,8 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
+			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
@@ -154,6 +160,16 @@ void IconTracks::SetViewMode(QListView::ViewMode mode)
 	m_ListView->setViewMode(mode);
 	m_Delegate->SetViewMode(mode);
 
+}
+
+QMap<int, bool> IconTracks::GetSelectMap() const
+{
+	return m_SelectMap;
+}
+
+void IconTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
+{
+	m_SelectMap = SelectMap;
 }
 
 QStandardItemModel *IconTracks::GetModel()
@@ -194,6 +210,33 @@ void IconTracks::SlotScrollValueChanged(int value)
 	}
 }
 
+void IconTracks::SlotDoubleClickItem(const QModelIndex &index)
+{
+	QStandardItem *item = m_Model->itemFromIndex(index);
+	bool bSelect = !qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
+	item->setData(bSelect, IconTracksDelegate::ICON_TRACKS_SELECT);
+
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
+
+	int row = index.row();
+	if (bSelect)
+	{
+		m_SelectMap.insert(row, bSelect);
+	}
+	else
+	{
+		m_SelectMap.remove(row);
+	}
+
+//	// for debug
+//	QMap<int, bool>::iterator i;
+//	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+//	{
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//	}
+}
+
 void IconTracks::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -201,9 +244,11 @@ void IconTracks::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
+//	m_ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	SetViewMode(QListView::IconMode);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
-
+	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 }
+

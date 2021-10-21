@@ -91,72 +91,6 @@ void ListServiceEditor::SetDuration(const QString &Duration)
 	ui->labelDuration->setText(Duration);
 }
 
-QString ListServiceEditor::GetCoverArt() const
-{
-//	return m_Icon;
-	return m_pFormCoverArt->GetCoverArt();
-}
-
-void ListServiceEditor::SetCoverArt(const QString &coverArt)
-{
-//	if (Icon.isEmpty() || !m_Art.isEmpty())
-//		return;
-
-//	m_Icon = Icon;
-
-//	QString filename = "";
-//	if (!m_Icon.compare(ICON_SEARCH))
-//	{
-//		filename = ":/resource/Icon-playbar-volume-160.png";
-//	}
-//	else if (!m_Icon.compare(ICON_REC_LIST))
-//	{
-//		filename = ":/resource/Icon-playbar-volume-160.png";
-//	}
-//	else
-//	{
-//		filename = ":/resource/Icon-playbar-volume-160.png";
-//	}
-
-//	QImage image;
-//	if (image.load(filename))
-//	{
-////		painter->drawImage(coverRect, image);
-//		QPixmap pixmap = QPixmap::fromImage(image);
-//		ui->labelIcon->setPixmap(pixmap.scaled(ui->labelIcon->width()
-//												   , ui->labelIcon->height()
-//												   , Qt::KeepAspectRatio));
-//	}
-
-	m_pFormCoverArt->SetCoverArt(coverArt);
-
-}
-
-//QString ListServiceEditor::GetArt() const
-//{
-//	return m_Art;
-//}
-
-//void ListServiceEditor::SetArt(const QString &Art)
-//{
-//	m_Art = Art;
-
-//	if (m_Art.isEmpty())
-//	{
-//		m_Art = ":/resource/Icon-playbar-volume-160.png";
-//	}
-
-//	QImage image;
-//	if (image.load(m_Art))
-//	{
-////		painter->drawImage(coverRect, image);
-//		QPixmap pixmap = QPixmap::fromImage(image);
-//		ui->labelIcon->setPixmap(pixmap.scaled(ui->labelIcon->width()
-//												   , ui->labelIcon->height()
-//												   , Qt::KeepAspectRatio));
-//	}
-
-//}
 
 QString ListServiceEditor::GetRawData() const
 {
@@ -168,38 +102,30 @@ void ListServiceEditor::SetRawData(const QString &RawData)
 	m_RawData = RawData;
 }
 
+FormCoverArt *ListServiceEditor::GetFormCoverArt() const
+{
+	return m_pFormCoverArt;
+}
+
 bool ListServiceEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-//		if (object == ui->labelIcon)
-//		{
-//			emit SigClickIcon(m_RawData);
-//		}
-//		else if (object == ui->labelTitle)
-//		{
-//			emit SigClickTitle(m_RawData);
-//		}
+		if (object == ui->labelTitle)
+		{
+			emit SigClickTitle(m_RawData);
+		}
 	}
 
 	return QObject::eventFilter(object, event);
 }
 
-void ListServiceEditor::SlotCoverArt()
-{
-	emit SigClickCoverArt(m_RawData);
-}
-
 void ListServiceEditor::ConnectSigToSlot()
 {
-//	ui->labelIcon->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
 	ui->labelSubtitle->hide();
 	ui->labelDuration->hide();
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
-
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArt()), this, SLOT(SlotCoverArt()));
-
 }
 
