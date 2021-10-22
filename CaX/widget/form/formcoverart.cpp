@@ -220,29 +220,29 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 void FormCoverArt::SlotBtnRating1()
 {
 //	SetRating(1);
-//	SigRating(m_Rating);
+//	emit SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating2()
 {
 //	SetRating(2);
-//	SigRating(m_Rating);
+//	emit SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating3()
 {
 //	SetRating(3);
-//	SigRating(m_Rating);
+//	emit SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating4()
 {
 //	SetRating(4);
-//	SigRating(m_Rating);
+//	emit SigRating(m_Rating);
 }
 
 void FormCoverArt::SlotBtnRating5()
 {
 //	SetRating(5);
-//	SigRating(m_Rating);
+//	emit SigRating(m_Rating);
 }

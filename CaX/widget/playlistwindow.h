@@ -52,7 +52,8 @@ private slots:
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
-	void SlotSubmenu();
+	void SlotPlayTopMenu();
+	void SlotTopMenuAction(int menuID);
 	void SlotResize();
 
 
@@ -60,6 +61,8 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
+	void SetSelectOffTopMenu(bool root = false);
+	void SetSelectOnTopMenu(bool root = false);
 
 	PlaylistManager	*m_pMgr;
 	InfoService		*m_pInfoService;
@@ -68,6 +71,8 @@ private:
 	ListTracks		*m_pListTracks;
 
 	QList<int>		m_IDs;
+	QMap<int, QString> m_TopMenu;
+
 
 	Ui::PlaylistWindow *ui;
 };

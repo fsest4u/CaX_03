@@ -25,7 +25,8 @@ public:
 
 private slots:
 
-	void SlotSubmenu();
+	void SlotPlayTopMenu();
+	void SlotTopMenuAction(int menuID);
 	void SlotResize();
 
 	void SlotSelectTitle(int nType);
@@ -35,12 +36,15 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
-
+	void SetSelectOffTopMenu();
+	void SetSelectOnTopMenu();
 	void SetHome(QList<CJsonNode> &list);
 
-	FmRadioManager	*m_pMgr;
+	FmRadioManager		*m_pMgr;
 	InfoService			*m_pInfoService;
 	IconService			*m_pIconService;
+
+	QMap<int, QString>	m_TopMenu;
 
 	Ui::FMRadioWindow *ui;
 };

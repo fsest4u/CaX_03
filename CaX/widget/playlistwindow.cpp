@@ -37,7 +37,7 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 
 	m_pInfoService->GetFormPlay()->ShowPlayAll();
 	m_pInfoService->GetFormPlay()->ShowPlayRandom();
-	m_pInfoService->GetFormPlay()->ShowSubmenu();
+	m_pInfoService->GetFormPlay()->ShowPlayTopMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 }
 
@@ -225,17 +225,29 @@ void PlaylistWindow::SlotPlayRandom()
 
 }
 
-void PlaylistWindow::SlotSubmenu()
+void PlaylistWindow::SlotPlayTopMenu()
 {
-	LogDebug("click sub menu");
-	// todo-dylee
 	QMap<int, bool> map = m_pIconTracks->GetSelectMap();
+	if (map.count() > 0)
+	{
+		SetSelectOnTopMenu();
+	}
+	else
+	{
+		SetSelectOffTopMenu();
+	}
 	// for debug
 	QMap<int, bool>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
 		LogDebug("key [%d] value [%d]", i.key(), i.value());
 	}
+}
+
+void PlaylistWindow::SlotTopMenuAction(int menuID)
+{
+	LogDebug("click top menu [%d]", menuID);
+
 
 }
 
@@ -263,10 +275,61 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 
-	// m_pInfoTracks ??
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
+}
+
+void PlaylistWindow::SetSelectOffTopMenu(bool root)
+{
+	m_TopMenu.clear();
+
+	if (root)
+	{
+		m_TopMenu.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+		m_TopMenu.insert(TOP_MENU_NEW_PLAYLIST, STR_NEW_PLAYLIST);
+	}
+	else
+	{
+		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenu.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+		m_TopMenu.insert(TOP_MENU_ADD_ITEM, STR_ADD_ITEM);
+	}
+
+	m_pInfoService->GetFormPlay()->ClearTopMenu();
+	m_pInfoService->GetFormPlay()->SetTopMenu(m_TopMenu);
+}
+
+void PlaylistWindow::SetSelectOnTopMenu(bool root)
+{
+	m_TopMenu.clear();
+
+	if (root)
+	{
+		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+//		m_TopMenu.insert(TOP_MENU_EXPORT_TRACK, STR_EXPORT_TRACK);
+	}
+	else
+	{
+		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+	}
+
+	m_pInfoService->GetFormPlay()->ClearTopMenu();
+	m_pInfoService->GetFormPlay()->SetTopMenu(m_TopMenu);
 }

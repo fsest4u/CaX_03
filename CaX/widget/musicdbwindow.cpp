@@ -52,26 +52,7 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
-
-	m_pInfoHome->GetFormPlay()->ShowPlayAll();
-	m_pInfoHome->GetFormPlay()->ShowPlayRandom();
-	m_pInfoHome->GetFormPlay()->ShowSubmenu();
-
-	m_pInfoHome->GetFormSort()->ShowSort();
-	m_pInfoHome->GetFormSort()->ShowIncDec();
-	m_pInfoHome->GetFormSort()->ShowResize();
-	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
-
-	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
-	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
-	m_pInfoTracks->GetFormPlay()->ShowSubmenu();
-	m_pInfoTracks->GetFormPlay()->ShowFavorite();
-	m_pInfoTracks->GetFormPlay()->ShowRating();
-
-	m_pInfoTracks->GetFormSort()->ShowSort();
-	m_pInfoTracks->GetFormSort()->ShowIncDec();
-	m_pInfoTracks->GetFormSort()->ShowResize();
-	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
+	Initialize();
 
 }
 
@@ -290,7 +271,7 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 void MusicDBWindow::SlotPlayAll()
 {
-	m_pMgr->RequestPlayCategoryItems(PLAY_CLEAR, m_nCategory);
+	m_pMgr->RequestPlayCategoryItems(VAL_PLAY_CLEAR, m_nCategory);
 }
 
 void MusicDBWindow::SlotPlayRandom()
@@ -298,29 +279,29 @@ void MusicDBWindow::SlotPlayRandom()
 	m_pMgr->RequestRandom();
 }
 
-void MusicDBWindow::SlotGetFavorite()
+void MusicDBWindow::SlotPlayTopMenu()
 {
-	LogDebug("music get favorite");
-
-}
-
-void MusicDBWindow::SlotGetRating()
-{
-	LogDebug("music get rating");
-
-}
-
-void MusicDBWindow::SlotSubmenu()
-{
-	LogDebug("music Submenu");
-	// todo-dylee
 	QMap<int, bool> map = m_pIconTracks->GetSelectMap();
+	if (map.count() > 0)
+	{
+		SetSelectOnTopMenu();
+	}
+	else
+	{
+		SetSelectOffTopMenu();
+	}
 	// for debug
 	QMap<int, bool>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
 		LogDebug("key [%d] value [%d]", i.key(), i.value());
 	}
+}
+
+void MusicDBWindow::SlotTopMenuAction(int menuID)
+{
+	LogDebug("click top menu [%d]", menuID);
+
 }
 
 void MusicDBWindow::SlotSort(int sort)
@@ -389,7 +370,7 @@ void MusicDBWindow::SlotSubmenu2()
 
 void MusicDBWindow::SlotAlbumPlayAll()
 {
-	m_pMgr->RequestPlayCategoryItem(m_nID, PLAY_CLEAR, m_nCategory);
+	m_pMgr->RequestPlayCategoryItem(m_nID, VAL_PLAY_CLEAR, m_nCategory);
 }
 
 void MusicDBWindow::SlotAlbumPlayRandom()
@@ -397,17 +378,30 @@ void MusicDBWindow::SlotAlbumPlayRandom()
 	m_pMgr->RequestRandom();
 }
 
-void MusicDBWindow::SlotAlbumSubmenu()
+void MusicDBWindow::SlotAlbumPlayTopMenu()
 {
-	LogDebug("album submenu");
-	// todo-dylee
 	QMap<int, bool> map = m_pListTracks->GetSelectMap();
+	if (map.count() > 0)
+	{
+		SetSelectOnTopMenu();
+	}
+	else
+	{
+		SetSelectOffTopMenu();
+	}
 	// for debug
 	QMap<int, bool>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
+		SetSelectOnTopMenu();
 		LogDebug("key [%d] value [%d]", i.key(), i.value());
 	}
+}
+
+void MusicDBWindow::SlotAlbumTopMenuAction(int menuID)
+{
+	LogDebug("click top menu [%d]", menuID);
+
 }
 
 void MusicDBWindow::SlotAlbumFavorite(int nFavorite)
@@ -557,13 +551,13 @@ void MusicDBWindow::SlotRespClassifyComposer(QList<CJsonNode> list)
 	m_pInfoHome->GetFormClassify()->SetClassifyComposerMenu(list);
 }
 
-void MusicDBWindow::SlotFilterFavorite(int nFavorite)
+void MusicDBWindow::SlotClassifyFavorite(int nFavorite)
 {
 	m_nFavorite = nFavorite;
 	RequestMusicDBHome();
 }
 
-void MusicDBWindow::SlotFilterRating(int nRating)
+void MusicDBWindow::SlotClassifyRating(int nRating)
 {
 	m_nRating = nRating;
 	RequestMusicDBHome();
@@ -634,11 +628,11 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 
-//	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassify()), this, SLOT(SlotFilterClassify()));
-	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigFavorite(int)), this, SLOT(SlotFilterFavorite(int)));
-	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigRating(int)), this, SLOT(SlotFilterRating(int)));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyFavorite(int)), this, SLOT(SlotClassifyFavorite(int)));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyRating(int)), this, SLOT(SlotClassifyRating(int)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyArtist(bool, QString)), this, SLOT(SlotClassifyArtist(bool, QString)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyGenre(bool, QString)), this, SLOT(SlotClassifyGenre(bool, QString)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
@@ -655,9 +649,10 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotAlbumPlayAll()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotAlbumPlayRandom()));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotAlbumSubmenu()));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigFavorite(int)), this, SLOT(SlotAlbumFavorite(int)));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigRating(int)), this, SLOT(SlotAlbumRating(int)));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayFavorite(int)), this, SLOT(SlotAlbumFavorite(int)));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRating(int)), this, SLOT(SlotAlbumRating(int)));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotAlbumPlayTopMenu()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotAlbumTopMenuAction(int)));
 
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort(int)), this, SLOT(SlotAlbumSort(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotAlbumIncDec(bool)));
@@ -678,6 +673,70 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
 
 
+}
+
+void MusicDBWindow::Initialize()
+{
+	m_pInfoHome->GetFormPlay()->ShowPlayAll();
+	m_pInfoHome->GetFormPlay()->ShowPlayRandom();
+	m_pInfoHome->GetFormPlay()->ShowPlayTopMenu();
+
+	m_pInfoHome->GetFormSort()->ShowSort();
+	m_pInfoHome->GetFormSort()->ShowIncDec();
+	m_pInfoHome->GetFormSort()->ShowResize();
+	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
+
+	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
+	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
+	m_pInfoTracks->GetFormPlay()->ShowPlayFavorite();
+	m_pInfoTracks->GetFormPlay()->ShowPlayRating();
+	m_pInfoTracks->GetFormPlay()->ShowPlayTopMenu();
+
+	m_pInfoTracks->GetFormSort()->ShowSort();
+	m_pInfoTracks->GetFormSort()->ShowIncDec();
+	m_pInfoTracks->GetFormSort()->ShowResize();
+	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
+
+	SetSelectOffTopMenu();
+}
+
+void MusicDBWindow::SetSelectOffTopMenu()
+{
+	m_TopMenu.clear();
+	m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+	m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+	m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+	m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+	m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
+	m_TopMenu.insert(TOP_MENU_LOAD_COUNT, STR_LOAD_COUNT);
+	m_TopMenu.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+	m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
+	m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+
+	m_pInfoHome->GetFormPlay()->ClearTopMenu();
+	m_pInfoHome->GetFormPlay()->SetTopMenu(m_TopMenu);
+
+	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
+	m_pInfoTracks->GetFormPlay()->SetTopMenu(m_TopMenu);
+}
+
+void MusicDBWindow::SetSelectOnTopMenu()
+{
+	m_TopMenu.clear();
+	m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+	m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+	m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+	m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+	m_TopMenu.insert(TOP_MENU_ADD_PLAYLIST, STR_ADD_PLAYLIST);
+	m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
+	m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+
+	m_pInfoHome->GetFormPlay()->ClearTopMenu();
+	m_pInfoHome->GetFormPlay()->SetTopMenu(m_TopMenu);
+
+	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
+	m_pInfoTracks->GetFormPlay()->SetTopMenu(m_TopMenu);
 }
 
 void MusicDBWindow::SetCoverArt(QString coverArt)

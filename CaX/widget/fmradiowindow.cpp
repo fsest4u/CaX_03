@@ -10,6 +10,7 @@
 
 #include "manager/fmradiomanager.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
@@ -30,7 +31,7 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoService->SetSubmenuFmRadio();
-	m_pInfoService->GetFormPlay()->ShowSubmenu();
+	m_pInfoService->GetFormPlay()->ShowPlayTopMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 
 }
@@ -66,9 +67,28 @@ void FMRadioWindow::RequestList()
 	m_pMgr->RequestList();
 }
 
-void FMRadioWindow::SlotSubmenu()
+void FMRadioWindow::SlotPlayTopMenu()
 {
-	LogDebug("click sub menu");
+	QMap<int, bool> map = m_pIconService->GetSelectMap();
+	if (map.count() > 0)
+	{
+		SetSelectOnTopMenu();
+	}
+	else
+	{
+		SetSelectOffTopMenu();
+	}
+	// for debug
+	QMap<int, bool>::iterator i;
+	for (i = map.begin(); i!= map.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+	}
+}
+
+void FMRadioWindow::SlotTopMenuAction(int menuID)
+{
+	LogDebug("click top menu [%d]", menuID);
 //	LogDebug("click sub menu [%d]", nID);
 //	if (InfoService::FM_SEARCH_ALL_DELETE == nID)
 //	{
@@ -129,9 +149,34 @@ void FMRadioWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
 
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
+}
+
+void FMRadioWindow::SetSelectOffTopMenu()
+{
+	m_TopMenu.clear();
+
+	m_TopMenu.insert(TOP_MENU_SEARCH_ALL_N_DELETE, STR_SEARCH_ALL_N_DELETE);
+	m_TopMenu.insert(TOP_MENU_SEARCH_ALL, STR_SEARCH_ALL);
+	m_TopMenu.insert(TOP_MENU_ADD_ITEM, STR_ADD_ITEM);
+	m_TopMenu.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
+
+	m_pInfoService->GetFormPlay()->ClearTopMenu();
+	m_pInfoService->GetFormPlay()->SetTopMenu(m_TopMenu);
+}
+
+void FMRadioWindow::SetSelectOnTopMenu()
+{
+	m_TopMenu.clear();
+
+	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+	m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+
+	m_pInfoService->GetFormPlay()->ClearTopMenu();
+	m_pInfoService->GetFormPlay()->SetTopMenu(m_TopMenu);
 }
 
 void FMRadioWindow::SetHome(QList<CJsonNode> &list)

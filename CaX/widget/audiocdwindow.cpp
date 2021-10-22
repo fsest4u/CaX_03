@@ -3,6 +3,7 @@
 
 #include "manager/audiocdmanager.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
@@ -36,7 +37,7 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoTracks->GetFormPlay()->ShowSubmenu();
+	m_pInfoTracks->GetFormPlay()->ShowPlayTopMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
 }
 
@@ -187,17 +188,29 @@ void AudioCDWindow::SlotCalcTotalTime(int time)
 	//	m_pInfoTracks->SetInfo( MakeInfo() );
 }
 
-void AudioCDWindow::SlotSubmenu()
+void AudioCDWindow::SlotPlayTopMenu()
 {
-	LogDebug("click sub menu");
-	// todo-dylee
 	QMap<int, bool> map = m_pIconTracks->GetSelectMap();
+	if (map.count() > 0)
+	{
+		SetSelectOnTopMenu();
+	}
+	else
+	{
+		SetSelectOffTopMenu();
+	}
 	// for debug
 	QMap<int, bool>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
 		LogDebug("key [%d] value [%d]", i.key(), i.value());
 	}
+}
+
+void AudioCDWindow::SlotTopMenuAction(int menuID)
+{
+	LogDebug("click top menu [%d]", menuID);
+
 }
 
 void AudioCDWindow::SlotResize()
@@ -219,8 +232,31 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
 
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+}
+
+void AudioCDWindow::SetSelectOffTopMenu()
+{
+	m_TopMenu.clear();
+
+	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+	m_TopMenu.insert(TOP_MENU_EJECT_CD, STR_EJECT_CD);
+
+	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
+	m_pInfoTracks->GetFormPlay()->SetTopMenu(m_TopMenu);
+}
+
+void AudioCDWindow::SetSelectOnTopMenu()
+{
+	m_TopMenu.clear();
+
+	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+
+	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
+	m_pInfoTracks->GetFormPlay()->SetTopMenu(m_TopMenu);
 }
 
 QString AudioCDWindow::MakeInfo()

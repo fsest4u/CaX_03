@@ -38,7 +38,7 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormPlay()->ShowSubmenu();
+	m_pInfoService->GetFormPlay()->ShowPlayTopMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 
 }
@@ -106,11 +106,17 @@ void BrowserWindow::SlotPlayRandom()
 	m_pMgr->RequestRandom();
 }
 
-void BrowserWindow::SlotSubmenu()
+void BrowserWindow::SlotPlayTopMenu()
 {
-	LogDebug("click sub menu");
-	// todo-dylee
 	QMap<int, bool> map = m_pIconService->GetSelectMap();
+	if (map.count() > 0)
+	{
+//		SetSelectOnTopMenu();
+	}
+	else
+	{
+//		SetSelectOffTopMenu();
+	}
 	// for debug
 	QMap<int, bool>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
@@ -119,12 +125,26 @@ void BrowserWindow::SlotSubmenu()
 	}
 
 	QMap<int, bool> map2 = m_pListService->GetSelectMap();
+	if (map2.count() > 0)
+	{
+//		SetSelectOnTopMenu();
+	}
+	else
+	{
+//		SetSelectOffTopMenu();
+	}
 	// for debug
 	QMap<int, bool>::iterator i2;
 	for (i2 = map2.begin(); i2!= map2.end(); i2++)
 	{
 		LogDebug("key2 [%d] value2 [%d]", i2.key(), i2.value());
 	}
+}
+
+void BrowserWindow::SlotTopMenuAction(int menuID)
+{
+	LogDebug("click top menu [%d]", menuID);
+
 }
 
 void BrowserWindow::SlotResize()
@@ -263,7 +283,8 @@ void BrowserWindow::ConnectSigToSlot()
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigSubmenu()), this, SLOT(SlotSubmenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }

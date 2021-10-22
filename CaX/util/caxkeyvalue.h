@@ -230,7 +230,10 @@
 #define		VAL_RESULT			"Result"
 #define		VAL_INFO			"Info"
 
-
+#define		VAL_PLAY_NOW		0
+#define		VAL_PLAY_LAST		1
+#define		VAL_PLAY_NEXT		2
+#define		VAL_PLAY_CLEAR		3
 
 
 #endif // CAXCOMMAND_H

@@ -7,7 +7,7 @@
 #include "sqlmanager.h"
 
 #include "util/CJsonNode.h"
-#include "util/caxconstants.h"
+#include "util/caxkeyvalue.h"
 
 
 class SQLManager;
@@ -56,9 +56,9 @@ public:
 								int nStartIndex = 0,
 								int nLimitCount = 100);
 
-	void RequestPlayCategoryItems(int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestPlayCategoryItem(int nID, int nWhere = PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestPlaySong(int nID, int nWhere = PLAY_CLEAR);
+	void RequestPlayCategoryItems(int nWhere = VAL_PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestPlayCategoryItem(int nID, int nWhere = VAL_PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestPlaySong(int nID, int nWhere = VAL_PLAY_CLEAR);
 	void RequestUpdateFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestUpdateRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
 

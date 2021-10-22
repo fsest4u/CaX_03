@@ -5,28 +5,16 @@
 
 FormPlay::FormPlay(QWidget *parent) :
 	QWidget(parent),
+	m_TopMenu(new QMenu(this)),
 	m_Favorite(0),
 	m_Rating(0),
 	ui(new Ui::FormPlay)
 {
 	ui->setupUi(this);
 
-	ui->labelPlayAll->hide();
-	ui->labelPlayRandom->hide();
-	ui->labelFavorite->hide();
-	ui->labelSubmenu->hide();
-	ui->frameRating->hide();
+	ConnectSigToSlot();
+	Initialize();
 
-	ui->labelPlayAll->installEventFilter(this);
-	ui->labelPlayRandom->installEventFilter(this);
-	ui->labelFavorite->installEventFilter(this);
-	ui->labelSubmenu->installEventFilter(this);
-
-	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
-	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
-	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
-	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
-	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 }
 
 FormPlay::~FormPlay()
@@ -44,19 +32,19 @@ void FormPlay::ShowPlayRandom()
 	ui->labelPlayRandom->show();
 }
 
-void FormPlay::ShowFavorite()
+void FormPlay::ShowPlayFavorite()
 {
 	ui->labelFavorite->show();
 }
 
-void FormPlay::ShowRating()
+void FormPlay::ShowPlayRating()
 {
 	ui->frameRating->show();
 }
 
-void FormPlay::ShowSubmenu()
+void FormPlay::ShowPlayTopMenu()
 {
-	ui->labelSubmenu->show();
+	ui->btnTopMenu->show();
 }
 
 int FormPlay::GetRating() const
@@ -104,7 +92,25 @@ void FormPlay::SetRating(int Rating)
 					  border-image: url(\":/resource/play-btn28-rank-sel0@3x.png\");	\
 					}").arg(style);
 
-	ui->frameRating->setStyleSheet(style);
+					ui->frameRating->setStyleSheet(style);
+}
+
+void FormPlay::ClearTopMenu()
+{
+	disconnect(m_TopMenu, SIGNAL(triggered(QAction*)));
+	m_TopMenu->clear();
+}
+
+void FormPlay::SetTopMenu(QMap<int, QString> map)
+{
+	QMap<int, QString>::iterator i;
+	for (i = map.begin(); i != map.end(); i++)
+	{
+		QAction *action = new QAction(i.value(), this);
+		action->setData(i.key());
+		m_TopMenu->addAction(action);
+	}
+	connect(m_TopMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotTopMenuAction(QAction*)));
 }
 
 int FormPlay::GetFavorite() const
@@ -167,12 +173,9 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 			{
 				SetFavorite(0);
 			}
-			emit SigFavorite(m_Favorite);
+			emit SigPlayFavorite(m_Favorite);
 		}
-		else if (object == ui->labelSubmenu)
-		{
-			emit SigSubmenu();
-		}
+
 	}
 
 	return QObject::eventFilter(object, event);
@@ -182,30 +185,67 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 void FormPlay::SlotBtnRating1()
 {
 	SetRating(1);
-	SigRating(m_Rating);
+	emit SigPlayRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating2()
 {
 	SetRating(2);
-	SigRating(m_Rating);
+	emit SigPlayRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating3()
 {
 	SetRating(3);
-	SigRating(m_Rating);
+	emit SigPlayRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating4()
 {
 	SetRating(4);
-	SigRating(m_Rating);
+	emit SigPlayRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating5()
 {
 	SetRating(5);
-	SigRating(m_Rating);
+	emit SigPlayRating(m_Rating);
+}
+
+void FormPlay::SlotBtnTopMenu()
+{
+	emit SigPlayTopMenu();
+}
+
+void FormPlay::SlotTopMenuAction(QAction *action)
+{
+	emit SigTopMenuAction(action->data().toInt());
+}
+
+void FormPlay::ConnectSigToSlot()
+{
+	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
+	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
+	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
+	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
+	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
+
+	connect(ui->btnTopMenu, SIGNAL(pressed()), this, SLOT(SlotBtnTopMenu()));
+}
+
+void FormPlay::Initialize()
+{
+	ui->btnTopMenu->setMenu(m_TopMenu);
+
+	ui->labelPlayAll->hide();
+	ui->labelPlayRandom->hide();
+	ui->labelFavorite->hide();
+	ui->frameRating->hide();
+	ui->btnTopMenu->hide();
+
+	ui->labelPlayAll->installEventFilter(this);
+	ui->labelPlayRandom->installEventFilter(this);
+	ui->labelFavorite->installEventFilter(this);
+
 }
 

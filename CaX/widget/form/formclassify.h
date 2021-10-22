@@ -35,8 +35,8 @@ public:
 signals:
 
 	//	void SigClassify();
-	void SigFavorite(int nFavorite);
-	void SigRating(int nRating);
+	void SigClassifyFavorite(int nFavorite);
+	void SigClassifyRating(int nRating);
 	void SigClassifyArtist(bool bAdd, QString id);
 	void SigClassifyGenre(bool bAdd, QString id);
 	void SigClassifyComposer(bool bAdd, QString id);
@@ -59,8 +59,8 @@ private slots:
 
 private:
 
-	void SetClassifyMenu();
-
+	void ConnectSigToSlot();
+	void Initialize();
 
 	QMenu		*m_ClassifyMenu;
 	QMenu		*m_GenreMenu;

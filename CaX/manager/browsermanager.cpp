@@ -96,7 +96,7 @@ void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringLis
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_BROWSER);
 	node.Add	(KEY_CMD1,		VAL_PLAY);
-	node.AddInt	(KEY_WHERE,		PLAY_CLEAR);
+	node.AddInt	(KEY_WHERE,		VAL_PLAY_CLEAR);
 	node.Add(KEY_SUB_DIR, m_bSubDir);
 	node.Add(KEY_ROOT, root);
 	if (dirs.count() > 0)

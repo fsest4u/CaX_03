@@ -56,9 +56,8 @@ private slots:
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
-	void SlotGetFavorite();
-	void SlotGetRating();
-	void SlotSubmenu();
+	void SlotPlayTopMenu();
+	void SlotTopMenuAction(int menuID);
 
 	void SlotSort(int sort);
 	void SlotIncDec(bool bIncrease);
@@ -72,7 +71,8 @@ private slots:
 
 	void SlotAlbumPlayAll();
 	void SlotAlbumPlayRandom();
-	void SlotAlbumSubmenu();
+	void SlotAlbumPlayTopMenu();
+	void SlotAlbumTopMenuAction(int menuID);
 	void SlotAlbumFavorite(int nFavorite);
 	void SlotAlbumRating(int nRating);
 	void SlotAlbumSort(int sort);
@@ -96,8 +96,8 @@ private slots:
 	void SlotRespClassifyGenre(QList<CJsonNode> list);
 	void SlotRespClassifyComposer(QList<CJsonNode> list);
 
-	void SlotFilterFavorite(int nFavorite);
-	void SlotFilterRating(int nRating);
+	void SlotClassifyFavorite(int nFavorite);
+	void SlotClassifyRating(int nRating);
 	void SlotClassifyArtist(bool bAdd, QString id);
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
@@ -107,6 +107,9 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
+	void SetSelectOffTopMenu();
+	void SetSelectOnTopMenu();
 
 	void SetCoverArt(QString coverArt);
 
@@ -126,6 +129,8 @@ private:
 
 //	QThread			*m_pCatThread;
 //	QThread			*m_pSongThread;
+
+	QMap<int, QString> m_TopMenu;
 
 	int				m_nCategory;
 	int				m_nID;

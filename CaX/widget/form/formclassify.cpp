@@ -19,18 +19,9 @@ FormClassify::FormClassify(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->labelFavorite->installEventFilter(this);
-	ui->labelArtist->installEventFilter(this);
-	ui->labelGenre->installEventFilter(this);
-	ui->labelComposer->installEventFilter(this);
+	ConnectSigToSlot();
+	Initialize();
 
-	SetClassifyMenu();
-
-	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
-	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
-	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
-	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
-	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 }
 
 FormClassify::~FormClassify()
@@ -218,7 +209,7 @@ bool FormClassify::eventFilter(QObject *object, QEvent *event)
 			{
 				SetFavorite(0);
 			}
-			emit SigFavorite(m_Favorite);
+			emit SigClassifyFavorite(m_Favorite);
 		}
 		else if (object == ui->labelArtist)
 		{
@@ -268,34 +259,43 @@ void FormClassify::SlotComposerMenu(QAction *action)
 void FormClassify::SlotBtnRating1()
 {
 	SetRating(1);
-	SigRating(m_Rating);
+	emit SigClassifyRating(m_Rating);
 }
 
 void FormClassify::SlotBtnRating2()
 {
 	SetRating(2);
-	SigRating(m_Rating);
+	emit SigClassifyRating(m_Rating);
 }
 
 void FormClassify::SlotBtnRating3()
 {
 	SetRating(3);
-	SigRating(m_Rating);
+	emit SigClassifyRating(m_Rating);
 }
 
 void FormClassify::SlotBtnRating4()
 {
 	SetRating(4);
-	SigRating(m_Rating);
+	emit SigClassifyRating(m_Rating);
 }
 
 void FormClassify::SlotBtnRating5()
 {
 	SetRating(5);
-	SigRating(m_Rating);
+	emit SigClassifyRating(m_Rating);
 }
 
-void FormClassify::SetClassifyMenu()
+void FormClassify::ConnectSigToSlot()
+{
+	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
+	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
+	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
+	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
+	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
+}
+
+void FormClassify::Initialize()
 {
 //	m_ClassifyMenu->setStyleSheet("QMenu { menu-scrollable: 1; }");
 
@@ -310,4 +310,11 @@ void FormClassify::SetClassifyMenu()
 	ui->labelComposer->hide();
 	ui->labelTemp->hide();
 	ui->labelTemp_2->hide();
+
+	ui->labelFavorite->installEventFilter(this);
+	ui->labelArtist->installEventFilter(this);
+	ui->labelGenre->installEventFilter(this);
+	ui->labelComposer->installEventFilter(this);
+
 }
+

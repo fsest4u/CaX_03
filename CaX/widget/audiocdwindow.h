@@ -43,13 +43,16 @@ private slots:
 	void SlotSelectTitle(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
 
-	void SlotSubmenu();
+	void SlotPlayTopMenu();
+	void SlotTopMenuAction(int menuID);
 	void SlotResize();
 
 
 private:
 
 	void ConnectSigToSlot();
+	void SetSelectOffTopMenu();
+	void SetSelectOnTopMenu();
 	QString MakeInfo();
 
 
@@ -57,6 +60,8 @@ private:
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
+
+	QMap<int, QString>	m_TopMenu;
 
 	QString				m_TotalCount;
 	QString				m_TotalTime;
