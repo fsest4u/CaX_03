@@ -110,7 +110,6 @@ void FormPlay::SetTopMenu(QMap<int, QString> map)
 		action->setData(i.key());
 		m_TopMenu->addAction(action);
 	}
-	connect(m_TopMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotTopMenuAction(QAction*)));
 }
 
 int FormPlay::GetFavorite() const
@@ -231,6 +230,7 @@ void FormPlay::ConnectSigToSlot()
 	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 
 	connect(ui->btnTopMenu, SIGNAL(pressed()), this, SLOT(SlotBtnTopMenu()));
+
 }
 
 void FormPlay::Initialize()
@@ -247,5 +247,6 @@ void FormPlay::Initialize()
 	ui->labelPlayRandom->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
 
+	connect(m_TopMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotTopMenuAction(QAction*)));
 }
 

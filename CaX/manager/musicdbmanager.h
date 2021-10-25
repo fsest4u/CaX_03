@@ -24,9 +24,10 @@ public:
 		MUSICDB_CATEGORY_LIST,
 		MUSICDB_CATEGORY_INFO,
 		MUSICDB_SONGS_OF_CATEGORY,
-		MUSICDB_PLAY_CATEGORY_ITEMS,
-		MUSICDB_PLAY_CATEGORY_ITEM,
-		MUSICDB_PLAY_SONG,
+//		MUSICDB_PLAY_CATEGORY_ITEMS,
+//		MUSICDB_PLAY_CATEGORY_ITEM,
+//		MUSICDB_PLAY_SONG,
+		MUSICDB_MANAGE_CATEGORY,
 		MUSICDB_UPDATE_CATEGORY_FAVORITE,
 		MUSICDB_UPDATE_CATEGORY_RATING,
 		MUSICDB_UPDATE_TRACK_FAVORITE,
@@ -56,9 +57,19 @@ public:
 								int nStartIndex = 0,
 								int nLimitCount = 100);
 
-	void RequestPlayCategoryItems(int nWhere = VAL_PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestPlayCategoryItem(int nID, int nWhere = VAL_PLAY_CLEAR, int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestPlaySong(int nID, int nWhere = VAL_PLAY_CLEAR);
+	void RequestManageCategory(QString cmd1,
+							   QMap<int, bool> idMap,
+							   int nWhere = VAL_PLAY_NONE,
+							   int nCategory = SQLManager::CATEGORY_ALBUM,
+							   int eventID = -1);
+
+	CJsonNode MakeNodeYear(QString cmd1, int nWhere, QString strCat, int eventID = -1);
+	CJsonNode MakeNodeYearSelect(QString cmd1, QMap<int, bool> idMap, int nWhere, int eventID = -1);
+	CJsonNode MakeNodeTrack(QString cmd1, int nWhere, int eventID = -1);
+	CJsonNode MakeNodeTrackSelect(QString cmd1, QMap<int, bool> idMap, int nWhere, int eventID = -1);
+	CJsonNode MakeNodeCategory(QString cmd1, int nWhere, QString strCat, int eventID = -1);
+	CJsonNode MakeNodeCategorySelect(QString cmd1, QMap<int, bool> idMap, int nWhere, QString strCat, int eventID = -1);
+
 	void RequestUpdateFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestUpdateRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
 

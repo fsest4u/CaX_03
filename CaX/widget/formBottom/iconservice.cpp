@@ -191,6 +191,56 @@ void IconService::SetViewMode(QListView::ViewMode mode)
 
 }
 
+void IconService::ClearSelectMap()
+{
+	m_pLoading->Start();
+
+	int count = m_Model->rowCount();
+	LogDebug("count [%d]", count);
+	for (int i = 0; i < count; i++)
+	{
+		QModelIndex index = m_Model->index(i, 0);
+		QStandardItem *item = m_Model->itemFromIndex(index);
+		bool bSelect = qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
+		if (bSelect)
+		{
+			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
+
+//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(index);
+
+			int id = qvariant_cast<int>(item->data(IconServiceDelegate::ICON_SERVICE_ID));
+			m_SelectMap.remove(id);
+		}
+	}
+	m_pLoading->Stop();
+}
+
+void IconService::SetAllSelectMap()
+{
+	m_pLoading->Start();
+
+	int count = m_Model->rowCount();
+	LogDebug("count [%d]", count);
+	for (int i = 0; i < count; i++)
+	{
+		QModelIndex index = m_Model->index(i, 0);
+		QStandardItem *item = m_Model->itemFromIndex(index);
+		bool bSelect = qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
+		if (!bSelect)
+		{
+			item->setData(true, IconServiceDelegate::ICON_SERVICE_SELECT);
+
+//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(index);
+
+			int id = qvariant_cast<int>(item->data(IconServiceDelegate::ICON_SERVICE_ID));
+			m_SelectMap.insert(id, true);
+		}
+	}
+	m_pLoading->Stop();
+}
+
 QMap<int, bool> IconService::GetSelectMap() const
 {
 	return m_SelectMap;
@@ -217,17 +267,17 @@ void IconService::SlotDoubleClickItem(const QModelIndex &index)
 	bool bSelect = !qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
 	item->setData(bSelect, IconServiceDelegate::ICON_SERVICE_SELECT);
 
-	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(modelIndex);
+//	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(index);
 
-	int row = index.row();
+	int id = qvariant_cast<int>(item->data(IconServiceDelegate::ICON_SERVICE_ID));
 	if (bSelect)
 	{
-		m_SelectMap.insert(row, bSelect);
+		m_SelectMap.insert(id, bSelect);
 	}
 	else
 	{
-		m_SelectMap.remove(row);
+		m_SelectMap.remove(id);
 	}
 
 }

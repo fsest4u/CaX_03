@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     dialog/cdripinfodialog.cpp \
+    dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
     dialog/poweroffdialog.cpp \
     dialog/searchdialog.cpp \
@@ -89,6 +90,7 @@ SOURCES += \
 
 HEADERS += \
     dialog/cdripinfodialog.h \
+    dialog/limitcountdialog.h \
     dialog/logindialog.h \
     dialog/poweroffdialog.h \
     dialog/requestinterceptor.h \
@@ -178,6 +180,7 @@ HEADERS += \
 
 FORMS += \
     dialog/cdripinfodialog.ui \
+    dialog/limitcountdialog.ui \
     dialog/logindialog.ui \
     dialog/poweroffdialog.ui \
     dialog/searchdialog.ui \

@@ -23,7 +23,7 @@ class MusicDBWindow : public QWidget
 	Q_OBJECT
 
 public:
-	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "");
+	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~MusicDBWindow();
 
 	void RequestMusicDBHome();
@@ -69,15 +69,15 @@ private slots:
 	void SlotTrackList();
 	void SlotSubmenu2();
 
-	void SlotAlbumPlayAll();
-	void SlotAlbumPlayRandom();
-	void SlotAlbumPlayTopMenu();
-	void SlotAlbumTopMenuAction(int menuID);
-	void SlotAlbumFavorite(int nFavorite);
-	void SlotAlbumRating(int nRating);
-	void SlotAlbumSort(int sort);
-	void SlotAlbumIncDec(bool bIncrease);
-	void SlotAlbumResize();
+	void SlotCategoryPlayAll();
+	void SlotCategoryPlayRandom();
+	void SlotCategoryPlayTopMenu();
+	void SlotCategoryTopMenuAction(int menuID);
+	void SlotCategoryFavorite(int nFavorite);
+	void SlotCategoryRating(int nRating);
+	void SlotCategorySort(int sort);
+	void SlotCategoryIncDec(bool bIncrease);
+	void SlotCategoryResize();
 
 	void SlotSelectPlay(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);
@@ -106,10 +106,33 @@ private slots:
 
 private:
 
+	enum {
+		MUSICDB_HOME = 0,
+		CATEGORY_HOME,
+		MUSICDB_MAX
+	};
+
 	void ConnectSigToSlot();
 	void Initialize();
+
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
+
+	void DoTopMenuPlay(int nWhere);
+	void DoTopMenuReload();
+	void DoTopMenuSetLimitCount(int count);
+	void DoTopMenuSelectAll();
+	void DoTopMenuUnselect();
+	void DoTopMenuGainSet();
+	void DoTopMenuGainClear();
+	void DoTopMenuAddPlaylist();
+
+	void DoCategoryTopMenuPlay(int nWhere);
+	void DoCategoryTopMenuSelectAll();
+	void DoCategoryTopMenuUnselect();
+	void DoCategoryTopMenuGainSet();
+	void DoCategoryTopMenuGainClear();
+	void DoCategoryTopMenuAddPlaylist();
 
 	void SetCoverArt(QString coverArt);
 
@@ -131,6 +154,10 @@ private:
 //	QThread			*m_pSongThread;
 
 	QMap<int, QString> m_TopMenu;
+	QMap<int, bool>	m_SelectItem;
+//	int				m_MusicDBType;
+
+	int				m_EventID;
 
 	int				m_nCategory;
 	int				m_nID;

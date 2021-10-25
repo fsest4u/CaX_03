@@ -308,8 +308,8 @@ void BrowserWindow::SetSelectOffTopMenu(int type)
 		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 		m_TopMenu.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
 	}
 	else
@@ -321,8 +321,8 @@ void BrowserWindow::SetSelectOffTopMenu(int type)
 		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 		m_TopMenu.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
 		m_TopMenu.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
 		m_TopMenu.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
@@ -346,8 +346,8 @@ void BrowserWindow::SetSelectOnTopMenu(int type)
 		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
 		m_TopMenu.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
 		m_TopMenu.insert(TOP_MENU_MOVE, STR_MOVE);
@@ -362,8 +362,8 @@ void BrowserWindow::SetSelectOnTopMenu(int type)
 		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
-		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 		m_TopMenu.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
 		m_TopMenu.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
 		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);

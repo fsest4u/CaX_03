@@ -99,6 +99,8 @@ void ListTracks::SetNodeList(QList<CJsonNode> list)
 void ListTracks::ClearNodeList()
 {
 	m_Model->clear();
+	m_NodeList.clear();
+	m_SelectMap.clear();
 	ui->gridLayout->removeWidget(m_ListView);
 }
 
@@ -111,6 +113,57 @@ void ListTracks::SetViewMode(QListView::ViewMode mode)
 {
 	m_ListView->setViewMode(mode);
 	m_Delegate->SetViewMode(mode);
+}
+
+void ListTracks::ClearSelectMap()
+{
+	m_pLoading->Start();
+
+	int count = m_Model->rowCount();
+	LogDebug("count [%d]", count);
+	for (int i = 0; i < count; i++)
+	{
+		QModelIndex index = m_Model->index(i, 0);
+		QStandardItem *item = m_Model->itemFromIndex(index);
+		bool bSelect = qvariant_cast<bool>(item->data(ListTracksDelegate::LIST_TRACKS_SELECT));
+		if (bSelect)
+		{
+			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
+
+//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(index);
+
+			int id = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_ID));
+			m_SelectMap.remove(id);
+		}
+	}
+
+	m_pLoading->Stop();
+}
+
+void ListTracks::SetAllSelectMap()
+{
+	m_pLoading->Start();
+
+	int count = m_Model->rowCount();
+	LogDebug("count [%d]", count);
+	for (int i = 0; i < count; i++)
+	{
+		QModelIndex index = m_Model->index(i, 0);
+		QStandardItem *item = m_Model->itemFromIndex(index);
+		bool bSelect = qvariant_cast<bool>(item->data(ListTracksDelegate::LIST_TRACKS_SELECT));
+		if (!bSelect)
+		{
+			item->setData(true, ListTracksDelegate::LIST_TRACKS_SELECT);
+
+//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(index);
+
+			int id = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_ID));
+			m_SelectMap.insert(id, true);
+		}
+	}
+	m_pLoading->Stop();
 }
 
 QMap<int, bool> ListTracks::GetSelectMap() const
@@ -167,17 +220,17 @@ void ListTracks::SlotDoubleClickItem(const QModelIndex &index)
 	bool bSelect = !qvariant_cast<bool>(item->data(ListTracksDelegate::LIST_TRACKS_SELECT));
 	item->setData(bSelect, ListTracksDelegate::LIST_TRACKS_SELECT);
 
-	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(modelIndex);
+//	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(index);
 
-	int row = index.row();
+	int id = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_ID));
 	if (bSelect)
 	{
-		m_SelectMap.insert(row, bSelect);
+		m_SelectMap.insert(id, bSelect);
 	}
 	else
 	{
-		m_SelectMap.remove(row);
+		m_SelectMap.remove(id);
 	}
 }
 

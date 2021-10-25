@@ -154,6 +154,9 @@
 #define		VAL_GROUP		"Group"
 #define		VAL_ALL			"All"
 #define		VAL_YEAR			"Year"
+#define		VAL_GAIN_SET			"GainSet"
+#define		VAL_GAIN_CLEAR			"GainClear"
+
 
 //////////////////////////////////////////////////
 // response - key
@@ -230,6 +233,7 @@
 #define		VAL_RESULT			"Result"
 #define		VAL_INFO			"Info"
 
+#define		VAL_PLAY_NONE		-1
 #define		VAL_PLAY_NOW		0
 #define		VAL_PLAY_LAST		1
 #define		VAL_PLAY_NEXT		2

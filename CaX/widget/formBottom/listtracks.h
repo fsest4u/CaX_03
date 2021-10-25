@@ -29,6 +29,9 @@ public:
 	QListView::ViewMode GetViewMode();
 	void SetViewMode(QListView::ViewMode mode);
 
+	void ClearSelectMap();
+	void SetAllSelectMap();
+
 	QMap<int, bool> GetSelectMap() const;
 	void SetSelectMap(const QMap<int, bool> &SelectMap);
 

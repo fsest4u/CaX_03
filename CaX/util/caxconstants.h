@@ -70,8 +70,8 @@ enum
 	TOP_MENU_LOAD_COUNT,
 	TOP_MENU_SELECT_ALL,
 	TOP_MENU_UNSELECT,
-	TOP_MENU_NORMAL_VOLUME,
-	TOP_MENU_NORMAL_VOLUME_INIT,
+	TOP_MENU_GAIN_SET,
+	TOP_MENU_GAIN_CLEAR,
 	// audio cd
 	TOP_MENU_CD_RIPPING,
 	TOP_MENU_EJECT_CD,
@@ -102,11 +102,11 @@ enum
 #define STR_PLAY_NEXT				tr("Play next")
 #define STR_PLAY_CLEAR				tr("Play clear")
 #define STR_RELOAD					tr("Reload")
-#define STR_LOAD_COUNT				tr("Load count - ")
+#define STR_LOAD_COUNT				tr("Load count - %1")
 #define STR_SELECT_ALL				tr("Select all")
 #define STR_UNSELECT				tr("Unselect")
-#define STR_NORMAL_VOLUME			tr("Normalize volume")
-#define STR_NORMAL_VOLUME_INIT		tr("Init normalize volume")
+#define STR_GAIN_SET				tr("Gain Set")
+#define STR_GAIN_CLEAR				tr("Gain Clear")
 // audio cd
 #define STR_CD_RIPPING				tr("CD Ripping")
 #define STR_EJECT_CD				tr("Eject CD")
@@ -117,10 +117,10 @@ enum
 #define STR_DELETE_ITEM				tr("Delete item")
 #define STR_EXPORT_TRACK			tr("Export track")
 // browser
-#define STR_OPTION_PLAY_SUBDIR		tr("Play subdirectories - ")
+#define STR_OPTION_PLAY_SUBDIR		tr("Play subdirectories - %1")
 #define STR_CONVERT_FORMAT    		tr("Conver Audio Format")
 #define STR_NEW_DIR           		tr("New Directory")
-#define STR_OPTION_OVERWRITE  		tr("Overwrite - ")
+#define STR_OPTION_OVERWRITE  		tr("Overwrite - %1")
 #define STR_MOVE              		tr("Move")
 #define STR_COPY              		tr("Copy")
 #define STR_SEARCH_COVERART   		tr("Search coverart")

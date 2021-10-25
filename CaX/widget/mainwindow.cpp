@@ -319,7 +319,6 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 
 		ObserverConnect();
 
-		DoMusicDBHome();
 	}
 }
 
@@ -403,6 +402,8 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	// todo-dylee
 	//	emit SigTaskList();
+
+	DoMusicDBHome();
 }
 
 void MainWindow::SlotSelectDevice(QString mac)
@@ -597,7 +598,7 @@ void MainWindow::DoDeviceListHome()
 
 void MainWindow::DoMusicDBHome()
 {
-	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr, m_nEventID);
 	widget->AddWidgetMusicDBHome();
 	SlotAddWidget(widget, tr("Music DB"));
 	widget->RequestMusicDBHome();
