@@ -70,15 +70,27 @@ enum
 	TOP_MENU_LOAD_COUNT,
 	TOP_MENU_SELECT_ALL,
 	TOP_MENU_UNSELECT,
-	TOP_MENU_NEW_PLAYLIST,
-	TOP_MENU_ADD_PLAYLIST,
 	TOP_MENU_NORMAL_VOLUME,
 	TOP_MENU_NORMAL_VOLUME_INIT,
+	// audio cd
+	TOP_MENU_CD_RIPPING,
+	TOP_MENU_EJECT_CD,
+	// playlist
+	TOP_MENU_NEW_PLAYLIST,
+	TOP_MENU_ADD_PLAYLIST,
 	TOP_MENU_ADD_ITEM,
 	TOP_MENU_DELETE_ITEM,
 	TOP_MENU_EXPORT_TRACK,
-	TOP_MENU_CD_RIPPING,
-	TOP_MENU_EJECT_CD,
+	// browser
+	TOP_MENU_OPTION_PLAY_SUBDIR,
+	TOP_MENU_CONVERT_FORMAT,
+	TOP_MENU_NEW_DIR,
+	TOP_MENU_OPTION_OVERWRITE,
+	TOP_MENU_MOVE,
+	TOP_MENU_COPY,
+	TOP_MENU_SEARCH_COVERART,
+	TOP_MENU_EDIT_TAG,
+	// radio
 	TOP_MENU_SEARCH_ALL_N_DELETE,
 	TOP_MENU_SEARCH_ALL,
 	TOP_MENU_RESERVED_RECORD_LIST,
@@ -93,15 +105,27 @@ enum
 #define STR_LOAD_COUNT				tr("Load count - ")
 #define STR_SELECT_ALL				tr("Select all")
 #define STR_UNSELECT				tr("Unselect")
-#define STR_NEW_PLAYLIST			tr("New playlist")
-#define STR_ADD_PLAYLIST			tr("Add playlist")
 #define STR_NORMAL_VOLUME			tr("Normalize volume")
 #define STR_NORMAL_VOLUME_INIT		tr("Init normalize volume")
+// audio cd
+#define STR_CD_RIPPING				tr("CD Ripping")
+#define STR_EJECT_CD				tr("Eject CD")
+// playlist
+#define STR_NEW_PLAYLIST			tr("New playlist")
+#define STR_ADD_PLAYLIST			tr("Add playlist")
 #define STR_ADD_ITEM				tr("Add item")
 #define STR_DELETE_ITEM				tr("Delete item")
 #define STR_EXPORT_TRACK			tr("Export track")
-#define STR_CD_RIPPING				tr("CD Ripping")
-#define STR_EJECT_CD				tr("Eject CD")
+// browser
+#define STR_OPTION_PLAY_SUBDIR		tr("Play subdirectories - ")
+#define STR_CONVERT_FORMAT    		tr("Conver Audio Format")
+#define STR_NEW_DIR           		tr("New Directory")
+#define STR_OPTION_OVERWRITE  		tr("Overwrite - ")
+#define STR_MOVE              		tr("Move")
+#define STR_COPY              		tr("Copy")
+#define STR_SEARCH_COVERART   		tr("Search coverart")
+#define STR_EDIT_TAG          		tr("Edit tag")
+// radio
 #define STR_SEARCH_ALL_N_DELETE		tr("Delete and search all")
 #define STR_SEARCH_ALL				tr("Search all")
 #define STR_RESERVE_RECORD_LIST		tr("Reserved record list")

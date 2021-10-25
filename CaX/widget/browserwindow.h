@@ -49,6 +49,8 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
+	void SetSelectOffTopMenu(int type);
+	void SetSelectOnTopMenu(int type);
 
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);
@@ -59,6 +61,8 @@ private:
 	InfoService			*m_pInfoService;
 	IconService			*m_pIconService;
 	ListService			*m_pListService;
+
+	QMap<int, QString>	m_TopMenu;
 
 	QString				m_Root;
 	QStringList			m_Dirs;

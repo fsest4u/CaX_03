@@ -3,6 +3,13 @@
 #include "playlistwindow.h"
 #include "ui_playlistwindow.h"
 
+#include "manager/playlistmanager.h"
+#include "manager/sqlmanager.h"
+
+#include "util/caxconstants.h"
+#include "util/caxkeyvalue.h"
+#include "util/log.h"
+
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
 
@@ -12,13 +19,6 @@
 #include "widget/formBottom/icontracksdelegate.h"
 #include "widget/formBottom/listtracks.h"
 #include "widget/formBottom/listtracksdelegate.h"
-
-#include "manager/playlistmanager.h"
-#include "manager/sqlmanager.h"
-
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
 
 PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),

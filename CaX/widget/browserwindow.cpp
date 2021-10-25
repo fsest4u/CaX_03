@@ -5,6 +5,7 @@
 
 #include "manager/browsermanager.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
@@ -287,6 +288,89 @@ void BrowserWindow::ConnectSigToSlot()
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
+}
+
+void BrowserWindow::SetSelectOffTopMenu(int type)
+{
+	m_TopMenu.clear();
+
+	if (iFolderType_Mask_Root & type)
+	{
+		m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
+
+	}
+	else if (iFolderType_Mask_Dir & type)
+	{
+		m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
+		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
+	}
+	else
+	{
+		m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
+		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+		m_TopMenu.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
+		m_TopMenu.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
+	}
+}
+
+void BrowserWindow::SetSelectOnTopMenu(int type)
+{
+	m_TopMenu.clear();
+
+	if (iFolderType_Mask_Root & type)
+	{
+		m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+	}
+	else if (iFolderType_Mask_Dir & type)
+	{
+		m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+		m_TopMenu.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
+		m_TopMenu.insert(TOP_MENU_MOVE, STR_MOVE);
+		m_TopMenu.insert(TOP_MENU_COPY, STR_COPY);
+	}
+	else
+	{
+		m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME, STR_NORMAL_VOLUME);
+		m_TopMenu.insert(TOP_MENU_NORMAL_VOLUME_INIT, STR_NORMAL_VOLUME_INIT);
+		m_TopMenu.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+		m_TopMenu.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
+		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+		m_TopMenu.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
+		m_TopMenu.insert(TOP_MENU_MOVE, STR_MOVE);
+		m_TopMenu.insert(TOP_MENU_COPY, STR_COPY);
+	}
 }
 
 void BrowserWindow::SetList(QList<CJsonNode> &list)
