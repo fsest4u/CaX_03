@@ -21,7 +21,7 @@ FormCoverArt::FormCoverArt(QWidget *parent) :
 	ui->labelPlay->hide();
 
 	ui->frameRating->installEventFilter(this);
-	ui->labelFavorite->installEventFilter(this);
+//	ui->labelFavorite->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 
 //	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
@@ -90,27 +90,35 @@ void FormCoverArt::SetFavorite(int Favorite)
 
 	if (m_Favorite == 0)
 	{
+//		style = QString("QLabel	\
+//						{	\
+//						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+//						}	\
+//						QLabel:hover	\
+//						{	\
+//						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+//						}");
+
 		style = QString("QLabel	\
 						{	\
 						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
-						}	\
-						QLabel:hover	\
-						{	\
-						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
 						}");
-
 	}
 	else
 	{
+//		style = QString("QLabel	\
+//						{	\
+//						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+//						}	\
+//						QLabel:hover	\
+//						{	\
+//						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+//						}");
+
 		style = QString("QLabel	\
 						{	\
 						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
-						}	\
-						QLabel:hover	\
-						{	\
-						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
 						}");
-
 	}
 	ui->labelFavorite->setStyleSheet(style);
 }
@@ -205,7 +213,7 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelFavorite)
 		{
-			emit SigFavorite(m_Favorite);
+//			emit SigFavorite(m_Favorite);
 		}
 		else if (object == ui->labelPlay)
 		{
