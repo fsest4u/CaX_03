@@ -55,12 +55,20 @@ void DabRadioManager::RequestSeekStop()
 	RequestCommand(node, DAB_SEEK_STOP);
 }
 
-void DabRadioManager::RequestDelete(int index)
+void DabRadioManager::RequestDelete(QMap<int, bool> idMap)
 {
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
+	}
+
 	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_INDEXES, idArr);
 	node.Add	(KEY_CMD0,		VAL_DAB_RADIO);
 	node.Add	(KEY_CMD1,		VAL_DEL);
-	node.AddInt	(KEY_INDEX,		index);
 
 	RequestCommand(node, DAB_DELETE);
 }

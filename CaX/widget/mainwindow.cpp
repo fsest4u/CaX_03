@@ -607,6 +607,7 @@ void MainWindow::DoMusicDBHome()
 void MainWindow::DoAudioCDHome()
 {
 	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
+	widget->AddWidgetAudioCDHome();
 	SlotAddWidget(widget, tr("Audio CD"));
 	widget->TrackList();
 }
@@ -644,6 +645,7 @@ void MainWindow::DoInputHome()
 void MainWindow::DoFmRadioHome()
 {
 	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr);
+	widget->AddWidgetFMRadioHome();
 	SlotAddWidget(widget, tr("FM radio"));
 	widget->RequestList();
 }
@@ -651,6 +653,7 @@ void MainWindow::DoFmRadioHome()
 void MainWindow::DoDabRadioHome()
 {
 	DABRadioWindow *widget = new DABRadioWindow(this, m_strAddr);
+	widget->AddWidgetDABRadioHome();
 	SlotAddWidget(widget, tr("DAB radio"));
 	widget->RequestList();
 }

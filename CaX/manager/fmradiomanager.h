@@ -15,7 +15,7 @@ public:
 	void RequestSeek(bool bDel);
 	void RequestSeekStop();
 	void RequestAdd(int64_t freq, QString name);
-	void RequestDelete(int index);
+	void RequestDelete(QMap<int, bool> idMap);
 	void RequestSet(int index, QString name);
 	void RequestRecordList();
 	void RequestRecordSet();
@@ -23,7 +23,8 @@ public:
 signals:
 
 	void SigRespError(QString errMsg);
-	void SigRespList(QList<CJsonNode> list);
+//	void SigRespList(QList<CJsonNode> list);
+	void SigRespList(CJsonNode node);
 	void SigRespRecordList(QList<CJsonNode> list);
 
 private slots:

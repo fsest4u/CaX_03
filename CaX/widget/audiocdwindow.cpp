@@ -1,3 +1,5 @@
+#include <QMessageBox>
+
 #include "audiocdwindow.h"
 #include "ui_audiocdwindow.h"
 
@@ -71,14 +73,19 @@ AudioCDWindow::~AudioCDWindow()
 
 }
 
-void AudioCDWindow::TrackList()
+void AudioCDWindow::AddWidgetAudioCDHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
+}
 
+
+void AudioCDWindow::TrackList()
+{
+	// todo-dylee
 	QList<int> list;
 	list.append(0);
-	CDRipInfo(-1, list);
+	m_pMgr->RequestCDRipInfo(-1, list);
 
 	m_pMgr->RequestTrackList();
 }
@@ -91,19 +98,6 @@ void AudioCDWindow::TrackInfo(int index)
 void AudioCDWindow::TrackPlay(int index)
 {
 	m_pMgr->RequestTrackPlay(index);
-}
-
-void AudioCDWindow::Eject()
-{
-	m_pMgr->RequestEject();
-
-	emit SigRemoveWidget(this);
-}
-
-void AudioCDWindow::CDRipInfo(int index, QList<int> list)
-{
-	// list does not contain track id. list contains index information
-	m_pMgr->RequestCDRipInfo(index, list);
 }
 
 void AudioCDWindow::CDRip(CJsonNode node, QList<CJsonNode> list)
@@ -175,11 +169,6 @@ void AudioCDWindow::SlotSelectTitle(int id, QString coverArt)
 	Q_UNUSED(coverArt)
 
 	TrackPlay(id);
-
-//	// temp_code, dylee
-//	QList<int> list;
-//	list.append(id - 1);
-//	CDRipInfo(-1, list);
 }
 
 void AudioCDWindow::SlotCalcTotalTime(int time)
@@ -190,8 +179,8 @@ void AudioCDWindow::SlotCalcTotalTime(int time)
 
 void AudioCDWindow::SlotPlayTopMenu()
 {
-	QMap<int, bool> map = m_pIconTracks->GetSelectMap();
-	if (map.count() > 0)
+	m_SelectItem = m_pIconTracks->GetSelectMap();
+	if (m_SelectItem.count() > 0)
 	{
 		SetSelectOnTopMenu();
 	}
@@ -199,18 +188,25 @@ void AudioCDWindow::SlotPlayTopMenu()
 	{
 		SetSelectOffTopMenu();
 	}
-	// for debug
-	QMap<int, bool>::iterator i;
-	for (i = map.begin(); i!= map.end(); i++)
-	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
-	}
+
 }
 
 void AudioCDWindow::SlotTopMenuAction(int menuID)
 {
-	LogDebug("click top menu [%d]", menuID);
-
+	switch (menuID) {
+	case TOP_MENU_SELECT_ALL:
+		DoTopMenuSelectAll();
+		break;
+	case TOP_MENU_UNSELECT:
+		DoTopMenuUnselect();
+		break;
+	case TOP_MENU_CD_RIPPING:
+		DoTopMenuCDRipping();
+		break;
+	case TOP_MENU_EJECT_CD:
+		DoTopMenuEjectCD();
+		break;
+	}
 }
 
 void AudioCDWindow::SlotResize()
@@ -241,7 +237,8 @@ void AudioCDWindow::SetSelectOffTopMenu()
 {
 	m_TopMenu.clear();
 
-	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+	m_TopMenu.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+//	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 	m_TopMenu.insert(TOP_MENU_EJECT_CD, STR_EJECT_CD);
 
 	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
@@ -253,10 +250,47 @@ void AudioCDWindow::SetSelectOnTopMenu()
 	m_TopMenu.clear();
 
 	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
-	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+//	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 
 	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
 	m_pInfoTracks->GetFormPlay()->SetTopMenu(m_TopMenu);
+}
+
+void AudioCDWindow::DoTopMenuSelectAll()
+{
+	m_pIconTracks->SetAllSelectMap();
+
+}
+
+void AudioCDWindow::DoTopMenuUnselect()
+{
+	m_pIconTracks->ClearSelectMap();
+
+}
+
+void AudioCDWindow::DoTopMenuCDRipping()
+{
+	// list does not contain track id. list contains index information
+	//	// temp_code, dylee
+
+	if (m_SelectItem.count() > 0)
+	{
+
+	}
+	else
+	{
+
+	}
+//	QList<int> list;
+//	list.append(id - 1);
+//	m_pMgr->RequestCDRipInfo(index, list);
+}
+
+void AudioCDWindow::DoTopMenuEjectCD()
+{
+	m_pMgr->RequestEject();
+
+	emit SigRemoveWidget(this);
 }
 
 QString AudioCDWindow::MakeInfo()

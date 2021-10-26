@@ -21,6 +21,7 @@ public:
 	explicit FMRadioWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~FMRadioWindow();
 
+	void AddWidgetFMRadioHome();
 	void RequestList();
 
 private slots:
@@ -29,8 +30,9 @@ private slots:
 	void SlotTopMenuAction(int menuID);
 	void SlotResize();
 
+	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int nType);
-	void SlotRespList(QList<CJsonNode> list);
+	void SlotRespList(CJsonNode node);
 	void SlotRespRecordList(QList<CJsonNode> list);
 
 private:
@@ -38,6 +40,14 @@ private:
 	void ConnectSigToSlot();
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
+
+	void DoTopMenuSearchAll(bool bDelete);
+	void DoTopMenuSelectAll();
+	void DoTopMenuUnselect();
+	void DoTopMenuAddItem();
+	void DoTopMenuDeleteItem();
+	void DoTopMenuReservedRecordList();
+
 	void SetHome(QList<CJsonNode> &list);
 
 	FmRadioManager		*m_pMgr;
@@ -45,6 +55,11 @@ private:
 	IconService			*m_pIconService;
 
 	QMap<int, QString>	m_TopMenu;
+	QMap<int, bool>		m_SelectItem;
+
+	int					m_FreqMax;
+	int					m_FreqMin;
+	int					m_FreqStep;
 
 	Ui::FMRadioWindow *ui;
 };

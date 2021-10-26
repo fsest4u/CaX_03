@@ -22,11 +22,10 @@ public:
 	explicit AudioCDWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~AudioCDWindow();
 
+	void AddWidgetAudioCDHome();
 	void TrackList();
 	void TrackInfo(int index);
 	void TrackPlay(int index);
-	void Eject();
-	void CDRipInfo(int index, QList<int> list);
 	void CDRip(CJsonNode node, QList<CJsonNode> list);
 
 signals:
@@ -53,6 +52,12 @@ private:
 	void ConnectSigToSlot();
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
+
+	void DoTopMenuSelectAll();
+	void DoTopMenuUnselect();
+	void DoTopMenuCDRipping();
+	void DoTopMenuEjectCD();
+
 	QString MakeInfo();
 
 
@@ -62,6 +67,7 @@ private:
 	ListTracks			*m_pListTracks;
 
 	QMap<int, QString>	m_TopMenu;
+	QMap<int, bool>		m_SelectItem;
 
 	QString				m_TotalCount;
 	QString				m_TotalTime;

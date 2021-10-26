@@ -21,6 +21,7 @@ public:
 	explicit DABRadioWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~DABRadioWindow();
 
+	void AddWidgetDABRadioHome();
 	void RequestList();
 
 private slots:
@@ -29,6 +30,7 @@ private slots:
 	void SlotTopMenuAction(int menuID);
 	void SlotResize();
 
+	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int nType);
 	void SlotRespList(QList<CJsonNode> list);
 	void SlotRespRecordList(QList<CJsonNode> list);
@@ -38,6 +40,13 @@ private:
 	void ConnectSigToSlot();
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
+
+	void DoTopMenuSearchAll(bool bDelete);
+	void DoTopMenuSelectAll();
+	void DoTopMenuUnselect();
+	void DoTopMenuDeleteItem();
+	void DoTopMenuReservedRecordList();
+
 	void SetHome(QList<CJsonNode> &list);
 
 	DabRadioManager	*m_pMgr;
@@ -45,6 +54,7 @@ private:
 	IconService		*m_pIconService;
 
 	QMap<int, QString>	m_TopMenu;
+	QMap<int, bool>		m_SelectItem;
 
 	Ui::DABRadioWindow *ui;
 };

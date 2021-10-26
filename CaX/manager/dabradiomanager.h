@@ -15,7 +15,7 @@ public:
 	void RequestSeek(bool bDel);
 	void RequestSeekStop();
 //	void RequestAdd();
-	void RequestDelete(int index);
+	void RequestDelete(QMap<int, bool> idMap);
 	void RequestSet(int index, QString name);
 	void RequestRecordList();
 	void RequestRecordSet();

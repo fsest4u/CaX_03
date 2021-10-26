@@ -56,12 +56,20 @@ InfoTracks::~InfoTracks()
 
 void InfoTracks::SetTitle(QString title)
 {
+	if (title.isEmpty())
+	{
+		title = tr("unknown");
+	}
 	m_pFormTitle->SetTitleFontSize(42);
 	m_pFormTitle->SetTitle(title);
 }
 
 void InfoTracks::SetSubtitle(QString subtitle)
 {
+	if (subtitle.isEmpty())
+	{
+		subtitle = tr("unknown");
+	}
 	m_pFormTitle->SetSubtitleFontSize(20);
 	m_pFormTitle->SetSubtitle(subtitle);
 }

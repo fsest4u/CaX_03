@@ -66,12 +66,20 @@ void FmRadioManager::RequestAdd(int64_t freq, QString name)
 	RequestCommand(node, FM_ADD);
 }
 
-void FmRadioManager::RequestDelete(int index)
+void FmRadioManager::RequestDelete(QMap<int, bool> idMap)
 {
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
+	}
+
 	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_INDEXES, idArr);
 	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
 	node.Add	(KEY_CMD1,		VAL_DEL);
-	node.AddInt	(KEY_INDEX,		index);
 
 	RequestCommand(node, FM_DELETE);
 }
@@ -137,6 +145,7 @@ void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 	case FM_SEEK:
 	case FM_ADD:
 	case FM_DELETE:
+		// response observe - todo-dylee
 		break;
 	case FM_RECORD_LIST:
 		ParseRecordList(node);
@@ -150,20 +159,22 @@ void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 
 void FmRadioManager::ParseList(CJsonNode node)
 {
-	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
-	{
-		emit SigRespError("there is no result");
-		return;
-	}
+//	CJsonNode result;
+//	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+//	{
+//		emit SigRespError("there is no result");
+//		return;
+//	}
 
-	QList<CJsonNode> nodeList;
-	for (int i = 0; i < result.ArraySize(); i++)
-	{
-		nodeList.append(result.GetArrayAt(i));
-	}
+//	QList<CJsonNode> nodeList;
+//	for (int i = 0; i < result.ArraySize(); i++)
+//	{
+//		nodeList.append(result.GetArrayAt(i));
+//	}
 
-	emit SigRespList(nodeList);
+//	emit SigRespList(nodeList);
+
+	emit SigRespList(node);
 }
 
 void FmRadioManager::ParseRecordList(CJsonNode node)

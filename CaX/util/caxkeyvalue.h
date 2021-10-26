@@ -25,6 +25,7 @@
 #define		KEY_TIME_STAMP		"TS"
 #define		KEY_PAGE_CNT		"PageCnt"
 #define		KEY_INDEX			"Index"
+#define		KEY_INDEXES			"Indexes"
 
 #define		KEY_TYPE			"Type"
 #define		KEY_NAME			"Name"
@@ -46,6 +47,9 @@
 #define		KEY_APP				"App"
 #define		KEY_CLEAR			"Clear"
 #define		KEY_FREQ			"Freq"
+#define		KEY_FREQ_MAX			"FreqMax"
+#define		KEY_FREQ_MIN			"FreqMin"
+#define		KEY_FREQ_STEP			"FreqStep"
 #define		KEY_GENRE_ID		"GenreID"
 #define		KEY_DIR_ONLY		"DirOnly"
 #define		KEY_IMAGE			"Image"
