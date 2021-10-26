@@ -117,8 +117,6 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	else if (ICON_SERVICE_FM_RADIO == nService
 			 || ICON_SERVICE_DAB_RADIO == nService)
 	{
-		LogDebug("todo-dylee dab radio");
-
 		foreach (CJsonNode node, m_NodeList)
 		{
 			QStandardItem *item = new QStandardItem;
@@ -126,6 +124,24 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
+			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+		}
+	}
+	else if (ICON_SERVICE_FM_RADIO_RECORD == nService
+			 || ICON_SERVICE_DAB_RADIO_RECORD == nService)
+	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+			QStandardItem *item = new QStandardItem;
+			item->setData(node.GetInt(KEY_ID_UPPER), IconServiceDelegate::ICON_SERVICE_ID);
+			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);
+			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
+			item->setData(node.GetString(KEY_TOP), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 

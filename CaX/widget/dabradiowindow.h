@@ -23,6 +23,11 @@ public:
 
 	void AddWidgetDABRadioHome();
 	void RequestList();
+	void RequestRecordList();
+
+signals:
+
+	void SigAddWidget(QWidget *widget, QString title);
 
 private slots:
 

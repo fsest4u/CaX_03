@@ -23,6 +23,12 @@ public:
 
 	void AddWidgetFMRadioHome();
 	void RequestList();
+	void RequestRecordList();
+
+signals:
+
+	void SigAddWidget(QWidget *widget, QString title);
+
 
 private slots:
 

@@ -21,6 +21,7 @@
 #include "util/log.h"
 
 #define MAIN_TITLE	"FM Radio"
+#define RESERVE_TITLE	"Reserved record list"
 
 FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
@@ -76,6 +77,11 @@ void FMRadioWindow::AddWidgetFMRadioHome()
 void FMRadioWindow::RequestList()
 {
 	m_pMgr->RequestList();
+}
+
+void FMRadioWindow::RequestRecordList()
+{
+	m_pMgr->RequestRecordList();
 }
 
 void FMRadioWindow::SlotPlayTopMenu()
@@ -159,14 +165,15 @@ void FMRadioWindow::SlotRespList(CJsonNode node)
 
 void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 {
-//	SetHome(list);
+	SetHome(list);
 
-//	m_pInfoService->SetSubtitle(MAIN_TITLE);
-//	m_pIconService->SetNodeList(list, IconService::SERVICE_FM_RADIO);
+	m_pInfoService->SetSubtitle(RESERVE_TITLE);
+	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_FM_RADIO_RECORD);
 }
 
 void FMRadioWindow::ConnectSigToSlot()
 {
+	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
 
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
@@ -190,7 +197,7 @@ void FMRadioWindow::SetSelectOffTopMenu()
 	m_TopMenu.insert(TOP_MENU_SEARCH_ALL, STR_SEARCH_ALL);
 	m_TopMenu.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	m_TopMenu.insert(TOP_MENU_ADD_ITEM, STR_ADD_ITEM);
-//	m_TopMenu.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
+	m_TopMenu.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
 
 	m_pInfoService->GetFormPlay()->ClearTopMenu();
 	m_pInfoService->GetFormPlay()->SetTopMenu(m_TopMenu);
@@ -249,7 +256,11 @@ void FMRadioWindow::DoTopMenuDeleteItem()
 
 void FMRadioWindow::DoTopMenuReservedRecordList()
 {
-	m_pMgr->RequestRecordList();
+	FMRadioWindow *widget = new FMRadioWindow(this, m_pMgr->GetAddr());
+	widget->AddWidgetFMRadioHome();
+	emit SigAddWidget(widget, STR_FM_RADIO);
+
+	widget->RequestRecordList();
 }
 
 void FMRadioWindow::SetHome(QList<CJsonNode> &list)
