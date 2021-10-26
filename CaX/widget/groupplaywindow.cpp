@@ -62,7 +62,7 @@ void GroupPlayWindow::GroupPlayList(int eventID)
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pIconService);
 
-	m_pInfoService->SetSubtitle(tr("Group play"));
+	m_pInfoService->SetSubtitle(STR_GROUP_PLAY);
 
 	m_pMgr->RequestGroupPlayList(m_nEventID);
 }
@@ -118,7 +118,7 @@ void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
 	CJsonNode node;
 	if (!node.SetContent(rawData))
 	{
-		LogCritical("invalid json");
+		SlotRespError(STR_INVALID_JSON);
 		return;
 	}
 

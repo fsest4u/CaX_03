@@ -1,8 +1,5 @@
 #include "musicdbmanager.h"
 
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
 
 
 MusicDBManager::MusicDBManager(QObject *parent)
@@ -156,7 +153,7 @@ CJsonNode MusicDBManager::MakeNodeYear(QString cmd1,
 	node.Add	(KEY_CMD0,	VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,	cmd1);
 	node.Add	(KEY_CMD2,	VAL_ALL);
-	if (nWhere != VAL_PLAY_NONE)
+	if (nWhere != PLAY_NONE)
 	{
 		node.AddInt	(KEY_WHERE,		nWhere);
 	}
@@ -186,7 +183,7 @@ CJsonNode MusicDBManager::MakeNodeYearSelect(QString cmd1,
 	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,		cmd1);
 	node.Add	(KEY_CMD2,		VAL_YEAR);
-	if (nWhere != VAL_PLAY_NONE)
+	if (nWhere != PLAY_NONE)
 	{
 		node.AddInt	(KEY_WHERE,		nWhere);
 	}
@@ -206,7 +203,7 @@ CJsonNode MusicDBManager::MakeNodeTrack(QString cmd1,
 	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,		cmd1);
 	node.Add	(KEY_CMD2,	VAL_ALL);
-	if (nWhere != VAL_PLAY_NONE)
+	if (nWhere != PLAY_NONE)
 	{
 		node.AddInt	(KEY_WHERE,		nWhere);
 	}
@@ -236,7 +233,7 @@ CJsonNode MusicDBManager::MakeNodeTrackSelect(QString cmd1,
 	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,		cmd1);
 	node.Add	(KEY_CMD2,		VAL_SONG);
-	if (nWhere != VAL_PLAY_NONE)
+	if (nWhere != PLAY_NONE)
 	{
 		node.AddInt	(KEY_WHERE,		nWhere);
 	}
@@ -262,7 +259,7 @@ CJsonNode MusicDBManager::MakeNodeCategory(QString cmd1,
 	node.Add	(KEY_CMD0,	VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,	cmd1);
 	node.Add	(KEY_CMD2,	VAL_ALL);
-	if (nWhere != VAL_PLAY_NONE)
+	if (nWhere != PLAY_NONE)
 	{
 		node.AddInt	(KEY_WHERE,		nWhere);
 	}
@@ -302,7 +299,7 @@ CJsonNode MusicDBManager::MakeNodeCategorySelect(QString cmd1,
 	node.Add(KEY_CMD0, VAL_MUSIC_DB);
 	node.Add(KEY_CMD1, cmd1);
 	node.Add(KEY_CMD2, VAL_CATEGORY);
-	if (nWhere != VAL_PLAY_NONE)
+	if (nWhere != PLAY_NONE)
 	{
 		node.AddInt	(KEY_WHERE,		nWhere);
 	}
@@ -389,7 +386,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -401,7 +398,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	{
 		if (message.isEmpty())
 		{
-			emit SigRespError("unknown error - message is empty");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
@@ -456,7 +453,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		ParseClassifyComposer(result);
 		break;
 	case MUSICDB_MAX:
-		emit SigRespError("invalid command id");
+		emit SigRespError(STR_INVALID_ID);
 		break;
 	}
 

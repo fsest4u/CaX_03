@@ -589,9 +589,9 @@ void MainWindow::DoDeviceListHome()
 //	ui->widgetTop->setDisabled(true);
 	ui->widgetPlay->setDisabled(true);
 
-	SlotAddWidget(m_pDeviceWin, tr("Select device"));
+	SlotAddWidget(m_pDeviceWin, STR_SELECT_DEVICE);
 
-	m_pDeviceWin->SetTitle(tr("Select device"));
+	m_pDeviceWin->SetTitle(STR_SELECT_DEVICE);
 	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
 
 }
@@ -600,7 +600,7 @@ void MainWindow::DoMusicDBHome()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr, m_nEventID);
 	widget->AddWidgetMusicDBHome();
-	SlotAddWidget(widget, tr("Music DB"));
+	SlotAddWidget(widget, STR_MUSIC_DB);
 	widget->RequestMusicDBHome();
 }
 
@@ -608,21 +608,21 @@ void MainWindow::DoAudioCDHome()
 {
 	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
 	widget->AddWidgetAudioCDHome();
-	SlotAddWidget(widget, tr("Audio CD"));
+	SlotAddWidget(widget, STR_AUDIO_CD);
 	widget->TrackList();
 }
 
 void MainWindow::DoPlaylistHome()
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
-	SlotAddWidget(widget, tr("Playlist"));
+	SlotAddWidget(widget, STR_PLAYLIST);
 	widget->Playlist();
 }
 
 void MainWindow::DoBrowserHome()
 {
 	BrowserWindow *widget = new BrowserWindow(this, m_strAddr);
-	SlotAddWidget(widget, tr("Browser"));
+	SlotAddWidget(widget, STR_BROWSER);
 	widget->RequestRoot();
 
 
@@ -631,14 +631,14 @@ void MainWindow::DoBrowserHome()
 void MainWindow::DoIServiceHome()
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
-	SlotAddWidget(widget, tr("Internet service"));
+	SlotAddWidget(widget, STR_INTERNET_SERVICE);
 	widget->IServiceHome(m_IServiceList);
 }
 
 void MainWindow::DoInputHome()
 {
 	InputWindow *widget = new InputWindow(this, m_strAddr);
-	SlotAddWidget(widget, tr("Input"));
+	SlotAddWidget(widget, STR_INPUT);
 	widget->InputHome(m_InputList);
 }
 
@@ -646,7 +646,7 @@ void MainWindow::DoFmRadioHome()
 {
 	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr);
 	widget->AddWidgetFMRadioHome();
-	SlotAddWidget(widget, tr("FM radio"));
+	SlotAddWidget(widget, STR_FM_RADIO);
 	widget->RequestList();
 }
 
@@ -654,14 +654,14 @@ void MainWindow::DoDabRadioHome()
 {
 	DABRadioWindow *widget = new DABRadioWindow(this, m_strAddr);
 	widget->AddWidgetDABRadioHome();
-	SlotAddWidget(widget, tr("DAB radio"));
+	SlotAddWidget(widget, STR_DAB_RADIO);
 	widget->RequestList();
 }
 
 void MainWindow::DoGroupPlayHome()
 {
 	GroupPlayWindow *widget = new GroupPlayWindow(this, m_strAddr);
-	SlotAddWidget(widget, tr("Group play"));
+	SlotAddWidget(widget, STR_GROUP_PLAY);
 	widget->GroupPlayList(m_nEventID);
 
 	// event
@@ -672,7 +672,7 @@ void MainWindow::DoGroupPlayHome()
 void MainWindow::DoSetupHome()
 {
 	SetupWindow *widget = new SetupWindow(this, m_strAddr);
-	SlotAddWidget(widget, tr("Setup"));
+	SlotAddWidget(widget, STR_SETUP);
 	widget->SetupHome(m_SetupList, m_nEventID);
 
 }
@@ -709,12 +709,12 @@ void MainWindow::DoPowerOff()
 void MainWindow::DoPowerOn()
 {
 	DeviceListWindow *widget = new DeviceListWindow;
-	SlotAddWidget(widget, tr("Power on"));
+	SlotAddWidget(widget, STR_POWER_ON);
 
 	connect(widget, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotWolDevice(QString)));
 	connect(widget, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotWolCancel(QString)));
 
-	widget->SetTitle(tr("Power on"));
+	widget->SetTitle(STR_POWER_ON);
 	widget->SetDeviceList(m_pDeviceMgr->GetDeviceListWol());
 
 }

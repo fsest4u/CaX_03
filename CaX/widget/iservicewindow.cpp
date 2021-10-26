@@ -1,4 +1,5 @@
 #include <QtWebEngineWidgets/QWebEngineView>
+#include <QMessageBox>
 
 #include "iservicewindow.h"
 #include "ui_iservicewindow.h"
@@ -179,6 +180,11 @@ void IServiceWindow::SlotResize()
 	LogDebug("click resize");
 }
 
+void IServiceWindow::SlotRespError(QString errMsg)
+{
+	QMessageBox::warning(this, "Warning", errMsg);
+}
+
 void IServiceWindow::SlotSelectTitle(int nType)
 {
 	if (iIServiceType_Qobuz == nType)
@@ -192,25 +198,25 @@ void IServiceWindow::SlotSelectTitle(int nType)
 	else if (iQobuzType_Mask_Search == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->DoQobuzSearch();
 	}
 	else if (iQobuzType_Mask_Recommend == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->DoQobuzRecommend();
 	}
 	else if (iQobuzType_Mask_Favorite == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->DoQobuzFavorite();
 	}
 	else if (iQobuzType_Mask_UserPlaylist == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->RequestQobuzPlaylist(0, 50);
 	}
 }
@@ -220,7 +226,7 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 	CJsonNode node;
 	if (!node.SetContent(rawData))
 	{
-		LogCritical("invalid json");
+		SlotRespError(STR_INVALID_JSON);
 		return;
 	}
 	QString title = node.GetString(KEY_NAME);
@@ -236,7 +242,7 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 		{
 			QString keyword = dialog.GetKeyword();
 			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-			emit SigAddWidget(widget, tr("Internet Service"));
+			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 			widget->RequestQobuzSearch(nType, keyword, 0, 50);
 			widget->SetInfoTitle(title);
 		}
@@ -245,14 +251,14 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->DoRecommendAlbum();
 		widget->SetInfoTitle(title);
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->DoRecommendPlaylist();
 		widget->SetInfoTitle(title);
 	}
@@ -262,7 +268,7 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 	{
 		LogDebug("favorite ");
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->RequestQobuzFavorite(nType, 0, 50);
 		widget->SetInfoTitle(title);
 	}
@@ -270,7 +276,7 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, tr("Internet Service"));
+		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 		widget->SetInfoTitle(title);
 
 		QString strID = node.GetString(KEY_ID_UPPER);
@@ -290,7 +296,7 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 	CJsonNode node;
 	if (!node.SetContent(rawData))
 	{
-		LogCritical("invalid json");
+		SlotRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -310,13 +316,13 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 		{
 			LogDebug("fixed genre submenu display...");
 			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-			emit SigAddWidget(widget, tr("Internet Service"));
+			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 			widget->DoRecommendGenre(nType, strID);
 		}
 		else if (nType & iQobuzType_Mask_Album)
 		{
 			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-			emit SigAddWidget(widget, tr("Internet Service"));
+			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 			widget->RequestQobuzCategory(nType, strID, 0, 50);
 		}
 		else if (nType & iQobuzType_Mask_Menu_Genre)
@@ -327,13 +333,13 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 				QString strGenreID = node.GetString(KEY_GENRE_ID);
 
 				IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-				emit SigAddWidget(widget, tr("Internet Service"));
+				emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 				widget->RequestQobuzRecommend(nType, strID, 0, 50, strGenreID);
 			}
 			else
 			{
 				IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-				emit SigAddWidget(widget, tr("Internet Service"));
+				emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 				widget->RequestQobuzGenre(strID);
 			}
 		}
@@ -353,7 +359,7 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 		{
 	//		emit SigSelectURL(m_ServiceType, url);
 			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
-			emit SigAddWidget(widget, tr("Internet Service"));
+			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 			widget->RequestIServiceURL(m_ServiceType, url);
 		}
 		else if (nType & iAirableType_Mask_Play)
@@ -396,7 +402,7 @@ void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
 void IServiceWindow::SlotRespQobuzLoginSuccess()
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-	emit SigAddWidget(widget, tr("Internet Service"));
+	emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 	widget->DoQobuzHome();
 }
 
@@ -460,7 +466,7 @@ void IServiceWindow::SlotRespGenreSubList(QList<CJsonNode> list)
 void IServiceWindow::SlotRespAuth(int nServiceType)
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
-	emit SigAddWidget(widget, tr("Internet Service"));
+	emit SigAddWidget(widget, STR_INTERNET_SERVICE);
 	widget->RequestIServiceURL(nServiceType);
 }
 
@@ -541,7 +547,7 @@ void IServiceWindow::DoQobuzSearch()
 	QList<CJsonNode> list;
 	SetQobuzSearch(list);
 
-	m_pInfoService->SetSubtitle(tr("Search"));
+	m_pInfoService->SetSubtitle(STR_SEARCH);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -553,7 +559,7 @@ void IServiceWindow::DoQobuzRecommend()
 	QList<CJsonNode> list;
 	SetQobuzRecommend(list);
 
-	m_pInfoService->SetSubtitle(tr("Recommend"));
+	m_pInfoService->SetSubtitle(STR_RECOMMEND);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -565,7 +571,7 @@ void IServiceWindow::DoQobuzFavorite()
 	QList<CJsonNode> list;
 	SetQobuzFavorite(list);
 
-	m_pInfoService->SetSubtitle(tr("Favorite"));
+	m_pInfoService->SetSubtitle(STR_FAVORITE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -577,7 +583,7 @@ void IServiceWindow::DoRecommendAlbum()
 	QList<CJsonNode> list;
 	SetRecommendAlbum(list);
 
-	m_pInfoService->SetSubtitle(tr("Album"));
+	m_pInfoService->SetSubtitle(STR_ALBUM);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -589,7 +595,7 @@ void IServiceWindow::DoRecommendPlaylist()
 	QList<CJsonNode> list;
 	SetRecommendPlaylist(list);
 
-	m_pInfoService->SetSubtitle(tr("Playlist"));
+	m_pInfoService->SetSubtitle(STR_PLAYLIST);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -601,7 +607,7 @@ void IServiceWindow::DoRecommendGenre(int nType, QString strID)
 	QList<CJsonNode> list;
 	SetRecommendGenre(list, strID);
 
-	m_pInfoService->SetSubtitle(tr("Genre"));
+	m_pInfoService->SetSubtitle(STR_GENRE);
 	m_pListService->SetNodeList(list);
 }
 void IServiceWindow::SetIServiceHome(QList<CJsonNode> &list)

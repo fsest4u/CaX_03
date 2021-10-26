@@ -1,8 +1,5 @@
 #include "appmanager.h"
 
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
-
 AppManager::AppManager(QObject *parent)
 {
 	Q_UNUSED(parent)
@@ -43,7 +40,7 @@ void AppManager::SlotRespDeviceInfo(QString json, int nCmdID)
 
 	CJsonNode node;
 	if (!node.SetContent(json)) {
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 

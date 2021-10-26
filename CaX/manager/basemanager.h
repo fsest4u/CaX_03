@@ -5,6 +5,11 @@
 
 #include "imanager.h"
 
+#include "util/caxconstants.h"
+#include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
+#include "util/log.h"
+
 class BaseManager : public QObject, public IManager
 {
 	Q_OBJECT

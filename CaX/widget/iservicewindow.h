@@ -54,6 +54,7 @@ private slots:
 
 	void SlotResize();
 
+	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int nType);
 	void SlotSelectTitle(int nType, QString rawData);
 	void SlotSelectURL(QString rawData);

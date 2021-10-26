@@ -8,6 +8,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 #include "widget/form/formplay.h"
@@ -82,7 +83,7 @@ void PlaylistWindow::Playlist()
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pIconTracks);
 
-	m_pInfoService->SetSubtitle(tr("Playlist"));
+	m_pInfoService->SetSubtitle(STR_PLAYLIST);
 
 	m_pMgr->RequestPlaylist();
 }
@@ -151,7 +152,7 @@ void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
 	QString info = count + " | " + total + " | " + extension + " | " + samplerate + " | " + bps;
 
 	m_pInfoTracks->SetTitle(node.GetString(KEY_TITLE));
-	m_pInfoTracks->SetSubtitle("Artist : " + node.GetString(KEY_ARTIST));
+	m_pInfoTracks->SetSubtitle(QString("%1 : %2").arg(STR_ARTIST).arg(node.GetString(KEY_ARTIST)));
 //	m_pInfoTracks->SetInfo(info);
 }
 
@@ -197,7 +198,7 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
-	emit SigAddWidget(widget, tr("Playlist"));
+	emit SigAddWidget(widget, STR_PLAYLIST);
 	widget->PlaylistInfo(id, coverArt);
 	widget->TrackList(id);
 }

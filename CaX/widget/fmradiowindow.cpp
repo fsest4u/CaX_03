@@ -16,6 +16,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/loading.h"
 #include "util/log.h"
 
@@ -136,7 +137,7 @@ void FMRadioWindow::SlotRespList(CJsonNode node)
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
-		SlotRespError("there is no result");
+		SlotRespError(STR_NO_RESULT);
 		return;
 	}
 
@@ -224,7 +225,7 @@ void FMRadioWindow::DoTopMenuUnselect()
 void FMRadioWindow::DoTopMenuAddItem()
 {
 	AddRadioDialog dialog;
-	dialog.SetName(tr("My Radio"));
+	dialog.SetName(STR_MY_RADIO);
 	dialog.SetRange(m_FreqMin/100.0, m_FreqMax/100.0, m_FreqStep/100.0);
 
 	if (dialog.exec() == QDialog::Accepted)

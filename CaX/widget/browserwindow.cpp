@@ -7,6 +7,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 #include "widget/form/formplay.h"
@@ -174,7 +175,7 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 			strPath = m_Root + "/" + strPath;
 
 		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), strPath);
-		emit SigAddWidget(widget, tr("Browser"));
+		emit SigAddWidget(widget, STR_BROWSER);
 
 		if (iFolderType_Mask_Play_Top & nType)
 		{
@@ -225,7 +226,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 
 		if (m_Root.isEmpty())
 		{
-			m_pInfoService->SetSubtitle(tr("Browser"));
+			m_pInfoService->SetSubtitle(STR_BROWSER);
 		}
 		else
 		{

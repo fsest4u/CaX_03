@@ -3,16 +3,6 @@
 
 #include <QCoreApplication>
 
-#define		TR(x)	QObject::tr(#x)
-
-//////////////////////////////////////////////////
-// Application
-//////////////////////////////////////////////////
-
-#define TR_ORGANIZATION				TR("NOVATRON")
-#define TR_APPLICATION				TR("Music X Neo")
-
-#define MSG_LIMIT_COUNT				100
 
 //////////////////////////////////////////////////
 // ssdp
@@ -50,11 +40,26 @@
 
 #define PORT_IMAGE_SERVER			"50006"
 
+//////////////////////////////////////////////////
+// ui
+//////////////////////////////////////////////////
+
 #define ICON_ITEM_WIDTH				195
 #define ICON_ITEM_HEIGHT			220
 #define LIST_ITEM_WIDTH				30
 #define LIST_ITEM_HEIGHT			30
 
+#define MSG_LIMIT_COUNT				100
+
+//////////////////////////////////////////////////
+// play
+//////////////////////////////////////////////////
+
+#define PLAY_NONE		-1
+#define PLAY_NOW		0
+#define PLAY_LAST		1
+#define PLAY_NEXT		2
+#define PLAY_CLEAR		3
 
 //////////////////////////////////////////////////
 // top menu
@@ -97,38 +102,9 @@ enum
 	TOP_MENU_MAX
 };
 
-#define STR_PLAY_NOW				tr("Play now")
-#define STR_PLAY_LAST				tr("Play last")
-#define STR_PLAY_NEXT				tr("Play next")
-#define STR_PLAY_CLEAR				tr("Play clear")
-#define STR_RELOAD					tr("Reload")
-#define STR_LOAD_COUNT				tr("Load count - %1")
-#define STR_SELECT_ALL				tr("Select all")
-#define STR_UNSELECT				tr("Unselect")
-#define STR_GAIN_SET				tr("Gain Set")
-#define STR_GAIN_CLEAR				tr("Gain Clear")
-// audio cd
-#define STR_CD_RIPPING				tr("CD Ripping")
-#define STR_EJECT_CD				tr("Eject CD")
-// playlist
-#define STR_NEW_PLAYLIST			tr("New playlist")
-#define STR_ADD_PLAYLIST			tr("Add playlist")
-#define STR_ADD_ITEM				tr("Add item")
-#define STR_DELETE_ITEM				tr("Delete item")
-#define STR_EXPORT_TRACK			tr("Export track")
-// browser
-#define STR_OPTION_PLAY_SUBDIR		tr("Play subdirectories - %1")
-#define STR_CONVERT_FORMAT    		tr("Conver Audio Format")
-#define STR_NEW_DIR           		tr("New Directory")
-#define STR_OPTION_OVERWRITE  		tr("Overwrite - %1")
-#define STR_MOVE              		tr("Move")
-#define STR_COPY              		tr("Copy")
-#define STR_SEARCH_COVERART   		tr("Search coverart")
-#define STR_EDIT_TAG          		tr("Edit tag")
-// radio
-#define STR_SEARCH_ALL_N_DELETE		tr("Delete and search all")
-#define STR_SEARCH_ALL				tr("Search all")
-#define STR_RESERVE_RECORD_LIST		tr("Reserved record list")
+
+
+
 
 
 #endif // CAXCONSTANTS_H

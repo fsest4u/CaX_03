@@ -1,6 +1,7 @@
 #include "poweroffdialog.h"
 #include "ui_poweroffdialog.h"
 
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 PowerOffDialog::PowerOffDialog(QWidget *parent) :
@@ -9,8 +10,8 @@ PowerOffDialog::PowerOffDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->labelPowerOff->setText(tr("Do you want to power off?"));
-	ui->labelWol->setText(tr("Wake on lan"));
+	ui->labelPowerOff->setText(STR_ASK_POWER_OFF);
+	ui->labelWol->setText(STR_WOL);
 
 }
 

@@ -106,7 +106,7 @@ void PlayManager::SlotRespInfo(QString json, int nCmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -118,7 +118,7 @@ void PlayManager::SlotRespInfo(QString json, int nCmdID)
 	{
 		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
 		{
-			emit SigRespError("unknown error");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
@@ -153,7 +153,7 @@ void PlayManager::SlotRespInfo(QString json, int nCmdID)
 		ParseQueueList(node);
 		break;
 	case PLAY_MAX:
-		LogWarning("Invalid command ID");
+		emit SigRespError(STR_INVALID_ID);
 		break;
 	}
 }
@@ -173,7 +173,7 @@ void PlayManager::ParseQueueList(CJsonNode node)
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
-		emit SigRespError("there is no result.");
+		emit SigRespError(STR_NO_RESULT);
 		return;
 	}
 	emit SigQueueList(result);

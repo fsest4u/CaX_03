@@ -82,28 +82,28 @@ void SubmenuDialog::SetMenu()
 //	QIcon icon0(":/resource/Icon-playbar-volume-160.png");
 	//	item0->setData(CAT_GENRE, SubmenuDelegate::SUBMENU_ID);
 //	item0->setData(icon0, SubmenuDelegate::SUBMENU_ICON);
-//	item0->setData("Sorted by Genre", SubmenuDelegate::SUBMENU_TITLE);
+//	item0->setData(STR_SORT_GENRE, SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item0);
 
 //	QStandardItem *item1 = new QStandardItem;
 //	QIcon icon1(":/resource/Icon-playbar-volume-160.png");
 //	item1->setData(CAT_MOOD, SubmenuDelegate::SUBMENU_ID);
 //	item1->setData(icon1, SubmenuDelegate::SUBMENU_ICON);
-//	item1->setData("Sorted by Mood", SubmenuDelegate::SUBMENU_TITLE);
+//	item1->setData(STR_SORT_MOOD, SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item1);
 
 //	QStandardItem *item2 = new QStandardItem;
 //	QIcon icon2(":/resource/Icon-playbar-volume-160.png");
 //	item2->setData(CAT_FOLDER, SubmenuDelegate::SUBMENU_ID);
 //	item2->setData(icon2, SubmenuDelegate::SUBMENU_ICON);
-//	item2->setData("Sorted by Folder", SubmenuDelegate::SUBMENU_TITLE);
+//	item2->setData(STR_SORT_FOLDER, SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item2);
 
 //	QStandardItem *item3 = new QStandardItem;
 //	QIcon icon3(":/resource/Icon-playbar-volume-160.png");
 //	item3->setData(CAT_YEAR, SubmenuDelegate::SUBMENU_ID);
 //	item3->setData(icon3, SubmenuDelegate::SUBMENU_ICON);
-//	item3->setData("Sorted by Year", SubmenuDelegate::SUBMENU_TITLE);
+//	item3->setData(STR_SORT_YEAR, SubmenuDelegate::SUBMENU_TITLE);
 //	m_Model->appendRow(item3);
 
 //	ui->gridLayout->addWidget(m_ListView);

@@ -7,6 +7,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 #include "widget/form/formplay.h"
@@ -162,6 +163,11 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 //	{
 ////		CDRip(node, list);
 //	}
+}
+
+void AudioCDWindow::SlotRespError(QString errMsg)
+{
+	QMessageBox::warning(this, "Warning", errMsg);
 }
 
 void AudioCDWindow::SlotSelectTitle(int id, QString coverArt)

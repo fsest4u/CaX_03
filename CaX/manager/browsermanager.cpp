@@ -1,9 +1,5 @@
 #include "browsermanager.h"
 
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
-
 BrowserManager::BrowserManager(QObject *parent) :
 	m_bSubDir(true)
 {
@@ -96,7 +92,7 @@ void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringLis
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_BROWSER);
 	node.Add	(KEY_CMD1,		VAL_PLAY);
-	node.AddInt	(KEY_WHERE,		VAL_PLAY_CLEAR);
+	node.AddInt	(KEY_WHERE,		PLAY_CLEAR);
 	node.Add(KEY_SUB_DIR, m_bSubDir);
 	node.Add(KEY_ROOT, root);
 	if (dirs.count() > 0)
@@ -143,7 +139,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -155,7 +151,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	{
 		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
 		{
-			emit SigRespError("unknown error");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
@@ -190,7 +186,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 //	case BROWSER_UPNP_FOLDER:
 //	case BROWSER_UPNP_PLAY:
 	case BROWSER_MAX:
-		LogWarning("Invalid command ID");
+		emit SigRespError(STR_INVALID_ID);
 		break;
 	}
 }
@@ -200,7 +196,7 @@ void BrowserManager::ParseFolder(CJsonNode node)
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
-		emit SigRespError("there is no result");
+		emit SigRespError(STR_NO_RESULT);
 		return;
 	}
 

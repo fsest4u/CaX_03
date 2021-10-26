@@ -7,7 +7,6 @@
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
-
 DeviceManager::DeviceManager(QObject *parent) :
 	QObject(parent),
 	m_pSsdpMgr(new SSDPManager),

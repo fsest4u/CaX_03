@@ -1,10 +1,6 @@
 #include "playlistmanager.h"
 #include "sqlmanager.h"
 
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
-
 
 PlaylistManager::PlaylistManager() :
 	m_pSql(new SQLManager)
@@ -134,7 +130,7 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -146,7 +142,7 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 	{
 		if (message.isEmpty())
 		{
-			emit SigRespError("unknown error - message is empty");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 

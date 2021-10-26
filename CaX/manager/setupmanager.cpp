@@ -1,8 +1,5 @@
 #include "setupmanager.h"
 
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
 
 SetupManager::SetupManager()
 {
@@ -31,7 +28,7 @@ void SetupManager::SlotRespInfo(QString json, int cmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -43,7 +40,7 @@ void SetupManager::SlotRespInfo(QString json, int cmdID)
 	{
 		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
 		{
-			emit SigRespError("unknown error");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
@@ -67,7 +64,7 @@ void SetupManager::ParseGroup(CJsonNode node)
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
-		emit SigRespError("there is no result");
+		emit SigRespError(STR_NO_RESULT);
 		return;
 	}
 

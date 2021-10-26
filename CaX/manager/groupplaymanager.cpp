@@ -1,8 +1,6 @@
 #include "groupplaymanager.h"
 
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
+
 
 GroupPlayManager::GroupPlayManager()
 {
@@ -36,7 +34,7 @@ void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -48,7 +46,7 @@ void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
 	{
 		if (message.isEmpty())
 		{
-			emit SigRespError("unknown error - message is empty");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
@@ -79,7 +77,7 @@ void GroupPlayManager::ParseGroupPlayList(CJsonNode node)
 	CJsonNode nodeSelf;
 	if (!node.GetObject(KEY_SELF, nodeSelf))
 	{
-		emit SigRespError("there is no self node");
+		emit SigRespError(STR_NO_RESULT);
 		return;
 	}
 	m_NodeList.append(nodeSelf);
@@ -87,7 +85,7 @@ void GroupPlayManager::ParseGroupPlayList(CJsonNode node)
 	CJsonNode nodeDevList;
 	if (!node.GetArray(KEY_DEV_LIST, nodeDevList))
 	{
-//		emit SigRespError("there is no dev list");
+//		emit SigRespError(STR_NO_RESULT);
 //		return;
 	}
 	for(int i = 0; i < nodeDevList.ArraySize(); i++)
@@ -98,7 +96,7 @@ void GroupPlayManager::ParseGroupPlayList(CJsonNode node)
 	CJsonNode nodeClientList;
 	if (!node.GetArray(KEY_CLIENT_LIST,	nodeClientList))
 	{
-//		emit SigRespError("there is no client list");
+//		emit SigRespError(STR_NO_RESULT);
 //		return;
 	}
 	for(int i = 0; i < nodeClientList.ArraySize(); i++)

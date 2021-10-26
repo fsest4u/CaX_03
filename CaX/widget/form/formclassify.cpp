@@ -4,15 +4,16 @@
 #include "ui_formclassify.h"
 
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 
 FormClassify::FormClassify(QWidget *parent) :
 	QWidget(parent),
 	m_ClassifyMenu(new QMenu(this)),
-	m_GenreMenu(new QMenu(tr("Genre"), this)),
-	m_ArtistMenu(new QMenu(tr("Artist"), this)),
-	m_ComposerMenu(new QMenu(tr("Composer"), this)),
+	m_GenreMenu(new QMenu(STR_GENRE, this)),
+	m_ArtistMenu(new QMenu(STR_ARTIST, this)),
+	m_ComposerMenu(new QMenu(STR_COMPOSER, this)),
 	m_Favorite(0),
 	m_Rating(0),
 	ui(new Ui::FormClassify)

@@ -1,9 +1,5 @@
 #include "audiocdmanager.h"
 
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
-
 AudioCDManager::AudioCDManager()
 {
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
@@ -79,7 +75,7 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -91,7 +87,7 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 	{
 		if (message.isEmpty())
 		{
-			emit SigRespError("unknown error - message is empty");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
@@ -126,7 +122,7 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 		LogDebug("rip ...");
 		break;
 	case AUDIO_CD_MAX:
-		emit SigRespError("invalid command id");
+		emit SigRespError(STR_INVALID_ID);
 		break;
 	}
 }

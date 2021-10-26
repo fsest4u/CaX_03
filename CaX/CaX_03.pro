@@ -130,6 +130,7 @@ HEADERS += \
     util/TMapDataDef.h \
     util/caxconstants.h \
     util/caxkeyvalue.h \
+    util/caxtranslate.h \
     util/loading.h \
     util/log.h \
     util/settingio.h \

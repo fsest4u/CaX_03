@@ -7,6 +7,7 @@
 #include "sqlmanager.h"
 
 #include "util/CJsonNode.h"
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 
 
@@ -59,7 +60,7 @@ public:
 
 	void RequestManageCategory(QString cmd1,
 							   QMap<int, bool> idMap,
-							   int nWhere = VAL_PLAY_NONE,
+							   int nWhere = PLAY_NONE,
 							   int nCategory = SQLManager::CATEGORY_ALBUM,
 							   int eventID = -1);
 

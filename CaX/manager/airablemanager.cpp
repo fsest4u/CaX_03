@@ -1,9 +1,5 @@
 #include "airablemanager.h"
 
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
-
 
 AirableManager::AirableManager(QObject *parent)
 {
@@ -113,7 +109,7 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
-		emit SigRespError("invalid json");
+		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
 
@@ -125,7 +121,7 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 	{
 		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
 		{
-			emit SigRespError("unknown error");
+			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
@@ -143,7 +139,7 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 			emit SigRespLoginFail(node);
 			break;
 		case AIRABLE_MAX:
-			LogWarning("Invalid command ID");
+			emit SigRespError(STR_INVALID_ID);
 			break;
 		}
 
@@ -165,7 +161,7 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 			ParseURL(node);
 			break;
 		case AIRABLE_MAX:
-			LogWarning("Invalid command ID");
+			emit SigRespError(STR_INVALID_ID);
 			break;
 		}
 	}
@@ -182,7 +178,7 @@ void AirableManager::ParseURL(CJsonNode node)
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
-		emit SigRespError("there is no result");
+		emit SigRespError(STR_NO_RESULT);
 		return;
 	}
 
