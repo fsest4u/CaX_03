@@ -17,7 +17,6 @@
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #define MAIN_TITLE	"FM Radio"

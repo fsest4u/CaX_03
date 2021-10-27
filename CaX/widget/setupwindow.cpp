@@ -8,7 +8,6 @@
 #include "manager/setupmanager.h"
 
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #include "widget/setup.h"

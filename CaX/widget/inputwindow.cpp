@@ -10,7 +10,6 @@
 #include "manager/inputmanager.h"
 
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #define MAIN_TITLE	"Input"

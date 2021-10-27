@@ -8,12 +8,12 @@ Loading::Loading(QWidget *parent)
 
 {
 	// general
-	m_Spinner->setRoundness(50.0);
-	m_Spinner->setMinimumTrailOpacity(15.0);
-	m_Spinner->setTrailFadePercentage(70.0);
+	m_Spinner->setRoundness(40.0);
+	m_Spinner->setMinimumTrailOpacity(0.0);
+	m_Spinner->setTrailFadePercentage(75.0);
 	m_Spinner->setNumberOfLines(12);
 	m_Spinner->setLineLength(30);
-	m_Spinner->setLineWidth(10);
+	m_Spinner->setLineWidth(5);
 	m_Spinner->setInnerRadius(30);
 	m_Spinner->setRevolutionsPerSecond(1);
 	m_Spinner->setColor(QColor(52, 174, 214));

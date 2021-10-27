@@ -4,7 +4,6 @@
 #include "formBottom/listdevice.h"
 #include "formBottom/listdevicedelegate.h"
 
-#include "util/loading.h"
 #include "util/log.h"
 
 DeviceListWindow::DeviceListWindow(QWidget *parent) :
