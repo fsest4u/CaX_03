@@ -23,13 +23,11 @@ public:
 	explicit PlaylistWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~PlaylistWindow();
 
-	void Playlist();
-	void PlaylistInfo(int id, QString coverArt);
-	void TrackList(int id);
-	void TrackPlay(int id);
-	void TracksPlay(QList<int> ids);
-	void PlaylistPlay(int id);
-	void PlaylistsPlay(QList<int> ids);
+	void AddWidgetPlaylistHome();
+	void AddWidgetItemHome();
+	void RequestPlaylist();
+	void RequestPlaylistInfo(int id, QString coverArt);
+	void RequestTrackList(int id);
 
 signals:
 
@@ -52,17 +50,35 @@ private slots:
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
-	void SlotPlayTopMenu();
+	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 	void SlotResize();
+
+	void SlotItemPlayAll();
+	void SlotItemPlayRandom();
+	void SlotItemTopMenu();
+	void SlotItemTopMenuAction(int menuID);
 
 
 
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
 	void SetSelectOffTopMenu(bool root = false);
 	void SetSelectOnTopMenu(bool root = false);
+
+	void DoTopMenuPlay(int nWhere);
+	void DoTopMenuSelectAll();
+	void DoTopMenuUnselect();
+	void DoTopMenuAddItem();
+	void DoTopMenuDeleteItem();
+
+	void DoItemTopMenuPlay(int nWhere);
+	void DoItemTopMenuSelectAll();
+	void DoItemTopMenuUnselect();
+	void DoItemTopMenuAddItem();
+	void DoItemTopMenuDeleteItem();
 
 	PlaylistManager	*m_pMgr;
 	InfoService		*m_pInfoService;
@@ -70,8 +86,10 @@ private:
 	IconTracks		*m_pIconTracks;
 	ListTracks		*m_pListTracks;
 
-	QList<int>		m_IDs;
 	QMap<int, QString> m_TopMenu;
+	QMap<int, bool>	m_SelectItem;
+
+	int				m_ID;
 
 
 	Ui::PlaylistWindow *ui;

@@ -65,7 +65,7 @@ bool CheckAndSetMapDataCdNumber(CJsonNode &JsonItem, TMapData &MdInfo, bool &blS
 {
 	int i, n;
 	//QString strGet = JsonItem.GetString(TR_CD_Number);
-	QString strGet = JsonItem.GetString("CD-Number");		// todo-dylee
+	QString strGet = JsonItem.GetString("CD-Number");		// temp_code
 	if( strGet.isEmpty() || !GetIntPair(strGet, i, n) )		return false;
 	if( i == MapIntVal(MdInfo, iKey_CdNumber) && n == MapIntVal(MdInfo, iKey_CdTotal) )		return false;
 	MapIntAdd(MdInfo, iKey_CdNumber, i);
@@ -263,7 +263,7 @@ bool CJsonNode::Load(QString strJsonPath)
 	//if( !ReadFile(strJsonPath, strRead) )	return false;
 
 	//return SetContent(strRead);
-	return false;		// todo-dylee
+	return false;		// temp_code
 }
 
 QString CJsonNode::_ToString(bool blCompact)

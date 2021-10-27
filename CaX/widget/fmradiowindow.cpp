@@ -40,9 +40,11 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoService->SetSubmenuFmRadio();
-	m_pInfoService->GetFormPlay()->ShowPlayTopMenu();
+	m_pInfoService->GetFormPlay()->ShowTopMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 
+	m_TopMenu.clear();
+	m_SelectItem.clear();
 }
 
 FMRadioWindow::~FMRadioWindow()
@@ -84,7 +86,7 @@ void FMRadioWindow::RequestRecordList()
 	m_pMgr->RequestRecordList();
 }
 
-void FMRadioWindow::SlotPlayTopMenu()
+void FMRadioWindow::SlotTopMenu()
 {
 	m_SelectItem = m_pIconService->GetSelectMap();
 	if (m_SelectItem.count() > 0)
@@ -183,7 +185,7 @@ void FMRadioWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespList(CJsonNode)), this, SLOT(SlotRespList(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
 
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 

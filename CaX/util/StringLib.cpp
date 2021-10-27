@@ -7,7 +7,7 @@
 #include <QTIme>
 
 #include "log.h"
-//#include "Global.h"		// <- todo-dylee
+//#include "Global.h"		// temp_code
 
 
 #include "TMapData.h"
@@ -827,7 +827,7 @@ bool IsHttpUrlStr(QString strUrl)
 QString GetImageServerUrl()
 {
 	//return QString("http://%1:%2/").arg(g_Global.strLocalAddress).arg(CA_IMAGE_SERVER_PORT);
-	return "";		// <- todo-dylee
+	return "";		// temp_code
 }
 
 QString GetImageServerUrl(QString strRoot, QString strPath, bool blPercentEncoding)
@@ -855,7 +855,7 @@ QString GetLoopbackImageServerUrl(QString strRoot, QString strPath)
 
 	//return strUrl;
 	////return QUrl::fromEncoded(ToAscii(strUrl)).toString();
-	return "";		// <- todo-dylee
+	return "";		// temp_code
 }
 
 QString GetLoopbackImageServerUrl(QString strRoot, int iId)

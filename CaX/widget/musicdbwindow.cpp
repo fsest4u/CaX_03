@@ -296,7 +296,7 @@ void MusicDBWindow::SlotPlayRandom()
 	m_pMgr->RequestRandom();
 }
 
-void MusicDBWindow::SlotPlayTopMenu()
+void MusicDBWindow::SlotTopMenu()
 {
 	m_SelectItem = m_pIconTracks->GetSelectMap();
 	if (m_SelectItem.count() > 0)
@@ -342,7 +342,7 @@ void MusicDBWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_GAIN_CLEAR:
 		DoTopMenuGainClear();
 		break;
-	case TOP_MENU_ADD_PLAYLIST:
+	case TOP_MENU_ADD_TO_PLAYLIST:
 		DoTopMenuAddPlaylist();
 		break;
 	}
@@ -413,7 +413,7 @@ void MusicDBWindow::SlotSubmenu2()
 	LogDebug("click Submenu2");
 }
 
-void MusicDBWindow::SlotCategoryPlayAll()
+void MusicDBWindow::SlotItemPlayAll()
 {
 //	m_pMgr->RequestPlayCategoryItem(m_nID, PLAY_CLEAR, m_nCategory);
 	m_SelectItem = m_pListTracks->GetSelectMap();
@@ -429,12 +429,12 @@ void MusicDBWindow::SlotCategoryPlayAll()
 	}
 }
 
-void MusicDBWindow::SlotCategoryPlayRandom()
+void MusicDBWindow::SlotItemPlayRandom()
 {
 	m_pMgr->RequestRandom();
 }
 
-void MusicDBWindow::SlotCategoryPlayTopMenu()
+void MusicDBWindow::SlotItemTopMenu()
 {
 	m_SelectItem = m_pListTracks->GetSelectMap();
 	if (m_SelectItem.count() > 0)
@@ -447,20 +447,20 @@ void MusicDBWindow::SlotCategoryPlayTopMenu()
 	}
 }
 
-void MusicDBWindow::SlotCategoryTopMenuAction(int menuID)
+void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 {
 	switch (menuID) {
 	case TOP_MENU_PLAY_NOW:
-		DoCategoryTopMenuPlay(PLAY_NOW);
+		DoItemTopMenuPlay(PLAY_NOW);
 		break;
 	case TOP_MENU_PLAY_LAST:
-		DoCategoryTopMenuPlay(PLAY_LAST);
+		DoItemTopMenuPlay(PLAY_LAST);
 		break;
 	case TOP_MENU_PLAY_NEXT:
-		DoCategoryTopMenuPlay(PLAY_NEXT);
+		DoItemTopMenuPlay(PLAY_NEXT);
 		break;
 	case TOP_MENU_PLAY_CLEAR:
-		DoCategoryTopMenuPlay(PLAY_CLEAR);
+		DoItemTopMenuPlay(PLAY_CLEAR);
 		break;
 	case TOP_MENU_RELOAD:
 		break;
@@ -474,33 +474,33 @@ void MusicDBWindow::SlotCategoryTopMenuAction(int menuID)
 		break;
 	case TOP_MENU_GAIN_CLEAR:
 		break;
-	case TOP_MENU_ADD_PLAYLIST:
+	case TOP_MENU_ADD_TO_PLAYLIST:
 		break;
 	}
 
 }
 
-void MusicDBWindow::SlotCategoryFavorite(int nFavorite)
+void MusicDBWindow::SlotItemFavorite(int nFavorite)
 {
 	m_pMgr->RequestUpdateFavorite(m_nID, nFavorite, m_nCategory);
 }
 
-void MusicDBWindow::SlotCategoryRating(int nRating)
+void MusicDBWindow::SlotItemRating(int nRating)
 {
 	m_pMgr->RequestUpdateRating(m_nID, nRating, m_nCategory);
 }
 
-void MusicDBWindow::SlotCategorySort(int sort)
+void MusicDBWindow::SlotItemSort(int sort)
 {
 	RequestCategoryHome(m_nID, m_nCategory, sort, m_bIncreaseTrack);
 }
 
-void MusicDBWindow::SlotCategoryIncDec(bool bIncrease)
+void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 {
 	RequestCategoryHome(m_nID, m_nCategory, m_nSortCategory, bIncrease);
 }
 
-void MusicDBWindow::SlotCategoryResize()
+void MusicDBWindow::SlotItemResize()
 {
 	LogDebug("album resize");
 
@@ -708,7 +708,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigTopMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyFavorite(int)), this, SLOT(SlotClassifyFavorite(int)));
@@ -727,16 +727,16 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome, SIGNAL(SigTrackList()), this, SLOT(SlotTrackList()));
 	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotSubmenu2()));
 
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotCategoryPlayAll()));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotCategoryPlayRandom()));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayFavorite(int)), this, SLOT(SlotCategoryFavorite(int)));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRating(int)), this, SLOT(SlotCategoryRating(int)));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotCategoryPlayTopMenu()));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotCategoryTopMenuAction(int)));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotItemPlayAll()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotItemPlayRandom()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigFavorite(int)), this, SLOT(SlotItemFavorite(int)));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigRating(int)), this, SLOT(SlotItemRating(int)));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenu()), this, SLOT(SlotItemTopMenu()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotItemTopMenuAction(int)));
 
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort(int)), this, SLOT(SlotCategorySort(int)));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotCategoryIncDec(bool)));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotCategoryResize()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigSort(int)), this, SLOT(SlotItemSort(int)));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotItemIncDec(bool)));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotItemResize()));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
@@ -759,7 +759,7 @@ void MusicDBWindow::Initialize()
 {
 	m_pInfoHome->GetFormPlay()->ShowPlayAll();
 	m_pInfoHome->GetFormPlay()->ShowPlayRandom();
-	m_pInfoHome->GetFormPlay()->ShowPlayTopMenu();
+	m_pInfoHome->GetFormPlay()->ShowTopMenu();
 
 	m_pInfoHome->GetFormSort()->ShowSort();
 	m_pInfoHome->GetFormSort()->ShowIncDec();
@@ -768,9 +768,9 @@ void MusicDBWindow::Initialize()
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
-	m_pInfoTracks->GetFormPlay()->ShowPlayFavorite();
-	m_pInfoTracks->GetFormPlay()->ShowPlayRating();
-	m_pInfoTracks->GetFormPlay()->ShowPlayTopMenu();
+	m_pInfoTracks->GetFormPlay()->ShowFavorite();
+	m_pInfoTracks->GetFormPlay()->ShowRating();
+	m_pInfoTracks->GetFormPlay()->ShowTopMenu();
 
 	m_pInfoTracks->GetFormSort()->ShowSort();
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
@@ -808,7 +808,7 @@ void MusicDBWindow::SetSelectOnTopMenu()
 	m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 	m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
-//	m_TopMenu.insert(TOP_MENU_ADD_PLAYLIST, STR_ADD_PLAYLIST);	// todo-dylee
+//	m_TopMenu.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_PLAYLIST);	// todo-dylee
 	m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 	m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 
@@ -876,7 +876,7 @@ void MusicDBWindow::DoTopMenuAddPlaylist()
 								  m_nCategory);
 }
 
-void MusicDBWindow::DoCategoryTopMenuPlay(int nWhere)
+void MusicDBWindow::DoItemTopMenuPlay(int nWhere)
 {
 	if (m_SelectItem.count() > 0)
 	{
@@ -897,19 +897,19 @@ void MusicDBWindow::DoCategoryTopMenuPlay(int nWhere)
 
 }
 
-void MusicDBWindow::DoCategoryTopMenuSelectAll()
+void MusicDBWindow::DoItemTopMenuSelectAll()
 {
 	m_pListTracks->SetAllSelectMap();
 
 }
 
-void MusicDBWindow::DoCategoryTopMenuUnselect()
+void MusicDBWindow::DoItemTopMenuUnselect()
 {
 	m_pListTracks->ClearSelectMap();
 
 }
 
-void MusicDBWindow::DoCategoryTopMenuGainSet()
+void MusicDBWindow::DoItemTopMenuGainSet()
 {
 	if (m_SelectItem.count() > 0)
 	{
@@ -931,7 +931,7 @@ void MusicDBWindow::DoCategoryTopMenuGainSet()
 	}
 }
 
-void MusicDBWindow::DoCategoryTopMenuGainClear()
+void MusicDBWindow::DoItemTopMenuGainClear()
 {
 	if (m_SelectItem.count() > 0)
 	{
@@ -953,7 +953,7 @@ void MusicDBWindow::DoCategoryTopMenuGainClear()
 	}
 }
 
-void MusicDBWindow::DoCategoryTopMenuAddPlaylist()
+void MusicDBWindow::DoItemTopMenuAddPlaylist()
 {
 
 }

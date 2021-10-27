@@ -56,7 +56,7 @@ private slots:
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
-	void SlotPlayTopMenu();
+	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 
 	void SlotSort(int sort);
@@ -69,15 +69,16 @@ private slots:
 	void SlotTrackList();
 	void SlotSubmenu2();
 
-	void SlotCategoryPlayAll();
-	void SlotCategoryPlayRandom();
-	void SlotCategoryPlayTopMenu();
-	void SlotCategoryTopMenuAction(int menuID);
-	void SlotCategoryFavorite(int nFavorite);
-	void SlotCategoryRating(int nRating);
-	void SlotCategorySort(int sort);
-	void SlotCategoryIncDec(bool bIncrease);
-	void SlotCategoryResize();
+	void SlotItemPlayAll();
+	void SlotItemPlayRandom();
+	void SlotItemFavorite(int nFavorite);
+	void SlotItemRating(int nRating);
+	void SlotItemTopMenu();
+	void SlotItemTopMenuAction(int menuID);
+
+	void SlotItemSort(int sort);
+	void SlotItemIncDec(bool bIncrease);
+	void SlotItemResize();
 
 	void SlotSelectPlay(int nID);
 	void SlotSelectFavorite(int nID, int nFavorite);
@@ -127,12 +128,12 @@ private:
 	void DoTopMenuGainClear();
 	void DoTopMenuAddPlaylist();
 
-	void DoCategoryTopMenuPlay(int nWhere);
-	void DoCategoryTopMenuSelectAll();
-	void DoCategoryTopMenuUnselect();
-	void DoCategoryTopMenuGainSet();
-	void DoCategoryTopMenuGainClear();
-	void DoCategoryTopMenuAddPlaylist();
+	void DoItemTopMenuPlay(int nWhere);
+	void DoItemTopMenuSelectAll();
+	void DoItemTopMenuUnselect();
+	void DoItemTopMenuGainSet();
+	void DoItemTopMenuGainClear();
+	void DoItemTopMenuAddPlaylist();
 
 	void SetCoverArt(QString coverArt);
 

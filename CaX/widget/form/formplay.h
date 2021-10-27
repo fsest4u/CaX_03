@@ -18,9 +18,9 @@ public:
 
 	void ShowPlayAll();
 	void ShowPlayRandom();
-	void ShowPlayFavorite();
-	void ShowPlayRating();
-	void ShowPlayTopMenu();
+	void ShowFavorite();
+	void ShowRating();
+	void ShowTopMenu();
 
 	int GetFavorite() const;
 	void SetFavorite(int Favorite);
@@ -36,9 +36,9 @@ signals:
 
 	void SigPlayAll();
 	void SigPlayRandom();
-	void SigPlayFavorite(int Favorite);
-	void SigPlayRating(int Rating);
-	void SigPlayTopMenu();
+	void SigFavorite(int Favorite);
+	void SigRating(int Rating);
+	void SigTopMenu();
 
 	void SigTopMenuAction(int menuID);
 

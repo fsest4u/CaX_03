@@ -433,7 +433,7 @@ select	\
 	, Pls.Name as title	\
 	, count(Pls.rowid) as count	\
 from PlsSong	\
-inner join Pls on PlsSong.PlsID = Pls.ROWID	\
+inner join Pls	\
 where Pls.IsDel = 0	\
 group by Pls.ROWID	\
 order by Pls.Name	\
@@ -452,7 +452,7 @@ from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join PlsSong on Song.ROWID = PlsSong.SongID	\
-inner join Pls on pls.ROWID = PlsSong.PlsID	\
+inner join Pls	\
 where PlsSong.PlsID = %1	\
 "
 

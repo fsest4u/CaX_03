@@ -31,7 +31,7 @@ signals:
 
 private slots:
 
-	void SlotPlayTopMenu();
+	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 	void SlotResize();
 

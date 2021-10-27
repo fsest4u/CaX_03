@@ -1,7 +1,7 @@
 #ifndef __TMAPDATA_H__
 #define __TMAPDATA_H__
 
-//#include "HwDef.h"	// <- todo-dylee
+//#include "HwDef.h"	// temp_code
 
 #include "log.h"
 

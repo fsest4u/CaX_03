@@ -15,17 +15,12 @@ public:
 	void RequestPlaylist();
 	void RequestPlaylistInfo(int id);
 	void RequestTrackList(int id);
-	void RequestTrackPlay(int id);
-	void RequestTracksPlay(QList<int> ids);
-	void RequestPlaylistPlay(int id);
-	void RequestPlaylistsPlay(QList<int> ids);
-	void RequestNew();
-	void RequestRename();
-	void RequestDelete();
+	void RequestTrackPlay(QMap<int, bool> idMap, int nWhere);
+	void RequestPlaylistPlay(QMap<int, bool> idMap, int nWhere);
+	void RequestAddPlaylist(QString name);
+	void RequestDeletePlaylist(QMap<int, bool> idMap);
 	void RequestAddTrack();
-	void RequestDelTrack();
-	void RequestSwap();
-	void RequestExport();
+	void RequestDelTrack(int id, QMap<int, bool> idMap);
 	void RequestRandom();
 
 signals:
@@ -50,16 +45,11 @@ private:
 		PLAYLIST_INFO,
 		PLAYLIST_TRACK_LIST,
 		PLAYLIST_PLAY_TRACK,
-		PLAYLIST_PLAY_TRACKS,
 		PLAYLIST_PLAY_PLAYLIST,
-		PLAYLIST_PLAY_PLAYLISTS,
-		PLAYLIST_NEW,
-		PLAYLIST_RENAME,
-		PLAYLIST_DELETE,
+		PLAYLIST_NEW_PLAYLIST,
+		PLAYLIST_DELETE_PLAYLIST,
 		PLAYLIST_ADD_TRACK,
 		PLAYLIST_DEL_TRACK,
-		PLAYLIST_SWAP,
-		PLAYLIST_EXPORT,
 		PLAYLIST_RANDOM,
 		PLAYLIST_MAX
 	};

@@ -43,7 +43,7 @@ private slots:
 	void SlotSelectTitle(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
 
-	void SlotPlayTopMenu();
+	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 	void SlotResize();
 

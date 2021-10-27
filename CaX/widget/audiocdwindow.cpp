@@ -40,8 +40,11 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoTracks->GetFormPlay()->ShowPlayTopMenu();
+	m_pInfoTracks->GetFormPlay()->ShowTopMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
+
+	m_TopMenu.clear();
+	m_SelectItem.clear();
 }
 
 AudioCDWindow::~AudioCDWindow()
@@ -83,7 +86,6 @@ void AudioCDWindow::AddWidgetAudioCDHome()
 
 void AudioCDWindow::TrackList()
 {
-	// todo-dylee
 	QList<int> list;
 	list.append(0);
 	m_pMgr->RequestCDRipInfo(-1, list);
@@ -103,7 +105,7 @@ void AudioCDWindow::TrackPlay(int index)
 
 void AudioCDWindow::CDRip(CJsonNode node, QList<CJsonNode> list)
 {
-	// todo-dylee ui 미완성으로 아직 미구현
+	// todo-dylee
 	m_pMgr->RequestCDRip(node);
 }
 
@@ -183,7 +185,7 @@ void AudioCDWindow::SlotCalcTotalTime(int time)
 	//	m_pInfoTracks->SetInfo( MakeInfo() );
 }
 
-void AudioCDWindow::SlotPlayTopMenu()
+void AudioCDWindow::SlotTopMenu()
 {
 	m_SelectItem = m_pIconTracks->GetSelectMap();
 	if (m_SelectItem.count() > 0)
@@ -234,7 +236,7 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
 
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 }

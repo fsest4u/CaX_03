@@ -32,17 +32,17 @@ void FormPlay::ShowPlayRandom()
 	ui->labelPlayRandom->show();
 }
 
-void FormPlay::ShowPlayFavorite()
+void FormPlay::ShowFavorite()
 {
 	ui->labelFavorite->show();
 }
 
-void FormPlay::ShowPlayRating()
+void FormPlay::ShowRating()
 {
 	ui->frameRating->show();
 }
 
-void FormPlay::ShowPlayTopMenu()
+void FormPlay::ShowTopMenu()
 {
 	ui->btnTopMenu->show();
 }
@@ -172,7 +172,7 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 			{
 				SetFavorite(0);
 			}
-			emit SigPlayFavorite(m_Favorite);
+			emit SigFavorite(m_Favorite);
 		}
 
 	}
@@ -184,36 +184,36 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 void FormPlay::SlotBtnRating1()
 {
 	SetRating(1);
-	emit SigPlayRating(m_Rating);
+	emit SigRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating2()
 {
 	SetRating(2);
-	emit SigPlayRating(m_Rating);
+	emit SigRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating3()
 {
 	SetRating(3);
-	emit SigPlayRating(m_Rating);
+	emit SigRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating4()
 {
 	SetRating(4);
-	emit SigPlayRating(m_Rating);
+	emit SigRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating5()
 {
 	SetRating(5);
-	emit SigPlayRating(m_Rating);
+	emit SigRating(m_Rating);
 }
 
 void FormPlay::SlotBtnTopMenu()
 {
-	emit SigPlayTopMenu();
+	emit SigTopMenu();
 }
 
 void FormPlay::SlotTopMenuAction(QAction *action)

@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dialog/addplaylistdialog.cpp \
     dialog/addradiodialog.cpp \
     dialog/cdripinfodialog.cpp \
     dialog/limitcountdialog.cpp \
@@ -90,6 +91,7 @@ SOURCES += \
     widget/topwindow.cpp
 
 HEADERS += \
+    dialog/addplaylistdialog.h \
     dialog/addradiodialog.h \
     dialog/cdripinfodialog.h \
     dialog/limitcountdialog.h \
@@ -182,6 +184,7 @@ HEADERS += \
     widget/topwindow.h
 
 FORMS += \
+    dialog/addplaylistdialog.ui \
     dialog/addradiodialog.ui \
     dialog/cdripinfodialog.ui \
     dialog/limitcountdialog.ui \

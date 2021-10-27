@@ -100,6 +100,7 @@
 #define		KEY_PLAY_STATE		"PlayState"
 #define		KEY_PLAY_TIME		"PlayTime"
 #define		KEY_PLS				"Pls"
+#define		KEY_PLS_ID			"PlsID"
 #define		KEY_POSITION		"Pos"
 
 #define		KEY_QOBUZ_MENU		"QobuzMenu"
@@ -208,19 +209,19 @@
 #define		VAL_MUSIC_DB		"MusicDB"
 #define		VAL_MUTE			"MUTE"
 
+#define		VAL_NEW				"New"
 #define		VAL_NEW_RELEASES	"NewReleases"
 
 #define		VAL_OBSERVE			"Observe"
 
 #define		VAL_PLAY			"Play"
-
 #define		VAL_PLAYLIST		"Playlist"
+#define		VAL_PLS				"Pls"
 #define		VAL_POWER_OFF		"PowerOff"
 #define		VAL_PRESS_AWARDS	"PressAward"
 
 #define		VAL_QOBUZ			"Qobuz"
 #define		VAL_QUERY			"Query"
-
 
 #define		VAL_RECOMMEND		"Recommend"
 #define		VAL_RECORD_LIST		"RecordList"

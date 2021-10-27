@@ -40,8 +40,11 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormPlay()->ShowPlayTopMenu();
+	m_pInfoService->GetFormPlay()->ShowTopMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
+
+	m_TopMenu.clear();
+//	m_SelectItem.clear();
 
 }
 
@@ -108,7 +111,7 @@ void BrowserWindow::SlotPlayRandom()
 	m_pMgr->RequestRandom();
 }
 
-void BrowserWindow::SlotPlayTopMenu()
+void BrowserWindow::SlotTopMenu()
 {
 	QMap<int, bool> map = m_pIconService->GetSelectMap();
 	if (map.count() > 0)
@@ -285,7 +288,7 @@ void BrowserWindow::ConnectSigToSlot()
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayTopMenu()), this, SLOT(SlotPlayTopMenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 

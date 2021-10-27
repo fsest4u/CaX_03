@@ -52,68 +52,104 @@ void PlaylistManager::RequestTrackList(int id)
 	RequestCommand(node, PLAYLIST_TRACK_LIST);
 }
 
-void PlaylistManager::RequestTrackPlay(int id)
+void PlaylistManager::RequestTrackPlay(QMap<int, bool> idMap, int nWhere)
 {
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
+	}
+
 	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_IDS, idArr);
 	node.Add(KEY_CMD0, VAL_MUSIC_DB);
 	node.Add(KEY_CMD1, VAL_PLAY);
 	node.Add(KEY_CMD2, VAL_SONG);
-	node.AddInt(KEY_WHERE, 0);
-	node.AddInt(KEY_ID_UPPER, id);
-
+	if (nWhere != PLAY_NONE)
+	{
+		node.AddInt	(KEY_WHERE,		nWhere);
+	}
 	RequestCommand(node, PLAYLIST_PLAY_TRACK);
 }
 
-void PlaylistManager::RequestTracksPlay(QList<int> ids)
+void PlaylistManager::RequestPlaylistPlay(QMap<int, bool> idMap, int nWhere)
 {
-	CJsonNode node(JSON_OBJECT);
-	node.Add(KEY_CMD0, VAL_MUSIC_DB);
-	node.Add(KEY_CMD1, VAL_PLAY);
-	node.Add(KEY_CMD2, VAL_SONG);
-	node.AddInt(KEY_WHERE, 0);
-
-	CJsonNode nodeIDS(JSON_ARRAY);
-	foreach (int id, ids)
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		nodeIDS.AppendArray((int64_t)id);
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
 	}
 
-	node.Add(KEY_IDS, nodeIDS);
-
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-
-	RequestCommand(node, PLAYLIST_PLAY_TRACKS);
-}
-
-void PlaylistManager::RequestPlaylistPlay(int id)
-{
 	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_IDS, idArr);
 	node.Add(KEY_CMD0, VAL_PLAYLIST);
 	node.Add(KEY_CMD1, VAL_PLAY);
-	node.AddInt(KEY_WHERE, 0);
-	node.AddInt(KEY_ID_LOWER, id);
-
+	if (nWhere != PLAY_NONE)
+	{
+		node.AddInt	(KEY_WHERE,		nWhere);
+	}
 	RequestCommand(node, PLAYLIST_PLAY_PLAYLIST);
 }
 
-void PlaylistManager::RequestPlaylistsPlay(QList<int> ids)
+void PlaylistManager::RequestAddPlaylist(QString name)
 {
 	CJsonNode node(JSON_OBJECT);
-	node.Add(KEY_CMD0, VAL_PLAYLIST);
-	node.Add(KEY_CMD1, VAL_PLAY);
-	node.AddInt(KEY_WHERE, 3);
+	node.Add(KEY_CMD0,		VAL_PLAYLIST);
+	node.Add(KEY_CMD1,		VAL_NEW);
+	node.Add(KEY_NAME,	name);
 
-	CJsonNode nodeIDS(JSON_ARRAY);
-	foreach (int id, ids)
+	RequestCommand(node, PLAYLIST_NEW_PLAYLIST);
+
+}
+
+void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
+{
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		nodeIDS.AppendArray((int64_t)id);
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
 	}
 
-	node.Add(KEY_IDS, nodeIDS);
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_IDS, idArr);
+	node.Add	(KEY_CMD0,					VAL_PLAYLIST);
+	node.Add	(KEY_CMD1,					VAL_DEL);
+	node.Add	(KEY_CMD2,					VAL_PLS);
 
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	RequestCommand(node, PLAYLIST_DELETE_PLAYLIST);
 
-	RequestCommand(node, PLAYLIST_PLAY_PLAYLISTS);
+}
+
+void PlaylistManager::RequestAddTrack()
+{
+
+}
+
+void PlaylistManager::RequestDelTrack(int id, QMap<int, bool> idMap)
+{
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.AddInt	(KEY_PLS_ID, id);
+	node.Add(KEY_IDS, idArr);
+	node.Add	(KEY_CMD0, VAL_PLAYLIST);
+	node.Add	(KEY_CMD1, VAL_DEL);
+	node.Add	(KEY_CMD2, VAL_SONG);
+
+	RequestCommand(node, PLAYLIST_DEL_TRACK);
+
 }
 
 void PlaylistManager::RequestRandom()
@@ -151,10 +187,10 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 	}
 
 	if (cmdID == PLAYLIST_PLAY_TRACK
-			|| cmdID == PLAYLIST_PLAY_TRACKS
 			|| cmdID == PLAYLIST_PLAY_PLAYLIST
-			|| cmdID == PLAYLIST_PLAY_PLAYLISTS
 			|| cmdID == PLAYLIST_RANDOM
+			|| cmdID == PLAYLIST_NEW_PLAYLIST
+			|| cmdID == PLAYLIST_DELETE_PLAYLIST
 			)
 	{
 		return;
@@ -207,21 +243,9 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 		break;
 	case PLAYLIST_PLAY_TRACK:
 		break;
-	case PLAYLIST_PLAY_TRACKS:
-		break;
-	case PLAYLIST_NEW:
-		break;
-	case PLAYLIST_RENAME:
-		break;
-	case PLAYLIST_DELETE:
-		break;
 	case PLAYLIST_ADD_TRACK:
 		break;
 	case PLAYLIST_DEL_TRACK:
-		break;
-	case PLAYLIST_SWAP:
-		break;
-	case PLAYLIST_EXPORT:
 		break;
 	case PLAYLIST_RANDOM:
 		break;
