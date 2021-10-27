@@ -56,7 +56,6 @@ QList<CJsonNode> IconService::GetNodeList() const
 void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 {
 	m_pLoading->Start();
-
 	m_Model->clear();
 	m_NodeList = list;
 	m_Delegate->SetServiceType(nService);
@@ -184,7 +183,6 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-
 	m_pLoading->Stop();
 
 }
@@ -210,9 +208,7 @@ void IconService::SetViewMode(QListView::ViewMode mode)
 void IconService::ClearSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);
@@ -235,9 +231,7 @@ void IconService::ClearSelectMap()
 void IconService::SetAllSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);

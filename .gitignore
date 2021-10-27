@@ -55,3 +55,5 @@ installer/release/
 installer/src/CaX.exe
 installer/src/
 installer/Redist/
+installer/install-small1.bmp
+installer/install-small2.bmp

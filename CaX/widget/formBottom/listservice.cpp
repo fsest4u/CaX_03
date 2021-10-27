@@ -61,7 +61,6 @@ QList<CJsonNode> ListService::GetNodeList() const
 void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 {
 	m_pLoading->Start();
-
 	m_NodeList = NodeList;
 	int index = 0;
 
@@ -142,7 +141,6 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-
 	m_pLoading->Stop();
 
 }
@@ -161,9 +159,8 @@ void ListService::SetViewMode(QListView::ViewMode mode)
 void ListService::ClearSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
+
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);
@@ -186,9 +183,8 @@ void ListService::ClearSelectMap()
 void ListService::SetAllSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
+
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);

@@ -91,9 +91,10 @@ QList<CJsonNode> ListDevice::GetNodeList() const
 
 void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 {
+	m_pLoading->Start();
+	m_Model->clear();
 	m_NodeList = NodeList;
 
-	m_Model->clear();
 	foreach (CJsonNode node, m_NodeList)
 	{
 		QStandardItem *item = new QStandardItem;
@@ -108,6 +109,7 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
+	m_pLoading->Stop();
 
 }
 

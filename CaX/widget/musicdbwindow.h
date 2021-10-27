@@ -107,12 +107,6 @@ private slots:
 
 private:
 
-	enum {
-		MUSICDB_HOME = 0,
-		CATEGORY_HOME,
-		MUSICDB_MAX
-	};
-
 	void ConnectSigToSlot();
 	void Initialize();
 
@@ -156,7 +150,6 @@ private:
 
 	QMap<int, QString> m_TopMenu;
 	QMap<int, bool>	m_SelectItem;
-//	int				m_MusicDBType;
 
 	int				m_EventID;
 

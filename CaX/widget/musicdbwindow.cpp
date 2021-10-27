@@ -32,7 +32,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
-//	m_MusicDBType(MUSICDB_HOME),
 	m_EventID(-1),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
 	m_nID(-1),
@@ -112,7 +111,6 @@ MusicDBWindow::~MusicDBWindow()
 
 void MusicDBWindow::RequestMusicDBHome()
 {
-//	m_MusicDBType = MUSICDB_HOME;
 	m_pIconTracks->ClearNodeList();
 	m_pInfoHome->SetTitle(m_nCategory);
 	m_pMgr->RequestMusicDBInfo();
@@ -130,7 +128,6 @@ void MusicDBWindow::RequestMusicDBHome()
 
 void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool bIncrease)
 {
-//	m_MusicDBType = CATEGORY_HOME;
 	m_pListTracks->ClearNodeList();
 	m_nID = nID;
 	m_nCategory = nCategory;

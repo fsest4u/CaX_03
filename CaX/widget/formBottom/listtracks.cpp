@@ -59,7 +59,6 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 void ListTracks::SetNodeList(QList<CJsonNode> list)
 {
 	m_pLoading->Start();
-
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 	LogDebug("list count [%d] index [%d]", m_NodeList.count(), index);
@@ -91,9 +90,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-
 	m_pLoading->Stop();
-
 }
 
 void ListTracks::ClearNodeList()
@@ -118,9 +115,8 @@ void ListTracks::SetViewMode(QListView::ViewMode mode)
 void ListTracks::ClearSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
+
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);
@@ -144,9 +140,7 @@ void ListTracks::ClearSelectMap()
 void ListTracks::SetAllSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);

@@ -61,7 +61,6 @@ QList<CJsonNode> IconTracks::GetNodeList() const
 void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 {
 	m_pLoading->Start();
-
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 	LogDebug("list count [%d] index [%d]", m_NodeList.count(), index);
@@ -139,9 +138,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-
 	m_pLoading->Stop();
-
 }
 
 void IconTracks::ClearNodeList()
@@ -167,9 +164,8 @@ void IconTracks::SetViewMode(QListView::ViewMode mode)
 void IconTracks::ClearSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
+
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);
@@ -192,9 +188,8 @@ void IconTracks::ClearSelectMap()
 void IconTracks::SetAllSelectMap()
 {
 	m_pLoading->Start();
-
 	int count = m_Model->rowCount();
-	LogDebug("count [%d]", count);
+
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);
