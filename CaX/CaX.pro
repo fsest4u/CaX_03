@@ -229,6 +229,8 @@ FORMS += \
     widget/sidemenu.ui \
     widget/topwindow.ui
 
+RC_ICONS = app.ico
+
 TRANSLATIONS += \
     CaX_en_US.ts \
     CaX_de_DE.ts \
@@ -264,6 +266,7 @@ DISTFILES += \
     CaX_nl_NL.ts \
     CaX_ru_RU.ts \
     CaX_zh_CN.ts \
+    app.ico \
     resource/Component 2-1.png \
     resource/Component 2-1@2x.png \
     resource/Component 2-1@3x.png \
