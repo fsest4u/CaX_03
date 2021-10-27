@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>636</width>
-    <height>30</height>
+    <height>105</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>30</height>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>30</height>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -27,10 +27,26 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QLabel" name="labelIcon">
-     <property name="text">
-      <string>cover</string>
+    <widget class="QFrame" name="frameFormCoverArt">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>60</height>
+      </size>
      </property>
+     <property name="maximumSize">
+      <size>
+       <width>60</width>
+       <height>60</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayoutFormCoverArt"/>
     </widget>
    </item>
    <item>
@@ -41,9 +57,9 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="labelBottom">
+    <widget class="QLabel" name="labelSubtitle">
      <property name="text">
-      <string>bottom</string>
+      <string>subtitle</string>
      </property>
     </widget>
    </item>
