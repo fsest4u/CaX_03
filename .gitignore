@@ -54,3 +54,4 @@ build/
 installer/release/
 installer/src/CaX.exe
 installer/src/
+installer/Redist/
