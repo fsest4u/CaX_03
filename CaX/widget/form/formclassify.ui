@@ -52,6 +52,10 @@
 QPushButton:hover
 {
   border-image: url(&quot;:/resource/top-btn82-classify-h@3x.png&quot;);
+}
+QPushButton::menu-indicator
+{
+	image:none;
 }</string>
      </property>
     </widget>

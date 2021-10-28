@@ -38,7 +38,6 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoService->SetSubmenuFmRadio();
 	m_pInfoService->GetFormPlay()->ShowTopMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 
@@ -107,8 +106,8 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_SELECT_ALL:
 		DoTopMenuSelectAll();
 		break;
-	case TOP_MENU_UNSELECT:
-		DoTopMenuUnselect();
+	case TOP_MENU_CLEAR_ALL:
+		DoTopMenuClearAll();
 		break;
 	case TOP_MENU_ADD_ITEM:
 		DoTopMenuAddItem();
@@ -208,7 +207,7 @@ void FMRadioWindow::SetSelectOnTopMenu()
 {
 	m_TopMenu.clear();
 
-	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+	m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
 	m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
 
 	m_pInfoService->GetFormPlay()->ClearTopMenu();
@@ -225,7 +224,7 @@ void FMRadioWindow::DoTopMenuSelectAll()
 	m_pIconService->SetAllSelectMap();
 }
 
-void FMRadioWindow::DoTopMenuUnselect()
+void FMRadioWindow::DoTopMenuClearAll()
 {
 	m_pIconService->ClearSelectMap();
 }

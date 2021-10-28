@@ -295,6 +295,10 @@ border: none;</string>
 QPushButton:hover
 {
   border-image: url(&quot;:/resource/play-btn28-menu-h@3x.png&quot;);
+}
+QPushButton::menu-indicator
+{
+	image:none;
 }</string>
      </property>
     </widget>

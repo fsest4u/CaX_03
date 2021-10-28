@@ -251,8 +251,8 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_SELECT_ALL:
 		DoTopMenuSelectAll();
 		break;
-	case TOP_MENU_UNSELECT:
-		DoTopMenuUnselect();
+	case TOP_MENU_CLEAR_ALL:
+		DoTopMenuClearAll();
 		break;
 	case TOP_MENU_ADD_ITEM:
 		DoTopMenuAddItem();
@@ -313,8 +313,8 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 	case TOP_MENU_SELECT_ALL:
 		DoItemTopMenuSelectAll();
 		break;
-	case TOP_MENU_UNSELECT:
-		DoItemTopMenuUnselect();
+	case TOP_MENU_CLEAR_ALL:
+		DoItemTopMenuClearAll();
 		break;
 	case TOP_MENU_ADD_ITEM:
 		DoItemTopMenuAddItem();
@@ -405,7 +405,7 @@ void PlaylistWindow::SetSelectOnTopMenu(bool root)
 		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+		m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
 		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
 //		m_TopMenu.insert(TOP_MENU_EXPORT_TRACK, STR_EXPORT_TRACK);
 
@@ -418,7 +418,7 @@ void PlaylistWindow::SetSelectOnTopMenu(bool root)
 		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+		m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
 		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
 
 		m_pInfoTracks->GetFormPlay()->ClearTopMenu();
@@ -440,7 +440,7 @@ void PlaylistWindow::DoTopMenuSelectAll()
 	m_pIconTracks->SetAllSelectMap();
 }
 
-void PlaylistWindow::DoTopMenuUnselect()
+void PlaylistWindow::DoTopMenuClearAll()
 {
 	m_pIconTracks->ClearSelectMap();
 }
@@ -484,7 +484,7 @@ void PlaylistWindow::DoItemTopMenuSelectAll()
 
 }
 
-void PlaylistWindow::DoItemTopMenuUnselect()
+void PlaylistWindow::DoItemTopMenuClearAll()
 {
 	m_pListTracks->ClearSelectMap();
 

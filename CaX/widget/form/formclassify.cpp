@@ -298,12 +298,35 @@ void FormClassify::ConnectSigToSlot()
 
 void FormClassify::Initialize()
 {
-//	m_ClassifyMenu->setStyleSheet("QMenu { menu-scrollable: 1; }");
-
 	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_ArtistMenu));
 	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_GenreMenu));
 	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_ComposerMenu));
 
+	QString styleCat = QString("QMenu::item {	\
+									width: 200px;	\
+									height: 30px;	\
+									color: rgb(90, 91, 94);	\
+									font-size: 14pt;	\
+									padding: 0px 20px 0px 20px;	\
+								}	\
+								QMenu::item:selected {	\
+									background: rgba(201,237,248,255);	\
+								}");
+	QString style = QString("QMenu::item {	\
+								width: 200px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_ArtistMenu->setStyleSheet(styleCat);
+	m_GenreMenu->setStyleSheet(styleCat);
+	m_ComposerMenu->setStyleSheet(styleCat);
+	m_ClassifyMenu->setStyleSheet(style);
 	ui->btnClassify->setMenu(m_ClassifyMenu);
 
 	ui->labelArtist->hide();

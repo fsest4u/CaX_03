@@ -70,13 +70,13 @@ private:
 
 	void DoTopMenuPlay(int nWhere);
 	void DoTopMenuSelectAll();
-	void DoTopMenuUnselect();
+	void DoTopMenuClearAll();
 	void DoTopMenuAddItem();
 	void DoTopMenuDeleteItem();
 
 	void DoItemTopMenuPlay(int nWhere);
 	void DoItemTopMenuSelectAll();
-	void DoItemTopMenuUnselect();
+	void DoItemTopMenuClearAll();
 	void DoItemTopMenuAddItem();
 	void DoItemTopMenuDeleteItem();
 

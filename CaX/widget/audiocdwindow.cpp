@@ -205,8 +205,8 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_SELECT_ALL:
 		DoTopMenuSelectAll();
 		break;
-	case TOP_MENU_UNSELECT:
-		DoTopMenuUnselect();
+	case TOP_MENU_CLEAR_ALL:
+		DoTopMenuClearAll();
 		break;
 	case TOP_MENU_CD_RIPPING:
 		DoTopMenuCDRipping();
@@ -257,7 +257,7 @@ void AudioCDWindow::SetSelectOnTopMenu()
 {
 	m_TopMenu.clear();
 
-	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
+	m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
 //	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 
 	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
@@ -270,7 +270,7 @@ void AudioCDWindow::DoTopMenuSelectAll()
 
 }
 
-void AudioCDWindow::DoTopMenuUnselect()
+void AudioCDWindow::DoTopMenuClearAll()
 {
 	m_pIconTracks->ClearSelectMap();
 

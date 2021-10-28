@@ -52,9 +52,13 @@
 //////////////////////////////////////////////////
 
 #define STR_ALBUM					TR("Album")
-#define STR_GENRE					TR("Genre")
+#define STR_ALBUM_ARTIST			TR("Album Artist")
 #define STR_ARTIST					TR("Artist")
 #define STR_COMPOSER				TR("Composer")
+#define STR_GENRE					TR("Genre")
+#define STR_MOOD					TR("Mood")
+#define STR_FOLDER					TR("Folder")
+#define STR_YEAR					TR("Year")
 #define STR_TRACK					TR("Track")
 
 
@@ -67,9 +71,9 @@
 #define STR_PLAY_NEXT				TR("Play next")
 #define STR_PLAY_CLEAR				TR("Play clear")
 #define STR_RELOAD					TR("Reload")
-#define STR_LOAD_COUNT				TR("Load count - %1")
+#define STR_LOAD_COUNT				TR("Load count")
 #define STR_SELECT_ALL				TR("Select all")
-#define STR_UNSELECT				TR("Unselect")
+#define STR_CLEAR_ALL				TR("Clear all")
 #define STR_GAIN_SET				TR("Gain Set")
 #define STR_GAIN_CLEAR				TR("Gain Clear")
 // audio cd
@@ -77,7 +81,8 @@
 #define STR_EJECT_CD				TR("Eject CD")
 // playlist
 #define STR_NEW_PLAYLIST			TR("New playlist")
-#define STR_ADD_PLAYLIST			TR("Add playlist")
+#define STR_RENAME_PLAYLIST			TR("Rename playlist")
+#define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
 #define STR_ADD_ITEM				TR("Add item")
 #define STR_DELETE_ITEM				TR("Delete item")
 #define STR_EXPORT_TRACK			TR("Export track")
@@ -103,8 +108,8 @@
 #define STR_SORT_ALBUM				TR("Sorted by Album")
 #define STR_SORT_ALBUM_ARTIST		TR("Sorted by Album Artist")
 #define STR_SORT_ARTIST				TR("Sorted by Artist")
-#define STR_SORT_GENRE				TR("Sorted by genre")
 #define STR_SORT_COMPOSER			TR("Sorted by Composer")
+#define STR_SORT_GENRE				TR("Sorted by genre")
 #define STR_SORT_MOOD				TR("Sorted by mood")
 #define STR_SORT_FOLDER				TR("Sorted by folder")
 #define STR_SORT_YEAR				TR("Sorted by year")

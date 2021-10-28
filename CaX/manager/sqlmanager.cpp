@@ -25,8 +25,7 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 										 int nStartIndex,
 										 int nLimitCount)
 {
-	// todo-dylee
-	Q_UNUSED(nSort)
+
 	QString query;
 	QString category = GetCategoryName(nCategory);
 	QString column = GetColumnName(nSort);

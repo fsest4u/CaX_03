@@ -49,7 +49,7 @@ private:
 
 	void DoTopMenuSearchAll(bool bDelete);
 	void DoTopMenuSelectAll();
-	void DoTopMenuUnselect();
+	void DoTopMenuClearAll();
 	void DoTopMenuAddItem();
 	void DoTopMenuDeleteItem();
 	void DoTopMenuReservedRecordList();

@@ -48,7 +48,7 @@ private:
 
 	void DoTopMenuSearchAll(bool bDelete);
 	void DoTopMenuSelectAll();
-	void DoTopMenuUnselect();
+	void DoTopMenuClearAll();
 	void DoTopMenuDeleteItem();
 	void DoTopMenuReservedRecordList();
 

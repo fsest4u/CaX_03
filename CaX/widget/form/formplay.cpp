@@ -3,6 +3,8 @@
 #include "formplay.h"
 #include "ui_formplay.h"
 
+#include "util/caxtranslate.h"
+
 FormPlay::FormPlay(QWidget *parent) :
 	QWidget(parent),
 	m_TopMenu(new QMenu(this)),
@@ -19,6 +21,12 @@ FormPlay::FormPlay(QWidget *parent) :
 
 FormPlay::~FormPlay()
 {
+	if (m_TopMenu)
+	{
+		delete m_TopMenu;
+		m_TopMenu = nullptr;
+	}
+
 	delete ui;
 }
 
@@ -92,7 +100,7 @@ void FormPlay::SetRating(int Rating)
 					  border-image: url(\":/resource/play-btn28-rank-sel0@3x.png\");	\
 					}").arg(style);
 
-					ui->frameRating->setStyleSheet(style);
+	ui->frameRating->setStyleSheet(style);
 }
 
 void FormPlay::ClearTopMenu()
@@ -106,10 +114,12 @@ void FormPlay::SetTopMenu(QMap<int, QString> map)
 	QMap<int, QString>::iterator i;
 	for (i = map.begin(); i != map.end(); i++)
 	{
-		QAction *action = new QAction(i.value(), this);
+		QIcon icon = GetIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
 		action->setData(i.key());
 		m_TopMenu->addAction(action);
 	}
+	connect(m_TopMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotTopMenuAction(QAction*)));
 }
 
 int FormPlay::GetFavorite() const
@@ -235,6 +245,21 @@ void FormPlay::ConnectSigToSlot()
 
 void FormPlay::Initialize()
 {
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_TopMenu->setStyleSheet(style);
 	ui->btnTopMenu->setMenu(m_TopMenu);
 
 	ui->labelPlayAll->hide();
@@ -247,6 +272,130 @@ void FormPlay::Initialize()
 	ui->labelPlayRandom->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
 
-	connect(m_TopMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotTopMenuAction(QAction*)));
+}
+
+QIcon FormPlay::GetIcon(QString value)
+{
+	if (value.contains(STR_PLAY_NOW))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_PLAY_LAST))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_PLAY_NEXT))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_PLAY_CLEAR))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_RELOAD))
+	{
+		return QIcon(":/resource/play-popup-icon16-reload@3x.png");
+	}
+	else if (value.contains(STR_LOAD_COUNT))
+	{
+		return QIcon(":/resource/play-popup-icon16-loadalloff@3x.png");
+	}
+	else if (value.contains(STR_SELECT_ALL))
+	{
+		return QIcon(":/resource/play-popup-icon16-selectall@3x.png");
+	}
+	else if (value.contains(STR_CLEAR_ALL))
+	{
+		return QIcon(":/resource/playlist-icon16-clearall@3x.png");
+	}
+	else if (value.contains(STR_GAIN_SET))
+	{
+		return QIcon(":/resource/play-popup-icon16-replaygain@3x.png");
+	}
+	else if (value.contains(STR_GAIN_CLEAR))
+	{
+		return QIcon(":/resource/play-popup-icon16-cleanreplaygain@3x.png");
+	}
+	else if (value.contains(STR_CD_RIPPING))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-cdrip@3x.png");
+	}
+	else if (value.contains(STR_EJECT_CD))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-eject@3x.png");
+	}
+	else if (value.contains(STR_NEW_PLAYLIST))
+	{
+		return QIcon(":/resource/playlist-icon16-newplaylist@3x.png");
+	}
+	else if (value.contains(STR_RENAME_PLAYLIST))
+	{
+		return QIcon(":/resource/play-popup-icon16-nameedit@3x.png");
+	}
+	else if (value.contains(STR_ADD_TO_PLAYLIST))
+	{
+		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
+	}
+	else if (value.contains(STR_ADD_ITEM))
+	{
+		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
+	}
+	else if (value.contains(STR_DELETE_ITEM))
+	{
+		return QIcon(":/resource/playlist-icon16-delete@3x.png");
+	}
+	else if (value.contains(STR_EXPORT_TRACK))
+	{
+		return QIcon(":/resource/playlist-icon16-exportsong@3x.png");
+	}
+	else if (value.contains(STR_OPTION_PLAY_SUBDIR))
+	{
+		return QIcon("");
+	}
+	else if (value.contains(STR_CONVERT_FORMAT))
+	{
+		return QIcon(":/resource/browser-icon16-convertaudio@3x.png");
+	}
+	else if (value.contains(STR_NEW_DIR))
+	{
+		return QIcon(":/resource/browser-icon16-newfolder@3x.png");
+	}
+	else if (value.contains(STR_OPTION_OVERWRITE))
+	{
+		return QIcon("");
+	}
+	else if (value.contains(STR_MOVE))
+	{
+		return QIcon(":/resource/browser-icon16-move@3x.png");
+	}
+	else if (value.contains(STR_COPY))
+	{
+		return QIcon(":/resource/browser-icon16-copy@3x.png");
+	}
+	else if (value.contains(STR_SEARCH_COVERART))
+	{
+		return QIcon("");
+	}
+	else if (value.contains(STR_EDIT_TAG))
+	{
+		return QIcon(":/resource/browser-icon16-settag@3x.png");
+	}
+	else if (value.contains(STR_SEARCH_ALL_N_DELETE))
+	{
+		return QIcon("");
+	}
+	else if (value.contains(STR_SEARCH_ALL))
+	{
+		return QIcon("");
+	}
+	else if (value.contains(STR_RESERVE_RECORD_LIST))
+	{
+		return QIcon("");
+	}
+	else
+	{
+		return QIcon("");
+
+	}
 }
 

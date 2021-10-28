@@ -55,7 +55,7 @@ private:
 	void SetSelectOnTopMenu();
 
 	void DoTopMenuSelectAll();
-	void DoTopMenuUnselect();
+	void DoTopMenuClearAll();
 	void DoTopMenuCDRipping();
 	void DoTopMenuEjectCD();
 

@@ -7,14 +7,11 @@
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
 
-#include "dialog/submenudialog.h"
-
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
 InfoService::InfoService(QWidget *parent) :
 	QWidget(parent),
-	m_pSubmenuDlg(new SubmenuDialog(this)),
 	m_pFormTitle(new FormTitle(this)),
 	m_pFormPlay(new FormPlay(this)),
 	m_pFormSort(new FormSort(this)),
@@ -28,11 +25,7 @@ InfoService::InfoService(QWidget *parent) :
 
 InfoService::~InfoService()
 {
-	if (m_pSubmenuDlg)
-	{
-		delete m_pSubmenuDlg;
-		m_pSubmenuDlg = nullptr;
-	}
+
 
 	if (m_pFormTitle)
 	{
@@ -89,87 +82,6 @@ void InfoService::ConnectSigToSlot()
 	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));
 }
 
-void InfoService::SetSubmenuIService()
-{
-	QList<CJsonNode> list;
-
-	QList<int> listID = {
-		ISERVICE_NONE
-	};
-	QList<QString> listName = {
-		"Test"
-	};
-
-	CJsonNode node(JSON_OBJECT);
-	for (int i = 0; i < listID.count(); i++)
-	{
-		node.AddInt(KEY_ID_UPPER, listID.at(i));
-		node.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
-		node.Add(KEY_NAME, listName.at(i));
-		list.append(node);
-	}
-	m_pSubmenuDlg->SetItemList(list);
-}
-
-void InfoService::SetSubmenuFmRadio()
-{
-	QList<CJsonNode> list;
-
-	QList<int> listID = {
-		FM_SEARCH_ALL_DELETE,
-		FM_SEARCH_ALL,
-		FM_ADD,
-		FM_DELETE,
-		FM_RESERVE_LIST
-	};
-	QList<QString> listName = {
-		"Delete and search all",
-		"Search all",
-		"Add",
-		"Delete",
-		"Reserved list"
-	};
-
-	CJsonNode node(JSON_OBJECT);
-	for (int i = 0; i < listID.count(); i++)
-	{
-		node.AddInt(KEY_ID_UPPER, listID.at(i));
-		node.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
-		node.Add(KEY_NAME, listName.at(i));
-		list.append(node);
-	}
-	m_pSubmenuDlg->SetItemList(list);
-}
-
-void InfoService::SetSubmenuDabRadio()
-{
-	QList<CJsonNode> list;
-
-	QList<int> listID = {
-		DAB_SEARCH_ALL_DELETE,
-		DAB_SEARCH_ALL,
-//		DAB_ADD,
-		DAB_DELETE,
-		DAB_RESERVE_LIST
-	};
-	QList<QString> listName = {
-		"Delete and search all",
-		"Search all",
-		"Add",
-		"Delete",
-		"Reserved list"
-	};
-
-	CJsonNode node(JSON_OBJECT);
-	for (int i = 0; i < listID.count(); i++)
-	{
-		node.AddInt(KEY_ID_UPPER, listID.at(i));
-		node.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
-		node.Add(KEY_NAME, listName.at(i));
-		list.append(node);
-	}
-	m_pSubmenuDlg->SetItemList(list);
-}
 
 FormPlay *InfoService::GetFormPlay()
 {
@@ -179,25 +91,4 @@ FormPlay *InfoService::GetFormPlay()
 FormSort *InfoService::GetFormSort()
 {
 	return m_pFormSort;
-}
-
-void InfoService::ShowSubmenuDialog()
-{
-//	if (m_pSubmenuDlg->isHidden())
-//	{
-//		m_pSubmenuDlg->move(mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).x() - m_pSubmenuDlg->width()
-//						, mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).y());
-
-//		if (m_pSubmenuDlg->exec())
-//		{
-//			int id = m_pSubmenuDlg->GetID();
-//			LogDebug("sort type id [%d]", id);
-//			emit SigSubmenu(id);
-
-//		}
-//	}
-//	else
-//	{
-//		m_pSubmenuDlg->close();
-//	}
 }

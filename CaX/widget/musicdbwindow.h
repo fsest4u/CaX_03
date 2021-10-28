@@ -67,7 +67,8 @@ private slots:
 	void SlotAlbumList();
 	void SlotArtistList();
 	void SlotTrackList();
-	void SlotSubmenu2();
+	void SlotCategoryMenu();
+	void SlotCategoryMenuAction(int nCategory, QString title);
 
 	void SlotItemPlayAll();
 	void SlotItemPlayRandom();
@@ -117,17 +118,17 @@ private:
 	void DoTopMenuReload();
 	void DoTopMenuSetLimitCount(int count);
 	void DoTopMenuSelectAll();
-	void DoTopMenuUnselect();
+	void DoTopMenuClearAll();
 	void DoTopMenuGainSet();
 	void DoTopMenuGainClear();
-	void DoTopMenuAddPlaylist();
+	void DoTopMenuAddToPlaylist();
 
 	void DoItemTopMenuPlay(int nWhere);
 	void DoItemTopMenuSelectAll();
-	void DoItemTopMenuUnselect();
+	void DoItemTopMenuClearAll();
 	void DoItemTopMenuGainSet();
 	void DoItemTopMenuGainClear();
-	void DoItemTopMenuAddPlaylist();
+	void DoItemTopMenuAddToPlaylist();
 
 	void SetCoverArt(QString coverArt);
 
@@ -149,6 +150,7 @@ private:
 //	QThread			*m_pSongThread;
 
 	QMap<int, QString> m_TopMenu;
+	QMap<int, QString> m_CategoryMenu;
 	QMap<int, bool>	m_SelectItem;
 
 	int				m_EventID;

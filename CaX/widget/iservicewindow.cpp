@@ -46,7 +46,6 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoService->SetSubmenuIService();
 	m_pInfoService->GetFormSort()->ShowResize();
 
 	m_bGenreSubmenu = false;

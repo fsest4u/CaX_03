@@ -7,7 +7,6 @@
 #include "widget/form/formsort.h"
 #include "widget/form/formclassify.h"
 
-#include "dialog/submenudialog.h"
 
 #include "manager/sqlmanager.h"
 
@@ -16,41 +15,19 @@
 
 InfoHome::InfoHome(QWidget *parent)	:
 	QWidget(parent),
-	m_pCatDlg(new SubmenuDialog(this)),
-	m_pSortDlg(new SubmenuDialog(this)),
 	m_pFormPlay(new FormPlay(this)),
 	m_pFormClassify(new FormClassify(this)),
 	m_pFormSort(new FormSort(this)),
+	m_CategoryMenu(new QMenu(this)),
 	ui(new Ui::InfoHome)
 {
 	ui->setupUi(this);
 
-	ui->frameAlbum->installEventFilter(this);
-	ui->frameArtist->installEventFilter(this);
-	ui->frameTrack->installEventFilter(this);
-	ui->frameGenre->installEventFilter(this);
-	ui->frameSubmenu2->installEventFilter(this);
-
-	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
-	ui->gridLayoutFormClassify->addWidget(m_pFormClassify);
-	ui->gridLayoutFormSort->addWidget(m_pFormSort);
-
-	SetCategoryDialog();
-	SetSortDialog();
+	Initialize();
 }
 
 InfoHome::~InfoHome()
 {
-	if (m_pCatDlg)
-	{
-		delete m_pCatDlg;
-		m_pCatDlg = nullptr;
-	}
-	if (m_pSortDlg)
-	{
-		delete m_pSortDlg;
-		m_pSortDlg = nullptr;
-	}
 
 	if (m_pFormPlay)
 	{
@@ -68,6 +45,12 @@ InfoHome::~InfoHome()
 	{
 		delete m_pFormSort;
 		m_pFormSort = nullptr;
+	}
+
+	if (m_CategoryMenu)
+	{
+		delete m_CategoryMenu;
+		m_CategoryMenu = nullptr;
 	}
 
 	delete ui;
@@ -133,12 +116,6 @@ void InfoHome::SetGenreCnt(const QString count)
 
 }
 
-void InfoHome::SetSortName(const QString name)
-{
-//	ui->labelSort->setText(name);
-
-}
-
 FormPlay *InfoHome::GetFormPlay()
 {
 	return m_pFormPlay;
@@ -153,7 +130,6 @@ FormClassify *InfoHome::GetFormClassify()
 {
 	return m_pFormClassify;
 }
-
 
 bool InfoHome::eventFilter(QObject *object, QEvent *event)
 {
@@ -176,116 +152,68 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigTrackList();
 		}
-		else if (object == ui->frameSubmenu2)
-		{
-			emit SigSubmenu2();
-		}
-
 	}
 
 	return QObject::eventFilter(object, event);
 }
 
-
-
-
-void InfoHome::SetCategoryDialog()
+void InfoHome::SlotBtnCategoryMenu()
 {
-	QList<CJsonNode> list;
-
-	QList<int> listID = {
-		CATEGORY_GENRE,
-		CATEGORY_MOOD,
-		CATEGORY_FOLDER,
-		CATEGORY_YEAR
-	};
-	QList<QString> listName = {
-		"Sorted by Genre",
-		"Sorted by Mood",
-		"Sorted by Folder",
-		"Sorted by Year"
-	};
-
-	CJsonNode node(JSON_OBJECT);
-	for (int i = 0; i < listID.count(); i++)
-	{
-		node.AddInt(KEY_ID_UPPER, listID.at(i));
-		node.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
-		node.Add(KEY_NAME, listName.at(i));
-		list.append(node);
-	}
-	m_pCatDlg->SetItemList(list);
+	emit SigCategoryMenu();
 }
 
-void InfoHome::SetSortDialog()
+void InfoHome::SlotCategoryMenuAction(QAction *action)
 {
-	QList<CJsonNode> list;
-
-	QList<int> listID = {
-		SORT_GENRE,
-		SORT_MOOD,
-		SORT_FOLDER,
-		SORT_YEAR,
-		SORT_RATING,
-		SORT_SAMPLE_RATE
-	};
-	QList<QString> listName = {
-		"Sorted by Genre",
-		"Sorted by Mood",
-		"Sorted by Folder",
-		"Sorted by Year",
-		"Sorted by Rating",
-		"Sorted by Sample rate"
-	};
-
-	CJsonNode node(JSON_OBJECT);
-	for (int i = 0; i < listID.count(); i++)
-	{
-		node.AddInt(KEY_ID_UPPER, listID.at(i));
-		node.Add(KEY_COVER_ART, ":/resource/Icon-playbar-volume-160.png");
-		node.Add(KEY_NAME, listName.at(i));
-		list.append(node);
-	}
-	m_pSortDlg->SetItemList(list);
+	emit SigCategoryMenuAction(action->data().toInt(), action->text());
 }
 
-
-void InfoHome::ShowCategoryDialog()
+void InfoHome::Initialize()
 {
-//	if (m_pCatDlg->isHidden())
-//	{
-//		m_pCatDlg->move(mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).x() - m_pCatDlg->width()
-//						, mapToGlobal(ui->frameSubmenu->geometry().bottomRight()).y());
+	connect(ui->btnCategoryMenu, SIGNAL(pressed()), this, SLOT(SlotBtnCategoryMenu()));
 
-//		if (m_pCatDlg->exec())
-//		{
-//			int id = m_pCatDlg->GetID();
-//			LogDebug("sort type id [%d]", id);
-//			// emit signal sort...
-//		}
-//	}
-//	else
-//	{
-//		m_pCatDlg->close();
-//	}
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_CategoryMenu->setStyleSheet(style);
+	ui->btnCategoryMenu->setMenu(m_CategoryMenu);
+
+	ui->frameAlbum->installEventFilter(this);
+	ui->frameArtist->installEventFilter(this);
+	ui->frameTrack->installEventFilter(this);
+	ui->frameGenre->installEventFilter(this);
+
+	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
+	ui->gridLayoutFormClassify->addWidget(m_pFormClassify);
+	ui->gridLayoutFormSort->addWidget(m_pFormSort);
+
 }
 
-void InfoHome::ShowSortDialog()
+void InfoHome::ClearCategoryMenu()
 {
-	if (m_pSortDlg->isHidden())
-	{
-		m_pSortDlg->move(mapToGlobal(this->geometry().bottomRight()).x() - m_pSortDlg->width()
-						 , mapToGlobal(this->geometry().bottomRight()).y());
-
-		if (m_pSortDlg->exec())
-		{
-			int id = m_pSortDlg->GetID();
-			LogDebug("sort type id [%d]", id);
-			// emit signal sort...
-		}
-	}
-	else
-	{
-		m_pSortDlg->close();
-	}
+	disconnect(m_CategoryMenu, SIGNAL(triggered(QAction*)));
+	m_CategoryMenu->clear();
 }
+
+void InfoHome::SetCategoryMenu(QMap<int, QString> list)
+{
+	QMap<int, QString>::iterator i;
+	for (i = list.begin(); i!= list.end(); i++)
+	{
+		QAction *action = new QAction(i.value(), this);
+		action->setData(i.key());
+		m_CategoryMenu->addAction(action);
+	}
+	connect(m_CategoryMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotCategoryMenuAction(QAction*)));
+}
+

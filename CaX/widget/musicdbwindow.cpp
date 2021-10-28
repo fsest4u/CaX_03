@@ -330,8 +330,8 @@ void MusicDBWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_SELECT_ALL:
 		DoTopMenuSelectAll();
 		break;
-	case TOP_MENU_UNSELECT:
-		DoTopMenuUnselect();
+	case TOP_MENU_CLEAR_ALL:
+		DoTopMenuClearAll();
 		break;
 	case TOP_MENU_GAIN_SET:
 		DoTopMenuGainSet();
@@ -340,7 +340,7 @@ void MusicDBWindow::SlotTopMenuAction(int menuID)
 		DoTopMenuGainClear();
 		break;
 	case TOP_MENU_ADD_TO_PLAYLIST:
-		DoTopMenuAddPlaylist();
+		DoTopMenuAddToPlaylist();
 		break;
 	}
 
@@ -405,9 +405,27 @@ void MusicDBWindow::SlotTrackList()
 	widget->SetCoverArt("");
 }
 
-void MusicDBWindow::SlotSubmenu2()
+void MusicDBWindow::SlotCategoryMenu()
 {
-	LogDebug("click Submenu2");
+	m_CategoryMenu.clear();
+	m_CategoryMenu.insert(SQLManager::CATEGORY_ALBUMARTIST, STR_ALBUM_ARTIST);
+	m_CategoryMenu.insert(SQLManager::CATEGORY_COMPOSER, STR_COMPOSER);
+	m_CategoryMenu.insert(SQLManager::CATEGORY_MOOD, STR_MOOD);
+	m_CategoryMenu.insert(SQLManager::CATEGORY_FOLDER, STR_FOLDER);
+	m_CategoryMenu.insert(SQLManager::CATEGORY_YEAR, STR_YEAR);
+
+	m_pInfoHome->ClearCategoryMenu();
+	m_pInfoHome->SetCategoryMenu(m_CategoryMenu);
+}
+
+void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
+{
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+	widget->AddWidgetMusicDBHome();
+	emit SigAddWidget(widget, title);
+
+	widget->SetCategory(nCategory);
+	widget->RequestMusicDBHome();
 }
 
 void MusicDBWindow::SlotItemPlayAll()
@@ -465,7 +483,7 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 		break;
 	case TOP_MENU_SELECT_ALL:
 		break;
-	case TOP_MENU_UNSELECT:
+	case TOP_MENU_CLEAR_ALL:
 		break;
 	case TOP_MENU_GAIN_SET:
 		break;
@@ -722,7 +740,8 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome, SIGNAL(SigAlbumList()), this, SLOT(SlotAlbumList()));
 	connect(m_pInfoHome, SIGNAL(SigArtistList()), this, SLOT(SlotArtistList()));
 	connect(m_pInfoHome, SIGNAL(SigTrackList()), this, SLOT(SlotTrackList()));
-	connect(m_pInfoHome, SIGNAL(SigSubmenu2()), this, SLOT(SlotSubmenu2()));
+	connect(m_pInfoHome, SIGNAL(SigCategoryMenu()), this, SLOT(SlotCategoryMenu()));
+	connect(m_pInfoHome, SIGNAL(SigCategoryMenuAction(int, QString)), this, SLOT(SlotCategoryMenuAction(int, QString)));
 
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotItemPlayAll()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotItemPlayRandom()));
@@ -775,6 +794,7 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 
 	m_TopMenu.clear();
+	m_CategoryMenu.clear();
 	m_SelectItem.clear();
 
 }
@@ -787,7 +807,7 @@ void MusicDBWindow::SetSelectOffTopMenu()
 	m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 	m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 	m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
-	m_TopMenu.insert(TOP_MENU_LOAD_COUNT, STR_LOAD_COUNT.arg(m_LimitCount));
+	m_TopMenu.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
 	m_TopMenu.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 
 	m_pInfoHome->GetFormPlay()->ClearTopMenu();
@@ -804,8 +824,8 @@ void MusicDBWindow::SetSelectOnTopMenu()
 	m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
 	m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 	m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-	m_TopMenu.insert(TOP_MENU_UNSELECT, STR_UNSELECT);
-//	m_TopMenu.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_PLAYLIST);	// todo-dylee
+	m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+//	m_TopMenu.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);	// todo-dylee
 	m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 	m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 
@@ -841,7 +861,7 @@ void MusicDBWindow::DoTopMenuSelectAll()
 	m_pIconTracks->SetAllSelectMap();
 }
 
-void MusicDBWindow::DoTopMenuUnselect()
+void MusicDBWindow::DoTopMenuClearAll()
 {
 	m_pIconTracks->ClearSelectMap();
 }
@@ -865,7 +885,7 @@ void MusicDBWindow::DoTopMenuGainClear()
 
 }
 
-void MusicDBWindow::DoTopMenuAddPlaylist()
+void MusicDBWindow::DoTopMenuAddToPlaylist()
 {
 	m_pMgr->RequestManageCategory(VAL_ADD,
 								  m_SelectItem,
@@ -900,7 +920,7 @@ void MusicDBWindow::DoItemTopMenuSelectAll()
 
 }
 
-void MusicDBWindow::DoItemTopMenuUnselect()
+void MusicDBWindow::DoItemTopMenuClearAll()
 {
 	m_pListTracks->ClearSelectMap();
 
@@ -950,7 +970,7 @@ void MusicDBWindow::DoItemTopMenuGainClear()
 	}
 }
 
-void MusicDBWindow::DoItemTopMenuAddPlaylist()
+void MusicDBWindow::DoItemTopMenuAddToPlaylist()
 {
 
 }

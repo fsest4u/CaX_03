@@ -42,6 +42,8 @@ private slots:
 
 private:
 
+	void Initialize();
+
 	QMenu *m_SortMenu;
 	bool m_bIncrease;
 

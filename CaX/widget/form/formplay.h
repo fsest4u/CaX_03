@@ -39,7 +39,6 @@ signals:
 	void SigFavorite(int Favorite);
 	void SigRating(int Rating);
 	void SigTopMenu();
-
 	void SigTopMenuAction(int menuID);
 
 protected:
@@ -55,13 +54,14 @@ private slots:
 	void SlotBtnRating5();
 
 	void SlotBtnTopMenu();
-
 	void SlotTopMenuAction(QAction *action);
 
 private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+
+	QIcon GetIcon(QString value);
 
 	QMenu	*m_TopMenu;
 

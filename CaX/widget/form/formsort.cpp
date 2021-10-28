@@ -11,17 +11,7 @@ FormSort::FormSort(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->btnSort->hide();
-	ui->labelIncDec->hide();
-	ui->labelResize->hide();
-
-//	ui->btnSort->installEventFilter(this);
-	ui->labelIncDec->installEventFilter(this);
-	ui->labelResize->installEventFilter(this);
-
-	ui->btnSort->setMenu(m_SortMenu);
-
-	SetIncrease(m_bIncrease);
+	Initialize();
 }
 
 FormSort::~FormSort()
@@ -132,4 +122,31 @@ void FormSort::SlotSortMenu(QAction *action)
 	ui->btnSort->setText(action->text());
 
 	emit SigSort(action->data().toInt());
+}
+
+void FormSort::Initialize()
+{
+	ui->btnSort->hide();
+	ui->labelIncDec->hide();
+	ui->labelResize->hide();
+
+//	ui->btnSort->installEventFilter(this);
+	ui->labelIncDec->installEventFilter(this);
+	ui->labelResize->installEventFilter(this);
+
+	QString style = QString("QMenu::item {	\
+								width: 200px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_SortMenu->setStyleSheet(style);
+	ui->btnSort->setMenu(m_SortMenu);
+
+	SetIncrease(m_bIncrease);
 }

@@ -16,8 +16,6 @@ SOURCES += \
     dialog/logindialog.cpp \
     dialog/poweroffdialog.cpp \
     dialog/searchdialog.cpp \
-    dialog/submenudelegate.cpp \
-    dialog/submenudialog.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
     main.cpp \
@@ -99,8 +97,6 @@ HEADERS += \
     dialog/poweroffdialog.h \
     dialog/requestinterceptor.h \
     dialog/searchdialog.h \
-    dialog/submenudelegate.h \
-    dialog/submenudialog.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
     manager/airablemanager.h \
@@ -191,7 +187,6 @@ FORMS += \
     dialog/logindialog.ui \
     dialog/poweroffdialog.ui \
     dialog/searchdialog.ui \
-    dialog/submenudialog.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
