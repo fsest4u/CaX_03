@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QMenu>
 
 namespace Ui {
 class TopWindow;
@@ -26,9 +27,26 @@ public:
 	QPushButton* GetBtnNext();
 	QPushButton* GetBtnSearch();
 
+	void ClearMenu();
+	void SetMenu(QMap<int, QString> list);
+
+signals:
+
+	void SigMenu();
+	void SigMenuAction(int menuID);
+
+private slots:
+
+	void SlotMenu();
+	void SlotMenuAction(QAction *action);
+
 private:
 
-	QList<QString> m_TitleList;
+	void Initialize();
+	QIcon GetIcon(QString value);
+
+	QList<QString>	m_TitleList;
+	QMenu			*m_Menu;
 
 	Ui::TopWindow *ui;
 };

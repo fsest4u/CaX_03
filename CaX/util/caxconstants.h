@@ -61,6 +61,24 @@
 #define PLAY_NEXT		2
 #define PLAY_CLEAR		3
 
+enum {
+	SIDEMENU_MUSIC_DB = Qt::UserRole + 0,
+	SIDEMENU_AUDIO_CD,
+	SIDEMENU_PLAYLIST,
+	SIDEMENU_BROWSER,
+	SIDEMENU_ISERVICE,
+	SIDEMENU_INPUT,
+	SIDEMENU_FM_RADIO,
+	SIDEMENU_DAB_RADIO,
+	SIDEMENU_GROUP_PLAY,
+	SIDEMENU_SETUP,
+	SIDEMENU_SELECT_DEVICE,
+	SIDEMENU_POWER_ON,
+	SIDEMENU_POWER_OFF,
+	SIDEMENU_ABOUT,
+	SIDEMENU_MAX
+};
+
 //////////////////////////////////////////////////
 // top menu
 //////////////////////////////////////////////////

@@ -84,8 +84,6 @@ SOURCES += \
     widget/playlistwindow.cpp \
     widget/playwindow.cpp \
     widget/setupwindow.cpp \
-    widget/sidemenu.cpp \
-    widget/sidemenudelegate.cpp \
     widget/topwindow.cpp
 
 HEADERS += \
@@ -175,8 +173,6 @@ HEADERS += \
     widget/qobuz.h \
     widget/setup.h \
     widget/setupwindow.h \
-    widget/sidemenu.h \
-    widget/sidemenudelegate.h \
     widget/topwindow.h
 
 FORMS += \
@@ -221,7 +217,6 @@ FORMS += \
     widget/playlistwindow.ui \
     widget/playwindow.ui \
     widget/setupwindow.ui \
-    widget/sidemenu.ui \
     widget/topwindow.ui
 
 RC_ICONS = logo-icon-musicxneo-256.ico

@@ -24,17 +24,17 @@
 // sidemenu
 //////////////////////////////////////////////////
 
-#define STR_SELECT_DEVICE			TR("Select device")
 #define STR_MUSIC_DB				TR("Music DB")
 #define STR_AUDIO_CD				TR("Audio CD")
 #define STR_PLAYLIST				TR("Playlist")
 #define STR_BROWSER					TR("Browser")
-#define STR_INTERNET_SERVICE		TR("Internet service")
+#define STR_ISERVICE				TR("Internet service")
 #define STR_INPUT					TR("Input")
 #define STR_FM_RADIO				TR("FM radio")
 #define STR_DAB_RADIO				TR("DAB radio")
 #define STR_GROUP_PLAY				TR("Group play")
 #define STR_SETUP					TR("Setup")
+#define STR_SELECT_DEVICE			TR("Select device")
 #define STR_POWER_ON				TR("Power on")
 #define STR_POWER_OFF				TR("Power off")
 #define STR_ABOUT					TR("About")

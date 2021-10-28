@@ -15,8 +15,6 @@
 #include "util/log.h"
 #include "util/settingio.h"
 
-#include "widget/sidemenu.h"
-#include "widget/sidemenudelegate.h"
 #include "widget/devicelistwindow.h"
 #include "widget/musicdbwindow.h"
 #include "widget/audiocdwindow.h"
@@ -33,7 +31,6 @@ const QString SETTINGS_GROUP = "MainWindow";
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
-	m_pSideMenu(new SideMenu(this)),
 	m_pDeviceMgr(new DeviceManager),
 	m_pDeviceWin(new DeviceListWindow),
 	m_pObsMgr(new ObserverManager),
@@ -67,12 +64,6 @@ MainWindow::~MainWindow()
 {
 	WriteSettings();
 
-	if (m_pSideMenu)
-	{
-		delete m_pSideMenu;
-		m_pSideMenu = nullptr;
-	}
-
 	if (m_pObsMgr)
 	{
 		delete m_pObsMgr;
@@ -100,23 +91,109 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::SlotBtnMenu()
+void MainWindow::SlotMenu()
 {
-	if (m_pSideMenu->isHidden())
+	m_MenuMap.clear();
+	if (m_bConnect)
 	{
-		m_pSideMenu->SetEnableInput(m_bInput);
-		m_pSideMenu->SetEnableFMRadio(m_bFMRadio);
-		m_pSideMenu->SetEnableGroupPlay(m_bGroupPlay);
 
-		m_pSideMenu->resize(ui->centralwidget->frameGeometry().width(), ui->centralwidget->frameGeometry().height());
-		m_pSideMenu->move(mapToGlobal(ui->centralwidget->frameGeometry().topLeft()).x(), mapToGlobal(ui->centralwidget->frameGeometry().topLeft()).y());
-		m_pSideMenu->ShowMenu(m_bConnect);
+		m_MenuMap.insert(SIDEMENU_MUSIC_DB, STR_MUSIC_DB);
+		m_MenuMap.insert(SIDEMENU_PLAYLIST, STR_PLAYLIST);
+		m_MenuMap.insert(SIDEMENU_BROWSER, STR_BROWSER);
+		m_MenuMap.insert(SIDEMENU_ISERVICE, STR_ISERVICE);
+		m_MenuMap.insert(SIDEMENU_SETUP, STR_SETUP);
+		m_MenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
+		m_MenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
+		m_MenuMap.insert(SIDEMENU_POWER_OFF, STR_POWER_OFF);
+		m_MenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
+
+		if (m_bAudioCD)
+		{
+			m_MenuMap.insert(SIDEMENU_AUDIO_CD, STR_AUDIO_CD);
+
+		}
+
+		if (m_bInput)
+		{
+			m_MenuMap.insert(SIDEMENU_INPUT, STR_INPUT);
+
+		}
+
+		if (m_bFMRadio)
+		{
+			m_MenuMap.insert(SIDEMENU_FM_RADIO, STR_FM_RADIO);
+			m_MenuMap.insert(SIDEMENU_DAB_RADIO, STR_DAB_RADIO);
+
+		}
+
+		if (m_bGroupPlay)
+		{
+			m_MenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
+
+		}
 	}
 	else
 	{
-		m_pSideMenu->HideMenu();
+		m_MenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
+		m_MenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
+		m_MenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 	}
 
+	ui->widgetTop->ClearMenu();
+	ui->widgetTop->SetMenu(m_MenuMap);
+}
+
+void MainWindow::SlotMenuAction(int menuID)
+{
+	LogDebug("menu action [%d]", menuID);
+	switch (menuID)
+	{
+	case SIDEMENU_MUSIC_DB:
+		DoMusicDBHome();
+		break;
+	case SIDEMENU_AUDIO_CD:
+		DoAudioCDHome();
+		break;
+	case SIDEMENU_PLAYLIST:
+		DoPlaylistHome();
+		break;
+	case SIDEMENU_BROWSER:
+		DoBrowserHome();
+		break;
+	case SIDEMENU_ISERVICE:
+		DoIServiceHome();
+		break;
+	case SIDEMENU_INPUT:
+		DoInputHome();
+		break;
+	case SIDEMENU_FM_RADIO:
+		DoFmRadioHome();
+		break;
+	case SIDEMENU_DAB_RADIO:
+		DoDabRadioHome();
+		break;
+	case SIDEMENU_GROUP_PLAY:
+		DoGroupPlayHome();
+		break;
+	case SIDEMENU_SETUP:
+		DoSetupHome();
+		break;
+	case SIDEMENU_SELECT_DEVICE:
+		DoDeviceListHome();
+		break;
+	case SIDEMENU_POWER_ON:
+		DoPowerOn();
+		break;
+	case SIDEMENU_POWER_OFF:
+		DoPowerOff();
+		break;
+	case SIDEMENU_ABOUT:
+		// todo-dylee
+		LogDebug("click about");
+		break;
+	default:
+		break;
+	}
 }
 
 void MainWindow::SlotBtnHome()
@@ -374,7 +451,6 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	m_nEventID = nEventID;
 	m_bAudioCD = bAudioCD;
-	m_pSideMenu->SetEnableAudioCD(m_bAudioCD);
 
 	if (!nodeSetup.IsNull())
 	{
@@ -471,57 +547,6 @@ void MainWindow::SlotDisconnectObserver()
 	}
 }
 
-void MainWindow::SlotSelectSideMenu(int menuIndex)
-{
-	m_pSideMenu->HideMenu();
-
-	switch (menuIndex)
-	{
-	case SideMenuDelegate::SIDEMENU_SERVICE_MUSIC_DB:
-		DoMusicDBHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_AUDIO_CD:
-		DoAudioCDHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_PLAYLIST:
-		DoPlaylistHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_BROWSER:
-		DoBrowserHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_ISERVICE:
-		DoIServiceHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_INPUT:
-		DoInputHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_FM_RADIO:
-		DoFmRadioHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_DAB_RADIO:
-		DoDabRadioHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_GROUP_PLAY:
-		DoGroupPlayHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_SETUP:
-		DoSetupHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_SELECT_DEVICE:
-		DoDeviceListHome();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_POWER_OFF:
-		DoPowerOff();
-		break;
-	case SideMenuDelegate::SIDEMENU_SERVICE_POWER_ON:
-		DoPowerOn();
-		break;
-	default:
-		break;
-	}
-
-}
-
 void MainWindow::SlotRespAirableLogout()
 {
 	DoMusicDBHome();
@@ -534,7 +559,6 @@ void MainWindow::InitMain()
 	DoDeviceListHome();
 
 	m_pDeviceMgr->RequestDeviceInfo();
-	m_pSideMenu->HideMenu();
 
 	UpdateStackState();
 
@@ -553,14 +577,12 @@ void MainWindow::ConnectSigToSlot()
 void MainWindow::ConnectForUI()
 {
 	// top menu
-	connect(ui->widgetTop->GetBtnMenu(), SIGNAL(clicked()), this, SLOT(SlotBtnMenu()));
+	connect(ui->widgetTop, SIGNAL(SigMenu()), this, SLOT(SlotMenu()));
+	connect(ui->widgetTop, SIGNAL(SigMenuAction(int)), this, SLOT(SlotMenuAction(int)));
 	connect(ui->widgetTop->GetBtnHome(), SIGNAL(clicked()), this, SLOT(SlotBtnHome()));
 	connect(ui->widgetTop->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPrev()));
 	connect(ui->widgetTop->GetBtnNext(), SIGNAL(clicked()), this, SLOT(SlotBtnNext()));
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
-
-	// side menu
-	connect(m_pSideMenu, SIGNAL(SigSelectSideMenu(int)), this, SLOT(SlotSelectSideMenu(int)));
 
 	// play menu
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
@@ -632,7 +654,7 @@ void MainWindow::DoBrowserHome()
 void MainWindow::DoIServiceHome()
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
-	SlotAddWidget(widget, STR_INTERNET_SERVICE);
+	SlotAddWidget(widget, STR_ISERVICE);
 	widget->IServiceHome(m_IServiceList);
 }
 
@@ -717,6 +739,11 @@ void MainWindow::DoPowerOn()
 
 	widget->SetTitle(STR_POWER_ON);
 	widget->SetDeviceList(m_pDeviceMgr->GetDeviceListWol());
+
+}
+
+void MainWindow::DoAbout()
+{
 
 }
 

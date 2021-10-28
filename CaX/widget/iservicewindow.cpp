@@ -197,25 +197,25 @@ void IServiceWindow::SlotSelectTitle(int nType)
 	else if (iQobuzType_Mask_Search == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->DoQobuzSearch();
 	}
 	else if (iQobuzType_Mask_Recommend == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->DoQobuzRecommend();
 	}
 	else if (iQobuzType_Mask_Favorite == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->DoQobuzFavorite();
 	}
 	else if (iQobuzType_Mask_UserPlaylist == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->RequestQobuzPlaylist(0, 50);
 	}
 }
@@ -241,7 +241,7 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 		{
 			QString keyword = dialog.GetKeyword();
 			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+			emit SigAddWidget(widget, STR_ISERVICE);
 			widget->RequestQobuzSearch(nType, keyword, 0, 50);
 			widget->SetInfoTitle(title);
 		}
@@ -250,14 +250,14 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->DoRecommendAlbum();
 		widget->SetInfoTitle(title);
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->DoRecommendPlaylist();
 		widget->SetInfoTitle(title);
 	}
@@ -267,7 +267,7 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 	{
 		LogDebug("favorite ");
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->RequestQobuzFavorite(nType, 0, 50);
 		widget->SetInfoTitle(title);
 	}
@@ -275,7 +275,7 @@ void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
 	{
 		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-		emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+		emit SigAddWidget(widget, STR_ISERVICE);
 		widget->SetInfoTitle(title);
 
 		QString strID = node.GetString(KEY_ID_UPPER);
@@ -315,13 +315,13 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 		{
 			LogDebug("fixed genre submenu display...");
 			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+			emit SigAddWidget(widget, STR_ISERVICE);
 			widget->DoRecommendGenre(nType, strID);
 		}
 		else if (nType & iQobuzType_Mask_Album)
 		{
 			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+			emit SigAddWidget(widget, STR_ISERVICE);
 			widget->RequestQobuzCategory(nType, strID, 0, 50);
 		}
 		else if (nType & iQobuzType_Mask_Menu_Genre)
@@ -332,13 +332,13 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 				QString strGenreID = node.GetString(KEY_GENRE_ID);
 
 				IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-				emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+				emit SigAddWidget(widget, STR_ISERVICE);
 				widget->RequestQobuzRecommend(nType, strID, 0, 50, strGenreID);
 			}
 			else
 			{
 				IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-				emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+				emit SigAddWidget(widget, STR_ISERVICE);
 				widget->RequestQobuzGenre(strID);
 			}
 		}
@@ -358,7 +358,7 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 		{
 	//		emit SigSelectURL(m_ServiceType, url);
 			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
-			emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+			emit SigAddWidget(widget, STR_ISERVICE);
 			widget->RequestIServiceURL(m_ServiceType, url);
 		}
 		else if (nType & iAirableType_Mask_Play)
@@ -401,7 +401,7 @@ void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
 void IServiceWindow::SlotRespQobuzLoginSuccess()
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-	emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+	emit SigAddWidget(widget, STR_ISERVICE);
 	widget->DoQobuzHome();
 }
 
@@ -465,7 +465,7 @@ void IServiceWindow::SlotRespGenreSubList(QList<CJsonNode> list)
 void IServiceWindow::SlotRespAuth(int nServiceType)
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
-	emit SigAddWidget(widget, STR_INTERNET_SERVICE);
+	emit SigAddWidget(widget, STR_ISERVICE);
 	widget->RequestIServiceURL(nServiceType);
 }
 

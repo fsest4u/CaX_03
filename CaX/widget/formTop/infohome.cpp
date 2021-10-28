@@ -131,6 +131,24 @@ FormClassify *InfoHome::GetFormClassify()
 	return m_pFormClassify;
 }
 
+void InfoHome::ClearCategoryMenu()
+{
+	disconnect(m_CategoryMenu, SIGNAL(triggered(QAction*)));
+	m_CategoryMenu->clear();
+}
+
+void InfoHome::SetCategoryMenu(QMap<int, QString> list)
+{
+	QMap<int, QString>::iterator i;
+	for (i = list.begin(); i!= list.end(); i++)
+	{
+		QAction *action = new QAction(i.value(), this);
+		action->setData(i.key());
+		m_CategoryMenu->addAction(action);
+	}
+	connect(m_CategoryMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotCategoryMenuAction(QAction*)));
+}
+
 bool InfoHome::eventFilter(QObject *object, QEvent *event)
 {
 
@@ -198,22 +216,3 @@ void InfoHome::Initialize()
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 
 }
-
-void InfoHome::ClearCategoryMenu()
-{
-	disconnect(m_CategoryMenu, SIGNAL(triggered(QAction*)));
-	m_CategoryMenu->clear();
-}
-
-void InfoHome::SetCategoryMenu(QMap<int, QString> list)
-{
-	QMap<int, QString>::iterator i;
-	for (i = list.begin(); i!= list.end(); i++)
-	{
-		QAction *action = new QAction(i.value(), this);
-		action->setData(i.key());
-		m_CategoryMenu->addAction(action);
-	}
-	connect(m_CategoryMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotCategoryMenuAction(QAction*)));
-}
-

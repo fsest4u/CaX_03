@@ -5,8 +5,6 @@
 
 #include "util/CJsonNode.h"
 
-class SideMenu;
-
 class DeviceManager;
 class DeviceListWindow;
 
@@ -27,7 +25,8 @@ public:
 
 public slots:
 
-	void SlotBtnMenu();
+	void SlotMenu();
+	void SlotMenuAction(int menuID);
 	void SlotBtnHome();
 	void SlotBtnPrev();
 	void SlotBtnNext();
@@ -47,9 +46,6 @@ public slots:
 
 	void SlotWolDevice(QString mac);
 	void SlotWolCancel(QString mac);
-
-	void SlotSelectSideMenu(int menuIndex);
-
 
 	void SlotRespAirableLogout();
 
@@ -81,11 +77,10 @@ private:
 	void DoSetupHome();
 	void DoPowerOff();
 	void DoPowerOn();
+	void DoAbout();
 
 	void RemoveAllWidget();
 	void UpdateStackState();
-
-	SideMenu		*m_pSideMenu;
 
 	DeviceManager		*m_pDeviceMgr;
 	DeviceListWindow	*m_pDeviceWin;
@@ -118,6 +113,8 @@ private:
 	QList<CJsonNode> m_IServiceList;
 	QList<CJsonNode> m_InputList;
 	QList<CJsonNode> m_SetupList;
+
+	QMap<int, QString> m_MenuMap;
 
 	Ui::MainWindow *ui;
 };
