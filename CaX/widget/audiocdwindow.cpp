@@ -40,11 +40,11 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoTracks->GetFormPlay()->ShowTopMenu();
+	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
 
-	m_TopMenu.clear();
-	m_SelectItem.clear();
+	m_TopMenuMap.clear();
+	m_SelectMap.clear();
 }
 
 AudioCDWindow::~AudioCDWindow()
@@ -187,8 +187,8 @@ void AudioCDWindow::SlotCalcTotalTime(int time)
 
 void AudioCDWindow::SlotTopMenu()
 {
-	m_SelectItem = m_pIconTracks->GetSelectMap();
-	if (m_SelectItem.count() > 0)
+	m_SelectMap = m_pIconTracks->GetSelectMap();
+	if (m_SelectMap.count() > 0)
 	{
 		SetSelectOnTopMenu();
 	}
@@ -236,32 +236,32 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
 
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenu()), this, SLOT(SlotTopMenu()));
-	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 }
 
 void AudioCDWindow::SetSelectOffTopMenu()
 {
-	m_TopMenu.clear();
+	m_TopMenuMap.clear();
 
-	m_TopMenu.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-//	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
-	m_TopMenu.insert(TOP_MENU_EJECT_CD, STR_EJECT_CD);
+	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+//	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+	m_TopMenuMap.insert(TOP_MENU_EJECT_CD, STR_EJECT_CD);
 
-	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
-	m_pInfoTracks->GetFormPlay()->SetTopMenu(m_TopMenu);
+	m_pInfoTracks->GetFormPlay()->ClearMenu();
+	m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
 }
 
 void AudioCDWindow::SetSelectOnTopMenu()
 {
-	m_TopMenu.clear();
+	m_TopMenuMap.clear();
 
-	m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
-//	m_TopMenu.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+//	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 
-	m_pInfoTracks->GetFormPlay()->ClearTopMenu();
-	m_pInfoTracks->GetFormPlay()->SetTopMenu(m_TopMenu);
+	m_pInfoTracks->GetFormPlay()->ClearMenu();
+	m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
 }
 
 void AudioCDWindow::DoTopMenuSelectAll()
@@ -281,7 +281,7 @@ void AudioCDWindow::DoTopMenuCDRipping()
 	// list does not contain track id. list contains index information
 	//	// temp_code, dylee
 
-	if (m_SelectItem.count() > 0)
+	if (m_SelectMap.count() > 0)
 	{
 
 	}

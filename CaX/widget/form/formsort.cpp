@@ -5,7 +5,7 @@
 
 FormSort::FormSort(QWidget *parent) :
 	QWidget(parent),
-	m_SortMenu(new QMenu(this)),
+	m_Menu(new QMenu(this)),
 	m_bIncrease(false),
 	ui(new Ui::FormSort)
 {
@@ -16,18 +16,18 @@ FormSort::FormSort(QWidget *parent) :
 
 FormSort::~FormSort()
 {
-	if (m_SortMenu)
+	if (m_Menu)
 	{
-		delete m_SortMenu;
-		m_SortMenu = nullptr;
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	delete ui;
 }
 
-void FormSort::ShowSort()
+void FormSort::ShowMenu()
 {
-	ui->btnSort->show();
+	ui->btnMenu->show();
 
 }
 
@@ -43,21 +43,21 @@ void FormSort::ShowResize()
 
 }
 
-void FormSort::SetSortMenu(QMap<int, QString> list)
+void FormSort::SetMenu(QMap<int, QString> list)
 {
 	QMap<int, QString>::iterator i;
 	for (i = list.begin(); i!= list.end(); i++)
 	{
 		QAction *action = new QAction(i.value(), this);
 		action->setData(i.key());
-		m_SortMenu->addAction(action);
+		m_Menu->addAction(action);
 	}
-	connect(m_SortMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotSortMenu(QAction*)));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenu(QAction*)));
 }
 
-void FormSort::SetSortMenuTitle(QString title)
+void FormSort::SetMenuTitle(QString title)
 {
-	ui->btnSort->setText(title);
+	ui->btnMenu->setText(title);
 }
 
 bool FormSort::GetIncrease() const
@@ -117,20 +117,20 @@ bool FormSort::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
-void FormSort::SlotSortMenu(QAction *action)
+void FormSort::SlotMenu(QAction *action)
 {
-	ui->btnSort->setText(action->text());
+	ui->btnMenu->setText(action->text());
 
-	emit SigSort(action->data().toInt());
+	emit SigMenu(action->data().toInt());
 }
 
 void FormSort::Initialize()
 {
-	ui->btnSort->hide();
+	ui->btnMenu->hide();
 	ui->labelIncDec->hide();
 	ui->labelResize->hide();
 
-//	ui->btnSort->installEventFilter(this);
+//	ui->btnMenu->installEventFilter(this);
 	ui->labelIncDec->installEventFilter(this);
 	ui->labelResize->installEventFilter(this);
 
@@ -145,8 +145,8 @@ void FormSort::Initialize()
 								background: rgba(201,237,248,255);	\
 							}");
 
-	m_SortMenu->setStyleSheet(style);
-	ui->btnSort->setMenu(m_SortMenu);
+	m_Menu->setStyleSheet(style);
+	ui->btnMenu->setMenu(m_Menu);
 
 	SetIncrease(m_bIncrease);
 }

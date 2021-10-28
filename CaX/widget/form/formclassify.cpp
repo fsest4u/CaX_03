@@ -10,7 +10,7 @@
 
 FormClassify::FormClassify(QWidget *parent) :
 	QWidget(parent),
-	m_ClassifyMenu(new QMenu(this)),
+	m_Menu(new QMenu(this)),
 	m_GenreMenu(new QMenu(STR_GENRE, this)),
 	m_ArtistMenu(new QMenu(STR_ARTIST, this)),
 	m_ComposerMenu(new QMenu(STR_COMPOSER, this)),
@@ -27,10 +27,10 @@ FormClassify::FormClassify(QWidget *parent) :
 
 FormClassify::~FormClassify()
 {
-	if (m_ClassifyMenu)
+	if (m_Menu)
 	{
-		delete m_ClassifyMenu;
-		m_ClassifyMenu = nullptr;
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	if (m_GenreMenu)
@@ -298,9 +298,9 @@ void FormClassify::ConnectSigToSlot()
 
 void FormClassify::Initialize()
 {
-	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_ArtistMenu));
-	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_GenreMenu));
-	m_ClassifyMenu->addAction(m_ClassifyMenu->addMenu(m_ComposerMenu));
+	m_Menu->addAction(m_Menu->addMenu(m_ArtistMenu));
+	m_Menu->addAction(m_Menu->addMenu(m_GenreMenu));
+	m_Menu->addAction(m_Menu->addMenu(m_ComposerMenu));
 
 	QString styleCat = QString("QMenu::item {	\
 									width: 200px;	\
@@ -326,8 +326,8 @@ void FormClassify::Initialize()
 	m_ArtistMenu->setStyleSheet(styleCat);
 	m_GenreMenu->setStyleSheet(styleCat);
 	m_ComposerMenu->setStyleSheet(styleCat);
-	m_ClassifyMenu->setStyleSheet(style);
-	ui->btnClassify->setMenu(m_ClassifyMenu);
+	m_Menu->setStyleSheet(style);
+	ui->btnClassify->setMenu(m_Menu);
 
 	ui->labelArtist->hide();
 	ui->labelGenre->hide();

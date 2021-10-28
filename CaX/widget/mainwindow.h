@@ -114,7 +114,7 @@ private:
 	QList<CJsonNode> m_InputList;
 	QList<CJsonNode> m_SetupList;
 
-	QMap<int, QString> m_MenuMap;
+	QMap<int, QString> m_SideMenuMap;
 
 	Ui::MainWindow *ui;
 };

@@ -73,7 +73,7 @@ QLabel:hover
     </spacer>
    </item>
    <item>
-    <widget class="QPushButton" name="btnSort">
+    <widget class="QPushButton" name="btnMenu">
      <property name="minimumSize">
       <size>
        <width>150</width>

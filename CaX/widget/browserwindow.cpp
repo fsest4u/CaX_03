@@ -40,11 +40,11 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormPlay()->ShowTopMenu();
+	m_pInfoService->GetFormPlay()->ShowMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 
-	m_TopMenu.clear();
-//	m_SelectItem.clear();
+	m_TopMenuMap.clear();
+//	m_SelectMap.clear();
 
 }
 
@@ -288,92 +288,92 @@ void BrowserWindow::ConnectSigToSlot()
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenu()), this, SLOT(SlotTopMenu()));
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigTopMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 
 void BrowserWindow::SetSelectOffTopMenu(int type)
 {
-	m_TopMenu.clear();
+	m_TopMenuMap.clear();
 
 	if (iFolderType_Mask_Root & type)
 	{
-		m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
+		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
 
 	}
 	else if (iFolderType_Mask_Dir & type)
 	{
-		m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
-		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenu.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
+		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
 	}
 	else
 	{
-		m_TopMenu.insert(TOP_MENU_RELOAD, STR_RELOAD);
-		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenu.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
-		m_TopMenu.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
-		m_TopMenu.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
+		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+		m_TopMenuMap.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
+		m_TopMenuMap.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
 	}
 }
 
 void BrowserWindow::SetSelectOnTopMenu(int type)
 {
-	m_TopMenu.clear();
+	m_TopMenuMap.clear();
 
 	if (iFolderType_Mask_Root & type)
 	{
-		m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
 	}
 	else if (iFolderType_Mask_Dir & type)
 	{
-		m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
-		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
-		m_TopMenu.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
-		m_TopMenu.insert(TOP_MENU_MOVE, STR_MOVE);
-		m_TopMenu.insert(TOP_MENU_COPY, STR_COPY);
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+		m_TopMenuMap.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
+		m_TopMenuMap.insert(TOP_MENU_MOVE, STR_MOVE);
+		m_TopMenuMap.insert(TOP_MENU_COPY, STR_COPY);
 	}
 	else
 	{
-		m_TopMenu.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
-		m_TopMenu.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenu.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenu.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenu.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenu.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenu.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenu.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenu.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenu.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
-		m_TopMenu.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
-		m_TopMenu.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
-		m_TopMenu.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
-		m_TopMenu.insert(TOP_MENU_MOVE, STR_MOVE);
-		m_TopMenu.insert(TOP_MENU_COPY, STR_COPY);
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+		m_TopMenuMap.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
+		m_TopMenuMap.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+		m_TopMenuMap.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
+		m_TopMenuMap.insert(TOP_MENU_MOVE, STR_MOVE);
+		m_TopMenuMap.insert(TOP_MENU_COPY, STR_COPY);
 	}
 }
 

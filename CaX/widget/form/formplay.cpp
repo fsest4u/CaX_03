@@ -7,7 +7,7 @@
 
 FormPlay::FormPlay(QWidget *parent) :
 	QWidget(parent),
-	m_TopMenu(new QMenu(this)),
+	m_Menu(new QMenu(this)),
 	m_Favorite(0),
 	m_Rating(0),
 	ui(new Ui::FormPlay)
@@ -21,10 +21,10 @@ FormPlay::FormPlay(QWidget *parent) :
 
 FormPlay::~FormPlay()
 {
-	if (m_TopMenu)
+	if (m_Menu)
 	{
-		delete m_TopMenu;
-		m_TopMenu = nullptr;
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	delete ui;
@@ -50,9 +50,9 @@ void FormPlay::ShowRating()
 	ui->frameRating->show();
 }
 
-void FormPlay::ShowTopMenu()
+void FormPlay::ShowMenu()
 {
-	ui->btnTopMenu->show();
+	ui->btnMenu->show();
 }
 
 int FormPlay::GetRating() const
@@ -103,13 +103,13 @@ void FormPlay::SetRating(int Rating)
 	ui->frameRating->setStyleSheet(style);
 }
 
-void FormPlay::ClearTopMenu()
+void FormPlay::ClearMenu()
 {
-	disconnect(m_TopMenu, SIGNAL(triggered(QAction*)));
-	m_TopMenu->clear();
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	m_Menu->clear();
 }
 
-void FormPlay::SetTopMenu(QMap<int, QString> map)
+void FormPlay::SetMenu(QMap<int, QString> map)
 {
 	QMap<int, QString>::iterator i;
 	for (i = map.begin(); i != map.end(); i++)
@@ -117,9 +117,9 @@ void FormPlay::SetTopMenu(QMap<int, QString> map)
 		QIcon icon = GetIcon(i.value());
 		QAction *action = new QAction(icon, i.value(), this);
 		action->setData(i.key());
-		m_TopMenu->addAction(action);
+		m_Menu->addAction(action);
 	}
-	connect(m_TopMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotTopMenuAction(QAction*)));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 }
 
 int FormPlay::GetFavorite() const
@@ -221,14 +221,14 @@ void FormPlay::SlotBtnRating5()
 	emit SigRating(m_Rating);
 }
 
-void FormPlay::SlotBtnTopMenu()
+void FormPlay::SlotMenu()
 {
-	emit SigTopMenu();
+	emit SigMenu();
 }
 
-void FormPlay::SlotTopMenuAction(QAction *action)
+void FormPlay::SlotMenuAction(QAction *action)
 {
-	emit SigTopMenuAction(action->data().toInt());
+	emit SigMenuAction(action->data().toInt());
 }
 
 void FormPlay::ConnectSigToSlot()
@@ -239,7 +239,7 @@ void FormPlay::ConnectSigToSlot()
 	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
 	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
 
-	connect(ui->btnTopMenu, SIGNAL(pressed()), this, SLOT(SlotBtnTopMenu()));
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 
 }
 
@@ -259,14 +259,14 @@ void FormPlay::Initialize()
 								background: rgba(201,237,248,255);	\
 							}");
 
-	m_TopMenu->setStyleSheet(style);
-	ui->btnTopMenu->setMenu(m_TopMenu);
+	m_Menu->setStyleSheet(style);
+	ui->btnMenu->setMenu(m_Menu);
 
 	ui->labelPlayAll->hide();
 	ui->labelPlayRandom->hide();
 	ui->labelFavorite->hide();
 	ui->frameRating->hide();
-	ui->btnTopMenu->hide();
+	ui->btnMenu->hide();
 
 	ui->labelPlayAll->installEventFilter(this);
 	ui->labelPlayRandom->installEventFilter(this);

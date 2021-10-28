@@ -722,7 +722,7 @@ border-left : 1px solid #b9b8ba;
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QPushButton" name="btnCategoryMenu">
+          <widget class="QPushButton" name="btnMenu">
            <property name="minimumSize">
             <size>
              <width>52</width>

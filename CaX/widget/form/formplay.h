@@ -20,7 +20,7 @@ public:
 	void ShowPlayRandom();
 	void ShowFavorite();
 	void ShowRating();
-	void ShowTopMenu();
+	void ShowMenu();
 
 	int GetFavorite() const;
 	void SetFavorite(int Favorite);
@@ -28,8 +28,8 @@ public:
 	int GetRating() const;
 	void SetRating(int Rating);
 
-	void ClearTopMenu();
-	void SetTopMenu(QMap<int, QString> map);
+	void ClearMenu();
+	void SetMenu(QMap<int, QString> map);
 
 
 signals:
@@ -38,8 +38,8 @@ signals:
 	void SigPlayRandom();
 	void SigFavorite(int Favorite);
 	void SigRating(int Rating);
-	void SigTopMenu();
-	void SigTopMenuAction(int menuID);
+	void SigMenu();
+	void SigMenuAction(int menuID);
 
 protected:
 
@@ -53,8 +53,8 @@ private slots:
 	void SlotBtnRating4();
 	void SlotBtnRating5();
 
-	void SlotBtnTopMenu();
-	void SlotTopMenuAction(QAction *action);
+	void SlotMenu();
+	void SlotMenuAction(QAction *action);
 
 private:
 
@@ -63,7 +63,7 @@ private:
 
 	QIcon GetIcon(QString value);
 
-	QMenu	*m_TopMenu;
+	QMenu	*m_Menu;
 
 	int m_Favorite;
 	int m_Rating;

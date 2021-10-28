@@ -18,7 +18,7 @@ InfoHome::InfoHome(QWidget *parent)	:
 	m_pFormPlay(new FormPlay(this)),
 	m_pFormClassify(new FormClassify(this)),
 	m_pFormSort(new FormSort(this)),
-	m_CategoryMenu(new QMenu(this)),
+	m_Menu(new QMenu(this)),
 	ui(new Ui::InfoHome)
 {
 	ui->setupUi(this);
@@ -47,10 +47,10 @@ InfoHome::~InfoHome()
 		m_pFormSort = nullptr;
 	}
 
-	if (m_CategoryMenu)
+	if (m_Menu)
 	{
-		delete m_CategoryMenu;
-		m_CategoryMenu = nullptr;
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	delete ui;
@@ -131,22 +131,22 @@ FormClassify *InfoHome::GetFormClassify()
 	return m_pFormClassify;
 }
 
-void InfoHome::ClearCategoryMenu()
+void InfoHome::ClearMenu()
 {
-	disconnect(m_CategoryMenu, SIGNAL(triggered(QAction*)));
-	m_CategoryMenu->clear();
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	m_Menu->clear();
 }
 
-void InfoHome::SetCategoryMenu(QMap<int, QString> list)
+void InfoHome::SetMenu(QMap<int, QString> list)
 {
 	QMap<int, QString>::iterator i;
 	for (i = list.begin(); i!= list.end(); i++)
 	{
 		QAction *action = new QAction(i.value(), this);
 		action->setData(i.key());
-		m_CategoryMenu->addAction(action);
+		m_Menu->addAction(action);
 	}
-	connect(m_CategoryMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotCategoryMenuAction(QAction*)));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 }
 
 bool InfoHome::eventFilter(QObject *object, QEvent *event)
@@ -175,19 +175,19 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
-void InfoHome::SlotBtnCategoryMenu()
+void InfoHome::SlotMenu()
 {
-	emit SigCategoryMenu();
+	emit SigMenu();
 }
 
-void InfoHome::SlotCategoryMenuAction(QAction *action)
+void InfoHome::SlotMenuAction(QAction *action)
 {
-	emit SigCategoryMenuAction(action->data().toInt(), action->text());
+	emit SigMenuAction(action->data().toInt(), action->text());
 }
 
 void InfoHome::Initialize()
 {
-	connect(ui->btnCategoryMenu, SIGNAL(pressed()), this, SLOT(SlotBtnCategoryMenu()));
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -203,8 +203,8 @@ void InfoHome::Initialize()
 								background: rgba(201,237,248,255);	\
 							}");
 
-	m_CategoryMenu->setStyleSheet(style);
-	ui->btnCategoryMenu->setMenu(m_CategoryMenu);
+	m_Menu->setStyleSheet(style);
+	ui->btnMenu->setMenu(m_Menu);
 
 	ui->frameAlbum->installEventFilter(this);
 	ui->frameArtist->installEventFilter(this);

@@ -32,8 +32,8 @@ public:
 	FormSort *GetFormSort();
 	FormClassify *GetFormClassify();
 
-	void ClearCategoryMenu();
-	void SetCategoryMenu(QMap<int, QString> list);
+	void ClearMenu();
+	void SetMenu(QMap<int, QString> list);
 
 signals:
 
@@ -41,8 +41,8 @@ signals:
 	void SigAlbumList();
 	void SigArtistList();
 	void SigTrackList();
-	void SigCategoryMenu();
-	void SigCategoryMenuAction(int nCategory, QString title);
+	void SigMenu();
+	void SigMenuAction(int nCategory, QString title);
 
 
 protected:
@@ -51,8 +51,8 @@ protected:
 
 private slots:
 
-	void SlotBtnCategoryMenu();
-	void SlotCategoryMenuAction(QAction *action);
+	void SlotMenu();
+	void SlotMenuAction(QAction *action);
 
 private:
 
@@ -80,7 +80,7 @@ private:
 	FormClassify	*m_pFormClassify;
 	FormSort		*m_pFormSort;
 
-	QMenu			*m_CategoryMenu;
+	QMenu			*m_Menu;
 
 	Ui::InfoHome *ui;
 };

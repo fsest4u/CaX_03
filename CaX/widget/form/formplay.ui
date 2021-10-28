@@ -273,7 +273,7 @@ border: none;</string>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btnTopMenu">
+    <widget class="QPushButton" name="btnMenu">
      <property name="minimumSize">
       <size>
        <width>28</width>

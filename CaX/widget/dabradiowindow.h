@@ -58,8 +58,8 @@ private:
 	InfoService		*m_pInfoService;
 	IconService		*m_pIconService;
 
-	QMap<int, QString>	m_TopMenu;
-	QMap<int, bool>		m_SelectItem;
+	QMap<int, QString>	m_TopMenuMap;
+	QMap<int, bool>		m_SelectMap;
 
 	Ui::DABRadioWindow *ui;
 };

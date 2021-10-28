@@ -62,7 +62,7 @@ private:
 	void ConnectSigToSlot();
 	void Initialize();
 
-	QMenu		*m_ClassifyMenu;
+	QMenu		*m_Menu;
 	QMenu		*m_GenreMenu;
 	QMenu		*m_ArtistMenu;
 	QMenu		*m_ComposerMenu;

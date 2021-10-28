@@ -16,19 +16,19 @@ public:
 	explicit FormSort(QWidget *parent = nullptr);
 	~FormSort();
 
-	void ShowSort();
+	void ShowMenu();
 	void ShowIncDec();
 	void ShowResize();
 
-	void SetSortMenu(QMap<int, QString> list);
-	void SetSortMenuTitle(QString title);
+	void SetMenu(QMap<int, QString> list);
+	void SetMenuTitle(QString title);
 
 	bool GetIncrease() const;
 	void SetIncrease(bool bIncrease);
 
 signals:
 
-	void SigSort(int sort);
+	void SigMenu(int menuID);
 	void SigIncDec(bool bIncrease);
 	void SigResize();
 
@@ -38,13 +38,13 @@ protected:
 
 private slots:
 
-	void SlotSortMenu(QAction *action);
+	void SlotMenu(QAction *action);
 
 private:
 
 	void Initialize();
 
-	QMenu *m_SortMenu;
+	QMenu *m_Menu;
 	bool m_bIncrease;
 
 	Ui::FormSort *ui;

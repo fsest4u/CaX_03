@@ -67,8 +67,8 @@ private:
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
-	QMap<int, QString>	m_TopMenu;
-	QMap<int, bool>		m_SelectItem;
+	QMap<int, QString>	m_TopMenuMap;
+	QMap<int, bool>		m_SelectMap;
 
 	QString				m_TotalCount;
 	QString				m_TotalTime;

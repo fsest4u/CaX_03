@@ -93,54 +93,54 @@ MainWindow::~MainWindow()
 
 void MainWindow::SlotMenu()
 {
-	m_MenuMap.clear();
+	m_SideMenuMap.clear();
 	if (m_bConnect)
 	{
 
-		m_MenuMap.insert(SIDEMENU_MUSIC_DB, STR_MUSIC_DB);
-		m_MenuMap.insert(SIDEMENU_PLAYLIST, STR_PLAYLIST);
-		m_MenuMap.insert(SIDEMENU_BROWSER, STR_BROWSER);
-		m_MenuMap.insert(SIDEMENU_ISERVICE, STR_ISERVICE);
-		m_MenuMap.insert(SIDEMENU_SETUP, STR_SETUP);
-		m_MenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
-		m_MenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
-		m_MenuMap.insert(SIDEMENU_POWER_OFF, STR_POWER_OFF);
-		m_MenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
+		m_SideMenuMap.insert(SIDEMENU_MUSIC_DB, STR_MUSIC_DB);
+		m_SideMenuMap.insert(SIDEMENU_PLAYLIST, STR_PLAYLIST);
+		m_SideMenuMap.insert(SIDEMENU_BROWSER, STR_BROWSER);
+		m_SideMenuMap.insert(SIDEMENU_ISERVICE, STR_ISERVICE);
+		m_SideMenuMap.insert(SIDEMENU_SETUP, STR_SETUP);
+		m_SideMenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
+		m_SideMenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
+		m_SideMenuMap.insert(SIDEMENU_POWER_OFF, STR_POWER_OFF);
+		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 
 		if (m_bAudioCD)
 		{
-			m_MenuMap.insert(SIDEMENU_AUDIO_CD, STR_AUDIO_CD);
+			m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, STR_AUDIO_CD);
 
 		}
 
 		if (m_bInput)
 		{
-			m_MenuMap.insert(SIDEMENU_INPUT, STR_INPUT);
+			m_SideMenuMap.insert(SIDEMENU_INPUT, STR_INPUT);
 
 		}
 
 		if (m_bFMRadio)
 		{
-			m_MenuMap.insert(SIDEMENU_FM_RADIO, STR_FM_RADIO);
-			m_MenuMap.insert(SIDEMENU_DAB_RADIO, STR_DAB_RADIO);
+			m_SideMenuMap.insert(SIDEMENU_FM_RADIO, STR_FM_RADIO);
+			m_SideMenuMap.insert(SIDEMENU_DAB_RADIO, STR_DAB_RADIO);
 
 		}
 
 		if (m_bGroupPlay)
 		{
-			m_MenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
+			m_SideMenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
 
 		}
 	}
 	else
 	{
-		m_MenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
-		m_MenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
-		m_MenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
+		m_SideMenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
+		m_SideMenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
+		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 	}
 
 	ui->widgetTop->ClearMenu();
-	ui->widgetTop->SetMenu(m_MenuMap);
+	ui->widgetTop->SetMenu(m_SideMenuMap);
 }
 
 void MainWindow::SlotMenuAction(int menuID)

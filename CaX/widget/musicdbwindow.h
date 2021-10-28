@@ -59,7 +59,7 @@ private slots:
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 
-	void SlotSort(int sort);
+	void SlotSortMenu(int sort);
 	void SlotIncDec(bool bIncrease);
 	void SlotResize();
 
@@ -77,7 +77,7 @@ private slots:
 	void SlotItemTopMenu();
 	void SlotItemTopMenuAction(int menuID);
 
-	void SlotItemSort(int sort);
+	void SlotItemSortMenu(int sort);
 	void SlotItemIncDec(bool bIncrease);
 	void SlotItemResize();
 
@@ -149,9 +149,9 @@ private:
 //	QThread			*m_pCatThread;
 //	QThread			*m_pSongThread;
 
-	QMap<int, QString> m_TopMenu;
-	QMap<int, QString> m_CategoryMenu;
-	QMap<int, bool>	m_SelectItem;
+	QMap<int, QString> m_TopMenuMap;
+	QMap<int, QString> m_CategoryMenuMap;
+	QMap<int, bool>	m_SelectMap;
 
 	int				m_EventID;
 

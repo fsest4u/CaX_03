@@ -62,7 +62,7 @@ private:
 	IconService			*m_pIconService;
 	ListService			*m_pListService;
 
-	QMap<int, QString>	m_TopMenu;
+	QMap<int, QString>	m_TopMenuMap;
 
 	QString				m_Root;
 	QStringList			m_Dirs;
