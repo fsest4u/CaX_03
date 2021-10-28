@@ -20,18 +20,18 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-;LicenseFile=d:\03-Project\CaX\installer\license.txt
-;InfoBeforeFile=d:\03-Project\CaX\installer\readme.txt
-;InfoAfterFile=d:\03-Project\CaX\installer\changelog.txt
+;LicenseFile=d:\03-Project\CaX\installer\doc\license.txt
+;InfoBeforeFile=d:\03-Project\CaX\installer\doc\readme.txt
+;InfoAfterFile=d:\03-Project\CaX\installer\doc\changelog.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=d:\03-Project\CaX\installer\release
 OutputBaseFilename=MusicXNeo-x64-{#MyAppVersion}-Setup
-SetupIconFile=d:\03-Project\CaX\installer\app.ico
+SetupIconFile=d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico
 ;WizardImageFile=compiler:wizmodernimage-IS.bmp
 ;WizardSmallImageFile=compiler:wizmodernsmallimage-IS.bmp
-WizardImageFile=d:\03-Project\CaX\installer\install-small1.bmp,install-small2.bmp
-WizardSmallImageFile=d:\03-Project\CaX\installer\install-small1.bmp,install-small2.bmp
+WizardImageFile=d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-b164.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-b192.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-b246.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-b273.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-b328.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-b355.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-b410.bmp
+WizardSmallImageFile=d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-55.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-64.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-83.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-92.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-110.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-119.bmp,d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-138.bmp
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -73,7 +73,7 @@ Source: "d:\03-Project\CaX\installer\src\printsupport\*"; DestDir: "{app}\platfo
 Source: "d:\03-Project\CaX\installer\src\resources\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "d:\03-Project\CaX\installer\src\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "d:\03-Project\CaX\installer\src\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "d:\03-Project\CaX\installer\app.ico"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico"; DestDir: "{app}"; Flags: ignoreversion
 ; VC++ redistributable runtime. Extracted by VC2017RedistNeedsInstall(), if needed.
 Source: "d:\03-Project\CaX\installer\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

@@ -229,7 +229,7 @@ FORMS += \
     widget/sidemenu.ui \
     widget/topwindow.ui
 
-RC_ICONS = app.ico
+RC_ICONS = logo-icon-musicxneo-256.ico
 
 TRANSLATIONS += \
     CaX_en_US.ts \
@@ -267,6 +267,7 @@ DISTFILES += \
     CaX_ru_RU.ts \
     CaX_zh_CN.ts \
     app.ico \
+    logo-icon-musicxneo-256.ico \
     resource/Component 2-1.png \
     resource/Component 2-1@2x.png \
     resource/Component 2-1@3x.png \
