@@ -95,7 +95,6 @@ MusicDBWindow::~MusicDBWindow()
 		m_pListTracks = nullptr;
 	}
 
-
 //	if (m_pCatThread)
 //	{
 //		delete m_pCatThread;
@@ -533,8 +532,9 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 
 void MusicDBWindow::SlotSelectPlay(int nID)
 {
-	LogDebug("click Play");
-//	m_pMgr->RequestPlaySong();
+	QMap<int, bool> map;
+	map.insert(nID, true);
+	m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_CLEAR, m_nCategory);
 }
 
 void MusicDBWindow::SlotSelectFavorite(int nID, int nFavorite)
