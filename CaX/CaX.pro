@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dialog/aboutdialog.cpp \
     dialog/addplaylistdialog.cpp \
     dialog/addradiodialog.cpp \
     dialog/cdripinfodialog.cpp \
@@ -87,6 +88,7 @@ SOURCES += \
     widget/topwindow.cpp
 
 HEADERS += \
+    dialog/aboutdialog.h \
     dialog/addplaylistdialog.h \
     dialog/addradiodialog.h \
     dialog/cdripinfodialog.h \
@@ -176,6 +178,7 @@ HEADERS += \
     widget/topwindow.h
 
 FORMS += \
+    dialog/aboutdialog.ui \
     dialog/addplaylistdialog.ui \
     dialog/addradiodialog.ui \
     dialog/cdripinfodialog.ui \
@@ -306,6 +309,7 @@ DISTFILES += \
     resource/Rectangle 383.png \
     resource/Rectangle 383@2x.png \
     resource/Rectangle 383@3x.png \
+    resource/about.html \
     resource/audiocd-popup-btn110-ok-h.png \
     resource/audiocd-popup-btn110-ok-h@2x.png \
     resource/audiocd-popup-btn110-ok-h@3x.png \

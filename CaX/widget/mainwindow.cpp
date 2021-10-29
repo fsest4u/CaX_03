@@ -5,6 +5,7 @@
 #include "ui_mainwindow.h"
 
 #include "dialog/poweroffdialog.h"
+#include "dialog/aboutdialog.h"
 
 #include "manager/devicemanager.h"
 #include "manager/observermanager.h"
@@ -188,8 +189,7 @@ void MainWindow::SlotMenuAction(int menuID)
 		DoPowerOff();
 		break;
 	case SIDEMENU_ABOUT:
-		// todo-dylee
-		LogDebug("click about");
+		DoAbout();
 		break;
 	default:
 		break;
@@ -778,7 +778,8 @@ void MainWindow::DoPowerOn()
 
 void MainWindow::DoAbout()
 {
-
+	AboutDialog dialog;
+	dialog.exec();
 }
 
 void MainWindow::SlotAddWidget(QWidget *widget, QString title)
