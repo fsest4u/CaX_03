@@ -25,6 +25,7 @@ DisableProgramGroupPage=yes
 ;InfoAfterFile=d:\03-Project\CaX\installer\doc\changelog.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
+ArchitecturesInstallIn64BitMode=x64
 OutputDir=d:\03-Project\CaX\installer\release
 OutputBaseFilename=MusicXNeo-x64-{#MyAppVersion}-Setup
 SetupIconFile=d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico
@@ -86,7 +87,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 Filename: "{app}\unins000.exe"; Parameters: "/quiet"; Flags: waituntilterminated
 
 [Run]
-Filename: "{tmp}\VC_redist_2017.x64.exe"; Parameters: "/quiet"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
+Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/quiet"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
