@@ -21,6 +21,8 @@ FormPlay::FormPlay(QWidget *parent) :
 
 FormPlay::~FormPlay()
 {
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+
 	if (m_Menu)
 	{
 		delete m_Menu;
@@ -105,7 +107,6 @@ void FormPlay::SetRating(int Rating)
 
 void FormPlay::ClearMenu()
 {
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
 	m_Menu->clear();
 }
 
@@ -119,7 +120,6 @@ void FormPlay::SetMenu(QMap<int, QString> map)
 		action->setData(i.key());
 		m_Menu->addAction(action);
 	}
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 }
 
 int FormPlay::GetFavorite() const
@@ -261,6 +261,8 @@ void FormPlay::Initialize()
 
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	ui->labelPlayAll->hide();
 	ui->labelPlayRandom->hide();

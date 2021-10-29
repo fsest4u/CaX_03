@@ -42,6 +42,8 @@ PlayWindow::PlayWindow(QWidget *parent)	:
 PlayWindow::~PlayWindow()
 {
 
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -108,7 +110,6 @@ void PlayWindow::SetDeviceName(const QString &DeviceName)
 
 void PlayWindow::ClearMenu()
 {
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
 	m_Menu->clear();
 }
 
@@ -121,7 +122,6 @@ void PlayWindow::SetMenu(QMap<QString, QString> map)
 		action->setData(i.key());
 		m_Menu->addAction(action);
 	}
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 }
 
 void PlayWindow::SlotClickCoverArt()
@@ -264,6 +264,8 @@ void PlayWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigQueueList(CJsonNode)), this, SLOT(SlotQueueList(CJsonNode)));
 
 	connect(this, SIGNAL(SigGetVolume(int)), this, SLOT(SlotGetVolume(int)));
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 }
 

@@ -29,6 +29,8 @@ InfoHome::InfoHome(QWidget *parent)	:
 InfoHome::~InfoHome()
 {
 
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+
 	if (m_pFormPlay)
 	{
 		delete m_pFormPlay;
@@ -133,7 +135,6 @@ FormClassify *InfoHome::GetFormClassify()
 
 void InfoHome::ClearMenu()
 {
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
 	m_Menu->clear();
 }
 
@@ -146,7 +147,6 @@ void InfoHome::SetMenu(QMap<int, QString> list)
 		action->setData(i.key());
 		m_Menu->addAction(action);
 	}
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 }
 
 bool InfoHome::eventFilter(QObject *object, QEvent *event)
@@ -187,7 +187,6 @@ void InfoHome::SlotMenuAction(QAction *action)
 
 void InfoHome::Initialize()
 {
-	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -205,6 +204,9 @@ void InfoHome::Initialize()
 
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
+
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	ui->frameAlbum->installEventFilter(this);
 	ui->frameArtist->installEventFilter(this);

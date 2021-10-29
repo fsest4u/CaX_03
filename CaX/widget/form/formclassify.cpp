@@ -27,6 +27,10 @@ FormClassify::FormClassify(QWidget *parent) :
 
 FormClassify::~FormClassify()
 {
+	disconnect(m_ArtistMenu, SIGNAL(triggered(QAction*)));
+	disconnect(m_GenreMenu, SIGNAL(triggered(QAction*)));
+	disconnect(m_ComposerMenu, SIGNAL(triggered(QAction*)));
+
 	if (m_Menu)
 	{
 		delete m_Menu;
@@ -56,7 +60,6 @@ FormClassify::~FormClassify()
 
 void FormClassify::ClearClassifyArtistMenu()
 {
-	disconnect(m_ArtistMenu, SIGNAL(triggered(QAction*)));
 	m_ArtistMenu->clear();
 }
 
@@ -68,12 +71,10 @@ void FormClassify::SetClassifyArtistMenu(QList<CJsonNode> list)
 		action->setData(node.GetString(KEY_ID_LOWER));
 		m_ArtistMenu->addAction(action);
 	}
-	connect(m_ArtistMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotArtistMenu(QAction*)));
 }
 
 void FormClassify::ClearClassifyGenreMenu()
 {
-	disconnect(m_GenreMenu, SIGNAL(triggered(QAction*)));
 	m_GenreMenu->clear();
 }
 
@@ -85,13 +86,11 @@ void FormClassify::SetClassifyGenreMenu(QList<CJsonNode> list)
 		action->setData(node.GetString(KEY_ID_LOWER));
 		m_GenreMenu->addAction(action);
 	}
-	connect(m_GenreMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotGenreMenu(QAction*)));
 
 }
 
 void FormClassify::ClearClassifyComposerMenu()
 {
-	disconnect(m_ComposerMenu, SIGNAL(triggered(QAction*)));
 	m_ComposerMenu->clear();
 }
 
@@ -103,7 +102,6 @@ void FormClassify::SetClassifyComposerMenu(QList<CJsonNode> list)
 		action->setData(node.GetString(KEY_ID_LOWER));
 		m_ComposerMenu->addAction(action);
 	}
-	connect(m_ComposerMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotComposerMenu(QAction*)));
 
 }
 
@@ -298,6 +296,7 @@ void FormClassify::ConnectSigToSlot()
 
 void FormClassify::Initialize()
 {
+
 	m_Menu->addAction(m_Menu->addMenu(m_ArtistMenu));
 	m_Menu->addAction(m_Menu->addMenu(m_GenreMenu));
 	m_Menu->addAction(m_Menu->addMenu(m_ComposerMenu));
@@ -328,6 +327,10 @@ void FormClassify::Initialize()
 	m_ComposerMenu->setStyleSheet(styleCat);
 	m_Menu->setStyleSheet(style);
 	ui->btnClassify->setMenu(m_Menu);
+
+	connect(m_ArtistMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotArtistMenu(QAction*)));
+	connect(m_GenreMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotGenreMenu(QAction*)));
+	connect(m_ComposerMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotComposerMenu(QAction*)));
 
 	ui->labelArtist->hide();
 	ui->labelGenre->hide();

@@ -52,7 +52,6 @@ void FormSort::SetMenu(QMap<int, QString> list)
 		action->setData(i.key());
 		m_Menu->addAction(action);
 	}
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenu(QAction*)));
 }
 
 void FormSort::SetMenuTitle(QString title)
@@ -147,6 +146,8 @@ void FormSort::Initialize()
 
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenu(QAction*)));
 
 	SetIncrease(m_bIncrease);
 }

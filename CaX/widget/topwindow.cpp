@@ -15,6 +15,8 @@ TopWindow::TopWindow(QWidget *parent) :
 
 TopWindow::~TopWindow()
 {
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+
 	if (m_Menu)
 	{
 		delete m_Menu;
@@ -72,7 +74,6 @@ QPushButton *TopWindow::GetBtnSearch()
 
 void TopWindow::ClearMenu()
 {
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
 	m_Menu->clear();
 }
 
@@ -86,7 +87,6 @@ void TopWindow::SetMenu(QMap<int, QString> list)
 		action->setData(i.key());
 		m_Menu->addAction(action);
 	}
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 }
 
@@ -102,7 +102,6 @@ void TopWindow::SlotMenuAction(QAction *action)
 
 void TopWindow::Initialize()
 {
-	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -119,6 +118,9 @@ void TopWindow::Initialize()
 							}");
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
+
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	m_TitleList.clear();
 
