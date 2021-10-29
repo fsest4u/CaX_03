@@ -121,6 +121,7 @@
 #define		KEY_SQL				"Sql"
 #define		KEY_SRC				"Src"
 #define		KEY_START			"Start"
+#define		KEY_STOP			"stop"
 #define		KEY_SUB_DIR			"SubDir"
 #define		KEY_SUBTITLE		"subtitle"
 #define		KEY_SVC_TYPE		"SvcType"

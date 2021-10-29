@@ -219,10 +219,10 @@ void PlayWindow::SlotSliderUpdate()
 void PlayWindow::SlotRespNowPlay(CJsonNode node)
 {
 	QString state = node.GetString(KEY_PLAY_STATE);
-	if (!state.toLower().compare("stop"))
+	if (!state.toLower().compare(KEY_STOP))
 	{
-		EnableUI(false);
-		SetTimer(false);
+//		EnableUI(false);
+//		SetTimer(false);
 	}
 	else
 	{
@@ -284,7 +284,7 @@ void PlayWindow::Initialize()
 
 	ui->horizontalSlider->setValue(0);
 
-	SetPlayState();
+//	SetPlayState();
 	SetRepeatMode("");
 	SetDeviceMenu();
 	SetVolumeMenu();
@@ -324,20 +324,7 @@ void PlayWindow::SetTimer(bool bStart)
 void PlayWindow::SetPlayState()
 {
 	QString style;
-	if (!m_bPause)
-	{
-		// play state
-		style = QString("QPushButton	\
-						{	\
-						  border-image: url(\":/resource/btm-btn40-pause-n@3x.png\");	\
-						}\
-						QPushButton:hover	\
-						{	\
-						  border-image: url(\":/resource/btm-btn40-pause-h@3x.png\");	\
-						}");
-
-	}
-	else
+	if (m_bPause)
 	{
 		// pause state
 		style = QString("QPushButton	\
@@ -350,7 +337,21 @@ void PlayWindow::SetPlayState()
 						}");
 
 	}
-	SetTimer(m_bPause);
+	else
+	{
+		// play state
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn40-pause-n@3x.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn40-pause-h@3x.png\");	\
+						}");
+
+	}
+
+	SetTimer(!m_bPause);
 	ui->btnPlay->setStyleSheet(style);
 
 }
