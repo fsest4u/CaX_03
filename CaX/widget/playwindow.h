@@ -78,6 +78,7 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+	void InitSlider();
 	void EnableUI(bool bEnable);
 
 	void SetTimer(bool bStart);

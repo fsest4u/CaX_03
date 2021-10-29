@@ -157,6 +157,8 @@ void PlayWindow::SlotBtnPlay()
 
 void PlayWindow::SlotBtnStop()
 {
+	InitSlider();
+
 	m_bPause = true;
 	SetPlayState();
 
@@ -280,17 +282,22 @@ void PlayWindow::Initialize()
 	m_pFormTitle->SetSubtitle("-");
 	m_pFormCoverArt->SetCoverArt(":/resource/logo-icon-musicxneo-256.png");
 
-	QString initTime = ConvertMSecToHHMMSSStr(-1);
-	ui->labelCurTime->setText(initTime);
-	ui->labelTotalTime->setText(initTime);
-
-	ui->horizontalSlider->setValue(0);
+	InitSlider();
 
 //	SetPlayState();
 	SetRepeatMode("");
 	SetDeviceMenu();
 	SetVolumeMenu();
 
+}
+
+void PlayWindow::InitSlider()
+{
+	QString initTime = ConvertMSecToHHMMSSStr(-1);
+	ui->labelCurTime->setText(initTime);
+	ui->labelTotalTime->setText(initTime);
+
+	ui->horizontalSlider->setValue(0);
 }
 
 void PlayWindow::EnableUI(bool bEnable)
