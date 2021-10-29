@@ -1,52 +1,32 @@
 #include <QMouseEvent>
 #include <QTimer>
+#include <QWidgetAction>
 
 #include "playwindow.h"
 #include "ui_playwindow.h"
 
 #include "manager/playmanager.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 #include "util/StringLib.h"
 
-#define RM_NORMAL	"RM_NORMAL"
-#define RM_SHUFFLE	"RM_SHUFFLE"
-#define RM_RANDOM	"RM_RANDOM"
-#define RM_ONCE		"RM_ONCE"
-#define RM_R_ONE	"RM_R_ONE"
-#define RM_R_ALL	"RM_R_ALL"
-
-#define SRC_MUSIC_DB		"Music DB"
-#define SRC_BROWSER			"File"
-#define SRC_AUDIO_CD		"Audio CD"
-
-#define SRC_AES_EBU			"AES"
-#define SRC_COAXIAL			"COAXIAL"
-#define SRC_TOSLINK			"TOSLINK"
-#define SRC_ANALOG_IN		"ANALOG IN"
-#define SRC_AUX_IN			"AUX IN"
-#define SRC_PHONO_IN		"PHONO IN"
-
-#define SRC_FM_RADIO		"FM Radio"
-#define SRC_I_RADIO			"i-Radio"
-#define SRC_PODCAST			"Podcasts"
-#define SRC_TIDAL			"TIDAL"
-#define SRC_DEEZER			"Deezer"
-#define SRC_NAPSTER			"Napster"
-#define SRC_HIGH_RES_AUDIO	"HighResAudio"
-#define SRC_AMAZON			"Amazon"
-#define SRC_AIRABLE_UPNP	"Airable UPNP"
-#define SRC_QOBUZ			"Qobuz"
-
+#include "widget/form/formtitle.h"
+#include "widget/form/formcoverart.h"
 
 PlayWindow::PlayWindow(QWidget *parent)	:
 	QWidget(parent),
 	m_pMgr(new PlayManager),
+	m_pFormCoverArt(new FormCoverArt(this)),
+	m_pFormTitle(new FormTitle(this)),
+	m_Menu(new QMenu(this)),
+	m_VolumeMenu(new QMenu(this)),
+	m_Slider(new QSlider(this)),
 	m_Timer(nullptr),
 	m_TotTime(0),
 	m_CurTime(0),
-	m_bPlay(false),
+	m_bPause(false),
 	m_CoverArt(""),
 	m_DeviceName(""),
 	ui(new Ui::PlayWindow)
@@ -55,15 +35,12 @@ PlayWindow::PlayWindow(QWidget *parent)	:
 
 	ConnectSigToSlot();
 
-	InitUI();
+	Initialize();
 	EnableUI(false);
 }
 
 PlayWindow::~PlayWindow()
 {
-	ui->labelCoverArt->removeEventFilter(this);
-
-	delete ui;
 
 	if (m_pMgr)
 	{
@@ -77,6 +54,39 @@ PlayWindow::~PlayWindow()
 		delete m_Timer;
 		m_Timer = nullptr;
 	}
+
+	if (m_pFormCoverArt)
+	{
+		delete m_pFormCoverArt;
+		m_pFormCoverArt = nullptr;
+	}
+
+	if (m_pFormTitle)
+	{
+		delete m_pFormTitle;
+		m_pFormTitle = nullptr;
+	}
+
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
+	}
+
+	if (m_VolumeMenu)
+	{
+		delete m_VolumeMenu;
+		m_VolumeMenu = nullptr;
+	}
+
+	if (m_Slider)
+	{
+		delete m_Slider;
+		m_Slider = nullptr;
+	}
+
+	delete ui;
+
 }
 
 void PlayWindow::SetAddr(const QString &addr)
@@ -96,21 +106,23 @@ void PlayWindow::SetDeviceName(const QString &DeviceName)
 	ui->btnDevice->setText(m_DeviceName);
 }
 
-
-bool PlayWindow::eventFilter(QObject *object, QEvent *event)
+void PlayWindow::ClearMenu()
 {
-	if(event->type() == QMouseEvent::MouseButtonPress)
-	{
-		if (object == ui->labelCoverArt)
-		{
-			SlotClickCoverArt();
-		}
-
-	}
-
-	return QObject::eventFilter(object, event);
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	m_Menu->clear();
 }
 
+void PlayWindow::SetMenu(QMap<QString, QString> map)
+{
+	QMap<QString, QString>::iterator i;
+	for (i = map.begin(); i != map.end(); i++)
+	{
+		QAction *action = new QAction(i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+}
 
 void PlayWindow::SlotClickCoverArt()
 {
@@ -130,7 +142,10 @@ void PlayWindow::SlotBtnPlayPrev()
 
 void PlayWindow::SlotBtnPlay()
 {
-	if (m_bPlay)
+	m_bPause = !m_bPause;
+	SetPlayState();
+
+	if (m_bPause)
 	{
 		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PAUSE);
 	}
@@ -142,6 +157,9 @@ void PlayWindow::SlotBtnPlay()
 
 void PlayWindow::SlotBtnStop()
 {
+	m_bPause = true;
+	SetPlayState();
+
 	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_STOP);
 }
 
@@ -155,16 +173,35 @@ void PlayWindow::SlotBtnRandom()
 	m_pMgr->RequestRepeatMode();
 }
 
-void PlayWindow::SlotBtnDevice()
+void PlayWindow::SlotMenu()
 {
-	// todo-dylee
-	m_pMgr->RequestMute();
+	emit SigMenu();
+}
+
+void PlayWindow::SlotMenuAction(QAction *action)
+{
+	emit SigMenuAction(action->data().toString());
 }
 
 void PlayWindow::SlotBtnVolume()
 {
-	LogDebug("click btn volume");
-	m_pMgr->RequestVolume(30);
+//	m_pMgr->RequestVolume(30);
+
+}
+
+void PlayWindow::SlotVolumeSliderRelease()
+{
+	int volume = m_Slider->value();
+	LogDebug("value [%d]", volume);
+	ui->labelVolume->setText(QString("%1").arg(volume));
+	m_pMgr->RequestVolume(volume);
+
+}
+
+void PlayWindow::SlotGetVolume(int volume)
+{
+	ui->labelVolume->setText(QString("%1").arg(volume));
+	m_Slider->setValue(volume);
 }
 
 void PlayWindow::SlotSliderReleased()
@@ -184,7 +221,6 @@ void PlayWindow::SlotRespNowPlay(CJsonNode node)
 	QString state = node.GetString(KEY_PLAY_STATE);
 	if (!state.toLower().compare("stop"))
 	{
-		InitUI();
 		EnableUI(false);
 		SetTimer(false);
 	}
@@ -201,22 +237,7 @@ void PlayWindow::SlotTrackInfo(CJsonNode node)
 
 void PlayWindow::SlotCoverArtUpdate(QString fileName)
 {
-	m_CoverArt = fileName;
-
-	if (m_CoverArt.isEmpty())
-	{
-		m_CoverArt = ":/resource/Icon-playbar-volume-160.png";
-	}
-
-	QImage image;
-	if (image.load(m_CoverArt))
-	{
-//		painter->drawImage(coverRect, image);
-		QPixmap pixmap = QPixmap::fromImage(image);
-		ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
-												   , ui->labelCoverArt->height()
-												   , Qt::KeepAspectRatio));
-	}
+	m_pFormCoverArt->SetCoverArt(fileName);
 }
 
 void PlayWindow::SlotQueueList(CJsonNode node)
@@ -228,31 +249,34 @@ void PlayWindow::SlotQueueList(CJsonNode node)
 
 void PlayWindow::ConnectSigToSlot()
 {
-	ui->labelCoverArt->installEventFilter(this);
-
 	connect(ui->btnInfo, SIGNAL(clicked()), this, SLOT(SlotBtnInfo()));
 	connect(ui->btnPrev, SIGNAL(clicked()), this, SLOT(SlotBtnPlayPrev()));
 	connect(ui->btnPlay, SIGNAL(clicked()), this, SLOT(SlotBtnPlay()));
 	connect(ui->btnStop, SIGNAL(clicked()), this, SLOT(SlotBtnStop()));
 	connect(ui->btnNext, SIGNAL(clicked()), this, SLOT(SlotBtnPlayNext()));
 	connect(ui->btnRandom, SIGNAL(clicked()), this, SLOT(SlotBtnRandom()));
-	connect(ui->btnDevice, SIGNAL(clicked()), this, SLOT(SlotBtnDevice()));
-	connect(ui->btnVolume, SIGNAL(clicked()), this, SLOT(SlotBtnVolume()));
+	connect(ui->btnVolume, SIGNAL(pressed()), this, SLOT(SlotBtnVolume()));
+	connect(ui->btnDevice, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 	connect(ui->horizontalSlider, SIGNAL(sliderReleased()), this, SLOT(SlotSliderReleased()));
 
 	connect(m_pMgr, SIGNAL(SigTrackInfo(CJsonNode)), this, SLOT(SlotTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
 	connect(m_pMgr, SIGNAL(SigQueueList(CJsonNode)), this, SLOT(SlotQueueList(CJsonNode)));
 
-
+	connect(this, SIGNAL(SigGetVolume(int)), this, SLOT(SlotGetVolume(int)));
 
 }
 
-void PlayWindow::InitUI()
+void PlayWindow::Initialize()
 {
-	ui->labelTitle->setText("-");
-	ui->labelArtist->setText("-");
-	ui->labelCoverArt->clear();
+	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
+	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
+
+	m_pFormTitle->SetTitleFont(14, "FFFFFF");
+	m_pFormTitle->SetTitle("-");
+	m_pFormTitle->SetSubtitleFont(14, "FFFFFF");
+	m_pFormTitle->SetSubtitle("-");
+	m_pFormCoverArt->SetCoverArt(":/resource/logo-icon-musicxneo-256.png");
 
 	QString initTime = ConvertMSecToHHMMSSStr(-1);
 	ui->labelCurTime->setText(initTime);
@@ -260,11 +284,11 @@ void PlayWindow::InitUI()
 
 	ui->horizontalSlider->setValue(0);
 
-	m_TotTime = 0;
-	m_CurTime = 0;
-
-	SetPlayState("");
+	SetPlayState();
 	SetRepeatMode("");
+	SetDeviceMenu();
+	SetVolumeMenu();
+
 }
 
 void PlayWindow::EnableUI(bool bEnable)
@@ -297,18 +321,38 @@ void PlayWindow::SetTimer(bool bStart)
 	}
 }
 
-void PlayWindow::SetPlayState(QString state)
+void PlayWindow::SetPlayState()
 {
-	if (!state.compare("Play"))
+	QString style;
+	if (!m_bPause)
 	{
-		m_bPlay = true;
-		SetTimer(true);
+		// play state
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn40-pause-n@3x.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn40-pause-h@3x.png\");	\
+						}");
+
 	}
 	else
 	{
-		m_bPlay = false;
-		SetTimer(false);
+		// pause state
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn40-play-n@3x.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn40-play-h@3x.png\");	\
+						}");
+
 	}
+	SetTimer(m_bPause);
+	ui->btnPlay->setStyleSheet(style);
+
 }
 
 void PlayWindow::SetRepeatMode(QString mode)
@@ -366,6 +410,44 @@ void PlayWindow::SetSliderState()
 	ui->labelCurTime->setHidden(false);
 }
 
+void PlayWindow::SetDeviceMenu()
+{
+	QString style = QString("QMenu {	\
+								background-color: rgb(0, 0, 0);	\
+							}	\
+							QMenu::item {	\
+								width: 160px;	\
+								height: 40px;	\
+								color: rgb(174,176,179);	\
+								font-size: 16pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgbargb(238,238,238,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
+	ui->btnDevice->setMenu(m_Menu);
+
+}
+
+void PlayWindow::SetVolumeMenu()
+{
+	m_Slider->setOrientation(Qt::Horizontal);
+	m_Slider->setMinimum(0);
+	m_Slider->setMaximum(100);
+//	slider->setGeometry( 100, 200, 35, 15 );
+
+	QWidgetAction *action = new QWidgetAction(this);
+	action->setDefaultWidget(m_Slider);
+	m_VolumeMenu->addAction(action);
+
+	ui->btnVolume->setMenu(m_VolumeMenu);
+
+	connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(SlotVolumeSliderRelease()));
+
+}
+
 void PlayWindow::DoNowPlay(CJsonNode node)
 {
 	EnableUI(true);
@@ -376,15 +458,24 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			|| !strSrc.compare(SRC_BROWSER)
 			|| !strSrc.compare(SRC_AUDIO_CD) )
 	{
-		ui->labelTitle->setText(node.GetString(KEY_TOP));
-		ui->labelArtist->setText(node.GetString(KEY_BOT));
+		m_pFormTitle->SetTitle(node.GetString(KEY_TOP));
+		m_pFormTitle->SetSubtitle(node.GetString(KEY_BOT));
 
 		m_ID = node.GetInt(KEY_ID_UPPER);
 		m_TotTime = node.GetInt(KEY_DURATION);
 		m_CurTime = node.GetInt(KEY_PLAY_TIME);
+		emit SigGetVolume(node.GetInt(KEY_VOLUME_CAP));
+		if (node.GetString(KEY_PLAY_STATE).compare(KEY_PLAY))
+		{
+			m_bPause = true;
+		}
+		else
+		{
+			m_bPause = false;
+		}
 
 		SetSliderState();
-		SetPlayState(node.GetString(KEY_PLAY_STATE));
+		SetPlayState();
 		SetRepeatMode(node.GetString(KEY_REPEAT));
 		SetCoverArt(node.GetString(KEY_COVER_ART));
 		SetQueueList(node.GetInt64(KEY_TIME_STAMP));

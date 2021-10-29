@@ -257,7 +257,7 @@ void AudioCDWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 //	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 
 	m_pInfoTracks->GetFormPlay()->ClearMenu();

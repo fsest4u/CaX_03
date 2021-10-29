@@ -3,10 +3,10 @@
 #include "icontrackseditor.h"
 #include "ui_icontrackseditor.h"
 
+#include "util/log.h"
+
 #include "widget/form/formcoverart.h"
 #include "widget/form/formtitle.h"
-
-#include "util/log.h"
 
 IconTracksEditor::IconTracksEditor(QWidget *parent) :
 	QWidget(parent),

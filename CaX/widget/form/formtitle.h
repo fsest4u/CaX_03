@@ -17,11 +17,11 @@ public:
 
 	QString GetTitle();
 	void SetTitle(QString title);
-	void SetTitleFontSize(int size);
+	void SetTitleFont(int size = 14, QString color = "545454");
 
 	QString GetSubtitle();
 	void SetSubtitle(QString subtitle);
-	void SetSubtitleFontSize(int size);
+	void SetSubtitleFont(int size = 14, QString color = "545454");
 
 signals:
 

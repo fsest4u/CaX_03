@@ -44,10 +44,10 @@ private:
 
 	void ConnectSigToSlot();
 
-	FormCoverArt	*m_pFormCoverArt;
-	FormTitle		*m_pFormTitle;
+	FormCoverArt		*m_pFormCoverArt;
+	FormTitle			*m_pFormTitle;
 
-	int		m_ID;
+	int					m_ID;
 
 	Ui::IconTracksEditor *ui;
 };

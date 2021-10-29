@@ -4,10 +4,14 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
+#include <QMenu>
+#include <QSlider>
 
 #include "util/CJsonNode.h"
 
 class PlayManager;
+class FormCoverArt;
+class FormTitle;
 
 namespace Ui {
 class PlayWindow;
@@ -28,9 +32,15 @@ public:
 	QString GetDeviceName() const;
 	void SetDeviceName(const QString &DeviceName);
 
-protected:
+	void ClearMenu();
+	void SetMenu(QMap<QString, QString> map);
 
-	bool eventFilter(QObject *object, QEvent *event);
+signals:
+
+	void SigMenu();
+	void SigMenuAction(QString menuID);
+
+	void SigGetVolume(int volume);
 
 private slots:
 
@@ -41,8 +51,11 @@ private slots:
 	void SlotBtnStop();
 	void SlotBtnPlayNext();
 	void SlotBtnRandom();
-	void SlotBtnDevice();
+	void SlotMenu();
+	void SlotMenuAction(QAction *action);
 	void SlotBtnVolume();
+	void SlotVolumeSliderRelease();
+	void SlotGetVolume(int volume);
 	void SlotSliderReleased();
 	void SlotSliderUpdate();
 
@@ -64,26 +77,35 @@ private:
 	};
 
 	void ConnectSigToSlot();
-	void InitUI();
+	void Initialize();
 	void EnableUI(bool bEnable);
 
 	void SetTimer(bool bStart);
-	void SetPlayState(QString state);
+	void SetPlayState();
 	void SetRepeatMode(QString mode);
 	void SetCoverArt(QString filepath);
 	void SetQueueList(uint timestamp);
 	void SetSliderState();
+	void SetDeviceMenu();
+	void SetVolumeMenu();
 
 	void DoNowPlay(CJsonNode node);
 
-	PlayManager		*m_pMgr;
+	PlayManager			*m_pMgr;
+	FormCoverArt		*m_pFormCoverArt;
+	FormTitle			*m_pFormTitle;
+
+	QMenu				*m_Menu;
+	QMenu				*m_VolumeMenu;
+
+	QSlider				*m_Slider;
 
 	QTimer				*m_Timer;
 	int					m_TotTime;
 	int					m_CurTime;
 
 	int					m_ID;
-	bool				m_bPlay;
+	bool				m_bPause;
 	int					m_nRepeatMode;
 
 	QString				m_CoverArt;

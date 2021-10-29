@@ -61,6 +61,40 @@
 #define PLAY_NEXT		2
 #define PLAY_CLEAR		3
 
+
+#define RM_NORMAL	"RM_NORMAL"
+#define RM_SHUFFLE	"RM_SHUFFLE"
+#define RM_RANDOM	"RM_RANDOM"
+#define RM_ONCE		"RM_ONCE"
+#define RM_R_ONE	"RM_R_ONE"
+#define RM_R_ALL	"RM_R_ALL"
+
+#define SRC_MUSIC_DB		"Music DB"
+#define SRC_BROWSER			"File"
+#define SRC_AUDIO_CD		"Audio CD"
+
+#define SRC_AES_EBU			"AES"
+#define SRC_COAXIAL			"COAXIAL"
+#define SRC_TOSLINK			"TOSLINK"
+#define SRC_ANALOG_IN		"ANALOG IN"
+#define SRC_AUX_IN			"AUX IN"
+#define SRC_PHONO_IN		"PHONO IN"
+
+#define SRC_FM_RADIO		"FM Radio"
+#define SRC_I_RADIO			"i-Radio"
+#define SRC_PODCAST			"Podcasts"
+#define SRC_TIDAL			"TIDAL"
+#define SRC_DEEZER			"Deezer"
+#define SRC_NAPSTER			"Napster"
+#define SRC_HIGH_RES_AUDIO	"HighResAudio"
+#define SRC_AMAZON			"Amazon"
+#define SRC_AIRABLE_UPNP	"Airable UPNP"
+#define SRC_QOBUZ			"Qobuz"
+
+//////////////////////////////////////////////////
+// side menu
+//////////////////////////////////////////////////
+
 enum {
 	SIDEMENU_MUSIC_DB = Qt::UserRole + 0,
 	SIDEMENU_AUDIO_CD,

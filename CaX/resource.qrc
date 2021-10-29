@@ -731,5 +731,6 @@
         <file>resource/play-btn28-rank-sel5.png</file>
         <file>resource/play-btn28-rank-sel5@2x.png</file>
         <file>resource/play-btn28-rank-sel5@3x.png</file>
+        <file>resource/logo-icon-musicxneo-256.png</file>
     </qresource>
 </RCC>

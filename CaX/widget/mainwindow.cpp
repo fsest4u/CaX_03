@@ -381,18 +381,18 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 		{
 			return;
 		}
-		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio))
-		{
-			return;
-		}
-		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay))
-		{
-			return;
-		}
-		if (!node.GetBool(KEY_INPUT, m_bInput))
-		{
-			return;
-		}
+//		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio))
+//		{
+//			return;
+//		}
+//		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay))
+//		{
+//			return;
+//		}
+//		if (!node.GetBool(KEY_INPUT, m_bInput))
+//		{
+//			return;
+//		}
 
 		ObserverConnect();
 
@@ -485,10 +485,17 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 void MainWindow::SlotSelectDevice(QString mac)
 {
 	if (mac.isEmpty())
+	{
 		return;
+	}
+
+//	if (m_bConnect)
+//	{
+//		ObserverDisconnect();
+//	}
 
 	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
-	QString strVal = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_VAL);
+	QString strDev = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_DEV);
 
 	if (strAddr.isEmpty())
 		return;
@@ -497,7 +504,7 @@ void MainWindow::SlotSelectDevice(QString mac)
 	WriteSettings();
 
 	ui->widgetPlay->SetAddr(m_strAddr);
-	ui->widgetPlay->SetDeviceName(strVal);
+	ui->widgetPlay->SetDeviceName(strDev);
 
 	m_pAppMgr->SetAddr(m_strAddr);
 	m_pAppMgr->RequestDeviceInfo();
@@ -529,6 +536,30 @@ void MainWindow::SlotWolDevice(QString mac)
 void MainWindow::SlotWolCancel(QString mac)
 {
 	LogDebug("SlotWolCancel");
+}
+
+void MainWindow::SlotDevice()
+{
+	m_DeviceMap.clear();
+	CJsonNode nodeList = m_pDeviceMgr->GetDeviceList();
+	for (int i = 0; i < nodeList.ArraySize(); i++)
+	{
+		CJsonNode node = nodeList.GetArrayAt(i);
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_DeviceMap.insert(node.GetString(KEY_MAC), node.GetString(KEY_DEV));
+	}
+
+	ui->widgetPlay->ClearMenu();
+	if (m_DeviceMap.count() > 0)
+	{
+		ui->widgetPlay->SetMenu(m_DeviceMap);
+	}
+}
+
+void MainWindow::SlotDeviceAction(QString menuID)
+{
+	RemoveAllWidget();
+	SlotSelectDevice(menuID);
 }
 
 
@@ -585,7 +616,10 @@ void MainWindow::ConnectForUI()
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
 	// play menu
+	connect(ui->widgetPlay, SIGNAL(SigMenu()), this, SLOT(SlotDevice()));
+	connect(ui->widgetPlay, SIGNAL(SigMenuAction(QString)), this, SLOT(SlotDeviceAction(QString)));
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
+
 
 
 }

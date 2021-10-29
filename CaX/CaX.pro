@@ -582,6 +582,7 @@ DISTFILES += \
     resource/internets-img160-tidal-n.png \
     resource/internets-img160-tidal-n@2x.png \
     resource/internets-img160-tidal-n@3x.png \
+    resource/logo-icon-musicxneo-256.png \
     resource/mid-icon16-likeoff.png \
     resource/mid-icon16-likeoff@2x.png \
     resource/mid-icon16-likeoff@3x.png \

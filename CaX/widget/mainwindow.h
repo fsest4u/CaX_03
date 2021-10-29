@@ -47,6 +47,9 @@ public slots:
 	void SlotWolDevice(QString mac);
 	void SlotWolCancel(QString mac);
 
+	void SlotDevice();
+	void SlotDeviceAction(QString menuID);
+
 	void SlotRespAirableLogout();
 
 private:
@@ -115,6 +118,7 @@ private:
 	QList<CJsonNode> m_SetupList;
 
 	QMap<int, QString> m_SideMenuMap;
+	QMap<QString, QString> m_DeviceMap;
 
 	Ui::MainWindow *ui;
 };

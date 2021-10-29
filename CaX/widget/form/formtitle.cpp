@@ -32,9 +32,9 @@ void FormTitle::SetTitle(QString title)
 	ui->labelTitle->setText(title);
 }
 
-void FormTitle::SetTitleFontSize(int size)
+void FormTitle::SetTitleFont(int size, QString color)
 {
-	QString style = QString("QLabel{font-size: %1pt;color: rgb(84, 84, 84);}").arg(size);
+	QString style = QString("QLabel{font-size: %1pt;color: #%2;}").arg(size).arg(color);
 	ui->labelTitle->setStyleSheet(style);
 }
 
@@ -49,9 +49,9 @@ void FormTitle::SetSubtitle(QString subtitle)
 	ui->labelSubtitle->setText(subtitle);
 }
 
-void FormTitle::SetSubtitleFontSize(int size)
+void FormTitle::SetSubtitleFont(int size, QString color)
 {
-	QString style = QString("QLabel{font-size: %1pt;color: rgb(84, 84, 84);}").arg(size);
+	QString style = QString("QLabel{font-size: %1pt;color: #%2;}").arg(size).arg(color);
 	ui->labelSubtitle->setStyleSheet(style);
 }
 
