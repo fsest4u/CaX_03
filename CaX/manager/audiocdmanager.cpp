@@ -79,7 +79,7 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 		return;
 	}
 
-	LogDebug("cmdID [%d] node [%s]", cmdID, node.ToTabedByteArray().data());
+//	LogDebug("cmdID [%d] node [%s]", cmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);
@@ -119,7 +119,7 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 		emit SigRespCDRipInfo(node);
 		break;
 	case AUDIO_CD_RIP:
-		LogDebug("rip ...");
+		LogInfo("rip ...");
 		break;
 	case AUDIO_CD_MAX:
 		emit SigRespError(STR_INVALID_ID);

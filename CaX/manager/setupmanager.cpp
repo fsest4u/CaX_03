@@ -32,7 +32,7 @@ void SetupManager::SlotRespInfo(QString json, int cmdID)
 		return;
 	}
 
-	LogDebug("node [%d] [%s]", cmdID, node.ToTabedByteArray().data());
+//	LogDebug("node [%d] [%s]", cmdID, node.ToTabedByteArray().data());
 
 	QString strMsg;
 	bool	bSuccess = false;

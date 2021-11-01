@@ -224,7 +224,7 @@ void DeviceManager::SlotRespDeviceItem(QString deviceData)
 		|| strCaName.isEmpty()
 		|| strCaDev.isEmpty())
 	{
-//		LogDebug("is not CaX device...");
+//		LogInfo("is not CaX device...");
 		return;
 	}
 
@@ -241,7 +241,7 @@ void DeviceManager::SlotRespDeviceItem(QString deviceData)
 
 		if (!m_AutoMac.compare(strMac))
 		{
-			LogDebug("auto connect device");
+			LogInfo("auto connect device");
 			m_AutoMac.clear();
 			emit SigAutoConnectDevice(strMac);
 			return;

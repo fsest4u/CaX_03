@@ -44,7 +44,7 @@ void AppManager::SlotRespDeviceInfo(QString json, int nCmdID)
 		return;
 	}
 
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	emit SigRespDeviceInfo(node);
 }

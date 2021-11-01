@@ -69,7 +69,7 @@ void FmRadioManager::RequestDelete(QMap<int, bool> idMap)
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -117,7 +117,7 @@ void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+//	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString strMsg;
 	bool	bSuccess = false;

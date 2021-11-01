@@ -53,7 +53,7 @@ void WebEngineViewDialog::SlotLoadFinished(bool ok)
 
 void WebEngineViewDialog::SlotHandleHTML(QString html)
 {
-	LogDebug("load finished [%s]", html.toUtf8().data());
+//	LogDebug("load finished [%s]", html.toUtf8().data());
 	if (html.contains("[\"success\""))
 	{
 		m_bLogin = true;

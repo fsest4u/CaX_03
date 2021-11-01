@@ -104,7 +104,7 @@ bool UDPClient::SendSocketMSearch(QString strSearch)
 	m_pSocketMSearch->writeDatagram(strSearch.toUtf8(), m_HostAddress, SSDP_PORT);
 	if( !m_pSocketMSearch->waitForDisconnected(3000) )
 	{
-		LogCritical("%s", m_pSocketMSearch->errorString().toUtf8().data());
+//		LogCritical("%s", m_pSocketMSearch->errorString().toUtf8().data());
 		CloseSocketMSearch();
 		return false;
 	}
@@ -284,7 +284,7 @@ QNetworkInterface UDPClient::CheckIP()
 	QList<QHostAddress> ipList = interface.allAddresses();
 	for (int i = 0; i < macList.size(); i++)
 	{
-		LogDebug("macList hardwareAddress : ", macList.at(i).hardwareAddress().data());
+//		LogDebug("macList hardwareAddress : ", macList.at(i).hardwareAddress().data());
 		QString str = macList.at(i).hardwareAddress();       // MAC
 		if(str != "" )  // at windows os
 //		if(str != "00:00:00:00:00:00") // at linux os
@@ -297,9 +297,9 @@ QNetworkInterface UDPClient::CheckIP()
 	QNetworkInterface myInterface;
 	for (int i = 0; i < ipList.size(); i++)
 	{
-		LogDebug("ipList i : ", i);
-		LogDebug("ipList at(i) : ", ipList.at(i).toString().data());
-		LogDebug("ipList toIPv4Address : ", ipList.at(i).toIPv4Address());
+//		LogDebug("ipList i : ", i);
+//		LogDebug("ipList at(i) : ", ipList.at(i).toString().data());
+//		LogDebug("ipList toIPv4Address : ", ipList.at(i).toIPv4Address());
 		myInterface = interface.interfaceFromIndex(i);
 		if (ipList.at(i) != QHostAddress::LocalHost && ipList.at(i).toIPv4Address())
 		{

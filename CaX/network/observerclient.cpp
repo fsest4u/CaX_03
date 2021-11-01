@@ -84,13 +84,13 @@ void ObserverClient::SlotConnect()
 
 void ObserverClient::SlotDisconnect()
 {
-	LogDebug("DISCONNECTED");
+	LogDebug("network disconnect !!!!!!!!!!!!!!!!!!!!!!");
 	emit SigDisconnect();
 }
 
 void ObserverClient::SlotWrite(qint64 bytes)
 {
-	LogDebug("Bytes Written [size :%d]", bytes);
+//	LogDebug("Bytes Written [size :%d]", bytes);
 }
 
 void ObserverClient::SlotRead()
@@ -98,7 +98,7 @@ void ObserverClient::SlotRead()
 	if (true) //(m_Socket->error() < QAbstractSocket::SocketError::ConnectionRefusedError)
 	{
 		QString contents = QString::fromUtf8(m_Socket->readAll());
-		LogDebug("Network Success : [%s]", contents.toUtf8().data());
+		LogDebug("network success : [%s]", contents.toUtf8().data());
 		QStringList resList = contents.split("HTTP/");
 		QStringList jsonValueList;
 

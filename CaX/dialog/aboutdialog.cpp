@@ -26,17 +26,17 @@ void AboutDialog::Initialize()
 
 	QFile file(fileName);
 	if(!file.open(QIODevice::ReadOnly)) {
-		LogDebug("file not opened");
+		LogWarning("file not opened");
 	}
 	else
 	{
-		LogDebug("file opened");
+//		LogDebug("file opened");
 		data = file.readAll();
 	}
 
 	file.close();
 
-	LogDebug("data [%s]", data.toUtf8().data());
+//	LogDebug("data [%s]", data.toUtf8().data());
 
 	ui->textEdit->setReadOnly(true);
 	ui->textEdit->setHtml(data);

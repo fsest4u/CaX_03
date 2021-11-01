@@ -104,8 +104,6 @@ void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringLis
 		node.Add(KEY_FILES, files);
 	}
 
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
-
 	RequestCommand(node, BROWSER_TRACK_PLAY);
 }
 
@@ -143,7 +141,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 		return;
 	}
 
-	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+//	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString strMsg;
 	bool	bSuccess = false;

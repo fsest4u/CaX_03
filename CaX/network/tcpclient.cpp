@@ -20,7 +20,7 @@ TCPClient::TCPClient(QObject *parent)
 	{
 		if (dir.mkdir(m_DirTemp))
 		{
-			LogDebug("success to create temp dir...");
+//			LogDebug("success to create temp dir...");
 		}
 	}
 }

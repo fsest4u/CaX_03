@@ -173,7 +173,7 @@ CJsonNode MusicDBManager::MakeNodeYearSelect(QString cmd1,
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		yearArr.AppendArray((int64_t)i.key());
 	}
 
@@ -223,7 +223,7 @@ CJsonNode MusicDBManager::MakeNodeTrackSelect(QString cmd1,
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -281,7 +281,7 @@ CJsonNode MusicDBManager::MakeNodeCategorySelect(QString cmd1,
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -390,7 +390,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
+//	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);
