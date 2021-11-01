@@ -26,7 +26,6 @@ ListTracks::ListTracks(QWidget *parent) :
 
 ListTracks::~ListTracks()
 {
-	delete ui;
 
 	if (m_ListView)
 	{
@@ -49,6 +48,9 @@ ListTracks::~ListTracks()
 		delete m_pLoading;
 		m_pLoading = nullptr;
 	}
+
+	delete ui;
+
 }
 
 QList<CJsonNode> ListTracks::GetNodeList() const
@@ -56,37 +58,65 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 	return m_NodeList;
 }
 
-void ListTracks::SetNodeList(QList<CJsonNode> list)
+void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 {
 	m_pLoading->Start();
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 	LogDebug("list count [%d] index [%d]", m_NodeList.count(), index);
 
-	foreach (CJsonNode node, list)
+	if (LIST_TRACKS_AUDIO_CD == type)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
-		QStandardItem *item = new QStandardItem;
-		int nID = node.GetString(KEY_ID_LOWER).toInt();
-		item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
-		item->setData(node.GetString(KEY_TITLE), ListTracksDelegate::LIST_TRACKS_TITLE);
-		if (node.GetInt(KEY_FAVORITE) >= 0)
+		foreach (CJsonNode node, list)
 		{
-			item->setData(node.GetInt(KEY_FAVORITE), ListTracksDelegate::LIST_TRACKS_FAVORITE);
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			QStandardItem *item = new QStandardItem;
+			int nID = node.GetString(KEY_TRACK).toInt();
+			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
+			item->setData(":/resource/playlist-img160-albumart-h@3x.png", ListTracksDelegate::LIST_TRACKS_COVER);
+			item->setData(node.GetString(KEY_TOP), ListTracksDelegate::LIST_TRACKS_TITLE);
+			item->setData(node.GetInt(KEY_TIME_CAP), ListTracksDelegate::LIST_TRACKS_TIME);
+			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
+			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
+			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
+			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
+			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+//			emit SigReqCoverArt(nID, index, QListView::ListMode);
+//			index++;
 		}
-		item->setData(node.GetString(KEY_TIME), ListTracksDelegate::LIST_TRACKS_TIME);
-		item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
-		item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
-		item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
-		item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
-		item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
+	}
+	else
+	{
+		foreach (CJsonNode node, list)
+		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			QStandardItem *item = new QStandardItem;
+			int nID = node.GetString(KEY_ID_LOWER).toInt();
+			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
+			item->setData(node.GetString(KEY_TITLE), ListTracksDelegate::LIST_TRACKS_TITLE);
+			if (node.GetInt(KEY_FAVORITE) >= 0)
+			{
+				item->setData(node.GetInt(KEY_FAVORITE), ListTracksDelegate::LIST_TRACKS_FAVORITE);
+			}
+			item->setData(node.GetString(KEY_TIME), ListTracksDelegate::LIST_TRACKS_TIME);
+			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
+			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
+			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
+			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
+			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
-		m_Model->appendRow(item);
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
 
-		emit SigReqCoverArt(nID, index, QListView::ListMode);
-		index++;
+			emit SigReqCoverArt(nID, index, QListView::ListMode);
+			index++;
+		}
 	}
 
 	ui->gridLayout->addWidget(m_ListView);

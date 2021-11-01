@@ -247,7 +247,7 @@ void PlayWindow::SlotQueueList(CJsonNode node)
 {
 //	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
-	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
+//	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
 
 }
 

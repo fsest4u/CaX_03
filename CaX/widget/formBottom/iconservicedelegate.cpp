@@ -19,7 +19,7 @@ IconServiceDelegate::IconServiceDelegate()
 
 void IconServiceDelegate::SlotClickPlay(int nType)
 {
-	emit SigSelectPlay(nType);
+//	emit SigSelectPlay(nType);
 }
 
 void IconServiceDelegate::SlotClickTitle(int nType, QString rawData)

@@ -74,6 +74,7 @@
 // top menu
 //////////////////////////////////////////////////
 
+// music db
 #define STR_PLAY_NOW				TR("Play now")
 #define STR_PLAY_LAST				TR("Play last")
 #define STR_PLAY_NEXT				TR("Play next")
@@ -82,17 +83,19 @@
 #define STR_LOAD_COUNT				TR("Load count")
 #define STR_SELECT_ALL				TR("Select all")
 #define STR_CLEAR_ALL				TR("Clear all")
-#define STR_GAIN_SET				TR("Gain Set")
-#define STR_GAIN_CLEAR				TR("Gain Clear")
+#define STR_GAIN_SET				TR("Gain set")
+#define STR_GAIN_CLEAR				TR("Gain clear")
+#define STR_ALBUM_INFO				TR("Album info")
 // audio cd
-#define STR_CD_RIPPING				TR("CD Ripping")
+#define STR_CD_RIPPING				TR("CD ripping")
 #define STR_EJECT_CD				TR("Eject CD")
 // playlist
 #define STR_NEW_PLAYLIST			TR("New playlist")
 #define STR_RENAME_PLAYLIST			TR("Rename playlist")
 #define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
-#define STR_ADD_ITEM				TR("Add item")
-#define STR_DELETE_ITEM				TR("Delete item")
+#define STR_ADD_ITEM				TR("Add")
+#define STR_RENAME_ITEM				TR("Rename")
+#define STR_DELETE_ITEM				TR("Delete")
 #define STR_EXPORT_TRACK			TR("Export track")
 // browser
 #define STR_OPTION_PLAY_SUBDIR		TR("Play subdirectories - %1")

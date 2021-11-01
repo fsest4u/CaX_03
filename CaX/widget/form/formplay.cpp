@@ -22,7 +22,6 @@ FormPlay::FormPlay(QWidget *parent) :
 FormPlay::~FormPlay()
 {
 	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
-
 	if (m_Menu)
 	{
 		delete m_Menu;

@@ -251,6 +251,7 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
 {
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
+	SetOptionMenu();
 	m_pListTracks->SetNodeList(list);
 //	m_pSongThread->start();
 }
@@ -530,11 +531,11 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	widget->SetCoverArt(coverArt);
 }
 
-void MusicDBWindow::SlotSelectPlay(int nID)
+void MusicDBWindow::SlotSelectPlay(int nID, int playType)
 {
 	QMap<int, bool> map;
 	map.insert(nID, true);
-	m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_CLEAR, m_nCategory);
+	m_pMgr->RequestManageCategory(VAL_PLAY, map, playType, m_nCategory);
 }
 
 void MusicDBWindow::SlotSelectFavorite(int nID, int nFavorite)
@@ -606,21 +607,18 @@ void MusicDBWindow::SlotAppendList()
 	}
 }
 
-void MusicDBWindow::SlotSelectTrackPlay(int nID)
+void MusicDBWindow::SlotSelectTrackPlay(int nID, int playType)
 {
 //	m_pMgr->RequestPlaySong(nID);
 	QMap<int, bool> map;
 	map.insert(nID, true);
-	m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_NOW, SQLManager::CATEGORY_TRACK);
+	m_pMgr->RequestManageCategory(VAL_PLAY, map, playType, SQLManager::CATEGORY_TRACK);
 }
 
 void MusicDBWindow::SlotSelectTrackMore(int nID)
 {
-	Q_UNUSED(nID)
-
 	LogDebug("click select more - temp code");
-	QListView::ViewMode mode = m_pListTracks->GetViewMode() == QListView::IconMode ? QListView::ListMode : QListView::IconMode;
-	m_pListTracks->SetViewMode(mode);
+
 }
 
 void MusicDBWindow::SlotSelectTrackFavorite(int nID, int nFavorite)
@@ -706,6 +704,40 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
+void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
+{
+	LogDebug("click option menu [%d]", menuID);
+	switch (menuID) {
+	case OPTION_MENU_PLAY_NOW:
+		SlotSelectTrackPlay(nID, PLAY_NOW);
+		break;
+	case OPTION_MENU_PLAY_LAST:
+		SlotSelectTrackPlay(nID, PLAY_LAST);
+		break;
+	case OPTION_MENU_PLAY_NEXT:
+		SlotSelectTrackPlay(nID, PLAY_NEXT);
+		break;
+	case OPTION_MENU_PLAY_CLEAR:
+		SlotSelectTrackPlay(nID, PLAY_CLEAR);
+		break;
+	case OPTION_MENU_ADD_TO_PLAYLIST:
+		break;
+	case OPTION_MENU_TRACK_INFO:
+		break;
+	case OPTION_MENU_SEARCH_COVERART:
+		break;
+	case OPTION_MENU_RENAME_ITEM:
+		break;
+	case OPTION_MENU_GAIN_SET:
+		DoOptionMenuGainSet(nID);
+		break;
+	case OPTION_MENU_GAIN_CLEAR:
+		DoOptionMenuGainClear(nID);
+		break;
+	}
+
+}
+
 void MusicDBWindow::ConnectSigToSlot()
 {
 	// recursive
@@ -756,7 +788,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
@@ -764,9 +796,9 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectTrackPlay(int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMore(int)), this, SLOT(SlotSelectTrackMore(int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 
 }
@@ -973,6 +1005,46 @@ void MusicDBWindow::DoItemTopMenuGainClear()
 void MusicDBWindow::DoItemTopMenuAddToPlaylist()
 {
 
+}
+
+void MusicDBWindow::SetOptionMenu()
+{
+	m_OptionMenuMap.clear();
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+	m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+	m_OptionMenuMap.insert(OPTION_MENU_TRACK_INFO, STR_ALBUM_INFO);
+	m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+	m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
+	m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
+	m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+
+	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
+
+}
+
+void MusicDBWindow::DoOptionMenuGainSet(int nID)
+{
+	QMap<int, bool> map;
+	map.insert(nID, true);
+	m_pMgr->RequestManageCategory(VAL_GAIN_SET,
+								  map,
+								  PLAY_NONE,
+								  SQLManager::CATEGORY_TRACK,
+								  m_EventID);
+}
+
+void MusicDBWindow::DoOptionMenuGainClear(int nID)
+{
+	QMap<int, bool> map;
+	map.insert(nID, true);
+	m_pMgr->RequestManageCategory(VAL_GAIN_CLEAR,
+								  map,
+								  PLAY_NONE,
+								  SQLManager::CATEGORY_TRACK,
+								  m_EventID);
 }
 
 void MusicDBWindow::SetCoverArt(QString coverArt)

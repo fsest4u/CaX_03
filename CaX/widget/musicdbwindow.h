@@ -81,7 +81,7 @@ private slots:
 	void SlotItemIncDec(bool bIncrease);
 	void SlotItemResize();
 
-	void SlotSelectPlay(int nID);
+	void SlotSelectPlay(int nID, int playType);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
 	void SlotSelectTitle(int nID, QString coverArt);
@@ -90,7 +90,7 @@ private slots:
 	void SlotAppendIconList();
 	void SlotAppendList();
 
-	void SlotSelectTrackPlay(int nID);
+	void SlotSelectTrackPlay(int nID, int playType);
 	void SlotSelectTrackMore(int nID);
 	void SlotSelectTrackFavorite(int nID, int nFavorite);
 
@@ -104,7 +104,7 @@ private slots:
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
 
-
+	void SlotOptionMenuAction(int nID, int menuID);
 
 private:
 
@@ -130,6 +130,12 @@ private:
 	void DoItemTopMenuGainClear();
 	void DoItemTopMenuAddToPlaylist();
 
+	void SetOptionMenu();
+
+	void DoOptionMenuGainSet(int nID);
+	void DoOptionMenuGainClear(int nID);
+
+
 	void SetCoverArt(QString coverArt);
 
 	void AddSortMusicDBHome();
@@ -151,6 +157,7 @@ private:
 
 	QMap<int, QString> m_TopMenuMap;
 	QMap<int, QString> m_CategoryMenuMap;
+	QMap<int, QString> m_OptionMenuMap;
 	QMap<int, bool>	m_SelectMap;
 
 	int				m_EventID;

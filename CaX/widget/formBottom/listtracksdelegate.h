@@ -27,11 +27,14 @@ public:
 	QListView::ViewMode GetViewMode() const;
 	void SetViewMode(const QListView::ViewMode &ViewMode);
 
+	QMap<int, QString> GetOptionMenuMap() const;
+	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
+
 signals:
 
-	void SigSelectPlay(int nID);
-	void SigSelectMore(int nID);
+	void SigSelectPlay(int nID, int playType);
 	void SigSelectFavorite(int nID, int nFavorite);
+	void SigMenuAction(int nID, int menuID);
 
 private slots:
 
@@ -43,7 +46,7 @@ private slots:
 	void SlotClickArtist(int nID);
 	void SlotClickAlbum(int nID);
 	void SlotClickGenre(int nID);
-	void SlotClickMore(int nID);
+	void SlotMenuAction(int nID, int menuID);
 
 private:
 
@@ -56,6 +59,7 @@ private:
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QListView::ViewMode m_ViewMode;
+	QMap<int, QString> m_OptionMenuMap;
 
 	QImage	m_Image;
 };

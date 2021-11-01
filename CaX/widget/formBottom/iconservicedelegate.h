@@ -29,7 +29,7 @@ public:
 
 signals:
 
-	void SigSelectPlay(int nType);
+//	void SigSelectPlay(int nType);
 	void SigSelectTitle(int nType);
 	void SigSelectTitle(int nType, QString rawData);
 

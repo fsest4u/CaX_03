@@ -5,11 +5,13 @@
 
 #include "widget/form/formcoverart.h"
 
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 ListTracksEditor::ListTracksEditor(QWidget *parent) :
 	QWidget(parent),
 	m_pFormCoverArt(new FormCoverArt(this)),
+	m_Menu(new QMenu(this)),
 	m_Favorite(0),
 	ui(new Ui::ListTracksEditor)
 {
@@ -20,10 +22,26 @@ ListTracksEditor::ListTracksEditor(QWidget *parent) :
 
 	ConnectSigToSlot();
 
+	Initialize();
+
+
 }
 
 ListTracksEditor::~ListTracksEditor()
 {
+	if (m_pFormCoverArt)
+	{
+		delete m_pFormCoverArt;
+		m_pFormCoverArt = nullptr;
+	}
+
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
+	}
+
 	delete ui;
 }
 
@@ -103,7 +121,7 @@ QString ListTracksEditor::GetArtist()
 
 void ListTracksEditor::SetArtist(const QString &artist)
 {
-	ui->labelAlbum->setText(artist);
+	ui->labelArtist->setText(artist);
 }
 
 QString ListTracksEditor::GetAlbum()
@@ -124,6 +142,23 @@ QString ListTracksEditor::GetGenre()
 void ListTracksEditor::SetGenre(const QString &genre)
 {
 	ui->labelGenre->setText(genre);
+}
+
+void ListTracksEditor::ClearMenu()
+{
+	m_Menu->clear();
+}
+
+void ListTracksEditor::SetMenu(QMap<int, QString> map)
+{
+	QMap<int, QString>::iterator i;
+	for (i = map.begin(); i != map.end(); i++)
+	{
+		QIcon icon = GetIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
 }
 
 FormCoverArt *ListTracksEditor::GetFormCoverArt() const
@@ -172,17 +207,41 @@ bool ListTracksEditor::eventFilter(QObject *object, QEvent *event)
 		{
 			emit SigClickGenre(m_ID);
 		}
-		else if (object == ui->labelMore)
-		{
-			emit SigClickMore(m_ID);
-		}
+
 	}
 
 	return QObject::eventFilter(object, event);
 }
 
+void ListTracksEditor::SlotMenuAction(QAction *action)
+{
+	emit SigMenuAction(m_ID, action->data().toInt());
+}
+
 void ListTracksEditor::ConnectSigToSlot()
 {
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+}
+
+void ListTracksEditor::Initialize()
+{
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
+	ui->btnMenu->setMenu(m_Menu);
+
 	ui->labelFavorite->hide();
 
 	ui->labelPlay->installEventFilter(this);
@@ -192,8 +251,56 @@ void ListTracksEditor::ConnectSigToSlot()
 	ui->labelArtist->installEventFilter(this);
 	ui->labelAlbum->installEventFilter(this);
 	ui->labelGenre->installEventFilter(this);
-	ui->labelMore->installEventFilter(this);
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
+
+}
+
+QIcon ListTracksEditor::GetIcon(QString value)
+{
+	if (value.contains(STR_PLAY_NOW))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_PLAY_LAST))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_PLAY_NEXT))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_PLAY_CLEAR))
+	{
+		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+	}
+	else if (value.contains(STR_GAIN_SET))
+	{
+		return QIcon(":/resource/play-popup-icon16-replaygain@3x.png");
+	}
+	else if (value.contains(STR_GAIN_CLEAR))
+	{
+		return QIcon(":/resource/play-popup-icon16-cleanreplaygain@3x.png");
+	}
+	else if (value.contains(STR_ADD_TO_PLAYLIST))
+	{
+		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
+	}
+	else if (value.contains(STR_ALBUM_INFO))
+	{
+		return QIcon(":/resource/play-popup-icon16-songinfo@3x.png");
+	}
+	else if (value.contains(STR_SEARCH_COVERART))
+	{
+		return QIcon("");
+	}
+	else if (value.contains(STR_RENAME_ITEM))
+	{
+		return QIcon(":/resource/play-popup-icon16-nameedit@3x.png");
+	}
+	else
+	{
+		return QIcon("");
+	}
 
 }

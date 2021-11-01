@@ -46,7 +46,7 @@ private slots:
 
 	void SlotSelectTitle(int id, QString coverArt);
 	void SlotSelectCount(int id);
-	void SlotSelectPlay(int id);
+	void SlotSelectPlay(int id, int playType);
 
 	void SlotPlayAll();
 	void SlotPlayRandom();

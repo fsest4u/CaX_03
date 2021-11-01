@@ -200,11 +200,11 @@ void PlaylistWindow::SlotSelectCount(int id)
 	LogDebug("click Count");
 }
 
-void PlaylistWindow::SlotSelectPlay(int id)
+void PlaylistWindow::SlotSelectPlay(int id, int playType)
 {
 	QMap<int, bool> map;
 	map.insert(id, true);
-	m_pMgr->RequestTrackPlay(map, PLAY_CLEAR);
+	m_pMgr->RequestTrackPlay(map, playType);
 }
 
 void PlaylistWindow::SlotPlayAll()
@@ -341,7 +341,7 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCoverArt(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
@@ -379,7 +379,7 @@ void PlaylistWindow::SetSelectOffTopMenu(bool root)
 	if (root)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-		m_TopMenuMap.insert(TOP_MENU_ADD_ITEM, STR_NEW_PLAYLIST);
+		m_TopMenuMap.insert(TOP_MENU_NEW_PLAYLIST, STR_NEW_PLAYLIST);
 
 		m_pInfoService->GetFormPlay()->ClearMenu();
 		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);

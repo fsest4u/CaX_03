@@ -2,6 +2,7 @@
 #define LISTTRACKSEDITOR_H
 
 #include <QWidget>
+#include <QMenu>
 
 class FormCoverArt;
 
@@ -38,6 +39,9 @@ public:
 	QString GetGenre();
 	void SetGenre(const QString &genre);
 
+	void ClearMenu();
+	void SetMenu(QMap<int, QString> map);
+
 	FormCoverArt *GetFormCoverArt() const;
 
 signals:
@@ -50,7 +54,7 @@ signals:
 	void SigClickArtist(int nID);
 	void SigClickAlbum(int nID);
 	void SigClickGenre(int nID);
-	void SigClickMore(int nID);
+	void SigMenuAction(int nID, int menuID);
 
 
 protected:
@@ -59,15 +63,19 @@ protected:
 
 private slots:
 
+	void SlotMenuAction(QAction* action);
+
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
+	QIcon GetIcon(QString value);
 
 	FormCoverArt	*m_pFormCoverArt;
+	QMenu			*m_Menu;
 
 	int		m_ID;
 	int		m_Favorite;
-
 
 	Ui::ListTracksEditor *ui;
 };

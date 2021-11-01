@@ -28,7 +28,7 @@ public:
 
 signals:
 
-	void SigSelectPlay(int nID);
+	void SigSelectPlay(int nID, int playType);
 	void SigSelectFavorite(int nID, int nFavorite);
 	void SigSelectRating(int nID, int nRating);
 	void SigSelectTitle(int nID, QString coverArt);

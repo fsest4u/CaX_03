@@ -1,9 +1,9 @@
 #ifndef LISTTRACKS_H
 #define LISTTRACKS_H
 
-#include <QWidget>
 #include <QListView>
 #include <QStandardItemModel>
+#include <QWidget>
 
 #include "util/CJsonNode.h"
 
@@ -22,8 +22,13 @@ public:
 	explicit ListTracks(QWidget *parent = nullptr);
 	~ListTracks();
 
+	enum {
+		LIST_TRACKS_AUDIO_CD = 0,
+		LIST_TRACKS_MAX
+	};
+
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(QList<CJsonNode> list);
+	void SetNodeList(QList<CJsonNode> list, int type = LIST_TRACKS_MAX);
 	void ClearNodeList();
 
 	QListView::ViewMode GetViewMode();

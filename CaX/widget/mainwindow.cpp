@@ -95,6 +95,8 @@ MainWindow::~MainWindow()
 void MainWindow::SlotMenu()
 {
 	m_SideMenuMap.clear();
+	ui->widgetTop->ClearMenu();
+
 	if (m_bConnect)
 	{
 
@@ -140,7 +142,6 @@ void MainWindow::SlotMenu()
 		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 	}
 
-	ui->widgetTop->ClearMenu();
 	ui->widgetTop->SetMenu(m_SideMenuMap);
 }
 

@@ -7,7 +7,6 @@
 
 class AudioCDManager;
 class InfoTracks;
-class IconTracks;
 class ListTracks;
 
 namespace Ui {
@@ -42,6 +41,7 @@ private slots:
 	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
+	void SlotSelectPlay(int id, int playType);
 
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
@@ -64,7 +64,6 @@ private:
 
 	AudioCDManager		*m_pMgr;
 	InfoTracks			*m_pInfoTracks;
-	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
 	QMap<int, QString>	m_TopMenuMap;

@@ -87,33 +87,33 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			index++;
 		}
 	}
-	else if (ICON_TRACKS_AUDIO_CD == type)
-	{
-		int totalTime = 0;
-		foreach (CJsonNode node, list)
-		{
-			int time = node.GetInt(KEY_TIME_CAP);
-			QStandardItem *item = new QStandardItem;
-			int nID = node.GetString(KEY_TRACK).toInt();
-			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
-			item->setData(":/resource/playlist-img160-albumart-h@3x.png", IconTracksDelegate::ICON_TRACKS_COVER);
-			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
-			item->setData(time, IconTracksDelegate::ICON_TRACKS_SUBTITLE);
-			item->setData("", IconTracksDelegate::ICON_TRACKS_COUNT);
-			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
-			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
-			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+//	else if (ICON_TRACKS_AUDIO_CD == type)
+//	{
+//		int totalTime = 0;
+//		foreach (CJsonNode node, list)
+//		{
+//			int time = node.GetInt(KEY_TIME_CAP);
+//			QStandardItem *item = new QStandardItem;
+//			int nID = node.GetString(KEY_TRACK).toInt();
+//			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
+//			item->setData(":/resource/playlist-img160-albumart-h@3x.png", IconTracksDelegate::ICON_TRACKS_COVER);
+//			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
+//			item->setData(time, IconTracksDelegate::ICON_TRACKS_SUBTITLE);
+//			item->setData("", IconTracksDelegate::ICON_TRACKS_COUNT);
+//			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
+//			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
+//			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
 
-			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
+//			m_Model->appendRow(item);
+//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+//			m_ListView->openPersistentEditor(modelIndex);
 
-			index++;
+//			index++;
 
-			totalTime += time;
-		}
-		emit SigCalcTotalTime(totalTime);
-	}
+//			totalTime += time;
+//		}
+//		emit SigCalcTotalTime(totalTime);
+//	}
 	else if (ICON_TRACKS_PLAYLIST == type)
 	{
 		foreach (CJsonNode node, list)

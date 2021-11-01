@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1320</width>
+    <width>1166</width>
     <height>78</height>
    </rect>
   </property>
@@ -21,13 +21,13 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
-    <number>16</number>
+    <number>18</number>
    </property>
    <property name="leftMargin">
     <number>50</number>
    </property>
    <property name="rightMargin">
-    <number>50</number>
+    <number>66</number>
    </property>
    <item>
     <widget class="QFrame" name="frameFormCoverArt">
@@ -140,13 +140,13 @@ QLabel:hover
      <property name="minimumSize">
       <size>
        <width>30</width>
-       <height>0</height>
+       <height>34</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>30</width>
-       <height>16777215</height>
+       <height>34</height>
       </size>
      </property>
      <property name="frameShape">
@@ -176,13 +176,13 @@ QLabel:hover
         <property name="minimumSize">
          <size>
           <width>15</width>
-          <height>0</height>
+          <height>26</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>15</width>
-          <height>16777215</height>
+          <height>26</height>
          </size>
         </property>
         <property name="font">
@@ -341,7 +341,7 @@ QLabel:hover
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="labelMore">
+       <widget class="QPushButton" name="btnMenu">
         <property name="minimumSize">
          <size>
           <width>28</width>
@@ -355,21 +355,19 @@ QLabel:hover
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">QLabel
+         <string notr="true">QPushButton
 {
   border-image: url(&quot;:/resource/play-btn28-popupmenu-n@3x.png&quot;);
 }
 
-QLabel:hover
+QPushButton:hover
 {
   border-image: url(&quot;:/resource/play-btn28-popupmenu-h@3x.png&quot;);
+}
+QPushButton::menu-indicator
+{
+	image:none;
 }</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>

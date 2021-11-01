@@ -26,7 +26,6 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
 	m_pMgr(new AudioCDManager),
 	m_pInfoTracks(new InfoTracks(this)),
-	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
 	m_TotalCount(""),
 	m_TotalTime(""),
@@ -63,12 +62,6 @@ AudioCDWindow::~AudioCDWindow()
 		m_pInfoTracks = nullptr;
 	}
 
-	if (m_pIconTracks)
-	{
-		delete m_pIconTracks;
-		m_pIconTracks = nullptr;
-	}
-
 	if (m_pListTracks)
 	{
 		delete m_pListTracks;
@@ -80,7 +73,7 @@ AudioCDWindow::~AudioCDWindow()
 void AudioCDWindow::AddWidgetAudioCDHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	ui->gridLayoutBottom->addWidget(m_pListTracks);
 }
 
 
@@ -111,7 +104,7 @@ void AudioCDWindow::CDRip(CJsonNode node, QList<CJsonNode> list)
 
 void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 {	
-	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_AUDIO_CD);
+	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_AUDIO_CD);
 
 	m_TotalCount = QString("%1 songs").arg(list.count());
 //	m_pInfoTracks->SetInfo( MakeInfo() );
@@ -185,9 +178,16 @@ void AudioCDWindow::SlotCalcTotalTime(int time)
 	//	m_pInfoTracks->SetInfo( MakeInfo() );
 }
 
+void AudioCDWindow::SlotSelectPlay(int id, int playType)
+{
+	Q_UNUSED(playType)
+
+	TrackPlay(id);
+}
+
 void AudioCDWindow::SlotTopMenu()
 {
-	m_SelectMap = m_pIconTracks->GetSelectMap();
+	m_SelectMap = m_pListTracks->GetSelectMap();
 	if (m_SelectMap.count() > 0)
 	{
 		SetSelectOnTopMenu();
@@ -232,13 +232,12 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCDRipInfo(CJsonNode)), this, SLOT(SlotRespCDRipInfo(CJsonNode)));
 
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
-
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+
 }
 
 void AudioCDWindow::SetSelectOffTopMenu()
@@ -266,14 +265,12 @@ void AudioCDWindow::SetSelectOnTopMenu()
 
 void AudioCDWindow::DoTopMenuSelectAll()
 {
-	m_pIconTracks->SetAllSelectMap();
-
+	m_pListTracks->SetAllSelectMap();
 }
 
 void AudioCDWindow::DoTopMenuClearAll()
 {
-	m_pIconTracks->ClearSelectMap();
-
+	m_pListTracks->ClearSelectMap();
 }
 
 void AudioCDWindow::DoTopMenuCDRipping()

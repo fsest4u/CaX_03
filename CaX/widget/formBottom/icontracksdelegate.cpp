@@ -13,7 +13,7 @@ IconTracksDelegate::IconTracksDelegate()
 
 void IconTracksDelegate::SlotClickPlay(int nID)
 {
-	emit SigSelectPlay(nID);
+	emit SigSelectPlay(nID, PLAY_CLEAR);
 }
 
 void IconTracksDelegate::SlotClickFavorite(int nID, int nFavorite)

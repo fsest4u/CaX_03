@@ -27,7 +27,7 @@ void ListTracksDelegate::SlotClickCoverArt(int nID)
 
 void ListTracksDelegate::SlotClickPlay(int nID)
 {
-	emit SigSelectPlay(nID);
+	emit SigSelectPlay(nID, PLAY_CLEAR);
 }
 
 void ListTracksDelegate::SlotClickTitle(int nID)
@@ -65,9 +65,9 @@ void ListTracksDelegate::SlotClickGenre(int nID)
 	LogDebug("click genre");
 }
 
-void ListTracksDelegate::SlotClickMore(int nID)
+void ListTracksDelegate::SlotMenuAction(int nID, int menuID)
 {
-	emit SigSelectMore(nID);
+	emit SigMenuAction(nID, menuID);
 }
 
 void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -155,7 +155,10 @@ QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));
 	connect(editor, SIGNAL(SigClickAlbum(int)), this, SLOT(SlotClickAlbum(int)));
 	connect(editor, SIGNAL(SigClickGenre(int)), this, SLOT(SlotClickGenre(int)));
-	connect(editor, SIGNAL(SigClickMore(int)), this, SLOT(SlotClickMore(int)));
+	connect(editor, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotMenuAction(int, int)));
+
+	editor->ClearMenu();
+	editor->SetMenu(m_OptionMenuMap);
 
 	return editor;
 }
@@ -196,6 +199,7 @@ void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptio
 	editor->setGeometry(option.rect);
 }
 
+
 QListView::ViewMode ListTracksDelegate::GetViewMode() const
 {
 	return m_ViewMode;
@@ -206,3 +210,13 @@ void ListTracksDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
 	m_ViewMode = ViewMode;
 }
 
+
+QMap<int, QString> ListTracksDelegate::GetOptionMenuMap() const
+{
+	return m_OptionMenuMap;
+}
+
+void ListTracksDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
+{
+	m_OptionMenuMap = OptionMenuMap;
+}
