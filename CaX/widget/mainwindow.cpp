@@ -394,6 +394,19 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 //			return;
 //		}
 
+		int index = m_strVersion.lastIndexOf(".r") + QString(".r").length();
+		LogDebug("length [%d]", m_strVersion.length());
+		LogDebug("index [%d]", index);
+		LogDebug("right [%s]", m_strVersion.right(m_strVersion.length() - index).toUtf8().data());
+
+		int version = m_strVersion.right(m_strVersion.length() - index).toInt();
+		if (version < 1720)
+		{
+			LogDebug("version [%d]", version);
+			QMessageBox::warning(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
+			return;
+		}
+
 		ObserverConnect();
 
 	}
