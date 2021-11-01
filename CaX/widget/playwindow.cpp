@@ -1,6 +1,7 @@
 #include <QMouseEvent>
 #include <QTimer>
 #include <QWidgetAction>
+#include <QMessageBox>
 
 #include "playwindow.h"
 #include "ui_playwindow.h"
@@ -244,7 +245,9 @@ void PlayWindow::SlotCoverArtUpdate(QString fileName)
 
 void PlayWindow::SlotQueueList(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+
+	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
 
 }
 

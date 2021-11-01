@@ -11,6 +11,11 @@
 #define TR_ORGANIZATION				TR("NOVATRON")
 #define TR_APPLICATION				TR("Music X Neo")
 
+#define STR_INFO					TR("Info")
+#define STR_WARNING					TR("Warning")
+#define STR_CRITICAL				TR("Critical")
+#define STR_COMING_SOON				TR("Coming soon")
+
 //////////////////////////////////////////////////
 // response
 //////////////////////////////////////////////////

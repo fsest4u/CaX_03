@@ -129,7 +129,7 @@ bool UDPClient::SendSocketWol(QString strWolAddr, QString strMac)
 
 	// QString to hex
 	unsigned char macAddress[6];
-	sscanf_s(strMac.toLatin1().data(),
+	sscanf(strMac.toLatin1().data(),
 		"%hhx:%hhx:%hhx:%hhx:%hhx:%hhx",
 		&macAddress[0],
 		&macAddress[1],

@@ -124,8 +124,7 @@ void InfoTracks::ConnectSigToSlot()
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArt()), this, SLOT(SlotCoverArt()));
-	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
-	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));
+//	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
+//	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));
 
 }

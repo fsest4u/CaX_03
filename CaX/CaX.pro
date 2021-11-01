@@ -44,6 +44,7 @@ SOURCES += \
     util/CJsonNode.cpp \
     util/StringLib.cpp \
     util/TMapData.cpp \
+    util/WidgetMarqueeLabel.cpp \
     util/loading.cpp \
     util/log.cpp \
     util/settingio.cpp \
@@ -126,6 +127,7 @@ HEADERS += \
     util/StringLib.h \
     util/TMapData.h \
     util/TMapDataDef.h \
+    util/WidgetMarqueeLabel.h \
     util/caxconstants.h \
     util/caxkeyvalue.h \
     util/caxtranslate.h \

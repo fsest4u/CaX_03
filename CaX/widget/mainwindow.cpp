@@ -229,7 +229,7 @@ void MainWindow::SlotBtnNext()
 void MainWindow::SlotBtnSearch()
 {
 	LogDebug("click btn search");
-
+	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
 }
 
 void MainWindow::ReadSettings()
@@ -728,9 +728,11 @@ void MainWindow::DoGroupPlayHome()
 
 void MainWindow::DoSetupHome()
 {
-	SetupWindow *widget = new SetupWindow(this, m_strAddr);
-	SlotAddWidget(widget, STR_SETUP);
-	widget->SetupHome(m_SetupList, m_nEventID);
+//	SetupWindow *widget = new SetupWindow(this, m_strAddr);
+//	SlotAddWidget(widget, STR_SETUP);
+//	widget->SetupHome(m_SetupList, m_nEventID);
+
+	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
 
 }
 
