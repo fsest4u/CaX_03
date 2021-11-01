@@ -3,6 +3,7 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
+#include "util/caxconstants.h"
 #include "util/log.h"
 
 AboutDialog::AboutDialog(QWidget *parent) :
@@ -32,6 +33,7 @@ void AboutDialog::Initialize()
 	{
 //		LogDebug("file opened");
 		data = file.readAll();
+		data = data.arg(APP_VERSION);
 	}
 
 	file.close();
