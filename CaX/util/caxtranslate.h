@@ -45,6 +45,8 @@
 #define STR_POWER_OFF				TR("Power off")
 #define STR_ABOUT					TR("About")
 
+#define STR_AVAILABLE				TR("Available")
+#define STR_NOT_AVAILABLE			TR("Not available")
 
 #define STR_MY_RADIO				TR("My radio")
 #define STR_UNKNOWN					TR("Unknown")

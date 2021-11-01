@@ -110,27 +110,27 @@ void MainWindow::SlotMenu()
 
 		if (m_bAudioCD)
 		{
-			m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, STR_AUDIO_CD);
-
+			m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, QString("%1 - %2").arg(STR_AUDIO_CD).arg(STR_AVAILABLE));
+		}
+		else
+		{
+			m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, QString("%1 - %2").arg(STR_AUDIO_CD).arg(STR_NOT_AVAILABLE));
 		}
 
 		if (m_bInput)
 		{
 			m_SideMenuMap.insert(SIDEMENU_INPUT, STR_INPUT);
-
 		}
 
 		if (m_bFMRadio)
 		{
 			m_SideMenuMap.insert(SIDEMENU_FM_RADIO, STR_FM_RADIO);
 			m_SideMenuMap.insert(SIDEMENU_DAB_RADIO, STR_DAB_RADIO);
-
 		}
 
 		if (m_bGroupPlay)
 		{
 			m_SideMenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
-
 		}
 	}
 	else
@@ -381,18 +381,18 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 		{
 			return;
 		}
-//		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio))
-//		{
+		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio))
+		{
 //			return;
-//		}
-//		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay))
-//		{
+		}
+		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay))
+		{
 //			return;
-//		}
-//		if (!node.GetBool(KEY_INPUT, m_bInput))
-//		{
+		}
+		if (!node.GetBool(KEY_INPUT, m_bInput))
+		{
 //			return;
-//		}
+		}
 
 		int index = m_strVersion.lastIndexOf(".r") + QString(".r").length();
 		LogDebug("length [%d]", m_strVersion.length());
@@ -464,6 +464,15 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	m_nEventID = nEventID;
 	m_bAudioCD = bAudioCD;
+
+	if (m_bAudioCD)
+	{
+		m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, QString("%1 - %2").arg(STR_AUDIO_CD).arg(STR_AVAILABLE));
+	}
+	else
+	{
+		m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, QString("%1 - %2").arg(STR_AUDIO_CD).arg(STR_NOT_AVAILABLE));
+	}
 
 	if (!nodeSetup.IsNull())
 	{
