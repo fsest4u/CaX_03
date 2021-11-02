@@ -38,7 +38,7 @@ private slots:
 	void SlotPlayRandom();
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
-	void SlotResize();
+//	void SlotResize();
 
 	void SlotSelectTitle(int nType, QString rawData);
 	void SlotSelectURL(QString rawData);

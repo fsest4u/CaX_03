@@ -40,7 +40,7 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
-	m_pInfoTracks->GetFormSort()->ShowResize();
+//	m_pInfoTracks->GetFormSort()->ShowResize();
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
@@ -217,11 +217,10 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 	}
 }
 
-void AudioCDWindow::SlotResize()
-{
-	LogDebug("click resize");
-
-}
+//void AudioCDWindow::SlotResize()
+//{
+//	LogDebug("click resize");
+//}
 
 void AudioCDWindow::ConnectSigToSlot()
 {
@@ -234,7 +233,7 @@ void AudioCDWindow::ConnectSigToSlot()
 
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+//	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 

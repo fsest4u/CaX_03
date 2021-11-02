@@ -34,7 +34,7 @@ private slots:
 
 	void SlotRespGroupPlayUpdate();
 
-	void SlotResize();
+//	void SlotResize();
 
 private:
 

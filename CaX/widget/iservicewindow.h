@@ -52,7 +52,7 @@ private slots:
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRespAirableLogout();
 
-	void SlotResize();
+//	void SlotResize();
 
 	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int nType);

@@ -33,7 +33,7 @@ private slots:
 
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
-	void SlotResize();
+//	void SlotResize();
 
 	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int nType);

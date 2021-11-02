@@ -76,7 +76,7 @@ void InfoService::ConnectSigToSlot()
 {
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
-	ui->gridLayoutFormSort->addWidget(m_pFormSort);
+//	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 
 	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));

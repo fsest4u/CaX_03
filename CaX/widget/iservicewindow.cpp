@@ -46,7 +46,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormSort()->ShowResize();
+//	m_pInfoService->GetFormSort()->ShowResize();
 
 	m_bGenreSubmenu = false;
 }
@@ -174,10 +174,10 @@ void IServiceWindow::SlotRespAirableLogout()
 	emit SigRespLogout();			// recursive
 }
 
-void IServiceWindow::SlotResize()
-{
-	LogDebug("click resize");
-}
+//void IServiceWindow::SlotResize()
+//{
+//	LogDebug("click resize");
+//}
 
 void IServiceWindow::SlotRespError(QString errMsg)
 {
@@ -521,7 +521,7 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QString, QList<CJsonNode>)), this, SLOT(SlotRespURL(int, QString, QList<CJsonNode>)));
 	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
-	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 

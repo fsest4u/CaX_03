@@ -28,7 +28,7 @@ GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormSort()->ShowResize();
+//	m_pInfoService->GetFormSort()->ShowResize();
 
 }
 
@@ -133,11 +133,10 @@ void GroupPlayWindow::SlotRespGroupPlayUpdate()
 	m_pMgr->RequestGroupPlayList(m_nEventID);
 }
 
-void GroupPlayWindow::SlotResize()
-{
-	LogDebug("click resize");
-
-}
+//void GroupPlayWindow::SlotResize()
+//{
+//	LogDebug("click resize");
+//}
 
 void GroupPlayWindow::ConnectSigToSlot()
 {
@@ -151,7 +150,7 @@ void GroupPlayWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespGroupPlayList(QList<CJsonNode>)), this, SLOT(SlotRespGroupPlayList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
-	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 
 }

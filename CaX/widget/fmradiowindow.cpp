@@ -39,7 +39,7 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoService->GetFormPlay()->ShowMenu();
-	m_pInfoService->GetFormSort()->ShowResize();
+//	m_pInfoService->GetFormSort()->ShowResize();
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
@@ -122,11 +122,10 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 
 }
 
-void FMRadioWindow::SlotResize()
-{
-	LogDebug("click resize");
-
-}
+//void FMRadioWindow::SlotResize()
+//{
+//	LogDebug("click resize");
+//}
 
 void FMRadioWindow::SlotRespError(QString errMsg)
 {
@@ -185,7 +184,7 @@ void FMRadioWindow::ConnectSigToSlot()
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 

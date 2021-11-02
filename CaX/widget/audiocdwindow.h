@@ -45,7 +45,7 @@ private slots:
 
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
-	void SlotResize();
+//	void SlotResize();
 
 
 private:

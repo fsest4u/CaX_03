@@ -28,7 +28,7 @@ InputWindow::InputWindow(QWidget *parent, const QString &addr) :
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormSort()->ShowResize();
+//	m_pInfoService->GetFormSort()->ShowResize();
 
 }
 
@@ -71,11 +71,10 @@ void InputWindow::SlotSelectTitle(int nType)
 	m_pMgr->RequestInput(nType);
 }
 
-void InputWindow::SlotResize()
-{
-	LogDebug("click resize");
-
-}
+//void InputWindow::SlotResize()
+//{
+//	LogDebug("click resize");
+//}
 
 void InputWindow::ConnectSigToSlot()
 {
@@ -84,7 +83,7 @@ void InputWindow::ConnectSigToSlot()
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
-	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 

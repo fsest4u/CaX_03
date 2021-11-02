@@ -26,7 +26,7 @@ public:
 private slots:
 
 	void SlotSelectTitle(int nType);
-	void SlotResize();
+//	void SlotResize();
 
 private:
 

@@ -34,7 +34,7 @@ DABRadioWindow::DABRadioWindow(QWidget *parent, const QString &addr) :
 	ConnectSigToSlot();
 
 	m_pInfoService->GetFormPlay()->ShowMenu();
-	m_pInfoService->GetFormSort()->ShowResize();
+//	m_pInfoService->GetFormSort()->ShowResize();
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
@@ -114,10 +114,10 @@ void DABRadioWindow::SlotTopMenuAction(int menuID)
 	}
 }
 
-void DABRadioWindow::SlotResize()
-{
-	LogDebug("click resize");
-}
+//void DABRadioWindow::SlotResize()
+//{
+//	LogDebug("click resize");
+//}
 
 void DABRadioWindow::SlotRespError(QString errMsg)
 {
@@ -159,7 +159,7 @@ void DABRadioWindow::ConnectSigToSlot()
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }
 
