@@ -59,7 +59,7 @@ private slots:
 	void SlotItemTopMenu();
 	void SlotItemTopMenuAction(int menuID);
 
-
+	void SlotOptionMenuAction(int nID, int menuID);
 
 private:
 
@@ -71,14 +71,17 @@ private:
 	void DoTopMenuPlay(int nWhere);
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
-	void DoTopMenuAddItem();
-	void DoTopMenuDeleteItem();
+	void DoTopMenuAdd();
+	void DoTopMenuDelete();
 
-	void DoItemTopMenuPlay(int nWhere);
-	void DoItemTopMenuSelectAll();
-	void DoItemTopMenuClearAll();
-	void DoItemTopMenuAddItem();
-	void DoItemTopMenuDeleteItem();
+	void DoTopMenuItemPlay(int nWhere);
+	void DoTopMenuItemSelectAll();
+	void DoTopMenuItemClearAll();
+	void DoTopMenuItemAdd();
+	void DoTopMenuItemDelete();
+
+	void SetOptionMenu();
+	void DoOptionMenuItemDelete(int nID);
 
 	PlaylistManager	*m_pMgr;
 	InfoService		*m_pInfoService;
@@ -87,6 +90,7 @@ private:
 	ListTracks		*m_pListTracks;
 
 	QMap<int, QString> m_TopMenuMap;
+	QMap<int, QString> m_OptionMenuMap;
 	QMap<int, bool>	m_SelectMap;
 
 	int				m_ID;

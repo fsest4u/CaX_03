@@ -147,6 +147,7 @@ void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
 
 void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
+	SetOptionMenu();
 	m_pListTracks->ClearNodeList();
 	m_pListTracks->SetNodeList(list);
 }
@@ -255,10 +256,10 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 		DoTopMenuClearAll();
 		break;
 	case TOP_MENU_ADD_ITEM:
-		DoTopMenuAddItem();
+		DoTopMenuAdd();
 		break;
 	case TOP_MENU_DELETE_ITEM:
-		DoTopMenuDeleteItem();
+		DoTopMenuDelete();
 		break;
 	}
 
@@ -299,28 +300,49 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 {
 	switch (menuID) {
 	case TOP_MENU_PLAY_NOW:
-		DoItemTopMenuPlay(PLAY_NOW);
+		DoTopMenuItemPlay(PLAY_NOW);
 		break;
 	case TOP_MENU_PLAY_LAST:
-		DoItemTopMenuPlay(PLAY_LAST);
+		DoTopMenuItemPlay(PLAY_LAST);
 		break;
 	case TOP_MENU_PLAY_NEXT:
-		DoItemTopMenuPlay(PLAY_NEXT);
+		DoTopMenuItemPlay(PLAY_NEXT);
 		break;
 	case TOP_MENU_PLAY_CLEAR:
-		DoItemTopMenuPlay(PLAY_CLEAR);
+		DoTopMenuItemPlay(PLAY_CLEAR);
 		break;
 	case TOP_MENU_SELECT_ALL:
-		DoItemTopMenuSelectAll();
+		DoTopMenuItemSelectAll();
 		break;
 	case TOP_MENU_CLEAR_ALL:
-		DoItemTopMenuClearAll();
+		DoTopMenuItemClearAll();
 		break;
 	case TOP_MENU_ADD_ITEM:
-		DoItemTopMenuAddItem();
+		DoTopMenuItemAdd();
 		break;
 	case TOP_MENU_DELETE_ITEM:
-		DoItemTopMenuDeleteItem();
+		DoTopMenuItemDelete();
+		break;
+	}
+}
+
+void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
+{
+	switch (menuID) {
+	case OPTION_MENU_PLAY_NOW:
+		SlotSelectPlay(nID, PLAY_NOW);
+		break;
+	case OPTION_MENU_PLAY_LAST:
+		SlotSelectPlay(nID, PLAY_LAST);
+		break;
+	case OPTION_MENU_PLAY_NEXT:
+		SlotSelectPlay(nID, PLAY_NEXT);
+		break;
+	case OPTION_MENU_PLAY_CLEAR:
+		SlotSelectPlay(nID, PLAY_CLEAR);
+		break;
+	case OPTION_MENU_DELETE_ITEM:
+		DoOptionMenuItemDelete(nID);
 		break;
 	}
 }
@@ -341,7 +363,9 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCoverArt(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
@@ -445,7 +469,7 @@ void PlaylistWindow::DoTopMenuClearAll()
 	m_pIconTracks->ClearSelectMap();
 }
 
-void PlaylistWindow::DoTopMenuAddItem()
+void PlaylistWindow::DoTopMenuAdd()
 {
 	AddPlaylistDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)
@@ -458,7 +482,7 @@ void PlaylistWindow::DoTopMenuAddItem()
 	}
 }
 
-void PlaylistWindow::DoTopMenuDeleteItem()
+void PlaylistWindow::DoTopMenuDelete()
 {
 	if (m_SelectMap.count() > 0)
 	{
@@ -469,7 +493,7 @@ void PlaylistWindow::DoTopMenuDeleteItem()
 	}
 }
 
-void PlaylistWindow::DoItemTopMenuPlay(int nWhere)
+void PlaylistWindow::DoTopMenuItemPlay(int nWhere)
 {
 	if (m_SelectMap.count() > 0)
 	{
@@ -478,25 +502,25 @@ void PlaylistWindow::DoItemTopMenuPlay(int nWhere)
 
 }
 
-void PlaylistWindow::DoItemTopMenuSelectAll()
+void PlaylistWindow::DoTopMenuItemSelectAll()
 {
 	m_pListTracks->SetAllSelectMap();
 
 }
 
-void PlaylistWindow::DoItemTopMenuClearAll()
+void PlaylistWindow::DoTopMenuItemClearAll()
 {
 	m_pListTracks->ClearSelectMap();
 
 }
 
-void PlaylistWindow::DoItemTopMenuAddItem()
+void PlaylistWindow::DoTopMenuItemAdd()
 {
 	LogDebug("do item add ");
 
 }
 
-void PlaylistWindow::DoItemTopMenuDeleteItem()
+void PlaylistWindow::DoTopMenuItemDelete()
 {
 	if (m_SelectMap.count() > 0)
 	{
@@ -505,4 +529,26 @@ void PlaylistWindow::DoItemTopMenuDeleteItem()
 		//refresh
 		m_pMgr->RequestTrackList(m_ID);
 	}
+}
+
+void PlaylistWindow::SetOptionMenu()
+{
+	m_OptionMenuMap.clear();
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+	m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+	m_OptionMenuMap.insert(OPTION_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+
+	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
+}
+
+void PlaylistWindow::DoOptionMenuItemDelete(int nID)
+{
+	QMap<int, bool> map;
+	map.insert(nID, true);
+	m_pMgr->RequestDelTrack(m_ID, map);
+
+	//refresh
+	m_pMgr->RequestTrackList(m_ID);
 }

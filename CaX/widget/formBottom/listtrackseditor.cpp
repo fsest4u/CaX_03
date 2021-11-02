@@ -292,7 +292,7 @@ QIcon ListTracksEditor::GetIcon(QString value)
 	}
 	else if (value.contains(STR_SEARCH_COVERART))
 	{
-		return QIcon("");
+		return QIcon(":/resource/play-popup-icon16-searchcoverart@3x.png");
 	}
 	else if (value.contains(STR_RENAME_ITEM))
 	{

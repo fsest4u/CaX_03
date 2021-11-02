@@ -615,12 +615,6 @@ void MusicDBWindow::SlotSelectTrackPlay(int nID, int playType)
 	m_pMgr->RequestManageCategory(VAL_PLAY, map, playType, SQLManager::CATEGORY_TRACK);
 }
 
-void MusicDBWindow::SlotSelectTrackMore(int nID)
-{
-	LogDebug("click select more - temp code");
-
-}
-
 void MusicDBWindow::SlotSelectTrackFavorite(int nID, int nFavorite)
 {
 	m_pMgr->RequestUpdateTrackFavorite(nID, nFavorite);
@@ -706,7 +700,6 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 {
-	LogDebug("click option menu [%d]", menuID);
 	switch (menuID) {
 	case OPTION_MENU_PLAY_NOW:
 		SlotSelectTrackPlay(nID, PLAY_NOW);

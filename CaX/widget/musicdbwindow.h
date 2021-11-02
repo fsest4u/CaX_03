@@ -91,7 +91,6 @@ private slots:
 	void SlotAppendList();
 
 	void SlotSelectTrackPlay(int nID, int playType);
-	void SlotSelectTrackMore(int nID);
 	void SlotSelectTrackFavorite(int nID, int nFavorite);
 
 	void SlotRespClassifyArtist(QList<CJsonNode> list);
