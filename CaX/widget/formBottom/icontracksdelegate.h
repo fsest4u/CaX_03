@@ -26,6 +26,10 @@ public:
 	QListView::ViewMode GetViewMode() const;
 	void SetViewMode(const QListView::ViewMode &ViewMode);
 
+
+	int GetResize() const;
+	void SetResize(int Resize);
+
 signals:
 
 	void SigSelectPlay(int nID, int playType);
@@ -53,6 +57,8 @@ private:
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QListView::ViewMode m_ViewMode;
+
+	int					m_Resize;
 
 };
 

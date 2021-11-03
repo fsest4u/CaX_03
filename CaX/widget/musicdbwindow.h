@@ -61,7 +61,7 @@ private slots:
 
 	void SlotSortMenu(int sort);
 	void SlotIncDec(bool bIncrease);
-	void SlotResize();
+	void SlotResize(int resize);
 
 	void SlotGenreList();
 	void SlotAlbumList();
@@ -79,7 +79,7 @@ private slots:
 
 	void SlotItemSortMenu(int sort);
 	void SlotItemIncDec(bool bIncrease);
-	void SlotItemResize();
+	void SlotItemResize(int resize);
 
 	void SlotSelectPlay(int nID, int playType);
 	void SlotSelectFavorite(int nID, int nFavorite);

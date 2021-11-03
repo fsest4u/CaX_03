@@ -158,7 +158,7 @@ void PlayWindow::SlotBtnPlay()
 
 void PlayWindow::SlotBtnStop()
 {
-	InitSlider();
+	InitPlayTimeSlider();
 
 	m_bPause = true;
 	SetPlayState();
@@ -186,37 +186,40 @@ void PlayWindow::SlotMenuAction(QAction *action)
 	emit SigMenuAction(action->data().toString());
 }
 
-void PlayWindow::SlotBtnVolume()
+void PlayWindow::SlotVolumeSliderValueChanged(int value)
 {
-//	m_pMgr->RequestVolume(30);
-
+	ui->labelVolume->setText(QString("%1").arg(value));
+	m_pMgr->RequestVolume(value);
 }
 
-void PlayWindow::SlotVolumeSliderRelease()
+void PlayWindow::SlotVolumeSliderReleased()
 {
-	int volume = m_Slider->value();
-	LogDebug("value [%d]", volume);
-	ui->labelVolume->setText(QString("%1").arg(volume));
-	m_pMgr->RequestVolume(volume);
-
+	int value = m_Slider->value();
+	ui->labelVolume->setText(QString("%1").arg(value));
+	m_pMgr->RequestVolume(value);
 }
 
-void PlayWindow::SlotGetVolume(int volume)
+void PlayWindow::SlotSetVolumeSlider(int volume)
 {
 	ui->labelVolume->setText(QString("%1").arg(volume));
 	m_Slider->setValue(volume);
 }
 
-void PlayWindow::SlotSliderReleased()
+void PlayWindow::SlotPlayTimeSliderValueChanged(int value)
 {
-	int mSec = ui->horizontalSlider->value();
-	m_pMgr->RequestSeek(mSec);
+	m_pMgr->RequestSeek(value);
 }
 
-void PlayWindow::SlotSliderUpdate()
+void PlayWindow::SlotPlayTimeSliderReleased()
+{
+	int value = ui->horizontalSlider->value();
+	m_pMgr->RequestSeek(value);
+}
+
+void PlayWindow::SlotPlayTimeSliderUpdate()
 {
 	m_CurTime += 1000;
-	SetSliderState();
+	SetPlayTimeSliderState();
 }
 
 void PlayWindow::SlotRespNowPlay(CJsonNode node)
@@ -260,17 +263,17 @@ void PlayWindow::ConnectSigToSlot()
 	connect(ui->btnStop, SIGNAL(clicked()), this, SLOT(SlotBtnStop()));
 	connect(ui->btnNext, SIGNAL(clicked()), this, SLOT(SlotBtnPlayNext()));
 	connect(ui->btnRandom, SIGNAL(clicked()), this, SLOT(SlotBtnRandom()));
-	connect(ui->btnVolume, SIGNAL(pressed()), this, SLOT(SlotBtnVolume()));
 	connect(ui->btnDevice, SIGNAL(pressed()), this, SLOT(SlotMenu()));
-	connect(ui->horizontalSlider, SIGNAL(sliderReleased()), this, SLOT(SlotSliderReleased()));
+
+	connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(SlotPlayTimeSliderValueChanged(int)));
+	connect(ui->horizontalSlider, SIGNAL(sliderReleased()), this, SLOT(SlotPlayTimeSliderReleased()));
+
+	connect(this, SIGNAL(SigSetVolumeSlider(int)), this, SLOT(SlotSetVolumeSlider(int)));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	connect(m_pMgr, SIGNAL(SigTrackInfo(CJsonNode)), this, SLOT(SlotTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
 	connect(m_pMgr, SIGNAL(SigQueueList(CJsonNode)), this, SLOT(SlotQueueList(CJsonNode)));
-
-	connect(this, SIGNAL(SigGetVolume(int)), this, SLOT(SlotGetVolume(int)));
-
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 }
 
@@ -285,7 +288,7 @@ void PlayWindow::Initialize()
 	m_pFormTitle->SetSubtitle("-");
 	m_pFormCoverArt->SetCoverArt(":/resource/logo-icon-musicxneo-256.png");
 
-	InitSlider();
+	InitPlayTimeSlider();
 
 //	SetPlayState();
 	SetRepeatMode("");
@@ -294,7 +297,7 @@ void PlayWindow::Initialize()
 
 }
 
-void PlayWindow::InitSlider()
+void PlayWindow::InitPlayTimeSlider()
 {
 	QString initTime = ConvertMSecToHHMMSSStr(-1);
 	ui->labelCurTime->setText(initTime);
@@ -328,7 +331,7 @@ void PlayWindow::SetTimer(bool bStart)
 	if (bStart)
 	{
 		m_Timer = new QTimer(this);
-		connect(m_Timer, SIGNAL(timeout()), this, SLOT(SlotSliderUpdate()));
+		connect(m_Timer, SIGNAL(timeout()), this, SLOT(SlotPlayTimeSliderUpdate()));
 		m_Timer->start(1000);
 	}
 }
@@ -406,7 +409,7 @@ void PlayWindow::SetQueueList(uint timestamp)
 	m_pMgr->RequestQueueList(timestamp);
 }
 
-void PlayWindow::SetSliderState()
+void PlayWindow::SetPlayTimeSliderState()
 {
 	ui->horizontalSlider->setMinimum(0);
 	ui->horizontalSlider->setMaximum(m_TotTime);
@@ -447,9 +450,9 @@ void PlayWindow::SetDeviceMenu()
 void PlayWindow::SetVolumeMenu()
 {
 	m_Slider->setOrientation(Qt::Horizontal);
-	m_Slider->setMinimum(0);
-	m_Slider->setMaximum(100);
-//	slider->setGeometry( 100, 200, 35, 15 );
+	m_Slider->setMinimum(VOLUME_MIN);
+	m_Slider->setMaximum(VOLUME_MAX);
+	m_Slider->setGeometry( 0, 0, 400, 40 );
 
 	QWidgetAction *action = new QWidgetAction(this);
 	action->setDefaultWidget(m_Slider);
@@ -457,8 +460,8 @@ void PlayWindow::SetVolumeMenu()
 
 	ui->btnVolume->setMenu(m_VolumeMenu);
 
-	connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(SlotVolumeSliderRelease()));
-
+	connect(m_Slider, SIGNAL(valueChanged(int)), this, SLOT(SlotVolumeSliderValueChanged(int)));
+	connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(SlotVolumeSliderReleased()));
 }
 
 void PlayWindow::DoNowPlay(CJsonNode node)
@@ -477,7 +480,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 		m_ID = node.GetInt(KEY_ID_UPPER);
 		m_TotTime = node.GetInt(KEY_DURATION);
 		m_CurTime = node.GetInt(KEY_PLAY_TIME);
-		emit SigGetVolume(node.GetInt(KEY_VOLUME_CAP));
+		emit SigSetVolumeSlider(node.GetInt(KEY_VOLUME_CAP));
 		if (node.GetString(KEY_PLAY_STATE).compare(KEY_PLAY))
 		{
 			m_bPause = true;
@@ -487,7 +490,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			m_bPause = false;
 		}
 
-		SetSliderState();
+		SetPlayTimeSliderState();
 		SetPlayState();
 		SetRepeatMode(node.GetString(KEY_REPEAT));
 		SetCoverArt(node.GetString(KEY_COVER_ART));

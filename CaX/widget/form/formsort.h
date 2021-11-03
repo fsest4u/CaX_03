@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMenu>
+#include <QSlider>
 
 namespace Ui {
 class FormSort;
@@ -23,6 +24,8 @@ public:
 	void SetMenu(QMap<int, QString> list);
 	void SetMenuTitle(QString title);
 
+	void SetResize(int resize);
+
 	bool GetIncrease() const;
 	void SetIncrease(bool bIncrease);
 
@@ -30,7 +33,7 @@ signals:
 
 	void SigMenu(int menuID);
 	void SigIncDec(bool bIncrease);
-	void SigResize();
+	void SigResize(int resize);
 
 protected:
 
@@ -39,13 +42,19 @@ protected:
 private slots:
 
 	void SlotMenu(QAction *action);
+	void SlotResizeSliderValueChanged(int value);
+	void SlotResizeSliderReleased();
 
 private:
 
 	void Initialize();
+	void SetResizeMenu();
 
-	QMenu *m_Menu;
-	bool m_bIncrease;
+	QMenu				*m_Menu;
+	QMenu				*m_ResizeMenu;
+	QSlider				*m_Slider;
+
+	bool				m_bIncrease;
 
 	Ui::FormSort *ui;
 };

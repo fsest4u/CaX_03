@@ -359,10 +359,9 @@ void MusicDBWindow::SlotIncDec(bool bIncrease)
 	RequestMusicDBHome();
 }
 
-void MusicDBWindow::SlotResize()
+void MusicDBWindow::SlotResize(int resize)
 {
-	LogDebug("good choice resize");
-
+	m_pIconTracks->SetResize(resize);
 }
 
 void MusicDBWindow::SlotGenreList()
@@ -515,9 +514,10 @@ void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 	RequestCategoryHome(m_nID, m_nCategory, m_nSortCategory, bIncrease);
 }
 
-void MusicDBWindow::SlotItemResize()
+void MusicDBWindow::SlotItemResize(int resize)
 {
-	LogDebug("album resize");
+	LogDebug("album resize [%d]", resize);
+	m_pListTracks->SetResize(resize);
 
 }
 
@@ -759,7 +759,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigMenu(int)), this, SLOT(SlotSortMenu(int)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotIncDec(bool)));
-	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
 	connect(m_pInfoHome, SIGNAL(SigGenreList()), this, SLOT(SlotGenreList()));
 	connect(m_pInfoHome, SIGNAL(SigAlbumList()), this, SLOT(SlotAlbumList()));
@@ -777,7 +777,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigMenu(int)), this, SLOT(SlotItemSortMenu(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotItemIncDec(bool)));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotItemResize()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotItemResize(int)));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
@@ -805,6 +805,7 @@ void MusicDBWindow::Initialize()
 	m_pInfoHome->GetFormSort()->ShowMenu();
 	m_pInfoHome->GetFormSort()->ShowIncDec();
 	m_pInfoHome->GetFormSort()->ShowResize();
+	m_pInfoHome->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
@@ -816,6 +817,7 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormSort()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->ShowResize();
+	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 
 	m_TopMenuMap.clear();

@@ -6,6 +6,7 @@
 
 #include "listtracksdelegate.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
@@ -200,6 +201,22 @@ void ListTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
 	m_SelectMap = SelectMap;
 }
 
+void ListTracks::SetResize(int resize)
+{
+	m_Delegate->SetResize(resize);
+	m_ListView->setGridSize(QSize(resize * 1.25, resize * 1.375));
+
+	m_pLoading->Start();
+	int count = m_Model->rowCount();
+
+	for (int i = 0; i < count; i++)
+	{
+		QModelIndex index = m_Model->index(i, 0);
+		m_ListView->openPersistentEditor(index);
+	}
+	m_pLoading->Stop();
+}
+
 QStandardItemModel *ListTracks::GetModel()
 {
 	return m_Model;
@@ -265,6 +282,7 @@ void ListTracks::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	SetViewMode(QListView::ListMode);
+	SetResize(LIST_HEIGHT_MIN);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));

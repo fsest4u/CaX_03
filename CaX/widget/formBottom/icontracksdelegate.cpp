@@ -98,13 +98,18 @@ void IconTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 void IconTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	Q_UNUSED(index)
-	editor->setGeometry(option.rect);
-}
 
+	QRect rect = option.rect;
+	rect.setWidth(m_Resize);
+	rect.setHeight(m_Resize * 1.25);
+
+	IconTracksEditor *widget = static_cast<IconTracksEditor*>(editor);
+	widget->setGeometry(rect);
+}
 
 QListView::ViewMode IconTracksDelegate::GetViewMode() const
 {
-	return m_ViewMode;
+    return m_ViewMode;
 }
 
 void IconTracksDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
@@ -112,3 +117,13 @@ void IconTracksDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
 	m_ViewMode = ViewMode;
 }
 
+
+int IconTracksDelegate::GetResize() const
+{
+	return m_Resize;
+}
+
+void IconTracksDelegate::SetResize(int Resize)
+{
+	m_Resize = Resize;
+}

@@ -1,11 +1,17 @@
 #include <QMouseEvent>
+#include <QWidgetAction>
 
 #include "formsort.h"
 #include "ui_formsort.h"
 
+#include "util/caxconstants.h"
+#include "util/log.h"
+
 FormSort::FormSort(QWidget *parent) :
 	QWidget(parent),
 	m_Menu(new QMenu(this)),
+	m_ResizeMenu(new QMenu(this)),
+	m_Slider(new QSlider(this)),
 	m_bIncrease(false),
 	ui(new Ui::FormSort)
 {
@@ -20,6 +26,18 @@ FormSort::~FormSort()
 	{
 		delete m_Menu;
 		m_Menu = nullptr;
+	}
+
+	if (m_ResizeMenu)
+	{
+		delete m_ResizeMenu;
+		m_ResizeMenu = nullptr;
+	}
+
+	if (m_Slider)
+	{
+		delete m_Slider;
+		m_Slider = nullptr;
 	}
 
 	delete ui;
@@ -39,7 +57,7 @@ void FormSort::ShowIncDec()
 
 void FormSort::ShowResize()
 {
-	ui->labelResize->show();
+	ui->btnResize->show();
 
 }
 
@@ -57,6 +75,11 @@ void FormSort::SetMenu(QMap<int, QString> list)
 void FormSort::SetMenuTitle(QString title)
 {
 	ui->btnMenu->setText(title);
+}
+
+void FormSort::SetResize(int resize)
+{
+	m_Slider->setValue(resize);
 }
 
 bool FormSort::GetIncrease() const
@@ -107,10 +130,7 @@ bool FormSort::eventFilter(QObject *object, QEvent *event)
 			SetIncrease(bIncrease);
 			emit SigIncDec(bIncrease);
 		}
-		else if (object == ui->labelResize)
-		{
-			emit SigResize();
-		}
+
 	}
 
 	return QObject::eventFilter(object, event);
@@ -123,15 +143,24 @@ void FormSort::SlotMenu(QAction *action)
 	emit SigMenu(action->data().toInt());
 }
 
+void FormSort::SlotResizeSliderValueChanged(int value)
+{
+	emit SigResize(value);
+}
+
+void FormSort::SlotResizeSliderReleased()
+{
+	int value = m_Slider->value();
+	emit SigResize(value);
+}
+
 void FormSort::Initialize()
 {
 	ui->btnMenu->hide();
 	ui->labelIncDec->hide();
-	ui->labelResize->hide();
+	ui->btnResize->hide();
 
-//	ui->btnMenu->installEventFilter(this);
 	ui->labelIncDec->installEventFilter(this);
-	ui->labelResize->installEventFilter(this);
 
 	QString style = QString("QMenu::item {	\
 								width: 200px;	\
@@ -150,4 +179,23 @@ void FormSort::Initialize()
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenu(QAction*)));
 
 	SetIncrease(m_bIncrease);
+	SetResizeMenu();
+
+}
+
+void FormSort::SetResizeMenu()
+{
+	m_Slider->setOrientation(Qt::Horizontal);
+	m_Slider->setMinimum(LIST_HEIGHT_MIN);
+	m_Slider->setMaximum(ICON_HEIGHT_MAX);
+	m_Slider->setGeometry( 0, 0, 340, 22 );
+
+	QWidgetAction *action = new QWidgetAction(this);
+	action->setDefaultWidget(m_Slider);
+	m_ResizeMenu->addAction(action);
+
+	ui->btnResize->setMenu(m_ResizeMenu);
+
+	connect(m_Slider, SIGNAL(valueChanged(int)), this, SLOT(SlotResizeSliderValueChanged(int)));
+	connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(SlotResizeSliderReleased()));
 }

@@ -52,12 +52,13 @@ private slots:
 	void SlotPlayRandom();
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
-	void SlotResize();
+	void SlotResize(int resize);
 
 	void SlotItemPlayAll();
 	void SlotItemPlayRandom();
 	void SlotItemTopMenu();
 	void SlotItemTopMenuAction(int menuID);
+	void SlotItemResize(int resize);
 
 	void SlotOptionMenuAction(int nID, int menuID);
 

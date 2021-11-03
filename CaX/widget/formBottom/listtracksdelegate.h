@@ -30,6 +30,9 @@ public:
 	QMap<int, QString> GetOptionMenuMap() const;
 	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
 
+	int GetResize() const;
+	void SetResize(int Resize);
+
 signals:
 
 	void SigSelectPlay(int nID, int playType);
@@ -58,10 +61,12 @@ private:
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QListView::ViewMode m_ViewMode;
+	QListView::ViewMode m_ViewMode;	
 	QMap<int, QString> m_OptionMenuMap;
 
-	QImage	m_Image;
+	int					m_Resize;
+
+
 };
 
 #endif // LISTTRACKSDELEGATE_H

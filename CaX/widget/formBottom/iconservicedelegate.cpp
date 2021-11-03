@@ -78,7 +78,6 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 {
 	IconServiceEditor *widget = static_cast<IconServiceEditor*>(editor);
 	widget->blockSignals(true);
-
 	widget->SetID(qvariant_cast<int>(index.data(ICON_SERVICE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(ICON_SERVICE_TYPE)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
@@ -86,7 +85,6 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT)));
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
 	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
-
 	widget->blockSignals(false);
 }
 

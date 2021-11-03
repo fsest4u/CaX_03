@@ -49,7 +49,16 @@
 #define LIST_ITEM_WIDTH				30
 #define LIST_ITEM_HEIGHT			30
 
+#define ICON_HEIGHT_MIN				130
+#define ICON_HEIGHT_MAX				160
+#define LIST_HEIGHT_MIN				70
+#define LIST_HEIGHT_MAx				100
+
 #define MSG_LIMIT_COUNT				100
+
+#define VOLUME_MIN					0
+#define VOLUME_MAX					100
+
 
 //////////////////////////////////////////////////
 // play
@@ -61,13 +70,12 @@
 #define PLAY_NEXT		2
 #define PLAY_CLEAR		3
 
-
-#define RM_NORMAL	"RM_NORMAL"
-#define RM_SHUFFLE	"RM_SHUFFLE"
-#define RM_RANDOM	"RM_RANDOM"
-#define RM_ONCE		"RM_ONCE"
-#define RM_R_ONE	"RM_R_ONE"
-#define RM_R_ALL	"RM_R_ALL"
+#define RM_NORMAL			"RM_NORMAL"
+#define RM_SHUFFLE			"RM_SHUFFLE"
+#define RM_RANDOM			"RM_RANDOM"
+#define RM_ONCE				"RM_ONCE"
+#define RM_R_ONE			"RM_R_ONE"
+#define RM_R_ALL			"RM_R_ALL"
 
 #define SRC_MUSIC_DB		"Music DB"
 #define SRC_BROWSER			"File"

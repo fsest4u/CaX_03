@@ -219,6 +219,22 @@ void IconTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
 	m_SelectMap = SelectMap;
 }
 
+void IconTracks::SetResize(int resize)
+{
+	m_Delegate->SetResize(resize);
+	m_ListView->setGridSize(QSize(resize * 1.25, resize * 1.375));
+
+	m_pLoading->Start();
+	int count = m_Model->rowCount();
+
+	for (int i = 0; i < count; i++)
+	{
+		QModelIndex index = m_Model->index(i, 0);
+		m_ListView->openPersistentEditor(index);
+	}
+	m_pLoading->Stop();
+}
+
 QStandardItemModel *IconTracks::GetModel()
 {
 	return m_Model;
@@ -290,9 +306,9 @@ void IconTracks::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 //	m_ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	SetViewMode(QListView::IconMode);
+	SetResize(ICON_HEIGHT_MAX);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));

@@ -16,7 +16,6 @@
 
 ListTracksDelegate::ListTracksDelegate()
 {
-	m_Image = QImage(":/resource/browser-img160-brank-n@3x.png");
 }
 
 void ListTracksDelegate::SlotClickCoverArt(int nID)
@@ -196,9 +195,14 @@ void ListTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	Q_UNUSED(index)
-	editor->setGeometry(option.rect);
-}
 
+	QRect rect = option.rect;
+//	rect.setWidth(m_Resize);
+	rect.setHeight(m_Resize * 1.25);
+
+	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
+	widget->setGeometry(rect);
+}
 
 QListView::ViewMode ListTracksDelegate::GetViewMode() const
 {
@@ -220,3 +224,14 @@ void ListTracksDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMa
 {
 	m_OptionMenuMap = OptionMenuMap;
 }
+
+int ListTracksDelegate::GetResize() const
+{
+	return m_Resize;
+}
+
+void ListTracksDelegate::SetResize(int Resize)
+{
+	m_Resize = Resize;
+}
+

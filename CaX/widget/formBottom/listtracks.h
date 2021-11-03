@@ -40,6 +40,8 @@ public:
 	QMap<int, bool> GetSelectMap() const;
 	void SetSelectMap(const QMap<int, bool> &SelectMap);
 
+	void SetResize(int resize);
+
 	QStandardItemModel	*GetModel();
 	ListTracksDelegate	*GetDelegate();
 

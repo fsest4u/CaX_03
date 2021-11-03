@@ -265,10 +265,9 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 
 }
 
-void PlaylistWindow::SlotResize()
+void PlaylistWindow::SlotResize(int resize)
 {
-	LogDebug("click resize");
-
+	m_pIconTracks->SetResize(resize);
 }
 
 void PlaylistWindow::SlotItemPlayAll()
@@ -326,6 +325,12 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 	}
 }
 
+void PlaylistWindow::SlotItemResize(int resize)
+{
+	LogDebug("click resize [%d]", resize);
+	m_pListTracks->SetResize(resize);
+}
+
 void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 {
 	switch (menuID) {
@@ -371,12 +376,13 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotItemPlayAll()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotItemPlayRandom()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotItemTopMenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotItemTopMenuAction(int)));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotItemResize(int)));
 
 }
 
@@ -387,10 +393,13 @@ void PlaylistWindow::Initialize()
 	m_pInfoService->GetFormPlay()->ShowPlayRandom();
 	m_pInfoService->GetFormPlay()->ShowMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
+	m_pInfoService->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
+	m_pInfoTracks->GetFormSort()->ShowResize();
+	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
