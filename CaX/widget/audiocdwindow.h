@@ -63,7 +63,6 @@ private:
 
 	QString MakeInfo();
 
-
 	AudioCDManager		*m_pMgr;
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
@@ -76,6 +75,8 @@ private:
 	QString				m_TotalTime;
 	QString				m_Format;
 	QString				m_Date;
+
+	int					m_ListMode;
 
 	Ui::AudioCDWindow *ui;
 };

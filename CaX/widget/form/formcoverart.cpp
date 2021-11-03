@@ -8,16 +8,16 @@
 FormCoverArt::FormCoverArt(QWidget *parent) :
 	QWidget(parent),
 	m_CoverArt(""),
-	m_Rating(0),
-	m_Favorite(0),
+	m_Rating(-1),
+	m_Favorite(-1),
 	m_Count(-1),
 	ui(new Ui::FormCoverArt)
 {
 	ui->setupUi(this);
 
 	ui->frameRating->hide();
-	ui->labelCheck->hide();
 	ui->labelFavorite->hide();
+	ui->labelCheck->hide();
 	ui->labelPlay->hide();
 
 	ui->frameRating->installEventFilter(this);
@@ -71,9 +71,12 @@ int FormCoverArt::GetCount() const
 
 void FormCoverArt::SetCount(int Count)
 {
-	ui->labelPlay->show();
-	m_Count = Count;
-	ui->labelPlay->setText(QString("%1").arg(m_Count));
+	if (Count > 0)
+	{
+		ui->labelPlay->show();
+		m_Count = Count;
+		ui->labelPlay->setText(QString("%1").arg(m_Count));
+	}
 }
 
 int FormCoverArt::GetFavorite() const
@@ -83,8 +86,11 @@ int FormCoverArt::GetFavorite() const
 
 void FormCoverArt::SetFavorite(int Favorite)
 {
-	ui->labelFavorite->show();
-	m_Favorite = Favorite;
+	if (Favorite >= 0)
+	{
+		ui->labelFavorite->show();
+		m_Favorite = Favorite;
+	}
 
 	QString style;
 
@@ -130,8 +136,11 @@ int FormCoverArt::GetRating() const
 
 void FormCoverArt::SetRating(int Rating)
 {
-	ui->frameRating->show();
-	m_Rating = Rating;
+	if (Rating >= 0)
+	{
+		ui->frameRating->show();
+		m_Rating = Rating;
+	}
 
 	QString style;
 

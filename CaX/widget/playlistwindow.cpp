@@ -80,20 +80,35 @@ PlaylistWindow::~PlaylistWindow()
 
 void PlaylistWindow::AddWidgetPlaylistHome()
 {
-	ui->gridLayoutTop->addWidget(m_pInfoService);
-	ui->gridLayoutBottom->addWidget(m_pIconTracks);
-
 	m_pInfoService->SetSubtitle(STR_PLAYLIST);
+
+	ui->gridLayoutTop->addWidget(m_pInfoService);
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pInfoService->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	}
+	else
+	{
+		m_pInfoService->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		ui->gridLayoutBottom->addWidget(m_pListTracks);
+	}
 }
 
 void PlaylistWindow::AddWidgetItemHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	ui->gridLayoutBottom->addWidget(m_pListTracks);
-
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	}
+	else
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		ui->gridLayoutBottom->addWidget(m_pListTracks);
+	}
 }
-
-
 
 void PlaylistWindow::RequestPlaylist()
 {
@@ -126,6 +141,9 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 {
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_PLAYLIST);
+
+	m_pListTracks->ClearNodeList();
+	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_PLAYLIST);
 }
 
 void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
@@ -210,20 +228,36 @@ void PlaylistWindow::SlotSelectPlay(int id, int playType)
 
 void PlaylistWindow::SlotPlayAll()
 {
-	m_pIconTracks->SetAllSelectMap();
-	m_SelectMap = m_pIconTracks->GetSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pIconTracks->SetAllSelectMap();
+		m_SelectMap = m_pIconTracks->GetSelectMap();
+	}
+	else
+	{
+		m_pListTracks->SetAllSelectMap();
+		m_SelectMap = m_pListTracks->GetSelectMap();
+	}
+
 	m_pMgr->RequestPlaylistPlay(m_SelectMap, PLAY_CLEAR);
 }
 
 void PlaylistWindow::SlotPlayRandom()
 {
 	m_pMgr->RequestRandom();
-
 }
 
 void PlaylistWindow::SlotTopMenu()
 {
-	m_SelectMap = m_pIconTracks->GetSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_SelectMap = m_pIconTracks->GetSelectMap();
+	}
+	else
+	{
+		m_SelectMap = m_pListTracks->GetSelectMap();
+	}
+
 	if (m_SelectMap.count() > 0)
 	{
 		SetSelectOnTopMenu(true);
@@ -267,7 +301,44 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 
 void PlaylistWindow::SlotResize(int resize)
 {
-	m_pIconTracks->SetResize(resize);
+	int listMode = ITEM_ICON_MODE;
+	if (resize > 130)
+	{
+		listMode = ITEM_ICON_MODE;
+	}
+	else
+	{
+		listMode = ITEM_LIST_MODE;
+	}
+
+	if (listMode != m_ListMode)
+	{
+		m_ListMode = listMode;
+		if (m_ListMode == ITEM_ICON_MODE)
+		{
+			LogDebug("icon~~~~~~~~");
+			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
+			m_pListTracks->hide();
+			m_pIconTracks->show();
+
+		}
+		else
+		{
+			LogDebug("list~~~~~~~~");
+			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
+			m_pIconTracks->hide();
+			m_pListTracks->show();
+		}
+	}
+
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pIconTracks->SetResize(resize);
+	}
+	else
+	{
+		m_pListTracks->SetResize(resize);
+	}
 }
 
 void PlaylistWindow::SlotItemPlayAll()
@@ -361,14 +432,16 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespPlaylist(QList<CJsonNode>)), this, SLOT(SlotRespPlaylist(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespPlaylistInfo(CJsonNode)), this, SLOT(SlotRespPlaylistInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespTrackList(QList<CJsonNode>)), this, SLOT(SlotRespTrackList(QList<CJsonNode>)));
-	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
+	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	// todo-dylee, check to change list mode
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCoverArt(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
+	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	// todo-dylee, check to change list mode
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
@@ -393,16 +466,19 @@ void PlaylistWindow::Initialize()
 	m_pInfoService->GetFormPlay()->ShowPlayRandom();
 	m_pInfoService->GetFormPlay()->ShowMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
-	m_pInfoService->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+//	m_pInfoService->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
-	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+//	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
+
+	m_ListMode = ITEM_ICON_MODE;
+
 }
 
 void PlaylistWindow::SetSelectOffTopMenu(bool root)
@@ -470,12 +546,26 @@ void PlaylistWindow::DoTopMenuPlay(int nWhere)
 
 void PlaylistWindow::DoTopMenuSelectAll()
 {
-	m_pIconTracks->SetAllSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pIconTracks->SetAllSelectMap();
+	}
+	else
+	{
+		m_pListTracks->SetAllSelectMap();
+	}
 }
 
 void PlaylistWindow::DoTopMenuClearAll()
 {
-	m_pIconTracks->ClearSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pIconTracks->ClearSelectMap();
+	}
+	else
+	{
+		m_pListTracks->ClearSelectMap();
+	}
 }
 
 void PlaylistWindow::DoTopMenuAdd()

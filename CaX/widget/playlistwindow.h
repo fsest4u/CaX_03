@@ -84,17 +84,19 @@ private:
 	void SetOptionMenu();
 	void DoOptionMenuItemDelete(int nID);
 
-	PlaylistManager	*m_pMgr;
-	InfoService		*m_pInfoService;
-	InfoTracks		*m_pInfoTracks;
-	IconTracks		*m_pIconTracks;
-	ListTracks		*m_pListTracks;
+	PlaylistManager		*m_pMgr;
+	InfoService			*m_pInfoService;
+	InfoTracks			*m_pInfoTracks;
+	IconTracks			*m_pIconTracks;
+	ListTracks			*m_pListTracks;
 
-	QMap<int, QString> m_TopMenuMap;
-	QMap<int, QString> m_OptionMenuMap;
-	QMap<int, bool>	m_SelectMap;
+	QMap<int, QString>	m_TopMenuMap;
+	QMap<int, QString>	m_OptionMenuMap;
+	QMap<int, bool>		m_SelectMap;
 
-	int				m_ID;
+	int					m_ListMode;
+
+	int					m_ID;
 
 
 	Ui::PlaylistWindow *ui;

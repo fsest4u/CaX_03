@@ -64,16 +64,15 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 	m_pLoading->Start();
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
-	LogDebug("list count [%d] index [%d]", m_NodeList.count(), index);
 
 	if (LIST_TRACKS_AUDIO_CD == type)
 	{
 		foreach (CJsonNode node, list)
 		{
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
 			QStandardItem *item = new QStandardItem;
-			int nID = node.GetString(KEY_TRACK).toInt();
-			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
+			item->setData(node.GetString(KEY_TRACK), ListTracksDelegate::LIST_TRACKS_ID);
 			item->setData(":/resource/playlist-img160-albumart-h@3x.png", ListTracksDelegate::LIST_TRACKS_COVER);
 			item->setData(node.GetString(KEY_TOP), ListTracksDelegate::LIST_TRACKS_TITLE);
 			item->setData(node.GetInt(KEY_TIME_CAP), ListTracksDelegate::LIST_TRACKS_TIME);
@@ -95,14 +94,11 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 		foreach (CJsonNode node, list)
 		{
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
 			item->setData(node.GetString(KEY_TITLE), ListTracksDelegate::LIST_TRACKS_TITLE);
-			if (node.GetInt(KEY_FAVORITE) >= 0)
-			{
-				item->setData(node.GetInt(KEY_FAVORITE), ListTracksDelegate::LIST_TRACKS_FAVORITE);
-			}
 			item->setData(node.GetString(KEY_TIME), ListTracksDelegate::LIST_TRACKS_TIME);
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);

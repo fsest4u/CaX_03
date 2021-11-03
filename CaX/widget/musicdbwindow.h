@@ -26,14 +26,14 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~MusicDBWindow();
 
+	void AddWidgetMusicDBHome();
+	void AddWidgetCategoryHome();
+
 	void RequestMusicDBHome();
 	void RequestCategoryHome(int nID,
 							 int nCategory,
 							 int nSort = SQLManager::SORT_NAME,
 							 bool bIncrease = true);
-
-	void AddWidgetMusicDBHome();
-	void AddWidgetCategoryHome();
 
 	int GetCategory() const;
 	void SetCategory(int nCategory);
@@ -145,39 +145,41 @@ private:
 	int GetTotalCount(CJsonNode node);
 	void CalculatePage(int totalCount);
 
-	MusicDBManager	*m_pMgr;
-	InfoHome		*m_pInfoHome;
-	InfoTracks		*m_pInfoTracks;
-	IconTracks		*m_pIconTracks;
-	ListTracks		*m_pListTracks;
+	MusicDBManager		*m_pMgr;
+	InfoHome			*m_pInfoHome;
+	InfoTracks			*m_pInfoTracks;
+	IconTracks			*m_pIconTracks;
+	ListTracks			*m_pListTracks;
 
-//	QThread			*m_pCatThread;
-//	QThread			*m_pSongThread;
+//	QThread				*m_pCatThread;
+//	QThread				*m_pSongThread;
 
-	QMap<int, QString> m_TopMenuMap;
-	QMap<int, QString> m_CategoryMenuMap;
-	QMap<int, QString> m_OptionMenuMap;
-	QMap<int, bool>	m_SelectMap;
+	QMap<int, QString>	m_TopMenuMap;
+	QMap<int, QString>	m_CategoryMenuMap;
+	QMap<int, QString>	m_OptionMenuMap;
+	QMap<int, bool>		m_SelectMap;
 
-	int				m_EventID;
+	int					m_ListMode;
 
-	int				m_nCategory;
-	int				m_nID;
-	int				m_nSortCategory;
-	int				m_nSortTrack;
-	bool			m_bIncreaseCategory;
-	bool			m_bIncreaseTrack;
+	int					m_EventID;
 
-	int				m_nFavorite;
-	int				m_nRating;
+	int					m_nCategory;
+	int					m_nID;
+	int					m_nSortCategory;
+	int					m_nSortTrack;
+	bool				m_bIncreaseCategory;
+	bool				m_bIncreaseTrack;
 
-	QString			m_ArtistID;
-	QString			m_GenreID;
-	QString			m_ComposerID;
+	int					m_nFavorite;
+	int					m_nRating;
 
-	int				m_LimitCount;
-	int				m_TotalPage;
-	int				m_CurPage;
+	QString				m_ArtistID;
+	QString				m_GenreID;
+	QString				m_ComposerID;
+
+	int					m_LimitCount;
+	int					m_TotalPage;
+	int					m_CurPage;
 
 	Ui::MusicDBWindow *ui;
 };

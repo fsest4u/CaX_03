@@ -108,9 +108,45 @@ MusicDBWindow::~MusicDBWindow()
 //	}
 }
 
+void MusicDBWindow::AddWidgetMusicDBHome()
+{
+	AddSortMusicDBHome();
+
+	ui->gridLayoutTop->addWidget(m_pInfoHome);
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pInfoHome->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	}
+	else
+	{
+		m_pInfoHome->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		ui->gridLayoutBottom->addWidget(m_pListTracks);
+	}
+}
+
+void MusicDBWindow::AddWidgetCategoryHome()
+{
+	AddSortCategoryHome();
+
+	ui->gridLayoutTop->addWidget(m_pInfoTracks);
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	}
+	else
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		ui->gridLayoutBottom->addWidget(m_pListTracks);
+	}
+}
+
 void MusicDBWindow::RequestMusicDBHome()
 {
 	m_pIconTracks->ClearNodeList();
+	m_pListTracks->ClearNodeList();
+
 	m_pInfoHome->SetTitle(m_nCategory);
 	m_pMgr->RequestMusicDBInfo();
 	m_pMgr->RequestCategoryList(m_nCategory,
@@ -127,7 +163,9 @@ void MusicDBWindow::RequestMusicDBHome()
 
 void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool bIncrease)
 {
+	m_pIconTracks->ClearNodeList();
 	m_pListTracks->ClearNodeList();
+
 	m_nID = nID;
 	m_nCategory = nCategory;
 	m_nSortTrack = nSort;
@@ -140,22 +178,6 @@ void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool 
 								   m_bIncreaseTrack,
 								   m_LimitCount * m_CurPage,
 								   m_LimitCount);
-}
-
-void MusicDBWindow::AddWidgetMusicDBHome()
-{
-	ui->gridLayoutTop->addWidget(m_pInfoHome);
-	ui->gridLayoutBottom->addWidget(m_pIconTracks);
-
-	AddSortMusicDBHome();
-}
-
-void MusicDBWindow::AddWidgetCategoryHome()
-{
-	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	ui->gridLayoutBottom->addWidget(m_pListTracks);
-
-	AddSortCategoryHome();
 }
 
 int MusicDBWindow::GetCategory() const
@@ -214,7 +236,10 @@ void MusicDBWindow::SlotRespMusicInfo(CJsonNode node)
 void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 {
 //	m_pIconTracks->SetBackgroundTask(m_pCatThread);
+
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
+	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_MUSIC_DB);
+
 //	m_pCatThread->start();
 }
 
@@ -275,8 +300,15 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 void MusicDBWindow::SlotPlayAll()
 {
-//	m_pMgr->RequestPlayCategoryItems(PLAY_CLEAR, m_nCategory);
-	m_SelectMap = m_pIconTracks->GetSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_SelectMap = m_pIconTracks->GetSelectMap();
+	}
+	else
+	{
+		m_SelectMap = m_pListTracks->GetSelectMap();
+	}
+
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestManageCategory(VAL_PLAY, m_SelectMap, PLAY_CLEAR, m_nCategory);
@@ -295,7 +327,15 @@ void MusicDBWindow::SlotPlayRandom()
 
 void MusicDBWindow::SlotTopMenu()
 {
-	m_SelectMap = m_pIconTracks->GetSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_SelectMap = m_pIconTracks->GetSelectMap();
+	}
+	else
+	{
+		m_SelectMap = m_pListTracks->GetSelectMap();
+	}
+
 	if (m_SelectMap.count() > 0)
 	{
 		SetSelectOnTopMenu();
@@ -361,7 +401,44 @@ void MusicDBWindow::SlotIncDec(bool bIncrease)
 
 void MusicDBWindow::SlotResize(int resize)
 {
-	m_pIconTracks->SetResize(resize);
+	int listMode = ITEM_ICON_MODE;
+	if (resize > 130)
+	{
+		listMode = ITEM_ICON_MODE;
+	}
+	else
+	{
+		listMode = ITEM_LIST_MODE;
+	}
+
+	if (listMode != m_ListMode)
+	{
+		m_ListMode = listMode;
+		if (m_ListMode == ITEM_ICON_MODE)
+		{
+			LogDebug("icon~~~~~~~~");
+			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
+			m_pListTracks->hide();
+			m_pIconTracks->show();
+
+		}
+		else
+		{
+			LogDebug("list~~~~~~~~");
+			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
+			m_pIconTracks->hide();
+			m_pListTracks->show();
+		}
+	}
+
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pIconTracks->SetResize(resize);
+	}
+	else
+	{
+		m_pListTracks->SetResize(resize);
+	}
 }
 
 void MusicDBWindow::SlotGenreList()
@@ -663,6 +740,7 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 	}
 
 	m_pIconTracks->ClearNodeList();
+	m_pListTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -679,6 +757,7 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 	}
 
 	m_pIconTracks->ClearNodeList();
+	m_pListTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -695,6 +774,7 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 	}
 
 	m_pIconTracks->ClearNodeList();
+	m_pListTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -783,6 +863,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pIconTracks, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
+	// todo-dylee, check to change list mode
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
@@ -791,6 +872,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
+	// todo-dylee, check to change list mode
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 
@@ -805,7 +887,7 @@ void MusicDBWindow::Initialize()
 	m_pInfoHome->GetFormSort()->ShowMenu();
 	m_pInfoHome->GetFormSort()->ShowIncDec();
 	m_pInfoHome->GetFormSort()->ShowResize();
-	m_pInfoHome->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+//	m_pInfoHome->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
@@ -817,12 +899,14 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormSort()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->ShowResize();
-	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+//	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 
 	m_TopMenuMap.clear();
 	m_CategoryMenuMap.clear();
 	m_SelectMap.clear();
+
+	m_ListMode = ITEM_ICON_MODE;
 
 }
 
@@ -885,12 +969,26 @@ void MusicDBWindow::DoTopMenuSetLimitCount(int count)
 
 void MusicDBWindow::DoTopMenuSelectAll()
 {
-	m_pIconTracks->SetAllSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pIconTracks->SetAllSelectMap();
+	}
+	else
+	{
+		m_pListTracks->SetAllSelectMap();
+	}
 }
 
 void MusicDBWindow::DoTopMenuClearAll()
 {
-	m_pIconTracks->ClearSelectMap();
+	if (m_ListMode == ITEM_ICON_MODE)
+	{
+		m_pIconTracks->ClearSelectMap();
+	}
+	else
+	{
+		m_pListTracks->ClearSelectMap();
+	}
 }
 
 void MusicDBWindow::DoTopMenuGainSet()

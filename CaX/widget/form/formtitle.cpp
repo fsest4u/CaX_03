@@ -45,8 +45,11 @@ QString FormTitle::GetSubtitle()
 
 void FormTitle::SetSubtitle(QString subtitle)
 {
-	ui->labelSubtitle->show();
-	ui->labelSubtitle->setText(subtitle);
+	if (!subtitle.isEmpty())
+	{
+		ui->labelSubtitle->show();
+		ui->labelSubtitle->setText(subtitle);
+	}
 }
 
 void FormTitle::SetSubtitleFont(int size, QString color)

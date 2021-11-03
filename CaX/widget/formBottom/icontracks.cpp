@@ -63,70 +63,57 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 	m_pLoading->Start();
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
-	LogDebug("list count [%d] index [%d]", m_NodeList.count(), index);
 
-	if (ICON_TRACKS_MUSIC_DB == type)
+	if (ICON_TRACKS_AUDIO_CD == type)
+	{
+		int totalTime = 0;
+		foreach (CJsonNode node, list)
+		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+			int time = node.GetInt(KEY_TIME_CAP);
+			QStandardItem *item = new QStandardItem;
+			item->setData(node.GetString(KEY_TRACK), IconTracksDelegate::ICON_TRACKS_ID);
+			item->setData(":/resource/playlist-img160-albumart-h@3x.png", IconTracksDelegate::ICON_TRACKS_COVER);
+			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
+			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
+			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
+			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
+			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+			totalTime += time;
+			index++;
+		}
+		emit SigCalcTotalTime(totalTime);
+	}
+	else
 	{
 		foreach (CJsonNode node, list)
 		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
 			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TITLE);
 			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
-			item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
-			item->setData(node.GetString(KEY_RATING), IconTracksDelegate::ICON_TRACKS_RATING);
 			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
-
-			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
-
-			emit SigReqCoverArt(nID, index, QListView::IconMode);
-			index++;
-		}
-	}
-//	else if (ICON_TRACKS_AUDIO_CD == type)
-//	{
-//		int totalTime = 0;
-//		foreach (CJsonNode node, list)
-//		{
-//			int time = node.GetInt(KEY_TIME_CAP);
-//			QStandardItem *item = new QStandardItem;
-//			int nID = node.GetString(KEY_TRACK).toInt();
-//			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
-//			item->setData(":/resource/playlist-img160-albumart-h@3x.png", IconTracksDelegate::ICON_TRACKS_COVER);
-//			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
-//			item->setData(time, IconTracksDelegate::ICON_TRACKS_SUBTITLE);
-//			item->setData("", IconTracksDelegate::ICON_TRACKS_COUNT);
-//			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
-//			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
-//			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
-
-//			m_Model->appendRow(item);
-//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-//			m_ListView->openPersistentEditor(modelIndex);
-
-//			index++;
-
-//			totalTime += time;
-//		}
-//		emit SigCalcTotalTime(totalTime);
-//	}
-	else if (ICON_TRACKS_PLAYLIST == type)
-	{
-		foreach (CJsonNode node, list)
-		{
-			QStandardItem *item = new QStandardItem;
-			int nID = node.GetString(KEY_ID_LOWER).toInt();
-			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
-			item->setData(node.GetString(KEY_TITLE), IconTracksDelegate::ICON_TRACKS_TITLE);
-			item->setData("", IconTracksDelegate::ICON_TRACKS_SUBTITLE);
-			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
-			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
-			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
-			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+			if (ICON_TRACKS_MUSIC_DB == type)
+			{
+				item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
+				item->setData(node.GetString(KEY_RATING), IconTracksDelegate::ICON_TRACKS_RATING);
+			}
+			else
+			{
+				item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
+				item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
+			}
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);

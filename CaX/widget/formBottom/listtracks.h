@@ -23,7 +23,9 @@ public:
 	~ListTracks();
 
 	enum {
-		LIST_TRACKS_AUDIO_CD = 0,
+		LIST_TRACKS_MUSIC_DB = 0,
+		LIST_TRACKS_AUDIO_CD,
+		LIST_TRACKS_PLAYLIST,
 		LIST_TRACKS_MAX
 	};
 

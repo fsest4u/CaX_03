@@ -59,6 +59,13 @@
 #define VOLUME_MIN					0
 #define VOLUME_MAX					100
 
+enum
+{
+	ITEM_ICON_MODE = 0,
+	ITEM_LIST_MODE,
+	ITEM_MAX
+
+};
 
 //////////////////////////////////////////////////
 // play

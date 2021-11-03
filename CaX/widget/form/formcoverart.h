@@ -19,10 +19,10 @@ public:
 	void SetCoverArt(QString coverArt);
 
 	int GetRating() const;
-	void SetRating(int Rating);
+	void SetRating(int Rating = -1);
 
 	int GetFavorite() const;
-	void SetFavorite(int Favorite);
+	void SetFavorite(int Favorite = -1);
 
 	int GetCount() const;
 	void SetCount(int Count);
