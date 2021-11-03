@@ -26,6 +26,7 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
 	m_pMgr(new AudioCDManager),
 	m_pInfoTracks(new InfoTracks(this)),
+	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
 	m_TotalCount(""),
 	m_TotalTime(""),
@@ -38,12 +39,7 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
-
-	m_pInfoTracks->GetFormPlay()->ShowMenu();
-//	m_pInfoTracks->GetFormSort()->ShowResize();
-
-	m_TopMenuMap.clear();
-	m_SelectMap.clear();
+	Initialize();
 }
 
 AudioCDWindow::~AudioCDWindow()
@@ -62,6 +58,12 @@ AudioCDWindow::~AudioCDWindow()
 		m_pInfoTracks = nullptr;
 	}
 
+	if (m_pIconTracks)
+	{
+		delete m_pIconTracks;
+		m_pIconTracks = nullptr;
+	}
+
 	if (m_pListTracks)
 	{
 		delete m_pListTracks;
@@ -73,7 +75,8 @@ AudioCDWindow::~AudioCDWindow()
 void AudioCDWindow::AddWidgetAudioCDHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	ui->gridLayoutBottom->addWidget(m_pListTracks);
+	ui->gridLayoutBottom->addWidget(m_pIconTracks);
+//	ui->gridLayoutBottom->addWidget(m_pListTracks);
 }
 
 
@@ -104,7 +107,9 @@ void AudioCDWindow::CDRip(CJsonNode node, QList<CJsonNode> list)
 
 void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 {	
-	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_AUDIO_CD);
+	m_pIconTracks->ClearNodeList();
+	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_AUDIO_CD);
+//	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_AUDIO_CD);
 
 	m_TotalCount = QString("%1 songs").arg(list.count());
 //	m_pInfoTracks->SetInfo( MakeInfo() );
@@ -187,7 +192,7 @@ void AudioCDWindow::SlotSelectPlay(int id, int playType)
 
 void AudioCDWindow::SlotTopMenu()
 {
-	m_SelectMap = m_pListTracks->GetSelectMap();
+	m_SelectMap = m_pIconTracks->GetSelectMap();
 	if (m_SelectMap.count() > 0)
 	{
 		SetSelectOnTopMenu();
@@ -217,10 +222,11 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 	}
 }
 
-//void AudioCDWindow::SlotResize()
-//{
-//	LogDebug("click resize");
-//}
+void AudioCDWindow::SlotResize(int resize)
+{
+	LogDebug("click resize [%d]", resize);
+	m_pIconTracks->SetResize(resize);
+}
 
 void AudioCDWindow::ConnectSigToSlot()
 {
@@ -233,10 +239,23 @@ void AudioCDWindow::ConnectSigToSlot()
 
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-//	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 
+//	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+
+}
+
+void AudioCDWindow::Initialize()
+{
+	m_pInfoTracks->GetFormPlay()->ShowMenu();
+	m_pInfoTracks->GetFormSort()->ShowResize();
+	m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+
+	m_TopMenuMap.clear();
+	m_SelectMap.clear();
 }
 
 void AudioCDWindow::SetSelectOffTopMenu()
@@ -264,12 +283,12 @@ void AudioCDWindow::SetSelectOnTopMenu()
 
 void AudioCDWindow::DoTopMenuSelectAll()
 {
-	m_pListTracks->SetAllSelectMap();
+	m_pIconTracks->SetAllSelectMap();
 }
 
 void AudioCDWindow::DoTopMenuClearAll()
 {
-	m_pListTracks->ClearSelectMap();
+	m_pIconTracks->ClearSelectMap();
 }
 
 void AudioCDWindow::DoTopMenuCDRipping()

@@ -286,7 +286,7 @@ void PlayWindow::Initialize()
 	m_pFormTitle->SetTitle("-");
 	m_pFormTitle->SetSubtitleFont(14, "FFFFFF");
 	m_pFormTitle->SetSubtitle("-");
-	m_pFormCoverArt->SetCoverArt(":/resource/logo-icon-musicxneo-256.png");
+	m_pFormCoverArt->SetCoverArt(":/resource/playlist-img160-albumart-h@3x.png");
 
 	InitPlayTimeSlider();
 

@@ -78,9 +78,9 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(node.GetString(KEY_ICON), ListServiceDelegate::LIST_SERVICE_COVER_ART);
 			item->setData(node.GetString(KEY_PATH), ListServiceDelegate::LIST_SERVICE_TITLE);
 			item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_SUBTITLE);
-			item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_DURATION);
-	//		item->setData(node.GetString(KEY_ART), ListServiceDelegate::LIST_SERVICE_ART);
+			item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_TIME);
 			item->setData(node.ToCompactString(), ListServiceDelegate::LIST_SERVICE_RAW);
+			item->setData(false, ListServiceDelegate::LIST_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -103,15 +103,12 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(node.GetString(KEY_ID_UPPER), ListServiceDelegate::LIST_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), ListServiceDelegate::LIST_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_NAME), ListServiceDelegate::LIST_SERVICE_TITLE);
-//			item->setData(node.GetString(KEY_ICON), ListServiceDelegate::LIST_SERVICE_ICON);
-	//		item->setData(node.GetString(KEY_ART), ListServiceDelegate::LIST_SERVICE_ART);
 			item->setData(node.ToCompactString(), ListServiceDelegate::LIST_SERVICE_RAW);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 
-			//emit SigReqArt(node.GetString(KEY_ART), index);
 			index++;
 		}
 	}
@@ -128,8 +125,8 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(node.GetInt(KEY_TYPE), ListServiceDelegate::LIST_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_ICON), ListServiceDelegate::LIST_SERVICE_COVER_ART);
 			item->setData(node.GetString(KEY_TOP), ListServiceDelegate::LIST_SERVICE_TITLE);
-	//		item->setData(node.GetString(KEY_ART), ListServiceDelegate::LIST_SERVICE_ART);
 			item->setData(node.ToCompactString(), ListServiceDelegate::LIST_SERVICE_RAW);
+			item->setData(false, ListServiceDelegate::LIST_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);

@@ -72,8 +72,7 @@ void ListServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_SERVICE_SELECT)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_SERVICE_TITLE)));
 	widget->SetSubtitle(qvariant_cast<QString>(index.data(LIST_SERVICE_SUBTITLE)));
-	widget->SetDuration(qvariant_cast<QString>(index.data(LIST_SERVICE_DURATION)));
-//	widget->SetArt(qvariant_cast<QString>(index.data(LIST_SERVICE_ART)));
+	widget->SetDuration(qvariant_cast<QString>(index.data(LIST_SERVICE_TIME)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(LIST_SERVICE_RAW)));
 	widget->blockSignals(false);
 }
@@ -87,8 +86,7 @@ void ListServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_SERVICE_SELECT);
 	model->setData(index, widget->GetTitle(), LIST_SERVICE_TITLE);
 	model->setData(index, widget->GetSubtitle(), LIST_SERVICE_SUBTITLE);
-	model->setData(index, widget->GetDuration(), LIST_SERVICE_DURATION);
-//	model->setData(index, widget->GetArt(), LIST_SERVICE_ART);
+	model->setData(index, widget->GetDuration(), LIST_SERVICE_TIME);
 	model->setData(index, widget->GetRawData(), LIST_SERVICE_RAW);
 }
 

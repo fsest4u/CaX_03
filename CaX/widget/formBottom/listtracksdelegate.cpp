@@ -86,7 +86,6 @@ void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 //	QString artist = qvariant_cast<QString>(index.data(LIST_TRACKS_ARTIST));
 //	QString album = qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM));
 //	QString genre = qvariant_cast<QString>(index.data(LIST_TRACKS_GENRE));
-//	int nIndex = qvariant_cast<int>(index.data(LIST_TRACKS_INDEX));
 
 //	//LogDebug("rect [%d] - [%d][%d][%d][%d]", nID, option.rect.top(), option.rect.bottom(), option.rect.left(), option.rect.right());
 

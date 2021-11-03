@@ -80,7 +80,6 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
-			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 			m_Model->appendRow(item);
@@ -88,7 +87,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 			m_ListView->openPersistentEditor(modelIndex);
 
 //			emit SigReqCoverArt(nID, index, QListView::ListMode);
-//			index++;
+			index++;
 		}
 	}
 	else
@@ -108,7 +107,6 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
-			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 			m_Model->appendRow(item);

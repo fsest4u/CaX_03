@@ -265,7 +265,7 @@ void BrowserWindow::SlotRespNodeUpdate(CJsonNode node, int nIndex)
 
 	QStandardItem *item = m_pListService->GetModel()->item(nIndex);
 	item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_SUBTITLE);
-	item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_DURATION);
+	item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_TIME);
 	m_pListService->GetModel()->setItem(nIndex, item);
 }
 
