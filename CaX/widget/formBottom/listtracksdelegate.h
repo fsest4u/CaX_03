@@ -39,13 +39,14 @@ signals:
 
 	void SigSelectPlay(int nID, int playType);
 	void SigSelectFavorite(int nID, int nFavorite);
+	void SigSelectTitle(int nID, QString coverArt);
 	void SigMenuAction(int nID, int menuID);
 
 private slots:
 
 	void SlotClickCoverArt(int nID);
 	void SlotClickPlay(int nID);
-	void SlotClickTitle(int nID);
+	void SlotClickTitle(int nID, QString coverArt);
 	void SlotClickFavorite(int nID, int nFavorite);
 	void SlotClickTime(int nID);
 	void SlotClickArtist(int nID);

@@ -23,8 +23,9 @@ public:
 	explicit PlaylistWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~PlaylistWindow();
 
-	void AddWidgetPlaylistHome();
-	void AddWidgetItemHome();
+	void AddWidgetItem();
+	void AddWidgetTrack();
+
 	void RequestPlaylist();
 	void RequestPlaylistInfo(int id, QString coverArt);
 	void RequestTrackList(int id);
@@ -58,7 +59,7 @@ private slots:
 	void SlotItemPlayRandom();
 	void SlotItemTopMenu();
 	void SlotItemTopMenuAction(int menuID);
-	void SlotItemResize(int resize);
+//	void SlotItemResize(int resize);
 
 	void SlotOptionMenuAction(int nID, int menuID);
 
@@ -82,7 +83,10 @@ private:
 	void DoTopMenuItemDelete();
 
 	void SetOptionMenu();
-	void DoOptionMenuItemDelete(int nID);
+
+	void DoOptionMenuPlay(int typeMode, int nID, int where);
+	void DoOptionMenuRename(int typeMode, int nID);
+	void DoOptionMenuDelete(int typeMode, int nID);
 
 	PlaylistManager		*m_pMgr;
 	InfoService			*m_pInfoService;

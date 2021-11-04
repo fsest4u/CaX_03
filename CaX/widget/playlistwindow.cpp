@@ -3,7 +3,7 @@
 #include "playlistwindow.h"
 #include "ui_playlistwindow.h"
 
-#include "dialog/addplaylistdialog.h"
+#include "dialog/inputnamedialog.h"
 
 #include "manager/playlistmanager.h"
 #include "manager/sqlmanager.h"
@@ -78,12 +78,14 @@ PlaylistWindow::~PlaylistWindow()
 
 }
 
-void PlaylistWindow::AddWidgetPlaylistHome()
+void PlaylistWindow::AddWidgetItem()
 {
 	m_pInfoService->SetSubtitle(STR_PLAYLIST);
+	m_pIconTracks->SetTypeMode(TYPE_MODE_ITEM);
+	m_pListTracks->SetTypeMode(TYPE_MODE_ITEM);
 
 	ui->gridLayoutTop->addWidget(m_pInfoService);
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pInfoService->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
@@ -95,10 +97,13 @@ void PlaylistWindow::AddWidgetPlaylistHome()
 	}
 }
 
-void PlaylistWindow::AddWidgetItemHome()
+void PlaylistWindow::AddWidgetTrack()
 {
+	m_pIconTracks->SetTypeMode(TYPE_MODE_TRACK);
+	m_pListTracks->SetTypeMode(TYPE_MODE_TRACK);
+
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
@@ -139,6 +144,8 @@ void PlaylistWindow::SlotRespError(QString message)
 
 void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 {
+	SetOptionMenu();
+
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_PLAYLIST);
 
@@ -166,8 +173,12 @@ void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
 void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
 	SetOptionMenu();
+
+	m_pIconTracks->ClearNodeList();
+	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_PLAYLIST);
+
 	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(list);
+	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_PLAYLIST);
 }
 
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -207,7 +218,7 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
-	widget->AddWidgetItemHome();
+	widget->AddWidgetTrack();
 	emit SigAddWidget(widget, STR_PLAYLIST);
 
 	widget->RequestPlaylistInfo(id, coverArt);
@@ -217,18 +228,21 @@ void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 void PlaylistWindow::SlotSelectCount(int id)
 {
 	LogDebug("click Count");
+	QMap<int, bool> map;
+	map.insert(id, true);
+	m_pMgr->RequestPlayPlaylist(map, PLAY_CLEAR);
 }
 
 void PlaylistWindow::SlotSelectPlay(int id, int playType)
 {
 	QMap<int, bool> map;
 	map.insert(id, true);
-	m_pMgr->RequestTrackPlay(map, playType);
+	m_pMgr->RequestPlayTrack(map, playType);
 }
 
 void PlaylistWindow::SlotPlayAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->SetAllSelectMap();
 		m_SelectMap = m_pIconTracks->GetSelectMap();
@@ -239,7 +253,7 @@ void PlaylistWindow::SlotPlayAll()
 		m_SelectMap = m_pListTracks->GetSelectMap();
 	}
 
-	m_pMgr->RequestPlaylistPlay(m_SelectMap, PLAY_CLEAR);
+	m_pMgr->RequestPlayPlaylist(m_SelectMap, PLAY_CLEAR);
 }
 
 void PlaylistWindow::SlotPlayRandom()
@@ -249,7 +263,7 @@ void PlaylistWindow::SlotPlayRandom()
 
 void PlaylistWindow::SlotTopMenu()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_SelectMap = m_pIconTracks->GetSelectMap();
 	}
@@ -301,20 +315,20 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 
 void PlaylistWindow::SlotResize(int resize)
 {
-	int listMode = ITEM_ICON_MODE;
+	int listMode = VIEW_MODE_ICON;
 	if (resize > 130)
 	{
-		listMode = ITEM_ICON_MODE;
+		listMode = VIEW_MODE_ICON;
 	}
 	else
 	{
-		listMode = ITEM_LIST_MODE;
+		listMode = VIEW_MODE_LIST;
 	}
 
 	if (listMode != m_ListMode)
 	{
 		m_ListMode = listMode;
-		if (m_ListMode == ITEM_ICON_MODE)
+		if (m_ListMode == VIEW_MODE_ICON)
 		{
 			LogDebug("icon~~~~~~~~");
 			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
@@ -331,7 +345,7 @@ void PlaylistWindow::SlotResize(int resize)
 		}
 	}
 
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->SetResize(resize);
 	}
@@ -345,7 +359,7 @@ void PlaylistWindow::SlotItemPlayAll()
 {
 	m_pListTracks->SetAllSelectMap();
 	m_SelectMap = m_pListTracks->GetSelectMap();
-	m_pMgr->RequestTrackPlay(m_SelectMap, PLAY_CLEAR);
+	m_pMgr->RequestPlayTrack(m_SelectMap, PLAY_CLEAR);
 }
 
 void PlaylistWindow::SlotItemPlayRandom()
@@ -396,29 +410,79 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 	}
 }
 
-void PlaylistWindow::SlotItemResize(int resize)
-{
-	LogDebug("click resize [%d]", resize);
-	m_pListTracks->SetResize(resize);
-}
+//void PlaylistWindow::SlotItemResize(int resize)
+//{
+//	LogDebug("click resize [%d]", resize);
+//	int listMode = VIEW_MODE_ICON;
+//	if (resize > 130)
+//	{
+//		listMode = VIEW_MODE_ICON;
+//	}
+//	else
+//	{
+//		listMode = VIEW_MODE_LIST;
+//	}
+
+//	if (listMode != m_ListMode)
+//	{
+//		m_ListMode = listMode;
+//		if (m_ListMode == VIEW_MODE_ICON)
+//		{
+//			LogDebug("icon~~~~~~~~");
+//			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
+//			m_pListTracks->hide();
+//			m_pIconTracks->show();
+
+//		}
+//		else
+//		{
+//			LogDebug("list~~~~~~~~");
+//			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
+//			m_pIconTracks->hide();
+//			m_pListTracks->show();
+//		}
+//	}
+
+//	if (m_ListMode == VIEW_MODE_ICON)
+//	{
+//		m_pIconTracks->SetResize(resize);
+//	}
+//	else
+//	{
+//		m_pListTracks->SetResize(resize);
+//	}
+//}
 
 void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 {
+	int typeMode = TYPE_MODE_MAX;
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		typeMode = m_pIconTracks->GetTypeMode();
+	}
+	else
+	{
+		typeMode = m_pListTracks->GetTypeMode();
+	}
+
 	switch (menuID) {
 	case OPTION_MENU_PLAY_NOW:
-		SlotSelectPlay(nID, PLAY_NOW);
+		DoOptionMenuPlay(typeMode, nID, PLAY_NOW);
 		break;
 	case OPTION_MENU_PLAY_LAST:
-		SlotSelectPlay(nID, PLAY_LAST);
+		DoOptionMenuPlay(typeMode, nID, PLAY_LAST);
 		break;
 	case OPTION_MENU_PLAY_NEXT:
-		SlotSelectPlay(nID, PLAY_NEXT);
+		DoOptionMenuPlay(typeMode, nID, PLAY_NEXT);
 		break;
 	case OPTION_MENU_PLAY_CLEAR:
-		SlotSelectPlay(nID, PLAY_CLEAR);
+		DoOptionMenuPlay(typeMode, nID, PLAY_CLEAR);
+		break;
+	case OPTION_MENU_RENAME_ITEM:
+		DoOptionMenuRename(typeMode, nID);
 		break;
 	case OPTION_MENU_DELETE_ITEM:
-		DoOptionMenuItemDelete(nID);
+		DoOptionMenuDelete(typeMode, nID);
 		break;
 	}
 }
@@ -435,14 +499,13 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	// todo-dylee, check to change list mode
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCoverArt(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectCount(int)), this, SLOT(SlotSelectCount(int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	// todo-dylee, check to change list mode
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
@@ -455,7 +518,7 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotItemPlayRandom()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotItemTopMenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotItemTopMenuAction(int)));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotItemResize(int)));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
 }
 
@@ -477,7 +540,7 @@ void PlaylistWindow::Initialize()
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
 
-	m_ListMode = ITEM_ICON_MODE;
+	m_ListMode = VIEW_MODE_ICON;
 
 }
 
@@ -540,13 +603,13 @@ void PlaylistWindow::DoTopMenuPlay(int nWhere)
 {
 	if (m_SelectMap.count() > 0)
 	{
-		m_pMgr->RequestPlaylistPlay(m_SelectMap, nWhere);
+		m_pMgr->RequestPlayPlaylist(m_SelectMap, nWhere);
 	}
 }
 
 void PlaylistWindow::DoTopMenuSelectAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->SetAllSelectMap();
 	}
@@ -558,7 +621,7 @@ void PlaylistWindow::DoTopMenuSelectAll()
 
 void PlaylistWindow::DoTopMenuClearAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->ClearSelectMap();
 	}
@@ -570,7 +633,7 @@ void PlaylistWindow::DoTopMenuClearAll()
 
 void PlaylistWindow::DoTopMenuAdd()
 {
-	AddPlaylistDialog dialog;
+	InputNameDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		QString name = dialog.GetName();
@@ -596,7 +659,7 @@ void PlaylistWindow::DoTopMenuItemPlay(int nWhere)
 {
 	if (m_SelectMap.count() > 0)
 	{
-		m_pMgr->RequestTrackPlay(m_SelectMap, nWhere);
+		m_pMgr->RequestPlayTrack(m_SelectMap, nWhere);
 	}
 
 }
@@ -632,22 +695,91 @@ void PlaylistWindow::DoTopMenuItemDelete()
 
 void PlaylistWindow::SetOptionMenu()
 {
+
+	int typeMode = TYPE_MODE_MAX;
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		typeMode = m_pIconTracks->GetTypeMode();
+	}
+	else
+	{
+		typeMode = m_pListTracks->GetTypeMode();
+	}
+
 	m_OptionMenuMap.clear();
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-	m_OptionMenuMap.insert(OPTION_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
+		m_OptionMenuMap.insert(OPTION_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+	}
+	else if (typeMode == TYPE_MODE_TRACK)
+	{
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_OptionMenuMap.insert(OPTION_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+	}
 
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }
 
-void PlaylistWindow::DoOptionMenuItemDelete(int nID)
+void PlaylistWindow::DoOptionMenuPlay(int typeMode, int nID, int where)
 {
-	QMap<int, bool> map;
-	map.insert(nID, true);
-	m_pMgr->RequestDelTrack(m_ID, map);
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		QMap<int, bool> map;
+		map.insert(nID, true);
+		m_pMgr->RequestPlayPlaylist(map, where);
+	}
+	else if (typeMode == TYPE_MODE_TRACK)
+	{
+		SlotSelectPlay(nID, where);
+	}
+}
 
-	//refresh
-	m_pMgr->RequestTrackList(m_ID);
+void PlaylistWindow::DoOptionMenuRename(int typeMode, int nID)
+{
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		InputNameDialog dialog;
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			QString name = dialog.GetName();
+			m_pMgr->RequestRenamePlaylist(nID, name);
+
+			//refresh
+			RequestPlaylist();
+		}
+	}
+	else if (typeMode == TYPE_MODE_TRACK)
+	{
+		LogDebug("invalid type");
+	}
+}
+
+void PlaylistWindow::DoOptionMenuDelete(int typeMode, int nID)
+{
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		QMap<int, bool> map;
+		map.insert(nID, true);
+		m_pMgr->RequestDeletePlaylist(map);
+
+		// refresh
+		RequestPlaylist();
+	}
+	else if (typeMode == TYPE_MODE_TRACK)
+	{
+		QMap<int, bool> map;
+		map.insert(nID, true);
+		m_pMgr->RequestDelTrack(m_ID, map);
+
+		//refresh
+		RequestTrackList(m_ID);
+	}
 }

@@ -15,9 +15,10 @@ public:
 	void RequestPlaylist();
 	void RequestPlaylistInfo(int id);
 	void RequestTrackList(int id);
-	void RequestTrackPlay(QMap<int, bool> idMap, int nWhere);
-	void RequestPlaylistPlay(QMap<int, bool> idMap, int nWhere);
+	void RequestPlayTrack(QMap<int, bool> idMap, int nWhere);
+	void RequestPlayPlaylist(QMap<int, bool> idMap, int nWhere);
 	void RequestAddPlaylist(QString name);
+	void RequestRenamePlaylist(int id, QString name);
 	void RequestDeletePlaylist(QMap<int, bool> idMap);
 	void RequestAddTrack();
 	void RequestDelTrack(int id, QMap<int, bool> idMap);
@@ -46,7 +47,8 @@ private:
 		PLAYLIST_TRACK_LIST,
 		PLAYLIST_PLAY_TRACK,
 		PLAYLIST_PLAY_PLAYLIST,
-		PLAYLIST_NEW_PLAYLIST,
+		PLAYLIST_ADD_PLAYLIST,
+		PLAYLIST_RENAME_PLAYLIST,
 		PLAYLIST_DELETE_PLAYLIST,
 		PLAYLIST_ADD_TRACK,
 		PLAYLIST_DEL_TRACK,

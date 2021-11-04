@@ -21,13 +21,10 @@ public:
 	~MusicDBManager();
 
 	enum {
-		MUSICDB_INFO = 0,
+		MUSICDB_OVERVIEW = 0,
 		MUSICDB_CATEGORY_LIST,
-		MUSICDB_CATEGORY_INFO,
-		MUSICDB_SONGS_OF_CATEGORY,
-//		MUSICDB_PLAY_CATEGORY_ITEMS,
-//		MUSICDB_PLAY_CATEGORY_ITEM,
-//		MUSICDB_PLAY_SONG,
+		MUSICDB_CATEGORY_OVERVIEW,
+		MUSICDB_TRACK_LIST,
 		MUSICDB_MANAGE_CATEGORY,
 		MUSICDB_UPDATE_CATEGORY_FAVORITE,
 		MUSICDB_UPDATE_CATEGORY_RATING,
@@ -35,11 +32,17 @@ public:
 		MUSICDB_CLASSIFY_ARTIST,
 		MUSICDB_CLASSIFY_GENRE,
 		MUSICDB_CLASSIFY_COMPOSER,
+		MUSICDB_CATEGORY_INFO,
+		MUSICDB_SET_CATEGORY_INFO,
+		MUSICDB_RENAME_CATEGORY,
+		MUSICDB_TRACK_INFO,
+		MUSICDB_SET_TRACK_INFO,
+		MUSICDB_RENAME_TRACK,
 		MUSICDB_RANDOM,
 		MUSICDB_MAX
 	};
 
-	void RequestMusicDBInfo();
+	void RequestMusicDBOverView();
 	void RequestCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM,
 							 int nSort = SQLManager::SORT_NAME,
 							 bool bIncrease = true,
@@ -50,8 +53,8 @@ public:
 							 int nRating = 0,
 							 int nStartIndex = 0,
 							 int nLimitCount = 100);
-	void RequestCategoryInfo(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
-	void RequestSongsOfCategory(int nID,
+	void RequestCategoryOverview(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
+	void RequestTrackList(int nID,
 								int nCategory = SQLManager::CATEGORY_ALBUM,
 								int nSort = SQLManager::SORT_NAME,
 								bool bIncrease = true,
@@ -73,10 +76,15 @@ public:
 
 	void RequestUpdateFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestUpdateRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
-
 	void RequestUpdateTrackFavorite(int nID, int nFavorite);
-
 	void RequestClassifyList(int nCategory);
+
+	void RequestCategoryInfo(int id);
+	void RequestSetCategoryInfo(int id, int eventID);
+	void RequestRenameCategory(int id, QString name, int nCategory, int eventID);
+	void RequestTrackInfo(int id);
+	void RequestSetTrackInfo(int id, int eventID);
+	void RequestRenameTrack(int id, QString name, int eventID);
 
 	void RequestRandom();
 
@@ -94,13 +102,15 @@ public:
 
 signals:
 
-	void SigRespMusicInfo(CJsonNode node);
+	void SigRespMusicOverview(CJsonNode node);
 	void SigRespCategoryList(QList<CJsonNode> nodeList);
-	void SigRespCategoryInfo(CJsonNode node);
-	void SigRespSongsOfCategory(QList<CJsonNode> nodeList);
+	void SigRespCategoryOverview(CJsonNode node);
+	void SigRespTrackList(QList<CJsonNode> nodeList);
 	void SigRespClassifyArtist(QList<CJsonNode> list);
 	void SigRespClassifyGenre(QList<CJsonNode> list);
 	void SigRespClassifyComposer(QList<CJsonNode> list);
+	void SigRespCategoryInfo(CJsonNode node);
+	void SigRespTrackInfo(CJsonNode node);
 
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
@@ -116,13 +126,15 @@ private:
 
 	void InitMusic();
 
-	void ParseMusicInfo(CJsonNode result);
+	void ParseMusicOverview(CJsonNode result);
 	void ParseCategoryList(CJsonNode result);
-	void ParseCategoryInfo(CJsonNode result);
-	void ParseSongsOfCategory(CJsonNode result);
+	void ParseCategoryOverview(CJsonNode result);
+	void ParseTrackList(CJsonNode result);
 	void ParseClassifyArtist(CJsonNode result);
 	void ParseClassifyGenre(CJsonNode result);
 	void ParseClassifyComposer(CJsonNode result);
+	void ParseCategoryInfo(CJsonNode node);
+	void ParseTrackInfo(CJsonNode node);
 
 	QList<CJsonNode> ParseResultNode(CJsonNode result);
 

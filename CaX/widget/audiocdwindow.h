@@ -23,10 +23,11 @@ public:
 	~AudioCDWindow();
 
 	void AddWidgetAudioCDHome();
-	void TrackList();
-	void TrackInfo(int index);
-	void TrackPlay(int index);
-	void CDRip(CJsonNode node, QList<CJsonNode> list);
+
+	void RequestTrackList();
+	void RequestTrackInfo(int index);
+	void RequestTrackPlay(int index);
+	void RequestCDRip(CJsonNode node, QList<CJsonNode> list);
 
 signals:
 
@@ -48,6 +49,7 @@ private slots:
 	void SlotTopMenuAction(int menuID);
 	void SlotResize(int resize);
 
+	void SlotOptionMenuAction(int id, int menuID);
 
 private:
 
@@ -61,6 +63,8 @@ private:
 	void DoTopMenuCDRipping();
 	void DoTopMenuEjectCD();
 
+	void SetOptionMenu();
+
 	QString MakeInfo();
 
 	AudioCDManager		*m_pMgr;
@@ -69,6 +73,7 @@ private:
 	ListTracks			*m_pListTracks;
 
 	QMap<int, QString>	m_TopMenuMap;
+	QMap<int, QString>	m_OptionMenuMap;
 	QMap<int, bool>		m_SelectMap;
 
 	QString				m_TotalCount;

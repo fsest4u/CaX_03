@@ -52,7 +52,7 @@ void PlaylistManager::RequestTrackList(int id)
 	RequestCommand(node, PLAYLIST_TRACK_LIST);
 }
 
-void PlaylistManager::RequestTrackPlay(QMap<int, bool> idMap, int nWhere)
+void PlaylistManager::RequestPlayTrack(QMap<int, bool> idMap, int nWhere)
 {
 	CJsonNode idArr(JSON_ARRAY);
 	QMap<int, bool>::iterator i;
@@ -74,7 +74,7 @@ void PlaylistManager::RequestTrackPlay(QMap<int, bool> idMap, int nWhere)
 	RequestCommand(node, PLAYLIST_PLAY_TRACK);
 }
 
-void PlaylistManager::RequestPlaylistPlay(QMap<int, bool> idMap, int nWhere)
+void PlaylistManager::RequestPlayPlaylist(QMap<int, bool> idMap, int nWhere)
 {
 	CJsonNode idArr(JSON_ARRAY);
 	QMap<int, bool>::iterator i;
@@ -102,8 +102,19 @@ void PlaylistManager::RequestAddPlaylist(QString name)
 	node.Add(KEY_CMD1,		VAL_NEW);
 	node.Add(KEY_NAME,	name);
 
-	RequestCommand(node, PLAYLIST_NEW_PLAYLIST);
+	RequestCommand(node, PLAYLIST_ADD_PLAYLIST);
 
+}
+
+void PlaylistManager::RequestRenamePlaylist(int id, QString name)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0,		VAL_PLAYLIST);
+	node.Add(KEY_CMD1,		VAL_RENAME);
+	node.AddInt(KEY_PLS_ID,	id);
+	node.Add(KEY_NAME,	name);
+
+	RequestCommand(node, PLAYLIST_RENAME_PLAYLIST);
 }
 
 void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
@@ -189,7 +200,8 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 	if (cmdID == PLAYLIST_PLAY_TRACK
 			|| cmdID == PLAYLIST_PLAY_PLAYLIST
 			|| cmdID == PLAYLIST_RANDOM
-			|| cmdID == PLAYLIST_NEW_PLAYLIST
+			|| cmdID == PLAYLIST_ADD_PLAYLIST
+			|| cmdID == PLAYLIST_RENAME_PLAYLIST
 			|| cmdID == PLAYLIST_DELETE_PLAYLIST
 			)
 	{

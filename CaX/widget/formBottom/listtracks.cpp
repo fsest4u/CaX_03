@@ -211,6 +211,16 @@ void ListTracks::SetResize(int resize)
 	m_pLoading->Stop();
 }
 
+int ListTracks::GetTypeMode() const
+{
+	return m_TypeMode;
+}
+
+void ListTracks::SetTypeMode(int TypeMode)
+{
+	m_TypeMode = TypeMode;
+}
+
 QStandardItemModel *ListTracks::GetModel()
 {
 	return m_Model;
@@ -283,3 +293,4 @@ void ListTracks::Initialize()
 	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 
 }
+

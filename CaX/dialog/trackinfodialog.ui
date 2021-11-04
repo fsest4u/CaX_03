@@ -6,12 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>294</height>
+    <width>396</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Track Info</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QDialog
+{
+	background-color: rgb(255, 255, 255);
+}</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -23,6 +34,18 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>30</number>
+      </property>
+      <property name="topMargin">
+       <number>15</number>
+      </property>
+      <property name="rightMargin">
+       <number>30</number>
+      </property>
+      <property name="bottomMargin">
+       <number>30</number>
+      </property>
       <item>
        <widget class="QFrame" name="frame">
         <property name="frameShape">
@@ -33,91 +56,156 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="labelTitle">
            <property name="text">
             <string>Title</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="labelAlbum">
            <property name="text">
             <string>Album</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="labelArtist">
            <property name="text">
             <string>Artist</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="labelGenre">
            <property name="text">
             <string>Genre</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="labelAlbumArtist">
            <property name="text">
             <string>Album Artist</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="labelComposer">
            <property name="text">
             <string>Composer</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="labelMood">
            <property name="text">
             <string>Mood</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_9">
+          <widget class="QLabel" name="labelTempo">
            <property name="text">
             <string>Tempo</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="labelTrack">
            <property name="text">
             <string>Track</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="labelPath">
+           <property name="text">
+            <string>Path</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelBitrate">
+           <property name="text">
+            <string>Bitrate</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelDuration">
+           <property name="text">
+            <string>Duration</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelSampleRate">
+           <property name="text">
+            <string>Sample Rate</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelChannel">
+           <property name="text">
+            <string>Channel</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelFormat">
+           <property name="text">
+            <string>Format</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelYear">
            <property name="text">
             <string>Year</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="labelCDYear">
            <property name="text">
             <string>CD Year</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_13">
+          <widget class="QLabel" name="labelCDNumber">
            <property name="text">
             <string>CD Number</string>
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QLabel" name="labelCDTotal">
+           <property name="text">
+            <string>CD Total</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>45</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QFrame" name="frame_2">
@@ -129,84 +217,133 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QLabel" name="labelTitle">
+          <widget class="QLabel" name="labelValueTitle">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelAlbum">
+          <widget class="QLabel" name="labelValueAlbum">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelArtist">
+          <widget class="QLabel" name="labelValueArtist">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelGenre">
+          <widget class="QLabel" name="labelValueGenre">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelAlbumArtist">
+          <widget class="QLabel" name="labelValueAlbumArtist">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelComposer">
+          <widget class="QLabel" name="labelValueComposer">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelMood">
+          <widget class="QLabel" name="labelValueMood">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelTempo">
+          <widget class="QLabel" name="labelValueTempo">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelTrack">
+          <widget class="QLabel" name="labelValueTrack">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelYear">
+          <widget class="QLabel" name="labelValuePath">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelCDYear">
+          <widget class="QLabel" name="labelValueBitrate">
            <property name="text">
             <string>-</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="labelCDNumber">
+          <widget class="QLabel" name="labelValueDuration">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelValueSampleRate">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelValueChannel">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelValueFormat">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelValueYear">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelValueCDYear">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelValueCDNumber">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelValueCDTotal">
            <property name="text">
             <string>-</string>
            </property>
@@ -225,6 +362,9 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

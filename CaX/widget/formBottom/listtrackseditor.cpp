@@ -177,7 +177,7 @@ bool ListTracksEditor::eventFilter(QObject *object, QEvent *event)
 		}
 		else if (object == ui->labelTitle)
 		{
-			emit SigClickTitle(m_ID);
+			emit SigClickTitle(m_ID, m_pFormCoverArt->GetCoverArt());
 		}
 		else if (object == ui->labelFavorite)
 		{
@@ -288,6 +288,10 @@ QIcon ListTracksEditor::GetIcon(QString value)
 	}
 	else if (value.contains(STR_ALBUM_INFO))
 	{
+		return QIcon(":/resource/browser-icon16-infoalbum@3x.png");
+	}
+	else if (value.contains(STR_TRACK_INFO))
+	{
 		return QIcon(":/resource/play-popup-icon16-songinfo@3x.png");
 	}
 	else if (value.contains(STR_SEARCH_COVERART))
@@ -298,8 +302,13 @@ QIcon ListTracksEditor::GetIcon(QString value)
 	{
 		return QIcon(":/resource/play-popup-icon16-nameedit@3x.png");
 	}
+	else if (value.contains(STR_DELETE_ITEM))
+	{
+		return QIcon(":/resource/playlist-icon16-delete@3x.png");
+	}
 	else
 	{
+		LogDebug("There is no icon corresponding to the string.");
 		return QIcon("");
 	}
 

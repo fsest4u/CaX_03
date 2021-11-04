@@ -24,9 +24,16 @@ public:
 	void SetMood(const QString &value);
 	void SetTempo(const QString &value);
 	void SetTrack(const QString &value);
+	void SetPath(const QString &value);
+	void SetBitrate(const QString &value);
+	void SetDuration(const QString &value);
+	void SetSampleRate(const QString &value);
+	void SetChannel(const QString &value);
+	void SetFormat(const QString &value);
 	void SetYear(const QString &value);
 	void SetCDYear(const QString &value);
 	void SetCDNumber(const QString &value);
+	void SetCDTotal(const QString &value);
 
 private:
 	Ui::TrackInfoDialog *ui;

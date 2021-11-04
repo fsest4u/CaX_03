@@ -26,11 +26,11 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~MusicDBWindow();
 
-	void AddWidgetMusicDBHome();
-	void AddWidgetCategoryHome();
+	void AddWidgetItem();
+	void AddWidgetTrack();
 
-	void RequestMusicDBHome();
-	void RequestCategoryHome(int nID,
+	void RequestCategoryList();
+	void RequestTrackList(int nID,
 							 int nCategory,
 							 int nSort = SQLManager::SORT_NAME,
 							 bool bIncrease = true);
@@ -48,10 +48,10 @@ private slots:
 	void SlotAddWidget(QWidget *widget, QString);
 
 	void SlotRespError(QString errMsg);
-	void SlotRespMusicInfo(CJsonNode node);
+	void SlotRespMusicOverview(CJsonNode node);
 	void SlotRespCategoryList(QList<CJsonNode> list);
-	void SlotRespCategoryInfo(CJsonNode node);
-	void SlotRespSongsOfCategory(QList<CJsonNode> list);
+	void SlotRespCategoryOverview(CJsonNode node);
+	void SlotRespTrackList(QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 	void SlotPlayAll();
@@ -79,7 +79,7 @@ private slots:
 
 	void SlotItemSortMenu(int sort);
 	void SlotItemIncDec(bool bIncrease);
-	void SlotItemResize(int resize);
+//	void SlotItemResize(int resize);
 
 	void SlotSelectPlay(int nID, int playType);
 	void SlotSelectFavorite(int nID, int nFavorite);
@@ -102,6 +102,9 @@ private slots:
 	void SlotClassifyArtist(bool bAdd, QString id);
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
+
+	void SlotRespCategoryInfo(CJsonNode node);
+	void SlotRespTrackInfo(CJsonNode node);
 
 	void SlotOptionMenuAction(int nID, int menuID);
 
@@ -131,8 +134,12 @@ private:
 
 	void SetOptionMenu();
 
-	void DoOptionMenuGainSet(int nID);
-	void DoOptionMenuGainClear(int nID);
+	void DoOptionMenuPlay(int typeMode, int nID, int where);
+	void DoOptionMenuAddToPlaylist(int typeMode, int nID);
+	void DoOptionMenuInfo(int typeMode, int nID);
+	void DoOptionMenuSearchCoverArt(int typeMode, int nID);
+	void DoOptionMenuRename(int typeMode, int nID);
+	void DoOptionMenuGain(int typeMode, int nID, QString gainType);
 
 
 	void SetCoverArt(QString coverArt);

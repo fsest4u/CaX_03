@@ -678,9 +678,9 @@ void MainWindow::DoDeviceListHome()
 void MainWindow::DoMusicDBHome()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr, m_nEventID);
-	widget->AddWidgetMusicDBHome();
+	widget->AddWidgetItem();
 	SlotAddWidget(widget, STR_MUSIC_DB);
-	widget->RequestMusicDBHome();
+	widget->RequestCategoryList();
 }
 
 void MainWindow::DoAudioCDHome()
@@ -688,13 +688,13 @@ void MainWindow::DoAudioCDHome()
 	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
 	widget->AddWidgetAudioCDHome();
 	SlotAddWidget(widget, STR_AUDIO_CD);
-	widget->TrackList();
+	widget->RequestTrackList();
 }
 
 void MainWindow::DoPlaylistHome()
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
-	widget->AddWidgetPlaylistHome();
+	widget->AddWidgetItem();
 	SlotAddWidget(widget, STR_PLAYLIST);
 	widget->RequestPlaylist();
 }

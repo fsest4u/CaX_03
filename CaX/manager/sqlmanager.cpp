@@ -9,9 +9,9 @@ SQLManager::SQLManager(QObject *parent)
 
 }
 
-QString SQLManager::GetQueryMusicDBInfo()
+QString SQLManager::GetQueryMusicDBOverview()
 {
-	return SQL_MUSIC_DB_INFO;
+	return SQL_MUSIC_DB_OVERVIEW;
 }
 
 QString SQLManager::GetQueryCategoryList(int nCategory,
@@ -97,42 +97,42 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 	return query;
 }
 
-QString SQLManager::GetQueryCategoryInfo(int nID, int nCategory)
+QString SQLManager::GetQueryCategoryOverview(int nID, int nCategory)
 {
 	QString query;
 
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
-		query = QString(SQL_ALBUM_INFO).arg(nID);
+		query = QString(SQL_ALBUM_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_ARTIST:
-		query = QString(SQL_ARTIST_INFO).arg(nID);
+		query = QString(SQL_ARTIST_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_COMPOSER:
-		query = QString(SQL_COMPOSER_INFO).arg(nID);
+		query = QString(SQL_COMPOSER_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_GENRE:
-		query = QString(SQL_GENRE_INFO).arg(nID);
+		query = QString(SQL_GENRE_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_MOOD:
-		query = QString(SQL_MOOD_INFO).arg(nID);
+		query = QString(SQL_MOOD_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_FOLDER:
-		query = QString(SQL_FOLDER_INFO).arg(nID);
+		query = QString(SQL_FOLDER_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_YEAR:
-		query = QString(SQL_YEAR_INFO).arg(nID);
+		query = QString(SQL_YEAR_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_TRACK:
-		query = SQL_TRACK_INFO;
+		query = SQL_TRACK_OVERVIEW;
 		break;
 	}
 
 	return query;
 }
 
-QString SQLManager::GetQuerySongsOfCategory(int nID,
+QString SQLManager::GetQueryTrackList(int nID,
 											int nCategory,
 											int nSort,
 											bool bIncrease,
@@ -146,7 +146,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
-		query = QString(SQL_SONGS_OF_ALBUM)
+		query = QString(SQL_ALBUM_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -154,7 +154,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 				.arg(nLimitCount);
 		break;
 	case CATEGORY_ARTIST:
-		query = QString(SQL_SONGS_OF_ARTIST)
+		query = QString(SQL_ARTIST_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -162,7 +162,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 				.arg(nLimitCount);
 		break;
 	case CATEGORY_COMPOSER:
-		query = QString(SQL_SONGS_OF_COMPOSER)
+		query = QString(SQL_COMPOSER_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -170,7 +170,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 				.arg(nLimitCount);
 		break;
 	case CATEGORY_GENRE:
-		query = QString(SQL_SONGS_OF_GENRE)
+		query = QString(SQL_GENRE_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -178,7 +178,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 				.arg(nLimitCount);
 		break;
 	case CATEGORY_MOOD:
-		query = QString(SQL_SONGS_OF_MOOD)
+		query = QString(SQL_MOOD_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -186,7 +186,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 				.arg(nLimitCount);
 		break;
 	case CATEGORY_FOLDER:
-		query = QString(SQL_SONGS_OF_FOLDER)
+		query = QString(SQL_FOLDER_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -194,7 +194,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 				.arg(nLimitCount);
 		break;
 	case CATEGORY_YEAR:
-		query = QString(SQL_SONGS_OF_YEAR)
+		query = QString(SQL_YEAR_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -202,7 +202,7 @@ QString SQLManager::GetQuerySongsOfCategory(int nID,
 				.arg(nLimitCount);
 		break;
 	case CATEGORY_TRACK:
-		query = QString(SQL_SONGS_OF_TRACK)
+		query = QString(SQL_TRACK_LIST)
 				.arg(column)
 				.arg(increase)
 				.arg(nStartIndex)
@@ -220,12 +220,12 @@ QString SQLManager::GetQueryPlaylist()
 
 QString SQLManager::GetQueryPlaylistInfo(int nID)
 {
-	return QString(SQL_PLAYLIST_INFO).arg(nID);
+	return QString(SQL_PLAYLIST_OVERVIEW).arg(nID);
 }
 
 QString SQLManager::GetQuerySongsOfPlaylist(int nID)
 {
-	return QString(SQL_SONGS_OF_PLAYLIST).arg(nID);
+	return QString(SQL_PLAYLIST_TRACK_LIST).arg(nID);
 }
 
 QString SQLManager::GetQueryUpdateCatFavorite(int nID, int nFavorite, int nCategory)

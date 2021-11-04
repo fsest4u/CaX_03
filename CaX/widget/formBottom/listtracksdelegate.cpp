@@ -29,10 +29,9 @@ void ListTracksDelegate::SlotClickPlay(int nID)
 	emit SigSelectPlay(nID, PLAY_CLEAR);
 }
 
-void ListTracksDelegate::SlotClickTitle(int nID)
+void ListTracksDelegate::SlotClickTitle(int nID, QString coverArt)
 {
-	Q_UNUSED(nID);
-	LogDebug("click title");
+	emit SigSelectTitle(nID, coverArt);
 }
 
 void ListTracksDelegate::SlotClickFavorite(int nID, int nFavorite)
@@ -147,7 +146,7 @@ QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	ListTracksEditor *editor = new ListTracksEditor(parent);
 	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
-	connect(editor, SIGNAL(SigClickTitle(int)), this, SLOT(SlotClickTitle(int)));
+	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
 	connect(editor, SIGNAL(SigClickTime(int)), this, SLOT(SlotClickTime(int)));
 	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));

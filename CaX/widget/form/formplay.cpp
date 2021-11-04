@@ -4,6 +4,7 @@
 #include "ui_formplay.h"
 
 #include "util/caxtranslate.h"
+#include "util/log.h"
 
 FormPlay::FormPlay(QWidget *parent) :
 	QWidget(parent),
@@ -395,8 +396,8 @@ QIcon FormPlay::GetIcon(QString value)
 	}
 	else
 	{
+		LogDebug("There is no icon corresponding to the string.");
 		return QIcon("");
-
 	}
 }
 

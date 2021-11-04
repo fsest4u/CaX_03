@@ -75,7 +75,7 @@ AudioCDWindow::~AudioCDWindow()
 void AudioCDWindow::AddWidgetAudioCDHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
@@ -87,7 +87,7 @@ void AudioCDWindow::AddWidgetAudioCDHome()
 	}
 }
 
-void AudioCDWindow::TrackList()
+void AudioCDWindow::RequestTrackList()
 {
 	QList<int> list;
 	list.append(0);
@@ -96,17 +96,17 @@ void AudioCDWindow::TrackList()
 	m_pMgr->RequestTrackList();
 }
 
-void AudioCDWindow::TrackInfo(int index)
+void AudioCDWindow::RequestTrackInfo(int index)
 {
 	m_pMgr->RequestTrackInfo(index);
 }
 
-void AudioCDWindow::TrackPlay(int index)
+void AudioCDWindow::RequestTrackPlay(int index)
 {
 	m_pMgr->RequestTrackPlay(index);
 }
 
-void AudioCDWindow::CDRip(CJsonNode node, QList<CJsonNode> list)
+void AudioCDWindow::RequestCDRip(CJsonNode node, QList<CJsonNode> list)
 {
 	// todo-dylee
 	m_pMgr->RequestCDRip(node);
@@ -114,6 +114,7 @@ void AudioCDWindow::CDRip(CJsonNode node, QList<CJsonNode> list)
 
 void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 {	
+	SetOptionMenu();
 
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_AUDIO_CD);
@@ -184,7 +185,7 @@ void AudioCDWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	Q_UNUSED(coverArt)
 
-	TrackPlay(id);
+	RequestTrackPlay(id);
 }
 
 void AudioCDWindow::SlotCalcTotalTime(int time)
@@ -197,12 +198,12 @@ void AudioCDWindow::SlotSelectPlay(int id, int playType)
 {
 	Q_UNUSED(playType)
 
-	TrackPlay(id);
+	RequestTrackPlay(id);
 }
 
 void AudioCDWindow::SlotTopMenu()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_SelectMap = m_pIconTracks->GetSelectMap();
 	}
@@ -242,20 +243,20 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 
 void AudioCDWindow::SlotResize(int resize)
 {
-	int listMode = ITEM_ICON_MODE;
+	int listMode = VIEW_MODE_ICON;
 	if (resize > 130)
 	{
-		listMode = ITEM_ICON_MODE;
+		listMode = VIEW_MODE_ICON;
 	}
 	else
 	{
-		listMode = ITEM_LIST_MODE;
+		listMode = VIEW_MODE_LIST;
 	}
 
 	if (listMode != m_ListMode)
 	{
 		m_ListMode = listMode;
-		if (m_ListMode == ITEM_ICON_MODE)
+		if (m_ListMode == VIEW_MODE_ICON)
 		{
 			LogDebug("icon~~~~~~~~");
 			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
@@ -272,13 +273,22 @@ void AudioCDWindow::SlotResize(int resize)
 		}
 	}
 
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->SetResize(resize);
 	}
 	else
 	{
 		m_pListTracks->SetResize(resize);
+	}
+}
+
+void AudioCDWindow::SlotOptionMenuAction(int id, int menuID)
+{
+	switch (menuID) {
+	case OPTION_MENU_TRACK_INFO:
+		RequestTrackInfo(id);
+		break;
 	}
 }
 
@@ -299,6 +309,7 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 }
 
@@ -311,7 +322,7 @@ void AudioCDWindow::Initialize()
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
 
-	m_ListMode = ITEM_ICON_MODE;
+	m_ListMode = VIEW_MODE_ICON;
 
 }
 
@@ -340,7 +351,7 @@ void AudioCDWindow::SetSelectOnTopMenu()
 
 void AudioCDWindow::DoTopMenuSelectAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->SetAllSelectMap();
 	}
@@ -352,7 +363,7 @@ void AudioCDWindow::DoTopMenuSelectAll()
 
 void AudioCDWindow::DoTopMenuClearAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->ClearSelectMap();
 	}
@@ -385,6 +396,14 @@ void AudioCDWindow::DoTopMenuEjectCD()
 	m_pMgr->RequestEject();
 
 	emit SigRemoveWidget(this);
+}
+
+void AudioCDWindow::SetOptionMenu()
+{
+	m_OptionMenuMap.clear();
+	m_OptionMenuMap.insert(OPTION_MENU_TRACK_INFO, STR_TRACK_INFO);
+
+	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }
 
 QString AudioCDWindow::MakeInfo()

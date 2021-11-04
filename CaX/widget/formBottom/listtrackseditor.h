@@ -48,7 +48,7 @@ signals:
 
 	void SigClickCoverArt(int nID);
 	void SigClickPlay(int nID);
-	void SigClickTitle(int nID);
+	void SigClickTitle(int nID, QString coverArt);
 	void SigClickFavorite(int nID, int Favorite);
 	void SigClickTime(int nID);
 	void SigClickArtist(int nID);

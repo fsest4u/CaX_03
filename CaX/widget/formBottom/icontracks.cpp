@@ -19,6 +19,7 @@ IconTracks::IconTracks(QWidget *parent) :
 	m_Delegate(new IconTracksDelegate),
 	m_ScrollBar(nullptr),
 	m_pLoading(new Loading(this)),
+	m_TypeMode(TYPE_MODE_MAX),
 	ui(new Ui::IconTracks)
 {
 	ui->setupUi(this);
@@ -222,6 +223,16 @@ void IconTracks::SetResize(int resize)
 	m_pLoading->Stop();
 }
 
+int IconTracks::GetTypeMode() const
+{
+	return m_TypeMode;
+}
+
+void IconTracks::SetTypeMode(int TypeMode)
+{
+	m_TypeMode = TypeMode;
+}
+
 QStandardItemModel *IconTracks::GetModel()
 {
 	return m_Model;
@@ -301,4 +312,3 @@ void IconTracks::Initialize()
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 }
-

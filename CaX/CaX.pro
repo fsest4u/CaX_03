@@ -10,9 +10,9 @@ CONFIG += c++11
 
 SOURCES += \
     dialog/aboutdialog.cpp \
-    dialog/addplaylistdialog.cpp \
     dialog/addradiodialog.cpp \
     dialog/cdripinfodialog.cpp \
+    dialog/inputnamedialog.cpp \
     dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
     dialog/poweroffdialog.cpp \
@@ -90,9 +90,9 @@ SOURCES += \
 
 HEADERS += \
     dialog/aboutdialog.h \
-    dialog/addplaylistdialog.h \
     dialog/addradiodialog.h \
     dialog/cdripinfodialog.h \
+    dialog/inputnamedialog.h \
     dialog/limitcountdialog.h \
     dialog/logindialog.h \
     dialog/poweroffdialog.h \
@@ -181,9 +181,9 @@ HEADERS += \
 
 FORMS += \
     dialog/aboutdialog.ui \
-    dialog/addplaylistdialog.ui \
     dialog/addradiodialog.ui \
     dialog/cdripinfodialog.ui \
+    dialog/inputnamedialog.ui \
     dialog/limitcountdialog.ui \
     dialog/logindialog.ui \
     dialog/poweroffdialog.ui \

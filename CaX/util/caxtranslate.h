@@ -86,6 +86,7 @@
 #define STR_GAIN_SET				TR("Gain set")
 #define STR_GAIN_CLEAR				TR("Gain clear")
 #define STR_ALBUM_INFO				TR("Album info")
+#define STR_TRACK_INFO				TR("Track info")
 // audio cd
 #define STR_CD_RIPPING				TR("CD ripping")
 #define STR_EJECT_CD				TR("Eject CD")

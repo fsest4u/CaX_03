@@ -35,7 +35,7 @@ public:
 		SORT_MAX
 	};
 
-	QString GetQueryMusicDBInfo();
+	QString GetQueryMusicDBOverview();
 	QString GetQueryCategoryList(int nCategory = CATEGORY_ALBUM,
 								 int nSort = SORT_NAME,
 								 bool bIncrease = true,
@@ -46,8 +46,8 @@ public:
 								 int nRating = 0,
 								 int nStartIndex = 0,
 								 int nLimitCount = 100);
-	QString GetQueryCategoryInfo(int nID, int nCategory = CATEGORY_ALBUM);
-	QString GetQuerySongsOfCategory(int nID,
+	QString GetQueryCategoryOverview(int nID, int nCategory = CATEGORY_ALBUM);
+	QString GetQueryTrackList(int nID,
 									int nCategory = CATEGORY_ALBUM,
 									int nSort = SORT_NAME,
 									bool bIncrease = true,

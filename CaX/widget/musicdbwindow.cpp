@@ -4,7 +4,9 @@
 #include "musicdbwindow.h"
 #include "ui_musicdbwindow.h"
 
+#include "dialog/inputnamedialog.h"
 #include "dialog/limitcountdialog.h"
+#include "dialog/trackinfodialog.h"
 
 #include "manager/musicdbmanager.h"
 #include "manager/sqlmanager.h"
@@ -108,12 +110,14 @@ MusicDBWindow::~MusicDBWindow()
 //	}
 }
 
-void MusicDBWindow::AddWidgetMusicDBHome()
+void MusicDBWindow::AddWidgetItem()
 {
 	AddSortMusicDBHome();
+	m_pIconTracks->SetTypeMode(TYPE_MODE_ITEM);
+	m_pListTracks->SetTypeMode(TYPE_MODE_ITEM);
 
 	ui->gridLayoutTop->addWidget(m_pInfoHome);
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pInfoHome->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
@@ -125,12 +129,14 @@ void MusicDBWindow::AddWidgetMusicDBHome()
 	}
 }
 
-void MusicDBWindow::AddWidgetCategoryHome()
+void MusicDBWindow::AddWidgetTrack()
 {
 	AddSortCategoryHome();
+	m_pIconTracks->SetTypeMode(TYPE_MODE_TRACK);
+	m_pListTracks->SetTypeMode(TYPE_MODE_TRACK);
 
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
@@ -142,13 +148,13 @@ void MusicDBWindow::AddWidgetCategoryHome()
 	}
 }
 
-void MusicDBWindow::RequestMusicDBHome()
+void MusicDBWindow::RequestCategoryList()
 {
 	m_pIconTracks->ClearNodeList();
 	m_pListTracks->ClearNodeList();
 
 	m_pInfoHome->SetTitle(m_nCategory);
-	m_pMgr->RequestMusicDBInfo();
+	m_pMgr->RequestMusicDBOverView();
 	m_pMgr->RequestCategoryList(m_nCategory,
 								m_nSortCategory,
 								m_bIncreaseCategory,
@@ -161,7 +167,7 @@ void MusicDBWindow::RequestMusicDBHome()
 								m_LimitCount);
 }
 
-void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool bIncrease)
+void MusicDBWindow::RequestTrackList(int nID, int nCategory, int nSort, bool bIncrease)
 {
 	m_pIconTracks->ClearNodeList();
 	m_pListTracks->ClearNodeList();
@@ -171,8 +177,8 @@ void MusicDBWindow::RequestCategoryHome(int nID, int nCategory, int nSort, bool 
 	m_nSortTrack = nSort;
 	m_bIncreaseTrack = bIncrease;
 
-	m_pMgr->RequestCategoryInfo(m_nID, m_nCategory);
-	m_pMgr->RequestSongsOfCategory(m_nID,
+	m_pMgr->RequestCategoryOverview(m_nID, m_nCategory);
+	m_pMgr->RequestTrackList(m_nID,
 								   m_nCategory,
 								   m_nSortTrack,
 								   m_bIncreaseTrack,
@@ -200,7 +206,7 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 	QMessageBox::warning(this, "Warning", errMsg);
 }
 
-void MusicDBWindow::SlotRespMusicInfo(CJsonNode node)
+void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	int totalCount = GetTotalCount(node);
@@ -237,13 +243,15 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 {
 //	m_pIconTracks->SetBackgroundTask(m_pCatThread);
 
+	SetOptionMenu();
+
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
 	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_MUSIC_DB);
 
 //	m_pCatThread->start();
 }
 
-void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
+void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	QString title = node.GetString(KEY_TITLE);
@@ -273,11 +281,15 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 
 }
 
-void MusicDBWindow::SlotRespSongsOfCategory(QList<CJsonNode> list)
+void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
+
 	SetOptionMenu();
-	m_pListTracks->SetNodeList(list);
+
+	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
+	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_MUSIC_DB);
+
 //	m_pSongThread->start();
 }
 
@@ -300,7 +312,7 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 void MusicDBWindow::SlotPlayAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_SelectMap = m_pIconTracks->GetSelectMap();
 	}
@@ -327,7 +339,7 @@ void MusicDBWindow::SlotPlayRandom()
 
 void MusicDBWindow::SlotTopMenu()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_SelectMap = m_pIconTracks->GetSelectMap();
 	}
@@ -389,32 +401,32 @@ void MusicDBWindow::SlotTopMenuAction(int menuID)
 void MusicDBWindow::SlotSortMenu(int menuID)
 {
 	m_nSortCategory = menuID;
-	RequestMusicDBHome();
+	RequestCategoryList();
 
 }
 
 void MusicDBWindow::SlotIncDec(bool bIncrease)
 {
 	m_bIncreaseCategory = bIncrease;
-	RequestMusicDBHome();
+	RequestCategoryList();
 }
 
 void MusicDBWindow::SlotResize(int resize)
 {
-	int listMode = ITEM_ICON_MODE;
+	int listMode = VIEW_MODE_ICON;
 	if (resize > 130)
 	{
-		listMode = ITEM_ICON_MODE;
+		listMode = VIEW_MODE_ICON;
 	}
 	else
 	{
-		listMode = ITEM_LIST_MODE;
+		listMode = VIEW_MODE_LIST;
 	}
 
 	if (listMode != m_ListMode)
 	{
 		m_ListMode = listMode;
-		if (m_ListMode == ITEM_ICON_MODE)
+		if (m_ListMode == VIEW_MODE_ICON)
 		{
 			LogDebug("icon~~~~~~~~");
 			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
@@ -431,7 +443,7 @@ void MusicDBWindow::SlotResize(int resize)
 		}
 	}
 
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->SetResize(resize);
 	}
@@ -444,40 +456,40 @@ void MusicDBWindow::SlotResize(int resize)
 void MusicDBWindow::SlotGenreList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetMusicDBHome();
+	widget->AddWidgetItem();
 	emit SigAddWidget(widget, STR_GENRE);
 
 	widget->SetCategory(SQLManager::CATEGORY_GENRE);
-	widget->RequestMusicDBHome();
+	widget->RequestCategoryList();
 }
 
 void MusicDBWindow::SlotAlbumList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetMusicDBHome();
+	widget->AddWidgetItem();
 	emit SigAddWidget(widget, STR_ALBUM);
 
 	widget->SetCategory(SQLManager::CATEGORY_ALBUM);
-	widget->RequestMusicDBHome();
+	widget->RequestCategoryList();
 }
 
 void MusicDBWindow::SlotArtistList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetMusicDBHome();
+	widget->AddWidgetItem();
 	emit SigAddWidget(widget, STR_ARTIST);
 
 	widget->SetCategory(SQLManager::CATEGORY_ARTIST);
-	widget->RequestMusicDBHome();
+	widget->RequestCategoryList();
 }
 
 void MusicDBWindow::SlotTrackList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetCategoryHome();
+	widget->AddWidgetItem();
 	emit SigAddWidget(widget, STR_TRACK);
 
-	widget->RequestCategoryHome(-1, SQLManager::CATEGORY_TRACK);
+	widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
 	widget->SetCoverArt("");
 }
 
@@ -497,11 +509,11 @@ void MusicDBWindow::SlotCategoryMenu()
 void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetMusicDBHome();
+	widget->AddWidgetItem();
 	emit SigAddWidget(widget, title);
 
 	widget->SetCategory(nCategory);
-	widget->RequestMusicDBHome();
+	widget->RequestCategoryList();
 }
 
 void MusicDBWindow::SlotItemPlayAll()
@@ -583,28 +595,63 @@ void MusicDBWindow::SlotItemRating(int nRating)
 
 void MusicDBWindow::SlotItemSortMenu(int sort)
 {
-	RequestCategoryHome(m_nID, m_nCategory, sort, m_bIncreaseTrack);
+	RequestTrackList(m_nID, m_nCategory, sort, m_bIncreaseTrack);
 }
 
 void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 {
-	RequestCategoryHome(m_nID, m_nCategory, m_nSortCategory, bIncrease);
+	RequestTrackList(m_nID, m_nCategory, m_nSortCategory, bIncrease);
 }
 
-void MusicDBWindow::SlotItemResize(int resize)
-{
-	LogDebug("album resize [%d]", resize);
-	m_pListTracks->SetResize(resize);
+//void MusicDBWindow::SlotItemResize(int resize)
+//{
+//	int listMode = VIEW_MODE_ICON;
+//	if (resize > 130)
+//	{
+//		listMode = VIEW_MODE_ICON;
+//	}
+//	else
+//	{
+//		listMode = VIEW_MODE_LIST;
+//	}
 
-}
+//	if (listMode != m_ListMode)
+//	{
+//		m_ListMode = listMode;
+//		if (m_ListMode == VIEW_MODE_ICON)
+//		{
+//			LogDebug("icon~~~~~~~~");
+//			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
+//			m_pListTracks->hide();
+//			m_pIconTracks->show();
+
+//		}
+//		else
+//		{
+//			LogDebug("list~~~~~~~~");
+//			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
+//			m_pIconTracks->hide();
+//			m_pListTracks->show();
+//		}
+//	}
+
+//	if (m_ListMode == VIEW_MODE_ICON)
+//	{
+//		m_pIconTracks->SetResize(resize);
+//	}
+//	else
+//	{
+//		m_pListTracks->SetResize(resize);
+//	}
+//}
 
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetCategoryHome();
+	widget->AddWidgetTrack();
 	emit SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestCategoryHome(nID, m_nCategory);
+	widget->RequestTrackList(nID, m_nCategory);
 	widget->SetCoverArt(coverArt);
 }
 
@@ -671,7 +718,7 @@ void MusicDBWindow::SlotAppendList()
 	m_CurPage++;
 	if (m_TotalPage > m_CurPage)
 	{
-		m_pMgr->RequestSongsOfCategory(m_nID,
+		m_pMgr->RequestTrackList(m_nID,
 									   m_nCategory,
 									   m_nSortTrack,
 									   m_bIncreaseTrack,
@@ -718,13 +765,13 @@ void MusicDBWindow::SlotRespClassifyComposer(QList<CJsonNode> list)
 void MusicDBWindow::SlotClassifyFavorite(int nFavorite)
 {
 	m_nFavorite = nFavorite;
-	RequestMusicDBHome();
+	RequestCategoryList();
 }
 
 void MusicDBWindow::SlotClassifyRating(int nRating)
 {
 	m_nRating = nRating;
-	RequestMusicDBHome();
+	RequestCategoryList();
 }
 
 void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
@@ -778,37 +825,88 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
+void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
+{
+	TrackInfoDialog dialog;
+	dialog.SetTitle(node.GetString(KEY_ALBUM));
+	dialog.SetAlbum(node.GetString(KEY_ALBUM));
+	dialog.SetAlbumArtist(node.GetString(KEY_ALBUM_ARTIST));
+	dialog.SetCDYear(node.GetString(KEY_CDYEAR));
+	dialog.SetCDNumber(QString("%1").arg(node.GetInt(KEY_CDNUMBER)));
+	dialog.SetCDTotal(QString("%1").arg(node.GetInt(KEY_CDTOTAL)));
+	dialog.exec();
+}
+
+void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
+{
+	TrackInfoDialog dialog;
+	dialog.SetTitle(node.GetString(KEY_TITLE_CAP));
+	dialog.SetAlbum(node.GetString(KEY_ALBUM));
+	dialog.SetArtist(node.GetString(KEY_ARTIST));
+	dialog.SetGenre(node.GetString(KEY_GENRE));
+	dialog.SetAlbumArtist(node.GetString(KEY_ALBUM_ARTIST));
+	dialog.SetComposer(node.GetString(KEY_COMPOSER));
+	dialog.SetMood(node.GetString(KEY_MOOD));
+	dialog.SetTempo(node.GetString(KEY_TEMPO));
+	dialog.SetTrack(node.GetString(KEY_TRACK));
+	dialog.SetPath(node.GetString(KEY_PATH));
+	dialog.SetBitrate(node.GetString(KEY_BITRATE));
+	dialog.SetDuration(node.GetString(KEY_DURATION));
+	dialog.SetSampleRate(node.GetString(KEY_SAMPLERATE_CAP));
+	dialog.SetChannel(node.GetString(KEY_CHANNEL));
+	dialog.SetFormat(node.GetString(KEY_FORMAT));
+	dialog.SetYear(node.GetString(KEY_YEAR));
+	dialog.SetCDYear(node.GetString(KEY_CDYEAR));
+	dialog.SetCDNumber(QString("%1").arg(node.GetInt(KEY_CDNUMBER)));
+	dialog.SetCDTotal(QString("%1").arg(node.GetInt(KEY_CDTOTAL)));
+	dialog.exec();
+}
+
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 {
-	switch (menuID) {
-	case OPTION_MENU_PLAY_NOW:
-		SlotSelectTrackPlay(nID, PLAY_NOW);
-		break;
-	case OPTION_MENU_PLAY_LAST:
-		SlotSelectTrackPlay(nID, PLAY_LAST);
-		break;
-	case OPTION_MENU_PLAY_NEXT:
-		SlotSelectTrackPlay(nID, PLAY_NEXT);
-		break;
-	case OPTION_MENU_PLAY_CLEAR:
-		SlotSelectTrackPlay(nID, PLAY_CLEAR);
-		break;
-	case OPTION_MENU_ADD_TO_PLAYLIST:
-		break;
-	case OPTION_MENU_TRACK_INFO:
-		break;
-	case OPTION_MENU_SEARCH_COVERART:
-		break;
-	case OPTION_MENU_RENAME_ITEM:
-		break;
-	case OPTION_MENU_GAIN_SET:
-		DoOptionMenuGainSet(nID);
-		break;
-	case OPTION_MENU_GAIN_CLEAR:
-		DoOptionMenuGainClear(nID);
-		break;
+	int typeMode = TYPE_MODE_MAX;
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		typeMode = m_pIconTracks->GetTypeMode();
+	}
+	else
+	{
+		typeMode = m_pListTracks->GetTypeMode();
 	}
 
+	switch (menuID) {
+	case OPTION_MENU_PLAY_NOW:
+		DoOptionMenuPlay(typeMode, nID, PLAY_NOW);
+		break;
+	case OPTION_MENU_PLAY_LAST:
+		DoOptionMenuPlay(typeMode, nID, PLAY_LAST);
+		break;
+	case OPTION_MENU_PLAY_NEXT:
+		DoOptionMenuPlay(typeMode, nID, PLAY_NEXT);
+		break;
+	case OPTION_MENU_PLAY_CLEAR:
+		DoOptionMenuPlay(typeMode, nID, PLAY_CLEAR);
+		break;
+	case OPTION_MENU_ADD_TO_PLAYLIST:
+		DoOptionMenuAddToPlaylist(typeMode, nID);
+		break;
+	case OPTION_MENU_ALBUM_INFO:
+	case OPTION_MENU_TRACK_INFO:
+		DoOptionMenuInfo(typeMode, nID);
+		break;
+	case OPTION_MENU_SEARCH_COVERART:
+		DoOptionMenuSearchCoverArt(typeMode, nID);
+		break;
+	case OPTION_MENU_RENAME_ITEM:
+		DoOptionMenuRename(typeMode, nID);
+		break;
+	case OPTION_MENU_GAIN_SET:
+		DoOptionMenuGain(typeMode, nID, VAL_GAIN_SET);
+		break;
+	case OPTION_MENU_GAIN_CLEAR:
+		DoOptionMenuGain(typeMode, nID, VAL_GAIN_CLEAR);
+		break;
+	}
 }
 
 void MusicDBWindow::ConnectSigToSlot()
@@ -817,14 +915,16 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(m_pMgr, SIGNAL(SigRespMusicInfo(CJsonNode)), this, SLOT(SlotRespMusicInfo(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespMusicOverview(CJsonNode)), this, SLOT(SlotRespMusicOverview(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
-	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
-	connect(m_pMgr, SIGNAL(SigRespSongsOfCategory(QList<CJsonNode>)), this, SLOT(SlotRespSongsOfCategory(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespCategoryOverview(CJsonNode)), this, SLOT(SlotRespCategoryOverview(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespTrackList(QList<CJsonNode>)), this, SLOT(SlotRespTrackList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyArtist(QList<CJsonNode>)), this, SLOT(SlotRespClassifyArtist(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyGenre(QList<CJsonNode>)), this, SLOT(SlotRespClassifyGenre(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyComposer(QList<CJsonNode>)), this, SLOT(SlotRespClassifyComposer(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
@@ -857,7 +957,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigMenu(int)), this, SLOT(SlotItemSortMenu(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotItemIncDec(bool)));
-	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotItemResize(int)));
+	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
@@ -872,7 +972,6 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
-	// todo-dylee, check to change list mode
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 
@@ -906,7 +1005,7 @@ void MusicDBWindow::Initialize()
 	m_CategoryMenuMap.clear();
 	m_SelectMap.clear();
 
-	m_ListMode = ITEM_ICON_MODE;
+	m_ListMode = VIEW_MODE_ICON;
 
 }
 
@@ -954,7 +1053,7 @@ void MusicDBWindow::DoTopMenuPlay(int nWhere)
 
 void MusicDBWindow::DoTopMenuReload()
 {
-	RequestMusicDBHome();
+	RequestCategoryList();
 }
 
 void MusicDBWindow::DoTopMenuSetLimitCount(int count)
@@ -969,7 +1068,7 @@ void MusicDBWindow::DoTopMenuSetLimitCount(int count)
 
 void MusicDBWindow::DoTopMenuSelectAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->SetAllSelectMap();
 	}
@@ -981,7 +1080,7 @@ void MusicDBWindow::DoTopMenuSelectAll()
 
 void MusicDBWindow::DoTopMenuClearAll()
 {
-	if (m_ListMode == ITEM_ICON_MODE)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pIconTracks->ClearSelectMap();
 	}
@@ -1102,42 +1201,126 @@ void MusicDBWindow::DoItemTopMenuAddToPlaylist()
 
 void MusicDBWindow::SetOptionMenu()
 {
+	int typeMode = TYPE_MODE_MAX;
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		typeMode = m_pIconTracks->GetTypeMode();
+	}
+	else
+	{
+		typeMode = m_pListTracks->GetTypeMode();
+	}
+
 	m_OptionMenuMap.clear();
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-	m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-	m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-	m_OptionMenuMap.insert(OPTION_MENU_TRACK_INFO, STR_ALBUM_INFO);
-	m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
-	m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
-	m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
-	m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+		m_OptionMenuMap.insert(OPTION_MENU_ALBUM_INFO, STR_ALBUM_INFO);
+		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+		m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
+		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
+		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+	}
+	else if (typeMode == TYPE_MODE_TRACK)
+	{
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+		m_OptionMenuMap.insert(OPTION_MENU_TRACK_INFO, STR_TRACK_INFO);
+		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+		m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
+		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
+		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+	}
 
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 
 }
 
-void MusicDBWindow::DoOptionMenuGainSet(int nID)
+void MusicDBWindow::DoOptionMenuPlay(int typeMode, int nID, int where)
 {
-	QMap<int, bool> map;
-	map.insert(nID, true);
-	m_pMgr->RequestManageCategory(VAL_GAIN_SET,
-								  map,
-								  PLAY_NONE,
-								  SQLManager::CATEGORY_TRACK,
-								  m_EventID);
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		SlotSelectPlay(nID, where);
+	}
+	else if (typeMode == TYPE_MODE_TRACK)
+	{
+		SlotSelectTrackPlay(nID, where);
+	}
 }
 
-void MusicDBWindow::DoOptionMenuGainClear(int nID)
+void MusicDBWindow::DoOptionMenuAddToPlaylist(int typeMode, int nID)
 {
-	QMap<int, bool> map;
-	map.insert(nID, true);
-	m_pMgr->RequestManageCategory(VAL_GAIN_CLEAR,
-								  map,
-								  PLAY_NONE,
-								  SQLManager::CATEGORY_TRACK,
-								  m_EventID);
+	// todo-dylee
+
+}
+
+void MusicDBWindow::DoOptionMenuInfo(int typeMode, int nID)
+{
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		m_pMgr->RequestCategoryInfo(nID);
+	}
+	else
+	{
+		m_pMgr->RequestTrackInfo(nID);
+	}
+}
+
+void MusicDBWindow::DoOptionMenuSearchCoverArt(int typeMode, int nID)
+{
+	// todo-dylee
+
+}
+
+void MusicDBWindow::DoOptionMenuRename(int typeMode, int nID)
+{
+	InputNameDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString name = dialog.GetName();
+		if (typeMode == TYPE_MODE_ITEM)
+		{
+			m_pMgr->RequestRenameCategory(nID, name, m_nCategory, m_EventID);
+			RequestCategoryList();
+		}
+		else
+		{
+			m_pMgr->RequestRenameTrack(nID, name, m_EventID);
+			RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+		}
+	}
+
+}
+
+void MusicDBWindow::DoOptionMenuGain(int typeMode, int nID, QString gainType)
+{
+	if (typeMode == TYPE_MODE_ITEM)
+	{
+		QMap<int, bool> map;
+		map.insert(nID, true);
+		m_pMgr->RequestManageCategory(gainType,
+									  map,
+									  PLAY_NONE,
+									  m_nCategory,
+									  m_EventID);
+	}
+	else if (typeMode == TYPE_MODE_TRACK)
+	{
+		QMap<int, bool> map;
+		map.insert(nID, true);
+		m_pMgr->RequestManageCategory(gainType,
+									  map,
+									  PLAY_NONE,
+									  SQLManager::CATEGORY_TRACK,
+									  m_EventID);
+	}
 }
 
 void MusicDBWindow::SetCoverArt(QString coverArt)

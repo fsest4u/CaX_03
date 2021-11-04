@@ -7,7 +7,7 @@
 
 // 카테고리별 개수 가져오기 --------------------------------------------------------------------------
 
-#define SQL_MUSIC_DB_INFO	"	\
+#define SQL_MUSIC_DB_OVERVIEW	"	\
 select	\
 	(select count(*) from (select * from Song where Song.IsDel = 0 group by song.AlbumID)) as Album	\
 	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.ArtistID)) as Artist	\
@@ -123,7 +123,7 @@ limit %8, %9"
 
 // 카테고리별 하위 목록 가져오기 --------------------------------------------------------------------------
 
-#define SQL_ALBUM_INFO	"	\
+#define SQL_ALBUM_OVERVIEW	"	\
 select	\
 	Album.Name as title	\
 	, Artist.Name as Artist	\
@@ -140,7 +140,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1	\
 "
 
-#define SQL_SONGS_OF_ALBUM	"	\
+#define SQL_ALBUM_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -157,7 +157,7 @@ where Song.IsDel = 0 and Song.AlbumID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
-#define SQL_ARTIST_INFO	"	\
+#define SQL_ARTIST_OVERVIEW	"	\
 select	\
 	Artist.Name as title	\
 	, Artist.Name as Artist	\
@@ -174,7 +174,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Song.IsDel = 0 and Song.ArtistID = %1	\
 "
 
-#define SQL_SONGS_OF_ARTIST	"	\
+#define SQL_ARTIST_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -191,7 +191,7 @@ where Song.IsDel = 0 and Song.ArtistID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
-#define SQL_COMPOSER_INFO	"	\
+#define SQL_COMPOSER_OVERVIEW	"	\
 select	\
 	Composer.Name as title	\
 	, Artist.Name as Artist	\
@@ -209,7 +209,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 where Song.IsDel = 0 and Song.ComposerID = %1	\
 "
 
-#define SQL_SONGS_OF_COMPOSER	"	\
+#define SQL_COMPOSER_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -226,7 +226,7 @@ where Song.IsDel = 0 and Song.ComposerID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
-#define SQL_GENRE_INFO	"	\
+#define SQL_GENRE_OVERVIEW	"	\
 select	\
 	Genre.Name as title	\
 	, Artist.Name as Artist	\
@@ -244,7 +244,7 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 where Song.IsDel = 0 and Song.GenreID = %1	\
 "
 
-#define SQL_SONGS_OF_GENRE	"	\
+#define SQL_GENRE_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -261,7 +261,7 @@ where Song.IsDel = 0 and Song.GenreID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
-#define SQL_MOOD_INFO	"	\
+#define SQL_MOOD_OVERVIEW	"	\
 select	\
 	Mood.Name as title	\
 	, Artist.Name as Artist	\
@@ -279,7 +279,7 @@ inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.MoodID = %1	\
 "
 
-#define SQL_SONGS_OF_MOOD	"	\
+#define SQL_MOOD_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -296,7 +296,7 @@ where Song.IsDel = 0 and Song.MoodID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
-#define SQL_FOLDER_INFO	"	\
+#define SQL_FOLDER_OVERVIEW	"	\
 select	\
 	Folder.Name as title	\
 	, Artist.Name as Artist	\
@@ -314,7 +314,7 @@ inner join Folder on Song.FolderID = Folder.ROWID	\
 where Song.IsDel = 0 and Song.FolderID = %1	\
 "
 
-#define SQL_SONGS_OF_FOLDER	"	\
+#define SQL_FOLDER_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -331,7 +331,7 @@ where Song.IsDel = 0 and Song.FolderID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
-#define SQL_YEAR_INFO	"	\
+#define SQL_YEAR_OVERVIEW	"	\
 select	\
 	Song.Year as title	\
 	, Artist.Name as Artist	\
@@ -346,7 +346,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Song.IsDel = 0 and Song.Year = %1	\
 "
 
-#define SQL_SONGS_OF_YEAR	"	\
+#define SQL_YEAR_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -363,7 +363,7 @@ where Song.IsDel = 0 and Song.Year = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
-#define SQL_TRACK_INFO	"	\
+#define SQL_TRACK_OVERVIEW	"	\
 select	\
 	count(*) as count	\
 	, sum(song.nov_time) as total	\
@@ -376,7 +376,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Song.IsDel = 0	\
 "
 
-#define SQL_SONGS_OF_TRACK	"	\
+#define SQL_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
@@ -439,7 +439,7 @@ group by Pls.ROWID	\
 order by Pls.Name	\
 "
 
-#define SQL_PLAYLIST_INFO	"	\
+#define SQL_PLAYLIST_OVERVIEW	"	\
 select	\
 	Pls.Name as title	\
 	, Artist.Name as Artist	\
@@ -456,7 +456,7 @@ inner join Pls	\
 where PlsSong.PlsID = %1	\
 "
 
-#define SQL_SONGS_OF_PLAYLIST	"	\
+#define SQL_PLAYLIST_TRACK_LIST	"	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\

@@ -2,6 +2,7 @@
 #include "ui_topwindow.h"
 
 #include "util/caxtranslate.h"
+#include "util/log.h"
 
 TopWindow::TopWindow(QWidget *parent) :
 	QWidget(parent),
@@ -186,6 +187,7 @@ QIcon TopWindow::GetIcon(QString value)
 	}
 	else
 	{
+		LogDebug("There is no icon corresponding to the string.");
 		return QIcon("");
 	}
 }

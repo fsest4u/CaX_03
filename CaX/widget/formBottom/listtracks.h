@@ -30,7 +30,7 @@ public:
 	};
 
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(QList<CJsonNode> list, int type = LIST_TRACKS_MAX);
+	void SetNodeList(QList<CJsonNode> list, int type);
 	void ClearNodeList();
 
 	QListView::ViewMode GetViewMode();
@@ -44,10 +44,14 @@ public:
 
 	void SetResize(int resize);
 
+	int GetTypeMode() const;
+	void SetTypeMode(int TypeMode);
+
 	QStandardItemModel	*GetModel();
 	ListTracksDelegate	*GetDelegate();
 
 	void SetBackgroundTask(QThread *thread);
+
 
 signals:
 
@@ -73,6 +77,8 @@ private:
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;
+
+	int						m_TypeMode;
 
 	Ui::ListTracks *ui;
 };

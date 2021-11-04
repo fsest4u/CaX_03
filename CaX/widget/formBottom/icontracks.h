@@ -44,6 +44,9 @@ public:
 
 	void SetResize(int resize);
 
+	int GetTypeMode() const;
+	void SetTypeMode(int TypeMode);
+
 	QStandardItemModel	*GetModel();
 	IconTracksDelegate	*GetDelegate();
 
@@ -74,6 +77,8 @@ private:
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;
+
+	int						m_TypeMode;
 
 	Ui::IconTracks *ui;
 };
