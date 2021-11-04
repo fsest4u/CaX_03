@@ -81,8 +81,7 @@ PlaylistWindow::~PlaylistWindow()
 void PlaylistWindow::AddWidgetItem()
 {
 	m_pInfoService->SetSubtitle(STR_PLAYLIST);
-	m_pIconTracks->SetTypeMode(TYPE_MODE_ITEM);
-	m_pListTracks->SetTypeMode(TYPE_MODE_ITEM);
+	m_TypeMode = TYPE_MODE_ITEM;
 
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	if (m_ListMode == VIEW_MODE_ICON)
@@ -99,8 +98,7 @@ void PlaylistWindow::AddWidgetItem()
 
 void PlaylistWindow::AddWidgetTrack()
 {
-	m_pIconTracks->SetTypeMode(TYPE_MODE_TRACK);
-	m_pListTracks->SetTypeMode(TYPE_MODE_TRACK);
+	m_TypeMode = TYPE_MODE_TRACK;
 
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	if (m_ListMode == VIEW_MODE_ICON)
@@ -455,34 +453,24 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 
 void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 {
-	int typeMode = TYPE_MODE_MAX;
-	if (m_ListMode == VIEW_MODE_ICON)
-	{
-		typeMode = m_pIconTracks->GetTypeMode();
-	}
-	else
-	{
-		typeMode = m_pListTracks->GetTypeMode();
-	}
-
 	switch (menuID) {
 	case OPTION_MENU_PLAY_NOW:
-		DoOptionMenuPlay(typeMode, nID, PLAY_NOW);
+		DoOptionMenuPlay(nID, PLAY_NOW);
 		break;
 	case OPTION_MENU_PLAY_LAST:
-		DoOptionMenuPlay(typeMode, nID, PLAY_LAST);
+		DoOptionMenuPlay(nID, PLAY_LAST);
 		break;
 	case OPTION_MENU_PLAY_NEXT:
-		DoOptionMenuPlay(typeMode, nID, PLAY_NEXT);
+		DoOptionMenuPlay(nID, PLAY_NEXT);
 		break;
 	case OPTION_MENU_PLAY_CLEAR:
-		DoOptionMenuPlay(typeMode, nID, PLAY_CLEAR);
+		DoOptionMenuPlay(nID, PLAY_CLEAR);
 		break;
 	case OPTION_MENU_RENAME_ITEM:
-		DoOptionMenuRename(typeMode, nID);
+		DoOptionMenuRename(nID);
 		break;
 	case OPTION_MENU_DELETE_ITEM:
-		DoOptionMenuDelete(typeMode, nID);
+		DoOptionMenuDelete(nID);
 		break;
 	}
 }
@@ -696,18 +684,8 @@ void PlaylistWindow::DoTopMenuItemDelete()
 void PlaylistWindow::SetOptionMenu()
 {
 
-	int typeMode = TYPE_MODE_MAX;
-	if (m_ListMode == VIEW_MODE_ICON)
-	{
-		typeMode = m_pIconTracks->GetTypeMode();
-	}
-	else
-	{
-		typeMode = m_pListTracks->GetTypeMode();
-	}
-
 	m_OptionMenuMap.clear();
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -716,7 +694,7 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
 		m_OptionMenuMap.insert(OPTION_MENU_DELETE_ITEM, STR_DELETE_ITEM);
 	}
-	else if (typeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -728,23 +706,23 @@ void PlaylistWindow::SetOptionMenu()
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }
 
-void PlaylistWindow::DoOptionMenuPlay(int typeMode, int nID, int where)
+void PlaylistWindow::DoOptionMenuPlay(int nID, int where)
 {
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
 		m_pMgr->RequestPlayPlaylist(map, where);
 	}
-	else if (typeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		SlotSelectPlay(nID, where);
 	}
 }
 
-void PlaylistWindow::DoOptionMenuRename(int typeMode, int nID)
+void PlaylistWindow::DoOptionMenuRename(int nID)
 {
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		InputNameDialog dialog;
 		if (dialog.exec() == QDialog::Accepted)
@@ -756,15 +734,15 @@ void PlaylistWindow::DoOptionMenuRename(int typeMode, int nID)
 			RequestPlaylist();
 		}
 	}
-	else if (typeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		LogDebug("invalid type");
 	}
 }
 
-void PlaylistWindow::DoOptionMenuDelete(int typeMode, int nID)
+void PlaylistWindow::DoOptionMenuDelete(int nID)
 {
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
@@ -773,7 +751,7 @@ void PlaylistWindow::DoOptionMenuDelete(int typeMode, int nID)
 		// refresh
 		RequestPlaylist();
 	}
-	else if (typeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);

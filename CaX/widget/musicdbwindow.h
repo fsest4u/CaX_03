@@ -134,12 +134,12 @@ private:
 
 	void SetOptionMenu();
 
-	void DoOptionMenuPlay(int typeMode, int nID, int where);
-	void DoOptionMenuAddToPlaylist(int typeMode, int nID);
-	void DoOptionMenuInfo(int typeMode, int nID);
-	void DoOptionMenuSearchCoverArt(int typeMode, int nID);
-	void DoOptionMenuRename(int typeMode, int nID);
-	void DoOptionMenuGain(int typeMode, int nID, QString gainType);
+	void DoOptionMenuPlay(int nID, int where);
+	void DoOptionMenuAddToPlaylist(int nID);
+	void DoOptionMenuInfo(int nID);
+	void DoOptionMenuSearchCoverArt(int nID);
+	void DoOptionMenuRename(int nID);
+	void DoOptionMenuGain(int nID, QString gainType);
 
 
 	void SetCoverArt(QString coverArt);
@@ -167,6 +167,7 @@ private:
 	QMap<int, bool>		m_SelectMap;
 
 	int					m_ListMode;
+	int					m_TypeMode;
 
 	int					m_EventID;
 

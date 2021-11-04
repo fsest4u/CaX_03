@@ -84,9 +84,9 @@ private:
 
 	void SetOptionMenu();
 
-	void DoOptionMenuPlay(int typeMode, int nID, int where);
-	void DoOptionMenuRename(int typeMode, int nID);
-	void DoOptionMenuDelete(int typeMode, int nID);
+	void DoOptionMenuPlay(int nID, int where);
+	void DoOptionMenuRename(int nID);
+	void DoOptionMenuDelete(int nID);
 
 	PlaylistManager		*m_pMgr;
 	InfoService			*m_pInfoService;
@@ -99,6 +99,7 @@ private:
 	QMap<int, bool>		m_SelectMap;
 
 	int					m_ListMode;
+	int					m_TypeMode;
 
 	int					m_ID;
 

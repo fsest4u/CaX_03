@@ -211,16 +211,6 @@ void ListTracks::SetResize(int resize)
 	m_pLoading->Stop();
 }
 
-int ListTracks::GetTypeMode() const
-{
-	return m_TypeMode;
-}
-
-void ListTracks::SetTypeMode(int TypeMode)
-{
-	m_TypeMode = TypeMode;
-}
-
 QStandardItemModel *ListTracks::GetModel()
 {
 	return m_Model;

@@ -113,8 +113,7 @@ MusicDBWindow::~MusicDBWindow()
 void MusicDBWindow::AddWidgetItem()
 {
 	AddSortMusicDBHome();
-	m_pIconTracks->SetTypeMode(TYPE_MODE_ITEM);
-	m_pListTracks->SetTypeMode(TYPE_MODE_ITEM);
+	m_TypeMode = TYPE_MODE_ITEM;
 
 	ui->gridLayoutTop->addWidget(m_pInfoHome);
 	if (m_ListMode == VIEW_MODE_ICON)
@@ -132,8 +131,7 @@ void MusicDBWindow::AddWidgetItem()
 void MusicDBWindow::AddWidgetTrack()
 {
 	AddSortCategoryHome();
-	m_pIconTracks->SetTypeMode(TYPE_MODE_TRACK);
-	m_pListTracks->SetTypeMode(TYPE_MODE_TRACK);
+	m_TypeMode = TYPE_MODE_TRACK;
 
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	if (m_ListMode == VIEW_MODE_ICON)
@@ -864,47 +862,37 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 {
-	int typeMode = TYPE_MODE_MAX;
-	if (m_ListMode == VIEW_MODE_ICON)
-	{
-		typeMode = m_pIconTracks->GetTypeMode();
-	}
-	else
-	{
-		typeMode = m_pListTracks->GetTypeMode();
-	}
-
 	switch (menuID) {
 	case OPTION_MENU_PLAY_NOW:
-		DoOptionMenuPlay(typeMode, nID, PLAY_NOW);
+		DoOptionMenuPlay(nID, PLAY_NOW);
 		break;
 	case OPTION_MENU_PLAY_LAST:
-		DoOptionMenuPlay(typeMode, nID, PLAY_LAST);
+		DoOptionMenuPlay(nID, PLAY_LAST);
 		break;
 	case OPTION_MENU_PLAY_NEXT:
-		DoOptionMenuPlay(typeMode, nID, PLAY_NEXT);
+		DoOptionMenuPlay(nID, PLAY_NEXT);
 		break;
 	case OPTION_MENU_PLAY_CLEAR:
-		DoOptionMenuPlay(typeMode, nID, PLAY_CLEAR);
+		DoOptionMenuPlay(nID, PLAY_CLEAR);
 		break;
 	case OPTION_MENU_ADD_TO_PLAYLIST:
-		DoOptionMenuAddToPlaylist(typeMode, nID);
+		DoOptionMenuAddToPlaylist(nID);
 		break;
 	case OPTION_MENU_ALBUM_INFO:
 	case OPTION_MENU_TRACK_INFO:
-		DoOptionMenuInfo(typeMode, nID);
+		DoOptionMenuInfo(nID);
 		break;
 	case OPTION_MENU_SEARCH_COVERART:
-		DoOptionMenuSearchCoverArt(typeMode, nID);
+		DoOptionMenuSearchCoverArt(nID);
 		break;
 	case OPTION_MENU_RENAME_ITEM:
-		DoOptionMenuRename(typeMode, nID);
+		DoOptionMenuRename(nID);
 		break;
 	case OPTION_MENU_GAIN_SET:
-		DoOptionMenuGain(typeMode, nID, VAL_GAIN_SET);
+		DoOptionMenuGain(nID, VAL_GAIN_SET);
 		break;
 	case OPTION_MENU_GAIN_CLEAR:
-		DoOptionMenuGain(typeMode, nID, VAL_GAIN_CLEAR);
+		DoOptionMenuGain(nID, VAL_GAIN_CLEAR);
 		break;
 	}
 }
@@ -1201,18 +1189,8 @@ void MusicDBWindow::DoItemTopMenuAddToPlaylist()
 
 void MusicDBWindow::SetOptionMenu()
 {
-	int typeMode = TYPE_MODE_MAX;
-	if (m_ListMode == VIEW_MODE_ICON)
-	{
-		typeMode = m_pIconTracks->GetTypeMode();
-	}
-	else
-	{
-		typeMode = m_pListTracks->GetTypeMode();
-	}
-
 	m_OptionMenuMap.clear();
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1225,7 +1203,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 	}
-	else if (typeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1243,54 +1221,54 @@ void MusicDBWindow::SetOptionMenu()
 
 }
 
-void MusicDBWindow::DoOptionMenuPlay(int typeMode, int nID, int where)
+void MusicDBWindow::DoOptionMenuPlay(int nID, int where)
 {
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		SlotSelectPlay(nID, where);
 	}
-	else if (typeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		SlotSelectTrackPlay(nID, where);
 	}
 }
 
-void MusicDBWindow::DoOptionMenuAddToPlaylist(int typeMode, int nID)
+void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 {
 	// todo-dylee
 
 }
 
-void MusicDBWindow::DoOptionMenuInfo(int typeMode, int nID)
+void MusicDBWindow::DoOptionMenuInfo(int nID)
 {
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_pMgr->RequestCategoryInfo(nID);
 	}
-	else
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_pMgr->RequestTrackInfo(nID);
 	}
 }
 
-void MusicDBWindow::DoOptionMenuSearchCoverArt(int typeMode, int nID)
+void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 {
 	// todo-dylee
 
 }
 
-void MusicDBWindow::DoOptionMenuRename(int typeMode, int nID)
+void MusicDBWindow::DoOptionMenuRename(int nID)
 {
 	InputNameDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		QString name = dialog.GetName();
-		if (typeMode == TYPE_MODE_ITEM)
+		if (m_TypeMode == TYPE_MODE_ITEM)
 		{
 			m_pMgr->RequestRenameCategory(nID, name, m_nCategory, m_EventID);
 			RequestCategoryList();
 		}
-		else
+		else if (m_TypeMode == TYPE_MODE_TRACK)
 		{
 			m_pMgr->RequestRenameTrack(nID, name, m_EventID);
 			RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
@@ -1299,9 +1277,9 @@ void MusicDBWindow::DoOptionMenuRename(int typeMode, int nID)
 
 }
 
-void MusicDBWindow::DoOptionMenuGain(int typeMode, int nID, QString gainType)
+void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 {
-	if (typeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
@@ -1311,7 +1289,7 @@ void MusicDBWindow::DoOptionMenuGain(int typeMode, int nID, QString gainType)
 									  m_nCategory,
 									  m_EventID);
 	}
-	else if (typeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
