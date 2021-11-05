@@ -193,18 +193,6 @@ void IconService::ClearNodeList()
 	ui->gridLayout->removeWidget(m_ListView);
 }
 
-QListView::ViewMode IconService::GetViewMode()
-{
-	return m_ListView->viewMode();
-}
-
-void IconService::SetViewMode(QListView::ViewMode mode)
-{
-	m_ListView->setViewMode(mode);
-	m_Delegate->SetViewMode(mode);
-
-}
-
 void IconService::ClearSelectMap()
 {
 	m_pLoading->Start();
@@ -299,7 +287,7 @@ void IconService::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
-	SetViewMode(QListView::IconMode);
+	m_ListView->setViewMode(QListView::IconMode);
 
 	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 }

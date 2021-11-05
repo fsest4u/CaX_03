@@ -22,8 +22,6 @@ public:
 		LIST_SERVICE_MAX
 	};
 
-	QListView::ViewMode GetViewMode() const;
-	void SetViewMode(const QListView::ViewMode &ViewMode);
 
 signals:
 
@@ -45,7 +43,6 @@ private:
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QListView::ViewMode m_ViewMode;
 
 };
 

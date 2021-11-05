@@ -200,17 +200,6 @@ void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptio
 	widget->setGeometry(rect);
 }
 
-QListView::ViewMode ListTracksDelegate::GetViewMode() const
-{
-	return m_ViewMode;
-}
-
-void ListTracksDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
-{
-	m_ViewMode = ViewMode;
-}
-
-
 QMap<int, QString> ListTracksDelegate::GetOptionMenuMap() const
 {
 	return m_OptionMenuMap;

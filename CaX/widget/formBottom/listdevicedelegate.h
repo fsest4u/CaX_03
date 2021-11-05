@@ -18,9 +18,6 @@ public:
 		LIST_DEVICE_MAX
 	};
 
-	QListView::ViewMode GetViewMode() const;
-	void SetViewMode(const QListView::ViewMode &ViewMode);
-
 signals:
 
 	void SigSelectDevice(QString mac);
@@ -41,7 +38,6 @@ private:
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QListView::ViewMode m_ViewMode;
 
 };
 

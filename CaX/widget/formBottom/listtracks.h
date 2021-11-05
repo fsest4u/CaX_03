@@ -33,8 +33,6 @@ public:
 	void SetNodeList(QList<CJsonNode> list, int type);
 	void ClearNodeList();
 
-	QListView::ViewMode GetViewMode();
-	void SetViewMode(QListView::ViewMode mode);
 
 	void ClearSelectMap();
 	void SetAllSelectMap();

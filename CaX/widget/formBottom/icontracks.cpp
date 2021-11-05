@@ -136,18 +136,6 @@ void IconTracks::ClearNodeList()
 	ui->gridLayout->removeWidget(m_ListView);
 }
 
-QListView::ViewMode IconTracks::GetViewMode()
-{
-	return m_ListView->viewMode();
-}
-
-void IconTracks::SetViewMode(QListView::ViewMode mode)
-{
-	m_ListView->setViewMode(mode);
-	m_Delegate->SetViewMode(mode);
-
-}
-
 void IconTracks::ClearSelectMap()
 {
 	m_pLoading->Start();
@@ -294,7 +282,7 @@ void IconTracks::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 //	m_ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	SetViewMode(QListView::IconMode);
+	m_ListView->setViewMode(QListView::IconMode);
 	SetResize(ICON_HEIGHT_MAX);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();

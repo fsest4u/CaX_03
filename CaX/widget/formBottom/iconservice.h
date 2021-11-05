@@ -38,9 +38,6 @@ public:
 	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = ICON_SERVICE_BROWSER);
 	void ClearNodeList();
 
-	QListView::ViewMode GetViewMode();
-	void SetViewMode(QListView::ViewMode mode);
-
 	void ClearSelectMap();
 	void SetAllSelectMap();
 

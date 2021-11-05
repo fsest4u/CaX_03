@@ -98,6 +98,7 @@
 #define STR_RENAME_ITEM				TR("Rename")
 #define STR_DELETE_ITEM				TR("Delete")
 #define STR_EXPORT_TRACK			TR("Export track")
+#define STR_ADD_TRACK				TR("Add track")
 // browser
 #define STR_OPTION_PLAY_SUBDIR		TR("Play subdirectories - %1")
 #define STR_CONVERT_FORMAT    		TR("Conver Audio Format")

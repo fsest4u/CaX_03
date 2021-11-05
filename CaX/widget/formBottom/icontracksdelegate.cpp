@@ -76,8 +76,11 @@ void IconTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_TRACKS_TITLE)));
 	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_TRACKS_SUBTITLE)));
 	widget->GetFormCoverArt()->SetCount(qvariant_cast<int>(index.data(ICON_TRACKS_COUNT)));
-	widget->GetFormCoverArt()->SetFavorite(qvariant_cast<int>(index.data(ICON_TRACKS_FAVORITE)));
-	widget->GetFormCoverArt()->SetRating(qvariant_cast<int>(index.data(ICON_TRACKS_RATING)));
+	if (m_TypeMode == TYPE_MODE_ITEM)
+	{
+		widget->GetFormCoverArt()->SetFavorite(qvariant_cast<int>(index.data(ICON_TRACKS_FAVORITE)));
+		widget->GetFormCoverArt()->SetRating(qvariant_cast<int>(index.data(ICON_TRACKS_RATING)));
+	}
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_TRACKS_SELECT)));
 	widget->blockSignals(false);
 }
@@ -107,16 +110,15 @@ void IconTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptio
 	widget->setGeometry(rect);
 }
 
-QListView::ViewMode IconTracksDelegate::GetViewMode() const
+int IconTracksDelegate::GetTypeMode() const
 {
-    return m_ViewMode;
+	return m_TypeMode;
 }
 
-void IconTracksDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
+void IconTracksDelegate::SetTypeMode(int TypeMode)
 {
-	m_ViewMode = ViewMode;
+	m_TypeMode = TypeMode;
 }
-
 
 int IconTracksDelegate::GetResize() const
 {

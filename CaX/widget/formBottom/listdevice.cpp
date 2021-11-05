@@ -47,17 +47,6 @@ ListDevice::~ListDevice()
 	}
 }
 
-QListView::ViewMode ListDevice::GetViewMode() const
-{
-	return m_ListView->viewMode();
-}
-
-void ListDevice::SetViewMode(QListView::ViewMode mode)
-{
-	m_ListView->setViewMode(mode);
-//	m_Delegate->SetViewMode(mode);
-}
-
 QStandardItemModel *ListDevice::GetModel() const
 {
 	return m_Model;
@@ -119,7 +108,7 @@ void ListDevice::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	SetViewMode(QListView::ListMode);
+	m_ListView->setViewMode(QListView::ListMode);
 
 
 }

@@ -9,16 +9,6 @@ ListDeviceDelegate::ListDeviceDelegate()
 
 }
 
-QListView::ViewMode ListDeviceDelegate::GetViewMode() const
-{
-	return m_ViewMode;
-}
-
-void ListDeviceDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
-{
-	m_ViewMode = ViewMode;
-}
-
 void ListDeviceDelegate::SlotClickDevice(QString mac)
 {
 	emit SigSelectDevice(mac);

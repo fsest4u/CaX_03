@@ -39,9 +39,6 @@ public:
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = LIST_SERVICE_AUDIO_CD);
 
-	QListView::ViewMode GetViewMode();
-	void SetViewMode(QListView::ViewMode mode);
-
 	void ClearSelectMap();
 	void SetAllSelectMap();
 

@@ -26,9 +26,6 @@ public:
 		LIST_TRACKS_MAX
 	};
 
-	QListView::ViewMode GetViewMode() const;
-	void SetViewMode(const QListView::ViewMode &ViewMode);
-
 	QMap<int, QString> GetOptionMenuMap() const;
 	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
 
@@ -64,7 +61,6 @@ private:
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QListView::ViewMode m_ViewMode;	
 	QMap<int, QString> m_OptionMenuMap;
 
 	int					m_Resize;

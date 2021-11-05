@@ -11,7 +11,6 @@
 #include "manager/musicdbmanager.h"
 #include "manager/sqlmanager.h"
 
-#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
@@ -34,7 +33,7 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
-	m_EventID(-1),
+	m_EventID(eventID),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
 	m_nID(-1),
 	m_nSortCategory(SQLManager::SORT_NAME),
@@ -56,7 +55,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	ui->setupUi(this);
 
 	m_pMgr->SetAddr(addr);
-	m_EventID = eventID;
 
 	ConnectSigToSlot();
 	Initialize();
@@ -110,10 +108,10 @@ MusicDBWindow::~MusicDBWindow()
 //	}
 }
 
-void MusicDBWindow::AddWidgetItem()
+void MusicDBWindow::AddWidgetItem(int typeMode)
 {
 	AddSortMusicDBHome();
-	m_TypeMode = TYPE_MODE_ITEM;
+	m_TypeMode = typeMode;
 
 	ui->gridLayoutTop->addWidget(m_pInfoHome);
 	if (m_ListMode == VIEW_MODE_ICON)
@@ -128,16 +126,17 @@ void MusicDBWindow::AddWidgetItem()
 	}
 }
 
-void MusicDBWindow::AddWidgetTrack()
+void MusicDBWindow::AddWidgetTrack(int typeMode)
 {
 	AddSortCategoryHome();
-	m_TypeMode = TYPE_MODE_TRACK;
+	m_TypeMode = typeMode;
 
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+		m_pIconTracks->GetDelegate()->SetTypeMode(m_TypeMode);
 	}
 	else
 	{
@@ -454,7 +453,7 @@ void MusicDBWindow::SlotResize(int resize)
 void MusicDBWindow::SlotGenreList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem();
+	widget->AddWidgetItem(m_TypeMode);
 	emit SigAddWidget(widget, STR_GENRE);
 
 	widget->SetCategory(SQLManager::CATEGORY_GENRE);
@@ -464,7 +463,7 @@ void MusicDBWindow::SlotGenreList()
 void MusicDBWindow::SlotAlbumList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem();
+	widget->AddWidgetItem(m_TypeMode);
 	emit SigAddWidget(widget, STR_ALBUM);
 
 	widget->SetCategory(SQLManager::CATEGORY_ALBUM);
@@ -474,7 +473,7 @@ void MusicDBWindow::SlotAlbumList()
 void MusicDBWindow::SlotArtistList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem();
+	widget->AddWidgetItem(m_TypeMode);
 	emit SigAddWidget(widget, STR_ARTIST);
 
 	widget->SetCategory(SQLManager::CATEGORY_ARTIST);
@@ -484,7 +483,7 @@ void MusicDBWindow::SlotArtistList()
 void MusicDBWindow::SlotTrackList()
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem();
+	widget->AddWidgetItem(m_TypeMode);
 	emit SigAddWidget(widget, STR_TRACK);
 
 	widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
@@ -507,7 +506,7 @@ void MusicDBWindow::SlotCategoryMenu()
 void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem();
+	widget->AddWidgetItem(m_TypeMode);
 	emit SigAddWidget(widget, title);
 
 	widget->SetCategory(nCategory);
@@ -645,12 +644,16 @@ void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
-	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetTrack();
-	emit SigAddWidget(widget, STR_MUSIC_DB);
+	if (m_TypeMode == TYPE_MODE_ITEM)
+	{
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->AddWidgetTrack();
+		emit SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(nID, m_nCategory);
-	widget->SetCoverArt(coverArt);
+		widget->RequestTrackList(nID, m_nCategory);
+		widget->SetCoverArt(coverArt);
+	}
+
 }
 
 void MusicDBWindow::SlotSelectPlay(int nID, int playType)

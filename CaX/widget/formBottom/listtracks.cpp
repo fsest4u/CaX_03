@@ -126,17 +126,6 @@ void ListTracks::ClearNodeList()
 	ui->gridLayout->removeWidget(m_ListView);
 }
 
-QListView::ViewMode ListTracks::GetViewMode()
-{
-	return m_ListView->viewMode();
-}
-
-void ListTracks::SetViewMode(QListView::ViewMode mode)
-{
-	m_ListView->setViewMode(mode);
-	m_Delegate->SetViewMode(mode);
-}
-
 void ListTracks::ClearSelectMap()
 {
 	m_pLoading->Start();
@@ -275,7 +264,7 @@ void ListTracks::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	SetViewMode(QListView::ListMode);
+	m_ListView->setViewMode(QListView::ListMode);
 	SetResize(LIST_HEIGHT_MIN);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();

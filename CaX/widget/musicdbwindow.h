@@ -6,6 +6,7 @@
 
 #include "manager/sqlmanager.h"
 
+#include "util/caxconstants.h"
 #include "util/CJsonNode.h"
 
 class MusicDBManager;
@@ -26,8 +27,8 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~MusicDBWindow();
 
-	void AddWidgetItem();
-	void AddWidgetTrack();
+	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM);
+	void AddWidgetTrack(int typeMode = TYPE_MODE_TRACK);
 
 	void RequestCategoryList();
 	void RequestTrackList(int nID,
@@ -37,6 +38,8 @@ public:
 
 	int GetCategory() const;
 	void SetCategory(int nCategory);
+
+	void SetCoverArt(QString coverArt);
 
 signals:
 
@@ -140,9 +143,6 @@ private:
 	void DoOptionMenuSearchCoverArt(int nID);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
-
-
-	void SetCoverArt(QString coverArt);
 
 	void AddSortMusicDBHome();
 	void AddSortCategoryHome();

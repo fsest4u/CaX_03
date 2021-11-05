@@ -115,13 +115,3 @@ void IconServiceDelegate::SetServiceType(int nService)
 {
 	m_nServiceType = nService;
 }
-
-QListView::ViewMode IconServiceDelegate::GetViewMode() const
-{
-	return m_ViewMode;
-}
-
-void IconServiceDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
-{
-	m_ViewMode = ViewMode;
-}

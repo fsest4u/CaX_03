@@ -142,17 +142,6 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 }
 
-QListView::ViewMode ListService::GetViewMode()
-{
-	return m_ListView->viewMode();
-}
-
-void ListService::SetViewMode(QListView::ViewMode mode)
-{
-	m_ListView->setViewMode(mode);
-	m_Delegate->SetViewMode(mode);
-}
-
 void ListService::ClearSelectMap()
 {
 	m_pLoading->Start();
@@ -247,7 +236,7 @@ void ListService::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	SetViewMode(QListView::ListMode);
+	m_ListView->setViewMode(QListView::ListMode);
 
 	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 }

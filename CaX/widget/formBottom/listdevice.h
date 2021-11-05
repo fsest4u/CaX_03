@@ -22,9 +22,6 @@ public:
 	explicit ListDevice(QWidget *parent = nullptr);
 	~ListDevice();
 
-	QListView::ViewMode GetViewMode() const;
-	void SetViewMode(QListView::ViewMode mode);
-
 	QStandardItemModel *GetModel() const;
 	void SetModel(QStandardItemModel *Model);
 

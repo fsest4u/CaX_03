@@ -11,16 +11,6 @@ ListServiceDelegate::ListServiceDelegate()
 
 }
 
-QListView::ViewMode ListServiceDelegate::GetViewMode() const
-{
-	return m_ViewMode;
-}
-
-void ListServiceDelegate::SetViewMode(const QListView::ViewMode &ViewMode)
-{
-	m_ViewMode = ViewMode;
-}
-
 void ListServiceDelegate::SlotClickCoverArt(QString rawData)
 {
 	emit SigSelectCoverArt(rawData);
