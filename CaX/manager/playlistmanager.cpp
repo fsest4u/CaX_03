@@ -137,10 +137,72 @@ void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
 
 }
 
-void PlaylistManager::RequestAddTrack()
+void PlaylistManager::RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idMap, int category)
 {
+//	{
+//	  "CatOrder": {
+//		"Cat": "Album",
+//		"Order": 0
+//	  },
+//	  "PlsID": 6,
+//	  "SongOrder": 0,
+//	  "Cmd0": "Playlist",
+//	  "Cmd2": "All",
+//	  "Cmd1": "Add",
+//	  "Filters": [
+//		{
+//		  "Cat": "Album",
+//		  "ID": 1
+//		}
+//	  ]
+//	}
+	QString strCat = m_pSql->GetCategoryName(category);
 
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		idArr.AppendArray((int64_t)i.key());
+	}
+
+	CJsonNode orderInfo(JSON_OBJECT);
+	orderInfo.Add(KEY_CATEGORY, strCat);
+	orderInfo.AddInt(KEY_ORDER, 0);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAYLIST);
+	node.Add(KEY_CMD1, VAL_ADD);
+	node.Add(KEY_CMD2, VAL_ALL);
+	node.AddInt(KEY_PLS_ID, id);
+	node.AddInt(KEY_SONG_ORDER, 0);
+	node.Add(KEY_CAT_ORDER, orderInfo);
+	node.Add(KEY_CATEGORY, strCat);
+	node.Add(KEY_IDS, idArr);
+
+	RequestCommand(node, PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST);
 }
+
+void PlaylistManager::RequestAddTrackFromPlaylist(int id, QMap<int, bool> idMap)
+{
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,					VAL_PLAYLIST);
+	node.Add	(KEY_CMD1,					VAL_ADD);
+	node.Add	(KEY_CMD2,					VAL_SONG);
+	node.AddInt(KEY_PLS_ID, id);
+	node.AddInt(KEY_SONG_ORDER, 0);
+	node.Add(KEY_IDS, idArr);
+
+	RequestCommand(node, PLAYLIST_ADD_TRACK_FROM_PLAYLIST);
+}
+
 
 void PlaylistManager::RequestDelTrack(int id, QMap<int, bool> idMap)
 {
@@ -203,6 +265,8 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 			|| cmdID == PLAYLIST_ADD_PLAYLIST
 			|| cmdID == PLAYLIST_RENAME_PLAYLIST
 			|| cmdID == PLAYLIST_DELETE_PLAYLIST
+			|| cmdID == PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST
+			|| cmdID == PLAYLIST_ADD_TRACK_FROM_PLAYLIST
 			)
 	{
 		return;
@@ -254,8 +318,6 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 	}
 		break;
 	case PLAYLIST_PLAY_TRACK:
-		break;
-	case PLAYLIST_ADD_TRACK:
 		break;
 	case PLAYLIST_DEL_TRACK:
 		break;

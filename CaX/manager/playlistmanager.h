@@ -20,7 +20,8 @@ public:
 	void RequestAddPlaylist(QString name);
 	void RequestRenamePlaylist(int id, QString name);
 	void RequestDeletePlaylist(QMap<int, bool> idMap);
-	void RequestAddTrack();
+	void RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idMap, int category);
+	void RequestAddTrackFromPlaylist(int id, QMap<int, bool> idMap);
 	void RequestDelTrack(int id, QMap<int, bool> idMap);
 	void RequestRandom();
 
@@ -50,8 +51,9 @@ private:
 		PLAYLIST_ADD_PLAYLIST,
 		PLAYLIST_RENAME_PLAYLIST,
 		PLAYLIST_DELETE_PLAYLIST,
-		PLAYLIST_ADD_TRACK,
 		PLAYLIST_DEL_TRACK,
+		PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST,
+		PLAYLIST_ADD_TRACK_FROM_PLAYLIST,
 		PLAYLIST_RANDOM,
 		PLAYLIST_MAX
 	};

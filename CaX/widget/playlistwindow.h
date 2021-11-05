@@ -33,10 +33,12 @@ public:
 signals:
 
 	void SigAddWidget(QWidget *widget, QString title);
+	void SigRemoveWidget(QWidget *widget);
 
 private slots:
 
 	void SlotAddWidget(QWidget *widget, QString title);
+	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotRespError(QString message);
 	void SlotRespPlaylist(QList<CJsonNode> list);
@@ -62,6 +64,8 @@ private slots:
 //	void SlotItemResize(int resize);
 
 	void SlotOptionMenuAction(int nID, int menuID);
+	void SlotAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);
+	void SlotAddTrackFromPlaylist(QMap<int, bool> idMap);
 
 private:
 
@@ -87,6 +91,7 @@ private:
 	void DoOptionMenuPlay(int nID, int where);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuDelete(int nID);
+	void DoOptionMenuAddTrack(int nID);
 
 	PlaylistManager		*m_pMgr;
 	InfoService			*m_pInfoService;

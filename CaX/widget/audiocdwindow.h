@@ -33,7 +33,6 @@ signals:
 
 	void SigRemoveWidget(QWidget* widget);
 
-
 private slots:
 
 	void SlotRespTrackList(QList<CJsonNode> list);

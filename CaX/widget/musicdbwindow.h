@@ -45,10 +45,14 @@ signals:
 
 	//	void SigCategoryInfo(int nID, int nCategory);
 	void SigAddWidget(QWidget *widget, QString);
+	void SigRemoveWidget(QWidget* widget);
+	void SigAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);
+	void SigAddTrackFromPlaylist(QMap<int, bool> idMap);
 
 private slots:
 
 	void SlotAddWidget(QWidget *widget, QString);
+	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotRespError(QString errMsg);
 	void SlotRespMusicOverview(CJsonNode node);
@@ -127,6 +131,7 @@ private:
 	void DoTopMenuGainSet();
 	void DoTopMenuGainClear();
 	void DoTopMenuAddToPlaylist();
+	void DoTopMenuAddFromPlaylist();
 
 	void DoItemTopMenuPlay(int nWhere);
 	void DoItemTopMenuSelectAll();
@@ -134,6 +139,7 @@ private:
 	void DoItemTopMenuGainSet();
 	void DoItemTopMenuGainClear();
 	void DoItemTopMenuAddToPlaylist();
+	void DoItemTopMenuAddFromPlaylist();
 
 	void SetOptionMenu();
 
@@ -143,6 +149,7 @@ private:
 	void DoOptionMenuSearchCoverArt(int nID);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
+	void DoOptionMenuAddFromPlaylist(int nID);
 
 	void AddSortMusicDBHome();
 	void AddSortCategoryHome();

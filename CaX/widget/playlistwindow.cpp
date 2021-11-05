@@ -15,13 +15,13 @@
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
-
 #include "widget/formTop/infoservice.h"
 #include "widget/formTop/infotracks.h"
 #include "widget/formBottom/icontracks.h"
 #include "widget/formBottom/icontracksdelegate.h"
 #include "widget/formBottom/listtracks.h"
 #include "widget/formBottom/listtracksdelegate.h"
+#include "widget/musicdbwindow.h"
 
 PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
@@ -135,6 +135,11 @@ void PlaylistWindow::SlotAddWidget(QWidget *widget, QString title)
 	emit SigAddWidget(widget, title);		// recursive
 }
 
+void PlaylistWindow::SlotRemoveWidget(QWidget *widget)
+{
+	emit SigRemoveWidget(widget);
+}
+
 void PlaylistWindow::SlotRespError(QString message)
 {
 	QMessageBox::warning(this, "Warning", message);
@@ -217,7 +222,7 @@ void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 	widget->AddWidgetTrack();
-	emit SigAddWidget(widget, STR_PLAYLIST);
+	emit widget->SigAddWidget(widget, STR_PLAYLIST);
 
 	widget->RequestPlaylistInfo(id, coverArt);
 	widget->RequestTrackList(id);
@@ -472,12 +477,41 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 	case OPTION_MENU_DELETE_ITEM:
 		DoOptionMenuDelete(nID);
 		break;
+	case OPTION_MENU_ADD_TRACK:
+		DoOptionMenuAddTrack(nID);
+		break;
 	}
 }
+
+void PlaylistWindow::SlotAddCategoryFromPlaylist(int category, QMap<int, bool> idMap)
+{
+	LogDebug("playlist id [%d] cat [%d] id [%d]", m_ID, category);
+	// add category
+	m_pMgr->RequestAddCategoryFromPlaylist(m_ID, idMap, category);
+	// refresh
+	if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		m_pMgr->RequestTrackList(m_ID);
+	}
+}
+
+void PlaylistWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
+{
+	LogDebug("playlist id [%d] track [%d]", m_ID);
+	// add track
+	m_pMgr->RequestAddTrackFromPlaylist(m_ID, idMap);
+	// refresh
+	if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		m_pMgr->RequestTrackList(m_ID);
+	}
+}
+
 
 void PlaylistWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
+	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 
@@ -683,7 +717,6 @@ void PlaylistWindow::DoTopMenuItemDelete()
 
 void PlaylistWindow::SetOptionMenu()
 {
-
 	m_OptionMenuMap.clear();
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
@@ -693,6 +726,7 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
 		m_OptionMenuMap.insert(OPTION_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_TRACK, STR_ADD_TRACK);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
@@ -759,5 +793,22 @@ void PlaylistWindow::DoOptionMenuDelete(int nID)
 
 		//refresh
 		RequestTrackList(m_ID);
+	}
+}
+
+void PlaylistWindow::DoOptionMenuAddTrack(int nID)
+{
+	m_ID = nID;
+	if (m_TypeMode == TYPE_MODE_ITEM)
+	{
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
+		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
+		emit widget->SigAddWidget(widget, STR_TRACK);
+
+		widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
+		widget->SetCoverArt("");
+
+		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
+		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
 	}
 }
