@@ -75,12 +75,12 @@ AudioCDWindow::~AudioCDWindow()
 void AudioCDWindow::AddWidgetAudioCDHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-	if (m_ListMode == VIEW_MODE_ICON)
-	{
-		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
-		ui->gridLayoutBottom->addWidget(m_pIconTracks);
-	}
-	else
+//	if (m_ListMode == VIEW_MODE_ICON)
+//	{
+//		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+//		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+//	}
+//	else
 	{
 		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 		ui->gridLayoutBottom->addWidget(m_pListTracks);
@@ -201,6 +201,27 @@ void AudioCDWindow::SlotSelectPlay(int id, int playType)
 	RequestTrackPlay(id);
 }
 
+void AudioCDWindow::SlotPlayAll()
+{
+//	if (m_ListMode == VIEW_MODE_ICON)
+//	{
+//		m_pIconTracks->SetAllSelectMap();
+//		m_SelectMap = m_pIconTracks->GetSelectMap();
+//	}
+//	else
+//	{
+//		m_pListTracks->SetAllSelectMap();
+//		m_SelectMap = m_pListTracks->GetSelectMap();
+//	}
+
+	m_pMgr->RequestTrackPlay();
+}
+
+void AudioCDWindow::SlotPlayRandom()
+{
+	m_pMgr->RequestRandom();
+}
+
 void AudioCDWindow::SlotTopMenu()
 {
 	if (m_ListMode == VIEW_MODE_ICON)
@@ -300,6 +321,8 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCDRipInfo(CJsonNode)), this, SLOT(SlotRespCDRipInfo(CJsonNode)));
 
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
@@ -314,6 +337,9 @@ void AudioCDWindow::ConnectSigToSlot()
 
 void AudioCDWindow::Initialize()
 {
+
+	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
+	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
 //	m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
@@ -321,7 +347,7 @@ void AudioCDWindow::Initialize()
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
 
-	m_ListMode = VIEW_MODE_ICON;
+	m_ListMode = VIEW_MODE_LIST;
 
 }
 
@@ -330,7 +356,7 @@ void AudioCDWindow::SetSelectOffTopMenu()
 	m_TopMenuMap.clear();
 
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-//	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 	m_TopMenuMap.insert(TOP_MENU_EJECT_CD, STR_EJECT_CD);
 
 	m_pInfoTracks->GetFormPlay()->ClearMenu();
@@ -342,7 +368,7 @@ void AudioCDWindow::SetSelectOnTopMenu()
 	m_TopMenuMap.clear();
 
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-//	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
+	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 
 	m_pInfoTracks->GetFormPlay()->ClearMenu();
 	m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);

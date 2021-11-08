@@ -44,6 +44,8 @@ private slots:
 	void SlotCalcTotalTime(int time);
 	void SlotSelectPlay(int id, int playType);
 
+	void SlotPlayAll();
+	void SlotPlayRandom();
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 	void SlotResize(int resize);

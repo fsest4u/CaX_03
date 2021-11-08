@@ -68,6 +68,15 @@ void AudioCDManager::RequestCDRip(CJsonNode node)
 	RequestCommand(node, AUDIO_CD_RIP);
 }
 
+void AudioCDManager::RequestRandom()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_REMOTE);
+	node.Add(KEY_KEY, VAL_SHUFFLE);
+
+	RequestCommand(node, AUDIO_CD_RANDOM);
+}
+
 
 
 void AudioCDManager::SlotRespInfo(QString json, int cmdID)
@@ -92,6 +101,11 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 		}
 
 		emit SigRespError(message.left((MSG_LIMIT_COUNT)));
+		return;
+	}
+
+	if (cmdID == AUDIO_CD_RANDOM)
+	{
 		return;
 	}
 

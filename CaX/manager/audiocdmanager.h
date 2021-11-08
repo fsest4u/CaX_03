@@ -10,11 +10,12 @@ public:
 	AudioCDManager();
 
 	void RequestTrackList(int index = -1);
-	void RequestTrackInfo(int index = 0);
-	void RequestTrackPlay(int index = 0);
+	void RequestTrackInfo(int index = 1);
+	void RequestTrackPlay(int index = 1);
 	void RequestEject();
 	void RequestCDRipInfo(int index, QList<int> list);
 	void RequestCDRip(CJsonNode node);
+	void RequestRandom();
 
 
 
@@ -38,6 +39,7 @@ private:
 		AUDIO_CD_EJECT,
 		AUDIO_CD_RIP_INFO,
 		AUDIO_CD_RIP,
+		AUDIO_CD_RANDOM,
 		AUDIO_CD_MAX
 	};
 
