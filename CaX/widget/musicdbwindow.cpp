@@ -568,34 +568,34 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 {
 	switch (menuID) {
 	case TOP_MENU_PLAY_NOW:
-		DoItemTopMenuPlay(PLAY_NOW);
+		DoTopMenuItemPlay(PLAY_NOW);
 		break;
 	case TOP_MENU_PLAY_LAST:
-		DoItemTopMenuPlay(PLAY_LAST);
+		DoTopMenuItemPlay(PLAY_LAST);
 		break;
 	case TOP_MENU_PLAY_NEXT:
-		DoItemTopMenuPlay(PLAY_NEXT);
+		DoTopMenuItemPlay(PLAY_NEXT);
 		break;
 	case TOP_MENU_PLAY_CLEAR:
-		DoItemTopMenuPlay(PLAY_CLEAR);
+		DoTopMenuItemPlay(PLAY_CLEAR);
 		break;
 	case TOP_MENU_SELECT_ALL:
-		DoItemTopMenuSelectAll();
+		DoTopMenuItemSelectAll();
 		break;
 	case TOP_MENU_CLEAR_ALL:
-		DoItemTopMenuClearAll();
+		DoTopMenuItemClearAll();
 		break;
 	case TOP_MENU_GAIN_SET:
-		DoItemTopMenuGainSet();
+		DoTopMenuItemGainSet();
 		break;
 	case TOP_MENU_GAIN_CLEAR:
-		DoItemTopMenuGainClear();
+		DoTopMenuItemGainClear();
 		break;
 	case TOP_MENU_ADD_TO_PLAYLIST:
-		DoItemTopMenuAddToPlaylist();
+		DoTopMenuItemAddToPlaylist();
 		break;
 	case TOP_MENU_ADD_FROM_PLAYLIST:
-		DoItemTopMenuAddFromPlaylist();
+		DoTopMenuItemAddFromPlaylist();
 		break;
 
 	}
@@ -910,7 +910,10 @@ void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 	case OPTION_MENU_PLAY_CLEAR:
 		DoOptionMenuPlay(nID, PLAY_CLEAR);
 		break;
-	case OPTION_MENU_ADD_TO_PLAYLIST:
+	case OPTION_MENU_ADD_CATEGORY_TO_PLAYLIST:
+		DoOptionMenuAddToPlaylist(nID);
+		break;
+	case OPTION_MENU_ADD_TRACK_TO_PLAYLIST:
 		DoOptionMenuAddToPlaylist(nID);
 		break;
 	case OPTION_MENU_ADD_FROM_PLAYLIST:
@@ -1195,7 +1198,7 @@ void MusicDBWindow::DoTopMenuAddFromPlaylist()
 	LogDebug("add category of music db from playlist");
 }
 
-void MusicDBWindow::DoItemTopMenuPlay(int nWhere)
+void MusicDBWindow::DoTopMenuItemPlay(int nWhere)
 {
 	if (m_SelectMap.count() > 0)
 	{
@@ -1216,7 +1219,7 @@ void MusicDBWindow::DoItemTopMenuPlay(int nWhere)
 
 }
 
-void MusicDBWindow::DoItemTopMenuSelectAll()
+void MusicDBWindow::DoTopMenuItemSelectAll()
 {
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
@@ -1228,7 +1231,7 @@ void MusicDBWindow::DoItemTopMenuSelectAll()
 	}
 }
 
-void MusicDBWindow::DoItemTopMenuClearAll()
+void MusicDBWindow::DoTopMenuItemClearAll()
 {
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
@@ -1240,7 +1243,7 @@ void MusicDBWindow::DoItemTopMenuClearAll()
 	}
 }
 
-void MusicDBWindow::DoItemTopMenuGainSet()
+void MusicDBWindow::DoTopMenuItemGainSet()
 {
 	if (m_SelectMap.count() > 0)
 	{
@@ -1262,7 +1265,7 @@ void MusicDBWindow::DoItemTopMenuGainSet()
 	}
 }
 
-void MusicDBWindow::DoItemTopMenuGainClear()
+void MusicDBWindow::DoTopMenuItemGainClear()
 {
 	if (m_SelectMap.count() > 0)
 	{
@@ -1284,12 +1287,12 @@ void MusicDBWindow::DoItemTopMenuGainClear()
 	}
 }
 
-void MusicDBWindow::DoItemTopMenuAddToPlaylist()
+void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 {
 	LogDebug("add track of music db to playlist");
 }
 
-void MusicDBWindow::DoItemTopMenuAddFromPlaylist()
+void MusicDBWindow::DoTopMenuItemAddFromPlaylist()
 {
 	LogDebug("add track of music db from playlist");
 }
@@ -1303,7 +1306,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_CATEGORY_TO_PLAYLIST, STR_ADD_CATEGORY_TO_PLAYLIST);
 		m_OptionMenuMap.insert(OPTION_MENU_ALBUM_INFO, STR_ALBUM_INFO);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
@@ -1316,7 +1319,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_TRACK_TO_PLAYLIST, STR_ADD_TRACK_TO_PLAYLIST);
 		m_OptionMenuMap.insert(OPTION_MENU_TRACK_INFO, STR_TRACK_INFO);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME_ITEM, STR_RENAME_ITEM);
@@ -1350,8 +1353,12 @@ void MusicDBWindow::DoOptionMenuPlay(int nID, int where)
 
 void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 {
-	// todo-dylee
-
+	if (m_TypeMode == TYPE_MODE_ITEM)
+	{
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+	}
 }
 
 void MusicDBWindow::DoOptionMenuInfo(int nID)

@@ -326,7 +326,7 @@ QIcon FormPlay::GetIcon(QString value)
 	{
 		return QIcon(":/resource/audiocd-popup-icon16-eject@3x.png");
 	}
-	else if (value.contains(STR_NEW_PLAYLIST))
+	else if (value.contains(STR_ADD_PLAYLIST))
 	{
 		return QIcon(":/resource/playlist-icon16-newplaylist@3x.png");
 	}
@@ -334,7 +334,8 @@ QIcon FormPlay::GetIcon(QString value)
 	{
 		return QIcon(":/resource/play-popup-icon16-nameedit@3x.png");
 	}
-	else if (value.contains(STR_ADD_TO_PLAYLIST))
+	else if (value.contains(STR_ADD_CATEGORY_TO_PLAYLIST)
+			 || value.contains(STR_ADD_TRACK_TO_PLAYLIST))
 	{
 		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
 	}

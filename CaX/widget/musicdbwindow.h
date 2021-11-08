@@ -133,13 +133,13 @@ private:
 	void DoTopMenuAddToPlaylist();
 	void DoTopMenuAddFromPlaylist();
 
-	void DoItemTopMenuPlay(int nWhere);
-	void DoItemTopMenuSelectAll();
-	void DoItemTopMenuClearAll();
-	void DoItemTopMenuGainSet();
-	void DoItemTopMenuGainClear();
-	void DoItemTopMenuAddToPlaylist();
-	void DoItemTopMenuAddFromPlaylist();
+	void DoTopMenuItemPlay(int nWhere);
+	void DoTopMenuItemSelectAll();
+	void DoTopMenuItemClearAll();
+	void DoTopMenuItemGainSet();
+	void DoTopMenuItemGainClear();
+	void DoTopMenuItemAddToPlaylist();
+	void DoTopMenuItemAddFromPlaylist();
 
 	void SetOptionMenu();
 

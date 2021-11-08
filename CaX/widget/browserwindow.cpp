@@ -338,11 +338,11 @@ void BrowserWindow::SetSelectOnTopMenu(int type)
 
 	if (iFolderType_Mask_Root & type)
 	{
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 	}
 	else if (iFolderType_Mask_Dir & type)
 	{
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -358,7 +358,7 @@ void BrowserWindow::SetSelectOnTopMenu(int type)
 	}
 	else
 	{
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);

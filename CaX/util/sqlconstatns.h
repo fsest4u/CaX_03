@@ -431,9 +431,9 @@ ORDER BY cnt DESC LIMIT 0, 20\
 select	\
 	Pls.ROWID as id	\
 	, Pls.Name as title	\
-	, count(Pls.rowid) as count	\
+	, count(Pls.ROWID) as count	\
 from PlsSong	\
-inner join Pls	\
+inner join Pls on Pls.ROWID = PlsSong.PlsID	\
 where Pls.IsDel = 0	\
 group by Pls.ROWID	\
 order by Pls.Name	\
@@ -452,7 +452,7 @@ from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join PlsSong on Song.ROWID = PlsSong.SongID	\
-inner join Pls	\
+inner join Pls on Pls.ROWID = PlsSong.PlsID	\
 where PlsSong.PlsID = %1	\
 "
 

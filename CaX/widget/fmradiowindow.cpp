@@ -206,7 +206,7 @@ void FMRadioWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
+	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 	m_TopMenuMap.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
