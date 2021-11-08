@@ -334,17 +334,16 @@ void PlaylistWindow::SlotResize(int resize)
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
 			LogDebug("icon~~~~~~~~");
-			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
 			m_pListTracks->hide();
 			m_pIconTracks->show();
-
+			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
 		}
 		else
 		{
 			LogDebug("list~~~~~~~~");
-			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
 			m_pIconTracks->hide();
 			m_pListTracks->show();
+			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
 		}
 	}
 

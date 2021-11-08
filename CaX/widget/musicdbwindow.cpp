@@ -150,9 +150,6 @@ void MusicDBWindow::AddWidgetTrack(int typeMode)
 
 void MusicDBWindow::RequestCategoryList()
 {
-	m_pIconTracks->ClearNodeList();
-	m_pListTracks->ClearNodeList();
-
 	m_pInfoHome->SetTitle(m_nCategory);
 	m_pMgr->RequestMusicDBOverView();
 	m_pMgr->RequestCategoryList(m_nCategory,
@@ -250,6 +247,9 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
+	m_pIconTracks->ClearNodeList();
+	m_pListTracks->ClearNodeList();
+
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
 	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_MUSIC_DB);
 
@@ -302,17 +302,16 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	if (QListView::IconMode == mode)
 	{
-		QStandardItem *item = m_pIconTracks->GetModel()->item(nIndex);
-		item->setData(fileName, IconTracksDelegate::ICON_TRACKS_COVER);
-		m_pIconTracks->GetModel()->setItem(nIndex, item);
+		QStandardItem *itemIcon = m_pIconTracks->GetModel()->item(nIndex);
+		itemIcon->setData(fileName, IconTracksDelegate::ICON_TRACKS_COVER);
+		m_pIconTracks->GetModel()->setItem(nIndex, itemIcon);
 	}
 	else
 	{
-		QStandardItem *item = m_pListTracks->GetModel()->item(nIndex);
-		item->setData(fileName, ListTracksDelegate::LIST_TRACKS_COVER);
-		m_pListTracks->GetModel()->setItem(nIndex, item);
+		QStandardItem *itemList = m_pListTracks->GetModel()->item(nIndex);
+		itemList->setData(fileName, ListTracksDelegate::LIST_TRACKS_COVER);
+		m_pListTracks->GetModel()->setItem(nIndex, itemList);
 	}
-
 }
 
 void MusicDBWindow::SlotPlayAll()
@@ -437,17 +436,16 @@ void MusicDBWindow::SlotResize(int resize)
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
 			LogDebug("icon~~~~~~~~");
-			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
 			m_pListTracks->hide();
 			m_pIconTracks->show();
-
+			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
 		}
 		else
 		{
 			LogDebug("list~~~~~~~~");
-			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
 			m_pIconTracks->hide();
 			m_pListTracks->show();
+			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
 		}
 	}
 
@@ -581,20 +579,25 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 	case TOP_MENU_PLAY_CLEAR:
 		DoItemTopMenuPlay(PLAY_CLEAR);
 		break;
-	case TOP_MENU_RELOAD:
-		break;
-	case TOP_MENU_LOAD_COUNT:
-		break;
 	case TOP_MENU_SELECT_ALL:
+		DoItemTopMenuSelectAll();
 		break;
 	case TOP_MENU_CLEAR_ALL:
+		DoItemTopMenuClearAll();
 		break;
 	case TOP_MENU_GAIN_SET:
+		DoItemTopMenuGainSet();
 		break;
 	case TOP_MENU_GAIN_CLEAR:
+		DoItemTopMenuGainClear();
 		break;
 	case TOP_MENU_ADD_TO_PLAYLIST:
+		DoItemTopMenuAddToPlaylist();
 		break;
+	case TOP_MENU_ADD_FROM_PLAYLIST:
+		DoItemTopMenuAddFromPlaylist();
+		break;
+
 	}
 
 }
@@ -663,6 +666,7 @@ void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
+	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
@@ -704,7 +708,7 @@ void MusicDBWindow::SlotSelectRating(int nID, int nRating)
 void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 {
 	QString strCat;
-	if (QListView::IconMode == mode)
+	if (m_TypeMode == TYPE_MODE_ITEM || m_TypeMode == TYPE_MODE_ADD_ITEM)
 	{
 		strCat = m_pMgr->GetSqlMgr()->GetCategoryName(m_nCategory);
 	}
@@ -995,6 +999,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
@@ -1178,6 +1183,7 @@ void MusicDBWindow::DoTopMenuGainClear()
 
 void MusicDBWindow::DoTopMenuAddToPlaylist()
 {
+	LogDebug("add category of music db to playlist");
 	m_pMgr->RequestManageCategory(VAL_ADD,
 								  m_SelectMap,
 								  PLAY_NONE,
@@ -1186,7 +1192,7 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 
 void MusicDBWindow::DoTopMenuAddFromPlaylist()
 {
-	LogDebug("good doing");
+	LogDebug("add category of music db from playlist");
 }
 
 void MusicDBWindow::DoItemTopMenuPlay(int nWhere)
@@ -1212,14 +1218,26 @@ void MusicDBWindow::DoItemTopMenuPlay(int nWhere)
 
 void MusicDBWindow::DoItemTopMenuSelectAll()
 {
-	m_pListTracks->SetAllSelectMap();
-
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->SetAllSelectMap();
+	}
+	else
+	{
+		m_pListTracks->SetAllSelectMap();
+	}
 }
 
 void MusicDBWindow::DoItemTopMenuClearAll()
 {
-	m_pListTracks->ClearSelectMap();
-
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->ClearSelectMap();
+	}
+	else
+	{
+		m_pListTracks->ClearSelectMap();
+	}
 }
 
 void MusicDBWindow::DoItemTopMenuGainSet()
@@ -1268,12 +1286,12 @@ void MusicDBWindow::DoItemTopMenuGainClear()
 
 void MusicDBWindow::DoItemTopMenuAddToPlaylist()
 {
-
+	LogDebug("add track of music db to playlist");
 }
 
 void MusicDBWindow::DoItemTopMenuAddFromPlaylist()
 {
-
+	LogDebug("add track of music db from playlist");
 }
 
 void MusicDBWindow::SetOptionMenu()
