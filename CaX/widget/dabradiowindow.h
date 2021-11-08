@@ -49,7 +49,7 @@ private:
 	void DoTopMenuSearchAll(bool bDelete);
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
-	void DoTopMenuDeleteItem();
+	void DoTopMenuDelete();
 	void DoTopMenuReservedRecordList();
 
 	void SetHome(QList<CJsonNode> &list);

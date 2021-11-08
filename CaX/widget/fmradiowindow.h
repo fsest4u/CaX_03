@@ -44,14 +44,15 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
 
 	void DoTopMenuSearchAll(bool bDelete);
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
-	void DoTopMenuAddItem();
-	void DoTopMenuDeleteItem();
+	void DoTopMenuAdd();
+	void DoTopMenuDelete();
 	void DoTopMenuReservedRecordList();
 
 	void SetHome(QList<CJsonNode> &list);

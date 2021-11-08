@@ -37,12 +37,8 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+	Initialize();
 
-	m_pInfoService->GetFormPlay()->ShowMenu();
-//	m_pInfoService->GetFormSort()->ShowResize();
-
-	m_TopMenuMap.clear();
-	m_SelectMap.clear();
 }
 
 FMRadioWindow::~FMRadioWindow()
@@ -100,6 +96,9 @@ void FMRadioWindow::SlotTopMenu()
 void FMRadioWindow::SlotTopMenuAction(int menuID)
 {
 	switch (menuID) {
+	case TOP_MENU_SEARCH_ALL_N_DELETE:
+		DoTopMenuSearchAll(true);
+		break;
 	case TOP_MENU_SEARCH_ALL:
 		DoTopMenuSearchAll(false);
 		break;
@@ -109,11 +108,11 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
-	case TOP_MENU_ADD_ITEM:
-		DoTopMenuAddItem();
+	case TOP_MENU_ADD_RADIO:
+		DoTopMenuAdd();
 		break;
-	case TOP_MENU_DELETE_ITEM:
-		DoTopMenuDeleteItem();
+	case TOP_MENU_DELETE_RADIO:
+		DoTopMenuDelete();
 		break;
 	case TOP_MENU_RESERVED_RECORD_LIST:
 		DoTopMenuReservedRecordList();
@@ -188,15 +187,25 @@ void FMRadioWindow::ConnectSigToSlot()
 
 }
 
+void FMRadioWindow::Initialize()
+{
+
+	m_pInfoService->GetFormPlay()->ShowMenu();
+//	m_pInfoService->GetFormSort()->ShowResize();
+
+	m_TopMenuMap.clear();
+	m_SelectMap.clear();
+}
+
 void FMRadioWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-//	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL_N_DELETE, STR_SEARCH_ALL_N_DELETE);
+	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL_N_DELETE, STR_SEARCH_ALL_N_DELETE);
 	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL, STR_SEARCH_ALL);
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-	m_TopMenuMap.insert(TOP_MENU_ADD_ITEM, STR_ADD_ITEM);
-	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
+	m_TopMenuMap.insert(TOP_MENU_ADD_RADIO, STR_ADD_RADIO);
+//	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -207,7 +216,7 @@ void FMRadioWindow::SetSelectOnTopMenu()
 	m_TopMenuMap.clear();
 
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-	m_TopMenuMap.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+	m_TopMenuMap.insert(TOP_MENU_DELETE_RADIO, STR_DELETE_RADIO);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -228,7 +237,7 @@ void FMRadioWindow::DoTopMenuClearAll()
 	m_pIconService->ClearSelectMap();
 }
 
-void FMRadioWindow::DoTopMenuAddItem()
+void FMRadioWindow::DoTopMenuAdd()
 {
 	AddRadioDialog dialog;
 	dialog.SetName(STR_MY_RADIO);
@@ -241,15 +250,18 @@ void FMRadioWindow::DoTopMenuAddItem()
 		m_pMgr->RequestAdd(freq, name);
 
 		//refresh
-//		RequestList();
+		RequestList();
 	}
 }
 
-void FMRadioWindow::DoTopMenuDeleteItem()
+void FMRadioWindow::DoTopMenuDelete()
 {
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestDelete(m_SelectMap);
+
+		//refresh
+		RequestList();
 	}
 }
 

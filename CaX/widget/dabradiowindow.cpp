@@ -96,6 +96,9 @@ void DABRadioWindow::SlotTopMenu()
 void DABRadioWindow::SlotTopMenuAction(int menuID)
 {
 	switch (menuID) {
+	case TOP_MENU_SEARCH_ALL_N_DELETE:
+		DoTopMenuSearchAll(true);
+		break;
 	case TOP_MENU_SEARCH_ALL:
 		DoTopMenuSearchAll(false);
 		break;
@@ -105,8 +108,8 @@ void DABRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
-	case TOP_MENU_DELETE_ITEM:
-		DoTopMenuDeleteItem();
+	case TOP_MENU_DELETE_RADIO:
+		DoTopMenuDelete();
 		break;
 	case TOP_MENU_RESERVED_RECORD_LIST:
 		DoTopMenuReservedRecordList();
@@ -167,10 +170,10 @@ void DABRadioWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-//	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL_N_DELETE, STR_SEARCH_ALL_N_DELETE);
+	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL_N_DELETE, STR_SEARCH_ALL_N_DELETE);
 	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL, STR_SEARCH_ALL);
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
+//	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -181,7 +184,7 @@ void DABRadioWindow::SetSelectOnTopMenu()
 	m_TopMenuMap.clear();
 
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-	m_TopMenuMap.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
+	m_TopMenuMap.insert(TOP_MENU_DELETE_RADIO, STR_DELETE_RADIO);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -202,11 +205,14 @@ void DABRadioWindow::DoTopMenuClearAll()
 	m_pIconService->ClearSelectMap();
 }
 
-void DABRadioWindow::DoTopMenuDeleteItem()
+void DABRadioWindow::DoTopMenuDelete()
 {
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestDelete(m_SelectMap);
+
+		//refresh
+		RequestList();
 	}
 }
 
