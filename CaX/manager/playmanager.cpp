@@ -34,12 +34,12 @@ void PlayManager::RequestPlayState(int mode)
 
 void PlayManager::RequestSeek(int msec)
 {
-	int pos = msec / 1000;
-	CJsonNode node(JSON_OBJECT);
-	node.Add	(KEY_CMD0,		VAL_PLAY);
-	node.Add	(KEY_CMD1,		VAL_SET_POSITION);
-	node.AddInt	(KEY_POSITION,	pos);
-	RequestCommand(node, PLAY_SEEK);
+//	int pos = msec / 1000;
+//	CJsonNode node(JSON_OBJECT);
+//	node.Add	(KEY_CMD0,		VAL_PLAY);
+//	node.Add	(KEY_CMD1,		VAL_SET_POSITION);
+//	node.AddInt	(KEY_POSITION,	pos);
+//	RequestCommand(node, PLAY_SEEK);
 }
 
 void PlayManager::RequestVolume(int value)
