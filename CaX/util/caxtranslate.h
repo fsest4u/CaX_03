@@ -99,6 +99,8 @@
 #define STR_DELETE_ITEM				TR("Delete")
 #define STR_EXPORT_TRACK			TR("Export track")
 #define STR_ADD_TRACK				TR("Add track")
+#define STR_ADD_CATEGORY_TO_PLAYLIST	TR("Add category to playlist")
+#define STR_ADD_TRACK_TO_PLAYLIST	TR("Add track to playlist")
 // browser
 #define STR_OPTION_PLAY_SUBDIR		TR("Play subdirectories - %1")
 #define STR_CONVERT_FORMAT    		TR("Conver Audio Format")

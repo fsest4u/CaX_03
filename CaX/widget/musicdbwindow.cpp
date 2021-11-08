@@ -547,7 +547,15 @@ void MusicDBWindow::SlotItemPlayRandom()
 
 void MusicDBWindow::SlotItemTopMenu()
 {
-	m_SelectMap = m_pListTracks->GetSelectMap();
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_SelectMap = m_pIconTracks->GetSelectMap();
+	}
+	else
+	{
+		m_SelectMap = m_pListTracks->GetSelectMap();
+	}
+
 	if (m_SelectMap.count() > 0)
 	{
 		SetSelectOnTopMenu();
@@ -1026,12 +1034,7 @@ void MusicDBWindow::Initialize()
 void MusicDBWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
-	if (m_TypeMode == TYPE_MODE_ADD_ITEM || m_TypeMode == TYPE_MODE_ADD_TRACK)
-	{
-		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-		m_TopMenuMap.insert(TOP_MENU_ADD_FROM_PLAYLIST, STR_ADD_TRACK);
-	}
-	else
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1040,6 +1043,24 @@ void MusicDBWindow::SetSelectOffTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
 		m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+	}
+	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	{
+		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_ADD_FROM_PLAYLIST, STR_ADD_CATEGORY_TO_PLAYLIST);
+	}
+	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	{
+		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_ADD_FROM_PLAYLIST, STR_ADD_TRACK_TO_PLAYLIST);
 	}
 
 	m_pInfoHome->GetFormPlay()->ClearMenu();
@@ -1052,21 +1073,37 @@ void MusicDBWindow::SetSelectOffTopMenu()
 void MusicDBWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
-	if (m_TypeMode == TYPE_MODE_ADD_ITEM || m_TypeMode == TYPE_MODE_ADD_TRACK)
-	{
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
-		m_TopMenuMap.insert(TOP_MENU_ADD_FROM_PLAYLIST, STR_ADD_TRACK);
-	}
-	else
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_SELECT_ALL);
-	//	m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);	// todo-dylee
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
+		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_CATEGORY_TO_PLAYLIST);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
+		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TRACK_TO_PLAYLIST);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+	}
+	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	{
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
+		m_TopMenuMap.insert(TOP_MENU_ADD_FROM_PLAYLIST, STR_ADD_CATEGORY_TO_PLAYLIST);
+	}
+	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	{
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
+		m_TopMenuMap.insert(TOP_MENU_ADD_FROM_PLAYLIST, STR_ADD_TRACK_TO_PLAYLIST);
 	}
 
 	m_pInfoHome->GetFormPlay()->ClearMenu();
@@ -1268,9 +1305,13 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM || m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
 	{
-		m_OptionMenuMap.insert(OPTION_MENU_ADD_FROM_PLAYLIST, STR_ADD_TRACK);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_FROM_PLAYLIST, STR_ADD_CATEGORY_TO_PLAYLIST);
+	}
+	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	{
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_FROM_PLAYLIST, STR_ADD_TRACK_TO_PLAYLIST);
 	}
 
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
