@@ -49,6 +49,7 @@ signals:
 	void SigAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);
 	void SigAddTrackFromPlaylist(QMap<int, bool> idMap);
 
+
 private slots:
 
 	void SlotAddWidget(QWidget *widget, QString);
@@ -115,6 +116,9 @@ private slots:
 
 	void SlotOptionMenuAction(int nID, int menuID);
 
+	void SlotTopMenuAddToPlaylist(int id);
+	void SlotOptionMenuAddToPlaylist(int id);
+
 private:
 
 	void ConnectSigToSlot();
@@ -178,7 +182,6 @@ private:
 	int					m_EventID;
 
 	int					m_nCategory;
-	int					m_nID;
 	int					m_nSortCategory;
 	int					m_nSortTrack;
 	bool				m_bIncreaseCategory;
@@ -194,6 +197,10 @@ private:
 	int					m_LimitCount;
 	int					m_TotalPage;
 	int					m_CurPage;
+
+	int					m_nID;
+	int					m_nOptionID;
+
 
 	Ui::MusicDBWindow *ui;
 };

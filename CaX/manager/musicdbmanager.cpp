@@ -438,6 +438,41 @@ void MusicDBManager::RequestRenameTrack(int id, QString name, int eventID)
 	RequestCommand(node, MUSICDB_RENAME_TRACK);
 }
 
+void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category)
+{
+	QString strCat = m_pSql->GetCategoryName(category);
+
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		idArr.AppendArray((int64_t)i.key());
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAYLIST);
+	node.Add(KEY_CMD1, VAL_ADD);
+	node.AddInt(KEY_PLS_ID, id);
+	node.AddInt(KEY_SONG_ORDER, 0);
+	if (category >= 0)
+	{
+		CJsonNode orderInfo(JSON_OBJECT);
+		orderInfo.Add(KEY_CATEGORY, strCat);
+		orderInfo.AddInt(KEY_ORDER, 0);
+		node.Add(KEY_CAT_ORDER, orderInfo);
+
+		node.Add(KEY_CMD2, VAL_CATEGORY);
+		node.Add(KEY_CATEGORY, strCat);
+	}
+	else
+	{
+		node.Add(KEY_CMD2, VAL_SONG);
+	}
+	node.Add(KEY_IDS, idArr);
+
+	RequestCommand(node, MUSICDB_ADD_TO_PLAYLIST);
+}
+
 void MusicDBManager::RequestRandom()
 {
 	CJsonNode node(JSON_OBJECT);

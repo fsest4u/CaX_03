@@ -16,11 +16,11 @@ public:
 	explicit FormPlay(QWidget *parent = nullptr);
 	~FormPlay();
 
-	void ShowPlayAll();
-	void ShowPlayRandom();
-	void ShowFavorite();
-	void ShowRating();
-	void ShowMenu();
+	void ShowPlayAll(bool show = true);
+	void ShowPlayRandom(bool show = true);
+	void ShowFavorite(bool show = true);
+	void ShowRating(bool show = true);
+	void ShowMenu(bool show = true);
 
 	int GetFavorite() const;
 	void SetFavorite(int Favorite);

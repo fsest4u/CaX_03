@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+#include "util/caxconstants.h"
 #include "util/CJsonNode.h"
 
 class PlaylistManager;
@@ -23,7 +24,7 @@ public:
 	explicit PlaylistWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~PlaylistWindow();
 
-	void AddWidgetItem();
+	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM);
 	void AddWidgetTrack();
 
 	void RequestPlaylist();
@@ -34,6 +35,7 @@ signals:
 
 	void SigAddWidget(QWidget *widget, QString title);
 	void SigRemoveWidget(QWidget *widget);
+	void SigAddToPlaylist(int id);
 
 private slots:
 
@@ -71,14 +73,15 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
-	void SetSelectOffTopMenu(bool root = false);
-	void SetSelectOnTopMenu(bool root = false);
+	void SetSelectOffTopMenu();
+	void SetSelectOnTopMenu();
 
 	void DoTopMenuPlay(int nWhere);
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
 	void DoTopMenuAdd();
 	void DoTopMenuDelete();
+	void DoTopMenuAddToPlaylist();
 
 	void DoTopMenuItemPlay(int nWhere);
 	void DoTopMenuItemSelectAll();

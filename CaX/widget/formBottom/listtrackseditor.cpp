@@ -286,13 +286,9 @@ QIcon ListTracksEditor::GetIcon(QString value)
 	{
 		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
 	}
-	else if (value.contains(STR_ALBUM_INFO))
+	else if (value.contains(STR_INFO))
 	{
 		return QIcon(":/resource/browser-icon16-infoalbum@3x.png");
-	}
-	else if (value.contains(STR_TRACK_INFO))
-	{
-		return QIcon(":/resource/play-popup-icon16-songinfo@3x.png");
 	}
 	else if (value.contains(STR_SEARCH_COVERART))
 	{

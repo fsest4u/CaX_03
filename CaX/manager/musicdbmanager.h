@@ -38,6 +38,7 @@ public:
 		MUSICDB_TRACK_INFO,
 		MUSICDB_SET_TRACK_INFO,
 		MUSICDB_RENAME_TRACK,
+		MUSICDB_ADD_TO_PLAYLIST,
 		MUSICDB_RANDOM,
 		MUSICDB_MAX
 	};
@@ -85,6 +86,8 @@ public:
 	void RequestTrackInfo(int id);
 	void RequestSetTrackInfo(int id, int eventID);
 	void RequestRenameTrack(int id, QString name, int eventID);
+
+	void RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category);
 
 	void RequestRandom();
 

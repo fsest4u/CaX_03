@@ -306,7 +306,7 @@ void AudioCDWindow::SlotResize(int resize)
 void AudioCDWindow::SlotOptionMenuAction(int id, int menuID)
 {
 	switch (menuID) {
-	case OPTION_MENU_TRACK_INFO:
+	case OPTION_MENU_INFO:
 		RequestTrackInfo(id);
 		break;
 	}
@@ -426,7 +426,7 @@ void AudioCDWindow::DoTopMenuEjectCD()
 void AudioCDWindow::SetOptionMenu()
 {
 	m_OptionMenuMap.clear();
-	m_OptionMenuMap.insert(OPTION_MENU_TRACK_INFO, STR_TRACK_INFO);
+	m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_INFO);
 
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }

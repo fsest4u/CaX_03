@@ -90,8 +90,7 @@
 // music db
 #define STR_LOAD_COUNT				TR("Load count")
 #define STR_RENAME_ITEM				TR("Rename")
-#define STR_ALBUM_INFO				TR("Album info")
-#define STR_TRACK_INFO				TR("Track info")
+#define STR_INFO					TR("Info")
 
 // audio cd
 #define STR_CD_RIPPING				TR("CD ripping")

@@ -78,11 +78,11 @@ PlaylistWindow::~PlaylistWindow()
 
 }
 
-void PlaylistWindow::AddWidgetItem()
+void PlaylistWindow::AddWidgetItem(int typeMode)
 {
 	m_pInfoService->SetSubtitle(STR_PLAYLIST);
 	m_ListMode = VIEW_MODE_ICON;
-	m_TypeMode = TYPE_MODE_ITEM;
+	m_TypeMode = typeMode;
 
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	if (m_ListMode == VIEW_MODE_ICON)
@@ -95,6 +95,14 @@ void PlaylistWindow::AddWidgetItem()
 //		m_pInfoService->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 //		ui->gridLayoutBottom->addWidget(m_pListTracks);
 //	}
+
+	if (m_TypeMode == TYPE_MODE_ADD_ITEM
+		|| m_TypeMode == TYPE_MODE_ADD_TRACK)
+	{
+		m_pInfoService->GetFormPlay()->ShowPlayAll(false);
+		m_pInfoService->GetFormPlay()->ShowPlayRandom(false);
+		m_pInfoService->GetFormSort()->ShowResize(false);
+	}
 }
 
 void PlaylistWindow::AddWidgetTrack()
@@ -231,6 +239,12 @@ void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 		widget->RequestPlaylistInfo(id, coverArt);
 		widget->RequestTrackList(id);
 	}
+	else if (m_TypeMode == TYPE_MODE_ADD_ITEM
+			 || m_TypeMode == TYPE_MODE_ADD_TRACK)
+	{
+		emit SigAddToPlaylist(id);
+		emit SigRemoveWidget(this);
+	}
 }
 
 void PlaylistWindow::SlotSelectPlay(int id, int playType)
@@ -282,11 +296,11 @@ void PlaylistWindow::SlotTopMenu()
 
 	if (m_SelectMap.count() > 0)
 	{
-		SetSelectOnTopMenu(true);
+		SetSelectOnTopMenu();
 	}
 	else
 	{
-		SetSelectOffTopMenu(true);
+		SetSelectOffTopMenu();
 	}
 }
 
@@ -316,6 +330,9 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 		break;
 	case TOP_MENU_DELETE_PLAYLIST:
 		DoTopMenuDelete();
+		break;
+	case TOP_MENU_ADD_TO_PLAYLIST:
+		DoTopMenuAddToPlaylist();
 		break;
 	}
 
@@ -579,11 +596,11 @@ void PlaylistWindow::Initialize()
 
 }
 
-void PlaylistWindow::SetSelectOffTopMenu(bool root)
+void PlaylistWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (root)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 		m_TopMenuMap.insert(TOP_MENU_ADD_PLAYLIST, STR_ADD_PLAYLIST);
@@ -591,7 +608,7 @@ void PlaylistWindow::SetSelectOffTopMenu(bool root)
 		m_pInfoService->GetFormPlay()->ClearMenu();
 		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
 	}
-	else
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
@@ -602,11 +619,11 @@ void PlaylistWindow::SetSelectOffTopMenu(bool root)
 
 }
 
-void PlaylistWindow::SetSelectOnTopMenu(bool root)
+void PlaylistWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (root)
+	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -619,7 +636,7 @@ void PlaylistWindow::SetSelectOnTopMenu(bool root)
 		m_pInfoService->GetFormPlay()->ClearMenu();
 		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
 	}
-	else
+	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -631,7 +648,14 @@ void PlaylistWindow::SetSelectOnTopMenu(bool root)
 		m_pInfoTracks->GetFormPlay()->ClearMenu();
 		m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
 	}
+	else if (m_TypeMode == TYPE_MODE_ADD_ITEM
+			 || m_TypeMode == TYPE_MODE_ADD_TRACK)
+	{
+		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 
+		m_pInfoService->GetFormPlay()->ClearMenu();
+		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+	}
 }
 
 void PlaylistWindow::DoTopMenuPlay(int nWhere)
@@ -690,6 +714,36 @@ void PlaylistWindow::DoTopMenuDelete()
 	}
 }
 
+void PlaylistWindow::DoTopMenuAddToPlaylist()
+{
+	LogDebug("do add to playlist");
+	if (m_TypeMode == TYPE_MODE_ADD_ITEM
+		|| m_TypeMode == TYPE_MODE_ADD_TRACK)
+	{
+		if (m_SelectMap.count() <= 0)
+		{
+			LogDebug("no select");
+		}
+		else if (m_SelectMap.count() > 1)
+		{
+			LogDebug("too many select");
+		}
+		else if (m_SelectMap.count() == 1)
+		{
+			LogDebug("ok");
+			int id = 0;
+			QMap<int, bool>::iterator i;
+			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+			{
+				id = i.key();
+				break;
+			}
+			emit SigAddToPlaylist(id);
+			emit SigRemoveWidget(this);
+		}
+	}
+}
+
 void PlaylistWindow::DoTopMenuItemPlay(int nWhere)
 {
 	if (m_SelectMap.count() > 0)
@@ -726,6 +780,7 @@ void PlaylistWindow::DoTopMenuItemClearAll()
 void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 {
 	LogDebug("do item add to playlist");
+
 
 }
 

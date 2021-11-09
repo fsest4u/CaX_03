@@ -43,22 +43,40 @@ FormSort::~FormSort()
 	delete ui;
 }
 
-void FormSort::ShowMenu()
+void FormSort::ShowMenu(bool show)
 {
-	ui->btnMenu->show();
-
+	if (show)
+	{
+		ui->btnMenu->show();
+	}
+	else
+	{
+		ui->btnMenu->hide();
+	}
 }
 
-void FormSort::ShowIncDec()
+void FormSort::ShowIncDec(bool show)
 {
-	ui->labelIncDec->show();
-
+	if (show)
+	{
+		ui->labelIncDec->show();
+	}
+	else
+	{
+		ui->labelIncDec->hide();
+	}
 }
 
-void FormSort::ShowResize()
+void FormSort::ShowResize(bool show)
 {
-	ui->btnResize->show();
-
+	if (show)
+	{
+		ui->btnResize->show();
+	}
+	else
+	{
+		ui->btnResize->hide();
+	}
 }
 
 void FormSort::SetMenu(QMap<int, QString> list)

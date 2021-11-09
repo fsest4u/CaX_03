@@ -32,29 +32,64 @@ FormPlay::~FormPlay()
 	delete ui;
 }
 
-void FormPlay::ShowPlayAll()
+void FormPlay::ShowPlayAll(bool show)
 {
-	ui->labelPlayAll->show();
+	if (show)
+	{
+		ui->labelPlayAll->show();
+	}
+	else
+	{
+		ui->labelPlayAll->hide();
+	}
 }
 
-void FormPlay::ShowPlayRandom()
+void FormPlay::ShowPlayRandom(bool show)
 {
-	ui->labelPlayRandom->show();
+	if (show)
+	{
+		ui->labelPlayRandom->show();
+	}
+	else
+	{
+		ui->labelPlayRandom->hide();
+	}
 }
 
-void FormPlay::ShowFavorite()
+void FormPlay::ShowFavorite(bool show)
 {
-	ui->labelFavorite->show();
+	if (show)
+	{
+		ui->labelFavorite->show();
+	}
+	else
+	{
+		ui->labelFavorite->hide();
+	}
 }
 
-void FormPlay::ShowRating()
+void FormPlay::ShowRating(bool show)
 {
-	ui->frameRating->show();
+	if (show)
+	{
+		ui->frameRating->show();
+	}
+	else
+	{
+		ui->frameRating->hide();
+	}
 }
 
-void FormPlay::ShowMenu()
+void FormPlay::ShowMenu(bool show)
 {
-	ui->btnMenu->show();
+	if (show)
+	{
+		ui->btnMenu->show();
+	}
+	else
+	{
+		ui->btnMenu->hide();
+	}
 }
 
 int FormPlay::GetRating() const

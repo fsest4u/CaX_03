@@ -17,9 +17,9 @@ public:
 	explicit FormSort(QWidget *parent = nullptr);
 	~FormSort();
 
-	void ShowMenu();
-	void ShowIncDec();
-	void ShowResize();
+	void ShowMenu(bool show = true);
+	void ShowIncDec(bool show = true);
+	void ShowResize(bool show = true);
 
 	void SetMenu(QMap<int, QString> list);
 	void SetMenuTitle(QString title);
