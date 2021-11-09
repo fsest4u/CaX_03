@@ -119,6 +119,8 @@ private slots:
 	void SlotTopMenuAddToPlaylist(int id);
 	void SlotOptionMenuAddToPlaylist(int id);
 
+	void SlotAddTrackFromPlaylist(QMap<int, bool> idMap);
+
 private:
 
 	void ConnectSigToSlot();

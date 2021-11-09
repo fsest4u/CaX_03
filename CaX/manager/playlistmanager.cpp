@@ -139,23 +139,7 @@ void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
 
 void PlaylistManager::RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idMap, int category)
 {
-//	{
-//	  "CatOrder": {
-//		"Cat": "Album",
-//		"Order": 0
-//	  },
-//	  "PlsID": 6,
-//	  "SongOrder": 0,
-//	  "Cmd0": "Playlist",
-//	  "Cmd2": "All",
-//	  "Cmd1": "Add",
-//	  "Filters": [
-//		{
-//		  "Cat": "Album",
-//		  "ID": 1
-//		}
-//	  ]
-//	}
+
 	QString strCat = m_pSql->GetCategoryName(category);
 
 	CJsonNode idArr(JSON_ARRAY);
@@ -172,7 +156,7 @@ void PlaylistManager::RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idM
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_PLAYLIST);
 	node.Add(KEY_CMD1, VAL_ADD);
-	node.Add(KEY_CMD2, VAL_ALL);
+	node.Add(KEY_CMD2, VAL_CATEGORY);
 	node.AddInt(KEY_PLS_ID, id);
 	node.AddInt(KEY_SONG_ORDER, 0);
 	node.Add(KEY_CAT_ORDER, orderInfo);

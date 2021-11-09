@@ -96,8 +96,7 @@ void PlaylistWindow::AddWidgetItem(int typeMode)
 //		ui->gridLayoutBottom->addWidget(m_pListTracks);
 //	}
 
-	if (m_TypeMode == TYPE_MODE_ADD_ITEM
-		|| m_TypeMode == TYPE_MODE_ADD_TRACK)
+	if (m_TypeMode == TYPE_MODE_ADD_ITEM)
 	{
 		m_pInfoService->GetFormPlay()->ShowPlayAll(false);
 		m_pInfoService->GetFormPlay()->ShowPlayRandom(false);
@@ -239,8 +238,7 @@ void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 		widget->RequestPlaylistInfo(id, coverArt);
 		widget->RequestTrackList(id);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM
-			 || m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
 	{
 		emit SigAddToPlaylist(id);
 		emit SigRemoveWidget(this);
@@ -648,8 +646,7 @@ void PlaylistWindow::SetSelectOnTopMenu()
 		m_pInfoTracks->GetFormPlay()->ClearMenu();
 		m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM
-			 || m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 
@@ -716,21 +713,18 @@ void PlaylistWindow::DoTopMenuDelete()
 
 void PlaylistWindow::DoTopMenuAddToPlaylist()
 {
-	LogDebug("do add to playlist");
-	if (m_TypeMode == TYPE_MODE_ADD_ITEM
-		|| m_TypeMode == TYPE_MODE_ADD_TRACK)
+	if (m_TypeMode == TYPE_MODE_ADD_ITEM)
 	{
 		if (m_SelectMap.count() <= 0)
 		{
-			LogDebug("no select");
+			QMessageBox::warning(this, "Warning", tr("no select"));
 		}
 		else if (m_SelectMap.count() > 1)
 		{
-			LogDebug("too many select");
+			QMessageBox::warning(this, "Warning", tr("select only one"));
 		}
 		else if (m_SelectMap.count() == 1)
 		{
-			LogDebug("ok");
 			int id = 0;
 			QMap<int, bool>::iterator i;
 			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
@@ -741,6 +735,10 @@ void PlaylistWindow::DoTopMenuAddToPlaylist()
 			emit SigAddToPlaylist(id);
 			emit SigRemoveWidget(this);
 		}
+	}
+	else
+	{
+		LogDebug("bad choice");
 	}
 }
 
@@ -779,9 +777,17 @@ void PlaylistWindow::DoTopMenuItemClearAll()
 
 void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 {
-	LogDebug("do item add to playlist");
+	if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		LogDebug("good choice");
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
+		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
+		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+		widget->RequestCategoryList();
 
-
+		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
+		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
+	}
 }
 
 void PlaylistWindow::DoTopMenuItemDeleteToPlaylist()
@@ -883,10 +889,8 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
-		emit widget->SigAddWidget(widget, STR_TRACK);
-
-		widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
-		widget->SetCoverArt("");
+		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+		widget->RequestCategoryList();
 
 		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
 		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
