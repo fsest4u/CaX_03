@@ -334,12 +334,7 @@ QIcon FormPlay::GetIcon(QString value)
 	{
 		return QIcon(":/resource/play-popup-icon16-nameedit@3x.png");
 	}
-	else if (value.contains(STR_ADD_CATEGORY_TO_PLAYLIST)
-			 || value.contains(STR_ADD_TRACK_TO_PLAYLIST))
-	{
-		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
-	}
-	else if (value.contains(STR_ADD_ITEM))
+	else if (value.contains(STR_ADD_TO_PLAYLIST))
 	{
 		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
 	}

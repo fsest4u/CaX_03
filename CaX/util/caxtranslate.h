@@ -71,40 +71,39 @@
 
 
 //////////////////////////////////////////////////
-// top menu
+// menu
 //////////////////////////////////////////////////
 
-// music db
+// common
 #define STR_PLAY_NOW				TR("Play now")
 #define STR_PLAY_LAST				TR("Play last")
 #define STR_PLAY_NEXT				TR("Play next")
 #define STR_PLAY_CLEAR				TR("Play clear")
 #define STR_RELOAD					TR("Reload")
-#define STR_LOAD_COUNT				TR("Load count")
 #define STR_SELECT_ALL				TR("Select all")
 #define STR_CLEAR_ALL				TR("Clear all")
+#define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
+#define STR_SEARCH_COVERART   		TR("Search coverart")
 #define STR_GAIN_SET				TR("Gain set")
 #define STR_GAIN_CLEAR				TR("Gain clear")
+
+// music db
+#define STR_LOAD_COUNT				TR("Load count")
+#define STR_RENAME_ITEM				TR("Rename")
 #define STR_ALBUM_INFO				TR("Album info")
 #define STR_TRACK_INFO				TR("Track info")
+
 // audio cd
 #define STR_CD_RIPPING				TR("CD ripping")
 #define STR_EJECT_CD				TR("Eject CD")
+
 // playlist
 #define STR_ADD_PLAYLIST			TR("Add playlist")
 #define STR_RENAME_PLAYLIST			TR("Rename playlist")
 #define STR_DELETE_PLAYLIST			TR("Delete playlist")
-#define STR_ADD_ITEM				TR("Add")
-#define STR_ADD_RADIO				TR("Add radio")
-#define STR_RENAME_ITEM				TR("Rename")
-#define STR_DELETE_ITEM				TR("Delete")
-#define STR_DELETE_RADIO				TR("Delete radio")
-#define STR_EXPORT_TRACK			TR("Export track")
-#define STR_ADD_TRACK				TR("Add track")
-#define STR_DELETE_TRACK				TR("Delete track")
-#define STR_ADD_CATEGORY_TO_PLAYLIST	TR("Add category to playlist")
-#define STR_ADD_TRACK_TO_PLAYLIST	TR("Add track to playlist")
 #define STR_DELETE_TRACK_TO_PLAYLIST	TR("Delete track to playlist")
+#define STR_EXPORT_TRACK			TR("Export track")
+
 // browser
 #define STR_OPTION_PLAY_SUBDIR		TR("Play subdirectories - %1")
 #define STR_CONVERT_FORMAT    		TR("Conver Audio Format")
@@ -112,11 +111,14 @@
 #define STR_OPTION_OVERWRITE  		TR("Overwrite - %1")
 #define STR_MOVE              		TR("Move")
 #define STR_COPY              		TR("Copy")
-#define STR_SEARCH_COVERART   		TR("Search coverart")
+#define STR_DELETE_ITEM				TR("Delete")
 #define STR_EDIT_TAG          		TR("Edit tag")
+
 // radio
 #define STR_SEARCH_ALL_N_DELETE		TR("Delete and search all")
 #define STR_SEARCH_ALL				TR("Search all")
+#define STR_ADD_RADIO				TR("Add radio")
+#define STR_DELETE_RADIO			TR("Delete radio")
 #define STR_RESERVE_RECORD_LIST		TR("Reserved record list")
 
 //////////////////////////////////////////////////

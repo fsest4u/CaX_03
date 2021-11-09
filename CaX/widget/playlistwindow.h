@@ -83,15 +83,15 @@ private:
 	void DoTopMenuItemPlay(int nWhere);
 	void DoTopMenuItemSelectAll();
 	void DoTopMenuItemClearAll();
-	void DoTopMenuItemAdd();
-	void DoTopMenuItemDelete();
+	void DoTopMenuItemAddToPlaylist();
+	void DoTopMenuItemDeleteToPlaylist();
 
 	void SetOptionMenu();
 
 	void DoOptionMenuPlay(int nID, int where);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuDelete(int nID);
-	void DoOptionMenuAddTrack(int nID);
+	void DoOptionMenuAddToPlaylist(int nID);
 
 	PlaylistManager		*m_pMgr;
 	InfoService			*m_pInfoService;

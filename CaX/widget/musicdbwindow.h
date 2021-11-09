@@ -149,7 +149,6 @@ private:
 	void DoOptionMenuSearchCoverArt(int nID);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
-	void DoOptionMenuAddFromPlaylist(int nID);
 
 	void AddSortMusicDBHome();
 	void AddSortCategoryHome();

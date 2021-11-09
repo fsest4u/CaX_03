@@ -417,10 +417,10 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 		DoTopMenuItemClearAll();
 		break;
 	case TOP_MENU_ADD_TO_PLAYLIST:
-		DoTopMenuItemAdd();
+		DoTopMenuItemAddToPlaylist();
 		break;
 	case TOP_MENU_DELETE_TO_PLAYLIST:
-		DoTopMenuItemDelete();
+		DoTopMenuItemDeleteToPlaylist();
 		break;
 	}
 }
@@ -490,8 +490,8 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 	case OPTION_MENU_DELETE_TO_PLAYLIST:
 		DoOptionMenuDelete(nID);
 		break;
-	case OPTION_MENU_ADD_TRACK_TO_PLAYLIST:
-		DoOptionMenuAddTrack(nID);
+	case OPTION_MENU_ADD_TO_PLAYLIST:
+		DoOptionMenuAddToPlaylist(nID);
 		break;
 	}
 }
@@ -594,7 +594,7 @@ void PlaylistWindow::SetSelectOffTopMenu(bool root)
 	else
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TRACK_TO_PLAYLIST);
+		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 
 		m_pInfoTracks->GetFormPlay()->ClearMenu();
 		m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -723,13 +723,13 @@ void PlaylistWindow::DoTopMenuItemClearAll()
 	}
 }
 
-void PlaylistWindow::DoTopMenuItemAdd()
+void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 {
-	LogDebug("do item add ");
+	LogDebug("do item add to playlist");
 
 }
 
-void PlaylistWindow::DoTopMenuItemDelete()
+void PlaylistWindow::DoTopMenuItemDeleteToPlaylist()
 {
 	if (m_SelectMap.count() > 0)
 	{
@@ -751,7 +751,7 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME_PLAYLIST, STR_RENAME_PLAYLIST);
 		m_OptionMenuMap.insert(OPTION_MENU_DELETE_PLAYLIST, STR_DELETE_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_ADD_TRACK_TO_PLAYLIST, STR_ADD_TRACK);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
@@ -759,7 +759,7 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_OptionMenuMap.insert(OPTION_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TRACK);
+		m_OptionMenuMap.insert(OPTION_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TRACK_TO_PLAYLIST);
 	}
 
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
@@ -821,7 +821,7 @@ void PlaylistWindow::DoOptionMenuDelete(int nID)
 	}
 }
 
-void PlaylistWindow::DoOptionMenuAddTrack(int nID)
+void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 {
 	m_ID = nID;
 	if (m_TypeMode == TYPE_MODE_ITEM)
