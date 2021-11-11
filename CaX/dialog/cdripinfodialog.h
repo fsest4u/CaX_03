@@ -3,6 +3,11 @@
 
 #include <QDialog>
 
+#include "util/CJsonNode.h"
+
+class CDRipInfo;
+class CDRipTrackInfo;
+
 namespace Ui {
 class CDRipInfoDialog;
 }
@@ -15,15 +20,67 @@ public:
 	explicit CDRipInfoDialog(QWidget *parent = nullptr);
 	~CDRipInfoDialog();
 
-	void SetTitle(const QString &value);
-	void SetArtist(const QString &value);
-	void SetGenre(const QString &value);
-	void SetComposer(const QString &value);
-	void SetMood(const QString &value);
-	void SetTempo(const QString &value);
-	void SetYear(const QString &value);
+	CJsonNode GetInfoData();
+	void SetInfoData(CJsonNode node);
+
+	QStringList GetAlbumList() const;
+	void SetAlbumList(const QStringList &AlbumList);
+
+	QStringList GetAlbumArtistList() const;
+	void SetAlbumArtistList(const QStringList &AlbumArtistList);
+
+	QStringList GetArtistList() const;
+	void SetArtistList(const QStringList &ArtistList);
+
+	QStringList GetGenreList() const;
+	void SetGenreList(const QStringList &GenreList);
+
+	QStringList GetComposerList() const;
+	void SetComposerList(const QStringList &ComposerList);
+
+	QStringList GetMoodList() const;
+	void SetMoodList(const QStringList &MoodList);
+
+private slots:
+
+	void SlotBtnPrev();
+	void SlotBtnNext();
+
+	void SlotChangeFormat(int index);
+	void SlotChangeAlbum(QString value);
+	void SlotChangeAlbumArtist(QString value);
+	void SlotChangeCDYear(QString value);
+	void SlotChangeCDNumber(QString value);
+	void SlotChangeCDTotal(QString value);
+	void SlotChangeCoverArt(QString value);
+
+	void SlotChangeArtist(int index, QString value);
+	void SlotChangeGenre(int index, QString value);
+	void SlotChangeComposer(int index, QString value);
+	void SlotChangeMood(int index, QString value);
+	void SlotChangeTitle(int index, QString value);
+	void SlotChangeTempo(int index, QString value);
+	void SlotChangeYear(int index, QString value);
+
+	void accept();
+	void reject();
 
 private:
+
+	void UpdateStackState();
+
+	CDRipInfo	*m_WidgetCD;
+	QList<CJsonNode>	m_ListTrack;
+
+	CJsonNode	m_InfoData;
+
+	QStringList	m_AlbumList;
+	QStringList	m_AlbumArtistList;
+	QStringList	m_ArtistList;
+	QStringList	m_GenreList;
+	QStringList	m_ComposerList;
+	QStringList	m_MoodList;
+
 	Ui::CDRipInfoDialog *ui;
 };
 

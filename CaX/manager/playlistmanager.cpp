@@ -47,7 +47,7 @@ void PlaylistManager::RequestTrackList(int id)
 	node.Add(KEY_CMD0, VAL_QUERY);
 	node.Add(KEY_CMD1, VAL_SONG);
 	node.Add(KEY_AS, true);
-	node.Add(KEY_SQL, m_pSql->GetQuerySongsOfPlaylist(id));
+	node.Add(KEY_SQL, m_pSql->GetQueryPlaylistTrackList(id));
 
 	RequestCommand(node, PLAYLIST_TRACK_LIST);
 }

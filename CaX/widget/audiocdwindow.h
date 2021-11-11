@@ -19,15 +19,12 @@ class AudioCDWindow : public QWidget
 	Q_OBJECT
 
 public:
-	explicit AudioCDWindow(QWidget *parent = nullptr, const QString &addr = "");
+	explicit AudioCDWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~AudioCDWindow();
 
 	void AddWidgetAudioCDHome();
 
 	void RequestTrackList();
-	void RequestTrackInfo(int index);
-	void RequestTrackPlay(int index);
-	void RequestCDRip(CJsonNode node, QList<CJsonNode> list);
 
 signals:
 
@@ -38,6 +35,7 @@ private slots:
 	void SlotRespTrackList(QList<CJsonNode> list);
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespCDRipInfo(CJsonNode node);
+	void SlotRespCategoryList(QList<CJsonNode> list);
 
 	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int id, QString coverArt);
@@ -56,6 +54,9 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+	void ResetSelectMap();
+	void SetCategoryList(QList<CJsonNode> list);
+
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
 
@@ -66,12 +67,19 @@ private:
 
 	void SetOptionMenu();
 
+	void DoOptionMenuCDRipping(int id);
+	void DoOptionMenuTrackInfo(int id);
+
 	QString MakeInfo();
 
 	AudioCDManager		*m_pMgr;
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
+
+	int					m_ListMode;
+
+	int					m_EventID;
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
@@ -82,7 +90,14 @@ private:
 	QString				m_Format;
 	QString				m_Date;
 
-	int					m_ListMode;
+	QStringList			m_AlbumList;
+	QStringList			m_AlbumArtistList;
+	QStringList			m_ArtistList;
+	QStringList			m_GenreList;
+	QStringList			m_ComposerList;
+	QStringList			m_MoodList;
+
+
 
 	Ui::AudioCDWindow *ui;
 };

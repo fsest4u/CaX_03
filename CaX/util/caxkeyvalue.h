@@ -110,6 +110,7 @@
 
 #define		KEY_RATING			"rating"
 #define		KEY_REPEAT			"Repeat"
+#define		KEY_RESULT			"Result"
 #define		KEY_RIGHT			"Right"
 #define		KEY_ROOT			"Root"
 

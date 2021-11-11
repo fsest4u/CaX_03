@@ -36,7 +36,7 @@ public:
 	};
 
 	QString GetQueryMusicDBOverview();
-	QString GetQueryCategoryList(int nCategory = CATEGORY_ALBUM,
+	QString GetQueryMusicDBCategoryList(int nCategory = CATEGORY_ALBUM,
 								 int nSort = SORT_NAME,
 								 bool bIncrease = true,
 								 QString artistID = "",
@@ -46,8 +46,8 @@ public:
 								 int nRating = 0,
 								 int nStartIndex = 0,
 								 int nLimitCount = 100);
-	QString GetQueryCategoryOverview(int nID, int nCategory = CATEGORY_ALBUM);
-	QString GetQueryTrackList(int nID,
+	QString GetQueryMusicDBCategoryOverview(int nID, int nCategory = CATEGORY_ALBUM);
+	QString GetQueryMusicDBTrackList(int nID,
 									int nCategory = CATEGORY_ALBUM,
 									int nSort = SORT_NAME,
 									bool bIncrease = true,
@@ -56,13 +56,14 @@ public:
 
 	QString GetQueryPlaylist();
 	QString GetQueryPlaylistInfo(int nID);
-	QString GetQuerySongsOfPlaylist(int nID);
+	QString GetQueryPlaylistTrackList(int nID);
 
 	QString GetQueryUpdateCatFavorite(int nID, int nFavorite, int nCategory = CATEGORY_ALBUM);
 	QString GetQueryUpdateCatRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
 	QString GetQueryUpdateTrackFavorite(int nID, int nFavorite);
 
 	QString GetQueryClassifyArtist(int nCategory);
+	QString GetQueryCategoryList(int nCategory);
 
 	QString GetCategoryName(int nCategory);
 	QString GetColumnName(int nSort);

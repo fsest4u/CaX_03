@@ -141,8 +141,6 @@ private:
 
 	QList<CJsonNode> ParseResultNode(CJsonNode result);
 
-
-
 	SQLManager	*m_pSql;
 
 	QList<CJsonNode>	m_NodeList;

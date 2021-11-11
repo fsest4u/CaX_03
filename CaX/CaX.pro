@@ -11,7 +11,9 @@ CONFIG += c++11
 SOURCES += \
     dialog/aboutdialog.cpp \
     dialog/addradiodialog.cpp \
+    dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
+    dialog/cdriptrackinfo.cpp \
     dialog/inputnamedialog.cpp \
     dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
@@ -91,7 +93,9 @@ SOURCES += \
 HEADERS += \
     dialog/aboutdialog.h \
     dialog/addradiodialog.h \
+    dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
+    dialog/cdriptrackinfo.h \
     dialog/inputnamedialog.h \
     dialog/limitcountdialog.h \
     dialog/logindialog.h \
@@ -182,7 +186,9 @@ HEADERS += \
 FORMS += \
     dialog/aboutdialog.ui \
     dialog/addradiodialog.ui \
+    dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \
+    dialog/cdriptrackinfo.ui \
     dialog/inputnamedialog.ui \
     dialog/limitcountdialog.ui \
     dialog/logindialog.ui \

@@ -14,7 +14,7 @@ QString SQLManager::GetQueryMusicDBOverview()
 	return SQL_MUSIC_DB_OVERVIEW;
 }
 
-QString SQLManager::GetQueryCategoryList(int nCategory,
+QString SQLManager::GetQueryMusicDBCategoryList(int nCategory,
 										 int nSort,
 										 bool bIncrease,
 										 QString artistID,
@@ -97,7 +97,7 @@ QString SQLManager::GetQueryCategoryList(int nCategory,
 	return query;
 }
 
-QString SQLManager::GetQueryCategoryOverview(int nID, int nCategory)
+QString SQLManager::GetQueryMusicDBCategoryOverview(int nID, int nCategory)
 {
 	QString query;
 
@@ -132,7 +132,7 @@ QString SQLManager::GetQueryCategoryOverview(int nID, int nCategory)
 	return query;
 }
 
-QString SQLManager::GetQueryTrackList(int nID,
+QString SQLManager::GetQueryMusicDBTrackList(int nID,
 											int nCategory,
 											int nSort,
 											bool bIncrease,
@@ -223,7 +223,7 @@ QString SQLManager::GetQueryPlaylistInfo(int nID)
 	return QString(SQL_PLAYLIST_OVERVIEW).arg(nID);
 }
 
-QString SQLManager::GetQuerySongsOfPlaylist(int nID)
+QString SQLManager::GetQueryPlaylistTrackList(int nID)
 {
 	return QString(SQL_PLAYLIST_TRACK_LIST).arg(nID);
 }
@@ -316,6 +316,35 @@ QString SQLManager::GetQueryClassifyArtist(int nCategory)
 		break;
 	case CATEGORY_COMPOSER:
 		query = QString(SQL_CLASSIFY).arg("Composer");
+		break;
+	}
+
+	return query;
+}
+
+QString SQLManager::GetQueryCategoryList(int nCategory)
+{
+	QString query;
+
+	switch (nCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = SQL_CATEGORY_ALBUM_LIST;
+		break;
+	case CATEGORY_ALBUMARTIST:
+		query = SQL_CATEGORY_ALBUM_ARTIST_LIST;
+		break;
+	case CATEGORY_ARTIST:
+		query = SQL_CATEGORY_ARTIST_LIST;
+		break;
+	case CATEGORY_GENRE:
+		query = SQL_CATEGORY_GENRE_LIST;
+		break;
+	case CATEGORY_COMPOSER:
+		query = SQL_CATEGORY_COMPOSER_LIST;
+		break;
+	case CATEGORY_MOOD:
+		query = SQL_CATEGORY_MOOD_LIST;
 		break;
 	}
 

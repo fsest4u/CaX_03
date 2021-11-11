@@ -685,7 +685,7 @@ void MainWindow::DoMusicDBHome()
 
 void MainWindow::DoAudioCDHome()
 {
-	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr);
+	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr, m_nEventID);
 	widget->AddWidgetAudioCDHome();
 	SlotAddWidget(widget, STR_AUDIO_CD);
 	widget->RequestTrackList();

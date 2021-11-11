@@ -1,37 +1,47 @@
 #include "audiocdmanager.h"
 
 AudioCDManager::AudioCDManager()
+	: m_pSql(new SQLManager)
 {
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
 
 }
 
-void AudioCDManager::RequestTrackList(int index)
+AudioCDManager::~AudioCDManager()
+{
+	if (m_pSql)
+	{
+		delete m_pSql;
+		m_pSql = nullptr;
+	}
+}
+
+void AudioCDManager::RequestTrackList(int source)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_AUDIO_CD);
 	node.Add	(KEY_CMD1,		VAL_LIST);
-	node.AddInt	(KEY_SOURCE,	index);
+	node.AddInt	(KEY_SOURCE,	source);
 
 	RequestCommand(node, AUDIO_CD_TRACK_LIST);
 }
 
-void AudioCDManager::RequestTrackInfo(int index)
+void AudioCDManager::RequestTrackInfo(int id)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_AUDIO_CD);
 	node.Add	(KEY_CMD1,		VAL_INFO);
-	node.AddInt	(KEY_TRACK,	index);
+	node.AddInt	(KEY_TRACK,		id);
 
 	RequestCommand(node, AUDIO_CD_TRACK_INFO);
 }
 
-void AudioCDManager::RequestTrackPlay(int index)
+void AudioCDManager::RequestTrackPlay(int id)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_AUDIO_CD);
 	node.Add	(KEY_CMD1,		VAL_PLAY);
-	node.AddInt	(KEY_TRACK,	index);
+	node.AddInt	(KEY_TRACK,		id);
 
 	RequestCommand(node, AUDIO_CD_TRACK_PLAY);
 }
@@ -45,17 +55,27 @@ void AudioCDManager::RequestEject()
 	RequestCommand(node, AUDIO_CD_EJECT);
 }
 
-void AudioCDManager::RequestCDRipInfo(int index, QList<int> list)
+void AudioCDManager::RequestCDRipInfo(int index, QMap<int, bool> idMap)
 {
 	CJsonNode node(JSON_OBJECT);
+
+	if (idMap.count() > 0)
+	{
+		CJsonNode idArr(JSON_ARRAY);
+		QMap<int, bool>::iterator i;
+		for (i = idMap.begin(); i!= idMap.end(); i++)
+		{
+	//		LogDebug("key [%d] value [%d]", i.key(), i.value());
+			idArr.AppendArray((int64_t)i.key());
+		}
+		node.Add(KEY_TRACKS, idArr);
+
+	}
+
 	node.Add	(KEY_CMD0,			VAL_AUDIO_CD);
 	node.Add	(KEY_CMD1,			VAL_RIP_INFO);
 	if (index >= 0)
 		node.AddInt	(KEY_SOURCE,	index);
-	if (list.count() > 0)
-	{
-		node.Add	(KEY_TRACKS,	list);
-	}
 
 	RequestCommand(node, AUDIO_CD_RIP_INFO);
 }
@@ -67,6 +87,19 @@ void AudioCDManager::RequestCDRip(CJsonNode node)
 
 	RequestCommand(node, AUDIO_CD_RIP);
 }
+
+void AudioCDManager::RequestCategoryList(int nCategory)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, m_pSql->GetQueryCategoryList(nCategory));
+	RequestCommand(node, AUDIO_CD_CATEGORY_LIST);
+}
+
+
 
 void AudioCDManager::RequestRandom()
 {
@@ -135,6 +168,18 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 	case AUDIO_CD_RIP:
 		LogInfo("rip ...");
 		break;
+	case AUDIO_CD_CATEGORY_LIST:
+	{
+		CJsonNode result = node.GetArray(VAL_RESULT);
+		if (result.ArraySize() <= 0)
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+			return;
+		}
+
+		ParseCategoryList(result);
+	}
+		break;
 	case AUDIO_CD_MAX:
 		emit SigRespError(STR_INVALID_ID);
 		break;
@@ -151,5 +196,17 @@ void AudioCDManager::ParseTrackList(CJsonNode result)
 	}
 
 	emit SigRespTrackList(m_NodeList);
+}
+
+void AudioCDManager::ParseCategoryList(CJsonNode result)
+{
+	m_NodeList.clear();
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		m_NodeList.append(result.GetArrayAt(i));
+//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
+	}
+
+	emit SigRespCategoryList(m_NodeList);
 }
 

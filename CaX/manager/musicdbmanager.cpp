@@ -44,7 +44,7 @@ void MusicDBManager::RequestCategoryList(int nCategory,
 										 int nStartIndex,
 										 int nLimitCount)
 {
-	QString query = m_pSql->GetQueryCategoryList(nCategory,
+	QString query = m_pSql->GetQueryMusicDBCategoryList(nCategory,
 												 nSort,
 												 bIncrease,
 												 artistID,
@@ -71,7 +71,7 @@ void MusicDBManager::RequestCategoryOverview(int nID, int nCategory)
 	node.Add(KEY_CMD1, VAL_SONG);
 	node.Add(KEY_AS, true);
 	node.Add(KEY_AL, false);
-	node.Add(KEY_SQL, m_pSql->GetQueryCategoryOverview(nID, nCategory));
+	node.Add(KEY_SQL, m_pSql->GetQueryMusicDBCategoryOverview(nID, nCategory));
 	RequestCommand(node, MUSICDB_CATEGORY_OVERVIEW);
 }
 
@@ -82,7 +82,7 @@ void MusicDBManager::RequestTrackList(int nID,
 											int nStartIndex,
 											int nLimitCount)
 {
-	QString query = m_pSql->GetQueryTrackList(nID,
+	QString query = m_pSql->GetQueryMusicDBTrackList(nID,
 													nCategory,
 													nSort,
 													bIncrease,

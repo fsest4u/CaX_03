@@ -474,7 +474,51 @@ where PlsSong.PlsID = %1	\
 order by PlsSong.Seq	\
 "
 
+////////////////////////////////////////////
+/// Category list
+////////////////////////////////////////////
 
+#define SQL_CATEGORY_ALBUM_LIST	"	\
+select	\
+	Album.Name as Album	\
+from Album	\
+where Album.IsDel = 0	\
+"
+
+#define SQL_CATEGORY_ALBUM_ARTIST_LIST	"	\
+select	\
+	AlbumArtist.Name as AlbumArtist	\
+from AlbumArtist	\
+where AlbumArtist.IsDel = 0	\
+"
+
+#define SQL_CATEGORY_ARTIST_LIST	"	\
+select	\
+	Artist.Name as Artist	\
+from Artist	\
+where Artist.IsDel = 0	\
+"
+
+#define SQL_CATEGORY_GENRE_LIST	"	\
+select	\
+	Genre.Name as Genre	\
+from Genre	\
+where Genre.IsDel = 0	\
+"
+
+#define SQL_CATEGORY_COMPOSER_LIST	"	\
+select	\
+	Composer.Name as Composer	\
+from Composer	\
+where Composer.IsDel = 0	\
+"
+
+#define SQL_CATEGORY_MOOD_LIST	"	\
+select	\
+	Mood.Name as Mood	\
+from Mood	\
+where Mood.IsDel = 0	\
+"
 
 
 #endif // SQLCONSTATNS_H
