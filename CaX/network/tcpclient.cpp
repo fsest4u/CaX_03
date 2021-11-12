@@ -187,6 +187,10 @@ void TCPClient::RequestCoverArt(QString fullpath)
 				emit SigRespCoverArt(filename);
 			}
 		}
+//		QByteArray jpegData = reply->readAll();
+//		QPixmap pixmap;
+//		pixmap.loadFromData(jpegData);
+//		label->setPixmap(pixmap);
 	}
 	else
 	{
@@ -197,6 +201,52 @@ void TCPClient::RequestCoverArt(QString fullpath)
 					, filename.toUtf8().data());
 	}
 	m_ListReply[count]->deleteLater();
+}
+
+// https://forum.qt.io/topic/6853/solved-display-image-through-http-url/6
+void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
+{
+	QString filename = QString("Search%1").arg(index);
+	filename = m_DirTemp + "/" + filename + ".jpg";
+
+	const QUrl url = QUrl::fromUserInput(strUrl);
+	QNetworkRequest request(url);
+
+	int count = m_ListReply.size();
+
+	QNetworkReply *reply = m_pManager->get(request);
+	m_ListReply.insert(count, reply);
+
+	QEventLoop loop;
+	connect(m_ListReply[count], SIGNAL(finished()), &loop, SLOT(quit()));
+	loop.exec();
+
+	if (m_ListReply[count]->error() == QNetworkReply::NoError)
+	{
+#if 1
+		QImage image;
+		if (image.loadFromData(m_ListReply[count]->readAll()))
+		{
+			if (image.save(filename, "JPG"))
+			{
+				emit SigRespSearchCoverArt(filename, index);
+			}
+		}
+#else	// todo-dylee
+		QByteArray data = m_ListReply[count]->readAll();
+		emit SigRespSearchCoverArt(data, index);
+#endif
+	}
+	else
+	{
+		QString err = m_ListReply[count]->errorString();
+		LogCritical("Network Error : [%s] fullPath [%s] fileName [%s]"
+					, err.toUtf8().data()
+					, strUrl.toUtf8().data()
+					, strUrl.toUtf8().data());
+	}
+	m_ListReply[count]->deleteLater();
+
 }
 
 QString TCPClient::GetAddr() const

@@ -4,6 +4,9 @@
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
+#include "dialog/searchcoverartdialog.h"
+#include "dialog/searchcoverartresultdialog.h"
+
 CDRipInfo::CDRipInfo(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::CDRipInfo)
@@ -19,7 +22,7 @@ CDRipInfo::CDRipInfo(QWidget *parent) :
 	connect(ui->lineEditCDYear, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDYear()));
 	connect(ui->lineEditCDNumber, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDNumber()));
 	connect(ui->lineEditCDTotal, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDTotal()));
-//	connect(ui->labelCoverArt, SIGNAL(), this, SLOT());
+	connect(ui->btnCoverArt, SIGNAL(clicked()), this, SLOT(SlotClickCoverArt()));
 }
 
 CDRipInfo::~CDRipInfo()
@@ -83,6 +86,34 @@ void CDRipInfo::SlotEditFinishCDNumber()
 void CDRipInfo::SlotEditFinishCDTotal()
 {
 	emit SigChangeCDTotal(ui->lineEditCDTotal->text());
+}
+
+void CDRipInfo::SlotClickCoverArt()
+{
+	QString site;
+	QString keyword;
+	QString artist;
+
+	SearchCoverArtDialog searchDialog;
+	if (searchDialog.exec() == QDialog::Accepted)
+	{
+		site = searchDialog.GetSite();
+		keyword = searchDialog.GetKeyword();
+		artist = searchDialog.GetArtist();
+	}
+	else
+	{
+		return;
+	}
+
+//	SearchCoverArtResultDialog resultDialog;
+//	resultDialog.SetAddr(m_pMgr->GetAddr());
+//	resultDialog.RequestCoverArtList(site, keyword, artist);
+//	if (resultDialog.exec() == QDialog::Accepted)
+//	{
+//	}
+
+
 }
 
 QStringList CDRipInfo::GetAlbumArtistList() const

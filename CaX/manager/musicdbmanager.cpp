@@ -473,6 +473,27 @@ void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap, int cat
 	RequestCommand(node, MUSICDB_ADD_TO_PLAYLIST);
 }
 
+void MusicDBManager::RequestSetCoverArt(int id, int category, int eventID, QString image, QString thumb)
+{
+	QString strCat = m_pSql->GetCategoryName(category);
+
+	CJsonNode coverArt(JSON_OBJECT);
+	coverArt.Add(KEY_IMAGE_URL, image);
+	coverArt.Add(KEY_THUMB_URL, thumb);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_MUSIC_DB);
+	node.Add(KEY_CMD1, VAL_SET_ART);
+	node.Add(KEY_CMD2, VAL_CATEGORY);
+	node.AddInt(KEY_ID_UPPER, id);
+	node.Add(KEY_CATEGORY, strCat);
+	node.AddInt(KEY_EVENT_ID, eventID);
+	node.Add(KEY_COVER_ART, coverArt);
+
+	RequestCommand(node, MUSICDB_SET_COVER_ART);
+
+}
+
 void MusicDBManager::RequestRandom()
 {
 	CJsonNode node(JSON_OBJECT);
@@ -665,6 +686,11 @@ void MusicDBManager::ParseCategoryInfo(CJsonNode node)
 void MusicDBManager::ParseTrackInfo(CJsonNode node)
 {
 	emit SigRespTrackInfo(node);
+}
+
+void MusicDBManager::ParseSearchCoverArt(CJsonNode node)
+{
+	emit SigRespSearchCoverArt(node);
 }
 
 QList<CJsonNode> MusicDBManager::ParseResultNode(CJsonNode result)

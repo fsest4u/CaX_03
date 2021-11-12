@@ -39,6 +39,7 @@ public:
 		MUSICDB_SET_TRACK_INFO,
 		MUSICDB_RENAME_TRACK,
 		MUSICDB_ADD_TO_PLAYLIST,
+		MUSICDB_SET_COVER_ART,
 		MUSICDB_RANDOM,
 		MUSICDB_MAX
 	};
@@ -88,6 +89,7 @@ public:
 	void RequestRenameTrack(int id, QString name, int eventID);
 
 	void RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category);
+	void RequestSetCoverArt(int id, int category, int eventID, QString image, QString thumb);
 
 	void RequestRandom();
 
@@ -114,6 +116,7 @@ signals:
 	void SigRespClassifyComposer(QList<CJsonNode> list);
 	void SigRespCategoryInfo(CJsonNode node);
 	void SigRespTrackInfo(CJsonNode node);
+	void SigRespSearchCoverArt(CJsonNode node);
 
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
@@ -138,6 +141,7 @@ private:
 	void ParseClassifyComposer(CJsonNode result);
 	void ParseCategoryInfo(CJsonNode node);
 	void ParseTrackInfo(CJsonNode node);
+	void ParseSearchCoverArt(CJsonNode node);
 
 	QList<CJsonNode> ParseResultNode(CJsonNode result);
 

@@ -6,6 +6,8 @@
 
 #include "dialog/inputnamedialog.h"
 #include "dialog/limitcountdialog.h"
+#include "dialog/searchcoverartdialog.h"
+#include "dialog/searchcoverartresultdialog.h"
 #include "dialog/trackinfodialog.h"
 
 #include "manager/musicdbmanager.h"
@@ -995,12 +997,13 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryOverview(CJsonNode)), this, SLOT(SlotRespCategoryOverview(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespTrackList(QList<CJsonNode>)), this, SLOT(SlotRespTrackList(QList<CJsonNode>)));
-	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyArtist(QList<CJsonNode>)), this, SLOT(SlotRespClassifyArtist(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyGenre(QList<CJsonNode>)), this, SLOT(SlotRespClassifyGenre(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyComposer(QList<CJsonNode>)), this, SLOT(SlotRespClassifyComposer(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
+
+	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
@@ -1468,8 +1471,36 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 
 void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 {
-	// todo-dylee
+	QString site;
+	QString keyword;
+	QString artist;
 
+	SearchCoverArtDialog searchDialog;
+	if (searchDialog.exec() == QDialog::Accepted)
+	{
+		site = searchDialog.GetSite();
+		keyword = searchDialog.GetKeyword();
+		artist = searchDialog.GetArtist();
+	}
+	else
+	{
+		return;
+	}
+
+	SearchCoverArtResultDialog resultDialog;
+	resultDialog.SetAddr(m_pMgr->GetAddr());
+	resultDialog.RequestCoverArtList(site, keyword, artist);
+	if (resultDialog.exec() == QDialog::Accepted)
+	{
+		m_pMgr->RequestSetCoverArt(nID,
+								   m_nCategory,
+								   m_EventID,
+								   resultDialog.GetImage(),
+								   resultDialog.GetThumb());
+
+		// refresh
+		RequestCategoryList();
+	}
 }
 
 void MusicDBWindow::DoOptionMenuRename(int nID)

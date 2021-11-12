@@ -26,6 +26,7 @@ public:
 	void RequestCommand(CJsonNode node, int nCmdID = -1, int nIndex = -1);
 	void RequestCoverArt(QString fullpath, int index, int mode);
 	void RequestCoverArt(QString fullpath);
+	void RequestSearchCoverArt(QString strUrl, int index);
 
 private:
 

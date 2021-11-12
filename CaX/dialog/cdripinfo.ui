@@ -367,7 +367,7 @@ QWidget
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelCoverArt">
+       <widget class="QPushButton" name="btnCoverArt">
         <property name="minimumSize">
          <size>
           <width>160</width>
@@ -381,12 +381,12 @@ QWidget
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">QLabel
+         <string notr="true">QPushButton
 {
   border-image: url(&quot;:/resource/playlist-img160-albumart-h@3x.png&quot;);
 }
 
-QLabel:hover
+QPushButton:hover
 {
   border-image: url(&quot;:/resource/playlist-img160-albumart-h@3x.png&quot;);
 }</string>

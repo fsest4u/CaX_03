@@ -44,6 +44,7 @@ private slots:
 	void SlotEditFinishCDYear();
 	void SlotEditFinishCDNumber();
 	void SlotEditFinishCDTotal();
+	void SlotClickCoverArt();
 
 private:
 

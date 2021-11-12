@@ -18,6 +18,8 @@ SOURCES += \
     dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
     dialog/poweroffdialog.cpp \
+    dialog/searchcoverartdialog.cpp \
+    dialog/searchcoverartresultdialog.cpp \
     dialog/searchdialog.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
@@ -37,6 +39,7 @@ SOURCES += \
     manager/playlistmanager.cpp \
     manager/playmanager.cpp \
     manager/qobuzmanager.cpp \
+    manager/searchcoverartresultmanager.cpp \
     manager/setupmanager.cpp \
     manager/sqlmanager.cpp \
     manager/ssdpmanager.cpp \
@@ -60,8 +63,12 @@ SOURCES += \
     widget/form/formcoverart.cpp \
     widget/form/formlabel.cpp \
     widget/form/formplay.cpp \
+    widget/form/formsearchcoverart.cpp \
     widget/form/formsort.cpp \
     widget/form/formtitle.cpp \
+    widget/formBottom/iconcoverart.cpp \
+    widget/formBottom/iconcoverartdelegate.cpp \
+    widget/formBottom/iconcoverarteditor.cpp \
     widget/formBottom/iconservice.cpp \
     widget/formBottom/iconservicedelegate.cpp \
     widget/formBottom/iconserviceeditor.cpp \
@@ -101,6 +108,8 @@ HEADERS += \
     dialog/logindialog.h \
     dialog/poweroffdialog.h \
     dialog/requestinterceptor.h \
+    dialog/searchcoverartdialog.h \
+    dialog/searchcoverartresultdialog.h \
     dialog/searchdialog.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
@@ -120,6 +129,7 @@ HEADERS += \
     manager/playlistmanager.h \
     manager/playmanager.h \
     manager/qobuzmanager.h \
+    manager/searchcoverartresultmanager.h \
     manager/setupmanager.h \
     manager/sqlmanager.h \
     manager/ssdpmanager.h \
@@ -151,8 +161,12 @@ HEADERS += \
     widget/form/formcoverart.h \
     widget/form/formlabel.h \
     widget/form/formplay.h \
+    widget/form/formsearchcoverart.h \
     widget/form/formsort.h \
     widget/form/formtitle.h \
+    widget/formBottom/iconcoverart.h \
+    widget/formBottom/iconcoverartdelegate.h \
+    widget/formBottom/iconcoverarteditor.h \
     widget/formBottom/iconservice.h \
     widget/formBottom/iconservicedelegate.h \
     widget/formBottom/iconserviceeditor.h \
@@ -193,6 +207,8 @@ FORMS += \
     dialog/limitcountdialog.ui \
     dialog/logindialog.ui \
     dialog/poweroffdialog.ui \
+    dialog/searchcoverartdialog.ui \
+    dialog/searchcoverartresultdialog.ui \
     dialog/searchdialog.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \
@@ -205,8 +221,11 @@ FORMS += \
     widget/form/formcoverart.ui \
     widget/form/formlabel.ui \
     widget/form/formplay.ui \
+    widget/form/formsearchcoverart.ui \
     widget/form/formsort.ui \
     widget/form/formtitle.ui \
+    widget/formBottom/iconcoverart.ui \
+    widget/formBottom/iconcoverarteditor.ui \
     widget/formBottom/iconservice.ui \
     widget/formBottom/iconserviceeditor.ui \
     widget/formBottom/icontracks.ui \

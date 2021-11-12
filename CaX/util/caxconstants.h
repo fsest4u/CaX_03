@@ -228,5 +228,14 @@ enum
 	OPTION_MENU_MAX
 };
 
+//////////////////////////////////////////////////
+// search cover art
+//////////////////////////////////////////////////
+
+#define SEARCH_GOOGLE			"Google"
+#define SEARCH_BING				"Bing"
+#define SEARCH_AMAZON			"Amazon"
+#define SEARCH_GRACENOTE		"Gracenote"
+
 
 #endif // CAXCONSTANTS_H

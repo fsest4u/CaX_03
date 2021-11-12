@@ -74,6 +74,7 @@
 #define		KEY_ID_UPPER		"ID"
 #define		KEY_IDS				"IDs"
 #define		KEY_IMAGE			"Image"
+#define		KEY_IMAGE_URL			"ImageUrl"
 #define		KEY_INDEX			"Index"
 #define		KEY_INDEXES			"Indexes"
 #define		KEY_INPUT			"Input"
@@ -93,6 +94,7 @@
 
 #define		KEY_NAME			"Name"
 #define		KEY_NAME_LOWER		"name"
+#define		KEY_NEXT_URL		"NextUrl"
 
 #define		KEY_ORDER			"Order"
 
@@ -118,8 +120,11 @@
 #define		KEY_SAMPLERATE_CAP	"SampleRate"
 #define		KEY_SAVE_AUTH		"SaveAuth"
 #define		KEY_SCAN_DB			"ScanDB"
+#define		KEY_SEARCH1				"Search1"
+#define		KEY_SEARCH2				"Search2"
 #define		KEY_SELF				"Self"
 #define		KEY_SETUP			"Setup"
+#define		KEY_SITE			"Site"
 #define		KEY_SONG			"Song"
 #define		KEY_SONG_ORDER		"SongOrder"
 #define		KEY_SOURCE			"Source"
@@ -137,6 +142,7 @@
 #define		KEY_TIME			"time"
 #define		KEY_TIME_CAP		"Time"
 #define		KEY_TIME_STAMP		"TS"
+#define		KEY_THUMB_URL		"ThumUrl"
 #define		KEY_TRACK			"Track"
 #define		KEY_TRACKS			"Tracks"
 #define		KEY_TOP				"Top"
@@ -175,6 +181,7 @@
 
 #define		VAL_CATEGORY		"Cat"
 #define		VAL_COMPOSER		"Composer"
+#define		VAL_COVER_ART		"CoverArt"
 
 #define		VAL_DAB_RADIO		"Dab"
 #define		VAL_DEL				"Del"
@@ -201,6 +208,7 @@
 #define		VAL_ID_MOST_STREAMED	"most-streamed"
 #define		VAL_ID_NEW_RELEASES		"new-releases"
 #define		VAL_ID_PRESS_AWARDS		"press-awards"
+#define		VAL_IMAGE			"Image"
 #define		VAL_INDEX			"Index"
 #define		VAL_INFO			"Info"
 #define		VAL_INPUT			"Input"
@@ -217,6 +225,7 @@
 
 #define		VAL_NEW				"New"
 #define		VAL_NEW_RELEASES	"NewReleases"
+#define		VAL_NEXT_URL		"NextUrl"
 
 #define		VAL_OBSERVE			"Observe"
 
@@ -243,6 +252,7 @@
 #define		VAL_SEEK_STOP		"SeekStop"
 #define		VAL_SET				"Set"
 #define		VAL_SET_ALBUM		"SetAlbum"
+#define		VAL_SET_ART			"SetArt"
 #define		VAL_SET_POSITION	"SetPos"
 #define		VAL_SET_TAG			"SetTag"
 #define		VAL_SET_VOLUME		"SetVol"
@@ -252,8 +262,10 @@
 #define		VAL_SUCCESS			"success"
 
 #define		VAL_TRACK			"Track"
+#define		VAL_THUMB			"Thum"
 
 #define		VAL_URL				"Url"
+#define		VAL_URLS			"Urls"
 
 #define		VAL_YEAR			"Year"
 

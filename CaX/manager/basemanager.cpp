@@ -82,3 +82,8 @@ void BaseManager::RequestCoverArt(QString fullpath)
 	m_pTcpClient->RequestCoverArt(fullpath);
 }
 
+void BaseManager::RequestSearchCoverArt(QString strUrl, int index)
+{
+	m_pTcpClient->RequestSearchCoverArt(strUrl, index);
+}
+
