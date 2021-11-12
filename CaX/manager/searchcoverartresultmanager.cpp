@@ -71,7 +71,7 @@ void SearchCoverArtResultManager::SlotRespInfo(QString json, int nCmdID)
 
 }
 
-//void SearchCoverArtResultDialog::SlotRespSearchCoverArt(QByteArray data, int index)
+//void SearchCoverArtResultManager::SlotRespSearchCoverArt(QByteArray data, int index)
 //{
 //	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
 //	itemIcon->setData(data, IconCoverArtDelegate::ICON_COVER_ART_COVER);

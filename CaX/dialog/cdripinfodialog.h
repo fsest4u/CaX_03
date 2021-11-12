@@ -41,6 +41,9 @@ public:
 	QStringList GetMoodList() const;
 	void SetMoodList(const QStringList &MoodList);
 
+	QString GetAddr() const;
+	void SetAddr(const QString &Addr);
+
 private slots:
 
 	void SlotBtnPrev();
@@ -52,7 +55,7 @@ private slots:
 	void SlotChangeCDYear(QString value);
 	void SlotChangeCDNumber(QString value);
 	void SlotChangeCDTotal(QString value);
-	void SlotChangeCoverArt(QString value);
+	void SlotChangeCoverArt(QString image, QString thumb);
 
 	void SlotChangeArtist(int index, QString value);
 	void SlotChangeGenre(int index, QString value);
@@ -80,6 +83,8 @@ private:
 	QStringList	m_GenreList;
 	QStringList	m_ComposerList;
 	QStringList	m_MoodList;
+
+	QString m_Addr;
 
 	Ui::CDRipInfoDialog *ui;
 };

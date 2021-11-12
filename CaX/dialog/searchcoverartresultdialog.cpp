@@ -125,6 +125,10 @@ void SearchCoverArtResultDialog::SlotSelectCoverArt(int index)
 	SetImage(node.GetString(VAL_IMAGE));
 	SetThumb(node.GetString(VAL_THUMB));
 
+	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
+	QString filename = qvariant_cast<QString>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER));
+	SetImageFilename(filename);
+
 	done(1);
 }
 
@@ -146,4 +150,14 @@ void SearchCoverArtResultDialog::Initialize()
 	m_pIconCoverArt->ClearNodeList();
 	m_NodeList.clear();
 
+}
+
+QString SearchCoverArtResultDialog::GetImageFilename() const
+{
+	return m_ImageFilename;
+}
+
+void SearchCoverArtResultDialog::SetImageFilename(const QString &ImageFilename)
+{
+	m_ImageFilename = ImageFilename;
 }

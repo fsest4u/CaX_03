@@ -31,6 +31,9 @@ public:
 	QString GetThumb() const;
 	void SetThumb(const QString &Thumb);
 
+	QString GetImageFilename() const;
+	void SetImageFilename(const QString &ImageFilename);
+
 private slots:
 
 	void SlotRespCoverArtList(CJsonNode node);
@@ -54,8 +57,10 @@ private:
 	QString m_Site;
 	QString m_Keyword;
 	QString m_Artist;
+
 	QString m_Image;
 	QString m_Thumb;
+	QString m_ImageFilename;
 
 	Ui::SearchCoverArtResultDialog *ui;
 };

@@ -106,14 +106,50 @@ void CDRipInfo::SlotClickCoverArt()
 		return;
 	}
 
-//	SearchCoverArtResultDialog resultDialog;
-//	resultDialog.SetAddr(m_pMgr->GetAddr());
-//	resultDialog.RequestCoverArtList(site, keyword, artist);
-//	if (resultDialog.exec() == QDialog::Accepted)
-//	{
-//	}
+	SearchCoverArtResultDialog resultDialog;
+	resultDialog.SetAddr(m_Addr);
+	resultDialog.RequestCoverArtList(site, keyword, artist);
+	if (resultDialog.exec() == QDialog::Accepted)
+	{
+		QString style;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\'%1\');	\
+						}").arg(resultDialog.GetImageFilename());
+		ui->btnCoverArt->setStyleSheet(style);
 
+		emit SigChangeCoverArt(resultDialog.GetImage(), resultDialog.GetThumb());
+	}
+}
 
+QString CDRipInfo::GetImage() const
+{
+	return m_Image;
+}
+
+void CDRipInfo::SetImage(const QString &Image)
+{
+	m_Image = Image;
+}
+
+QString CDRipInfo::GetThumb() const
+{
+	return m_Thumb;
+}
+
+void CDRipInfo::SetThumb(const QString &Thumb)
+{
+	m_Thumb = Thumb;
+}
+
+QString CDRipInfo::GetAddr() const
+{
+	return m_Addr;
+}
+
+void CDRipInfo::SetAddr(const QString &Addr)
+{
+	m_Addr = Addr;
 }
 
 QStringList CDRipInfo::GetAlbumArtistList() const

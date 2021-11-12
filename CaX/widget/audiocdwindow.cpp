@@ -137,6 +137,7 @@ void AudioCDWindow::SlotRespTrackInfo(CJsonNode node)
 void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 {
 	CDRipInfoDialog dialog;
+	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);
 	dialog.SetArtistList(m_ArtistList);
@@ -162,16 +163,6 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 //		node.Add(KEY_CDNUMBER, cdnum);
 //		node.Add(KEY_CDYEAR, cdyear);
 //		node.Add(KEY_CDTOTAL, cdtotal);
-
-		// todo-dylee
-		QString imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFxQNqRWYbmZaAplkfO339s_kxEsEuEurbJZo4utGPt0C82DImAHgY4MgB4A&s";
-		QString thumbUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFxQNqRWYbmZaAplkfO339s_kxEsEuEurbJZo4utGPt0C82DImAHgY4MgB4A&s";
-
-		CJsonNode coverArt(JSON_OBJECT);
-		coverArt.Add("ImageUrl", imageUrl);
-		coverArt.Add("ThumUrl", thumbUrl);
-
-		node.Add("Coverart", coverArt);
 
 		node.AddInt(KEY_EVENT_ID, m_EventID);
 		LogDebug("node [%s]", node.ToCompactByteArray().data());

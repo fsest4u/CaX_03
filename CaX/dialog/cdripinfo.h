@@ -26,6 +26,15 @@ public:
 	QStringList GetAlbumArtistList() const;
 	void SetAlbumArtistList(const QStringList &AlbumArtistList);
 
+	QString GetAddr() const;
+	void SetAddr(const QString &Addr);
+
+	QString GetImage() const;
+	void SetImage(const QString &Image);
+
+	QString GetThumb() const;
+	void SetThumb(const QString &Thumb);
+
 signals:
 
 	void SigChangeFormat(int index);
@@ -34,7 +43,7 @@ signals:
 	void SigChangeCDYear(QString value);
 	void SigChangeCDNumber(QString value);
 	void SigChangeCDTotal(QString value);
-	void SigChangeCoverArt(QString value);
+	void SigChangeCoverArt(QString image, QString thumb);
 
 private slots:
 
@@ -52,6 +61,10 @@ private:
 
 	QStringList			m_AlbumList;
 	QStringList			m_AlbumArtistList;
+
+	QString				m_Addr;
+	QString				m_Image;
+	QString				m_Thumb;
 
 	Ui::CDRipInfo *ui;
 };

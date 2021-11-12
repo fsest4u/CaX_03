@@ -385,11 +385,7 @@ QWidget
 {
   border-image: url(&quot;:/resource/playlist-img160-albumart-h@3x.png&quot;);
 }
-
-QPushButton:hover
-{
-  border-image: url(&quot;:/resource/playlist-img160-albumart-h@3x.png&quot;);
-}</string>
+</string>
         </property>
        </widget>
       </item>

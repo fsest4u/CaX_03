@@ -43,6 +43,7 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 {
 	m_InfoData = node;
 	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
+	m_WidgetCD->SetAddr(m_Addr);
 	m_WidgetCD->SetAlbumList(m_AlbumList);
 	m_WidgetCD->SetAlbumArtistList(m_AlbumArtistList);
 	m_WidgetCD->SetInfoData(m_InfoData);
@@ -54,7 +55,7 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 	connect(m_WidgetCD, SIGNAL(SigChangeCDYear(QString)), this, SLOT(SlotChangeCDYear(QString)));
 	connect(m_WidgetCD, SIGNAL(SigChangeCDNumber(QString)), this, SLOT(SlotChangeCDNumber(QString)));
 	connect(m_WidgetCD, SIGNAL(SigChangeCDTotal(QString)), this, SLOT(SlotChangeCDTotal(QString)));
-	connect(m_WidgetCD, SIGNAL(SigChangeCoverArt(QString)), this, SLOT(SlotChangeCoverArt(QString)));
+	connect(m_WidgetCD, SIGNAL(SigChangeCoverArt(QString, QString)), this, SLOT(SlotChangeCoverArt(QString, QString)));
 
 	CJsonNode tracks = m_InfoData.GetArray(KEY_TRACKS);
 	LogDebug("tracks [%s]", tracks.ToCompactByteArray().data());
@@ -129,9 +130,13 @@ void CDRipInfoDialog::SlotChangeCDTotal(QString value)
 	m_InfoData.Add(KEY_CDTOTAL, value);
 }
 
-void CDRipInfoDialog::SlotChangeCoverArt(QString value)
+void CDRipInfoDialog::SlotChangeCoverArt(QString image, QString thumb)
 {
-	//	m_InfoData.Add(KEY_ALBUM, value);
+	CJsonNode coverArt(JSON_OBJECT);
+	coverArt.Add("ImageUrl", image);
+	coverArt.Add("ThumUrl", thumb);
+
+	m_InfoData.Add("Coverart", coverArt);
 }
 
 void CDRipInfoDialog::SlotChangeArtist(int index, QString value)
@@ -250,6 +255,16 @@ void CDRipInfoDialog::UpdateStackState()
 
 	ui->btnNext->setEnabled(true);
 	ui->btnPrev->setEnabled(true);
+}
+
+QString CDRipInfoDialog::GetAddr() const
+{
+	return m_Addr;
+}
+
+void CDRipInfoDialog::SetAddr(const QString &Addr)
+{
+	m_Addr = Addr;
 }
 
 QStringList CDRipInfoDialog::GetMoodList() const
