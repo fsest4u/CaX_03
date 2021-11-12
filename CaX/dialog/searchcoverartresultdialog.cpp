@@ -141,6 +141,7 @@ void SearchCoverArtResultDialog::ConnectSigToSlot()
 	connect(m_pIconCoverArt, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
 	connect(m_pIconCoverArt->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
+	connect(ui->btnMore, SIGNAL(clicked()), this, SLOT(SlotAppendIconList()));
 }
 
 void SearchCoverArtResultDialog::Initialize()
