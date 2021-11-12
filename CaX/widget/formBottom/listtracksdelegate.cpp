@@ -11,9 +11,6 @@
 
 #include "widget/form/formcoverart.h"
 
-//#include "network/tcpclient.h"
-
-
 ListTracksDelegate::ListTracksDelegate()
 {
 }
@@ -144,7 +141,7 @@ QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	Q_UNUSED(index)
 
 	ListTracksEditor *editor = new ListTracksEditor(parent);
-	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
+//	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));

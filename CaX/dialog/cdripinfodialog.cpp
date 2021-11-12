@@ -136,7 +136,6 @@ void CDRipInfoDialog::SlotChangeCoverArt(QString value)
 
 void CDRipInfoDialog::SlotChangeArtist(int index, QString value)
 {
-//	m_InfoData.GetArray(KEY_TRACKS).GetArrayAt(index).Add(KEY_ARTIST, value);
 	CJsonNode node = m_ListTrack.at(index);
 	node.Add(KEY_ARTIST, value);
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -145,32 +144,50 @@ void CDRipInfoDialog::SlotChangeArtist(int index, QString value)
 
 void CDRipInfoDialog::SlotChangeGenre(int index, QString value)
 {
-
+	CJsonNode node = m_ListTrack.at(index);
+	node.Add(KEY_GENRE, value);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	m_ListTrack.replace(index, node);
 }
 
 void CDRipInfoDialog::SlotChangeComposer(int index, QString value)
 {
-
+	CJsonNode node = m_ListTrack.at(index);
+	node.Add(KEY_COMPOSER, value);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	m_ListTrack.replace(index, node);
 }
 
 void CDRipInfoDialog::SlotChangeMood(int index, QString value)
 {
-
+	CJsonNode node = m_ListTrack.at(index);
+	node.Add(KEY_MOOD, value);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	m_ListTrack.replace(index, node);
 }
 
 void CDRipInfoDialog::SlotChangeTitle(int index, QString value)
 {
-
+	CJsonNode node = m_ListTrack.at(index);
+	node.Add(KEY_TITLE_CAP, value);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	m_ListTrack.replace(index, node);
 }
 
 void CDRipInfoDialog::SlotChangeTempo(int index, QString value)
 {
-
+	CJsonNode node = m_ListTrack.at(index);
+	node.Add(KEY_TEMPO, value);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	m_ListTrack.replace(index, node);
 }
 
 void CDRipInfoDialog::SlotChangeYear(int index, QString value)
 {
-
+	CJsonNode node = m_ListTrack.at(index);
+	node.Add(KEY_YEAR, value);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	m_ListTrack.replace(index, node);
 }
 
 void CDRipInfoDialog::accept()

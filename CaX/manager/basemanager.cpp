@@ -3,9 +3,9 @@
 #include "network/tcpclient.h"
 #include "util/log.h"
 
-BaseManager::BaseManager(QObject *parent)
-	: QObject(parent)
-	, m_pTcpClient(new TCPClient(this))
+BaseManager::BaseManager(QObject *parent) :
+	QObject(parent),
+	m_pTcpClient(new TCPClient(this))
 {
 
 }

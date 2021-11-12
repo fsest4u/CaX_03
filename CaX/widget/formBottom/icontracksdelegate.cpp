@@ -9,6 +9,7 @@
 
 IconTracksDelegate::IconTracksDelegate()
 {
+	m_TypeMode = TYPE_MODE_MAX;
 }
 
 void IconTracksDelegate::SlotClickPlay(int nID)

@@ -60,6 +60,12 @@ private slots:
 	void SlotRespCategoryList(QList<CJsonNode> list);
 	void SlotRespCategoryOverview(CJsonNode node);
 	void SlotRespTrackList(QList<CJsonNode> list);
+	void SlotRespClassifyArtist(QList<CJsonNode> list);
+	void SlotRespClassifyGenre(QList<CJsonNode> list);
+	void SlotRespClassifyComposer(QList<CJsonNode> list);
+	void SlotRespCategoryInfo(CJsonNode node);
+	void SlotRespTrackInfo(CJsonNode node);
+
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 	void SlotPlayAll();
@@ -101,18 +107,13 @@ private slots:
 	void SlotSelectTrackPlay(int nID, int playType);
 	void SlotSelectTrackFavorite(int nID, int nFavorite);
 
-	void SlotRespClassifyArtist(QList<CJsonNode> list);
-	void SlotRespClassifyGenre(QList<CJsonNode> list);
-	void SlotRespClassifyComposer(QList<CJsonNode> list);
-
 	void SlotClassifyFavorite(int nFavorite);
 	void SlotClassifyRating(int nRating);
 	void SlotClassifyArtist(bool bAdd, QString id);
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
 
-	void SlotRespCategoryInfo(CJsonNode node);
-	void SlotRespTrackInfo(CJsonNode node);
+
 
 	void SlotOptionMenuAction(int nID, int menuID);
 

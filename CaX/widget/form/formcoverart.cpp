@@ -43,12 +43,11 @@ QString FormCoverArt::GetCoverArt()
 
 void FormCoverArt::SetCoverArt(QString coverArt)
 {
-	if (coverArt.isEmpty())
-	{
-		coverArt = ":/resource/playlist-img160-albumart-h@3x.png";
-	}
-
 	m_CoverArt = coverArt;
+	if (m_CoverArt.isEmpty())
+	{
+		m_CoverArt = ":/resource/playlist-img160-albumart-h@3x.png";
+	}
 
 //	QImage image;
 //	if (image.load(coverArt))
@@ -60,7 +59,7 @@ void FormCoverArt::SetCoverArt(QString coverArt)
 //												   , Qt::KeepAspectRatio));
 //	}
 
-	QString style = QString("QFrame { border-image: url('%1'); }").arg(coverArt);
+	QString style = QString("QFrame { border-image: url('%1'); }").arg(m_CoverArt);
 	setStyleSheet(style);
 }
 

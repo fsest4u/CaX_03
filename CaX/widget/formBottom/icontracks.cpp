@@ -28,8 +28,6 @@ IconTracks::IconTracks(QWidget *parent) :
 
 IconTracks::~IconTracks()
 {
-	delete ui;
-
 	if (m_ListView)
 	{
 		delete m_ListView;
@@ -51,6 +49,9 @@ IconTracks::~IconTracks()
 		delete m_pLoading;
 		m_pLoading = nullptr;
 	}
+
+	delete ui;
+
 }
 
 QList<CJsonNode> IconTracks::GetNodeList() const
