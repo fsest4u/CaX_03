@@ -108,7 +108,20 @@ void GroupPlayWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 //		QStandardItem *item = m_pListTracks->GetModel()->item(index);
 //		item->setData(coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
 //		m_pListTracks->GetModel()->setItem(index, item);
-	//	}
+//	}
+}
+
+void GroupPlayWindow::SlotSelectPlay(int index, bool muted)
+{
+	LogDebug("good choice!~!~");
+	muted = !muted;
+
+	// server / client ??
+	m_pMgr->RequestGroupPlayMute(muted);
+
+	QStandardItem *item = m_pIconService->GetModel()->item(index);
+	item->setData(muted, IconServiceDelegate::ICON_SERVICE_MUTE);
+	m_pIconService->GetModel()->setItem(index, item);
 }
 
 void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
@@ -122,10 +135,10 @@ void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
 		return;
 	}
 
-	// temp_code, dylee
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
-	bool enabled = node.GetBool(KEY_ENABLED);
-	m_pMgr->RequestGroupPlayEnable(!enabled);
+//	// todo-dylee
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	bool enabled = node.GetBool(KEY_ENABLED);
+//	m_pMgr->RequestGroupPlayEnable(!enabled);
 }
 
 void GroupPlayWindow::SlotRespGroupPlayUpdate()
@@ -142,7 +155,7 @@ void GroupPlayWindow::ConnectSigToSlot()
 {
 	connect(m_pIconService, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 
-//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int, bool)), this, SLOT(SlotSelectPlay(int, bool)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 

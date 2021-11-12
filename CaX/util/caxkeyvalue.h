@@ -91,6 +91,8 @@
 #define		KEY_MAC_ADDR		"macAddr"
 #define		KEY_MENU_DEPTH		"MenuDepth"
 #define		KEY_MOOD			"Mood"
+#define		KEY_MUTE_CAP		"Mute"
+#define		KEY_MUTED			"muted"
 
 #define		KEY_NAME			"Name"
 #define		KEY_NAME_LOWER		"name"
@@ -253,6 +255,7 @@
 #define		VAL_SET				"Set"
 #define		VAL_SET_ALBUM		"SetAlbum"
 #define		VAL_SET_ART			"SetArt"
+#define		VAL_SET_MUTE		"SetMute"
 #define		VAL_SET_POSITION	"SetPos"
 #define		VAL_SET_TAG			"SetTag"
 #define		VAL_SET_VOLUME		"SetVol"

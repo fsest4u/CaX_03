@@ -33,7 +33,7 @@ public:
 
 signals:
 
-	void SigClickPlay(int nType);
+	void SigClickPlay(int index, bool muted);
 	void SigClickTitle(int nType, QString rawData = "");
 
 

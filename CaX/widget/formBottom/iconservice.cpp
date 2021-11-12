@@ -161,9 +161,10 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 					+ node.GetString(KEY_VOLUME);
 
 			QStandardItem *item = new QStandardItem;
-			item->setData(node.GetInt(KEY_MAC_ADDR), IconServiceDelegate::ICON_SERVICE_ID);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_ID);
 			item->setData(node.GetInt(KEY_MAC_ADDR), IconServiceDelegate::ICON_SERVICE_TYPE);
 			item->setData(":/resource/groupp-img160-n@3x.png", IconServiceDelegate::ICON_SERVICE_COVER);
+			item->setData(node.GetBool(KEY_MUTED), IconServiceDelegate::ICON_SERVICE_MUTE);
 			item->setData(node.GetString(KEY_CA_NAME), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(subtitle, IconServiceDelegate::ICON_SERVICE_SUBTITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);

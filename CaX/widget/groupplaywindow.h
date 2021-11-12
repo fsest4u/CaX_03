@@ -30,6 +30,7 @@ private slots:
 
 	void SlotReqCoverArt(int id, int index, int mode);
 	void SlotCoverArtUpdate(QString coverArt, int index, int mode);
+	void SlotSelectPlay(int index, bool muted);
 	void SlotSelectTitle(int type, QString rawData);
 
 	void SlotRespGroupPlayUpdate();

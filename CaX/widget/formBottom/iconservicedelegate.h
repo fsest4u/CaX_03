@@ -14,6 +14,7 @@ public:
 		ICON_SERVICE_ID = Qt::UserRole + 0,
 		ICON_SERVICE_TYPE,
 		ICON_SERVICE_COVER,
+		ICON_SERVICE_MUTE,
 		ICON_SERVICE_TITLE,
 		ICON_SERVICE_SUBTITLE,
 		ICON_SERVICE_RAW,
@@ -26,13 +27,13 @@ public:
 
 signals:
 
-//	void SigSelectPlay(int nType);
+	void SigSelectPlay(int index, bool muted);
 	void SigSelectTitle(int nType);
 	void SigSelectTitle(int nType, QString rawData);
 
 private slots:
 
-	void SlotClickPlay(int nType);
+	void SlotClickPlay(int index, bool muted);
 	void SlotClickTitle(int nType, QString rawData);
 
 private:

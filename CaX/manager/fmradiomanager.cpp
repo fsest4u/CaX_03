@@ -138,14 +138,13 @@ void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 	case FM_LIST:
 		ParseList(node);
 		break;
+	case FM_RECORD_LIST:
+		ParseRecordList(node);
+		break;
 	case FM_PLAY:
 	case FM_SEEK:
 	case FM_ADD:
 	case FM_DELETE:
-		// response observe - todo-dylee
-		break;
-	case FM_RECORD_LIST:
-		ParseRecordList(node);
 		break;
 	case FM_MAX:
 		emit SigRespError(STR_INVALID_ID);

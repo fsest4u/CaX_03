@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>403</height>
+    <height>379</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,12 @@
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;
 }
-QDialog
+QPushButton
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QWidget
 {
 	background-color: rgb(255, 255, 255);
 }</string>
@@ -41,7 +46,7 @@ QDialog
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="12" column="0">
-        <widget class="QFrame" name="frame_16">
+        <widget class="QFrame" name="frameSampleRate">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -67,7 +72,7 @@ QDialog
         </widget>
        </item>
        <item row="8" column="0">
-        <widget class="QFrame" name="frame_12">
+        <widget class="QFrame" name="frameTrack">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -93,7 +98,7 @@ QDialog
         </widget>
        </item>
        <item row="14" column="0">
-        <widget class="QFrame" name="frame_18">
+        <widget class="QFrame" name="frameFormat">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -119,7 +124,7 @@ QDialog
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QFrame" name="frame_5">
+        <widget class="QFrame" name="frameAlbum">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -145,7 +150,7 @@ QDialog
         </widget>
        </item>
        <item row="7" column="0">
-        <widget class="QFrame" name="frame_11">
+        <widget class="QFrame" name="frameTempo">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -171,7 +176,7 @@ QDialog
         </widget>
        </item>
        <item row="18" column="0">
-        <widget class="QFrame" name="frame_22">
+        <widget class="QFrame" name="frameCDTotal">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -197,7 +202,7 @@ QDialog
         </widget>
        </item>
        <item row="16" column="0">
-        <widget class="QFrame" name="frame_20">
+        <widget class="QFrame" name="frameCDYear">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -223,7 +228,7 @@ QDialog
         </widget>
        </item>
        <item row="15" column="0">
-        <widget class="QFrame" name="frame_19">
+        <widget class="QFrame" name="frameYear">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -249,7 +254,7 @@ QDialog
         </widget>
        </item>
        <item row="11" column="0">
-        <widget class="QFrame" name="frame_15">
+        <widget class="QFrame" name="frameDuration">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -275,7 +280,7 @@ QDialog
         </widget>
        </item>
        <item row="10" column="0">
-        <widget class="QFrame" name="frame_14">
+        <widget class="QFrame" name="frameBitrate">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -301,7 +306,7 @@ QDialog
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QFrame" name="frame_8">
+        <widget class="QFrame" name="frameAlbumArtist">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -327,7 +332,7 @@ QDialog
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QFrame" name="frame_7">
+        <widget class="QFrame" name="frameGenre">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -353,7 +358,7 @@ QDialog
         </widget>
        </item>
        <item row="17" column="0">
-        <widget class="QFrame" name="frame_21">
+        <widget class="QFrame" name="frameCDNumber">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -379,7 +384,7 @@ QDialog
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QFrame" name="frame_4">
+        <widget class="QFrame" name="frameTitle">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -417,7 +422,7 @@ QDialog
         </widget>
        </item>
        <item row="9" column="0">
-        <widget class="QFrame" name="frame_13">
+        <widget class="QFrame" name="framePath">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -443,7 +448,7 @@ QDialog
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QFrame" name="frame_9">
+        <widget class="QFrame" name="frameComposer">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -469,7 +474,7 @@ QDialog
         </widget>
        </item>
        <item row="6" column="0">
-        <widget class="QFrame" name="frame_10">
+        <widget class="QFrame" name="frameMood">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -495,7 +500,7 @@ QDialog
         </widget>
        </item>
        <item row="13" column="0">
-        <widget class="QFrame" name="frame_17">
+        <widget class="QFrame" name="frameChannel">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -521,7 +526,7 @@ QDialog
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QFrame" name="frame_6">
+        <widget class="QFrame" name="frameArtist">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>

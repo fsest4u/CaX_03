@@ -11,6 +11,8 @@ public:
 
 	void RequestGroupPlayList(int eventID);
 	void RequestGroupPlayEnable(bool enable);
+	void RequestGroupPlayMute(bool mute);
+
 
 signals:
 
@@ -28,6 +30,7 @@ private:
 	enum {
 		GROUP_PLAY_LIST = 0,
 		GROUP_PLAY_ENABLE,
+		GROUP_PLAY_MUTE,
 		GROUP_PLAY_MAX
 	};
 

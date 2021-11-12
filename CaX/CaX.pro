@@ -14,6 +14,7 @@ SOURCES += \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
     dialog/cdriptrackinfo.cpp \
+    dialog/groupplaydialog.cpp \
     dialog/inputnamedialog.cpp \
     dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
     dialog/cdriptrackinfo.h \
+    dialog/groupplaydialog.h \
     dialog/inputnamedialog.h \
     dialog/limitcountdialog.h \
     dialog/logindialog.h \
@@ -203,6 +205,7 @@ FORMS += \
     dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \
     dialog/cdriptrackinfo.ui \
+    dialog/groupplaydialog.ui \
     dialog/inputnamedialog.ui \
     dialog/limitcountdialog.ui \
     dialog/logindialog.ui \

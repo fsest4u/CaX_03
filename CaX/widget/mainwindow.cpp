@@ -429,7 +429,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	{
 		bAudioCD = false;
 	}
-	// todo-dylee
+
 //	if (!node.GetBool(KEY_SIGMA, bSigma))
 //	{
 //		bSigma = false;
@@ -499,8 +499,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 		}
 	}
 
-	// todo-dylee
-	//	emit SigTaskList();
+//	emit SigTaskList();
 
 	DoMusicDBHome();
 }

@@ -29,6 +29,16 @@ void GroupPlayManager::RequestGroupPlayEnable(bool enable)
 	RequestCommand(node, GROUP_PLAY_ENABLE);
 }
 
+void GroupPlayManager::RequestGroupPlayMute(bool mute)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAY);
+	node.Add(KEY_CMD1, VAL_SET_MUTE);
+	node.Add(KEY_MUTE_CAP, mute);
+
+	RequestCommand(node, GROUP_PLAY_MUTE);
+}
+
 void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
 {
 	CJsonNode node;
@@ -60,6 +70,8 @@ void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
 		ParseGroupPlayList(node);
 		break;
 	case GROUP_PLAY_ENABLE:
+		break;
+	case GROUP_PLAY_MUTE:
 		break;
 	}
 

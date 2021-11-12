@@ -215,6 +215,35 @@ void FormCoverArt::SetSelect(bool Select)
 
 }
 
+bool FormCoverArt::GetMute() const
+{
+	return m_Mute;
+}
+
+void FormCoverArt::SetMute(bool Mute)
+{
+	m_Mute = Mute;
+	ui->labelPlay->show();
+
+	QString style;
+	if (m_Mute)
+	{
+		style = QString("QLabel	\
+						{	\
+							border-image: url(\":/resource/play-btn28-popupmenu-h@3x.png\");	\
+						}");
+	}
+	else
+	{
+		style = QString("QLabel	\
+						{	\
+							border-image: url(\":/resource/groupp-icon30-volume@3x.png\");	\
+						}");
+
+	}
+	ui->labelPlay->setStyleSheet(style);
+}
+
 bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)

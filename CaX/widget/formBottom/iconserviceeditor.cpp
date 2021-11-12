@@ -81,7 +81,7 @@ FormCoverArt *IconServiceEditor::GetFormCoverArt() const
 
 void IconServiceEditor::SlotPlay()
 {
-	emit SigClickPlay(m_Type);
+	emit SigClickPlay(m_ID, m_pFormCoverArt->GetMute());
 }
 
 void IconServiceEditor::SlotTitle()

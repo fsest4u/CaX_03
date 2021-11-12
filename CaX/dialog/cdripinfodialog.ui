@@ -19,7 +19,12 @@
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;
 }
-QDialog
+QPushButton
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QWidget
 {
 	background-color: rgb(255, 255, 255);
 }</string>
@@ -78,8 +83,8 @@ QPushButton:hover
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>389</width>
-        <height>401</height>
+        <width>399</width>
+        <height>404</height>
        </rect>
       </property>
       <property name="styleSheet">

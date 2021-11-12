@@ -30,6 +30,9 @@ public:
 	bool GetSelect() const;
 	void SetSelect(bool Select);
 
+	bool GetMute() const;
+	void SetMute(bool Mute);
+
 signals:
 
 	void SigRating(int nRating);
@@ -56,6 +59,7 @@ private:
 	int		m_Favorite;
 	int		m_Count;
 	bool	m_Select;
+	bool	m_Mute;
 
 	Ui::FormCoverArt *ui;
 };

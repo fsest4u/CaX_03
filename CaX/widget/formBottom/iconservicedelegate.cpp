@@ -17,9 +17,9 @@ IconServiceDelegate::IconServiceDelegate()
 
 }
 
-void IconServiceDelegate::SlotClickPlay(int nType)
+void IconServiceDelegate::SlotClickPlay(int index, bool muted)
 {
-//	emit SigSelectPlay(nType);
+	emit SigSelectPlay(index, muted);
 }
 
 void IconServiceDelegate::SlotClickTitle(int nType, QString rawData)
@@ -68,7 +68,7 @@ QWidget *IconServiceDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	Q_UNUSED(index)
 
 	IconServiceEditor *editor = new IconServiceEditor(parent);
-	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
+	connect(editor, SIGNAL(SigClickPlay(int, bool)), this, SLOT(SlotClickPlay(int, bool)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 
 	return editor;
@@ -83,6 +83,7 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT)));
+	widget->GetFormCoverArt()->SetMute(qvariant_cast<bool>(index.data(ICON_SERVICE_MUTE)));
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
 	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
 	widget->blockSignals(false);
@@ -96,6 +97,7 @@ void IconServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetRawData(), ICON_SERVICE_RAW);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_SERVICE_COVER);
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), ICON_SERVICE_SELECT);
+	model->setData(index, widget->GetFormCoverArt()->GetMute(), ICON_SERVICE_MUTE);
 	model->setData(index, widget->GetFormTitle()->GetTitle(), ICON_SERVICE_TITLE);
 	model->setData(index, widget->GetFormTitle()->GetSubtitle(), ICON_SERVICE_SUBTITLE);
 }
