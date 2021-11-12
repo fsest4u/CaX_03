@@ -23,13 +23,15 @@ signals:
 
 	void SigRespError(QString errMsg);
 	void SigRespCoverArtList(CJsonNode node);
-	void SigRespSearchCoverArt(QString filename, int index);
+	void SigRespSearchCoverArt(QByteArray data, int index);
+//	void SigRespSearchCoverArt(QString filename, int index);
 
 
 private slots:
 
 	void SlotRespInfo(QString json, int nCmdID);
-	void SlotRespSearchCoverArt(QString filename, int index);
+	void SlotRespSearchCoverArt(QByteArray data, int index);
+//	void SlotRespSearchCoverArt(QString filename, int index);
 
 private:
 

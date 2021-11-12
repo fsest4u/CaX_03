@@ -9,7 +9,7 @@ FormSearchCoverArt::FormSearchCoverArt(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->frameCoverArt->installEventFilter(this);
+	ui->labelCoverArt->installEventFilter(this);
 
 }
 
@@ -18,36 +18,36 @@ FormSearchCoverArt::~FormSearchCoverArt()
 	delete ui;
 }
 
+#if 1
+QByteArray FormSearchCoverArt::GetCoverArt() const
+{
+	return m_CoverArt;
+}
 
-//QByteArray FormSearchCoverArt::GetCoverArt() const
-//{
-//	return m_CoverArt;
-//}
+void FormSearchCoverArt::SetCoverArt(const QByteArray &CoverArt)
+{
+	m_CoverArt = CoverArt;
+	if (m_CoverArt.isEmpty())
+	{
+//		m_CoverArt = ":/resource/playlist-img160-albumart-h@3x.png";
+	}
 
-//void FormSearchCoverArt::SetCoverArt(const QByteArray &CoverArt)
-//{
-//	m_CoverArt = CoverArt;
-//	if (m_CoverArt.isEmpty())
+//	QImage image;
+//	if (image.loadFromData(m_CoverArt))
 //	{
-////		m_CoverArt = ":/resource/playlist-img160-albumart-h@3x.png";
+////		painter->drawImage(coverRect, image);
+//		QPixmap pixmap = QPixmap::fromImage(image);
+//		ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
+//												   , ui->labelCoverArt->height()
+//												   , Qt::KeepAspectRatio));
 //	}
-
-////	QImage image;
-////	if (image.loadFromData(m_CoverArt))
-////	{
-//////		painter->drawImage(coverRect, image);
-////		QPixmap pixmap = QPixmap::fromImage(image);
-////		ui->labelCoverArt->setPixmap(pixmap.scaled(ui->labelCoverArt->width()
-////												   , ui->labelCoverArt->height()
-////												   , Qt::KeepAspectRatio));
-////	}
-//	QPixmap *pixmap = new QPixmap();
-//	pixmap->loadFromData(m_CoverArt);
-//	ui->labelCoverArt->setPixmap(pixmap->scaled(ui->labelCoverArt->width()
-//												, ui->labelCoverArt->height()
-//												, Qt::KeepAspectRatio));
-//}
-
+	QPixmap *pixmap = new QPixmap();
+	pixmap->loadFromData(m_CoverArt);
+	ui->labelCoverArt->setPixmap(pixmap->scaled(ui->labelCoverArt->width()
+												, ui->labelCoverArt->height()
+												, Qt::KeepAspectRatio));
+}
+#else
 QString FormSearchCoverArt::GetCoverArt() const
 {
 	return m_CoverArt;
@@ -74,12 +74,12 @@ void FormSearchCoverArt::SetCoverArt(const QString &CoverArt)
 	QString style = QString("QFrame { border-image: url('%1'); }").arg(m_CoverArt);
 	setStyleSheet(style);
 }
-
+#endif
 bool FormSearchCoverArt::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->frameCoverArt)
+		if (object == ui->labelCoverArt)
 		{
 			emit SigCoverArt();
 		}

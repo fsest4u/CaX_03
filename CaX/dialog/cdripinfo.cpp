@@ -1,3 +1,5 @@
+#include <QMouseEvent>
+
 #include "cdripinfo.h"
 #include "ui_cdripinfo.h"
 
@@ -22,7 +24,10 @@ CDRipInfo::CDRipInfo(QWidget *parent) :
 	connect(ui->lineEditCDYear, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDYear()));
 	connect(ui->lineEditCDNumber, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDNumber()));
 	connect(ui->lineEditCDTotal, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDTotal()));
-	connect(ui->btnCoverArt, SIGNAL(clicked()), this, SLOT(SlotClickCoverArt()));
+//	connect(ui->btnCoverArt, SIGNAL(clicked()), this, SLOT(SlotClickCoverArt()));
+
+	ui->labelCoverArt->installEventFilter(this);
+
 }
 
 CDRipInfo::~CDRipInfo()
@@ -111,12 +116,28 @@ void CDRipInfo::SlotClickCoverArt()
 	resultDialog.RequestCoverArtList(site, keyword, artist);
 	if (resultDialog.exec() == QDialog::Accepted)
 	{
+#if 1
+		QString style;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\'\');	\
+						}");
+		ui->labelCoverArt->setStyleSheet(style);
+
+		QPixmap *pixmap = new QPixmap();
+		pixmap->loadFromData(resultDialog.GetImageData());
+		ui->labelCoverArt->setPixmap(pixmap->scaled(ui->labelCoverArt->width()
+													, ui->labelCoverArt->height()
+													, Qt::KeepAspectRatio));
+
+#else
 		QString style;
 		style = QString("QPushButton	\
 						{	\
 						  border-image: url(\'%1\');	\
-						}").arg(resultDialog.GetImageFilename());
+						}").arg(resultDialog.GetImagePath());
 		ui->btnCoverArt->setStyleSheet(style);
+#endif
 
 		emit SigChangeCoverArt(resultDialog.GetImage(), resultDialog.GetThumb());
 	}
@@ -140,6 +161,19 @@ QString CDRipInfo::GetThumb() const
 void CDRipInfo::SetThumb(const QString &Thumb)
 {
 	m_Thumb = Thumb;
+}
+
+bool CDRipInfo::eventFilter(QObject *object, QEvent *event)
+{
+	if (event->type() == QMouseEvent::MouseButtonPress)
+	{
+		if (object == ui->labelCoverArt)
+		{
+			SlotClickCoverArt();
+		}
+	}
+
+	return QObject::eventFilter(object, event);
 }
 
 QString CDRipInfo::GetAddr() const

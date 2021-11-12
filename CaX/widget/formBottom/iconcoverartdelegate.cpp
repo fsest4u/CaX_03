@@ -29,7 +29,8 @@ QSize IconCoverArtDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	return QSize(ICON_HEIGHT_MIN - 35, ICON_HEIGHT_MIN - 20);
+	return QSize(ICON_ITEM_WIDTH - 35, ICON_ITEM_HEIGHT - 20);
+//	return QSize(ICON_HEIGHT_MIN - 35, ICON_HEIGHT_MIN - 20);
 }
 
 QWidget *IconCoverArtDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -48,8 +49,8 @@ void IconCoverArtDelegate::setEditorData(QWidget *editor, const QModelIndex &ind
 	IconCoverArtEditor *widget = static_cast<IconCoverArtEditor*>(editor);
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<int>(index.data(ICON_COVER_ART_ID)));
-//	widget->GetFormSearchCoverArt()->SetCoverArt(qvariant_cast<QByteArray>(index.data(ICON_COVER_ART_COVER)));
-	widget->GetFormSearchCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_COVER_ART_COVER)));
+	widget->GetFormSearchCoverArt()->SetCoverArt(qvariant_cast<QByteArray>(index.data(ICON_COVER_ART_COVER)));
+//	widget->GetFormSearchCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_COVER_ART_COVER)));
 	widget->blockSignals(false);
 
 }

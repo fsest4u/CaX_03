@@ -31,14 +31,17 @@ public:
 	QString GetThumb() const;
 	void SetThumb(const QString &Thumb);
 
-	QString GetImageFilename() const;
-	void SetImageFilename(const QString &ImageFilename);
+	QByteArray GetImageData() const;
+	void SetImageData(const QByteArray &ImageData);
+
+//	QString GetImagePath() const;
+//	void SetImagePath(const QString &ImagePath);
 
 private slots:
 
 	void SlotRespCoverArtList(CJsonNode node);
-	//	void SlotRespSearchCoverArt(QByteArray data, int index);
-	void SlotRespSearchCoverArt(QString filename, int index);
+	void SlotRespSearchCoverArt(QByteArray data, int index);
+//	void SlotRespSearchCoverArt(QString filename, int index);
 	void SlotSearchCoverArt(int index, QString url);
 	void SlotAppendIconList();
 	void SlotSelectCoverArt(int index);
@@ -60,7 +63,8 @@ private:
 
 	QString m_Image;
 	QString m_Thumb;
-	QString m_ImageFilename;
+	QByteArray m_ImageData;
+//	QString m_ImagePath;
 
 	Ui::SearchCoverArtResultDialog *ui;
 };

@@ -45,6 +45,10 @@ signals:
 	void SigChangeCDTotal(QString value);
 	void SigChangeCoverArt(QString image, QString thumb);
 
+protected:
+
+	bool eventFilter(QObject *object, QEvent *event);
+
 private slots:
 
 	void SlotChangedFormat(int index);

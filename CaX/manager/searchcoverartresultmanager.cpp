@@ -5,8 +5,8 @@ SearchCoverArtResultManager::SearchCoverArtResultManager(QObject *parent)
 	Q_UNUSED(parent)
 
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
-//	connect((QObject*)GetTcpClient(), SIGNAL(SigRespSearchCoverArt(QByteArray, int)), this, SLOT(SlotRespSearchCoverArt(QByteArray, int)));
-	connect((QObject*)GetTcpClient(), SIGNAL(SigRespSearchCoverArt(QString, int)), this, SLOT(SlotRespSearchCoverArt(QString, int)));
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespSearchCoverArt(QByteArray, int)), this, SLOT(SlotRespSearchCoverArt(QByteArray, int)));
+//	connect((QObject*)GetTcpClient(), SIGNAL(SigRespSearchCoverArt(QString, int)), this, SLOT(SlotRespSearchCoverArt(QString, int)));
 }
 
 SearchCoverArtResultManager::~SearchCoverArtResultManager()
@@ -71,17 +71,15 @@ void SearchCoverArtResultManager::SlotRespInfo(QString json, int nCmdID)
 
 }
 
-//void SearchCoverArtResultManager::SlotRespSearchCoverArt(QByteArray data, int index)
-//{
-//	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
-//	itemIcon->setData(data, IconCoverArtDelegate::ICON_COVER_ART_COVER);
-//	m_pIconCoverArt->GetModel()->setItem(index, itemIcon);
-//}
-
-void SearchCoverArtResultManager::SlotRespSearchCoverArt(QString filename, int index)
+void SearchCoverArtResultManager::SlotRespSearchCoverArt(QByteArray data, int index)
 {
-	emit SigRespSearchCoverArt(filename, index);
+	emit SigRespSearchCoverArt(data, index);
 }
+
+//void SearchCoverArtResultManager::SlotRespSearchCoverArt(QString filename, int index)
+//{
+//	emit SigRespSearchCoverArt(filename, index);
+//}
 
 void SearchCoverArtResultManager::ParseCoverArtList(CJsonNode node)
 {
