@@ -292,52 +292,100 @@ DISTFILES += \
     app.ico \
     logo-icon-musicxneo-256.ico \
     resource/Component 2-1.png \
+    resource/Component 2-1.png \
+    resource/Component 2-1@2x.png \
     resource/Component 2-1@2x.png \
     resource/Component 2-1@3x.png \
+    resource/Component 2-1@3x.png \
+    resource/Component 2-3.png \
     resource/Component 2-3.png \
     resource/Component 2-3@2x.png \
+    resource/Component 2-3@2x.png \
+    resource/Component 2-3@3x.png \
     resource/Component 2-3@3x.png \
     resource/Group 1464.png \
+    resource/Group 1464.png \
+    resource/Group 1464@2x.png \
     resource/Group 1464@2x.png \
     resource/Group 1464@3x.png \
+    resource/Group 1464@3x.png \
+    resource/Group 1497.png \
     resource/Group 1497.png \
     resource/Group 1497@2x.png \
+    resource/Group 1497@2x.png \
+    resource/Group 1497@3x.png \
     resource/Group 1497@3x.png \
     resource/Group 1903.png \
+    resource/Group 1903.png \
+    resource/Group 1903@2x.png \
     resource/Group 1903@2x.png \
     resource/Group 1903@3x.png \
+    resource/Group 1903@3x.png \
+    resource/Group 1973.png \
     resource/Group 1973.png \
     resource/Group 1973@2x.png \
+    resource/Group 1973@2x.png \
+    resource/Group 1973@3x.png \
     resource/Group 1973@3x.png \
     resource/Group 1978.png \
+    resource/Group 1978.png \
+    resource/Group 1978@2x.png \
     resource/Group 1978@2x.png \
     resource/Group 1978@3x.png \
+    resource/Group 1978@3x.png \
+    resource/Group 2003.png \
     resource/Group 2003.png \
     resource/Group 2003@2x.png \
+    resource/Group 2003@2x.png \
+    resource/Group 2003@3x.png \
     resource/Group 2003@3x.png \
     resource/Group 2031.png \
+    resource/Group 2031.png \
+    resource/Group 2031@2x.png \
     resource/Group 2031@2x.png \
     resource/Group 2031@3x.png \
+    resource/Group 2031@3x.png \
+    resource/Group 2033.png \
     resource/Group 2033.png \
     resource/Group 2033@2x.png \
+    resource/Group 2033@2x.png \
+    resource/Group 2033@3x.png \
     resource/Group 2033@3x.png \
     resource/Group 2034.png \
+    resource/Group 2034.png \
+    resource/Group 2034@2x.png \
     resource/Group 2034@2x.png \
     resource/Group 2034@3x.png \
+    resource/Group 2034@3x.png \
+    resource/Group 2094.png \
     resource/Group 2094.png \
     resource/Group 2094@2x.png \
+    resource/Group 2094@2x.png \
+    resource/Group 2094@3x.png \
     resource/Group 2094@3x.png \
     resource/Group 2095.png \
+    resource/Group 2095.png \
+    resource/Group 2095@2x.png \
     resource/Group 2095@2x.png \
     resource/Group 2095@3x.png \
+    resource/Group 2095@3x.png \
+    resource/Path 289.png \
     resource/Path 289.png \
     resource/Path 289@2x.png \
+    resource/Path 289@2x.png \
+    resource/Path 289@3x.png \
     resource/Path 289@3x.png \
     resource/Rectangle 380.png \
+    resource/Rectangle 380.png \
+    resource/Rectangle 380@2x.png \
     resource/Rectangle 380@2x.png \
     resource/Rectangle 380@3x.png \
+    resource/Rectangle 380@3x.png \
+    resource/Rectangle 383.png \
     resource/Rectangle 383.png \
     resource/Rectangle 383@2x.png \
+    resource/Rectangle 383@2x.png \
+    resource/Rectangle 383@3x.png \
     resource/Rectangle 383@3x.png \
     resource/about.html \
     resource/audiocd-popup-btn110-ok-h.png \
@@ -376,6 +424,9 @@ DISTFILES += \
     resource/browser-icon16-cleanreplaygain.png \
     resource/browser-icon16-cleanreplaygain@2x.png \
     resource/browser-icon16-cleanreplaygain@3x.png \
+    resource/browser-icon16-clearreplay.png \
+    resource/browser-icon16-clearreplay@2x.png \
+    resource/browser-icon16-clearreplay@3x.png \
     resource/browser-icon16-convertaudio.png \
     resource/browser-icon16-convertaudio@2x.png \
     resource/browser-icon16-convertaudio@3x.png \
@@ -397,6 +448,21 @@ DISTFILES += \
     resource/browser-icon16-newfolder.png \
     resource/browser-icon16-newfolder@2x.png \
     resource/browser-icon16-newfolder@3x.png \
+    resource/browser-icon16-overwrite.png \
+    resource/browser-icon16-overwrite@2x.png \
+    resource/browser-icon16-overwrite@3x.png \
+    resource/browser-icon16-playlast.png \
+    resource/browser-icon16-playlast@2x.png \
+    resource/browser-icon16-playlast@3x.png \
+    resource/browser-icon16-playnext.png \
+    resource/browser-icon16-playnext@2x.png \
+    resource/browser-icon16-playnext@3x.png \
+    resource/browser-icon16-playnow.png \
+    resource/browser-icon16-playnow@2x.png \
+    resource/browser-icon16-playnow@3x.png \
+    resource/browser-icon16-playsubfolder.png \
+    resource/browser-icon16-playsubfolder@2x.png \
+    resource/browser-icon16-playsubfolder@3x.png \
     resource/browser-icon16-reload.png \
     resource/browser-icon16-reload@2x.png \
     resource/browser-icon16-reload@3x.png \
@@ -556,6 +622,15 @@ DISTFILES += \
     resource/internets-btn28-record-u.png \
     resource/internets-btn28-record-u@2x.png \
     resource/internets-btn28-record-u@3x.png \
+    resource/internets-icon40-reservedrecordlist.png \
+    resource/internets-icon40-reservedrecordlist@2x.png \
+    resource/internets-icon40-reservedrecordlist@3x.png \
+    resource/internets-icon40-search.png \
+    resource/internets-icon40-search@2x.png \
+    resource/internets-icon40-search@3x.png \
+    resource/internets-icon40-titlecover.png \
+    resource/internets-icon40-titlecover@2x.png \
+    resource/internets-icon40-titlecover@3x.png \
     resource/internets-img160-airable-h.png \
     resource/internets-img160-airable-h@2x.png \
     resource/internets-img160-airable-h@3x.png \
@@ -815,6 +890,15 @@ DISTFILES += \
     resource/radio-icon-ytn.png \
     resource/radio-icon-ytn@2x.png \
     resource/radio-icon-ytn@3x.png \
+    resource/radio-icon16-clearseekall.png \
+    resource/radio-icon16-clearseekall@2x.png \
+    resource/radio-icon16-clearseekall@3x.png \
+    resource/radio-icon16-reservedrecordlist.png \
+    resource/radio-icon16-reservedrecordlist@2x.png \
+    resource/radio-icon16-reservedrecordlist@3x.png \
+    resource/radio-icon16-seekall.png \
+    resource/radio-icon16-seekall@2x.png \
+    resource/radio-icon16-seekall@3x.png \
     resource/radio-img160-blank-h.png \
     resource/radio-img160-blank-h@2x.png \
     resource/radio-img160-blank-h@3x.png \
@@ -827,6 +911,18 @@ DISTFILES += \
     resource/radio-img160-channelicon-n.png \
     resource/radio-img160-channelicon-n@2x.png \
     resource/radio-img160-channelicon-n@3x.png \
+    resource/search-btn60-close-n.png \
+    resource/search-btn60-close-n@2x.png \
+    resource/search-btn60-close-n@3x.png \
+    resource/search-btn60-more-h.png \
+    resource/search-btn60-more-h@2x.png \
+    resource/search-btn60-more-h@3x.png \
+    resource/search-btn60-more-n.png \
+    resource/search-btn60-more-n@2x.png \
+    resource/search-btn60-more-n@3x.png \
+    resource/search-btn60-more-u.png \
+    resource/search-btn60-more-u@2x.png \
+    resource/search-btn60-more-u@3x.png \
     resource/search-icon24-on.png \
     resource/search-icon24-on@2x.png \
     resource/search-icon24-on@3x.png \
