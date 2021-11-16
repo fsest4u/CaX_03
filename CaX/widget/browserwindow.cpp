@@ -3,48 +3,54 @@
 
 #include "browser.h"
 
+#include "dialog/inputnamedialog.h"
+#include "dialog/logindialog.h"
+#include "dialog/selectformatdialog.h"
+#include "dialog/searchcoverartdialog.h"
+#include "dialog/searchcoverartdialog.h"
+#include "dialog/searchcoverartresultdialog.h"
+
 #include "manager/browsermanager.h"
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/settingio.h"
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
 
 #include "widget/formTop/infoservice.h"
+#include "widget/formTop/infobrowser.h"
 #include "widget/formBottom/iconservice.h"
 #include "widget/formBottom/iconservicedelegate.h"
-#include "widget/formBottom/listservice.h"
-#include "widget/formBottom/listservicedelegate.h"
+#include "widget/formBottom/listbrowser.h"
+#include "widget/formBottom/listbrowserdelegate.h"
 
-#include "dialog/logindialog.h"
+
+const QString SETTINGS_GROUP = "Browser";
 
 #define BROWSER_TITLE		"Browser"
 
-BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const QString &root) :
+BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const int &eventID, const QString &root) :
 	QWidget(parent),
 	m_pMgr(new BrowserManager),
 	m_pInfoService(new InfoService(this)),
+	m_pInfoBrowser(new InfoBrowser(this)),
 	m_pIconService(new IconService(this)),
-	m_pListService(new ListService(this)),
+	m_pListBrowser(new ListBrowser(this)),
+	m_Root(root),
+	m_EventID(eventID),
 	ui(new Ui::BrowserWindow)
 {
 	ui->setupUi(this);
 
 	m_pMgr->SetAddr(addr);
-	m_Root = root;
-	m_Dirs.clear();
-	m_Files.clear();
 
 	ConnectSigToSlot();
 
-	m_pInfoService->GetFormPlay()->ShowMenu();
-//	m_pInfoService->GetFormSort()->ShowResize();
-
-	m_TopMenuMap.clear();
-//	m_SelectMap.clear();
+	Initialize();
 
 }
 
@@ -64,16 +70,22 @@ BrowserWindow::~BrowserWindow()
 		m_pInfoService = nullptr;
 	}
 
+	if (m_pInfoBrowser)
+	{
+		delete m_pInfoBrowser;
+		m_pInfoBrowser = nullptr;
+	}
+
 	if (m_pIconService)
 	{
 		delete m_pIconService;
 		m_pIconService = nullptr;
 	}
 
-	if (m_pListService)
+	if (m_pListBrowser)
 	{
-		delete m_pListService;
-		m_pListService = nullptr;
+		delete m_pListBrowser;
+		m_pListBrowser = nullptr;
 	}
 
 }
@@ -83,7 +95,14 @@ void BrowserWindow::RequestRoot()
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
 
-	m_pMgr->RequestRoot();
+	if (MODE_COPY == m_BrowserMode || MODE_MOVE == m_BrowserMode)
+	{
+		m_pMgr->RequestRoot(true);
+	}
+	else
+	{
+		m_pMgr->RequestRoot();
+	}
 
 }
 
@@ -92,8 +111,34 @@ void BrowserWindow::RequestFolder(QString strPath)
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
 
-	m_pMgr->RequestFolder(strPath);
+	if (MODE_COPY == m_BrowserMode || MODE_MOVE == m_BrowserMode)
+	{
+		m_pMgr->RequestFolder(strPath, true);
+	}
+	else
+	{
+		m_pMgr->RequestFolder(strPath);
+	}
+}
 
+int BrowserWindow::GetFolderType() const
+{
+	return m_FolderType;
+}
+
+void BrowserWindow::SetFolderType(int FolderType)
+{
+	m_FolderType = FolderType;
+}
+
+int BrowserWindow::GetBrowserMode() const
+{
+	return m_BrowserMode;
+}
+
+void BrowserWindow::SetBrowserMode(int BrowserMode)
+{
+	m_BrowserMode = BrowserMode;
 }
 
 void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
@@ -101,9 +146,16 @@ void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
 	emit SigAddWidget(widget, title);		// recursive
 }
 
-void BrowserWindow::SlotPlayAll()
+void BrowserWindow::SlotRemoveWidget(QWidget *widget)
 {
-	m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
+	emit SigRemoveWidget(widget);
+}
+
+void BrowserWindow::SlotPlayAll(int where)
+{
+	SetDirFile();
+
+	m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files, where);
 }
 
 void BrowserWindow::SlotPlayRandom()
@@ -113,43 +165,84 @@ void BrowserWindow::SlotPlayRandom()
 
 void BrowserWindow::SlotTopMenu()
 {
-	QMap<int, bool> map = m_pIconService->GetSelectMap();
-	if (map.count() > 0)
-	{
-//		SetSelectOnTopMenu();
-	}
-	else
-	{
-//		SetSelectOffTopMenu();
-	}
-	// for debug
-	QMap<int, bool>::iterator i;
-	for (i = map.begin(); i!= map.end(); i++)
-	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
-	}
 
-	QMap<int, bool> map2 = m_pListService->GetSelectMap();
-	if (map2.count() > 0)
+	m_SelectMap = m_pListBrowser->GetSelectMap();
+
+	if (m_SelectMap.count() > 0)
 	{
-//		SetSelectOnTopMenu();
+		SetSelectOnTopMenu();
 	}
 	else
 	{
-//		SetSelectOffTopMenu();
-	}
-	// for debug
-	QMap<int, bool>::iterator i2;
-	for (i2 = map2.begin(); i2!= map2.end(); i2++)
-	{
-		LogDebug("key2 [%d] value2 [%d]", i2.key(), i2.value());
+		SetSelectOffTopMenu();
 	}
 }
 
 void BrowserWindow::SlotTopMenuAction(int menuID)
 {
 	LogDebug("click top menu [%d]", menuID);
-
+	switch (menuID) {
+	case TOP_MENU_RELOAD:
+		DoTopMenuReload();
+		break;
+	case TOP_MENU_SELECT_ALL:
+		DoTopMenuSelectAll();
+		break;
+	case TOP_MENU_CLEAR_ALL:
+		DoTopMenuClearAll();
+		break;
+	case TOP_MENU_OPTION_PLAY_SUBDIR:
+		DoTopMenuOptionPlaySubDir();
+		break;
+	case TOP_MENU_PLAY_NOW:
+		DoTopMenuPlay(PLAY_NOW);
+		break;
+	case TOP_MENU_PLAY_LAST:
+		DoTopMenuPlay(PLAY_LAST);
+		break;
+	case TOP_MENU_PLAY_NEXT:
+		DoTopMenuPlay(PLAY_NEXT);
+		break;
+	case TOP_MENU_PLAY_CLEAR:
+		DoTopMenuPlay(PLAY_CLEAR);
+		break;
+	case TOP_MENU_CONVERT_FORMAT:
+		DoTopMenuConverFormat();
+		break;
+	case TOP_MENU_GAIN_SET:
+		DoTopMenuGain(VAL_SET);
+		break;
+	case TOP_MENU_GAIN_CLEAR:
+		DoTopMenuGain(VAL_CLEAR);
+		break;
+	case TOP_MENU_SEARCH_COVER_ART:
+		DoTopMenuSearchCoverArt();
+		break;
+	case TOP_MENU_EDIT_TAG:
+		DoTopMenuEditTag();
+		break;
+	case TOP_MENU_ADD:
+		DoTopMenuAdd();
+		break;
+	case TOP_MENU_DELETE:
+		DoTopMenuDelete();
+		break;
+	case TOP_MENU_OPTION_OVERWRITE:
+		DoTopMenuOptionOverwrite();
+		break;
+	case TOP_MENU_MOVE:
+		DoTopMenuCopy(true);
+		break;
+	case TOP_MENU_COPY:
+		DoTopMenuCopy(false);
+		break;
+	case TOP_MENU_MOVE_HERE:
+		DoTopMenuCopyHere(true);
+		break;
+	case TOP_MENU_COPY_HERE:
+		DoTopMenuCopyHere(false);
+		break;
+	}
 }
 
 //void BrowserWindow::SlotResize()
@@ -159,7 +252,8 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 
 void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 {
-	LogDebug("click title para 2 nType [%d]", nType);
+	LogDebug("========== select title ===========");
+	DoDebugType(nType);
 
 	CJsonNode node;
 	if (!node.SetContent(rawData))
@@ -168,212 +262,513 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 		return;
 	}
 
-	if ( iFolderType_Mask_Dir & nType
-		 && iFolderType_Mask_Sub & nType )
+	if (iFolderType_Mask_Sub & nType)
 	{
-		LogDebug("iFolderType_Mask_Sub");
-		QString strPath = node.GetString(KEY_PATH);
+		QString path = node.GetString(KEY_PATH);
 		if (!m_Root.isEmpty())
-			strPath = m_Root + "/" + strPath;
+			path = m_Root + "/" + path;
 
-		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), strPath);
-		emit SigAddWidget(widget, STR_BROWSER);
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID, path);
 
-		if (iFolderType_Mask_Play_Top & nType)
+		if (iFolderType_Mask_Play_Top & nType
+				&& MODE_NORMAL == m_BrowserMode)
 		{
 			widget->ShowFormPlay();
 		}
-		widget->RequestFolder(strPath);
-	}
-	else if (iFolderType_Mask_Song & nType
-			 && (iFolderType_Mask_Play_Top & nType
-			 || iFolderType_Mask_Play_Option & nType
-			 || iFolderType_Mask_Play_Check & nType
-			 || iFolderType_Mask_Play_Select & nType ))
-	{
-		LogDebug("play...");
+		widget->SetBrowserMode(m_BrowserMode);
+		widget->RequestFolder(path);
 
+		emit SigAddWidget(widget, STR_BROWSER);
+	}
+	else if (iFolderType_Mask_Play_Select & nType)
+	{
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_Dirs.clear();
+		m_Files.clear();
+		m_Files.append(node.GetString(KEY_PATH));
+		m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
 	}
 }
 
-void BrowserWindow::SlotSelectURL(QString rawData)
-{
-	CJsonNode node(JSON_OBJECT);
-	if (!node.SetContent(rawData))
-	{
-		return;
-	}
+//void BrowserWindow::SlotSelectURL(QString rawData)
+//{
+//	CJsonNode node(JSON_OBJECT);
+//	if (!node.SetContent(rawData))
+//	{
+//		return;
+//	}
 
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+////	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-//	QStringList dirs;
-//	QStringList files;
+////	QStringList dirs;
+////	QStringList files;
 
-//	files.append(node.GetString(KEY_PATH));
-	m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
-}
+////	files.append(node.GetString(KEY_PATH));
+//	m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
+//}
 
 void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 {
-	CJsonNode node = list[0];
-	int nType = node.GetInt(KEY_TYPE);
+	int nType =  list[0].GetInt(KEY_TYPE);
 
-	if ( iFolderType_Mask_Root & nType
-		 || iFolderType_Mask_Dir & nType)
+	if (iFolderType_Mask_Root & nType)
 	{
 		ui->gridLayoutTop->addWidget(m_pInfoService);
 		ui->gridLayoutBottom->addWidget(m_pIconService);
 
 		SetList(list);
 
-		if (m_Root.isEmpty())
-		{
-			m_pInfoService->SetSubtitle(STR_BROWSER);
-		}
-		else
-		{
-			m_pInfoService->SetSubtitle(m_Root);
-		}
-		m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);
+		m_pInfoService->GetFormPlay()->ShowMenu();
+
+		m_pInfoService->SetSubtitle(STR_BROWSER);
+		m_pIconService->ClearNodeList();
+		nType = m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);
+
 	}
-	// song
 	else
 	{
-		ui->gridLayoutTop->addWidget(m_pInfoService);
-		ui->gridLayoutBottom->addWidget(m_pListService);
+		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
+		ui->gridLayoutBottom->addWidget(m_pListBrowser);
 
-		m_pInfoService->SetSubtitle(m_Root);
-		m_pListService->SetNodeList(list, ListService::LIST_SERVICE_BROWSER);
+		m_pInfoBrowser->GetFormPlay()->ShowMenu();
+	//	m_pInfoBrowser->GetFormSort()->ShowResize();
 
-		// get play time
+		m_pInfoBrowser->SetCoverArt(list[0].GetString(KEY_COVER_ART));
+		m_pInfoBrowser->SetSubtitle(m_Root);
+		m_pListBrowser->ClearNodeList();
+		nType = m_pListBrowser->SetNodeList(list, ListBrowser::LIST_BROWSER_BROWSER);
 	}
 
-
+	LogDebug("========== first info of response list  ===========");
+	DoDebugType(nType);
+	SetFolderType(nType);
 
 }
 
-void BrowserWindow::SlotReqInfoBot(QString strPath, int nIndex)
+void BrowserWindow::SlotReqCoverArt(QString path, int index)
 {
-	strPath = m_Root + "/" + strPath;
-	m_pMgr->RequestInfoBot(strPath, nIndex);
+	path = m_Root + "/" + path;
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(BROWSER_CAT).arg(path);
+
+	m_pMgr->RequestCoverArt(fullpath, index, QListView::ListMode);
 }
 
-void BrowserWindow::SlotRespNodeUpdate(CJsonNode node, int nIndex)
+void BrowserWindow::SlotReqInfoBot(QString path, int nIndex)
+{
+	path = m_Root + "/" + path;
+	m_pMgr->RequestInfoBot(path, nIndex);
+}
+
+void BrowserWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
+{
+	Q_UNUSED(mode);
+
+	QStandardItem *itemIcon = m_pListBrowser->GetModel()->item(nIndex);
+	itemIcon->setData(fileName, ListBrowserDelegate::LIST_BROWSER_COVER);
+	m_pListBrowser->GetModel()->setItem(nIndex, itemIcon);
+}
+
+void BrowserWindow::SlotInfoBotUpdate(CJsonNode node, int nIndex)
 {
 	if (nIndex < 0)
 		return;
 
-	QStandardItem *item = m_pListService->GetModel()->item(nIndex);
-	item->setData(node.GetString(KEY_BOT), ListServiceDelegate::LIST_SERVICE_SUBTITLE);
-	item->setData(node.GetString(KEY_DURATION), ListServiceDelegate::LIST_SERVICE_TIME);
-	m_pListService->GetModel()->setItem(nIndex, item);
+	QStandardItem *item = m_pListBrowser->GetModel()->item(nIndex);
+	item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
+	item->setData(node.GetString(KEY_DURATION), ListBrowserDelegate::LIST_BROWSER_DURATION);
+	m_pListBrowser->GetModel()->setItem(nIndex, item);
+}
+
+void BrowserWindow::SlotCopyHere(bool move, QString dstPath)
+{
+	LogDebug("SlotCopyHere [%d] [%d] [%s]", m_BrowserMode, move, dstPath.toUtf8().data());
+	if (MODE_COPY == m_BrowserMode || MODE_MOVE == m_BrowserMode)
+	{
+		emit SigCopyHere(move, dstPath);
+		emit SigRemoveWidget(this);
+	}
+	else
+	{
+		SetPaths();
+
+		m_pMgr->RequestCopy(m_Root, m_Paths, dstPath, move, m_EventID);
+
+		// refresh
+	}
+}
+
+void BrowserWindow::ReadSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	m_pMgr->SetOptPlaySubDir(settings.value("option_play_sub_dir").toBool());
+	m_pMgr->SetOptOverwrite(settings.value("option_overwrite").toBool());
+
+	settings.endGroup();
+
+}
+
+void BrowserWindow::WriteSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	settings.setValue("option_play_sub_dir", m_pMgr->GetOptPlaySubDir());
+	settings.setValue("option_overwrite", m_pMgr->GetOptOverwrite());
+
+	settings.endGroup();
+
 }
 
 void BrowserWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
+	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
-	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
-	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectURL(QString)));
-//	connect(m_pListService, SIGNAL(SigReqArt(QString, int)), this, SLOT(SlotReqArt(QString, int)));
-	connect(m_pListService, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
+//	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pListBrowser, SIGNAL(SigReqCoverArt(QString, int)), this, SLOT(SlotReqCoverArt(QString, int)));
+	connect(m_pListBrowser, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
 
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
-	connect(m_pMgr, SIGNAL(SigRespNodeUpdate(CJsonNode, int)), this, SLOT(SlotRespNodeUpdate(CJsonNode, int)));
+	connect(m_pMgr, SIGNAL(SigInfoBotUpdate(CJsonNode, int)), this, SLOT(SlotInfoBotUpdate(CJsonNode, int)));
+	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
+//	connect(m_pInfoBrowser->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+
+	connect(this, SIGNAL(SigCopyHere(bool, QString)), parent(), SLOT(SlotCopyHere(bool, QString)));
 
 }
 
-void BrowserWindow::SetSelectOffTopMenu(int type)
+void BrowserWindow::Initialize()
+{
+	m_FolderType = 0;
+	m_BrowserMode = MODE_NORMAL;
+
+	m_Dirs.clear();
+	m_Files.clear();
+
+	m_TopMenuMap.clear();
+	m_SelectMap.clear();
+}
+
+void BrowserWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (iFolderType_Mask_Root & type)
+	if (MODE_COPY == m_BrowserMode || MODE_MOVE == m_BrowserMode)
 	{
-		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+		if (m_FolderType & iFolderType_Mask_Root)
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
 
-	}
-	else if (iFolderType_Mask_Dir & type)
-	{
-		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
-		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
+			m_pInfoService->GetFormPlay()->ClearMenu();
+			m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
+		else
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+			if (m_FolderType & iFolderType_Mask_FileMgr)
+			{
+				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+			}
+			if (MODE_COPY == m_BrowserMode)
+			{
+				m_TopMenuMap.insert(TOP_MENU_COPY_HERE, STR_COPY_HERE);
+			}
+			else if (MODE_MOVE == m_BrowserMode)
+			{
+				m_TopMenuMap.insert(TOP_MENU_MOVE_HERE, STR_MOVE_HERE);
+			}
+
+			m_pInfoBrowser->GetFormPlay()->ClearMenu();
+			m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
 	}
 	else
 	{
-		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
-		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
-		m_TopMenuMap.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
-		m_TopMenuMap.insert(TOP_MENU_NEW_DIR, STR_NEW_DIR);
+		if (m_FolderType & iFolderType_Mask_Root)
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+
+			m_pInfoService->GetFormPlay()->ClearMenu();
+			m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
+		else
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+			m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+
+			if (m_FolderType & iFolderType_Mask_Play_Top
+					|| m_FolderType & iFolderType_Mask_Play_Option)
+			{
+				QString option = m_pMgr->GetOptPlaySubDir() ? "on" : "off";
+				m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, QString("%1 - %2").arg(STR_OPTION_PLAY_SUBDIR).arg(option));
+				m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+				m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+				m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+				m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+			}
+			if (m_FolderType & iFolderType_Mask_Play_Select)
+			{
+				m_TopMenuMap.insert(TOP_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
+				m_TopMenuMap.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
+			}
+			if (m_FolderType & iFolderType_Mask_FileMgr)
+			{
+				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+			}
+
+			m_pInfoBrowser->GetFormPlay()->ClearMenu();
+			m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
 	}
 }
 
-void BrowserWindow::SetSelectOnTopMenu(int type)
+void BrowserWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (iFolderType_Mask_Root & type)
+	if (MODE_COPY == m_BrowserMode || MODE_MOVE == m_BrowserMode)
 	{
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-	}
-	else if (iFolderType_Mask_Dir & type)
-	{
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
-		m_TopMenuMap.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
-		m_TopMenuMap.insert(TOP_MENU_MOVE, STR_MOVE);
-		m_TopMenuMap.insert(TOP_MENU_COPY, STR_COPY);
+		if (m_FolderType & iFolderType_Mask_Root)
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+
+			m_pInfoService->GetFormPlay()->ClearMenu();
+			m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
+		else
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+			if (m_FolderType & iFolderType_Mask_FileMgr)
+			{
+				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+			}
+			if (MODE_COPY == m_BrowserMode)
+			{
+				m_TopMenuMap.insert(TOP_MENU_COPY_HERE, STR_COPY_HERE);
+			}
+			else if (MODE_MOVE == m_BrowserMode)
+			{
+				m_TopMenuMap.insert(TOP_MENU_MOVE_HERE, STR_MOVE_HERE);
+			}
+
+			m_pInfoBrowser->GetFormPlay()->ClearMenu();
+			m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
 	}
 	else
 	{
-		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-		m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, STR_OPTION_PLAY_SUBDIR);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
-		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
-		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
-		m_TopMenuMap.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
-		m_TopMenuMap.insert(TOP_MENU_DELETE_ITEM, STR_DELETE_ITEM);
-		m_TopMenuMap.insert(TOP_MENU_OPTION_OVERWRITE, STR_OPTION_OVERWRITE);
-		m_TopMenuMap.insert(TOP_MENU_MOVE, STR_MOVE);
-		m_TopMenuMap.insert(TOP_MENU_COPY, STR_COPY);
+		if (m_FolderType & iFolderType_Mask_Root)
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+
+			m_pInfoService->GetFormPlay()->ClearMenu();
+			m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
+		else
+		{
+			m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
+
+			if (m_FolderType & iFolderType_Mask_Play_Top
+					|| m_FolderType & iFolderType_Mask_Play_Option)
+			{
+				QString option = m_pMgr->GetOptPlaySubDir() ? "on" : "off";
+				m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, QString("%1 - %2").arg(STR_OPTION_PLAY_SUBDIR).arg(option));
+				m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+				m_TopMenuMap.insert(TOP_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
+				m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
+				m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+			}
+			if (m_FolderType & iFolderType_Mask_FileMgr)
+			{
+				QString option = m_pMgr->GetOptOverwrite() ? "on" : "off";
+				m_TopMenuMap.insert(TOP_MENU_OPTION_OVERWRITE, QString("%1 - %2").arg(STR_OPTION_OVERWRITE).arg(option));
+				m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
+				m_TopMenuMap.insert(TOP_MENU_MOVE, STR_MOVE);
+				m_TopMenuMap.insert(TOP_MENU_COPY, STR_COPY);
+			}
+
+			m_pInfoBrowser->GetFormPlay()->ClearMenu();
+			m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
 	}
+}
+
+void BrowserWindow::DoTopMenuPlay(int where)
+{
+	SlotPlayAll(where);
+}
+
+void BrowserWindow::DoTopMenuReload()
+{
+	if (m_FolderType & iFolderType_Mask_Root)
+	{
+		RequestRoot();
+	}
+	else
+	{
+		RequestFolder(m_Root);
+	}
+}
+
+void BrowserWindow::DoTopMenuSelectAll()
+{
+	m_pListBrowser->SetAllSelectMap();
+}
+
+void BrowserWindow::DoTopMenuClearAll()
+{
+	m_pListBrowser->ClearSelectMap();
+}
+
+void BrowserWindow::DoTopMenuGain(QString gain)
+{
+	SetPaths();
+
+	m_pMgr->RequestReplayGain(m_Root, m_Paths, gain, m_EventID);
+}
+
+void BrowserWindow::DoTopMenuOptionPlaySubDir()
+{
+	bool option = m_pMgr->GetOptPlaySubDir();
+	m_pMgr->SetOptPlaySubDir(!option);
+}
+
+void BrowserWindow::DoTopMenuOptionOverwrite()
+{
+	bool option = m_pMgr->GetOptOverwrite();
+	m_pMgr->SetOptOverwrite(!option);
+}
+
+void BrowserWindow::DoTopMenuConverFormat()
+{
+	SelectFormatDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString format = dialog.GetFormat();
+
+		SetPaths();
+
+		m_pMgr->RequestConvertFormat(m_Root, m_Paths, format, m_EventID);
+
+		// refresh
+		DoTopMenuReload();
+
+	}
+}
+
+void BrowserWindow::DoTopMenuAdd()
+{
+	InputNameDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString path = dialog.GetName();
+		path = m_Root + "/" + path;
+		m_pMgr->RequestCreate(path);
+
+		// refresh
+		DoTopMenuReload();
+	}
+}
+
+void BrowserWindow::DoTopMenuDelete()
+{
+	SetPaths();
+
+	m_pMgr->RequestDelete(m_Root, m_Paths, m_EventID);
+
+	// refresh
+	DoTopMenuReload();
+}
+
+void BrowserWindow::DoTopMenuCopy(bool move)
+{
+	int mode = MODE_MAX;
+	QString title;
+	if (move)
+	{
+		mode = MODE_MOVE;
+		title = STR_MOVE;
+	}
+	else
+	{
+		mode = MODE_COPY;
+		title = STR_COPY;
+	}
+
+	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+	widget->SetBrowserMode(mode);
+	widget->RequestRoot();
+	emit SigAddWidget(widget, title);
+
+}
+
+void BrowserWindow::DoTopMenuCopyHere(bool move)
+{
+	emit SigCopyHere(move, m_Root);
+	emit SigRemoveWidget(this);
+}
+
+void BrowserWindow::DoTopMenuSearchCoverArt()
+{
+	QString site;
+	QString keyword;
+	QString artist;
+
+	SearchCoverArtDialog searchDialog;
+	if (searchDialog.exec() == QDialog::Accepted)
+	{
+		site = searchDialog.GetSite();
+		keyword = searchDialog.GetKeyword();
+		artist = searchDialog.GetArtist();
+	}
+	else
+	{
+		return;
+	}
+
+	SearchCoverArtResultDialog resultDialog;
+	resultDialog.SetAddr(m_pMgr->GetAddr());
+	resultDialog.RequestCoverArtList(site, keyword, artist);
+	if (resultDialog.exec() == QDialog::Accepted)
+	{
+		SetDirFile();
+
+		QString image = resultDialog.GetImage();
+		QString thumb = resultDialog.GetThumb();
+
+		m_pMgr->RequestSetArt(m_Root, m_Files, image, thumb, m_EventID);
+
+		// refresh
+		DoTopMenuReload();
+
+	}
+}
+
+void BrowserWindow::DoTopMenuEditTag()
+{
+
 }
 
 void BrowserWindow::SetList(QList<CJsonNode> &list)
@@ -384,12 +779,9 @@ void BrowserWindow::SetList(QList<CJsonNode> &list)
 
 	foreach (CJsonNode node, list)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
-		AnalyzeNode(node);
+//		AnalyzeNode(node);
 		strCover = GetCoverArtIcon(node);
 		node.Add(KEY_COVER_ART, strCover);
-//		node.AddInt(KEY_ID_UPPER, index);
-//		node.AddInt(KEY_TYPE, index);
 
 		tempList.append(node);
 		index++;
@@ -431,7 +823,8 @@ QString BrowserWindow::GetCoverArtIcon(CJsonNode node)
 	}
 	else
 	{
-		strCover = ":/resource/browser-img160-brank-n@3x.png";
+//		strCover = ":/resource/browser-img160-brank-n@3x.png";
+		strCover = ":/resource/browser-img160-hdd-n@3x.png";
 	}
 
 	return strCover;
@@ -439,6 +832,177 @@ QString BrowserWindow::GetCoverArtIcon(CJsonNode node)
 
 void BrowserWindow::ShowFormPlay()
 {
-	m_pInfoService->GetFormPlay()->ShowPlayAll();
-	m_pInfoService->GetFormPlay()->ShowPlayRandom();
+	m_pInfoBrowser->GetFormPlay()->ShowPlayAll();
+	m_pInfoBrowser->GetFormPlay()->ShowPlayRandom();
 }
+
+void BrowserWindow::SetDirFile()
+{
+	m_SelectMap = m_pListBrowser->GetSelectMap();
+
+	m_Dirs.clear();
+	m_Files.clear();
+
+	if (m_SelectMap.count() > 0)
+	{
+		QMap<QString, int>::iterator i;
+		for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+		{
+			const QString path = i.key();
+			const int type = i.value();
+			if (iFolderType_Mask_Dir & type)
+			{
+				m_Dirs.append(path);
+			}
+			else if (iFolderType_Mask_Song & type)
+			{
+				m_Files.append(path);
+			}
+		}
+	}
+	else
+	{
+		QList<CJsonNode> nodeList = m_pListBrowser->GetNodeList();
+		foreach (CJsonNode node, nodeList)
+		{
+			const QString path = node.GetString(KEY_PATH);
+			const int type = node.GetInt(KEY_TYPE);
+			if (iFolderType_Mask_Dir & type)
+			{
+				m_Dirs.append(path);
+			}
+			else if (iFolderType_Mask_Song & type)
+			{
+				m_Files.append(path);
+			}
+		}
+	}
+}
+
+void BrowserWindow::SetPaths()
+{
+	SetDirFile();
+
+	m_Paths.clear();
+	for (int i = 0; i < m_Dirs.count(); i++)
+	{
+		m_Paths.append(m_Dirs.at(i));
+	}
+	for (int i = 0; i < m_Files.count(); i++)
+	{
+		m_Paths.append(m_Files.at(i));
+	}
+}
+
+void BrowserWindow::DoDebugType(int type)
+{
+	if (type & iFolderType_Mask_Play_Top)
+	{
+		LogDebug("Play_Top");
+	}
+	if (type & iFolderType_Mask_Play_Option)
+	{
+		LogDebug("Play_Option");
+	}
+	if (type & iFolderType_Mask_Play_Check)
+	{
+		LogDebug("Play_Check");
+	}
+	if (type & iFolderType_Mask_Play_Select)
+	{
+		LogDebug("Mask_Play_Select");
+	}
+	if (type & iFolderType_Mask_Check)
+	{
+		LogDebug("Mask_Check");
+	}
+	if (type & iFolderType_Mask_FileMgr)
+	{
+		LogDebug("Mask_FileMgr");
+	}
+	if (type & iFolderType_Mask_ReadOnly)
+	{
+		LogDebug("Mask_ReadOnly");
+	}
+	if (type & iFolderType_Mask_Sub)
+	{
+		LogDebug("Mask_Sub");
+	}
+	if (type & iFolderType_Mask_Dev)
+	{
+		LogDebug("Mask_Dev");
+	}
+	if (type & iFolderType_Mask_Hdd)
+	{
+		LogDebug("Mask_Hdd");
+	}
+	if (type & iFolderType_Mask_Usb)
+	{
+		LogDebug("Mask_Usb");
+	}
+	if (type & iFolderType_Mask_Cd)
+	{
+		LogDebug("Mask_Cd");
+	}
+	if (type & iFolderType_Mask_Net)
+	{
+		LogDebug("Mask_Net");
+	}
+	if (type & iFolderType_Mask_Upnp)
+	{
+		LogDebug("Mask_Upnp");
+	}
+	if (type & iFolderType_Mask_Root)
+	{
+		LogDebug("Mask_Root");
+	}
+	if (type & iFolderType_Mask_Dir)
+	{
+		LogDebug("Mask_Dir");
+	}
+	if (type & iFolderType_Mask_Song)
+	{
+		LogDebug("Mask_Song");
+	}
+	if (type & iFolderType_Mask_Pls)
+	{
+		LogDebug("Mask_Pls");
+	}
+	if (type & iFolderType_Mask_Cue)
+	{
+		LogDebug("Mask_Cue");
+	}
+	if (type & iFolderType_Mask_IRadio)
+	{
+		LogDebug("Mask_IRadio");
+	}
+	if (type & iFolderType_Mask_IsoFile)
+	{
+		LogDebug("Mask_IsoFile");
+	}
+	if (type & iFolderType_Mask_IsoRoot)
+	{
+		LogDebug("Mask_IsoRoot");
+	}
+	if (type & iFolderType_Mask_Image)
+	{
+		LogDebug("Mask_Image");
+	}
+	if (type & iFolderType_Mask_File)
+	{
+		LogDebug("Mask_File");
+	}
+	if (type & iFolderType_Mask_Scan)
+	{
+		LogDebug("Mask_Scan");
+	}
+	if (type & iFolderType_Mask_Media)
+	{
+		LogDebug("Mask_Media");
+	}
+	if (type & iFolderType_Mask_FilePath)
+	{
+		LogDebug("Mask_FilePath");
+	}
+}
+

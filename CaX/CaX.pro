@@ -22,6 +22,7 @@ SOURCES += \
     dialog/searchcoverartdialog.cpp \
     dialog/searchcoverartresultdialog.cpp \
     dialog/searchdialog.cpp \
+    dialog/selectformatdialog.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
     main.cpp \
@@ -54,6 +55,7 @@ SOURCES += \
     util/loading.cpp \
     util/log.cpp \
     util/settingio.cpp \
+    util/utilnovatron.cpp \
     util/waitingspinnerwidget.cpp \
     widget/audiocdwindow.cpp \
     widget/browserwindow.cpp \
@@ -76,6 +78,9 @@ SOURCES += \
     widget/formBottom/icontracks.cpp \
     widget/formBottom/icontracksdelegate.cpp \
     widget/formBottom/icontrackseditor.cpp \
+    widget/formBottom/listbrowser.cpp \
+    widget/formBottom/listbrowserdelegate.cpp \
+    widget/formBottom/listbrowsereditor.cpp \
     widget/formBottom/listdevice.cpp \
     widget/formBottom/listdevicedelegate.cpp \
     widget/formBottom/listdeviceeditor.cpp \
@@ -85,6 +90,7 @@ SOURCES += \
     widget/formBottom/listtracks.cpp \
     widget/formBottom/listtracksdelegate.cpp \
     widget/formBottom/listtrackseditor.cpp \
+    widget/formTop/infobrowser.cpp \
     widget/formTop/infohome.cpp \
     widget/formTop/infoservice.cpp \
     widget/formTop/infotracks.cpp \
@@ -113,6 +119,7 @@ HEADERS += \
     dialog/searchcoverartdialog.h \
     dialog/searchcoverartresultdialog.h \
     dialog/searchdialog.h \
+    dialog/selectformatdialog.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
     manager/airablemanager.h \
@@ -151,6 +158,7 @@ HEADERS += \
     util/log.h \
     util/settingio.h \
     util/sqlconstatns.h \
+    util/utilnovatron.h \
     util/waitingspinnerwidget.h \
     widget/airable.h \
     widget/audiocdwindow.h \
@@ -175,6 +183,9 @@ HEADERS += \
     widget/formBottom/icontracks.h \
     widget/formBottom/icontracksdelegate.h \
     widget/formBottom/icontrackseditor.h \
+    widget/formBottom/listbrowser.h \
+    widget/formBottom/listbrowserdelegate.h \
+    widget/formBottom/listbrowsereditor.h \
     widget/formBottom/listdevice.h \
     widget/formBottom/listdevicedelegate.h \
     widget/formBottom/listdeviceeditor.h \
@@ -184,6 +195,7 @@ HEADERS += \
     widget/formBottom/listtracks.h \
     widget/formBottom/listtracksdelegate.h \
     widget/formBottom/listtrackseditor.h \
+    widget/formTop/infobrowser.h \
     widget/formTop/infohome.h \
     widget/formTop/infoservice.h \
     widget/formTop/infotracks.h \
@@ -213,6 +225,7 @@ FORMS += \
     dialog/searchcoverartdialog.ui \
     dialog/searchcoverartresultdialog.ui \
     dialog/searchdialog.ui \
+    dialog/selectformatdialog.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
@@ -233,12 +246,15 @@ FORMS += \
     widget/formBottom/iconserviceeditor.ui \
     widget/formBottom/icontracks.ui \
     widget/formBottom/icontrackseditor.ui \
+    widget/formBottom/listbrowser.ui \
+    widget/formBottom/listbrowsereditor.ui \
     widget/formBottom/listdevice.ui \
     widget/formBottom/listdeviceeditor.ui \
     widget/formBottom/listservice.ui \
     widget/formBottom/listserviceeditor.ui \
     widget/formBottom/listtracks.ui \
     widget/formBottom/listtrackseditor.ui \
+    widget/formTop/infobrowser.ui \
     widget/formTop/infohome.ui \
     widget/formTop/infoservice.ui \
     widget/formTop/infotracks.ui \

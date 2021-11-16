@@ -323,10 +323,10 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
-	case TOP_MENU_ADD_PLAYLIST:
+	case TOP_MENU_ADD:
 		DoTopMenuAdd();
 		break;
-	case TOP_MENU_DELETE_PLAYLIST:
+	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
 		break;
 	case TOP_MENU_ADD_TO_PLAYLIST:
@@ -498,10 +498,10 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 	case OPTION_MENU_PLAY_CLEAR:
 		DoOptionMenuPlay(nID, PLAY_CLEAR);
 		break;
-	case OPTION_MENU_RENAME_PLAYLIST:
+	case OPTION_MENU_RENAME:
 		DoOptionMenuRename(nID);
 		break;
-	case OPTION_MENU_DELETE_PLAYLIST:
+	case OPTION_MENU_DELETE:
 	case OPTION_MENU_DELETE_TO_PLAYLIST:
 		DoOptionMenuDelete(nID);
 		break;
@@ -601,7 +601,7 @@ void PlaylistWindow::SetSelectOffTopMenu()
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-		m_TopMenuMap.insert(TOP_MENU_ADD_PLAYLIST, STR_ADD_PLAYLIST);
+		m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
 
 		m_pInfoService->GetFormPlay()->ClearMenu();
 		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -628,7 +628,7 @@ void PlaylistWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-		m_TopMenuMap.insert(TOP_MENU_DELETE_PLAYLIST, STR_DELETE_PLAYLIST);
+		m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
 //		m_TopMenuMap.insert(TOP_MENU_EXPORT_TRACK, STR_EXPORT_TRACK);
 
 		m_pInfoService->GetFormPlay()->ClearMenu();
@@ -641,7 +641,7 @@ void PlaylistWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-		m_TopMenuMap.insert(TOP_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TRACK_TO_PLAYLIST);
+		m_TopMenuMap.insert(TOP_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TO_PLAYLIST);
 
 		m_pInfoTracks->GetFormPlay()->ClearMenu();
 		m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -810,8 +810,8 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_OptionMenuMap.insert(OPTION_MENU_RENAME_PLAYLIST, STR_RENAME_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_DELETE_PLAYLIST, STR_DELETE_PLAYLIST);
+		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
+		m_OptionMenuMap.insert(OPTION_MENU_DELETE, STR_DELETE);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
@@ -820,7 +820,7 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_OptionMenuMap.insert(OPTION_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TRACK_TO_PLAYLIST);
+		m_OptionMenuMap.insert(OPTION_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TO_PLAYLIST);
 	}
 
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);

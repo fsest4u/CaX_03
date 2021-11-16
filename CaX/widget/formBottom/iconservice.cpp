@@ -53,8 +53,10 @@ QList<CJsonNode> IconService::GetNodeList() const
 	return m_NodeList;
 }
 
-void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
+int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 {
+	int type = 0;
+
 	m_pLoading->Start();
 	m_Model->clear();
 	m_NodeList = list;
@@ -66,11 +68,22 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			type = type | node.GetInt(KEY_TYPE);
+
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_PATH), IconServiceDelegate::ICON_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_PATH), IconServiceDelegate::ICON_SERVICE_TITLE);
+			if (!node.GetString(KEY_SIZE).isEmpty() && !node.GetString(KEY_FREE).isEmpty())
+			{
+				item->setData(node.GetString(KEY_SIZE) + " / " + node.GetString(KEY_FREE), IconServiceDelegate::ICON_SERVICE_SUBTITLE);
+			}
+			else
+			{
+				item->setData(" ", IconServiceDelegate::ICON_SERVICE_SUBTITLE);
+			}
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
@@ -186,6 +199,8 @@ void IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	ui->gridLayout->addWidget(m_ListView);
 	m_pLoading->Stop();
 
+	return type;
+
 }
 
 void IconService::ClearNodeList()
@@ -262,6 +277,10 @@ IconServiceDelegate *IconService::GetDelegate()
 
 void IconService::SlotDoubleClickItem(const QModelIndex &index)
 {
+	if (m_Delegate->GetServiceType() == ICON_SERVICE_BROWSER
+			|| m_Delegate->GetServiceType() == ICON_SERVICE_ISERVICE)
+		return;
+
 	QStandardItem *item = m_Model->itemFromIndex(index);
 	bool bSelect = !qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
 	item->setData(bSelect, IconServiceDelegate::ICON_SERVICE_SELECT);

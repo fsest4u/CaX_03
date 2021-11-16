@@ -15,8 +15,9 @@ FormCoverArt::FormCoverArt(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->frameRating->hide();
-	ui->labelFavorite->hide();
+	ui->widgetCoverLeft->hide();
+//	ui->frameRating->hide();
+//	ui->labelFavorite->hide();
 	ui->labelCheck->hide();
 	ui->labelPlay->hide();
 
@@ -87,7 +88,8 @@ void FormCoverArt::SetFavorite(int Favorite)
 {
 	if (Favorite >= 0)
 	{
-		ui->labelFavorite->show();
+		ui->widgetCoverLeft->show();
+//		ui->labelFavorite->show();
 		m_Favorite = Favorite;
 	}
 
@@ -137,7 +139,8 @@ void FormCoverArt::SetRating(int Rating)
 {
 	if (Rating >= 0)
 	{
-		ui->frameRating->show();
+		ui->widgetCoverLeft->show();
+//		ui->frameRating->show();
 		m_Rating = Rating;
 	}
 

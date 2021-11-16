@@ -23,21 +23,21 @@ public:
 	~ListService();
 
 	enum {
-		LIST_SERVICE_AUDIO_CD = 0,
-		LIST_SERVICE_PLAYLIST,
-		LIST_SERVICE_BROWSER,
-		LIST_SERVICE_ISERVICE,
-		LIST_SERVICE_INPUT,
-		LIST_SERVICE_FM_RADIO,
-		LIST_SERVICE_DAB_RADIO,
-		LIST_SERVICE_GROUP_PLAY,
+//		LIST_SERVICE_AUDIO_CD = 0,
+//		LIST_SERVICE_PLAYLIST,
+//		LIST_SERVICE_BROWSER,
+//		LIST_SERVICE_ISERVICE,
+//		LIST_SERVICE_INPUT,
+//		LIST_SERVICE_FM_RADIO,
+//		LIST_SERVICE_DAB_RADIO,
+//		LIST_SERVICE_GROUP_PLAY,
 		LIST_SERVICE_SETUP,
 		LIST_SERVICE_MAX
 	};
 
 	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = LIST_SERVICE_AUDIO_CD);
+	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = LIST_SERVICE_SETUP);
 
 	void ClearSelectMap();
 	void SetAllSelectMap();
@@ -52,7 +52,7 @@ public:
 signals:
 
 	void SigReqArt(QString url, int nIndex);
-	void SigReqInfoBot(QString path, int index);
+//	void SigReqInfoBot(QString path, int index);
 
 private slots:
 

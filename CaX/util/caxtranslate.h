@@ -2,6 +2,7 @@
 #define CAXTRANSLATE_H
 
 #include <QObject>
+#include <QIcon>
 
 #define TR(x)	QObject::tr(x)
 //////////////////////////////////////////////////
@@ -54,6 +55,9 @@
 #define STR_RECOMMEND				TR("Recommend")
 #define STR_FAVORITE				TR("Favorite")
 
+#define STR_COPY					TR("Copy")
+#define STR_MOVE					TR("Move")
+
 
 //////////////////////////////////////////////////
 // category
@@ -74,51 +78,44 @@
 // menu
 //////////////////////////////////////////////////
 
-// common
+#define STR_ADD						TR("Add")
+//#define STR_ADD_PLAYLIST			TR("Add playlist")
+//#define STR_ADD_RADIO				TR("Add radio")
+#define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
+#define STR_CD_RIPPING				TR("CD ripping")
+#define STR_CLEAR_ALL				TR("Clear all")
+#define STR_CONVERT_FORMAT    		TR("Conver Audio Format")
+#define STR_COPY              		TR("Copy")
+#define STR_COPY_HERE              	TR("Copy here")
+#define STR_DELETE					TR("Delete")
+//#define STR_DELETE_PLAYLIST			TR("Delete playlist")
+//#define STR_DELETE_RADIO			TR("Delete radio")
+#define STR_DELETE_TO_PLAYLIST		TR("Delete track to playlist")
+#define STR_EDIT_TAG          		TR("Edit tag")
+#define STR_EJECT_CD				TR("Eject CD")
+#define STR_EXPORT_TRACK			TR("Export track")
+#define STR_GAIN_SET				TR("Gain set")
+#define STR_GAIN_CLEAR				TR("Gain clear")
+#define STR_INFO					TR("Info")
+#define STR_LOAD_COUNT				TR("Load count")
+#define STR_MOVE              		TR("Move")
+#define STR_MOVE_HERE          		TR("Move here")
+#define STR_OPTION_PLAY_SUBDIR		TR("Play subdirectories")
+#define STR_OPTION_OVERWRITE  		TR("Overwrite")
 #define STR_PLAY_NOW				TR("Play now")
 #define STR_PLAY_LAST				TR("Play last")
 #define STR_PLAY_NEXT				TR("Play next")
 #define STR_PLAY_CLEAR				TR("Play clear")
 #define STR_RELOAD					TR("Reload")
-#define STR_SELECT_ALL				TR("Select all")
-#define STR_CLEAR_ALL				TR("Clear all")
-#define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
-#define STR_SEARCH_COVERART   		TR("Search coverart")
-#define STR_GAIN_SET				TR("Gain set")
-#define STR_GAIN_CLEAR				TR("Gain clear")
-
-// music db
-#define STR_LOAD_COUNT				TR("Load count")
-#define STR_RENAME_ITEM				TR("Rename")
-#define STR_INFO					TR("Info")
-
-// audio cd
-#define STR_CD_RIPPING				TR("CD ripping")
-#define STR_EJECT_CD				TR("Eject CD")
-
-// playlist
-#define STR_ADD_PLAYLIST			TR("Add playlist")
-#define STR_RENAME_PLAYLIST			TR("Rename playlist")
-#define STR_DELETE_PLAYLIST			TR("Delete playlist")
-#define STR_DELETE_TRACK_TO_PLAYLIST	TR("Delete track to playlist")
-#define STR_EXPORT_TRACK			TR("Export track")
-
-// browser
-#define STR_OPTION_PLAY_SUBDIR		TR("Play subdirectories - %1")
-#define STR_CONVERT_FORMAT    		TR("Conver Audio Format")
-#define STR_NEW_DIR           		TR("New Directory")
-#define STR_OPTION_OVERWRITE  		TR("Overwrite - %1")
-#define STR_MOVE              		TR("Move")
-#define STR_COPY              		TR("Copy")
-#define STR_DELETE_ITEM				TR("Delete")
-#define STR_EDIT_TAG          		TR("Edit tag")
-
-// radio
+#define STR_RENAME					TR("Rename")
+//#define STR_RENAME_PLAYLIST			TR("Rename playlist")
+#define STR_RESERVE_RECORD_LIST		TR("Reserved record list")
 #define STR_SEARCH_ALL_N_DELETE		TR("Delete and search all")
 #define STR_SEARCH_ALL				TR("Search all")
-#define STR_ADD_RADIO				TR("Add radio")
-#define STR_DELETE_RADIO			TR("Delete radio")
-#define STR_RESERVE_RECORD_LIST		TR("Reserved record list")
+#define STR_SEARCH_COVERART   		TR("Search coverart")
+#define STR_SELECT_ALL				TR("Select all")
+
+
 
 //////////////////////////////////////////////////
 // sort menu
@@ -141,12 +138,6 @@
 
 #define STR_ASK_POWER_OFF			TR("Do you want to power off?")
 #define STR_WOL						TR("Wake on lan")
-
-
-
-
-
-
 
 
 

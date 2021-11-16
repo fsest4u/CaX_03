@@ -61,8 +61,6 @@ private:
 	void ConnectSigToSlot();
 	void Initialize();
 
-	QIcon GetIcon(QString value);
-
 	QMenu	*m_Menu;
 
 	int m_Favorite;

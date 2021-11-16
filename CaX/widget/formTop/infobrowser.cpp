@@ -1,30 +1,34 @@
-#include <QMouseEvent>
+#include "infobrowser.h"
+#include "ui_infobrowser.h"
 
-#include "infoservice.h"
-#include "ui_infoservice.h"
-
+#include "widget/form/formcoverart.h"
 #include "widget/form/formtitle.h"
 #include "widget/form/formplay.h"
-#include "widget/form/formsort.h"
+//#include "widget/form/formsort.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
-InfoService::InfoService(QWidget *parent) :
+InfoBrowser::InfoBrowser(QWidget *parent) :
 	QWidget(parent),
+	m_pFormCoverArt(new FormCoverArt(this)),
 	m_pFormTitle(new FormTitle(this)),
 	m_pFormPlay(new FormPlay(this)),
-	m_pFormSort(new FormSort(this)),
-	ui(new Ui::InfoService)
+	ui(new Ui::InfoBrowser)
 {
 	ui->setupUi(this);
 
 	ConnectSigToSlot();
-
 }
 
-InfoService::~InfoService()
+InfoBrowser::~InfoBrowser()
 {
+	if (m_pFormCoverArt)
+	{
+		delete m_pFormCoverArt;
+		m_pFormCoverArt = nullptr;
+	}
+
 	if (m_pFormTitle)
 	{
 		delete m_pFormTitle;
@@ -37,56 +41,55 @@ InfoService::~InfoService()
 		m_pFormPlay = nullptr;
 	}
 
-	if (m_pFormSort)
-	{
-		delete m_pFormSort;
-		m_pFormSort = nullptr;
-	}
-
 	delete ui;
-
 }
 
-void InfoService::SetTitle(const QString title)
+void InfoBrowser::SetCoverArt(QString coverArt)
+{
+	m_pFormCoverArt->SetCoverArt(coverArt);
+}
+
+void InfoBrowser::SetTitle(const QString title)
 {
 	m_pFormTitle->SetTitleFont(42);
 	m_pFormTitle->SetTitle(title);
 }
 
-void InfoService::SetSubtitle(const QString title)
+void InfoBrowser::SetSubtitle(const QString title)
 {
 	m_pFormTitle->SetSubtitleFont(42);
 	m_pFormTitle->SetSubtitle(title);
 }
 
-FormPlay *InfoService::GetFormPlay()
+FormPlay *InfoBrowser::GetFormPlay()
 {
 	return m_pFormPlay;
+
 }
 
-FormSort *InfoService::GetFormSort()
+void InfoBrowser::SlotCoverArt()
 {
-	return m_pFormSort;
+	LogDebug("good choice cover art");
 }
 
-void InfoService::SlotTitle()
+void InfoBrowser::SlotTitle()
 {
 	LogDebug("good choice title");
 }
 
-void InfoService::SlotSubtitle()
+void InfoBrowser::SlotSubtitle()
 {
 	LogDebug("good choice subtitle");
+
 }
 
-
-void InfoService::ConnectSigToSlot()
+void InfoBrowser::ConnectSigToSlot()
 {
+	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
-	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 
 //	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 //	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));
-}
 
+}

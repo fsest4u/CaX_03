@@ -60,7 +60,7 @@ private:
 	void ObserverConnect();
 	void ObserverDisconnect();
 
-	void InitMain();
+	void Initialize();
 
 	void ConnectSigToSlot();
 	void ConnectForUI();

@@ -43,7 +43,6 @@ private slots:
 private:
 
 	void Initialize();
-	QIcon GetIcon(QString value);
 
 	QList<QString>	m_TitleList;
 	QMenu			*m_Menu;

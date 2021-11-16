@@ -35,7 +35,7 @@ public:
 	};
 
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = ICON_SERVICE_BROWSER);
+	int SetNodeList(const QList<CJsonNode> &NodeList, int nService = ICON_SERVICE_BROWSER);
 	void ClearNodeList();
 
 	void ClearSelectMap();

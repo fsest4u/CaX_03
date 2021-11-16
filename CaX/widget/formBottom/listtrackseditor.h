@@ -69,7 +69,6 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
-	QIcon GetIcon(QString value);
 
 	FormCoverArt	*m_pFormCoverArt;
 	QMenu			*m_Menu;

@@ -1,32 +1,29 @@
-#ifndef INFOTRACKS_H
-#define INFOTRACKS_H
+#ifndef INFOBROWSER_H
+#define INFOBROWSER_H
 
 #include <QWidget>
 
 class FormCoverArt;
 class FormTitle;
 class FormPlay;
-class FormSort;
 
 namespace Ui {
-class InfoTracks;
+class InfoBrowser;
 }
 
-class InfoTracks : public QWidget
+class InfoBrowser : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit InfoTracks(QWidget *parent = nullptr);
-	~InfoTracks();
+	explicit InfoBrowser(QWidget *parent = nullptr);
+	~InfoBrowser();
 
 	void SetCoverArt(QString coverArt);
-	void SetTitle(QString title);
-	void SetSubtitle(QString subtitle);
-//	void SetInfo(QString info);
+	void SetTitle(const QString title);
+	void SetSubtitle(const QString title);
 
 	FormPlay *GetFormPlay();
-	FormSort *GetFormSort();
 
 private slots:
 
@@ -41,9 +38,8 @@ private:
 	FormCoverArt	*m_pFormCoverArt;
 	FormTitle		*m_pFormTitle;
 	FormPlay		*m_pFormPlay;
-	FormSort		*m_pFormSort;
 
-	Ui::InfoTracks *ui;
+	Ui::InfoBrowser *ui;
 };
 
-#endif // INFOTRACKS_H
+#endif // INFOBROWSER_H

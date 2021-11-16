@@ -7,6 +7,7 @@
 
 #include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 ListTracksEditor::ListTracksEditor(QWidget *parent) :
 	QWidget(parent),
@@ -154,7 +155,7 @@ void ListTracksEditor::SetMenu(QMap<int, QString> map)
 	QMap<int, QString>::iterator i;
 	for (i = map.begin(); i != map.end(); i++)
 	{
-		QIcon icon = GetIcon(i.value());
+		QIcon icon = UtilNovatron::GetIcon(i.value());
 		QAction *action = new QAction(icon, i.value(), this);
 		action->setData(i.key());
 		m_Menu->addAction(action);
@@ -253,59 +254,5 @@ void ListTracksEditor::Initialize()
 	ui->labelGenre->installEventFilter(this);
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
-
-}
-
-QIcon ListTracksEditor::GetIcon(QString value)
-{
-	if (value.contains(STR_PLAY_NOW))
-	{
-		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
-	}
-	else if (value.contains(STR_PLAY_LAST))
-	{
-		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
-	}
-	else if (value.contains(STR_PLAY_NEXT))
-	{
-		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
-	}
-	else if (value.contains(STR_PLAY_CLEAR))
-	{
-		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
-	}
-	else if (value.contains(STR_GAIN_SET))
-	{
-		return QIcon(":/resource/play-popup-icon16-replaygain@3x.png");
-	}
-	else if (value.contains(STR_GAIN_CLEAR))
-	{
-		return QIcon(":/resource/play-popup-icon16-cleanreplaygain@3x.png");
-	}
-	else if (value.contains(STR_ADD_TO_PLAYLIST))
-	{
-		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
-	}
-	else if (value.contains(STR_INFO))
-	{
-		return QIcon(":/resource/browser-icon16-infoalbum@3x.png");
-	}
-	else if (value.contains(STR_SEARCH_COVERART))
-	{
-		return QIcon(":/resource/play-popup-icon16-searchcoverart@3x.png");
-	}
-	else if (value.contains(STR_RENAME_ITEM))
-	{
-		return QIcon(":/resource/play-popup-icon16-nameedit@3x.png");
-	}
-	else if (value.contains(STR_DELETE_ITEM))
-	{
-		return QIcon(":/resource/playlist-icon16-delete@3x.png");
-	}
-	else
-	{
-		LogDebug("There is no icon corresponding to the string.");
-		return QIcon("");
-	}
 
 }

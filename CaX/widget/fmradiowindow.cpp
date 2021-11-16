@@ -108,10 +108,10 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
-	case TOP_MENU_ADD_RADIO:
+	case TOP_MENU_ADD:
 		DoTopMenuAdd();
 		break;
-	case TOP_MENU_DELETE_RADIO:
+	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
 		break;
 	case TOP_MENU_RESERVED_RECORD_LIST:
@@ -204,7 +204,7 @@ void FMRadioWindow::SetSelectOffTopMenu()
 	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL_N_DELETE, STR_SEARCH_ALL_N_DELETE);
 	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL, STR_SEARCH_ALL);
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-	m_TopMenuMap.insert(TOP_MENU_ADD_RADIO, STR_ADD_RADIO);
+	m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
 //	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
@@ -216,7 +216,7 @@ void FMRadioWindow::SetSelectOnTopMenu()
 	m_TopMenuMap.clear();
 
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-	m_TopMenuMap.insert(TOP_MENU_DELETE_RADIO, STR_DELETE_RADIO);
+	m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);

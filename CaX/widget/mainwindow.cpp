@@ -54,11 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ConnectSigToSlot();
-
 	ReadSettings();
-
-	InitMain();
+	ConnectSigToSlot();
+	Initialize();
 }
 
 MainWindow::~MainWindow()
@@ -501,7 +499,9 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 //	emit SigTaskList();
 
-	DoMusicDBHome();
+//	DoMusicDBHome();
+	// temp_code, dylee
+	DoBrowserHome();
 }
 
 void MainWindow::SlotSelectDevice(QString mac)
@@ -606,7 +606,7 @@ void MainWindow::SlotRespAirableLogout()
 }
 
 
-void MainWindow::InitMain()
+void MainWindow::Initialize()
 {
 	RemoveAllWidget();
 	DoDeviceListHome();
@@ -700,7 +700,7 @@ void MainWindow::DoPlaylistHome()
 
 void MainWindow::DoBrowserHome()
 {
-	BrowserWindow *widget = new BrowserWindow(this, m_strAddr);
+	BrowserWindow *widget = new BrowserWindow(this, m_strAddr, m_nEventID);
 	SlotAddWidget(widget, STR_BROWSER);
 	widget->RequestRoot();
 

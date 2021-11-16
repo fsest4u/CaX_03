@@ -1,21 +1,21 @@
-#ifndef LISTSERVICEEDITOR_H
-#define LISTSERVICEEDITOR_H
+#ifndef LISTBROWSEREDITOR_H
+#define LISTBROWSEREDITOR_H
 
 #include <QWidget>
 
 class FormCoverArt;
 
 namespace Ui {
-class ListServiceEditor;
+class ListBrowserEditor;
 }
 
-class ListServiceEditor : public QWidget
+class ListBrowserEditor : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ListServiceEditor(QWidget *parent = nullptr);
-	~ListServiceEditor();
+	explicit ListBrowserEditor(QWidget *parent = nullptr);
+	~ListBrowserEditor();
 
 	QString GetID() const;
 	void SetID(QString strID);
@@ -26,21 +26,28 @@ public:
 	QString GetTitle() const;
 	void SetTitle(const QString &title);
 
+	// for browser - begin
 	QString GetSubtitle() const;
 	void SetSubtitle(const QString &subtitle);
 
 	QString GetDuration() const;
 	void SetDuration(const QString &duration);
 
+	QString GetFilesize() const;
+	void SetFileSize(const QString &filesize);
+	// for browser - end
+
 	QString GetRawData() const;
 	void SetRawData(const QString &rawData);
 
 	FormCoverArt *GetFormCoverArt() const;
 
+
+
 signals:
 
 //	void SigClickCoverArt(QString rawData);
-	void SigClickTitle(QString rawData);
+	void SigClickTitle(int nType, QString rawData = "");
 
 protected:
 
@@ -49,17 +56,18 @@ protected:
 private slots:
 
 
+
 private:
 
 	void ConnectSigToSlot();
 
 	FormCoverArt	*m_pFormCoverArt;
 
-	QString		m_StrID;
-	int			m_nType;
-	QString		m_RawData;
+	QString			m_StrID;
+	int				m_nType;
+	QString			m_RawData;
 
-	Ui::ListServiceEditor *ui;
+	Ui::ListBrowserEditor *ui;
 };
 
-#endif // LISTSERVICEEDITOR_H
+#endif // LISTBROWSEREDITOR_H

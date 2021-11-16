@@ -108,7 +108,7 @@ void DABRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
-	case TOP_MENU_DELETE_RADIO:
+	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
 		break;
 	case TOP_MENU_RESERVED_RECORD_LIST:
@@ -184,7 +184,7 @@ void DABRadioWindow::SetSelectOnTopMenu()
 	m_TopMenuMap.clear();
 
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-	m_TopMenuMap.insert(TOP_MENU_DELETE_RADIO, STR_DELETE_RADIO);
+	m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);

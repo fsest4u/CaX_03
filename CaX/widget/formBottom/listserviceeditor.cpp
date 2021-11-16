@@ -7,9 +7,6 @@
 
 #include "util/log.h"
 
-#define ICON_DIR		"dir"
-#define ICON_SEARCH		"search"
-#define ICON_REC_LIST	"rec_list"
 
 
 ListServiceEditor::ListServiceEditor(QWidget *parent) :
@@ -20,8 +17,6 @@ ListServiceEditor::ListServiceEditor(QWidget *parent) :
 	ui->setupUi(this);
 
 	m_nType = -1;
-//	m_Icon.clear();
-//	m_Art.clear();
 	m_RawData.clear();
 
 	ConnectSigToSlot();
@@ -64,9 +59,9 @@ QString ListServiceEditor::GetTitle() const
 	return ui->labelTitle->text();
 }
 
-void ListServiceEditor::SetTitle(const QString &Title)
+void ListServiceEditor::SetTitle(const QString &title)
 {
-	ui->labelTitle->setText(Title);
+	ui->labelTitle->setText(title);
 }
 
 QString ListServiceEditor::GetSubtitle() const
@@ -74,10 +69,10 @@ QString ListServiceEditor::GetSubtitle() const
 	return ui->labelSubtitle->text();
 }
 
-void ListServiceEditor::SetSubtitle(const QString &Bottom)
+void ListServiceEditor::SetSubtitle(const QString &subtitle)
 {
 	ui->labelSubtitle->show();
-	ui->labelSubtitle->setText(Bottom);
+	ui->labelSubtitle->setText(subtitle);
 }
 
 QString ListServiceEditor::GetDuration() const
@@ -85,10 +80,10 @@ QString ListServiceEditor::GetDuration() const
 	return ui->labelDuration->text();
 }
 
-void ListServiceEditor::SetDuration(const QString &Duration)
+void ListServiceEditor::SetDuration(const QString &duration)
 {
 	ui->labelDuration->show();
-	ui->labelDuration->setText(Duration);
+	ui->labelDuration->setText(duration);
 }
 
 
@@ -97,9 +92,9 @@ QString ListServiceEditor::GetRawData() const
 	return m_RawData;
 }
 
-void ListServiceEditor::SetRawData(const QString &RawData)
+void ListServiceEditor::SetRawData(const QString &rawData)
 {
-	m_RawData = RawData;
+	m_RawData = rawData;
 }
 
 FormCoverArt *ListServiceEditor::GetFormCoverArt() const

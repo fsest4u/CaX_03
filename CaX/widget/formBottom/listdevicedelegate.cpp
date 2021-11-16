@@ -31,7 +31,7 @@ QSize ListDeviceDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	return QSize(LIST_ITEM_WIDTH, LIST_ITEM_HEIGHT + 50);
+	return QSize(LIST_ITEM_WIDTH, LIST_DEVICE_HEIGHT);
 }
 
 QWidget *ListDeviceDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const

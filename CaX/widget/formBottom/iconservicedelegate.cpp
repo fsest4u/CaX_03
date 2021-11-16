@@ -83,7 +83,10 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT)));
-	widget->GetFormCoverArt()->SetMute(qvariant_cast<bool>(index.data(ICON_SERVICE_MUTE)));
+	if (IconService::ICON_SERVICE_GROUP_PLAY == m_nServiceType)
+	{
+		widget->GetFormCoverArt()->SetMute(qvariant_cast<bool>(index.data(ICON_SERVICE_MUTE)));
+	}
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
 	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
 	widget->blockSignals(false);
@@ -97,7 +100,10 @@ void IconServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetRawData(), ICON_SERVICE_RAW);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_SERVICE_COVER);
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), ICON_SERVICE_SELECT);
-	model->setData(index, widget->GetFormCoverArt()->GetMute(), ICON_SERVICE_MUTE);
+	if (IconService::ICON_SERVICE_GROUP_PLAY == m_nServiceType)
+	{
+		model->setData(index, widget->GetFormCoverArt()->GetMute(), ICON_SERVICE_MUTE);
+	}
 	model->setData(index, widget->GetFormTitle()->GetTitle(), ICON_SERVICE_TITLE);
 	model->setData(index, widget->GetFormTitle()->GetSubtitle(), ICON_SERVICE_SUBTITLE);
 }
