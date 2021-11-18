@@ -3,6 +3,10 @@
 
 #include <QDialog>
 
+#include "util/CJsonNode.h"
+
+class TrackInfo;
+
 namespace Ui {
 class TrackInfoDialog;
 }
@@ -15,27 +19,48 @@ public:
 	explicit TrackInfoDialog(QWidget *parent = nullptr);
 	~TrackInfoDialog();
 
-	void SetTitle(const QString &value);
-	void SetAlbum(const QString &value);
-	void SetArtist(const QString &value);
-	void SetGenre(const QString &value);
-	void SetAlbumArtist(const QString &value);
-	void SetComposer(const QString &value);
-	void SetMood(const QString &value);
-	void SetTempo(const QString &value);
-	void SetTrack(const QString &value);
-	void SetPath(const QString &value);
-	void SetBitrate(const QString &value);
-	void SetDuration(const QString &value);
-	void SetSampleRate(const QString &value);
-	void SetChannel(const QString &value);
-	void SetFormat(const QString &value);
-	void SetYear(const QString &value);
-	void SetCDYear(const QString &value);
-	void SetCDNumber(const QString &value);
-	void SetCDTotal(const QString &value);
+	CJsonNode GetInfoData() const;
+	void SetInfoData(const CJsonNode &InfoData);
+
+	QString GetAddr() const;
+	void SetAddr(const QString &Addr);
+
+	int GetMode() const;
+	void SetMode(int Mode);
+
+private slots:
+
+	void SlotChangeAlbum(int index, QString value);
+	void SlotChangeAlbumArtist(int index, QString value);
+	void SlotChangeArtist(int index, QString value);
+	void SlotChangeComposer(int index, QString value);
+	void SlotChangeGenre(int index, QString value);
+	void SlotChangeMood(int index, QString value);
+
+	void SlotChangeTitle(int index, QString value);
+	void SlotChangeTempo(int index, QString value);
+	void SlotChangeYear(int index, QString value);
+	void SlotChangeTrack(int index, QString value);
+	void SlotChangePath(int index, QString value);
+	void SlotChangeBitrate(int index, QString value);
+	void SlotChangeDuration(int index, QString value);
+	void SlotChangeSampleRate(int index, QString value);
+	void SlotChangeChannel(int index, QString value);
+	void SlotChangeFormat(int index, QString value);
+	void SlotChangeCDYear(int index, QString value);
+	void SlotChangeCDNumber(int index, QString value);
+	void SlotChangeCDTotal(int index, QString value);
 
 private:
+
+	void ConnectSigToSlot();
+
+	TrackInfo *m_TrackInfo;
+
+	CJsonNode	m_InfoData;
+
+	QString		m_Addr;
+
 	Ui::TrackInfoDialog *ui;
 };
 

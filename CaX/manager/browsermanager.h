@@ -22,6 +22,7 @@ public:
 	void RequestDelete(QString root, QStringList paths, int eventID);
 	void RequestCopy(QString srcRoot, QStringList srcPaths, QString dstRoot, bool move, int eventID);
 	void RequestSetArt(QString root, QStringList files, QString image, QString thumb, int eventID);
+	void RequestInfoTag(QString path);
 	void RequestRandom();
 
 	bool GetOptPlaySubDir() const;
@@ -57,9 +58,9 @@ private:
 		BROWSER_RENAME,
 		BROWSER_COPY,
 		BROWSER_MOVE,
-//		BROWSER_INFO,
 		BROWSER_INFO_BOT,
 		BROWSER_SET_ART,
+		BROWSER_INFO_TAG,
 //		BROWSER_IMPORT,
 //		BROWSER_UPNP_FOLDER,
 //		BROWSER_UPNP_PLAY,

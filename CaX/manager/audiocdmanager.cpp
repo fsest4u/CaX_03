@@ -96,10 +96,9 @@ void AudioCDManager::RequestCategoryList(int nCategory)
 	node.Add(KEY_AS, true);
 	node.Add(KEY_AL, false);
 	node.Add(KEY_SQL, m_pSql->GetQueryCategoryList(nCategory));
+
 	RequestCommand(node, AUDIO_CD_CATEGORY_LIST);
 }
-
-
 
 void AudioCDManager::RequestRandom()
 {
@@ -109,8 +108,6 @@ void AudioCDManager::RequestRandom()
 
 	RequestCommand(node, AUDIO_CD_RANDOM);
 }
-
-
 
 void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 {

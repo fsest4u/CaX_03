@@ -13,7 +13,6 @@ SOURCES += \
     dialog/addradiodialog.cpp \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
-    dialog/cdriptrackinfo.cpp \
     dialog/groupplaydialog.cpp \
     dialog/inputnamedialog.cpp \
     dialog/limitcountdialog.cpp \
@@ -23,6 +22,7 @@ SOURCES += \
     dialog/searchcoverartresultdialog.cpp \
     dialog/searchdialog.cpp \
     dialog/selectformatdialog.cpp \
+    dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
     main.cpp \
@@ -109,7 +109,6 @@ HEADERS += \
     dialog/addradiodialog.h \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
-    dialog/cdriptrackinfo.h \
     dialog/groupplaydialog.h \
     dialog/inputnamedialog.h \
     dialog/limitcountdialog.h \
@@ -120,6 +119,7 @@ HEADERS += \
     dialog/searchcoverartresultdialog.h \
     dialog/searchdialog.h \
     dialog/selectformatdialog.h \
+    dialog/trackinfo.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
     manager/airablemanager.h \
@@ -216,7 +216,6 @@ FORMS += \
     dialog/addradiodialog.ui \
     dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \
-    dialog/cdriptrackinfo.ui \
     dialog/groupplaydialog.ui \
     dialog/inputnamedialog.ui \
     dialog/limitcountdialog.ui \
@@ -226,6 +225,7 @@ FORMS += \
     dialog/searchcoverartresultdialog.ui \
     dialog/searchdialog.ui \
     dialog/selectformatdialog.ui \
+    dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \

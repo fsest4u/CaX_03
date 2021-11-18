@@ -94,8 +94,6 @@ private:
 	void DoTopMenuCopy(bool move);
 	void DoTopMenuCopyHere(bool move);
 	void DoTopMenuSearchCoverArt();
-	void DoTopMenuEditTag();
-
 
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);

@@ -21,6 +21,7 @@
 
 #include "dialog/cdripinfodialog.h"
 #include "dialog/trackinfodialog.h"
+#include "dialog/trackinfo.h"
 
 AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
@@ -119,19 +120,11 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 void AudioCDWindow::SlotRespTrackInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
-	dialog.SetTitle(node.GetString(KEY_TITLE));
-	dialog.SetAlbum(node.GetString(KEY_ALBUM));
-	dialog.SetArtist(node.GetString(KEY_ARTIST));
-	dialog.SetGenre(node.GetString(KEY_GENRE));
-	dialog.SetAlbumArtist(node.GetString(KEY_ALBUM_ARTIST));
-	dialog.SetComposer(node.GetString(KEY_COMPOSER));
-	dialog.SetMood(node.GetString(KEY_MOOD));
-	dialog.SetTempo(node.GetString(KEY_TEMPO));
-	dialog.SetTrack(node.GetString(KEY_TRACK));
-	dialog.SetYear(node.GetString(KEY_YEAR));
-	dialog.SetCDYear(node.GetString(KEY_CDYEAR));
-	dialog.SetCDNumber(QString("%1").arg(node.GetInt(KEY_CDNUMBER)));
+	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
+	dialog.SetInfoData(node);
 	dialog.exec();
+
 }
 
 void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)

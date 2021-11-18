@@ -9,6 +9,8 @@
 #include "dialog/searchcoverartdialog.h"
 #include "dialog/searchcoverartdialog.h"
 #include "dialog/searchcoverartresultdialog.h"
+#include "dialog/trackinfodialog.h"
+#include "dialog/trackinfo.h"
 
 #include "manager/browsermanager.h"
 
@@ -218,9 +220,6 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 		break;
 	case TOP_MENU_SEARCH_COVER_ART:
 		DoTopMenuSearchCoverArt();
-		break;
-	case TOP_MENU_EDIT_TAG:
-		DoTopMenuEditTag();
 		break;
 	case TOP_MENU_ADD:
 		DoTopMenuAdd();
@@ -527,7 +526,6 @@ void BrowserWindow::SetSelectOffTopMenu()
 			if (m_FolderType & iFolderType_Mask_Play_Select)
 			{
 				m_TopMenuMap.insert(TOP_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
-				m_TopMenuMap.insert(TOP_MENU_EDIT_TAG, STR_EDIT_TAG);
 			}
 			if (m_FolderType & iFolderType_Mask_FileMgr)
 			{
@@ -763,12 +761,6 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 		DoTopMenuReload();
 
 	}
-}
-
-void BrowserWindow::DoTopMenuEditTag()
-{
-	// todo-dylee, edit tag
-
 }
 
 void BrowserWindow::AnalyzeNode(CJsonNode node)

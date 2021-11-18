@@ -118,6 +118,18 @@ void BrowserManager::RequestSetArt(QString root, QStringList files, QString imag
 
 }
 
+void BrowserManager::RequestInfoTag(QString path)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_INFO);
+	node.Add	(KEY_CMD2,		VAL_SONG);
+	node.Add(KEY_PATH, path);
+
+	RequestCommand(node, BROWSER_INFO_TAG);
+
+}
+
 void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringList files, int where)
 {
 	CJsonNode node(JSON_OBJECT);
@@ -212,8 +224,9 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_INFO_BOT:
 		ParseInfoBot(node, nIndex);
 		break;
-	case BROWSER_TRACK_PLAY:
+	case BROWSER_INFO_TAG:
 		break;
+	case BROWSER_TRACK_PLAY:
 	case BROWSER_PLAYLIST_PLAY:
 		break;
 	case BROWSER_CREATE:
@@ -221,7 +234,6 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_DELETE:
 	case BROWSER_COPY:
 	case BROWSER_MOVE:
-//	case BROWSER_INFO:
 //	case BROWSER_SET_ART:
 //	case BROWSER_CONVERT:
 //	case BROWSER_REPLAYGAIN_SET:

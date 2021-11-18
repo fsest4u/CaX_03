@@ -2,7 +2,7 @@
 #include "ui_cdripinfodialog.h"
 
 #include "dialog/cdripinfo.h"
-#include "dialog/cdriptrackinfo.h"
+#include "dialog/trackinfo.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -61,12 +61,13 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 	LogDebug("tracks [%s]", tracks.ToCompactByteArray().data());
 	for (int i = 0; i < tracks.ArraySize(); i++)
 	{
-		CDRipTrackInfo *trackInfo = new CDRipTrackInfo();
+		TrackInfo *trackInfo = new TrackInfo();
 		trackInfo->SetIndex(i);
 		trackInfo->SetArtistList(m_ArtistList);
 		trackInfo->SetGenreList(m_GenreList);
 		trackInfo->SetComposerList(m_ComposerList);
 		trackInfo->SetMoodList(m_MoodList);
+		trackInfo->SetMode(TrackInfo::TRACK_INFO_MODE_EDIT);
 		trackInfo->SetInfoData(tracks.GetArrayAt(i));
 		m_ListTrack.append(tracks.GetArrayAt(i));
 		ui->stackedWidget->addWidget(trackInfo);

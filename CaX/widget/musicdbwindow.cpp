@@ -9,6 +9,7 @@
 #include "dialog/searchcoverartdialog.h"
 #include "dialog/searchcoverartresultdialog.h"
 #include "dialog/trackinfodialog.h"
+#include "dialog/trackinfo.h"
 
 #include "manager/musicdbmanager.h"
 #include "manager/sqlmanager.h"
@@ -879,38 +880,21 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
-	dialog.SetTitle(node.GetString(KEY_ALBUM));
-	dialog.SetAlbum(node.GetString(KEY_ALBUM));
-	dialog.SetAlbumArtist(node.GetString(KEY_ALBUM_ARTIST));
-	dialog.SetCDYear(node.GetString(KEY_CDYEAR));
-	dialog.SetCDNumber(QString("%1").arg(node.GetInt(KEY_CDNUMBER)));
-	dialog.SetCDTotal(QString("%1").arg(node.GetInt(KEY_CDTOTAL)));
+	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
+	dialog.SetInfoData(node);
 	dialog.exec();
+
 }
 
 void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
-	dialog.SetTitle(node.GetString(KEY_TITLE_CAP));
-	dialog.SetAlbum(node.GetString(KEY_ALBUM));
-	dialog.SetArtist(node.GetString(KEY_ARTIST));
-	dialog.SetGenre(node.GetString(KEY_GENRE));
-	dialog.SetAlbumArtist(node.GetString(KEY_ALBUM_ARTIST));
-	dialog.SetComposer(node.GetString(KEY_COMPOSER));
-	dialog.SetMood(node.GetString(KEY_MOOD));
-	dialog.SetTempo(node.GetString(KEY_TEMPO));
-	dialog.SetTrack(node.GetString(KEY_TRACK));
-	dialog.SetPath(node.GetString(KEY_PATH));
-	dialog.SetBitrate(node.GetString(KEY_BITRATE));
-	dialog.SetDuration(node.GetString(KEY_DURATION));
-	dialog.SetSampleRate(node.GetString(KEY_SAMPLERATE_CAP));
-	dialog.SetChannel(node.GetString(KEY_CHANNEL));
-	dialog.SetFormat(node.GetString(KEY_FORMAT));
-	dialog.SetYear(node.GetString(KEY_YEAR));
-	dialog.SetCDYear(node.GetString(KEY_CDYEAR));
-	dialog.SetCDNumber(QString("%1").arg(node.GetInt(KEY_CDNUMBER)));
-	dialog.SetCDTotal(QString("%1").arg(node.GetInt(KEY_CDTOTAL)));
+	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
+	dialog.SetInfoData(node);
 	dialog.exec();
+
 }
 
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
