@@ -16,6 +16,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #define MAIN_TITLE	"DAB Radio"
 #define RESERVE_TITLE	"Reserved record list"
@@ -229,12 +230,10 @@ void DABRadioWindow::SetHome(QList<CJsonNode> &list)
 {
 	QList<CJsonNode> tempList;
 	int index = 0;
-	QString strCover = "";
 
 	foreach (CJsonNode node, list)
 	{
-		strCover = ":/resource/radio-img160-channelicon-n@3x.png";
-		node.Add(KEY_COVER_ART, strCover);
+		node.Add(KEY_COVER_ART, UtilNovatron::GetCoverArtIcon(SIDEMENU_DAB_RADIO));
 //		node.AddInt(KEY_ID_UPPER, index);
 		node.AddInt(KEY_TYPE, index);
 

@@ -99,7 +99,6 @@ private:
 
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);
-	QString GetCoverArtIcon(CJsonNode node);
 	void ShowFormPlay();
 
 	void SetDirFile();

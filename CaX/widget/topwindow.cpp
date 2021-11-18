@@ -84,7 +84,7 @@ void TopWindow::SetMenu(QMap<int, QString> list)
 	QMap<int, QString>::iterator i;
 	for (i = list.begin(); i!= list.end(); i++)
 	{
-		QIcon icon = UtilNovatron::GetIcon(i.value());
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
 		QAction *action = new QAction(icon, i.value(), this);
 		action->setData(i.key());
 		m_Menu->addAction(action);

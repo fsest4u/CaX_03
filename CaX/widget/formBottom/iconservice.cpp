@@ -7,6 +7,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 IconService::IconService(QWidget *parent) :
 	QWidget(parent),
@@ -70,12 +71,13 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 		{
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			type = type | node.GetInt(KEY_TYPE);
+			QString path = node.GetString(KEY_PATH);
 
 			QStandardItem *item = new QStandardItem;
-			item->setData(node.GetString(KEY_PATH), IconServiceDelegate::ICON_SERVICE_ID);
+			item->setData(path, IconServiceDelegate::ICON_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);
-			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
-			item->setData(node.GetString(KEY_PATH), IconServiceDelegate::ICON_SERVICE_TITLE);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_BROWSER, path), IconServiceDelegate::ICON_SERVICE_COVER);
+			item->setData(path, IconServiceDelegate::ICON_SERVICE_TITLE);
 			if (!node.GetString(KEY_SIZE).isEmpty() && !node.GetString(KEY_FREE).isEmpty())
 			{
 				item->setData(node.GetString(KEY_SIZE) + " / " + node.GetString(KEY_FREE), IconServiceDelegate::ICON_SERVICE_SUBTITLE);
@@ -116,7 +118,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetInt(KEY_ID_UPPER), IconServiceDelegate::ICON_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);
-			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_INPUT, node.GetString(KEY_RIGHT)), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
@@ -176,7 +178,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, IconServiceDelegate::ICON_SERVICE_ID);
 			item->setData(node.GetInt(KEY_MAC_ADDR), IconServiceDelegate::ICON_SERVICE_TYPE);
-			item->setData(":/resource/groupp-img160-n@3x.png", IconServiceDelegate::ICON_SERVICE_COVER);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_GROUP_PLAY), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetBool(KEY_MUTED), IconServiceDelegate::ICON_SERVICE_MUTE);
 			item->setData(node.GetString(KEY_CA_NAME), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(subtitle, IconServiceDelegate::ICON_SERVICE_SUBTITLE);

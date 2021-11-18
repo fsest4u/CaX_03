@@ -3,9 +3,11 @@
 
 #include "listbrowserdelegate.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #include "widget/browser.h"
 
@@ -80,7 +82,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_ID);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
-//			item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_COVER);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_BROWSER), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_TITLE);
 			item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 			item->setData(node.GetString(KEY_DURATION), ListBrowserDelegate::LIST_BROWSER_DURATION);

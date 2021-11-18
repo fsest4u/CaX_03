@@ -11,6 +11,7 @@
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #define MAIN_TITLE	"Input"
 
@@ -91,42 +92,9 @@ void InputWindow::SetInputHome(QList<CJsonNode> &list)
 {
 	QList<CJsonNode> tempList;
 	int index = 0;
-	QString strCover = "";
 
 	foreach (CJsonNode node, list)
 	{
-		if (node.GetString(KEY_RIGHT).contains("AES/EBU"))
-		{
-			strCover = ":/resource/input-img160-aesebu-n@3x.png";
-		}
-		else if (node.GetString(KEY_RIGHT).contains("COAXIAL"))
-		{
-			strCover = ":/resource/input-img160-coaxial-n@3x.png";
-		}
-		else if (node.GetString(KEY_RIGHT).contains("TOSLINK"))
-		{
-			strCover = ":/resource/input-img160-toslink-n@3x.png";
-		}
-		else if (node.GetString(KEY_RIGHT).contains("ANALOG IN"))
-		{
-			strCover = ":/resource/input-img160-analogin-n@3x.png";
-		}
-		else if (node.GetString(KEY_RIGHT).contains("AUX IN"))
-		{
-			strCover = ":/resource/input-img160-auxin-n@3x.png";
-		}
-		else if (node.GetString(KEY_RIGHT).contains("PHONO IN"))
-		{
-			strCover = ":/resource/input-img160-ponoin-n@3x.png";
-		}
-		else
-		{
-			LogDebug("not found type");
-			strCover = "";
-			continue;
-		}
-
-		node.Add(KEY_COVER_ART, strCover);
 		node.AddInt(KEY_ID_UPPER, index);
 		node.AddInt(KEY_TYPE, index);
 

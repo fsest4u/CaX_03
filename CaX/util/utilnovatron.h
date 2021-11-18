@@ -8,7 +8,8 @@ class UtilNovatron
 public:
 	UtilNovatron();
 
-	static QIcon GetIcon(QString value);
+	static QIcon GetMenuIcon(QString value);
+	static QString GetCoverArtIcon(const int service, const QString value = "");
 };
 
 #endif // UTILNOVATRON_H

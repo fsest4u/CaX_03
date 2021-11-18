@@ -29,7 +29,7 @@ void FormSearchCoverArt::SetCoverArt(const QByteArray &CoverArt)
 	m_CoverArt = CoverArt;
 	if (m_CoverArt.isEmpty())
 	{
-//		m_CoverArt = ":/resource/playlist-img160-albumart-h@3x.png";
+		return;
 	}
 
 //	QImage image;

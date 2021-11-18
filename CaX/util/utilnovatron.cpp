@@ -2,14 +2,16 @@
 
 #include "utilnovatron.h"
 
+#include "util/caxconstants.h"
 #include "util/caxtranslate.h"
+#include "util/log.h"
 
 UtilNovatron::UtilNovatron()
 {
 
 }
 
-QIcon UtilNovatron::GetIcon(QString value)
+QIcon UtilNovatron::GetMenuIcon(QString value)
 {
 	if (value.contains(STR_ADD))
 	{
@@ -190,7 +192,104 @@ QIcon UtilNovatron::GetIcon(QString value)
 	}
 	else
 	{
-//		LogDebug("There is no icon corresponding to the string.");
+		LogDebug("There is no icon corresponding to the string.");
 		return QIcon("");
 	}
+}
+
+QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
+{
+	QString coverArt = "";
+
+	if (service == SIDEMENU_MUSIC_DB)
+	{
+		coverArt = "";
+
+	}
+	else if (service == SIDEMENU_AUDIO_CD)
+	{
+		coverArt = ":/resource/playlist-img160-albumart-h@3x.png";
+
+	}
+	else if (service == SIDEMENU_PLAYLIST)
+	{
+		coverArt = "";
+
+	}
+	else if (service == SIDEMENU_BROWSER)
+	{
+		if (value.contains("HDD1"))
+		{
+			coverArt = ":/resource/browser-img160-hdd-n@3x.png";
+		}
+		else if (value.contains("NET"))
+		{
+			coverArt = ":/resource/browser-img160-net-n@3x.png";
+		}
+		else if (value.contains("UPnP"))
+		{
+			coverArt = ":/resource/browser-img160-upnp-n@3x.png";
+		}
+		else
+		{
+			coverArt = ":/resource/browser-img160-hdd-n@3x.png";
+		}
+	}
+	else if (service == SIDEMENU_ISERVICE)
+	{
+		coverArt = "";
+
+	}
+	else if (service == SIDEMENU_INPUT)
+	{
+		if (value.contains("AES/EBU"))
+		{
+			coverArt = ":/resource/input-img160-aesebu-n@3x.png";
+		}
+		else if (value.contains("COAXIAL"))
+		{
+			coverArt = ":/resource/input-img160-coaxial-n@3x.png";
+		}
+		else if (value.contains("TOSLINK"))
+		{
+			coverArt = ":/resource/input-img160-toslink-n@3x.png";
+		}
+		else if (value.contains("ANALOG IN"))
+		{
+			coverArt = ":/resource/input-img160-analogin-n@3x.png";
+		}
+		else if (value.contains("AUX IN"))
+		{
+			coverArt = ":/resource/input-img160-auxin-n@3x.png";
+		}
+		else if (value.contains("PHONO IN"))
+		{
+			coverArt = ":/resource/input-img160-ponoin-n@3x.png";
+		}
+	}
+	else if (service == SIDEMENU_FM_RADIO)
+	{
+		coverArt = ":/resource/radio-img160-channelicon-n@3x.png";
+	}
+	else if (service == SIDEMENU_DAB_RADIO)
+	{
+		coverArt = ":/resource/radio-img160-channelicon-n@3x.png";
+	}
+	else if (service == SIDEMENU_GROUP_PLAY)
+	{
+		coverArt = ":/resource/groupp-img160-n@3x.png";
+
+	}
+	else if (service == SIDEMENU_SETUP)
+	{
+		coverArt = "";
+
+	}
+
+	if (coverArt.isEmpty())
+	{
+		LogDebug("There is no icon corresponding to the string.");
+	}
+
+	return coverArt;
 }

@@ -17,6 +17,7 @@
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/settingio.h"
+#include "util/utilnovatron.h"
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
@@ -316,8 +317,6 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		ui->gridLayoutTop->addWidget(m_pInfoService);
 		ui->gridLayoutBottom->addWidget(m_pIconService);
 
-		SetList(list);
-
 		m_pInfoService->GetFormPlay()->ShowMenu();
 
 		m_pInfoService->SetSubtitle(STR_BROWSER);
@@ -349,7 +348,7 @@ void BrowserWindow::SlotReqCoverArt(QString path, int index)
 {
 	path = m_Root + "/" + path;
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
-	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(BROWSER_CAT).arg(path);
+	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
 
 	m_pMgr->RequestCoverArt(fullpath, index, QListView::ListMode);
 }
@@ -768,25 +767,8 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 
 void BrowserWindow::DoTopMenuEditTag()
 {
+	// todo-dylee, edit tag
 
-}
-
-void BrowserWindow::SetList(QList<CJsonNode> &list)
-{
-	QList<CJsonNode> tempList;
-	int index = 0;
-	QString strCover = "";
-
-	foreach (CJsonNode node, list)
-	{
-//		AnalyzeNode(node);
-		strCover = GetCoverArtIcon(node);
-		node.Add(KEY_COVER_ART, strCover);
-
-		tempList.append(node);
-		index++;
-	}
-	list = tempList;
 }
 
 void BrowserWindow::AnalyzeNode(CJsonNode node)
@@ -802,32 +784,6 @@ void BrowserWindow::AnalyzeNode(CJsonNode node)
 	{
 		m_Files.append(path);
 	}
-}
-
-QString BrowserWindow::GetCoverArtIcon(CJsonNode node)
-{
-	QString path = node.GetString(KEY_PATH);
-	QString strCover;
-
-	if (!path.compare("HDD1"))
-	{
-		strCover = ":/resource/browser-img160-hdd-n@3x.png";
-	}
-	else if (!path.compare("NET"))
-	{
-		strCover = ":/resource/browser-img160-net-n@3x.png";
-	}
-	else if (!path.compare("UPnP"))
-	{
-		strCover = ":/resource/browser-img160-upnp-n@3x.png";
-	}
-	else
-	{
-//		strCover = ":/resource/browser-img160-brank-n@3x.png";
-		strCover = ":/resource/browser-img160-hdd-n@3x.png";
-	}
-
-	return strCover;
 }
 
 void BrowserWindow::ShowFormPlay()

@@ -10,7 +10,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
-
+#include "util/utilnovatron.h"
 
 IconTracks::IconTracks(QWidget *parent) :
 	QWidget(parent),
@@ -75,7 +75,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			int time = node.GetInt(KEY_TIME_CAP);
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_TRACK), IconTracksDelegate::ICON_TRACKS_ID);
-			item->setData(":/resource/playlist-img160-albumart-h@3x.png", IconTracksDelegate::ICON_TRACKS_COVER);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_AUDIO_CD), IconTracksDelegate::ICON_TRACKS_COVER);
 			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
 			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
