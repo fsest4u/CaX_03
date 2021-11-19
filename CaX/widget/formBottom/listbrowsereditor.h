@@ -2,6 +2,7 @@
 #define LISTBROWSEREDITOR_H
 
 #include <QWidget>
+#include <QMenu>
 
 class FormCoverArt;
 
@@ -17,8 +18,8 @@ public:
 	explicit ListBrowserEditor(QWidget *parent = nullptr);
 	~ListBrowserEditor();
 
-	QString GetID() const;
-	void SetID(QString strID);
+	int GetID() const;
+	void SetID(int ID);
 
 	int GetType() const;
 	void SetType(int nType);
@@ -40,6 +41,9 @@ public:
 	QString GetRawData() const;
 	void SetRawData(const QString &rawData);
 
+	void ClearMenu();
+	void SetMenu(QMap<int, QString> map);
+
 	FormCoverArt *GetFormCoverArt() const;
 
 
@@ -48,6 +52,8 @@ signals:
 
 //	void SigClickCoverArt(QString rawData);
 	void SigClickTitle(int nType, QString rawData = "");
+	void SigMenu(int index, int nType);
+	void SigMenuAction(int index, int menuID);
 
 protected:
 
@@ -55,15 +61,18 @@ protected:
 
 private slots:
 
-
+	void SlotMenu();
+	void SlotMenuAction(QAction* action);
 
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
 
 	FormCoverArt	*m_pFormCoverArt;
+	QMenu			*m_Menu;
 
-	QString			m_StrID;
+	int				m_ID;
 	int				m_nType;
 	QString			m_RawData;
 

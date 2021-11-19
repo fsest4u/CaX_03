@@ -16,6 +16,16 @@ void ListBrowserDelegate::SlotClickTitle(int nType, QString rawData)
 	emit SigSelectTitle(nType, rawData);
 }
 
+void ListBrowserDelegate::SlotMenu(int index, int nType)
+{
+	emit SigMenu(index, nType);
+}
+
+void ListBrowserDelegate::SlotMenuAction(int index, int menuID)
+{
+	emit SigMenuAction(index, menuID);
+}
+
 void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	Q_UNUSED(painter)
@@ -39,6 +49,8 @@ QWidget *ListBrowserDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	ListBrowserEditor *editor = new ListBrowserEditor(parent);
 //	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
+	connect(editor, SIGNAL(SigMenu(int, int)), this, SLOT(SlotMenu(int, int)));
+	connect(editor, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotMenuAction(int, int)));
 
 	return editor;
 }
@@ -47,7 +59,7 @@ void ListBrowserDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 {
 	ListBrowserEditor *widget = static_cast<ListBrowserEditor*>(editor);
 	widget->blockSignals(true);
-	widget->SetID(qvariant_cast<QString>(index.data(LIST_BROWSER_ID)));
+	widget->SetID(qvariant_cast<int>(index.data(LIST_BROWSER_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(LIST_BROWSER_TYPE)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_BROWSER_COVER)));
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_BROWSER_SELECT)));
@@ -57,6 +69,10 @@ void ListBrowserDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->SetFileSize(qvariant_cast<QString>(index.data(LIST_BROWSER_FILESIZE)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(LIST_BROWSER_RAW)));
 	widget->blockSignals(false);
+
+	widget->ClearMenu();
+	widget->SetMenu(m_OptionMenuMap);
+
 }
 
 void ListBrowserDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
@@ -77,4 +93,14 @@ void ListBrowserDelegate::updateEditorGeometry(QWidget *editor, const QStyleOpti
 {
 	Q_UNUSED(index)
 	editor->setGeometry(option.rect);
+}
+
+QMap<int, QString> ListBrowserDelegate::GetOptionMenuMap() const
+{
+	return m_OptionMenuMap;
+}
+
+void ListBrowserDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
+{
+	m_OptionMenuMap = OptionMenuMap;
 }

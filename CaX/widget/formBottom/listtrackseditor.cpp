@@ -3,11 +3,11 @@
 #include "listtrackseditor.h"
 #include "ui_listtrackseditor.h"
 
-#include "widget/form/formcoverart.h"
-
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
+
+#include "widget/form/formcoverart.h"
 
 ListTracksEditor::ListTracksEditor(QWidget *parent) :
 	QWidget(parent),

@@ -92,8 +92,11 @@ void IconTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 	model->setData(index, widget->GetID(), ICON_TRACKS_ID);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_TRACKS_COVER);
 	model->setData(index, widget->GetFormCoverArt()->GetCount(), ICON_TRACKS_COUNT);
-	model->setData(index, widget->GetFormCoverArt()->GetFavorite(), ICON_TRACKS_FAVORITE);
-	model->setData(index, widget->GetFormCoverArt()->GetRating(), ICON_TRACKS_RATING);
+	if (m_TypeMode == TYPE_MODE_ITEM)
+	{
+		model->setData(index, widget->GetFormCoverArt()->GetFavorite(), ICON_TRACKS_FAVORITE);
+		model->setData(index, widget->GetFormCoverArt()->GetRating(), ICON_TRACKS_RATING);
+	}
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), ICON_TRACKS_SELECT);
 	model->setData(index, widget->GetFormTitle()->GetTitle(), ICON_TRACKS_TITLE);
 	model->setData(index, widget->GetFormTitle()->GetSubtitle(), ICON_TRACKS_SUBTITLE);

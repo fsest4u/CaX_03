@@ -38,8 +38,11 @@ public:
 	QMap<QString, int> GetSelectMap() const;
 	void SetSelectMap(const QMap<QString, int> &SelectMap);
 
+	void SetEditor(int index);
+
 	QStandardItemModel	*GetModel();
 	ListBrowserDelegate	*GetDelegate();
+
 
 signals:
 
@@ -61,7 +64,7 @@ private:
 	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
-	QMap<QString, int>			m_SelectMap;
+	QMap<QString, int>		m_SelectMap;
 
 	Ui::ListBrowser *ui;
 };

@@ -3,7 +3,9 @@
 #include "listbrowsereditor.h"
 #include "ui_listbrowsereditor.h"
 
+#include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #include "widget/form/formcoverart.h"
 
@@ -15,14 +17,14 @@
 ListBrowserEditor::ListBrowserEditor(QWidget *parent) :
 	QWidget(parent),
 	m_pFormCoverArt(new FormCoverArt(this)),
+	m_Menu(new QMenu(this)),
 	ui(new Ui::ListBrowserEditor)
 {
 	ui->setupUi(this);
 
-	m_nType = -1;
-	m_RawData.clear();
-
 	ConnectSigToSlot();
+
+	Initialize();
 }
 
 ListBrowserEditor::~ListBrowserEditor()
@@ -33,17 +35,25 @@ ListBrowserEditor::~ListBrowserEditor()
 		m_pFormCoverArt = nullptr;
 	}
 
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
+	}
+
+
 	delete ui;
 }
 
-QString ListBrowserEditor::GetID() const
+int ListBrowserEditor::GetID() const
 {
-	return m_StrID;
+	return m_ID;
 }
 
-void ListBrowserEditor::SetID(QString strID)
+void ListBrowserEditor::SetID(int ID)
 {
-	m_StrID = strID;
+	m_ID = ID;
 }
 
 int ListBrowserEditor::GetType() const
@@ -109,6 +119,23 @@ void ListBrowserEditor::SetRawData(const QString &rawData)
 	m_RawData = rawData;
 }
 
+void ListBrowserEditor::ClearMenu()
+{
+	m_Menu->clear();
+}
+
+void ListBrowserEditor::SetMenu(QMap<int, QString> map)
+{
+	QMap<int, QString>::iterator i;
+	for (i = map.begin(); i != map.end(); i++)
+	{
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+}
+
 FormCoverArt *ListBrowserEditor::GetFormCoverArt() const
 {
 	return m_pFormCoverArt;
@@ -127,14 +154,49 @@ bool ListBrowserEditor::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
+void ListBrowserEditor::SlotMenu()
+{
+	emit SigMenu(m_ID, m_nType);
+}
+
+void ListBrowserEditor::SlotMenuAction(QAction *action)
+{
+	emit SigMenuAction(m_ID, action->data().toInt());
+}
+
 void ListBrowserEditor::ConnectSigToSlot()
 {
-	ui->labelTitle->installEventFilter(this);
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+}
+
+void ListBrowserEditor::Initialize()
+{
+	m_nType = -1;
+	m_RawData.clear();
+
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
+	ui->btnMenu->setMenu(m_Menu);
 
 	ui->labelSubtitle->hide();
 	ui->labelDuration->hide();
 	ui->labelFilesize->hide();
 
-	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
+	ui->labelTitle->installEventFilter(this);
 
+	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 }

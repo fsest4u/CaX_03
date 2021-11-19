@@ -5,6 +5,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/loading.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
@@ -80,7 +81,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			type = type | nodeType;
 
 			QStandardItem *item = new QStandardItem;
-			item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_ID);
+			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_BROWSER), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_TITLE);
@@ -89,6 +90,8 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(node.GetString(KEY_SIZE), ListBrowserDelegate::LIST_BROWSER_FILESIZE);
 			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
+//			SetBrowserOptionMenu(nodeType);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -99,6 +102,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 				emit SigReqInfoBot(node.GetString(KEY_PATH), index);
 				emit SigReqCoverArt(node.GetString(KEY_PATH), index);
 			}
+
 			index++;
 		}
 	}
@@ -126,8 +130,8 @@ void ListBrowser::ClearSelectMap()
 //			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(index);
 
-			QString id = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_ID));
-			m_SelectMap.remove(id);
+			QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+			m_SelectMap.remove(path);
 		}
 	}
 	m_pLoading->Stop();
@@ -151,9 +155,9 @@ void ListBrowser::SetAllSelectMap()
 //			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(index);
 
-			QString id = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_ID));
+			QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
 			int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
-			m_SelectMap.insert(id, type);
+			m_SelectMap.insert(path, type);
 		}
 	}
 	m_pLoading->Stop();
@@ -168,6 +172,17 @@ QMap<QString, int> ListBrowser::GetSelectMap() const
 void ListBrowser::SetSelectMap(const QMap<QString, int> &SelectMap)
 {
 	m_SelectMap = SelectMap;
+}
+
+void ListBrowser::SetEditor(int i)
+{
+	QModelIndex index = m_Model->index(i, 0);
+
+	QStandardItem *item = m_Model->itemFromIndex(index);
+	QString subtitle = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
+	item->setData(subtitle + " ", ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
+
+	m_ListView->openPersistentEditor(index);
 }
 
 QStandardItemModel *ListBrowser::GetModel()
@@ -189,15 +204,15 @@ void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
 //	QModelIndex modelIndex = m_Model->indexFromItem(item);
 	m_ListView->openPersistentEditor(index);
 
-	QString id = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_ID));
+	QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
 	int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
 	if (bSelect)
 	{
-		m_SelectMap.insert(id, type);
+		m_SelectMap.insert(path, type);
 	}
 	else
 	{
-		m_SelectMap.remove(id);
+		m_SelectMap.remove(path);
 	}
 }
 

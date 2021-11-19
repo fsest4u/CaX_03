@@ -23,13 +23,20 @@ public:
 		LIST_BROWSER_MAX
 	};
 
+	QMap<int, QString> GetOptionMenuMap() const;
+	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
+
 signals:
 
 	void SigSelectTitle(int nType, QString rawData);
+	void SigMenu(int index, int nType);
+	void SigMenuAction(int index, int menuID);
 
 private slots:
 
 	void SlotClickTitle(int nType, QString rawData);
+	void SlotMenu(int index, int nType);
+	void SlotMenuAction(int index, int menuID);
 
 private:
 
@@ -40,6 +47,8 @@ private:
 	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+
+	QMap<int, QString> m_OptionMenuMap;
 
 };
 

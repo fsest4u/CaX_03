@@ -24,13 +24,6 @@ public:
 	explicit BrowserWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1, const QString &root = "");
 	~BrowserWindow();
 
-	enum {
-		MODE_NORMAL = 0,
-		MODE_COPY,
-		MODE_MOVE,
-		MODE_MAX
-	};
-
 	void RequestRoot();
 	void RequestFolder(QString strPath);
 
@@ -53,12 +46,6 @@ private slots:
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget* widget);
 
-	void SlotPlayAll(int where = PLAY_CLEAR);
-	void SlotPlayRandom();
-	void SlotTopMenu();
-	void SlotTopMenuAction(int menuID);
-//	void SlotResize();
-
 	void SlotSelectTitle(int nType, QString rawData);
 //	void SlotSelectURL(QString rawData);
 	void SlotReqCoverArt(QString path, int index);
@@ -67,6 +54,15 @@ private slots:
 	void SlotRespList(QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString filename, int index, int mode);
 	void SlotInfoBotUpdate(CJsonNode node, int nIndex);
+
+	void SlotPlayAll(int where = PLAY_CLEAR);
+	void SlotPlayRandom();
+	void SlotTopMenu();
+	void SlotTopMenuAction(int menuID);
+//	void SlotResize();
+
+	void SlotOptionMenu(int id, int type);
+	void SlotOptionMenuAction(int id, int menuID);
 
 	void SlotCopyHere(bool move, QString dstPath);
 
@@ -95,14 +91,27 @@ private:
 	void DoTopMenuCopyHere(bool move);
 	void DoTopMenuSearchCoverArt();
 
+	void SetOptionMenu(int type);
+
+	void DoOptionMenuPlay(int where);
+	void DoOptionMenuGain(QString gain);
+	void DoOptionMenuOptionPlaySubDir();
+	void DoOptionMenuOptionOverwrite();
+	void DoOptionMenuConverFormat();
+	void DoOptionMenuScan(bool on);
+	void DoOptionMenuRename();
+	void DoOptionMenuDelete();
+	void DoOptionMenuCopy(bool move);
+	void DoOptionMenuCopyHere(bool move);
+	void DoOptionMenuEditTag();
+	void DoOptionMenuSearchCoverArt();
+
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);
 	void ShowFormPlay();
 
 	void SetDirFile();
 	void SetPaths();
-
-	void DoDebugType(int type);
 
 	BrowserManager		*m_pMgr;
 	InfoService			*m_pInfoService;
@@ -111,6 +120,7 @@ private:
 	ListBrowser			*m_pListBrowser;
 
 	QMap<int, QString>	m_TopMenuMap;
+	QMap<int, QString>	m_OptionMenuMap;
 	QMap<QString, int>	m_SelectMap;
 
 

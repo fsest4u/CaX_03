@@ -6,6 +6,8 @@
 #include "util/caxtranslate.h"
 #include "util/log.h"
 
+#include "widget/browser.h"
+
 UtilNovatron::UtilNovatron()
 {
 
@@ -293,3 +295,116 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 
 	return coverArt;
 }
+
+void UtilNovatron::DebugTypeForBrowser(int type)
+{
+	if (type & iFolderType_Mask_Play_Top)
+	{
+		LogDebug("Play_Top");
+	}
+	if (type & iFolderType_Mask_Play_Option)
+	{
+		LogDebug("Play_Option");
+	}
+	if (type & iFolderType_Mask_Play_Check)
+	{
+		LogDebug("Play_Check");
+	}
+	if (type & iFolderType_Mask_Play_Select)
+	{
+		LogDebug("Mask_Play_Select");
+	}
+	if (type & iFolderType_Mask_Check)
+	{
+		LogDebug("Mask_Check");
+	}
+	if (type & iFolderType_Mask_FileMgr)
+	{
+		LogDebug("Mask_FileMgr");
+	}
+	if (type & iFolderType_Mask_ReadOnly)
+	{
+		LogDebug("Mask_ReadOnly");
+	}
+	if (type & iFolderType_Mask_Sub)
+	{
+		LogDebug("Mask_Sub");
+	}
+	if (type & iFolderType_Mask_Dev)
+	{
+		LogDebug("Mask_Dev");
+	}
+	if (type & iFolderType_Mask_Hdd)
+	{
+		LogDebug("Mask_Hdd");
+	}
+	if (type & iFolderType_Mask_Usb)
+	{
+		LogDebug("Mask_Usb");
+	}
+	if (type & iFolderType_Mask_Cd)
+	{
+		LogDebug("Mask_Cd");
+	}
+	if (type & iFolderType_Mask_Net)
+	{
+		LogDebug("Mask_Net");
+	}
+	if (type & iFolderType_Mask_Upnp)
+	{
+		LogDebug("Mask_Upnp");
+	}
+	if (type & iFolderType_Mask_Root)
+	{
+		LogDebug("Mask_Root");
+	}
+	if (type & iFolderType_Mask_Dir)
+	{
+		LogDebug("Mask_Dir");
+	}
+	if (type & iFolderType_Mask_Song)
+	{
+		LogDebug("Mask_Song");
+	}
+	if (type & iFolderType_Mask_Pls)
+	{
+		LogDebug("Mask_Pls");
+	}
+	if (type & iFolderType_Mask_Cue)
+	{
+		LogDebug("Mask_Cue");
+	}
+	if (type & iFolderType_Mask_IRadio)
+	{
+		LogDebug("Mask_IRadio");
+	}
+	if (type & iFolderType_Mask_IsoFile)
+	{
+		LogDebug("Mask_IsoFile");
+	}
+	if (type & iFolderType_Mask_IsoRoot)
+	{
+		LogDebug("Mask_IsoRoot");
+	}
+	if (type & iFolderType_Mask_Image)
+	{
+		LogDebug("Mask_Image");
+	}
+	if (type & iFolderType_Mask_File)
+	{
+		LogDebug("Mask_File");
+	}
+	if (type & iFolderType_Mask_Scan)
+	{
+		LogDebug("Mask_Scan");
+	}
+	if (type & iFolderType_Mask_Media)
+	{
+		LogDebug("Mask_Media");
+	}
+	if (type & iFolderType_Mask_FilePath)
+	{
+		LogDebug("Mask_FilePath");
+	}
+}
+
