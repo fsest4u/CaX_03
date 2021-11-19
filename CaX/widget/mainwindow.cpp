@@ -499,9 +499,8 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 //	emit SigTaskList();
 
-//	DoMusicDBHome();
-	// temp_code, dylee
-	DoBrowserHome();
+	DoMusicDBHome();
+
 }
 
 void MainWindow::SlotSelectDevice(QString mac)
