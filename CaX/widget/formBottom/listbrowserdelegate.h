@@ -28,15 +28,15 @@ public:
 
 signals:
 
-	void SigSelectTitle(int nType, QString rawData);
-	void SigMenu(int index, int nType);
-	void SigMenuAction(int index, int menuID);
+	void SigSelectTitle(int type, QString rawData);
+	void SigMenu(int index, int type);
+	void SigMenuAction(QString path, int type, int menuID);
 
 private slots:
 
-	void SlotClickTitle(int nType, QString rawData);
-	void SlotMenu(int index, int nType);
-	void SlotMenuAction(int index, int menuID);
+	void SlotClickTitle(int type, QString rawData);
+	void SlotMenu(int index, int type);
+	void SlotMenuAction(QString path, int type, int menuID);
 
 private:
 

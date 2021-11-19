@@ -22,7 +22,7 @@ public:
 	void SetID(int ID);
 
 	int GetType() const;
-	void SetType(int nType);
+	void SetType(int Type);
 
 	QString GetTitle() const;
 	void SetTitle(const QString &title);
@@ -51,9 +51,9 @@ public:
 signals:
 
 //	void SigClickCoverArt(QString rawData);
-	void SigClickTitle(int nType, QString rawData = "");
-	void SigMenu(int index, int nType);
-	void SigMenuAction(int index, int menuID);
+	void SigClickTitle(int type, QString rawData = "");
+	void SigMenu(int index, int type);
+	void SigMenuAction(QString path, int type, int menuID);
 
 protected:
 
@@ -73,7 +73,7 @@ private:
 	QMenu			*m_Menu;
 
 	int				m_ID;
-	int				m_nType;
+	int				m_Type;
 	QString			m_RawData;
 
 	Ui::ListBrowserEditor *ui;

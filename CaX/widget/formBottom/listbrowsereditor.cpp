@@ -58,12 +58,12 @@ void ListBrowserEditor::SetID(int ID)
 
 int ListBrowserEditor::GetType() const
 {
-	return m_nType;
+	return m_Type;
 }
 
-void ListBrowserEditor::SetType(int nType)
+void ListBrowserEditor::SetType(int Type)
 {
-	m_nType = nType;
+	m_Type = Type;
 }
 
 QString ListBrowserEditor::GetTitle() const
@@ -147,7 +147,7 @@ bool ListBrowserEditor::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelTitle)
 		{
-			emit SigClickTitle(m_nType, m_RawData);
+			emit SigClickTitle(m_Type, m_RawData);
 		}
 	}
 
@@ -156,12 +156,12 @@ bool ListBrowserEditor::eventFilter(QObject *object, QEvent *event)
 
 void ListBrowserEditor::SlotMenu()
 {
-	emit SigMenu(m_ID, m_nType);
+	emit SigMenu(m_ID, m_Type);
 }
 
 void ListBrowserEditor::SlotMenuAction(QAction *action)
 {
-	emit SigMenuAction(m_ID, action->data().toInt());
+	emit SigMenuAction(ui->labelTitle->text(), m_Type, action->data().toInt());
 }
 
 void ListBrowserEditor::ConnectSigToSlot()
@@ -172,7 +172,7 @@ void ListBrowserEditor::ConnectSigToSlot()
 
 void ListBrowserEditor::Initialize()
 {
-	m_nType = -1;
+	m_Type = -1;
 	m_RawData.clear();
 
 	QString style = QString("QMenu::icon {	\

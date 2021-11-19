@@ -31,14 +31,15 @@ public:
 	void SetFolderType(int FolderType);
 
 	int GetBrowserMode() const;
-	void SetBrowserMode(int BrowserMode);
+	void SetBrowserMode(int BrowserMode, QString optionPath = "", int optionType = -1);
 
 signals:
 
 	void SigAddWidget(QWidget *widget, QString title);
 	void SigRemoveWidget(QWidget* widget);
 
-	void SigCopyHere(bool move, QString dstPath);
+	void SigCopyHere(bool move, QString dstPath, QString path = "", int type = -1);
+	void SigOptionCopyHere(bool move, QString dstPath, QString path, int type);
 
 
 private slots:
@@ -51,9 +52,13 @@ private slots:
 	void SlotReqCoverArt(QString path, int index);
 	void SlotReqInfoBot(QString path, int nIndex);
 
+	void SlotRespError(QString errMsg);
 	void SlotRespList(QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString filename, int index, int mode);
 	void SlotInfoBotUpdate(CJsonNode node, int nIndex);
+	void SlotInfoTagUpdate(CJsonNode node);
+	void SlotRespCategoryList(QList<CJsonNode> list);
+	void SlotListUpdate();
 
 	void SlotPlayAll(int where = PLAY_CLEAR);
 	void SlotPlayRandom();
@@ -62,9 +67,10 @@ private slots:
 //	void SlotResize();
 
 	void SlotOptionMenu(int id, int type);
-	void SlotOptionMenuAction(int id, int menuID);
+	void SlotOptionMenuAction(QString path, int type, int menuID);
 
-	void SlotCopyHere(bool move, QString dstPath);
+	void SlotCopyHere(bool move, QString dstPath, QString path, int type);
+//	void SlotOptionCopyHere(bool move, QString dstPath, QString path, int type);
 
 private:
 
@@ -73,6 +79,8 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+	void SetCategoryList(QList<CJsonNode> list);
+
 
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
@@ -93,25 +101,28 @@ private:
 
 	void SetOptionMenu(int type);
 
-	void DoOptionMenuPlay(int where);
-	void DoOptionMenuGain(QString gain);
+	void DoOptionMenuPlay(QString path, int type, int where);
+	void DoOptionMenuGain(QString path, int type, QString gain);
 	void DoOptionMenuOptionPlaySubDir();
 	void DoOptionMenuOptionOverwrite();
-	void DoOptionMenuConverFormat();
-	void DoOptionMenuScan(bool on);
-	void DoOptionMenuRename();
-	void DoOptionMenuDelete();
-	void DoOptionMenuCopy(bool move);
-	void DoOptionMenuCopyHere(bool move);
-	void DoOptionMenuEditTag();
-	void DoOptionMenuSearchCoverArt();
+	void DoOptionMenuConverFormat(QString path, int type);
+	void DoOptionMenuScan(QString path, bool scanOn);
+	void DoOptionMenuRename(QString path);
+	void DoOptionMenuDelete(QString path, int type);
+	void DoOptionMenuCopy(QString path, int type, bool move);
+//	void DoOptionMenuCopyHere(QString path, bool move);
+	void DoOptionMenuEditTag(QString path, int type);
+	void DoOptionMenuSearchCoverArt(QString path, int type);
 
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);
-	void ShowFormPlay();
+	void ShowFormPlay(bool show = true);
 
 	void SetDirFile();
 	void SetPaths();
+
+	void SetOptionDirFile(QString path, int type, QStringList &dirs, QStringList & files);
+	void SetOptionPaths(QString path, int type, QStringList &paths);
 
 	BrowserManager		*m_pMgr;
 	InfoService			*m_pInfoService;
@@ -133,6 +144,15 @@ private:
 	int					m_EventID;
 
 	int					m_BrowserMode;
+	QString				m_OptionPath;
+	int					m_OptionType;
+
+	QStringList			m_AlbumList;
+	QStringList			m_AlbumArtistList;
+	QStringList			m_ArtistList;
+	QStringList			m_GenreList;
+	QStringList			m_ComposerList;
+	QStringList			m_MoodList;
 
 	Ui::BrowserWindow *ui;
 };

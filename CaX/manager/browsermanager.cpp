@@ -1,6 +1,7 @@
 #include "browsermanager.h"
 
 BrowserManager::BrowserManager(QObject *parent) :
+	m_pSql(new SQLManager),
 	m_OptPlaySubDir(true),
 	m_OptOverwrite(true)
 {
@@ -13,7 +14,11 @@ BrowserManager::BrowserManager(QObject *parent) :
 
 BrowserManager::~BrowserManager()
 {
-
+	if (m_pSql)
+	{
+		delete m_pSql;
+		m_pSql = nullptr;
+	}
 }
 
 void BrowserManager::RequestRoot(bool dirOnly)
@@ -62,9 +67,13 @@ void BrowserManager::RequestCreate(QString path)
 	RequestCommand(node, BROWSER_CREATE);
 }
 
-void BrowserManager::RequestRename()
+void BrowserManager::RequestRename(QString src, QString dst)
 {
 	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_RENAME);
+	node.Add(KEY_SRC, src);
+	node.Add(KEY_DST, dst);
 
 	RequestCommand(node, BROWSER_RENAME);
 }
@@ -128,6 +137,51 @@ void BrowserManager::RequestInfoTag(QString path)
 
 	RequestCommand(node, BROWSER_INFO_TAG);
 
+}
+
+void BrowserManager::RequestSetTag(CJsonNode node, QString path)
+{
+//	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_INFO);
+	node.Add	(KEY_CMD2,		VAL_SET_TAG);
+	node.Add(KEY_PATH, path);
+
+	RequestCommand(node, BROWSER_SET_TAG);
+}
+
+void BrowserManager::RequestCategoryList(int nCategory)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, m_pSql->GetQueryCategoryList(nCategory));
+
+	RequestCommand(node, BROWSER_CATEGORY_LIST);
+}
+
+void BrowserManager::RequestScanDB(QString path, int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
+	node.Add	(KEY_CMD1,		VAL_SCAN_DB);
+	node.AddInt(KEY_EVENT_ID,	eventID);
+	node.Add(KEY_PATH, path);
+
+	RequestCommand(node, BROWSER_SCAN_DB);
+}
+
+void BrowserManager::RequestRemoveDB(QString path, int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
+	node.Add	(KEY_CMD1,		VAL_REMOVE_DB);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+	node.Add(KEY_PATH, path);
+
+	RequestCommand(node, BROWSER_REMOVE_DB);
 }
 
 void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringList files, int where)
@@ -199,19 +253,19 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 		return;
 	}
 
-//	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
 
-	QString strMsg;
+	QString message = node.GetString(VAL_MSG);
 	bool	bSuccess = false;
 	if (!node.GetBool(VAL_SUCCESS, bSuccess) || !bSuccess)
 	{
-		if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
+		if (message.isEmpty())
 		{
 			emit SigRespError(STR_UNKNOWN_ERROR);
 			return;
 		}
 
-		emit SigRespError(strMsg.left(MSG_LIMIT_COUNT));
+		emit SigRespError(message.left(MSG_LIMIT_COUNT));
 		return;
 	}
 
@@ -224,20 +278,37 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_INFO_BOT:
 		ParseInfoBot(node, nIndex);
 		break;
-	case BROWSER_INFO_TAG:
-		break;
 	case BROWSER_TRACK_PLAY:
 	case BROWSER_PLAYLIST_PLAY:
+	case BROWSER_REPLAYGAIN:
 		break;
+	case BROWSER_CONVERT_FORMAT:
 	case BROWSER_CREATE:
 	case BROWSER_RENAME:
 	case BROWSER_DELETE:
 	case BROWSER_COPY:
 	case BROWSER_MOVE:
-//	case BROWSER_SET_ART:
-//	case BROWSER_CONVERT:
-//	case BROWSER_REPLAYGAIN_SET:
-//	case BROWSER_REPLAYGAIN_CLEAR:
+	case BROWSER_SCAN_DB:
+	case BROWSER_REMOVE_DB:
+	case BROWSER_SET_ART:
+	case BROWSER_SET_TAG:
+		emit SigListUpdate();
+		break;
+	case BROWSER_INFO_TAG:
+		ParseInfoTag(node);
+		break;
+	case BROWSER_CATEGORY_LIST:
+	{
+		CJsonNode result = node.GetArray(VAL_RESULT);
+		if (result.ArraySize() <= 0)
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+			return;
+		}
+
+		ParseCategoryList(result);
+	}
+		break;
 //	case BROWSER_IMPORT:
 //	case BROWSER_UPNP_FOLDER:
 //	case BROWSER_UPNP_PLAY:
@@ -273,6 +344,23 @@ void BrowserManager::ParseFolder(CJsonNode node)
 void BrowserManager::ParseInfoBot(CJsonNode node, int nIndex)
 {
 	emit SigInfoBotUpdate(node, nIndex);
+}
+
+void BrowserManager::ParseInfoTag(CJsonNode node)
+{
+	emit SigInfoTagUpdate(node);
+}
+
+void BrowserManager::ParseCategoryList(CJsonNode result)
+{
+	m_NodeList.clear();
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		m_NodeList.append(result.GetArrayAt(i));
+//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
+	}
+
+	emit SigRespCategoryList(m_NodeList);
 }
 
 bool BrowserManager::GetOptOverwrite() const

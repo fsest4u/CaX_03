@@ -44,6 +44,7 @@
 #define		KEY_DELETE			"Delete"
 #define		KEY_DIR_ONLY		"DirOnly"
 #define		KEY_DIRS			"Dirs"
+#define		KEY_DST				"Dst"
 #define		KEY_DST_PATH		"DstPath"
 #define		KEY_DURATION		"Duration"
 
@@ -257,6 +258,7 @@
 #define		VAL_RECOMMEND		"Recommend"
 #define		VAL_RECORD_LIST		"RecordList"
 #define		VAL_REMOTE			"Remote"
+#define		VAL_REMOVE_DB		"RemoveDB"
 #define		VAL_RENAME			"Rename"
 #define		VAL_REPLAY_GAIN		"ReplayGain"
 #define		VAL_RESULT			"Result"
@@ -264,6 +266,7 @@
 #define		VAL_RIP				"Rip"
 #define		VAL_ROOT			"Root"
 
+#define		VAL_SCAN_DB			"ScanDB"
 #define		VAL_SEARCH			"Search"
 #define		VAL_SEEK			"Seek"
 #define		VAL_SEEK_STOP		"SeekStop"

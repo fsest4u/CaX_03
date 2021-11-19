@@ -6,7 +6,6 @@
 #include "util/CJsonNode.h"
 
 class CDRipInfo;
-class TrackInfo;
 
 namespace Ui {
 class CDRipInfoDialog;

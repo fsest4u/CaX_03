@@ -11,19 +11,19 @@ ListBrowserDelegate::ListBrowserDelegate()
 
 }
 
-void ListBrowserDelegate::SlotClickTitle(int nType, QString rawData)
+void ListBrowserDelegate::SlotClickTitle(int type, QString rawData)
 {
-	emit SigSelectTitle(nType, rawData);
+	emit SigSelectTitle(type, rawData);
 }
 
-void ListBrowserDelegate::SlotMenu(int index, int nType)
+void ListBrowserDelegate::SlotMenu(int index, int type)
 {
-	emit SigMenu(index, nType);
+	emit SigMenu(index, type);
 }
 
-void ListBrowserDelegate::SlotMenuAction(int index, int menuID)
+void ListBrowserDelegate::SlotMenuAction(QString path, int type, int menuID)
 {
-	emit SigMenuAction(index, menuID);
+	emit SigMenuAction(path, type, menuID);
 }
 
 void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -50,7 +50,7 @@ QWidget *ListBrowserDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 //	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 	connect(editor, SIGNAL(SigMenu(int, int)), this, SLOT(SlotMenu(int, int)));
-	connect(editor, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotMenuAction(int, int)));
+	connect(editor, SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotMenuAction(QString, int, int)));
 
 	return editor;
 }

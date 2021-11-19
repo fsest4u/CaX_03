@@ -1,3 +1,5 @@
+#include <QMessageBox>
+
 #include "browserwindow.h"
 #include "ui_browserwindow.h"
 
@@ -98,7 +100,10 @@ void BrowserWindow::RequestRoot()
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
 
-	if (BROWSER_MODE_COPY == m_BrowserMode || BROWSER_MODE_MOVE == m_BrowserMode)
+	if (BROWSER_MODE_COPY == m_BrowserMode
+			|| BROWSER_MODE_MOVE == m_BrowserMode
+			|| BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			|| BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 	{
 		m_pMgr->RequestRoot(true);
 	}
@@ -114,7 +119,10 @@ void BrowserWindow::RequestFolder(QString strPath)
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
 
-	if (BROWSER_MODE_COPY == m_BrowserMode || BROWSER_MODE_MOVE == m_BrowserMode)
+	if (BROWSER_MODE_COPY == m_BrowserMode
+			|| BROWSER_MODE_MOVE == m_BrowserMode
+			|| BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			|| BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 	{
 		m_pMgr->RequestFolder(strPath, true);
 	}
@@ -139,9 +147,17 @@ int BrowserWindow::GetBrowserMode() const
 	return m_BrowserMode;
 }
 
-void BrowserWindow::SetBrowserMode(int BrowserMode)
+void BrowserWindow::SetBrowserMode(int BrowserMode, QString optionPath, int optionType)
 {
 	m_BrowserMode = BrowserMode;
+	if (!optionPath.isEmpty())
+	{
+		m_OptionPath = optionPath;
+	}
+	if (optionType > 0)
+	{
+		m_OptionType = optionType;
+	}
 }
 
 void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
@@ -252,66 +268,66 @@ void BrowserWindow::SlotOptionMenu(int index, int type)
 	m_pListBrowser->SetEditor(index);
 }
 
-void BrowserWindow::SlotOptionMenuAction(int id, int menuID)
+void BrowserWindow::SlotOptionMenuAction(QString path, int type, int menuID)
 {
-	LogDebug("click option menu [%d] [%d]", id, menuID);
+	LogDebug("click option menu [%s] [%d] [%d]", path.toUtf8().data(), type, menuID);
 	switch (menuID) {
 	case OPTION_MENU_OPTION_PLAY_SUBDIR:
 		DoOptionMenuOptionPlaySubDir();
 		break;
 	case OPTION_MENU_PLAY_NOW:
-		DoOptionMenuPlay(PLAY_NOW);
+		DoOptionMenuPlay(path, type, PLAY_NOW);
 		break;
 	case OPTION_MENU_PLAY_LAST:
-		DoOptionMenuPlay(PLAY_LAST);
+		DoOptionMenuPlay(path, type, PLAY_LAST);
 		break;
 	case OPTION_MENU_PLAY_NEXT:
-		DoOptionMenuPlay(PLAY_NEXT);
+		DoOptionMenuPlay(path, type, PLAY_NEXT);
 		break;
 	case OPTION_MENU_PLAY_CLEAR:
-		DoOptionMenuPlay(PLAY_CLEAR);
+		DoOptionMenuPlay(path, type, PLAY_CLEAR);
 		break;
 	case OPTION_MENU_GAIN_SET:
-		DoOptionMenuGain(VAL_SET);
+		DoOptionMenuGain(path, type, VAL_SET);
 		break;
 	case OPTION_MENU_GAIN_CLEAR:
-		DoOptionMenuGain(VAL_CLEAR);
+		DoOptionMenuGain(path, type, VAL_CLEAR);
 		break;
 	case OPTION_MENU_SCAN_ON:
-		DoOptionMenuScan(true);
+		DoOptionMenuScan(path, true);
 		break;
 	case OPTION_MENU_SCAN_OFF:
-		DoOptionMenuScan(false);
+		DoOptionMenuScan(path, false);
 		break;
 	case OPTION_MENU_CONVERT_FORMAT:
-		DoOptionMenuConverFormat();
+		DoOptionMenuConverFormat(path, type);
 		break;
 	case OPTION_MENU_RENAME:
-		DoOptionMenuRename();
+		DoOptionMenuRename(path);
 		break;
 	case OPTION_MENU_DELETE:
-		DoOptionMenuDelete();
+		DoOptionMenuDelete(path, type);
 		break;
 	case OPTION_MENU_OPTION_OVERWRITE:
 		DoOptionMenuOptionOverwrite();
 		break;
 	case OPTION_MENU_MOVE:
-		DoOptionMenuCopy(true);
+		DoOptionMenuCopy(path, type, true);
 		break;
 	case OPTION_MENU_COPY:
-		DoOptionMenuCopy(false);
+		DoOptionMenuCopy(path, type, false);
 		break;
-	case OPTION_MENU_MOVE_HERE:
-		DoOptionMenuCopyHere(true);
-		break;
-	case OPTION_MENU_COPY_HERE:
-		DoOptionMenuCopyHere(false);
-		break;
+//	case OPTION_MENU_MOVE_HERE:
+//		DoOptionMenuCopyHere(path, true);
+//		break;
+//	case OPTION_MENU_COPY_HERE:
+//		DoOptionMenuCopyHere(path, false);
+//		break;
 	case OPTION_MENU_EDIT_TAG:
-		DoOptionMenuEditTag();
+		DoOptionMenuEditTag(path, type);
 		break;
 	case OPTION_MENU_SEARCH_COVER_ART:
-		DoOptionMenuSearchCoverArt();
+		DoOptionMenuSearchCoverArt(path, type);
 		break;
 	}
 }
@@ -346,7 +362,7 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 		{
 			widget->ShowFormPlay();
 		}
-		widget->SetBrowserMode(m_BrowserMode);
+		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
 		widget->RequestFolder(path);
 
 		emit SigAddWidget(widget, STR_BROWSER);
@@ -388,8 +404,8 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		ui->gridLayoutBottom->addWidget(m_pIconService);
 
 		m_pInfoService->GetFormPlay()->ShowMenu();
-
 		m_pInfoService->SetSubtitle(STR_BROWSER);
+
 		m_pIconService->ClearNodeList();
 		nType = m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);
 
@@ -417,7 +433,9 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 
 void BrowserWindow::SlotReqCoverArt(QString path, int index)
 {
-	path = m_Root + "/" + path;
+	if (!m_Root.isEmpty())
+		path = m_Root + "/" + path;
+
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
 
@@ -426,8 +444,34 @@ void BrowserWindow::SlotReqCoverArt(QString path, int index)
 
 void BrowserWindow::SlotReqInfoBot(QString path, int nIndex)
 {
-	path = m_Root + "/" + path;
+	if (!m_Root.isEmpty())
+		path = m_Root + "/" + path;
+
 	m_pMgr->RequestInfoBot(path, nIndex);
+}
+
+void BrowserWindow::SlotRespError(QString errMsg)
+{
+	if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
+	{
+		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
+
+		m_pInfoBrowser->GetFormPlay()->ShowMenu();
+		m_pInfoBrowser->SetCoverArt("");
+		m_pInfoBrowser->SetSubtitle(m_Root);
+	}
+	else
+	{
+		QMessageBox::warning(this, "Warning", errMsg);
+
+		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
+
+//		m_pInfoBrowser->GetFormPlay()->ShowMenu();
+		ShowFormPlay(false);
+		m_pInfoBrowser->SetCoverArt("");
+		m_pInfoBrowser->SetSubtitle(m_Root);
+	}
 }
 
 void BrowserWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
@@ -450,23 +494,93 @@ void BrowserWindow::SlotInfoBotUpdate(CJsonNode node, int nIndex)
 	m_pListBrowser->GetModel()->setItem(nIndex, item);
 }
 
-void BrowserWindow::SlotCopyHere(bool move, QString dstPath)
+void BrowserWindow::SlotInfoTagUpdate(CJsonNode node)
 {
-	LogDebug("SlotCopyHere [%d] [%d] [%s]", m_BrowserMode, move, dstPath.toUtf8().data());
-	if (BROWSER_MODE_COPY == m_BrowserMode || BROWSER_MODE_MOVE == m_BrowserMode)
+	TrackInfoDialog dialog;
+	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetAlbumList(m_AlbumList);
+	dialog.SetAlbumArtistList(m_AlbumArtistList);
+	dialog.SetArtistList(m_ArtistList);
+	dialog.SetGenreList(m_GenreList);
+	dialog.SetComposerList(m_ComposerList);
+	dialog.SetMoodList(m_MoodList);
+	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_EDIT);
+	dialog.SetInfoData(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		// set tag
+		node = dialog.GetInfoData();
+		node.Del(VAL_SUCCESS);
+		node.Del(VAL_MSG);
+
+		m_pMgr->RequestSetTag(node, m_OptionPath);
+
+	}
+}
+
+void BrowserWindow::SlotRespCategoryList(QList<CJsonNode> list)
+{
+	SetCategoryList(list);
+}
+
+void BrowserWindow::SlotListUpdate()
+{
+	// refresh
+	DoTopMenuReload();
+}
+
+void BrowserWindow::SlotCopyHere(bool move, QString dstPath, QString path, int type)
+{
+	LogDebug("click copy/move here [%d] [%d] [%s]", m_BrowserMode, move, dstPath.toUtf8().data());
+	if (BROWSER_MODE_COPY == m_BrowserMode
+			|| BROWSER_MODE_MOVE == m_BrowserMode)
 	{
 		emit SigCopyHere(move, dstPath);
 		emit SigRemoveWidget(this);
 	}
+	else if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
+	{
+		emit SigCopyHere(move, dstPath, path, type);
+		emit SigRemoveWidget(this);
+	}
 	else
 	{
-		SetPaths();
+		if (path.isEmpty() && type == -1)
+		{
+			SetPaths();
 
-		m_pMgr->RequestCopy(m_Root, m_Paths, dstPath, move, m_EventID);
+			m_pMgr->RequestCopy(m_Root, m_Paths, dstPath, move, m_EventID);
 
-		// refresh
+		}
+		else
+		{
+			QStringList paths;
+			SetOptionPaths(path, type, paths);
+
+			m_pMgr->RequestCopy(m_Root, paths, dstPath, move, m_EventID);
+
+		}
 	}
 }
+
+//void BrowserWindow::SlotOptionCopyHere(bool move, QString dstPath, QString path, int type)
+//{
+//	LogDebug("click option copy/move here [%d] [%d] [%s] [%s] [%d]", m_BrowserMode, move, dstPath.toUtf8().data(), path.toUtf8().data(), type);
+//	if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
+//			|| BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
+//	{
+//		emit SigOptionCopyHere(move, dstPath, path, type);
+//		emit SigRemoveWidget(this);
+//	}
+//	else
+//	{
+//		QStringList paths;
+//		SetOptionPaths(path, type, paths);
+
+//		m_pMgr->RequestCopy(m_Root, paths, dstPath, move, m_EventID);
+//	}
+//}
 
 void BrowserWindow::ReadSettings()
 {
@@ -504,13 +618,17 @@ void BrowserWindow::ConnectSigToSlot()
 //	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int)), this, SLOT(SlotOptionMenu(int, int)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotOptionMenuAction(QString, int, int)));
 	connect(m_pListBrowser, SIGNAL(SigReqCoverArt(QString, int)), this, SLOT(SlotReqCoverArt(QString, int)));
 	connect(m_pListBrowser, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
 
+	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
-	connect(m_pMgr, SIGNAL(SigInfoBotUpdate(CJsonNode, int)), this, SLOT(SlotInfoBotUpdate(CJsonNode, int)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+	connect(m_pMgr, SIGNAL(SigInfoBotUpdate(CJsonNode, int)), this, SLOT(SlotInfoBotUpdate(CJsonNode, int)));
+	connect(m_pMgr, SIGNAL(SigInfoTagUpdate(CJsonNode)), this, SLOT(SlotInfoTagUpdate(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigListUpdate()), this, SLOT(SlotListUpdate()));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
@@ -522,7 +640,8 @@ void BrowserWindow::ConnectSigToSlot()
 //	connect(m_pInfoBrowser->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 
-	connect(this, SIGNAL(SigCopyHere(bool, QString)), parent(), SLOT(SlotCopyHere(bool, QString)));
+	connect(this, SIGNAL(SigCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotCopyHere(bool, QString, QString, int)));
+//	connect(this, SIGNAL(SigOptionCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotOptionCopyHere(bool, QString, QString, int)));
 
 }
 
@@ -538,11 +657,67 @@ void BrowserWindow::Initialize()
 	m_SelectMap.clear();
 }
 
+void BrowserWindow::SetCategoryList(QList<CJsonNode> list)
+{
+	CJsonNode temp = list.at(0);
+	if (!temp.GetString(KEY_ALBUM).isEmpty())
+	{
+		m_AlbumList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_AlbumList.append(node.GetString(KEY_ALBUM));
+		}
+	}
+	else if (!temp.GetString(KEY_ALBUM_ARTIST).isEmpty())
+	{
+		m_AlbumArtistList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_AlbumArtistList.append(node.GetString(KEY_ALBUM_ARTIST));
+		}
+	}
+	else if (!temp.GetString(KEY_ARTIST).isEmpty())
+	{
+		m_ArtistList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_ArtistList.append(node.GetString(KEY_ARTIST));
+		}
+	}
+	else if (!temp.GetString(KEY_GENRE).isEmpty())
+	{
+		m_GenreList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_GenreList.append(node.GetString(KEY_GENRE));
+		}
+	}
+	else if (!temp.GetString(KEY_COMPOSER).isEmpty())
+	{
+		m_ComposerList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_ComposerList.append(node.GetString(KEY_COMPOSER));
+		}
+	}
+	else if (!temp.GetString(KEY_MOOD).isEmpty())
+	{
+		m_MoodList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_MoodList.append(node.GetString(KEY_MOOD));
+		}
+	}
+}
+
 void BrowserWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (BROWSER_MODE_COPY == m_BrowserMode || BROWSER_MODE_MOVE == m_BrowserMode)
+	if (BROWSER_MODE_COPY == m_BrowserMode
+			|| BROWSER_MODE_MOVE == m_BrowserMode
+			|| BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			|| BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 	{
 		if (m_FolderType & iFolderType_Mask_Root)
 		{
@@ -558,11 +733,14 @@ void BrowserWindow::SetSelectOffTopMenu()
 			{
 				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
 			}
-			if (BROWSER_MODE_COPY == m_BrowserMode)
+
+			if (BROWSER_MODE_COPY == m_BrowserMode
+					|| BROWSER_MODE_COPY_OPTION == m_BrowserMode)
 			{
 				m_TopMenuMap.insert(TOP_MENU_COPY_HERE, STR_COPY_HERE);
 			}
-			else if (BROWSER_MODE_MOVE == m_BrowserMode)
+			else if (BROWSER_MODE_MOVE == m_BrowserMode
+					 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 			{
 				m_TopMenuMap.insert(TOP_MENU_MOVE_HERE, STR_MOVE_HERE);
 			}
@@ -617,7 +795,10 @@ void BrowserWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (BROWSER_MODE_COPY == m_BrowserMode || BROWSER_MODE_MOVE == m_BrowserMode)
+	if (BROWSER_MODE_COPY == m_BrowserMode
+			|| BROWSER_MODE_MOVE == m_BrowserMode
+			|| BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			|| BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 	{
 		if (m_FolderType & iFolderType_Mask_Root)
 		{
@@ -633,11 +814,13 @@ void BrowserWindow::SetSelectOnTopMenu()
 			{
 				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
 			}
-			if (BROWSER_MODE_COPY == m_BrowserMode)
+			if (BROWSER_MODE_COPY == m_BrowserMode
+					|| BROWSER_MODE_COPY_OPTION == m_BrowserMode)
 			{
 				m_TopMenuMap.insert(TOP_MENU_COPY_HERE, STR_COPY_HERE);
 			}
-			else if (BROWSER_MODE_MOVE == m_BrowserMode)
+			else if (BROWSER_MODE_MOVE == m_BrowserMode
+					 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 			{
 				m_TopMenuMap.insert(TOP_MENU_MOVE_HERE, STR_MOVE_HERE);
 			}
@@ -743,10 +926,6 @@ void BrowserWindow::DoTopMenuConverFormat()
 		SetPaths();
 
 		m_pMgr->RequestConvertFormat(m_Root, m_Paths, format, m_EventID);
-
-		// refresh
-		DoTopMenuReload();
-
 	}
 }
 
@@ -756,11 +935,11 @@ void BrowserWindow::DoTopMenuAdd()
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		QString path = dialog.GetName();
-		path = m_Root + "/" + path;
+		if (!m_Root.isEmpty())
+			path = m_Root + "/" + path;
+
 		m_pMgr->RequestCreate(path);
 
-		// refresh
-		DoTopMenuReload();
 	}
 }
 
@@ -770,8 +949,6 @@ void BrowserWindow::DoTopMenuDelete()
 
 	m_pMgr->RequestDelete(m_Root, m_Paths, m_EventID);
 
-	// refresh
-	DoTopMenuReload();
 }
 
 void BrowserWindow::DoTopMenuCopy(bool move)
@@ -798,7 +975,17 @@ void BrowserWindow::DoTopMenuCopy(bool move)
 
 void BrowserWindow::DoTopMenuCopyHere(bool move)
 {
-	emit SigCopyHere(move, m_Root);
+	if (BROWSER_MODE_COPY == m_BrowserMode
+			|| BROWSER_MODE_MOVE == m_BrowserMode)
+	{
+		emit SigCopyHere(move, m_Root);
+	}
+	else if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
+
+	{
+		emit SigCopyHere(move, m_Root, m_OptionPath, m_OptionType);
+	}
 	emit SigRemoveWidget(this);
 }
 
@@ -831,10 +1018,6 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 		QString thumb = resultDialog.GetThumb();
 
 		m_pMgr->RequestSetArt(m_Root, m_Files, image, thumb, m_EventID);
-
-		// refresh
-		DoTopMenuReload();
-
 	}
 }
 
@@ -844,16 +1027,17 @@ void BrowserWindow::SetOptionMenu(int type)
 
 	m_OptionMenuMap.clear();
 
-	if (BROWSER_MODE_COPY == m_BrowserMode || BROWSER_MODE_MOVE == m_BrowserMode)
+	if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
+			|| BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 	{
-		if (BROWSER_MODE_COPY == m_BrowserMode)
-		{
-			m_OptionMenuMap.insert(OPTION_MENU_COPY_HERE, STR_COPY_HERE);
-		}
-		else if (BROWSER_MODE_MOVE == m_BrowserMode)
-		{
-			m_OptionMenuMap.insert(OPTION_MENU_MOVE_HERE, STR_MOVE_HERE);
-		}
+//		if (BROWSER_MODE_COPY_OPTION == m_BrowserMode)
+//		{
+//			m_OptionMenuMap.insert(OPTION_MENU_COPY_HERE, STR_COPY_HERE);
+//		}
+//		else if (BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
+//		{
+//			m_OptionMenuMap.insert(OPTION_MENU_MOVE_HERE, STR_MOVE_HERE);
+//		}
 	}
 	else
 	{
@@ -870,14 +1054,18 @@ void BrowserWindow::SetOptionMenu(int type)
 			m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 			m_OptionMenuMap.insert(OPTION_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
 		}
-		if (type & iFolderType_Mask_Scan)
+		if (type & iFolderType_Mask_Dir)
 		{
-			m_OptionMenuMap.insert(OPTION_MENU_SCAN_OFF, STR_SCAN_OFF);
+			if (type & iFolderType_Mask_Scan)
+			{
+				m_OptionMenuMap.insert(OPTION_MENU_SCAN_OFF, STR_SCAN_OFF);
+			}
+			else
+			{
+				m_OptionMenuMap.insert(OPTION_MENU_SCAN_ON, STR_SCAN_ON);
+			}
 		}
-		else
-		{
-			m_OptionMenuMap.insert(OPTION_MENU_SCAN_ON, STR_SCAN_ON);
-		}
+
 		if (type & iFolderType_Mask_FileMgr)
 		{
 			QString option = m_pMgr->GetOptOverwrite() ? STR_ON : STR_OFF;
@@ -898,14 +1086,22 @@ void BrowserWindow::SetOptionMenu(int type)
 
 }
 
-void BrowserWindow::DoOptionMenuPlay(int where)
+void BrowserWindow::DoOptionMenuPlay(QString path, int type, int where)
 {
+	QStringList dirs;
+	QStringList files;
+	SetOptionDirFile(path, type, dirs, files);
+
+	m_pMgr->RequestTrackPlay(m_Root, dirs, files, where);
 
 }
 
-void BrowserWindow::DoOptionMenuGain(QString gain)
+void BrowserWindow::DoOptionMenuGain(QString path, int type, QString gain)
 {
+	QStringList paths;
+	SetOptionPaths(path, type, paths);
 
+	m_pMgr->RequestReplayGain(m_Root, paths, gain, m_EventID);
 }
 
 void BrowserWindow::DoOptionMenuOptionPlaySubDir()
@@ -920,44 +1116,145 @@ void BrowserWindow::DoOptionMenuOptionOverwrite()
 	m_pMgr->SetOptOverwrite(!option);
 }
 
-void BrowserWindow::DoOptionMenuConverFormat()
+void BrowserWindow::DoOptionMenuConverFormat(QString path, int type)
 {
+	SelectFormatDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString format = dialog.GetFormat();
 
+		QStringList paths;
+		SetOptionPaths(path, type, paths);
+
+		m_pMgr->RequestConvertFormat(m_Root, paths, format, m_EventID);
+	}
 }
 
-void BrowserWindow::DoOptionMenuScan(bool on)
+void BrowserWindow::DoOptionMenuScan(QString path, bool scanOn)
 {
+	if (!m_Root.isEmpty())
+		path = m_Root + "/" + path;
 
+	if (scanOn)
+	{
+		m_pMgr->RequestScanDB(path, m_EventID);
+	}
+	else
+	{
+		m_pMgr->RequestRemoveDB(path, m_EventID);
+	}
 }
 
-void BrowserWindow::DoOptionMenuRename()
+void BrowserWindow::DoOptionMenuRename(QString path)
 {
+	InputNameDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		if (!m_Root.isEmpty())
+			path = m_Root + "/" + path;
 
+		QString dst = dialog.GetName();
+		if (dst.isEmpty())
+		{
+			LogDebug("please input name");
+		}
+		else
+		{
+			dst = "/" + dst;
+		}
+
+		m_pMgr->RequestRename(path, dst);
+
+	}
 }
 
-void BrowserWindow::DoOptionMenuDelete()
+void BrowserWindow::DoOptionMenuDelete(QString path, int type)
 {
+	QStringList paths;
+	SetOptionPaths(path, type, paths);
 
+	m_pMgr->RequestDelete(m_Root, paths, m_EventID);
 }
 
-void BrowserWindow::DoOptionMenuCopy(bool move)
+void BrowserWindow::DoOptionMenuCopy(QString path, int type, bool move)
 {
+	int mode = BROWSER_MODE_MAX;
+	QString title;
+	if (move)
+	{
+		mode = BROWSER_MODE_MOVE_OPTION;
+		title = STR_MOVE;
+	}
+	else
+	{
+		mode = BROWSER_MODE_COPY_OPTION;
+		title = STR_COPY;
+	}
 
+	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+	widget->SetBrowserMode(mode, path, type);
+	widget->RequestRoot();
+	emit SigAddWidget(widget, title);
 }
 
-void BrowserWindow::DoOptionMenuCopyHere(bool move)
-{
+//void BrowserWindow::DoOptionMenuCopyHere(QString path, bool move)
+//{
+//	if (!m_Root.isEmpty())
+//		path = m_Root + "/" + path;
 
+//	emit SigOptionCopyHere(move, path, m_OptionPath, m_OptionType);
+//	emit SigRemoveWidget(this);
+//}
+
+void BrowserWindow::DoOptionMenuEditTag(QString path, int type)
+{
+	if (!m_Root.isEmpty())
+		path = m_Root + "/" + path;
+
+	m_OptionPath = path;
+
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUMARTIST);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
+
+	m_pMgr->RequestInfoTag(path);
 }
 
-void BrowserWindow::DoOptionMenuEditTag()
+void BrowserWindow::DoOptionMenuSearchCoverArt(QString path, int type)
 {
+	QString site;
+	QString keyword;
+	QString artist;
 
-}
+	SearchCoverArtDialog searchDialog;
+	if (searchDialog.exec() == QDialog::Accepted)
+	{
+		site = searchDialog.GetSite();
+		keyword = searchDialog.GetKeyword();
+		artist = searchDialog.GetArtist();
+	}
+	else
+	{
+		return;
+	}
 
-void BrowserWindow::DoOptionMenuSearchCoverArt()
-{
+	SearchCoverArtResultDialog resultDialog;
+	resultDialog.SetAddr(m_pMgr->GetAddr());
+	resultDialog.RequestCoverArtList(site, keyword, artist);
+	if (resultDialog.exec() == QDialog::Accepted)
+	{
+		QStringList dirs;
+		QStringList files;
+		SetOptionDirFile(path, type, dirs, files);
 
+		QString image = resultDialog.GetImage();
+		QString thumb = resultDialog.GetThumb();
+
+		m_pMgr->RequestSetArt(m_Root, files, image, thumb, m_EventID);
+	}
 }
 
 void BrowserWindow::AnalyzeNode(CJsonNode node)
@@ -975,10 +1272,10 @@ void BrowserWindow::AnalyzeNode(CJsonNode node)
 	}
 }
 
-void BrowserWindow::ShowFormPlay()
+void BrowserWindow::ShowFormPlay(bool show)
 {
-	m_pInfoBrowser->GetFormPlay()->ShowPlayAll();
-	m_pInfoBrowser->GetFormPlay()->ShowPlayRandom();
+	m_pInfoBrowser->GetFormPlay()->ShowPlayAll(show);
+	m_pInfoBrowser->GetFormPlay()->ShowPlayRandom(show);
 }
 
 void BrowserWindow::SetDirFile()
@@ -1036,6 +1333,35 @@ void BrowserWindow::SetPaths()
 	for (int i = 0; i < m_Files.count(); i++)
 	{
 		m_Paths.append(m_Files.at(i));
+	}
+}
+
+void BrowserWindow::SetOptionDirFile(QString path, int type, QStringList &dirs, QStringList &files)
+{
+	if (iFolderType_Mask_Dir & type)
+	{
+		dirs.append(path);
+	}
+	else if (iFolderType_Mask_Song & type)
+	{
+		files.append(path);
+	}
+}
+
+void BrowserWindow::SetOptionPaths(QString path, int type, QStringList &paths)
+{
+	QStringList dirs;
+	QStringList files;
+	SetOptionDirFile(path, type, dirs, files);
+
+	paths.clear();
+	for (int i = 0; i < dirs.count(); i++)
+	{
+		paths.append(dirs.at(i));
+	}
+	for (int i = 0; i < files.count(); i++)
+	{
+		paths.append(files.at(i));
 	}
 }
 

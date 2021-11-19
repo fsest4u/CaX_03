@@ -28,6 +28,24 @@ public:
 	int GetMode() const;
 	void SetMode(int Mode);
 
+	QStringList GetAlbumList() const;
+	void SetAlbumList(const QStringList &AlbumList);
+
+	QStringList GetAlbumArtistList() const;
+	void SetAlbumArtistList(const QStringList &AlbumArtistList);
+
+	QStringList GetArtistList() const;
+	void SetArtistList(const QStringList &ArtistList);
+
+	QStringList GetGenreList() const;
+	void SetGenreList(const QStringList &GenreList);
+
+	QStringList GetComposerList() const;
+	void SetComposerList(const QStringList &ComposerList);
+
+	QStringList GetMoodList() const;
+	void SetMoodList(const QStringList &MoodList);
+
 private slots:
 
 	void SlotChangeAlbum(int index, QString value);
@@ -58,6 +76,13 @@ private:
 	TrackInfo *m_TrackInfo;
 
 	CJsonNode	m_InfoData;
+
+	QStringList	m_AlbumList;
+	QStringList	m_AlbumArtistList;
+	QStringList	m_ArtistList;
+	QStringList	m_GenreList;
+	QStringList	m_ComposerList;
+	QStringList	m_MoodList;
 
 	QString		m_Addr;
 

@@ -180,6 +180,73 @@ void TrackInfoDialog::SetInfoData(const CJsonNode &InfoData)
 	m_InfoData = InfoData;
 	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
 
+	m_TrackInfo->SetAlbumList(m_AlbumList);
+	m_TrackInfo->SetAlbumArtistList(m_AlbumArtistList);
+	m_TrackInfo->SetArtistList(m_ArtistList);
+	m_TrackInfo->SetGenreList(m_GenreList);
+	m_TrackInfo->SetComposerList(m_ComposerList);
+	m_TrackInfo->SetMoodList(m_MoodList);
+
 	m_TrackInfo->SetInfoData(m_InfoData);
 
+}
+
+QStringList TrackInfoDialog::GetMoodList() const
+{
+	return m_MoodList;
+}
+
+void TrackInfoDialog::SetMoodList(const QStringList &MoodList)
+{
+	m_MoodList = MoodList;
+}
+
+QStringList TrackInfoDialog::GetComposerList() const
+{
+	return m_ComposerList;
+}
+
+void TrackInfoDialog::SetComposerList(const QStringList &ComposerList)
+{
+	m_ComposerList = ComposerList;
+}
+
+QStringList TrackInfoDialog::GetGenreList() const
+{
+	return m_GenreList;
+}
+
+void TrackInfoDialog::SetGenreList(const QStringList &GenreList)
+{
+	m_GenreList = GenreList;
+}
+
+QStringList TrackInfoDialog::GetArtistList() const
+{
+	return m_ArtistList;
+}
+
+void TrackInfoDialog::SetArtistList(const QStringList &ArtistList)
+{
+	m_ArtistList = ArtistList;
+}
+
+QStringList TrackInfoDialog::GetAlbumArtistList() const
+{
+	return m_AlbumArtistList;
+}
+
+void TrackInfoDialog::SetAlbumArtistList(const QStringList &AlbumArtistList)
+{
+	m_AlbumArtistList = AlbumArtistList;
+}
+
+QStringList TrackInfoDialog::GetAlbumList() const
+{
+	return m_AlbumList;
+}
+
+void TrackInfoDialog::SetAlbumList(const QStringList &AlbumList)
+{
+	m_AlbumList = AlbumList;
 }

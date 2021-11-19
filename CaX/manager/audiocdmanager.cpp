@@ -1,7 +1,7 @@
 #include "audiocdmanager.h"
 
-AudioCDManager::AudioCDManager()
-	: m_pSql(new SQLManager)
+AudioCDManager::AudioCDManager() :
+	m_pSql(new SQLManager)
 {
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
 
