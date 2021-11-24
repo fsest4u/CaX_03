@@ -46,8 +46,6 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &ev
 
 AudioCDWindow::~AudioCDWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -71,6 +69,8 @@ AudioCDWindow::~AudioCDWindow()
 		delete m_pListTracks;
 		m_pListTracks = nullptr;
 	}
+
+	delete ui;
 
 }
 

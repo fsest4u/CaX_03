@@ -33,7 +33,6 @@
 #include "widget/formBottom/listbrowser.h"
 #include "widget/formBottom/listbrowserdelegate.h"
 
-
 const QString SETTINGS_GROUP = "Browser";
 
 #define BROWSER_TITLE		"Browser"
@@ -61,8 +60,6 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const int &ev
 
 BrowserWindow::~BrowserWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -92,6 +89,8 @@ BrowserWindow::~BrowserWindow()
 		delete m_pListBrowser;
 		m_pListBrowser = nullptr;
 	}
+
+	delete ui;
 
 }
 

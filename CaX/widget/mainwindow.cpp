@@ -556,6 +556,8 @@ void MainWindow::SlotWolDevice(QString mac)
 
 void MainWindow::SlotWolCancel(QString mac)
 {
+	Q_UNUSED(mac)
+
 	LogDebug("SlotWolCancel");
 }
 
@@ -702,8 +704,6 @@ void MainWindow::DoBrowserHome()
 	BrowserWindow *widget = new BrowserWindow(this, m_strAddr, m_nEventID);
 	SlotAddWidget(widget, STR_BROWSER);
 	widget->RequestRoot();
-
-
 }
 
 void MainWindow::DoIServiceHome()

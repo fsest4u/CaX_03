@@ -35,8 +35,6 @@ InputWindow::InputWindow(QWidget *parent, const QString &addr) :
 
 InputWindow::~InputWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -54,6 +52,9 @@ InputWindow::~InputWindow()
 		delete m_pIconService;
 		m_pIconService = nullptr;
 	}
+
+	delete ui;
+
 }
 
 void InputWindow::InputHome(QList<CJsonNode> list)

@@ -24,8 +24,6 @@ IconService::IconService(QWidget *parent) :
 
 IconService::~IconService()
 {
-	delete ui;
-
 	if (m_ListView)
 	{
 		delete m_ListView;
@@ -47,6 +45,9 @@ IconService::~IconService()
 		delete m_pLoading;
 		m_pLoading = nullptr;
 	}
+
+	delete ui;
+
 }
 
 QList<CJsonNode> IconService::GetNodeList() const

@@ -44,8 +44,6 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 
 FMRadioWindow::~FMRadioWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -63,6 +61,9 @@ FMRadioWindow::~FMRadioWindow()
 		delete m_pIconService;
 		m_pIconService = nullptr;
 	}
+
+	delete ui;
+
 }
 
 void FMRadioWindow::AddWidgetFMRadioHome()

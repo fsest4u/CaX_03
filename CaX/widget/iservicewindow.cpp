@@ -53,8 +53,6 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 
 IServiceWindow::~IServiceWindow()
 {
-	delete ui;
-
 	if (m_pAirableMgr)
 	{
 		delete m_pAirableMgr;
@@ -84,6 +82,8 @@ IServiceWindow::~IServiceWindow()
 		delete m_pListService;
 		m_pListService = nullptr;
 	}
+
+	delete ui;
 
 }
 

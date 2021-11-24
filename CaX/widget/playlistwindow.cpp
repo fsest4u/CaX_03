@@ -44,8 +44,6 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 
 PlaylistWindow::~PlaylistWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -75,6 +73,8 @@ PlaylistWindow::~PlaylistWindow()
 		delete m_pListTracks;
 		m_pListTracks = nullptr;
 	}
+
+	delete ui;
 
 }
 

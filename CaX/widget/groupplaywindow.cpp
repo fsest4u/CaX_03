@@ -34,8 +34,6 @@ GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
 
 GroupPlayWindow::~GroupPlayWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -53,6 +51,8 @@ GroupPlayWindow::~GroupPlayWindow()
 		delete m_pIconService;
 		m_pIconService = nullptr;
 	}
+
+	delete ui;
 
 }
 

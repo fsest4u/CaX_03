@@ -22,8 +22,6 @@ ListDevice::ListDevice(QWidget *parent) :
 
 ListDevice::~ListDevice()
 {
-	delete ui;
-
 	if (m_ListView)
 	{
 		delete m_ListView;
@@ -45,6 +43,9 @@ ListDevice::~ListDevice()
 		delete m_pLoading;
 		m_pLoading = nullptr;
 	}
+
+	delete ui;
+
 }
 
 QStandardItemModel *ListDevice::GetModel() const

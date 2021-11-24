@@ -31,8 +31,6 @@ SetupWindow::SetupWindow(QWidget *parent, const QString &addr) :
 
 SetupWindow::~SetupWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -50,6 +48,9 @@ SetupWindow::~SetupWindow()
 		delete m_pListService;
 		m_pListService = nullptr;
 	}
+
+	delete ui;
+
 }
 
 void SetupWindow::SetupHome(QList<CJsonNode> list, int eventID)

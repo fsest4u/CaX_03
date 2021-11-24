@@ -69,8 +69,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 
 MusicDBWindow::~MusicDBWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -112,6 +110,9 @@ MusicDBWindow::~MusicDBWindow()
 //		delete m_pSongThread;
 //		m_pSongThread = nullptr;
 //	}
+
+	delete ui;
+
 }
 
 void MusicDBWindow::AddWidgetItem(int typeMode)

@@ -43,8 +43,6 @@ DABRadioWindow::DABRadioWindow(QWidget *parent, const QString &addr) :
 
 DABRadioWindow::~DABRadioWindow()
 {
-	delete ui;
-
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -62,6 +60,9 @@ DABRadioWindow::~DABRadioWindow()
 		delete m_pIconService;
 		m_pIconService = nullptr;
 	}
+
+	delete ui;
+
 }
 
 void DABRadioWindow::AddWidgetDABRadioHome()
