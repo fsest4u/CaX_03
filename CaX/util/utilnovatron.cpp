@@ -6,7 +6,9 @@
 #include "util/caxtranslate.h"
 #include "util/log.h"
 
+#include "widget/airable.h"
 #include "widget/browser.h"
+#include "widget/qobuz.h"
 
 UtilNovatron::UtilNovatron()
 {
@@ -296,115 +298,278 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 	return coverArt;
 }
 
-void UtilNovatron::DebugTypeForBrowser(int type)
+void UtilNovatron::DebugTypeForBrowser(QString title, int type)
 {
 	if (type & iFolderType_Mask_Play_Top)
 	{
-		LogDebug("Play_Top");
+		LogDebug("[%s] iFolderType_Mask_Play_Top", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Play_Option)
 	{
-		LogDebug("Play_Option");
+		LogDebug("[%s] iFolderType_Mask_Play_Option", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Play_Check)
 	{
-		LogDebug("Play_Check");
+		LogDebug("[%s] iFolderType_Mask_Play_Check", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Play_Select)
 	{
-		LogDebug("Mask_Play_Select");
+		LogDebug("[%s] iFolderType_Mask_Play_Select", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Check)
 	{
-		LogDebug("Mask_Check");
+		LogDebug("[%s] iFolderType_Mask_Check", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_FileMgr)
 	{
-		LogDebug("Mask_FileMgr");
+		LogDebug("[%s] iFolderType_Mask_FileMgr", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_ReadOnly)
 	{
-		LogDebug("Mask_ReadOnly");
+		LogDebug("[%s] iFolderType_Mask_ReadOnly", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Sub)
 	{
-		LogDebug("Mask_Sub");
+		LogDebug("[%s] iFolderType_Mask_Sub", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Dev)
 	{
-		LogDebug("Mask_Dev");
+		LogDebug("[%s] iFolderType_Mask_Dev", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Hdd)
 	{
-		LogDebug("Mask_Hdd");
+		LogDebug("[%s] iFolderType_Mask_Hdd", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Usb)
 	{
-		LogDebug("Mask_Usb");
+		LogDebug("[%s] iFolderType_Mask_Usb", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Cd)
 	{
-		LogDebug("Mask_Cd");
+		LogDebug("[%s] iFolderType_Mask_Cd", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Net)
 	{
-		LogDebug("Mask_Net");
+		LogDebug("[%s] iFolderType_Mask_Net", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Upnp)
 	{
-		LogDebug("Mask_Upnp");
+		LogDebug("[%s] iFolderType_Mask_Upnp", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Root)
 	{
-		LogDebug("Mask_Root");
+		LogDebug("[%s] iFolderType_Mask_Root", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Dir)
 	{
-		LogDebug("Mask_Dir");
+		LogDebug("[%s] iFolderType_Mask_Dir", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Song)
 	{
-		LogDebug("Mask_Song");
+		LogDebug("[%s] iFolderType_Mask_Song", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Pls)
 	{
-		LogDebug("Mask_Pls");
+		LogDebug("[%s] iFolderType_Mask_Pls", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Cue)
 	{
-		LogDebug("Mask_Cue");
+		LogDebug("[%s] iFolderType_Mask_Cue", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_IRadio)
 	{
-		LogDebug("Mask_IRadio");
+		LogDebug("[%s] iFolderType_Mask_IRadio", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_IsoFile)
 	{
-		LogDebug("Mask_IsoFile");
+		LogDebug("[%s] iFolderType_Mask_IsoFile", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_IsoRoot)
 	{
-		LogDebug("Mask_IsoRoot");
+		LogDebug("[%s] iFolderType_Mask_IsoRoot", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Image)
 	{
-		LogDebug("Mask_Image");
+		LogDebug("[%s] iFolderType_Mask_Image", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_File)
 	{
-		LogDebug("Mask_File");
+		LogDebug("[%s] iFolderType_Mask_File", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Scan)
 	{
-		LogDebug("Mask_Scan");
+		LogDebug("[%s] iFolderType_Mask_Scan", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_Media)
 	{
-		LogDebug("Mask_Media");
+		LogDebug("[%s] iFolderType_Mask_Media", title.toUtf8().data());
 	}
 	if (type & iFolderType_Mask_FilePath)
 	{
-		LogDebug("Mask_FilePath");
+		LogDebug("[%s] iFolderType_Mask_FilePath", title.toUtf8().data());
 	}
 }
+
+void UtilNovatron::DebugTypeForIService(QString title, int type)
+{
+	if (type & iIServiceType_Qobuz)
+	{
+		LogDebug("[%s] iIServiceType_Qobuz", title.toUtf8().data());
+	}
+	if (type & iIServiceType_Radios)
+	{
+		LogDebug("[%s] iIServiceType_Radios", title.toUtf8().data());
+	}
+	if (type & iIServiceType_Podcasts)
+	{
+		LogDebug("[%s] iIServiceType_Podcasts", title.toUtf8().data());
+	}
+	if (type & iIServiceType_Tidal)
+	{
+		LogDebug("[%s] iIServiceType_Tidal", title.toUtf8().data());
+	}
+	if (type & iIServiceType_Napster)
+	{
+		LogDebug("[%s] iIServiceType_Napster", title.toUtf8().data());
+	}
+	if (type & iIServiceType_Deezer)
+	{
+		LogDebug("[%s] iIServiceType_Deezer", title.toUtf8().data());
+	}
+	if (type & iIServiceType_HighResAudio)
+	{
+		LogDebug("[%s] iIServiceType_HighResAudio", title.toUtf8().data());
+	}
+	if (type & iIServiceType_AmazonMusic)
+	{
+		LogDebug("[%s] iIServiceType_AmazonMusic", title.toUtf8().data());
+	}
+}
+
+void UtilNovatron::DebugTypeForQobuz(QString title, int type)
+{
+	if (type & iQobuzType_Mask_Artist)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Artist", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Album)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Album", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Track)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Track", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Playlist)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Playlist", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Search)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Search", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Recommend)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Recommend", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Favorite)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Favorite", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_UserPlaylist)
+	{
+		LogDebug("[%s] iQobuzType_Mask_UserPlaylist", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Menu_Album)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Menu_Album", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Menu_Playlist)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Menu_Playlist", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Menu_Genre)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Menu_Genre", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Menu_Artist)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Menu_Artist", title.toUtf8().data());
+	}
+	if (type & iQobuzType_Mask_Menu_Track)
+	{
+		LogDebug("[%s] iQobuzType_Mask_Menu_Track", title.toUtf8().data());
+	}
+	if (type & iQobuzMenu_AddFavorite)
+	{
+		LogDebug("[%s] iQobuzMenu_AddFavorite", title.toUtf8().data());
+	}
+	if (type & iQobuzMenu_AddPlaylist)
+	{
+		LogDebug("[%s] iQobuzMenu_AddPlaylist", title.toUtf8().data());
+	}
+	if (type & iQobuzMenu_DelFavorite)
+	{
+		LogDebug("[%s] iQobuzMenu_DelFavorite", title.toUtf8().data());
+	}
+	if (type & iQobuzMenu_DelPlaylist)
+	{
+		LogDebug("[%s] iQobuzMenu_DelPlaylist", title.toUtf8().data());
+	}
+	if (type & iQobuzMenu_DelTrack)
+	{
+		LogDebug("[%s] iQobuzMenu_DelTrack", title.toUtf8().data());
+	}
+	if (type & iQobuzMenu_Play)
+	{
+		LogDebug("[%s] iQobuzMenu_Play", title.toUtf8().data());
+	}
+	if (type & iQobuzMenu_CoverView)
+	{
+		LogDebug("[%s] iQobuzMenu_CoverView", title.toUtf8().data());
+	}
+}
+
+void UtilNovatron::DebugTypeForAirable(QString title, int type)
+{
+	if (type & iAirableType_Mask_Dir)
+	{
+		LogDebug("[%s] iAirableType_Mask_Dir", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Sub)
+	{
+		LogDebug("[%s] iAirableType_Mask_Sub", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Track)
+	{
+		LogDebug("[%s] iAirableType_Mask_Track", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Program)
+	{
+		LogDebug("[%s] iAirableType_Mask_Program", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Radio)
+	{
+		LogDebug("[%s] iAirableType_Mask_Radio", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Feed)
+	{
+		LogDebug("[%s] iAirableType_Mask_Feed", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Play)
+	{
+		LogDebug("[%s] iAirableType_Mask_Play", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Art)
+	{
+		LogDebug("[%s] iAirableType_Mask_Art", title.toUtf8().data());
+	}
+	if (type & iAirableType_Mask_Logout)
+	{
+		LogDebug("[%s] iAirableType_Mask_Logout", title.toUtf8().data());
+	}
+
+}
+
+
 

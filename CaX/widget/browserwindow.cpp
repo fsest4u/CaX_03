@@ -338,8 +338,7 @@ void BrowserWindow::SlotOptionMenuAction(QString path, int type, int menuID)
 
 void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 {
-	LogDebug("========== select title ===========");
-	UtilNovatron::DebugTypeForBrowser(nType);
+	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
 
 	CJsonNode node;
 	if (!node.SetContent(rawData))
@@ -424,8 +423,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		nType = m_pListBrowser->SetNodeList(list, ListBrowser::LIST_BROWSER_BROWSER);
 	}
 
-	LogDebug("========== first info of response list  ===========");
-	UtilNovatron::DebugTypeForBrowser(nType);
+	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);
 	SetFolderType(nType);
 
 }
@@ -1022,7 +1020,7 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 
 void BrowserWindow::SetOptionMenu(int type)
 {
-	UtilNovatron::DebugTypeForBrowser(type);
+	UtilNovatron::DebugTypeForBrowser("SetOptionMenu", type);
 
 	m_OptionMenuMap.clear();
 

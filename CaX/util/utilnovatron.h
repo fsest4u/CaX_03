@@ -10,7 +10,11 @@ public:
 
 	static QIcon GetMenuIcon(QString value);
 	static QString GetCoverArtIcon(const int service, const QString value = "");
-	static void DebugTypeForBrowser(int type);
+
+	static void DebugTypeForBrowser(QString title, int type);
+	static void DebugTypeForIService(QString title, int type);
+	static void DebugTypeForQobuz(QString title, int type);
+	static void DebugTypeForAirable(QString title, int type);
 };
 
 #endif // UTILNOVATRON_H

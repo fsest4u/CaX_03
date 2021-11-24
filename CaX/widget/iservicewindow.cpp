@@ -4,11 +4,16 @@
 #include "iservicewindow.h"
 #include "ui_iservicewindow.h"
 
+#include "dialog/logindialog.h"
+#include "dialog/webengineviewdialog.h"
+#include "dialog/searchdialog.h"
+
 #include "manager/airablemanager.h"
 #include "manager/qobuzmanager.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #include "widget/airable.h"
 #include "widget/qobuz.h"
@@ -19,14 +24,8 @@
 #include "widget/formBottom/listservice.h"
 #include "widget/formBottom/listservicedelegate.h"
 
-#include "dialog/logindialog.h"
-#include "dialog/webengineviewdialog.h"
-#include "dialog/searchdialog.h"
-
 #define ISERVICE_TITLE	"Internet Service"
 #define QOBUZ_TITLE		"Qobuz"
-
-
 
 IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
@@ -186,6 +185,8 @@ void IServiceWindow::SlotRespError(QString errMsg)
 
 void IServiceWindow::SlotSelectTitle(int nType)
 {
+	UtilNovatron::DebugTypeForIService("SlotSelectTitle", nType);
+
 	if (iIServiceType_Qobuz == nType)
 	{
 		m_pQobuzMgr->RequestLogin();
@@ -222,6 +223,8 @@ void IServiceWindow::SlotSelectTitle(int nType)
 
 void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
 {
+	UtilNovatron::DebugTypeForAirable("SlotSelectTitle", nType);
+
 	CJsonNode node;
 	if (!node.SetContent(rawData))
 	{
@@ -304,6 +307,8 @@ void IServiceWindow::SlotSelectURL(QString rawData)
 	if (m_ServiceType == iIServiceType_Qobuz || m_ServiceType == -1)
 	{
 		int nType = node.GetInt(KEY_TYPE);
+		UtilNovatron::DebugTypeForAirable("SlotSelectURL", nType);
+
 		QString strID = node.GetString(KEY_ID_UPPER);
 
 		if (nType & iQobuzType_Mask_Track)
