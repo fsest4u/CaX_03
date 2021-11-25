@@ -95,13 +95,27 @@ void AirableManager::RequestPlay(int nServiceType, CJsonNode srcNode)
 	if (!art.isEmpty())
 		node.Add(KEY_ART,		art);
 	node.AddInt	(KEY_TYPE,		nType);
-	node.AddInt	(KEY_WHERE,		3);	// play new
+	node.AddInt	(KEY_WHERE,		PLAY_CLEAR);
 
 	CJsonNode trackNode(JSON_ARRAY);
 	trackNode.AppendArray(srcNode);
 	node.Add	(KEY_TRACKS,	trackNode);
 
 	RequestCommand(node, AIRABLE_PLAY);
+}
+
+void AirableManager::RequestActionUrl(int nServiceType, QString url)
+{
+	m_ServiceType = nServiceType;
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_AIRABLE);
+	node.Add	(KEY_CMD1,		VAL_URL);
+	node.Add(KEY_URL, url);
+	node.AddInt(KEY_TYPE, m_ServiceType);
+
+	RequestCommand(node, AIRABLE_ACTION_URL);
+
 }
 
 void AirableManager::SlotRespInfo(QString json, int nCmdID)
@@ -113,7 +127,7 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-//	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString strMsg;
 	bool	bSuccess = false;
@@ -159,6 +173,9 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 			break;
 		case AIRABLE_URL:
 			ParseURL(node);
+			break;
+		case AIRABLE_ACTION_URL:
+			emit SigRespError(node.GetString(VAL_DESC));
 			break;
 		case AIRABLE_MAX:
 			emit SigRespError(STR_INVALID_ID);

@@ -499,7 +499,8 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 //	emit SigTaskList();
 
-	DoMusicDBHome();
+//	DoMusicDBHome();
+	DoIServiceHome();
 
 }
 
@@ -603,7 +604,7 @@ void MainWindow::SlotDisconnectObserver()
 
 void MainWindow::SlotRespAirableLogout()
 {
-	DoMusicDBHome();
+	DoIServiceHome();
 }
 
 

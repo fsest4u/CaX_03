@@ -8,7 +8,6 @@
 
 ListBrowserDelegate::ListBrowserDelegate()
 {
-
 }
 
 void ListBrowserDelegate::SlotClickTitle(int type, QString rawData)
@@ -19,6 +18,11 @@ void ListBrowserDelegate::SlotClickTitle(int type, QString rawData)
 void ListBrowserDelegate::SlotMenu(int index, int type)
 {
 	emit SigMenu(index, type);
+}
+
+void ListBrowserDelegate::SlotMenu(int index, int type, QString menuName)
+{
+	emit SigMenu(index, type, menuName);
 }
 
 void ListBrowserDelegate::SlotMenuAction(QString path, int type, int menuID)
@@ -50,6 +54,7 @@ QWidget *ListBrowserDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 //	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 	connect(editor, SIGNAL(SigMenu(int, int)), this, SLOT(SlotMenu(int, int)));
+	connect(editor, SIGNAL(SigMenu(int, int, QString)), this, SLOT(SlotMenu(int, int, QString)));
 	connect(editor, SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotMenuAction(QString, int, int)));
 
 	return editor;
@@ -59,6 +64,7 @@ void ListBrowserDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 {
 	ListBrowserEditor *widget = static_cast<ListBrowserEditor*>(editor);
 	widget->blockSignals(true);
+	widget->SetService(m_Service);
 	widget->SetID(qvariant_cast<int>(index.data(LIST_BROWSER_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(LIST_BROWSER_TYPE)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_BROWSER_COVER)));
@@ -72,7 +78,6 @@ void ListBrowserDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 
 	widget->ClearMenu();
 	widget->SetMenu(m_OptionMenuMap);
-
 }
 
 void ListBrowserDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
@@ -95,6 +100,16 @@ void ListBrowserDelegate::updateEditorGeometry(QWidget *editor, const QStyleOpti
 	editor->setGeometry(option.rect);
 }
 
+int ListBrowserDelegate::GetService() const
+{
+	return m_Service;
+}
+
+void ListBrowserDelegate::SetService(int Service)
+{
+	m_Service = Service;
+}
+
 QMap<int, QString> ListBrowserDelegate::GetOptionMenuMap() const
 {
 	return m_OptionMenuMap;
@@ -104,3 +119,4 @@ void ListBrowserDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuM
 {
 	m_OptionMenuMap = OptionMenuMap;
 }
+

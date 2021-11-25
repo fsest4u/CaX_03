@@ -81,7 +81,6 @@ private:
 	void Initialize();
 	void SetCategoryList(QList<CJsonNode> list);
 
-
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
 

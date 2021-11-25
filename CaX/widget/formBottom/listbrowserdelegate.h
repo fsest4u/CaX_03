@@ -26,16 +26,21 @@ public:
 	QMap<int, QString> GetOptionMenuMap() const;
 	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
 
+	int GetService() const;
+	void SetService(int Service);
+
 signals:
 
 	void SigSelectTitle(int type, QString rawData);
 	void SigMenu(int index, int type);
+	void SigMenu(int index, int type, QString menuName);
 	void SigMenuAction(QString path, int type, int menuID);
 
 private slots:
 
 	void SlotClickTitle(int type, QString rawData);
 	void SlotMenu(int index, int type);
+	void SlotMenu(int index, int type, QString menuName);
 	void SlotMenuAction(QString path, int type, int menuID);
 
 private:
@@ -49,6 +54,7 @@ private:
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QMap<int, QString> m_OptionMenuMap;
+	int m_Service;
 
 };
 

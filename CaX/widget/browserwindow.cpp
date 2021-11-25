@@ -420,7 +420,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		m_pInfoBrowser->SetSubtitle(m_Root);
 
 		m_pListBrowser->ClearNodeList();
-		nType = m_pListBrowser->SetNodeList(list, ListBrowser::LIST_BROWSER_BROWSER);
+		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
 	}
 
 	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);
@@ -608,6 +608,15 @@ void BrowserWindow::ConnectSigToSlot()
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
 	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
+	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
+
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
+//	connect(m_pInfoBrowser->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
@@ -627,16 +636,6 @@ void BrowserWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigListUpdate()), this, SLOT(SlotListUpdate()));
 
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
-	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-//	connect(m_pInfoBrowser->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
-
-
 	connect(this, SIGNAL(SigCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotCopyHere(bool, QString, QString, int)));
 //	connect(this, SIGNAL(SigOptionCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotOptionCopyHere(bool, QString, QString, int)));
 
@@ -651,6 +650,7 @@ void BrowserWindow::Initialize()
 	m_Files.clear();
 
 	m_TopMenuMap.clear();
+	m_OptionMenuMap.clear();
 	m_SelectMap.clear();
 }
 
@@ -1021,7 +1021,6 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 void BrowserWindow::SetOptionMenu(int type)
 {
 	UtilNovatron::DebugTypeForBrowser("SetOptionMenu", type);
-
 	m_OptionMenuMap.clear();
 
 	if (BROWSER_MODE_COPY_OPTION == m_BrowserMode

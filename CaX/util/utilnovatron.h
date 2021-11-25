@@ -10,6 +10,7 @@ public:
 
 	static QIcon GetMenuIcon(QString value);
 	static QString GetCoverArtIcon(const int service, const QString value = "");
+	static QString GetCoverArtIcon(const int service, const int value);
 
 	static void DebugTypeForBrowser(QString title, int type);
 	static void DebugTypeForIService(QString title, int type);

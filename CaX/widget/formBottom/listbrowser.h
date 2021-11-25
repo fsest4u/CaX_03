@@ -22,15 +22,15 @@ public:
 	explicit ListBrowser(QWidget *parent = nullptr);
 	~ListBrowser();
 
-	enum {
-		LIST_BROWSER_BROWSER = 0,
-		LIST_BROWSER_ISERVICE,
-		LIST_BROWSER_MAX
-	};
+//	enum {
+//		LIST_BROWSER_BROWSER = 0,
+//		LIST_BROWSER_ISERVICE,
+//		LIST_BROWSER_MAX
+//	};
 
 	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
-	int SetNodeList(const QList<CJsonNode> &NodeList, int nService = LIST_BROWSER_BROWSER);
+	int SetNodeList(const QList<CJsonNode> &NodeList, int nService);
 
 	void ClearSelectMap();
 	void SetAllSelectMap();

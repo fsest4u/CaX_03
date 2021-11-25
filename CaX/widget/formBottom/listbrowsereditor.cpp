@@ -3,10 +3,15 @@
 #include "listbrowsereditor.h"
 #include "ui_listbrowsereditor.h"
 
+#include "util/CJsonNode.h"
+#include "util/caxconstants.h"
+#include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
 
+#include "widget/airable.h"
+#include "widget/browser.h"
 #include "widget/form/formcoverart.h"
 
 #define ICON_DIR		"dir"
@@ -64,6 +69,51 @@ int ListBrowserEditor::GetType() const
 void ListBrowserEditor::SetType(int Type)
 {
 	m_Type = Type;
+
+	if (SIDEMENU_BROWSER == m_Service)
+	{
+		if (iFolderType_Mask_Play_Select & m_Type)
+		{
+			ui->labelPlay->show();
+		}
+		else
+		{
+			ui->labelPlay->hide();
+		}
+	}
+	else if (SIDEMENU_ISERVICE == m_Service)
+	{
+		if (m_Type & iAirableType_Mask_Sub)
+		{
+			ui->horizontalSpacerIndent->changeSize(LIST_BROWSER_INDENT_1, LIST_BROWSER_HEIGHT);
+		}
+		else
+		{
+			ui->horizontalSpacerIndent->changeSize(LIST_BROWSER_INDENT_0, LIST_BROWSER_HEIGHT);
+		}
+
+		if (m_Type & iAirableType_Mask_Art)
+		{
+			ui->frameMenu->show();
+		}
+		else
+		{
+			ui->frameMenu->hide();
+		}
+
+		if (m_Type & iAirableType_Mask_Track
+				|| m_Type & iAirableType_Mask_Program
+				|| m_Type & iAirableType_Mask_Radio
+				|| m_Type & iAirableType_Mask_Feed
+				|| m_Type & iAirableType_Mask_Play)
+		{
+			ui->labelPlay->show();
+		}
+		else
+		{
+			ui->labelPlay->hide();
+		}
+	}
 }
 
 QString ListBrowserEditor::GetTitle() const
@@ -119,6 +169,17 @@ void ListBrowserEditor::SetRawData(const QString &rawData)
 	m_RawData = rawData;
 }
 
+int ListBrowserEditor::GetService() const
+{
+	return m_Service;
+}
+
+void ListBrowserEditor::SetService(int Service)
+{
+	m_Service = Service;
+}
+
+
 void ListBrowserEditor::ClearMenu()
 {
 	m_Menu->clear();
@@ -126,14 +187,22 @@ void ListBrowserEditor::ClearMenu()
 
 void ListBrowserEditor::SetMenu(QMap<int, QString> map)
 {
-	QMap<int, QString>::iterator i;
-	for (i = map.begin(); i != map.end(); i++)
+//	if (map.count() > 0)
 	{
-		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
-		QAction *action = new QAction(icon, i.value(), this);
-		action->setData(i.key());
-		m_Menu->addAction(action);
+		QMap<int, QString>::iterator i;
+		for (i = map.begin(); i != map.end(); i++)
+		{
+			QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+			QAction *action = new QAction(icon, i.value(), this);
+			action->setData(i.key());
+			m_Menu->addAction(action);
+		}
+
 	}
+//	else
+//	{
+//		ui->frameMenu->hide();
+//	}
 }
 
 FormCoverArt *ListBrowserEditor::GetFormCoverArt() const
@@ -156,12 +225,64 @@ bool ListBrowserEditor::eventFilter(QObject *object, QEvent *event)
 
 void ListBrowserEditor::SlotMenu()
 {
-	emit SigMenu(m_ID, m_Type);
+	if (SIDEMENU_BROWSER == m_Service)
+	{
+		emit SigMenu(m_ID, m_Type);
+	}
+	else if (SIDEMENU_ISERVICE == m_Service)
+	{
+		CJsonNode node;
+		if (!node.SetContent(m_RawData))
+		{
+			LogCritical("invalid json");
+			return;
+		}
+		CJsonNode acts = node.GetArray(KEY_ACTS);
+
+		if (acts.ArraySize() <= 0)
+		{
+			LogCritical("array node is empty");
+			return;
+		}
+
+		CJsonNode act = acts.GetArrayAt(0);
+		QString name = act.GetString(KEY_NAME);
+		if (!name.isEmpty())
+		{
+			emit SigMenu(m_ID, m_Type, name);
+		}
+	}
 }
 
 void ListBrowserEditor::SlotMenuAction(QAction *action)
 {
-	emit SigMenuAction(ui->labelTitle->text(), m_Type, action->data().toInt());
+	if (SIDEMENU_BROWSER == m_Service)
+	{
+		emit SigMenuAction(ui->labelTitle->text(), m_Type, action->data().toInt());
+	}
+	else if (SIDEMENU_ISERVICE == m_Service)
+	{
+		CJsonNode node;
+		if (!node.SetContent(m_RawData))
+		{
+			LogCritical("invalid json");
+			return;
+		}
+		CJsonNode acts = node.GetArray(KEY_ACTS);
+
+		if (acts.ArraySize() <= 0)
+		{
+			LogCritical("array node is empty");
+			return;
+		}
+
+		CJsonNode act = acts.GetArrayAt(0);
+		QString url = act.GetString(KEY_URL);
+		if (!url.isEmpty())
+		{
+			emit SigMenuAction(url, m_Type, action->data().toInt());
+		}
+	}
 }
 
 void ListBrowserEditor::ConnectSigToSlot()
@@ -192,11 +313,14 @@ void ListBrowserEditor::Initialize()
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
 
+	ui->labelPlay->hide();
 	ui->labelSubtitle->hide();
 	ui->labelDuration->hide();
 	ui->labelFilesize->hide();
+	ui->frameMenu->hide();
 
 	ui->labelTitle->installEventFilter(this);
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 }
+

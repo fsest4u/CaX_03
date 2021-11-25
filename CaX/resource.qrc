@@ -733,5 +733,56 @@
         <file>resource/play-btn28-rank-sel5@3x.png</file>
         <file>resource/logo-icon-musicxneo-256.png</file>
         <file>resource/about.html</file>
+        <file>resource/browser-icon16-clearreplay.png</file>
+        <file>resource/browser-icon16-clearreplay@2x.png</file>
+        <file>resource/browser-icon16-clearreplay@3x.png</file>
+        <file>resource/browser-icon16-overwrite.png</file>
+        <file>resource/browser-icon16-overwrite@2x.png</file>
+        <file>resource/browser-icon16-overwrite@3x.png</file>
+        <file>resource/browser-icon16-playlast.png</file>
+        <file>resource/browser-icon16-playlast@2x.png</file>
+        <file>resource/browser-icon16-playlast@3x.png</file>
+        <file>resource/browser-icon16-playnext.png</file>
+        <file>resource/browser-icon16-playnext@2x.png</file>
+        <file>resource/browser-icon16-playnext@3x.png</file>
+        <file>resource/browser-icon16-playnow.png</file>
+        <file>resource/browser-icon16-playnow@2x.png</file>
+        <file>resource/browser-icon16-playnow@3x.png</file>
+        <file>resource/browser-icon16-playsubfolder.png</file>
+        <file>resource/browser-icon16-playsubfolder@2x.png</file>
+        <file>resource/browser-icon16-playsubfolder@3x.png</file>
+        <file>resource/internets-icon40-reservedrecordlist.png</file>
+        <file>resource/internets-icon40-reservedrecordlist@2x.png</file>
+        <file>resource/internets-icon40-reservedrecordlist@3x.png</file>
+        <file>resource/internets-icon40-search.png</file>
+        <file>resource/internets-icon40-search@2x.png</file>
+        <file>resource/internets-icon40-search@3x.png</file>
+        <file>resource/internets-icon40-titlecover.png</file>
+        <file>resource/internets-icon40-titlecover@2x.png</file>
+        <file>resource/internets-icon40-titlecover@3x.png</file>
+        <file>resource/radio-icon16-clearseekall.png</file>
+        <file>resource/radio-icon16-clearseekall@2x.png</file>
+        <file>resource/radio-icon16-clearseekall@3x.png</file>
+        <file>resource/radio-icon16-reservedrecordlist.png</file>
+        <file>resource/radio-icon16-reservedrecordlist@2x.png</file>
+        <file>resource/radio-icon16-reservedrecordlist@3x.png</file>
+        <file>resource/radio-icon16-seekall.png</file>
+        <file>resource/radio-icon16-seekall@2x.png</file>
+        <file>resource/radio-icon16-seekall@3x.png</file>
+        <file>resource/search-btn60-close-n.png</file>
+        <file>resource/search-btn60-close-n@2x.png</file>
+        <file>resource/search-btn60-close-n@3x.png</file>
+        <file>resource/search-btn60-more-h.png</file>
+        <file>resource/search-btn60-more-h@2x.png</file>
+        <file>resource/search-btn60-more-h@3x.png</file>
+        <file>resource/search-btn60-more-n.png</file>
+        <file>resource/search-btn60-more-n@2x.png</file>
+        <file>resource/search-btn60-more-n@3x.png</file>
+        <file>resource/search-btn60-more-u.png</file>
+        <file>resource/search-btn60-more-u@2x.png</file>
+        <file>resource/search-btn60-more-u@3x.png</file>
+        <file>resource/top-btn22-sortd-h.png</file>
+        <file>resource/top-btn22-sortd-h@2x.png</file>
+        <file>resource/top-btn22-sortd-h@3x.png</file>
     </qresource>
 </RCC>

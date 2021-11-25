@@ -20,7 +20,9 @@ public:
 	~InfoBrowser();
 
 	void SetCoverArt(QString coverArt);
+	QString GetTitle() const;
 	void SetTitle(const QString title);
+	QString GetSubtitle() const;
 	void SetSubtitle(const QString title);
 
 	FormPlay *GetFormPlay();

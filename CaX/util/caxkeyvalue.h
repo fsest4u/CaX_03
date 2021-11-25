@@ -202,6 +202,7 @@
 
 #define		VAL_DAB_RADIO		"Dab"
 #define		VAL_DEL				"Del"
+#define		VAL_DESC			"Desc"
 #define		VAL_DEV_LIST		"DevList"
 
 #define		VAL_EDITOR_PICKS	"EditorPicks"

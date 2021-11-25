@@ -241,8 +241,19 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 	}
 	else if (service == SIDEMENU_ISERVICE)
 	{
-		coverArt = "";
-
+		if (value.contains("rec_list"))
+		{
+			coverArt = ":/resource/internets-icon40-reservedrecordlist@3x.png";
+		}
+		else if (value.contains("search"))
+		{
+			coverArt = ":/resource/internets-icon40-search@3x.png";
+		}
+		else
+		{
+			LogDebug("value [%s]", value.toUtf8().data());
+			coverArt = ":/resource/internets-icon40-titlecover@3x.png";
+		}
 	}
 	else if (service == SIDEMENU_INPUT)
 	{
@@ -293,6 +304,49 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 	if (coverArt.isEmpty())
 	{
 		LogDebug("There is no icon corresponding to the string.");
+	}
+
+	return coverArt;
+}
+
+QString UtilNovatron::GetCoverArtIcon(const int service, const int value)
+{
+	QString coverArt = "";
+
+	if (service == SIDEMENU_ISERVICE)
+	{
+		if (value == iIServiceType_Qobuz)
+		{
+			coverArt = ":/resource/internets-img160-qobuz-n@3x.png";
+		}
+		else if (value == iIServiceType_Radios)
+		{
+			coverArt = ":/resource/internets-img160-airable-n@3x.png";
+		}
+		else if (value == iIServiceType_Podcasts)
+		{
+			coverArt = ":/resource/internets-img160-podcast-n@3x.png";
+		}
+		else if (value == iIServiceType_Tidal)
+		{
+			coverArt = ":/resource/internets-img160-tidal-n@3x.png";
+		}
+		else if (value == iIServiceType_Deezer)
+		{
+			coverArt = ":/resource/internets-img160-deezer-n@3x.png";
+		}
+		else if (value == iIServiceType_Napster)
+		{
+			coverArt = ":/resource/internets-img160-napster-n@3x.png";
+		}
+		else if (value == iIServiceType_HighResAudio)
+		{
+			coverArt = ":/resource/internets-img160-highresaudio-n@3x.png";
+		}
+		else if (value == iIServiceType_AmazonMusic)
+		{
+			coverArt = ":/resource/internets-img160-amazonmusic-n@3x.png";
+		}
 	}
 
 	return coverArt;

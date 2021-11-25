@@ -66,13 +66,15 @@ QList<CJsonNode> ListBrowser::GetNodeList() const
 int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 {
 	int type = 0;
+	int index = 0;
 
 	m_pLoading->Start();
 	m_Model->clear();
 	m_NodeList = NodeList;
-	int index = 0;
 
-	if (LIST_BROWSER_BROWSER == nService)
+	m_Delegate->SetService(nService);
+
+	if (SIDEMENU_BROWSER == nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
@@ -106,7 +108,34 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			index++;
 		}
 	}
+	else
+	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			UtilNovatron::DebugTypeForAirable("SetNodeList", node.GetInt(KEY_TYPE));
 
+			QStandardItem *item = new QStandardItem;
+			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
+			item->setData(node.GetInt(KEY_TYPE), ListBrowserDelegate::LIST_BROWSER_TYPE);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_ICON)), ListBrowserDelegate::LIST_BROWSER_COVER);
+			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
+			item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
+			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
+			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+			QString coverArt = node.GetString(KEY_ART);
+			if (!coverArt.isEmpty())
+			{
+				emit SigReqCoverArt(coverArt, index);
+			}
+			index++;
+		}
+	}
 	ui->gridLayoutList->addWidget(m_ListView);
 	m_pLoading->Stop();
 

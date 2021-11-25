@@ -49,10 +49,20 @@ void InfoBrowser::SetCoverArt(QString coverArt)
 	m_pFormCoverArt->SetCoverArt(coverArt);
 }
 
+QString InfoBrowser::GetTitle() const
+{
+	return m_pFormTitle->GetTitle();
+}
+
 void InfoBrowser::SetTitle(const QString title)
 {
 	m_pFormTitle->SetTitleFont(42);
 	m_pFormTitle->SetTitle(title);
+}
+
+QString InfoBrowser::GetSubtitle() const
+{
+	return m_pFormTitle->GetSubtitle();
 }
 
 void InfoBrowser::SetSubtitle(const QString title)

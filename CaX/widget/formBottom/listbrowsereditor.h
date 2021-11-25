@@ -41,6 +41,9 @@ public:
 	QString GetRawData() const;
 	void SetRawData(const QString &rawData);
 
+	int GetService() const;
+	void SetService(int Service);
+
 	void ClearMenu();
 	void SetMenu(QMap<int, QString> map);
 
@@ -53,6 +56,7 @@ signals:
 //	void SigClickCoverArt(QString rawData);
 	void SigClickTitle(int type, QString rawData = "");
 	void SigMenu(int index, int type);
+	void SigMenu(int index, int type, QString menuName);
 	void SigMenuAction(QString path, int type, int menuID);
 
 protected:
@@ -75,6 +79,8 @@ private:
 	int				m_ID;
 	int				m_Type;
 	QString			m_RawData;
+
+	int				m_Service;
 
 	Ui::ListBrowserEditor *ui;
 };

@@ -9,8 +9,10 @@ class AirableManager;
 class QobuzManager;
 
 class InfoService;
+class InfoBrowser;
 class IconService;
-class ListService;
+class ListBrowser;
+//class ListService;
 
 namespace Ui {
 class IServiceWindow;
@@ -37,11 +39,20 @@ public:
 	AirableManager	*GetAirableManager();
 	QobuzManager	*GetQobuzManager();
 
+	InfoBrowser *GetInfoBrowser() const;
+	ListBrowser *GetListBrowser() const;
+
+	int GetServiceType() const;
+	void SetServiceType(int ServiceType);
+
+	void AddWidgetItem();
+
+
 
 signals:
 
-//	void SigBtnPrev();
-//	void SigSelectURL(int nServiceType, QString url);
+	//	void SigBtnPrev();
+	//	void SigSelectURL(int nServiceType, QString url);
 
 	void SigRespLogout();
 	void SigAddWidget(QWidget *widget, QString title);
@@ -55,10 +66,10 @@ private slots:
 //	void SlotResize();
 
 	void SlotRespError(QString errMsg);
-	void SlotSelectTitle(int nType);
+	void SlotSelectIconTitle(int nType);
 	void SlotSelectTitle(int nType, QString rawData);
 	void SlotSelectURL(QString rawData);
-	void SlotReqArt(QString url, int index);
+	void SlotReqCoverArt(QString url, int index);
 
 	void SlotRespQobuzLoginFail(CJsonNode node);
 	void SlotRespQobuzLoginSuccess();
@@ -72,9 +83,15 @@ private slots:
 	void SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
+	void SlotOptionMenu(int id, int type, QString menuName);
+	void SlotOptionMenuAction(QString url, int type, int menuID);
+
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
+
+	void SetOptionMenu(int type, QString menuName);
 
 	void DoQobuzHome();
 	void DoQobuzSearch();
@@ -100,8 +117,13 @@ private:
 	AirableManager		*m_pAirableMgr;
 	QobuzManager		*m_pQobuzMgr;
 	InfoService			*m_pInfoService;
+	InfoBrowser			*m_pInfoBrowser;
+
 	IconService			*m_pIconService;
-	ListService			*m_pListService;
+	ListBrowser			*m_pListBrowser;
+//	ListService			*m_pListService;
+
+	QMap<int, QString>	m_OptionMenuMap;
 
 	QString				m_WebURL;
 	int					m_ServiceType;
