@@ -68,7 +68,7 @@ private slots:
 	void SlotRespError(QString errMsg);
 	void SlotSelectIconTitle(int nType);
 	void SlotSelectTitle(int nType, QString rawData);
-	void SlotSelectURL(QString rawData);
+//	void SlotSelectURL(QString rawData);
 	void SlotReqCoverArt(QString url, int index);
 
 	void SlotRespQobuzLoginFail(CJsonNode node);
@@ -90,6 +90,9 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+
+	void SelectTitleForQobuz(int nType, QString rawData);
+	void SelectTitleForAirable(int nType, QString rawData);
 
 	void SetOptionMenu(int type, QString menuName);
 
