@@ -100,7 +100,7 @@ void PlaylistManager::RequestAddPlaylist(QString name)
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0,		VAL_PLAYLIST);
 	node.Add(KEY_CMD1,		VAL_NEW);
-	node.Add(KEY_NAME,	name);
+	node.Add(KEY_NAME_CAP,	name);
 
 	RequestCommand(node, PLAYLIST_ADD_PLAYLIST);
 
@@ -112,7 +112,7 @@ void PlaylistManager::RequestRenamePlaylist(int id, QString name)
 	node.Add(KEY_CMD0,		VAL_PLAYLIST);
 	node.Add(KEY_CMD1,		VAL_RENAME);
 	node.AddInt(KEY_PLS_ID,	id);
-	node.Add(KEY_NAME,	name);
+	node.Add(KEY_NAME_CAP,	name);
 
 	RequestCommand(node, PLAYLIST_RENAME_PLAYLIST);
 }

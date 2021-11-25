@@ -75,7 +75,7 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_ID_UPPER), ListServiceDelegate::LIST_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), ListServiceDelegate::LIST_SERVICE_TYPE);
-			item->setData(node.GetString(KEY_NAME), ListServiceDelegate::LIST_SERVICE_TITLE);
+			item->setData(node.GetString(KEY_NAME_CAP), ListServiceDelegate::LIST_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), ListServiceDelegate::LIST_SERVICE_RAW);
 
 			m_Model->appendRow(item);

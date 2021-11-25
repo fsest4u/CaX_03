@@ -58,7 +58,7 @@ void FmRadioManager::RequestAdd(int64_t freq, QString name)
 	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
 	node.Add	(KEY_CMD1,		VAL_ADD);
 	node.Add	(KEY_FREQ,		freq);
-	node.Add	(KEY_NAME,		name);
+	node.Add	(KEY_NAME_CAP,		name);
 
 	RequestCommand(node, FM_ADD);
 }
@@ -87,7 +87,7 @@ void FmRadioManager::RequestSet(int index, QString name)
 	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
 	node.Add	(KEY_CMD1,		VAL_SET);
 	node.AddInt	(KEY_INDEX,		index);
-	node.Add	(KEY_NAME,		name);
+	node.Add	(KEY_NAME_CAP,		name);
 
 	RequestCommand(node, FM_SET);
 }

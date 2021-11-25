@@ -246,7 +246,7 @@ void ListBrowserEditor::SlotMenu()
 		}
 
 		CJsonNode act = acts.GetArrayAt(0);
-		QString name = act.GetString(KEY_NAME);
+		QString name = act.GetString(KEY_NAME_CAP);
 		if (!name.isEmpty())
 		{
 			emit SigMenu(m_ID, m_Type, name);

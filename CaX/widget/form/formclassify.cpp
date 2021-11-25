@@ -67,7 +67,7 @@ void FormClassify::SetClassifyArtistMenu(QList<CJsonNode> list)
 {
 	foreach (CJsonNode node, list)
 	{
-		QAction *action = new QAction(node.GetString(KEY_NAME_LOWER), this);
+		QAction *action = new QAction(node.GetString(KEY_NAME), this);
 		action->setData(node.GetString(KEY_ID_LOWER));
 		m_ArtistMenu->addAction(action);
 	}
@@ -82,7 +82,7 @@ void FormClassify::SetClassifyGenreMenu(QList<CJsonNode> list)
 {
 	foreach (CJsonNode node, list)
 	{
-		QAction *action = new QAction(node.GetString(KEY_NAME_LOWER), this);
+		QAction *action = new QAction(node.GetString(KEY_NAME), this);
 		action->setData(node.GetString(KEY_ID_LOWER));
 		m_GenreMenu->addAction(action);
 	}
@@ -98,7 +98,7 @@ void FormClassify::SetClassifyComposerMenu(QList<CJsonNode> list)
 {
 	foreach (CJsonNode node, list)
 	{
-		QAction *action = new QAction(node.GetString(KEY_NAME_LOWER), this);
+		QAction *action = new QAction(node.GetString(KEY_NAME), this);
 		action->setData(node.GetString(KEY_ID_LOWER));
 		m_ComposerMenu->addAction(action);
 	}

@@ -76,7 +76,7 @@ void DabRadioManager::RequestSet(int index, QString name)
 	node.Add	(KEY_CMD0,		VAL_DAB_RADIO);
 	node.Add	(KEY_CMD1,		VAL_SET);
 	node.AddInt	(KEY_INDEX,		index);
-	node.Add	(KEY_NAME,		name);
+	node.Add	(KEY_NAME_CAP,		name);
 
 	RequestCommand(node, DAB_SET);
 }

@@ -394,7 +394,7 @@ void MusicDBManager::RequestRenameCategory(int id, QString name, int nCategory, 
 	node.Add	(KEY_CMD1,		VAL_RENAME);
 	node.Add	(KEY_CMD2,		VAL_CATEGORY);
 	node.AddInt	(KEY_ID_UPPER,	id);
-	node.Add	(KEY_NAME,		name);
+	node.Add	(KEY_NAME_CAP,		name);
 	node.Add	(KEY_CATEGORY,	strCat);
 	node.AddInt	(KEY_EVENT_ID,	eventID);
 
@@ -432,7 +432,7 @@ void MusicDBManager::RequestRenameTrack(int id, QString name, int eventID)
 	node.Add	(KEY_CMD1,		VAL_RENAME);
 	node.Add	(KEY_CMD2,		VAL_SONG);
 	node.AddInt	(KEY_ID_UPPER,	id);
-	node.Add	(KEY_NAME,		name);
+	node.Add	(KEY_NAME_CAP,		name);
 	node.AddInt	(KEY_EVENT_ID,	eventID);
 
 	RequestCommand(node, MUSICDB_RENAME_TRACK);

@@ -205,7 +205,7 @@ void AirableManager::ParseURL(CJsonNode node)
 		nodeList.append(result.GetArrayAt(i));
 	}
 
-	QString title = node.GetString(KEY_NAME);
+	QString title = node.GetString(KEY_NAME_CAP);
 
 	emit SigRespURL(m_ServiceType, title, nodeList);
 }

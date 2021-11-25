@@ -21,6 +21,7 @@
 #define		KEY_BITRATE			"BitRate"
 #define		KEY_BPS				"bps"
 #define		KEY_BOT				"Bot"
+#define		KEY_BOT1			"Bot1"
 
 #define		KEY_CA_NAME			"caName"
 #define		KEY_CAT_ORDER		"CatOrder"
@@ -99,8 +100,8 @@
 #define		KEY_MUTE_CAP		"Mute"
 #define		KEY_MUTED			"muted"
 
-#define		KEY_NAME			"Name"
-#define		KEY_NAME_LOWER		"name"
+#define		KEY_NAME_CAP		"Name"
+#define		KEY_NAME			"name"
 #define		KEY_NEXT_URL		"NextUrl"
 
 #define		KEY_ORDER			"Order"
