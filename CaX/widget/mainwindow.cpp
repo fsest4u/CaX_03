@@ -316,6 +316,8 @@ void MainWindow::ObserverConnect()
 
 	m_pObsMgr->RequestObserverInfo(strAddr);
 
+	SlotMenu();
+
 }
 
 void MainWindow::ObserverDisconnect()
@@ -325,6 +327,8 @@ void MainWindow::ObserverDisconnect()
 	ui->widgetPlay->setDisabled(true);
 
 	m_pObsMgr->RequestDisconnectObserver();
+
+	SlotMenu();
 }
 
 void MainWindow::SlotDeviceItem(int state)
@@ -492,8 +496,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	m_pAppMgr->RequestTaskList();
 
-//	DoMusicDBHome();
-	DoFmRadioHome();
+	DoMusicDBHome();
 }
 
 void MainWindow::SlotSelectDevice(QString mac)
@@ -613,6 +616,7 @@ void MainWindow::Initialize()
 	m_InputList.clear();
 	m_SetupList.clear();
 
+	SlotMenu();
 }
 
 void MainWindow::ConnectSigToSlot()
@@ -624,7 +628,7 @@ void MainWindow::ConnectSigToSlot()
 void MainWindow::ConnectForUI()
 {
 	// top menu
-	connect(ui->widgetTop, SIGNAL(SigMenu()), this, SLOT(SlotMenu()));
+//	connect(ui->widgetTop, SIGNAL(SigMenu()), this, SLOT(SlotMenu()));
 	connect(ui->widgetTop, SIGNAL(SigMenuAction(int)), this, SLOT(SlotMenuAction(int)));
 	connect(ui->widgetTop->GetBtnHome(), SIGNAL(clicked()), this, SLOT(SlotBtnHome()));
 	connect(ui->widgetTop->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPrev()));

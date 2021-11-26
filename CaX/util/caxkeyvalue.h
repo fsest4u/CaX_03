@@ -39,6 +39,7 @@
 #define		KEY_COUNT			"count"
 #define		KEY_COVER_ART		"CoverArt"
 
+#define		KEY_DAB				"Dab"
 #define		KEY_DEV				"Dev"
 #define		KEY_DEV_LIST		"DevList"
 #define		KEY_DEV_LIST_UPDATE	"DevListUpdated"
@@ -103,6 +104,7 @@
 #define		KEY_NAME_CAP		"Name"
 #define		KEY_NAME			"name"
 #define		KEY_NEXT_URL		"NextUrl"
+#define		KEY_NOW_PLAY		"NowPlaying"
 
 #define		KEY_ORDER			"Order"
 #define		KEY_OVERWRITE		"Overwrite"

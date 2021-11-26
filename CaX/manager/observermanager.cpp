@@ -92,21 +92,30 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 //			emit SigProgress(node);
 
 		}
-		else if (strCmd0.contains("NowPlaying"))
+		else if (strCmd0.contains(KEY_NOW_PLAY))
 		{
 			emit SigEventNowPlay(node);
 		}
 		else if (strCmd0.contains(KEY_FM_RADIO))
 		{
-			if (!ParseFmRadioEvent(node))	{	continue;	}
+			if (!ParseFmRadioEvent(node))
+			{
+				continue;
+			}
 		}
-		else if (strCmd0.contains("Dab"))
+		else if (strCmd0.contains(KEY_DAB))
 		{
-			if (!ParseDabRadioEvent(node))		{	continue;	}
+			if (!ParseDabRadioEvent(node))
+			{
+				continue;
+			}
 		}
 		else if (strCmd0.contains(KEY_GROUP_PLAY))
 		{
-			if (!ParseGroupPlayEvent(node))	{	continue;	}
+			if (!ParseGroupPlayEvent(node))
+			{
+				continue;
+			}
 		}
 		else
 		{

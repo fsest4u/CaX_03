@@ -120,9 +120,8 @@ void TopWindow::Initialize()
 							}");
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
-	ui->btnMenu->setIconSize(QSize(50, 50));
 
-	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
+//	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	m_TitleList.clear();
