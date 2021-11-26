@@ -736,6 +736,12 @@ void MainWindow::DoDabRadioHome()
 	widget->AddWidgetDABRadioHome();
 	SlotAddWidget(widget, STR_DAB_RADIO);
 	widget->RequestList();
+
+	connect(m_pObsMgr, SIGNAL(SigEventDabSeek(CJsonNode)), widget, SLOT(SlotEventDabSeek(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventDabSeekStop(CJsonNode)), widget, SLOT(SlotEventDabSeekStop(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventDabDel(CJsonNode)), widget, SLOT(SlotEventDabDel(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventDabSet(CJsonNode)), widget, SLOT(SlotEventDabSet(CJsonNode)));
+
 }
 
 void MainWindow::DoGroupPlayHome()

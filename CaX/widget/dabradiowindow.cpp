@@ -134,12 +134,26 @@ void DABRadioWindow::SlotSelectTitle(int nType)
 	m_pMgr->RequestPlay(nType);
 }
 
-void DABRadioWindow::SlotRespList(QList<CJsonNode> list)
+void DABRadioWindow::SlotRespList(CJsonNode node)
 {
-	SetHome(list);
+
+	CJsonNode result;
+	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+	{
+		SlotRespError(STR_NO_RESULT);
+		return;
+	}
+
+	QList<CJsonNode> nodeList;
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		nodeList.append(result.GetArrayAt(i));
+	}
+
+	SetHome(nodeList);
 
 	m_pInfoService->SetSubtitle(MAIN_TITLE);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_DAB_RADIO);
+	m_pIconService->SetNodeList(nodeList, IconService::ICON_SERVICE_DAB_RADIO);
 }
 
 void DABRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
@@ -148,6 +162,26 @@ void DABRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 
 	m_pInfoService->SetSubtitle(RESERVE_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_DAB_RADIO_RECORD);
+}
+
+void DABRadioWindow::SlotEventDabSeek(CJsonNode node)
+{
+	SlotRespList(node);
+}
+
+void DABRadioWindow::SlotEventDabSeekStop(CJsonNode node)
+{
+	SlotRespList(node);
+}
+
+void DABRadioWindow::SlotEventDabDel(CJsonNode node)
+{
+	SlotRespList(node);
+}
+
+void DABRadioWindow::SlotEventDabSet(CJsonNode node)
+{
+	SlotRespList(node);
 }
 
 void DABRadioWindow::ConnectSigToSlot()
@@ -159,7 +193,7 @@ void DABRadioWindow::ConnectSigToSlot()
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespList(CJsonNode)), this, SLOT(SlotRespList(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
@@ -212,9 +246,6 @@ void DABRadioWindow::DoTopMenuDelete()
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestDelete(m_SelectMap);
-
-		//refresh
-		RequestList();
 	}
 }
 

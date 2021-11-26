@@ -37,8 +37,13 @@ private slots:
 
 	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int nType);
-	void SlotRespList(QList<CJsonNode> list);
+	void SlotRespList(CJsonNode node);
 	void SlotRespRecordList(QList<CJsonNode> list);
+
+	void SlotEventDabSeek(CJsonNode node);
+	void SlotEventDabSeekStop(CJsonNode node);
+	void SlotEventDabDel(CJsonNode node);
+	void SlotEventDabSet(CJsonNode node);
 
 private:
 

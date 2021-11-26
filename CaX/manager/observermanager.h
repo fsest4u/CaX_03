@@ -36,6 +36,12 @@ signals:
 	void		SigEventFmDel			(CJsonNode node);
 	void		SigEventFmSet			(CJsonNode node);
 
+//	void		SigEventDabSeeking		(CJsonNode node);
+	void		SigEventDabSeek			(CJsonNode node);
+	void		SigEventDabSeekStop		(CJsonNode node);
+	void		SigEventDabDel			(CJsonNode node);
+	void		SigEventDabSet			(CJsonNode node);
+
 	void		SigEventGroupPlayUpdate();
 
 

@@ -136,7 +136,7 @@ bool ObserverManager::ParseFmRadioEvent(CJsonNode node)
 	{
 		SigEventFmSeekStop(node);
 	}
-	if (strCmd1.contains("Seek"))
+	else if (strCmd1.contains("Seek"))
 	{
 		SigEventFmSeek(node);
 	}
@@ -168,8 +168,38 @@ bool ObserverManager::ParseFmRadioEvent(CJsonNode node)
 
 bool ObserverManager::ParseDabRadioEvent(CJsonNode node)
 {
-	return true;
+	QString strCmd1 = node.GetString(KEY_CMD1);
 
+	if (strCmd1.contains("SeekStop"))
+	{
+		SigEventDabSeekStop(node);
+	}
+	if (strCmd1.contains("Add") || strCmd1.contains("Seek"))
+	{
+		// the same behavior with seek of fm radio
+		SigEventDabSeek(node);
+	}
+	else if (strCmd1.contains("Del"))
+	{
+		SigEventDabDel(node);
+	}
+	else if (strCmd1.contains("Rename"))
+	{
+		// the same behavior with edit of fm radio
+		SigEventDabSet(node);
+	}
+//	else if (strCmd1.contains("Progress"))
+//	{
+//		SigDabEventSeeking(rootNode);
+//	}
+	else
+	{
+		LogWarning("====================================");
+		LogWarning("This command is not supported [%s]", strCmd1.toUtf8().data());
+		LogWarning("====================================");
+	}
+
+	return true;
 }
 
 bool ObserverManager::ParseGroupPlayEvent(CJsonNode rootNode)

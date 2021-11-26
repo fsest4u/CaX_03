@@ -23,7 +23,8 @@ public:
 signals:
 
 	void SigRespError(QString errMsg);
-	void SigRespList(QList<CJsonNode> list);
+//	void SigRespList(QList<CJsonNode> list);
+	void SigRespList(CJsonNode node);
 	void SigRespRecordList(QList<CJsonNode> list);
 
 private slots:

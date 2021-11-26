@@ -99,6 +99,9 @@ void DabRadioManager::RequestRecordSet()
 
 void DabRadioManager::SlotRespInfo(QString json, int nCmdID)
 {
+	if (json.isEmpty() || nCmdID >= DAB_MAX)
+		return;
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
@@ -143,20 +146,23 @@ void DabRadioManager::SlotRespInfo(QString json, int nCmdID)
 
 void DabRadioManager::ParseList(CJsonNode node)
 {
-	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
-	{
-		emit SigRespError(STR_NO_RESULT);
-		return;
-	}
+//	CJsonNode result;
+//	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+//	{
+//		emit SigRespError(STR_NO_RESULT);
+//		return;
+//	}
 
-	QList<CJsonNode> nodeList;
-	for (int i = 0; i < result.ArraySize(); i++)
-	{
-		nodeList.append(result.GetArrayAt(i));
-	}
+//	QList<CJsonNode> nodeList;
+//	for (int i = 0; i < result.ArraySize(); i++)
+//	{
+//		nodeList.append(result.GetArrayAt(i));
+//	}
 
-	emit SigRespList(nodeList);
+//	emit SigRespList(nodeList);
+
+	emit SigRespList(node);
+
 }
 
 void DabRadioManager::ParseRecordList(CJsonNode node)
