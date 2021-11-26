@@ -4,13 +4,7 @@
 #include "ui_fmradiowindow.h"
 
 #include "dialog/addradiodialog.h"
-
-#include "widget/form/formplay.h"
-#include "widget/form/formsort.h"
-
-#include "widget/formTop/infoservice.h"
-#include "widget/formBottom/iconservice.h"
-#include "widget/formBottom/iconservicedelegate.h"
+#include "dialog/progressfmdialog.h"
 
 #include "manager/fmradiomanager.h"
 
@@ -20,6 +14,13 @@
 #include "util/log.h"
 #include "util/utilnovatron.h"
 
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
+
 #define MAIN_TITLE	"FM Radio"
 #define RESERVE_TITLE	"Reserved record list"
 
@@ -28,6 +29,7 @@ FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
 	m_pMgr(new FmRadioManager),
 	m_pInfoService(new InfoService(this)),
 	m_pIconService(new IconService(this)),
+	m_ProgressDialog(new ProgressFmDialog(this)),
 	m_FreqMax(0),
 	m_FreqMin(0),
 	m_FreqStep(0),
@@ -60,6 +62,12 @@ FMRadioWindow::~FMRadioWindow()
 	{
 		delete m_pIconService;
 		m_pIconService = nullptr;
+	}
+
+	if (m_ProgressDialog)
+	{
+		delete m_ProgressDialog;
+		m_ProgressDialog = nullptr;
 	}
 
 	delete ui;
@@ -171,6 +179,45 @@ void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_FM_RADIO_RECORD);
 }
 
+void FMRadioWindow::SlotEventFmSeeking(CJsonNode node)
+{
+	QString title = node.GetString(KEY_NAME_CAP);
+	if (m_ProgressDialog->isHidden() && !title.isEmpty())
+	{
+		m_ProgressDialog->show();
+	}
+	m_ProgressDialog->SetTitle(title);
+}
+
+void FMRadioWindow::SlotEventFmSeek(CJsonNode node)
+{
+	SlotRespList(node);
+}
+
+void FMRadioWindow::SlotEventFmSeekStop(CJsonNode node)
+{
+	if (!m_ProgressDialog->isHidden())
+	{
+		m_ProgressDialog->hide();
+	}
+	SlotRespList(node);
+}
+
+void FMRadioWindow::SlotEventFmAdd(CJsonNode node)
+{
+	SlotRespList(node);
+}
+
+void FMRadioWindow::SlotEventFmDel(CJsonNode node)
+{
+	SlotRespList(node);
+}
+
+void FMRadioWindow::SlotEventFmSet(CJsonNode node)
+{
+	SlotRespList(node);
+}
+
 void FMRadioWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
@@ -250,9 +297,6 @@ void FMRadioWindow::DoTopMenuAdd()
 		QString name = dialog.GetName();
 		double freq = dialog.GetFrequency();
 		m_pMgr->RequestAdd(freq, name);
-
-		//refresh
-		RequestList();
 	}
 }
 
@@ -261,10 +305,8 @@ void FMRadioWindow::DoTopMenuDelete()
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestDelete(m_SelectMap);
-
-		//refresh
-		RequestList();
 	}
+	m_pIconService->ClearSelectMap();
 }
 
 void FMRadioWindow::DoTopMenuReservedRecordList()

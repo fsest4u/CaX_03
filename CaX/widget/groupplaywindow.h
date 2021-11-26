@@ -33,7 +33,7 @@ private slots:
 	void SlotSelectPlay(int index, bool muted);
 	void SlotSelectTitle(int type, QString rawData);
 
-	void SlotRespGroupPlayUpdate();
+	void SlotEventGroupPlayUpdate();
 
 //	void SlotResize();
 

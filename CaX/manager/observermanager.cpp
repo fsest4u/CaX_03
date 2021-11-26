@@ -70,48 +70,40 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 		{
 			emit SigRespObserverInfo(node);
 		}
-		else if (strCmd0.contains("NowPlaying"))
+		else if (strCmd0.contains("Task"))
 		{
-			emit SigRespNowPlay(node);
+//			emit SigObserveInfo();
 		}
-		// todo-dylee
-//		else if (strCmd0.contains("Progress"))
-//		{
-//			// todo-dylee, 4.2 "MusicDB" -> "Info" -> "SetAlbum"
+		else if (strCmd0.contains("Swap"))
+		{
+//			emit SigObserveInfo();
+		}
+		else if (strCmd0.contains("Progress"))
+		{
+			// todo-dylee, 4.2 "MusicDB" -> "Info" -> "SetAlbum"
 
-//			// todo-dylee, cd ripping success & fail
+			// todo-dylee, cd ripping success & fail
 
-//			// todo-dylee, browser folder copy / move / delete
+			// todo-dylee, browser folder copy / move / delete
 
-//			// todo-dylee, browser convert / set replay gain / clear replay gain
+			// todo-dylee, browser convert / set replay gain / clear replay gain
 
-
-//			// setup - music db scan status
+			// setup - music db scan status
 //			emit SigProgress(node);
 
-//		}
-//		else if (strCmd0.contains("Task"))
-//		{
-
-
-////			emit SigObserveInfo();
-
-//		}
-//		else if (strCmd0.contains("Swap"))
-//		{
-
-
-////			emit SigObserveInfo();
-
-//		}
-//		else if (strCmd0.contains(KEY_FM_RADIO))
-//		{
-//			if (!ParseFmRadioEvent(node))	{	continue;	}
-//		}
-//		else if (strCmd0.contains("Dab"))
-//		{
-//			if (!ParseDabEvent(node))		{	continue;	}
-//		}
+		}
+		else if (strCmd0.contains("NowPlaying"))
+		{
+			emit SigEventNowPlay(node);
+		}
+		else if (strCmd0.contains(KEY_FM_RADIO))
+		{
+			if (!ParseFmRadioEvent(node))	{	continue;	}
+		}
+		else if (strCmd0.contains("Dab"))
+		{
+			if (!ParseDabRadioEvent(node))		{	continue;	}
+		}
 		else if (strCmd0.contains(KEY_GROUP_PLAY))
 		{
 			if (!ParseGroupPlayEvent(node))	{	continue;	}
@@ -136,11 +128,55 @@ void ObserverManager::ConnectSigToSlot()
 	connect(m_pObsClient, SIGNAL(SigDisconnect()), this, SLOT(SlotDisconnectObserver()));
 }
 
+bool ObserverManager::ParseFmRadioEvent(CJsonNode node)
+{
+	QString strCmd1 = node.GetString(KEY_CMD1);
+
+	if (strCmd1.contains("SeekStop"))
+	{
+		SigEventFmSeekStop(node);
+	}
+	if (strCmd1.contains("Seek"))
+	{
+		SigEventFmSeek(node);
+	}
+	else if (strCmd1.contains("Add"))
+	{
+		SigEventFmAdd(node);
+	}
+	else if (strCmd1.contains("Del"))
+	{
+		SigEventFmDel(node);
+	}
+	else if (strCmd1.contains("Edit"))
+	{
+		SigEventFmSet(node);
+	}
+	else if (strCmd1.contains("Progress"))
+	{
+		SigEventFmSeeking(node);
+	}
+	else
+	{
+		LogWarning("====================================");
+		LogWarning("This command is not supported [%s]", strCmd1.toUtf8().data());
+		LogWarning("====================================");
+	}
+
+	return true;
+}
+
+bool ObserverManager::ParseDabRadioEvent(CJsonNode node)
+{
+	return true;
+
+}
+
 bool ObserverManager::ParseGroupPlayEvent(CJsonNode rootNode)
 {
 	if (rootNode.GetBool(KEY_DEV_LIST_UPDATE))
 	{
-		emit SigRespGroupPlayUpdate();
+		emit SigEventGroupPlayUpdate();
 	}
 	else
 	{

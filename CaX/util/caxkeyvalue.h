@@ -284,6 +284,8 @@
 #define		VAL_SONG			"Song"
 #define		VAL_SUCCESS			"success"
 
+#define		VAL_TASK			"Task"
+#define		VAL_TASKS			"Tasks"
 #define		VAL_TRACK			"Track"
 #define		VAL_THUMB			"Thum"
 

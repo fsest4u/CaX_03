@@ -222,7 +222,7 @@ void PlayWindow::SlotPlayTimeSliderUpdate()
 	SetPlayTimeSliderState();
 }
 
-void PlayWindow::SlotRespNowPlay(CJsonNode node)
+void PlayWindow::SlotEventNowPlay(CJsonNode node)
 {
 	QString state = node.GetString(KEY_PLAY_STATE);
 	if (!state.toLower().compare(KEY_STOP))

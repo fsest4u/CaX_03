@@ -23,10 +23,21 @@ signals:
 
 	void		SigDisconnectObserver();
 	void		SigRespObserverInfo(CJsonNode node);
-	void		SigRespNowPlay(CJsonNode node);
 //	void		SigRespInfo(QStringList jsonValueList);
 
-	void		SigRespGroupPlayUpdate();
+
+	void		SigEventNowPlay(CJsonNode node);
+
+
+	void		SigEventFmSeeking		(CJsonNode node);
+	void		SigEventFmSeek			(CJsonNode node);
+	void		SigEventFmSeekStop		(CJsonNode node);
+	void		SigEventFmAdd			(CJsonNode node);
+	void		SigEventFmDel			(CJsonNode node);
+	void		SigEventFmSet			(CJsonNode node);
+
+	void		SigEventGroupPlayUpdate();
+
 
 public slots:
 
@@ -38,7 +49,9 @@ private:
 
 	void		ConnectSigToSlot();
 
-	bool		ParseGroupPlayEvent				(CJsonNode rootNode);
+	bool		ParseFmRadioEvent(CJsonNode node);
+	bool		ParseDabRadioEvent(CJsonNode node);
+	bool		ParseGroupPlayEvent(CJsonNode rootNode);
 
 
 	ObserverClient		*m_pObsClient;

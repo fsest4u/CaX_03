@@ -220,8 +220,8 @@ void IconService::ClearSelectMap()
 	{
 		QModelIndex index = m_Model->index(i, 0);
 		QStandardItem *item = m_Model->itemFromIndex(index);
-		bool bSelect = qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
-		if (bSelect)
+//		bool bSelect = qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
+//		if (bSelect)
 		{
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 

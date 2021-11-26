@@ -37,7 +37,7 @@ public slots:
 
 	void SlotDeviceItem(int state);
 	void SlotRespError(QString errMsg);
-	void SlotDisconnectObserver();
+	void SlotRespTaskList(CJsonNode node);
 	void SlotRespDeviceInfo(CJsonNode node);
 	void SlotRespObserverInfo(CJsonNode node);
 
@@ -50,6 +50,7 @@ public slots:
 	void SlotDevice();
 	void SlotDeviceAction(QString menuID);
 
+	void SlotDisconnectObserver();
 	void SlotRespAirableLogout();
 
 private:
@@ -116,6 +117,8 @@ private:
 	QList<CJsonNode> m_IServiceList;
 	QList<CJsonNode> m_InputList;
 	QList<CJsonNode> m_SetupList;
+	QList<CJsonNode> m_TaskList;
+
 
 	QMap<int, QString> m_SideMenuMap;
 	QMap<QString, QString> m_DeviceMap;

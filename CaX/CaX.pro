@@ -18,6 +18,7 @@ SOURCES += \
     dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
     dialog/poweroffdialog.cpp \
+    dialog/progressfmdialog.cpp \
     dialog/searchcoverartdialog.cpp \
     dialog/searchcoverartresultdialog.cpp \
     dialog/searchdialog.cpp \
@@ -114,6 +115,7 @@ HEADERS += \
     dialog/limitcountdialog.h \
     dialog/logindialog.h \
     dialog/poweroffdialog.h \
+    dialog/progressfmdialog.h \
     dialog/requestinterceptor.h \
     dialog/searchcoverartdialog.h \
     dialog/searchcoverartresultdialog.h \
@@ -221,6 +223,7 @@ FORMS += \
     dialog/limitcountdialog.ui \
     dialog/logindialog.ui \
     dialog/poweroffdialog.ui \
+    dialog/progressfmdialog.ui \
     dialog/searchcoverartdialog.ui \
     dialog/searchcoverartresultdialog.ui \
     dialog/searchdialog.ui \

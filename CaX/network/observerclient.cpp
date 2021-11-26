@@ -5,14 +5,13 @@
 
 #define CRLF_DOUBLE				"\r\n\r\n"
 
-ObserverClient::ObserverClient(QObject *parent) : QObject(parent)
+ObserverClient::ObserverClient(QObject *parent) :
+	QObject(parent),
+	m_Socket(new QTcpSocket())
 {
-	m_nContentSize = -1;
-
-	m_Socket = new QTcpSocket();
-
 	ConnectSigToSlot();
 
+	m_nContentSize = -1;
 }
 
 ObserverClient::~ObserverClient()
@@ -58,7 +57,7 @@ void ObserverClient::Connect(QString strAddr, QByteArray jsonData)
 	{
 		LogCritical("%s", m_Socket->errorString().toUtf8().data());
 	}
-	LogDebug("Socket Data : [%s]", jsonData.data());
+	LogDebug("ObserverClient Data : [%s]", jsonData.data());
 }
 
 void ObserverClient::Disconnect()
@@ -71,26 +70,27 @@ void ObserverClient::Disconnect()
 
 void ObserverClient::SlotConnect()
 {
-//	QHttpRequestHeader qHeader;
-//	qHeader.setRequest("POST", "/");
-//	qHeader.setContentLength(m_nContentSize);
-
-//	m_Socket->write(qHeader.toString().toUtf8());
-
-//	LoggingDebug("~~~~~~~~~~~~~~~~~~~~~~ [%s]", qHeader.toString().toUtf8().data());
-	//"~~~~~~~~~~~~~~~~~~~~~~ [POST / HTTP/1.1\r\ncontent-length: 18\r\n\r\n]"
+#if 1
 	m_Socket->write(QString("POST / HTTP/1.1\r\ncontent-length: %1\r\n\r\n").arg(m_nContentSize).toUtf8());
+#else
+	QHttpRequestHeader qHeader;
+	qHeader.setRequest("POST", "/");
+	qHeader.setContentLength(m_nContentSize);
+	LoggingDebug("~~~~~~~~~~~~~~~~~~~~~~ [%s]", qHeader.toString().toUtf8().data());
+
+	m_Socket->write(qHeader.toString().toUtf8());
+#endif
 }
 
 void ObserverClient::SlotDisconnect()
 {
-	LogDebug("ObserverClient disconnect !!!!!!!!!!!!!!!!!!!!!!");
+	LogDebug("SlotDisconnect !!!!!!!!!!!!!!!!!!!!!!");
 	emit SigDisconnect();
 }
 
 void ObserverClient::SlotWrite(qint64 bytes)
 {
-//	LogDebug("Bytes Written [size :%d]", bytes);
+	LogDebug("SlotWrite [size: %d]", bytes);
 }
 
 void ObserverClient::SlotRead()

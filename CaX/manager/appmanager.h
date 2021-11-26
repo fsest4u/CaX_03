@@ -14,20 +14,27 @@ public:
 	explicit AppManager(QObject *parent = nullptr);
 	~AppManager();
 
+	void RequestTaskList();
 	void RequestDeviceInfo();
 	void RequestDevicePowerOff(bool bWol);
 
 signals:
 
 	void SigRespError(QString errMsg);
+	void SigRespTaskList(CJsonNode node);
 	void SigRespDeviceInfo(CJsonNode node);
-	void SigRespCoverInfo();
 
 private slots:
 
-	void SlotRespDeviceInfo(QString json, int nCmdID);
-	void SlotRespCoverInfo();
+	void SlotRespInfo(QString json, int cmdID);
 
+private:
+
+	enum {
+		APP_MGR_TASK_LIST = 0,
+		APP_MGR_DEVICE_INFO,
+		APP_MGR_MAX
+	};
 
 };
 

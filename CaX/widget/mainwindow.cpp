@@ -339,76 +339,69 @@ void MainWindow::SlotRespError(QString errMsg)
 	QMessageBox::critical(this, "critical", errMsg);
 }
 
+
+void MainWindow::SlotRespTaskList(CJsonNode node)
+{
+	CJsonNode tasks = node.GetArray(VAL_TASKS);
+	if (tasks.ArraySize() <= 0)
+	{
+		LogDebug("### no task");
+		return;
+	}
+
+	m_TaskList.clear();
+	for (int i = 0; i < tasks.ArraySize(); i++)
+	{
+		m_TaskList.append(tasks.GetArrayAt(i));
+		LogDebug("node : [%s]", m_TaskList[i].ToCompactByteArray().data());
+	}
+}
+
 void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 {
-
-	QString strMsg;
-	bool bSuccess;
-
-	if (!node.GetString(VAL_MSG, strMsg) || strMsg.isEmpty())
+	if (!node.GetString(DEVICE_MAC, m_strCurrentMac) || m_strCurrentMac.isEmpty())
 	{
 		return;
 	}
-	if (!node.GetBool(VAL_SUCCESS, bSuccess))
+	if (!node.GetString(DEVICE_VERSION, m_strVersion) || m_strVersion.isEmpty())
 	{
 		return;
 	}
-
-	if (!bSuccess)
+	if (!node.GetString(DEVICE_WOL_ADDR, m_strWolAddr) || m_strWolAddr.isEmpty())
 	{
-		LogCritical("Error [%s]", strMsg.toUtf8().data());
-		ObserverDisconnect();
 		return;
 	}
-	else
+	if (!node.GetString(DEVICE_UUID, m_strUuid) || m_strUuid.isEmpty())
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
-
-		if (!node.GetString(DEVICE_MAC, m_strCurrentMac) || m_strCurrentMac.isEmpty())
-		{
-			return;
-		}
-		if (!node.GetString(DEVICE_VERSION, m_strVersion) || m_strVersion.isEmpty())
-		{
-			return;
-		}
-		if (!node.GetString(DEVICE_WOL_ADDR, m_strWolAddr) || m_strWolAddr.isEmpty())
-		{
-			return;
-		}
-		if (!node.GetString(DEVICE_UUID, m_strUuid) || m_strUuid.isEmpty())
-		{
-			return;
-		}
-		if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio))
-		{
-//			return;
-		}
-		if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay))
-		{
-//			return;
-		}
-		if (!node.GetBool(KEY_INPUT, m_bInput))
-		{
-//			return;
-		}
-
-		int index = m_strVersion.lastIndexOf(".r") + QString(".r").length();
-		LogDebug("length [%d]", m_strVersion.length());
-		LogDebug("index [%d]", index);
-		LogDebug("right [%s]", m_strVersion.right(m_strVersion.length() - index).toUtf8().data());
-
-		int version = m_strVersion.right(m_strVersion.length() - index).toInt();
-		if (version < 1720)
-		{
-			LogDebug("version [%d]", version);
-			QMessageBox::warning(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
-			return;
-		}
-
-		ObserverConnect();
-
+		return;
 	}
+	if (!node.GetBool(KEY_FM_RADIO, m_bFMRadio))
+	{
+//			return;
+	}
+	if (!node.GetBool(KEY_GROUP_PLAY, m_bGroupPlay))
+	{
+//			return;
+	}
+	if (!node.GetBool(KEY_INPUT, m_bInput))
+	{
+//			return;
+	}
+
+	int index = m_strVersion.lastIndexOf(".r") + QString(".r").length();
+//	LogDebug("length [%d]", m_strVersion.length());
+//	LogDebug("index [%d]", index);
+//	LogDebug("right [%s]", m_strVersion.right(m_strVersion.length() - index).toUtf8().data());
+
+	int version = m_strVersion.right(m_strVersion.length() - index).toInt();
+	if (version < FIRMWARE_MIN_VERSION)
+	{
+		LogDebug("version [%d]", version);
+		QMessageBox::warning(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
+		return;
+	}
+
+	ObserverConnect();
 }
 
 void MainWindow::SlotRespObserverInfo(CJsonNode node)
@@ -497,10 +490,10 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 		}
 	}
 
-//	emit SigTaskList();
+	m_pAppMgr->RequestTaskList();
 
-	DoMusicDBHome();
-
+//	DoMusicDBHome();
+	DoFmRadioHome();
 }
 
 void MainWindow::SlotSelectDevice(QString mac)
@@ -652,11 +645,12 @@ void MainWindow::ConnectForApp()
 	connect(m_pDeviceMgr, SIGNAL(SigDeviceItem(int)), this, SLOT(SlotDeviceItem(int)));
 	connect(m_pDeviceMgr, SIGNAL(SigAutoConnectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
+	connect(m_pAppMgr, SIGNAL(SigRespTaskList(CJsonNode)), this, SLOT(SlotRespTaskList(CJsonNode)));
 	connect(m_pAppMgr, SIGNAL(SigRespDeviceInfo(CJsonNode)), this, SLOT(SlotRespDeviceInfo(CJsonNode)));
 
 	connect(m_pObsMgr, SIGNAL(SigDisconnectObserver()), this, SLOT(SlotDisconnectObserver()));
 	connect(m_pObsMgr, SIGNAL(SigRespObserverInfo(CJsonNode)), this, SLOT(SlotRespObserverInfo(CJsonNode)));
-	connect(m_pObsMgr, SIGNAL(SigRespNowPlay(CJsonNode)), ui->widgetPlay, SLOT(SlotRespNowPlay(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventNowPlay(CJsonNode)), ui->widgetPlay, SLOT(SlotEventNowPlay(CJsonNode)));
 
 	connect(m_pDeviceWin, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(m_pDeviceWin, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
@@ -726,6 +720,14 @@ void MainWindow::DoFmRadioHome()
 	widget->AddWidgetFMRadioHome();
 	SlotAddWidget(widget, STR_FM_RADIO);
 	widget->RequestList();
+
+	connect(m_pObsMgr, SIGNAL(SigEventFmSeeking(CJsonNode)), widget, SLOT(SlotEventFmSeeking(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventFmSeek(CJsonNode)), widget, SLOT(SlotEventFmSeek(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventFmSeekStop(CJsonNode)), widget, SLOT(SlotEventFmSeekStop(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventFmAdd(CJsonNode)), widget, SLOT(SlotEventFmAdd(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventFmDel(CJsonNode)), widget, SLOT(SlotEventFmDel(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventFmSet(CJsonNode)), widget, SLOT(SlotEventFmSet(CJsonNode)));
+
 }
 
 void MainWindow::DoDabRadioHome()
@@ -743,7 +745,7 @@ void MainWindow::DoGroupPlayHome()
 	widget->GroupPlayList(m_nEventID);
 
 	// event
-	connect(m_pObsMgr, SIGNAL(SigRespGroupPlayUpdate()), widget, SLOT(SlotRespGroupPlayUpdate()));
+	connect(m_pObsMgr, SIGNAL(SigEventGroupPlayUpdate()), widget, SLOT(SlotEventGroupPlayUpdate()));
 
 }
 

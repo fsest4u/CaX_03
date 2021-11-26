@@ -141,7 +141,7 @@ void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
 //	m_pMgr->RequestGroupPlayEnable(!enabled);
 }
 
-void GroupPlayWindow::SlotRespGroupPlayUpdate()
+void GroupPlayWindow::SlotEventGroupPlayUpdate()
 {
 	m_pMgr->RequestGroupPlayList(m_nEventID);
 }

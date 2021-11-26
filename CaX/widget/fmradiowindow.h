@@ -8,6 +8,7 @@
 class FmRadioManager;
 class InfoService;
 class IconService;
+class ProgressFmDialog;
 
 namespace Ui {
 class FMRadioWindow;
@@ -41,6 +42,13 @@ private slots:
 	void SlotRespList(CJsonNode node);
 	void SlotRespRecordList(QList<CJsonNode> list);
 
+	void SlotEventFmSeeking(CJsonNode node);
+	void SlotEventFmSeek(CJsonNode node);
+	void SlotEventFmSeekStop(CJsonNode node);
+	void SlotEventFmAdd(CJsonNode node);
+	void SlotEventFmDel(CJsonNode node);
+	void SlotEventFmSet(CJsonNode node);
+
 private:
 
 	void ConnectSigToSlot();
@@ -60,6 +68,7 @@ private:
 	FmRadioManager		*m_pMgr;
 	InfoService			*m_pInfoService;
 	IconService			*m_pIconService;
+	ProgressFmDialog	*m_ProgressDialog;
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, bool>		m_SelectMap;

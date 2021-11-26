@@ -60,7 +60,7 @@ private slots:
 	void SlotPlayTimeSliderReleased();
 	void SlotPlayTimeSliderUpdate();
 
-	void SlotRespNowPlay(CJsonNode node);
+	void SlotEventNowPlay(CJsonNode node);
 	void SlotTrackInfo(CJsonNode node);
 	void SlotCoverArtUpdate(QString fileName);
 	void SlotQueueList(CJsonNode node);
