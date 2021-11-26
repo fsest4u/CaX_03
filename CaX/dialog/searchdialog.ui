@@ -7,11 +7,32 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>66</height>
+    <height>60</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QPushButton
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QLineEdit
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QWidget
+{
+	background-color: rgb(255, 255, 255);
+}</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

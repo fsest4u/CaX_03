@@ -19,6 +19,12 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget
+{
+	background-color: rgb(255, 255, 255);
+}</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QTextEdit" name="textEdit">
