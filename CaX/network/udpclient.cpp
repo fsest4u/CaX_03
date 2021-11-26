@@ -25,6 +25,7 @@ void UDPClient::CloseSocketSSDP()
 {
 	if( m_pSocketSSDP )
 	{
+		LogDebug("########## CloseSocketSSDP ");
 		m_pSocketSSDP->leaveMulticastGroup(m_HostAddress);
 		m_pSocketSSDP->close();
 		delete m_pSocketSSDP;
@@ -36,6 +37,7 @@ void UDPClient::CloseSocketMSearch()
 {
 	if( m_pSocketMSearch )
 	{
+		LogDebug("########## CloseSocketMSearch ");
 		m_pSocketMSearch->close();
 		delete m_pSocketMSearch;
 		m_pSocketMSearch = nullptr;
@@ -46,6 +48,7 @@ void UDPClient::CloseSocketWol()
 {
 	if (m_pSocketWol)
 	{
+		LogDebug("########## CloseSocketWol ");
 		m_pSocketWol->close();
 		delete m_pSocketWol;
 		m_pSocketWol = nullptr;
@@ -63,9 +66,12 @@ bool UDPClient::BindSocketSSDP()
 		return false;
 	}
 
-//	QNetworkInterface interface = CheckIP();
-//	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress, interface) )
+#if 1
 	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress) )
+#else
+	QNetworkInterface interface = CheckIP();
+	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress, interface) )
+#endif
 	{
 		LogCritical("%s", m_pSocketSSDP->errorString().toUtf8().data());
 		CloseSocketSSDP();
@@ -89,7 +95,7 @@ bool UDPClient::SendSocketMSearch(QString strSearch)
 	m_pSocketMSearch->writeDatagram(strSearch.toUtf8(), m_HostAddress, SSDP_PORT);
 	if( !m_pSocketMSearch->waitForDisconnected(3000) )
 	{
-//		LogCritical("%s", m_pSocketMSearch->errorString().toUtf8().data());
+		LogCritical("%s", m_pSocketMSearch->errorString().toUtf8().data());
 		CloseSocketMSearch();
 		return false;
 	}
@@ -147,7 +153,7 @@ void UDPClient::SlotSSDPReadData()
 	QHostAddress sender;
 	quint16 senderPort;
 
-//	LogDebug("## ssdp read start");
+//	LogDebug("########## SlotSSDPReadData");
 	while( m_pSocketSSDP->hasPendingDatagrams() )
 	{
 		ssdpData.resize(m_pSocketSSDP->pendingDatagramSize());
@@ -165,7 +171,7 @@ void UDPClient::SlotSSDPReadData()
 
 void UDPClient::SlotMSearchReadData()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotMSearchReadData");
 	while( m_pSocketMSearch->hasPendingDatagrams() )
 	{
 		QByteArray ssdpData;
@@ -176,16 +182,16 @@ void UDPClient::SlotMSearchReadData()
 
 		m_pSocketMSearch->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
 
-//		LogDebug("2 Message from: %s ", sender.toString().toUtf8().data());
-//		LogDebug("2 Message from: %d ", senderPort);
-//		LogDebug("2 Message from: %s ", ssdpData.data());
+		LogDebug("2 Message from: %s ", sender.toString().toUtf8().data());
+		LogDebug("2 Message from: %d ", senderPort);
+		LogDebug("2 Message from: %s ", ssdpData.data());
 
 	}
 }
 
 void UDPClient::SlotWolReadData()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotWolReadData");
 	while (m_pSocketWol->hasPendingDatagrams())
 	{
 		QByteArray ssdpData;
@@ -196,9 +202,9 @@ void UDPClient::SlotWolReadData()
 
 		m_pSocketWol->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
 
-//		LogDebug("3 Message from: %s ", sender.toString().toUtf8().data());
-//		LogDebug("3 Message from: %d ", senderPort);
-//		LogDebug("3 Message from: %s ", ssdpData.data());
+		LogDebug("3 Message from: %s ", sender.toString().toUtf8().data());
+		LogDebug("3 Message from: %d ", senderPort);
+		LogDebug("3 Message from: %s ", ssdpData.data());
 
 	}
 }
@@ -208,50 +214,50 @@ void UDPClient::SlotWolReadData()
 
 void UDPClient::SlotSSDPConnected()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotSSDPConnected ");
 
 }
 void UDPClient::SlotSSDPDisconnected()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotSSDPDisconnected ");
 
 }
 void UDPClient::SlotSSDPBytesWritten()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotSSDPBytesWritten ");
 
 }
 
 
 void UDPClient::SlotMSearchConnected()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotMSearchConnected ");
 
 }
 void UDPClient::SlotMSearchDisconnected()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotMSearchDisconnected ");
 
 }
 void UDPClient::SlotMSearchBytesWritten()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotMSearchBytesWritten ");
 
 }
 
 void UDPClient::SlotWolConnected()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotWolConnected ");
 
 }
 void UDPClient::SlotWolDisconnected()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotWolDisconnected ");
 
 }
 void UDPClient::SlotWolBytesWritten()
 {
-//	LogDebug("##");
+	LogDebug("########## SlotWolBytesWritten ");
 
 }
 

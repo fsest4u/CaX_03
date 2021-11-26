@@ -84,7 +84,7 @@ void ObserverClient::SlotConnect()
 
 void ObserverClient::SlotDisconnect()
 {
-	LogDebug("network disconnect !!!!!!!!!!!!!!!!!!!!!!");
+	LogDebug("ObserverClient disconnect !!!!!!!!!!!!!!!!!!!!!!");
 	emit SigDisconnect();
 }
 
