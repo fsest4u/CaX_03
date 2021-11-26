@@ -82,16 +82,13 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 		{
 			// todo-dylee, 4.2 "MusicDB" -> "Info" -> "SetAlbum"
 
-			// todo-dylee, cd ripping success & fail
-
-			// todo-dylee,
-
 			// todo-dylee, browser convert / set replay gain / clear replay gain
 
 			// setup - music db scan status
 
 			// audio cd - cd rip
 			// browser folder copy / move / delete
+			// browser convert / set replay gain / clear replay gain
 
 			emit SigEventProgress(node);
 
