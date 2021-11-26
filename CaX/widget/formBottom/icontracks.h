@@ -49,7 +49,7 @@ public:
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);
-	void SigCalcTotalTime(int time);
+//	void SigCalcTotalTime(int time);
 	void SigAppendIconList();
 
 private slots:

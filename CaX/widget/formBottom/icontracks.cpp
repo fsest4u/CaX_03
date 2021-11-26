@@ -67,12 +67,13 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 
 	if (ICON_TRACKS_AUDIO_CD == type)
 	{
-		int totalTime = 0;
+//		int totalTime = 0;
 		foreach (CJsonNode node, list)
 		{
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			int seconds = node.GetInt(KEY_TIME_CAP);
+//			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
-			int time = node.GetInt(KEY_TIME_CAP);
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_TRACK), IconTracksDelegate::ICON_TRACKS_ID);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_AUDIO_CD), IconTracksDelegate::ICON_TRACKS_COVER);
@@ -87,10 +88,10 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 
-			totalTime += time;
+//			totalTime += seconds;
 			index++;
 		}
-		emit SigCalcTotalTime(totalTime);
+//		emit SigCalcTotalTime(totalTime);
 	}
 	else
 	{

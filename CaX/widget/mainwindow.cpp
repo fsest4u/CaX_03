@@ -628,7 +628,7 @@ void MainWindow::ConnectSigToSlot()
 void MainWindow::ConnectForUI()
 {
 	// top menu
-//	connect(ui->widgetTop, SIGNAL(SigMenu()), this, SLOT(SlotMenu()));
+	connect(ui->widgetTop, SIGNAL(SigMenu()), this, SLOT(SlotMenu()));
 	connect(ui->widgetTop, SIGNAL(SigMenuAction(int)), this, SLOT(SlotMenuAction(int)));
 	connect(ui->widgetTop->GetBtnHome(), SIGNAL(clicked()), this, SLOT(SlotBtnHome()));
 	connect(ui->widgetTop->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPrev()));

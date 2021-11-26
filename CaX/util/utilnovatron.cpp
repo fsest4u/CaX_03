@@ -1,4 +1,5 @@
 #include <QIcon>
+#include <QDateTime>
 
 #include "utilnovatron.h"
 
@@ -350,6 +351,20 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const int value)
 	}
 
 	return coverArt;
+}
+
+QString UtilNovatron::CalcSecondToHMS(int seconds)
+{
+	QString time;
+	if (seconds > 3599)
+	{
+		time = QDateTime::fromTime_t(seconds).toUTC().toString("hh:mm:ss");
+	}
+	else
+	{
+		time = QDateTime::fromTime_t(seconds).toUTC().toString("mm:ss");
+	}
+	return time;
 }
 
 void UtilNovatron::DebugTypeForBrowser(QString title, int type)
