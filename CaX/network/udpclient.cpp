@@ -7,17 +7,18 @@
 
 UDPClient::UDPClient(QObject *parent)
 	: QObject(parent)
-	, m_pSocketSSDP(nullptr)
-	, m_pSocketMSearch(nullptr)
-	, m_pSocketWol(nullptr)
+	, m_pSocketSSDP(new QUdpSocket(this))
+	, m_pSocketMSearch(new QUdpSocket(this))
+	, m_pSocketWol(new QUdpSocket(this))
 {
-
+	ConnectSigToSlot();
 }
 
 UDPClient::~UDPClient()
 {
 	CloseSocketSSDP();
 	CloseSocketMSearch();
+	CloseSocketWol();
 }
 
 void UDPClient::CloseSocketSSDP()
@@ -53,15 +54,7 @@ void UDPClient::CloseSocketWol()
 
 bool UDPClient::BindSocketSSDP()
 {
-	CloseSocketSSDP();
-
-	m_pSocketSSDP = new QUdpSocket(this);
 	m_HostAddress = QHostAddress(QStringLiteral(SSDP_ADDR));
-
-	connect(m_pSocketSSDP, SIGNAL(connected()),				this, SLOT(SlotSSDPConnected()));
-	connect(m_pSocketSSDP, SIGNAL(disconnected()),			this, SLOT(SlotSSDPDisconnected()));
-	connect(m_pSocketSSDP, SIGNAL(bytesWritten(qint64)),	this, SLOT(SlotSSDPBytesWritten()));
-	connect(m_pSocketSSDP, SIGNAL(readyRead()),				this, SLOT(SlotSSDPReadData()));
 
 	if( !m_pSocketSSDP->bind(QHostAddress::AnyIPv4, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 	{
@@ -84,15 +77,7 @@ bool UDPClient::BindSocketSSDP()
 
 bool UDPClient::SendSocketMSearch(QString strSearch)
 {
-	CloseSocketMSearch();
-
-	m_pSocketMSearch = new QUdpSocket(this);
 	m_HostAddress = QHostAddress(QStringLiteral(SSDP_ADDR));
-
-	connect(m_pSocketMSearch, SIGNAL(connected()),			this, SLOT(SlotMSearchConnected()));
-	connect(m_pSocketMSearch, SIGNAL(disconnected()),		this, SLOT(SlotMSearchDisconnected()));
-	connect(m_pSocketMSearch, SIGNAL(bytesWritten(qint64)), this, SLOT(SlotMSearchBytesWritten()));
-	connect(m_pSocketMSearch, SIGNAL(readyRead()),			this, SLOT(SlotMSearchReadData()));
 
 	if( !m_pSocketMSearch->bind(m_HostAddress, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 	{
@@ -114,12 +99,7 @@ bool UDPClient::SendSocketMSearch(QString strSearch)
 
 bool UDPClient::SendSocketWol(QString strWolAddr, QString strMac)
 {
-	CloseSocketWol();
-
-	m_pSocketWol = new QUdpSocket(this);
 	m_HostAddress = QHostAddress(strWolAddr);
-
-	connect(m_pSocketWol, SIGNAL(readyRead()), this, SLOT(SlotWolReadData()));
 
 	//if (!m_pSocketWol->bind(m_HostAddress, WOL_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint))
 	//{
@@ -225,52 +205,70 @@ void UDPClient::SlotWolReadData()
 
 
 
+
 void UDPClient::SlotSSDPConnected()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 void UDPClient::SlotSSDPDisconnected()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 void UDPClient::SlotSSDPBytesWritten()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 
 
 void UDPClient::SlotMSearchConnected()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 void UDPClient::SlotMSearchDisconnected()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 void UDPClient::SlotMSearchBytesWritten()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 
 void UDPClient::SlotWolConnected()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 void UDPClient::SlotWolDisconnected()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
 
 }
 void UDPClient::SlotWolBytesWritten()
 {
-//	LoggingDebug("##");
+//	LogDebug("##");
+
+}
+
+
+void UDPClient::ConnectSigToSlot()
+{
+	connect(m_pSocketSSDP, SIGNAL(connected()),				this, SLOT(SlotSSDPConnected()));
+	connect(m_pSocketSSDP, SIGNAL(disconnected()),			this, SLOT(SlotSSDPDisconnected()));
+	connect(m_pSocketSSDP, SIGNAL(bytesWritten(qint64)),	this, SLOT(SlotSSDPBytesWritten()));
+	connect(m_pSocketSSDP, SIGNAL(readyRead()),				this, SLOT(SlotSSDPReadData()));
+
+	connect(m_pSocketMSearch, SIGNAL(connected()),			this, SLOT(SlotMSearchConnected()));
+	connect(m_pSocketMSearch, SIGNAL(disconnected()),		this, SLOT(SlotMSearchDisconnected()));
+	connect(m_pSocketMSearch, SIGNAL(bytesWritten(qint64)), this, SLOT(SlotMSearchBytesWritten()));
+	connect(m_pSocketMSearch, SIGNAL(readyRead()),			this, SLOT(SlotMSearchReadData()));
+
+	connect(m_pSocketWol, SIGNAL(readyRead()), this, SLOT(SlotWolReadData()));
 
 }
 

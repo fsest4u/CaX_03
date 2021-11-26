@@ -499,8 +499,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 //	emit SigTaskList();
 
-//	DoMusicDBHome();
-	DoIServiceHome();
+	DoMusicDBHome();
 
 }
 

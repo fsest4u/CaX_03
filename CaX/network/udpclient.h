@@ -48,6 +48,7 @@ public slots:
 
 private:
 
+	void ConnectSigToSlot();
 	QNetworkInterface CheckIP();
 
 	QHostAddress	m_HostAddress;
