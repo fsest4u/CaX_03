@@ -11,6 +11,8 @@ class DeviceListWindow;
 class ObserverManager;
 class AppManager;
 
+class ProgressDialog;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -40,6 +42,11 @@ public slots:
 	void SlotRespTaskList(CJsonNode node);
 	void SlotRespDeviceInfo(CJsonNode node);
 	void SlotRespObserverInfo(CJsonNode node);
+
+	void SlotEventProgress(CJsonNode node);
+	void SlotClickBack(int taskID);
+	void SlotClickStop(int taskID);
+	void SlotClickSkip(int taskID);
 
 	void SlotSelectDevice(QString mac);
 	void SlotSelectCancel(QString mac);
@@ -91,6 +98,8 @@ private:
 
 	ObserverManager	*m_pObsMgr;
 	AppManager		*m_pAppMgr;
+
+	ProgressDialog	*m_ProgressDialog;
 
 
 	///////////////////////////////////////////////////////

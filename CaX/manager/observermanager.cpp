@@ -89,7 +89,10 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 			// todo-dylee, browser convert / set replay gain / clear replay gain
 
 			// setup - music db scan status
-//			emit SigProgress(node);
+
+			// audio cd - cd rip
+
+			emit SigEventProgress(node);
 
 		}
 		else if (strCmd0.contains(KEY_NOW_PLAY))

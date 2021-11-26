@@ -18,6 +18,10 @@ public:
 	void RequestDeviceInfo();
 	void RequestDevicePowerOff(bool bWol);
 
+	void RequestProgressBack(int eventID, int taskID);
+	void RequestProgressStop(int eventID, int taskID);
+	void RequestProgressSkip(int eventID, int taskID);
+
 signals:
 
 	void SigRespError(QString errMsg);
@@ -33,6 +37,10 @@ private:
 	enum {
 		APP_MGR_TASK_LIST = 0,
 		APP_MGR_DEVICE_INFO,
+		APP_MGR_POWER_OFF,
+		APP_MGR_PROGRESS_BACK,
+		APP_MGR_PROGRESS_STOP,
+		APP_MGR_PROGRESS_SKIP,
 		APP_MGR_MAX
 	};
 

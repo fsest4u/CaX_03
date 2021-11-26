@@ -25,9 +25,9 @@ signals:
 	void		SigRespObserverInfo(CJsonNode node);
 //	void		SigRespInfo(QStringList jsonValueList);
 
+	void		SigEventProgress(CJsonNode node);
 
 	void		SigEventNowPlay(CJsonNode node);
-
 
 	void		SigEventFmSeeking		(CJsonNode node);
 	void		SigEventFmSeek			(CJsonNode node);

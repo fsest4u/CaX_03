@@ -4,8 +4,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "dialog/poweroffdialog.h"
 #include "dialog/aboutdialog.h"
+#include "dialog/poweroffdialog.h"
+#include "dialog/progressdialog.h"
 
 #include "manager/devicemanager.h"
 #include "manager/observermanager.h"
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pDeviceWin(new DeviceListWindow),
 	m_pObsMgr(new ObserverManager),
 	m_pAppMgr(new AppManager),
+	m_ProgressDialog(new ProgressDialog),
 	m_strCurrentMac(""),
 	m_strAddr(""),
 	m_strVersion(""),
@@ -85,6 +87,12 @@ MainWindow::~MainWindow()
 	{
 		delete m_pDeviceWin;
 		m_pDeviceWin = nullptr;
+	}
+
+	if (m_ProgressDialog)
+	{
+		delete m_ProgressDialog;
+		m_ProgressDialog = nullptr;
 	}
 
 	delete ui;
@@ -463,12 +471,14 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	if (m_bAudioCD)
 	{
-		m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, QString("%1 - %2").arg(STR_AUDIO_CD).arg(STR_AVAILABLE));
+		DoAudioCDHome();
 	}
 	else
 	{
-		m_SideMenuMap.insert(SIDEMENU_AUDIO_CD, QString("%1 - %2").arg(STR_AUDIO_CD).arg(STR_NOT_AVAILABLE));
+		DoMusicDBHome();
 	}
+
+	SlotMenu();
 
 	if (!nodeSetup.IsNull())
 	{
@@ -496,7 +506,57 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 
 	m_pAppMgr->RequestTaskList();
 
-	DoMusicDBHome();
+}
+
+void MainWindow::SlotEventProgress(CJsonNode node)
+{
+	QString cmd1 = node.GetString(KEY_CMD1);
+
+	if (cmd1.toLower().contains("info"))
+	{
+		m_ProgressDialog->SetTitle(node.GetString(VAL_TITLE_CAP));
+		m_ProgressDialog->SetContent(node.GetString(VAL_DISP));
+		m_ProgressDialog->SetCurTime(node.GetInt(VAL_CUR_SEC));
+		m_ProgressDialog->SetTotTime(node.GetInt(VAL_TOTAL_SEC));
+		m_ProgressDialog->SetProgress(node.GetInt(VAL_COUNT), node.GetInt(VAL_TOTAL));
+		m_ProgressDialog->SetBtnBack(node.GetBool(VAL_BACK));
+		m_ProgressDialog->SetBtnStop(node.GetBool(VAL_STOP));
+		m_ProgressDialog->SetBtnSkip(node.GetBool(VAL_SKIP));
+		m_ProgressDialog->SetBtnClose(false);
+		m_ProgressDialog->SetTaskID(node.GetInt(VAL_TASK_ID));
+		m_ProgressDialog->SetEventID(m_nEventID);
+
+		m_ProgressDialog->show();
+
+	}
+	else if (cmd1.toLower().contains("end"))
+	{
+//		m_ProgressDialog->hide();
+		m_ProgressDialog->SetTitle(node.GetString(VAL_TITLE_CAP));
+		m_ProgressDialog->SetContent(node.GetString(VAL_MSG));
+
+		m_ProgressDialog->SetProgress(100, 100);
+		m_ProgressDialog->SetBtnBack(false);
+		m_ProgressDialog->SetBtnStop(false);
+		m_ProgressDialog->SetBtnSkip(false);
+		m_ProgressDialog->SetBtnClose(true);
+
+	}
+}
+
+void MainWindow::SlotClickBack(int taskID)
+{
+	m_pAppMgr->RequestProgressBack(m_nEventID, taskID);
+}
+
+void MainWindow::SlotClickStop(int taskID)
+{
+	m_pAppMgr->RequestProgressStop(m_nEventID, taskID);
+}
+
+void MainWindow::SlotClickSkip(int taskID)
+{
+	m_pAppMgr->RequestProgressSkip(m_nEventID, taskID);
 }
 
 void MainWindow::SlotSelectDevice(QString mac)
@@ -654,10 +714,16 @@ void MainWindow::ConnectForApp()
 
 	connect(m_pObsMgr, SIGNAL(SigDisconnectObserver()), this, SLOT(SlotDisconnectObserver()));
 	connect(m_pObsMgr, SIGNAL(SigRespObserverInfo(CJsonNode)), this, SLOT(SlotRespObserverInfo(CJsonNode)));
+	connect(m_pObsMgr, SIGNAL(SigEventProgress(CJsonNode)), this, SLOT(SlotEventProgress(CJsonNode)));
 	connect(m_pObsMgr, SIGNAL(SigEventNowPlay(CJsonNode)), ui->widgetPlay, SLOT(SlotEventNowPlay(CJsonNode)));
 
 	connect(m_pDeviceWin, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(m_pDeviceWin, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
+
+	connect(m_ProgressDialog, SIGNAL(SigClickBack(int)), this, SLOT(SlotClickBack(int)));
+	connect(m_ProgressDialog, SIGNAL(SigClickStop(int)), this, SLOT(SlotClickStop(int)));
+	connect(m_ProgressDialog, SIGNAL(SigClickSkip(int)), this, SLOT(SlotClickSkip(int)));
+
 
 }
 

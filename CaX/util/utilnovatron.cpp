@@ -364,6 +364,7 @@ QString UtilNovatron::CalcSecondToHMS(int seconds)
 	{
 		time = QDateTime::fromTime_t(seconds).toUTC().toString("mm:ss");
 	}
+
 	return time;
 }
 

@@ -152,6 +152,7 @@
 #define		KEY_SUBTITLE		"subtitle"
 #define		KEY_SVC_TYPE		"SvcType"
 
+#define		KEY_TASK_ID			"TaskID"
 #define		KEY_TEMPO			"Tempo"
 #define		KEY_TITLE			"title"
 #define		KEY_TITLE_CAP		"Title"
@@ -191,6 +192,7 @@
 #define		VAL_AUDIO_CD		"AudioCd"
 #define		VAL_AUTH			"Auth"
 
+#define		VAL_BACK			"Back"
 #define		VAL_BEST_SELLERS	"BestSellers"
 #define		VAL_BOT				"Bot"
 #define		VAL_BROWSER			"Browser"
@@ -200,13 +202,16 @@
 #define		VAL_COMPOSER		"Composer"
 #define		VAL_CONVERT			"Convert"
 #define		VAL_COPY			"Copy"
+#define		VAL_COUNT			"Count"
 #define		VAL_COVER_ART		"CoverArt"
 #define		VAL_CREATE_FOLDER	"CreateFolder"
+#define		VAL_CUR_SEC			"CurrSec"
 
 #define		VAL_DAB_RADIO		"Dab"
 #define		VAL_DEL				"Del"
 #define		VAL_DESC			"Desc"
 #define		VAL_DEV_LIST		"DevList"
+#define		VAL_DISP			"Disp"
 
 #define		VAL_EDITOR_PICKS	"EditorPicks"
 #define		VAL_EJECT			"Eject"
@@ -258,6 +263,7 @@
 
 #define		VAL_QOBUZ			"Qobuz"
 #define		VAL_QUERY			"Query"
+#define		VAL_QUIT			"Quit"
 
 #define		VAL_RECOMMEND		"Recommend"
 #define		VAL_RECORD_LIST		"RecordList"
@@ -283,13 +289,19 @@
 #define		VAL_SET_VOLUME		"SetVol"
 #define		VAL_SETUP			"Setup"
 #define		VAL_SHUFFLE			"SHUFFLE"
+#define		VAL_SKIP			"Skip"
 #define		VAL_SONG			"Song"
+#define		VAL_STOP			"Stop"
 #define		VAL_SUCCESS			"success"
 
 #define		VAL_TASK			"Task"
 #define		VAL_TASKS			"Tasks"
+#define		VAL_TASK_ID			"TaskID"
 #define		VAL_TRACK			"Track"
 #define		VAL_THUMB			"Thum"
+#define		VAL_TITLE_CAP		"Title"
+#define		VAL_TOTAL			"Total"
+#define		VAL_TOTAL_SEC		"TotalSec"
 
 #define		VAL_URL				"Url"
 #define		VAL_URLS			"Urls"

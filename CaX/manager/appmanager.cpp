@@ -39,8 +39,41 @@ void AppManager::RequestDevicePowerOff(bool bWol)
 	node.Add(KEY_CMD1, VAL_POWER_OFF);
 	node.Add(KEY_WOL, bWol);
 
-	RequestCommand(node);
+	RequestCommand(node, APP_MGR_POWER_OFF);
 
+}
+
+void AppManager::RequestProgressBack(int eventID, int taskID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_TASK);
+	node.Add(KEY_CMD1, VAL_QUIT);
+	node.AddInt(KEY_EVENT_ID, eventID);
+	node.AddInt(KEY_TASK_ID, taskID);
+
+	RequestCommand(node, APP_MGR_PROGRESS_BACK);
+}
+
+void AppManager::RequestProgressStop(int eventID, int taskID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_TASK);
+	node.Add(KEY_CMD1, VAL_STOP);
+	node.AddInt(KEY_EVENT_ID, eventID);
+	node.AddInt(KEY_TASK_ID, taskID);
+
+	RequestCommand(node, APP_MGR_PROGRESS_STOP);
+}
+
+void AppManager::RequestProgressSkip(int eventID, int taskID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_TASK);
+	node.Add(KEY_CMD1, VAL_SKIP);
+	node.AddInt(KEY_EVENT_ID, eventID);
+	node.AddInt(KEY_TASK_ID, taskID);
+
+	RequestCommand(node, APP_MGR_PROGRESS_SKIP);
 }
 
 void AppManager::SlotRespInfo(QString json, int cmdID)
