@@ -373,9 +373,21 @@ void MusicDBManager::RequestCategoryInfo(int id)
 	RequestCommand(node, MUSICDB_CATEGORY_INFO);
 }
 
-void MusicDBManager::RequestSetCategoryInfo(int id, int eventID)
+void MusicDBManager::RequestCategoryInfoList(int nCategory)
 {
 	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, m_pSql->GetQueryCategoryList(nCategory));
+
+	RequestCommand(node, MUSICDB_CATEGORY_INFO_LIST);
+
+}
+
+void MusicDBManager::RequestSetCategoryInfo(int id, int eventID, CJsonNode node)
+{
 	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,		VAL_INFO);
 	node.Add	(KEY_CMD2,		VAL_SET_ALBUM);
@@ -595,6 +607,9 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_CLASSIFY_COMPOSER:
 		ParseClassifyComposer(result);
 		break;
+	case MUSICDB_CATEGORY_INFO_LIST:
+		ParseCategoryInfoList(result);
+		break;
 	case MUSICDB_MAX:
 		emit SigRespError(STR_INVALID_ID);
 		break;
@@ -681,6 +696,12 @@ void MusicDBManager::ParseClassifyComposer(CJsonNode result)
 void MusicDBManager::ParseCategoryInfo(CJsonNode node)
 {
 	emit SigRespCategoryInfo(node);
+}
+
+void MusicDBManager::ParseCategoryInfoList(CJsonNode result)
+{
+	QList<CJsonNode> list = ParseResultNode(result);
+	emit SigRespCategoryInfoList(list);
 }
 
 void MusicDBManager::ParseTrackInfo(CJsonNode node)

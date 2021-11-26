@@ -120,6 +120,7 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 void AudioCDWindow::SlotRespTrackInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
+	dialog.SetWindowTitle("Track info");
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);

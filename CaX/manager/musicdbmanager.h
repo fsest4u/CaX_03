@@ -33,6 +33,7 @@ public:
 		MUSICDB_CLASSIFY_GENRE,
 		MUSICDB_CLASSIFY_COMPOSER,
 		MUSICDB_CATEGORY_INFO,
+		MUSICDB_CATEGORY_INFO_LIST,
 		MUSICDB_SET_CATEGORY_INFO,
 		MUSICDB_RENAME_CATEGORY,
 		MUSICDB_TRACK_INFO,
@@ -82,7 +83,8 @@ public:
 	void RequestClassifyList(int nCategory);
 
 	void RequestCategoryInfo(int id);
-	void RequestSetCategoryInfo(int id, int eventID);
+	void RequestCategoryInfoList(int nCategory);
+	void RequestSetCategoryInfo(int id, int eventID, CJsonNode node);
 	void RequestRenameCategory(int id, QString name, int nCategory, int eventID);
 	void RequestTrackInfo(int id);
 	void RequestSetTrackInfo(int id, int eventID);
@@ -115,6 +117,7 @@ signals:
 	void SigRespClassifyGenre(QList<CJsonNode> list);
 	void SigRespClassifyComposer(QList<CJsonNode> list);
 	void SigRespCategoryInfo(CJsonNode node);
+	void SigRespCategoryInfoList(QList<CJsonNode> list);
 	void SigRespTrackInfo(CJsonNode node);
 	void SigRespSearchCoverArt(CJsonNode node);
 
@@ -140,6 +143,7 @@ private:
 	void ParseClassifyGenre(CJsonNode result);
 	void ParseClassifyComposer(CJsonNode result);
 	void ParseCategoryInfo(CJsonNode node);
+	void ParseCategoryInfoList(CJsonNode result);
 	void ParseTrackInfo(CJsonNode node);
 	void ParseSearchCoverArt(CJsonNode node);
 

@@ -64,6 +64,7 @@ private slots:
 	void SlotRespClassifyGenre(QList<CJsonNode> list);
 	void SlotRespClassifyComposer(QList<CJsonNode> list);
 	void SlotRespCategoryInfo(CJsonNode node);
+	void SlotRespCategoryInfoList(QList<CJsonNode> list);
 	void SlotRespTrackInfo(CJsonNode node);
 
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
@@ -126,6 +127,7 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+	void SetCategoryList(QList<CJsonNode> list);
 
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
@@ -178,6 +180,13 @@ private:
 	QMap<int, QString>	m_CategoryMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<int, bool>		m_SelectMap;
+
+	QStringList			m_AlbumList;
+	QStringList			m_AlbumArtistList;
+	QStringList			m_ArtistList;
+	QStringList			m_GenreList;
+	QStringList			m_ComposerList;
+	QStringList			m_MoodList;
 
 	int					m_ListMode;
 	int					m_TypeMode;

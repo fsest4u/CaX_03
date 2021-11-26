@@ -28,6 +28,8 @@ public:
 	int GetMode() const;
 	void SetMode(int Mode);
 
+	void SetWindowTitle(QString title);
+
 	QStringList GetAlbumList() const;
 	void SetAlbumList(const QStringList &AlbumList);
 
@@ -45,6 +47,9 @@ public:
 
 	QStringList GetMoodList() const;
 	void SetMoodList(const QStringList &MoodList);
+
+	void SetBtnEdit(bool show);
+	void SetBtnCancel(bool show);
 
 private slots:
 
@@ -69,9 +74,14 @@ private slots:
 	void SlotChangeCDNumber(int index, QString value);
 	void SlotChangeCDTotal(int index, QString value);
 
+	void SlotClickEdit();
+	void SlotClickSave();
+	void SlotClickCancel();
+
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
 
 	TrackInfo *m_TrackInfo;
 

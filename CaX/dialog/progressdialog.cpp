@@ -19,7 +19,7 @@ ProgressDialog::~ProgressDialog()
 	delete ui;
 }
 
-void ProgressDialog::SetTitle(QString title)
+void ProgressDialog::SetWindowTitle(QString title)
 {
 	setWindowTitle(title);
 }
@@ -108,25 +108,21 @@ void ProgressDialog::SetEventID(int eventID)
 
 void ProgressDialog::SlotClickBack()
 {
-	LogDebug("click back");
 	emit SigClickBack(m_TaskID);
 }
 
 void ProgressDialog::SlotClickStop()
 {
-	LogDebug("click stop");
 	emit SigClickStop(m_TaskID);
 }
 
 void ProgressDialog::SlotClickSkip()
 {
-	LogDebug("click skip");
 	emit SigClickSkip(m_TaskID);
 }
 
 void ProgressDialog::SlotClickClose()
 {
-	LogDebug("click close");
 	this->close();
 }
 

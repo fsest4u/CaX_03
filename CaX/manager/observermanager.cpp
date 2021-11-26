@@ -70,21 +70,18 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 		{
 			emit SigRespObserverInfo(node);
 		}
-		else if (strCmd0.contains("Task"))
-		{
-//			emit SigObserveInfo();
-		}
-		else if (strCmd0.contains("Swap"))
-		{
-//			emit SigObserveInfo();
-		}
+//		else if (strCmd0.contains("Task"))
+//		{
+////			emit SigObserveInfo();
+//		}
+//		else if (strCmd0.contains("Swap"))
+//		{
+////			emit SigObserveInfo();
+//		}
 		else if (strCmd0.contains("Progress"))
 		{
-			// todo-dylee, 4.2 "MusicDB" -> "Info" -> "SetAlbum"
-
-			// todo-dylee, browser convert / set replay gain / clear replay gain
-
 			// setup - music db scan status
+			// todo-dylee, 4.2 "MusicDB" -> "Info" -> "SetAlbum"
 
 			// audio cd - cd rip
 			// browser folder copy / move / delete

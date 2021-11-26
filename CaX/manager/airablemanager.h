@@ -21,8 +21,6 @@ public:
 
 	// todo-dylee, record set
 
-	// todo-dylee, action url
-
 signals:
 
 	void SigRespError(QString errMsg);

@@ -15,7 +15,7 @@ public:
 	explicit ProgressDialog(QWidget *parent = nullptr);
 	~ProgressDialog();
 
-	void SetTitle(QString title);
+	void SetWindowTitle(QString title);
 	void SetContent(QString content);
 	void SetCurTime(int seconds);
 	void SetTotTime(int seconds);

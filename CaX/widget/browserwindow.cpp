@@ -493,6 +493,7 @@ void BrowserWindow::SlotInfoBotUpdate(CJsonNode node, int nIndex)
 void BrowserWindow::SlotInfoTagUpdate(CJsonNode node)
 {
 	TrackInfoDialog dialog;
+	dialog.SetWindowTitle("Tag info");
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);
@@ -651,6 +652,13 @@ void BrowserWindow::Initialize()
 	m_TopMenuMap.clear();
 	m_OptionMenuMap.clear();
 	m_SelectMap.clear();
+
+	m_AlbumList.clear();
+	m_AlbumArtistList.clear();
+	m_ArtistList.clear();
+	m_GenreList.clear();
+	m_ComposerList.clear();
+	m_MoodList.clear();
 }
 
 void BrowserWindow::SetCategoryList(QList<CJsonNode> list)

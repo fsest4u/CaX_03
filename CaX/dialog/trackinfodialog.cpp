@@ -3,6 +3,7 @@
 
 #include "dialog/trackinfo.h"
 
+#include "util/caxkeyvalue.h"
 #include "util/log.h"
 
 
@@ -15,7 +16,7 @@ TrackInfoDialog::TrackInfoDialog(QWidget *parent) :
 
 	ConnectSigToSlot();
 
-	ui->gridLayoutScrollArea->addWidget(m_TrackInfo);
+	Initialize();
 
 }
 
@@ -50,99 +51,156 @@ void TrackInfoDialog::SetMode(int Mode)
 	m_TrackInfo->SetMode(Mode);
 }
 
+void TrackInfoDialog::SetWindowTitle(QString title)
+{
+	setWindowTitle(title);
+}
+
 void TrackInfoDialog::SlotChangeAlbum(int index, QString value)
 {
-
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_ALBUM, value);
 }
 
 void TrackInfoDialog::SlotChangeAlbumArtist(int index, QString value)
 {
-
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_ALBUM_ARTIST, value);
 }
 
 void TrackInfoDialog::SlotChangeArtist(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_ARTIST, value);
 
 }
 
 void TrackInfoDialog::SlotChangeComposer(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_COMPOSER, value);
 
 }
 
 void TrackInfoDialog::SlotChangeGenre(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_GENRE, value);
 
 }
 
 void TrackInfoDialog::SlotChangeMood(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_MOOD, value);
 
 }
 
 void TrackInfoDialog::SlotChangeTitle(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_TITLE_CAP, value);
 
 }
 
 void TrackInfoDialog::SlotChangeTempo(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_TEMPO, value);
 
 }
 
 void TrackInfoDialog::SlotChangeYear(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_YEAR, value);
 
 }
 
 void TrackInfoDialog::SlotChangeTrack(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_TRACK, value);
 
 }
 
 void TrackInfoDialog::SlotChangePath(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_PATH, value);
 
 }
 
 void TrackInfoDialog::SlotChangeBitrate(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_FORMAT, value);
 
 }
 
 void TrackInfoDialog::SlotChangeDuration(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_DURATION, value);
 
 }
 
 void TrackInfoDialog::SlotChangeSampleRate(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_SAMPLERATE, value);
 
 }
 
 void TrackInfoDialog::SlotChangeChannel(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_CHANNEL, value);
 
 }
 
 void TrackInfoDialog::SlotChangeFormat(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_FORMAT, value);
 
 }
 
 void TrackInfoDialog::SlotChangeCDYear(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_CDYEAR, value);
 
 }
 
 void TrackInfoDialog::SlotChangeCDNumber(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_CDNUMBER, value);
 
 }
 
 void TrackInfoDialog::SlotChangeCDTotal(int index, QString value)
 {
+	Q_UNUSED(index)
+	m_InfoData.Add(KEY_CDTOTAL, value);
 
+}
+
+void TrackInfoDialog::SlotClickEdit()
+{
+	SetBtnEdit(false);
+	SetMode(TrackInfo::TRACK_INFO_MODE_EDIT);
+}
+
+void TrackInfoDialog::SlotClickSave()
+{
+	emit accept();
+}
+
+void TrackInfoDialog::SlotClickCancel()
+{
+	this->close();
 }
 
 void TrackInfoDialog::ConnectSigToSlot()
@@ -168,6 +226,19 @@ void TrackInfoDialog::ConnectSigToSlot()
 	connect(m_TrackInfo, SIGNAL(SigChangeCDNumber(int, QString)), this, SLOT(SlotChangeCDNumber(int, QString)));
 	connect(m_TrackInfo, SIGNAL(SigChangeCDTotal(int, QString)), this, SLOT(SlotChangeCDTotal(int, QString)));
 
+	connect(ui->btnEdit, SIGNAL(clicked()), this, SLOT(SlotClickEdit()));
+	connect(ui->btnSave, SIGNAL(clicked()), this, SLOT(SlotClickSave()));
+	connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(SlotClickCancel()));
+
+}
+
+void TrackInfoDialog::Initialize()
+{
+	ui->gridLayoutScrollArea->addWidget(m_TrackInfo);
+
+	ui->btnEdit->hide();
+	ui->btnSave->hide();
+	ui->btnCancel->show();
 }
 
 CJsonNode TrackInfoDialog::GetInfoData() const
@@ -199,6 +270,32 @@ QStringList TrackInfoDialog::GetMoodList() const
 void TrackInfoDialog::SetMoodList(const QStringList &MoodList)
 {
 	m_MoodList = MoodList;
+}
+
+void TrackInfoDialog::SetBtnEdit(bool show)
+{
+	if (show)
+	{
+		ui->btnEdit->show();
+		ui->btnSave->hide();
+	}
+	else
+	{
+		ui->btnEdit->hide();
+		ui->btnSave->show();
+	}
+}
+
+void TrackInfoDialog::SetBtnCancel(bool show)
+{
+	if (show)
+	{
+		ui->btnCancel->show();
+	}
+	else
+	{
+		ui->btnCancel->hide();
+	}
 }
 
 QStringList TrackInfoDialog::GetComposerList() const

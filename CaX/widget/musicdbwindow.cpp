@@ -881,21 +881,37 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
+	dialog.SetWindowTitle("Album info");
+	dialog.SetBtnEdit(true);
 	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetAlbumList(m_AlbumList);
+	dialog.SetAlbumArtistList(m_AlbumArtistList);
+	dialog.SetArtistList(m_ArtistList);
+	dialog.SetGenreList(m_GenreList);
+	dialog.SetComposerList(m_ComposerList);
+	dialog.SetMoodList(m_MoodList);
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);
-	dialog.exec();
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		node = dialog.GetInfoData();
+		m_pMgr->RequestSetCategoryInfo(m_nOptionID, m_EventID, node);
+	}
+}
 
+void MusicDBWindow::SlotRespCategoryInfoList(QList<CJsonNode> list)
+{
+	SetCategoryList(list);
 }
 
 void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
+	dialog.SetWindowTitle("Track info");
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);
 	dialog.exec();
-
 }
 
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
@@ -986,6 +1002,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespClassifyGenre(QList<CJsonNode>)), this, SLOT(SlotRespClassifyGenre(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyComposer(QList<CJsonNode>)), this, SLOT(SlotRespClassifyComposer(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespCategoryInfoList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryInfoList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
@@ -1070,6 +1087,66 @@ void MusicDBWindow::Initialize()
 	m_CategoryMenuMap.clear();
 	m_SelectMap.clear();
 
+	m_AlbumList.clear();
+	m_AlbumArtistList.clear();
+	m_ArtistList.clear();
+	m_GenreList.clear();
+	m_ComposerList.clear();
+	m_MoodList.clear();
+
+}
+
+void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)
+{
+	CJsonNode temp = list.at(0);
+	if (!temp.GetString(KEY_ALBUM).isEmpty())
+	{
+		m_AlbumList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_AlbumList.append(node.GetString(KEY_ALBUM));
+		}
+	}
+	else if (!temp.GetString(KEY_ALBUM_ARTIST).isEmpty())
+	{
+		m_AlbumArtistList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_AlbumArtistList.append(node.GetString(KEY_ALBUM_ARTIST));
+		}
+	}
+	else if (!temp.GetString(KEY_ARTIST).isEmpty())
+	{
+		m_ArtistList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_ArtistList.append(node.GetString(KEY_ARTIST));
+		}
+	}
+	else if (!temp.GetString(KEY_GENRE).isEmpty())
+	{
+		m_GenreList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_GenreList.append(node.GetString(KEY_GENRE));
+		}
+	}
+	else if (!temp.GetString(KEY_COMPOSER).isEmpty())
+	{
+		m_ComposerList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_ComposerList.append(node.GetString(KEY_COMPOSER));
+		}
+	}
+	else if (!temp.GetString(KEY_MOOD).isEmpty())
+	{
+		m_MoodList.clear();
+		foreach (CJsonNode node, list)
+		{
+			m_MoodList.append(node.GetString(KEY_MOOD));
+		}
+	}
 }
 
 void MusicDBWindow::SetSelectOffTopMenu()
@@ -1444,8 +1521,17 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 
 void MusicDBWindow::DoOptionMenuInfo(int nID)
 {
+	m_nOptionID = nID;
+
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUMARTIST);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
+
 		m_pMgr->RequestCategoryInfo(nID);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)

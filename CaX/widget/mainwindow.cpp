@@ -514,7 +514,7 @@ void MainWindow::SlotEventProgress(CJsonNode node)
 
 	if (cmd1.toLower().contains("info"))
 	{
-		m_ProgressDialog->SetTitle(node.GetString(VAL_TITLE_CAP));
+		m_ProgressDialog->SetWindowTitle(node.GetString(VAL_TITLE_CAP));
 		m_ProgressDialog->SetContent(node.GetString(VAL_DISP));
 		m_ProgressDialog->SetCurTime(node.GetInt(VAL_CUR_SEC));
 		m_ProgressDialog->SetTotTime(node.GetInt(VAL_TOTAL_SEC));
@@ -532,7 +532,7 @@ void MainWindow::SlotEventProgress(CJsonNode node)
 	else if (cmd1.toLower().contains("end"))
 	{
 //		m_ProgressDialog->hide();
-		m_ProgressDialog->SetTitle(node.GetString(VAL_TITLE_CAP));
+		m_ProgressDialog->SetWindowTitle(node.GetString(VAL_TITLE_CAP));
 		m_ProgressDialog->SetContent(node.GetString(VAL_MSG));
 
 		m_ProgressDialog->SetProgress(100, 100);
