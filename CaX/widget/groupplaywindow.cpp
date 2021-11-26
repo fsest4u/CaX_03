@@ -58,13 +58,13 @@ GroupPlayWindow::~GroupPlayWindow()
 
 void GroupPlayWindow::GroupPlayList(int eventID)
 {
-	m_nEventID = eventID;
+	m_EventID = eventID;
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pIconService);
 
 	m_pInfoService->SetSubtitle(STR_GROUP_PLAY);
 
-	m_pMgr->RequestGroupPlayList(m_nEventID);
+	m_pMgr->RequestGroupPlayList(m_EventID);
 }
 
 void GroupPlayWindow::SlotRespError(QString message)
@@ -143,7 +143,7 @@ void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
 
 void GroupPlayWindow::SlotEventGroupPlayUpdate()
 {
-	m_pMgr->RequestGroupPlayList(m_nEventID);
+	m_pMgr->RequestGroupPlayList(m_EventID);
 }
 
 //void GroupPlayWindow::SlotResize()

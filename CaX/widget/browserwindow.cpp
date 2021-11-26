@@ -358,7 +358,7 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 		if (iFolderType_Mask_Play_Top & nType
 				&& BROWSER_MODE_NORMAL == m_BrowserMode)
 		{
-			widget->ShowFormPlay();
+			widget->ShowFormPlay(true);
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
 		widget->RequestFolder(path);
@@ -449,23 +449,22 @@ void BrowserWindow::SlotReqInfoBot(QString path, int nIndex)
 
 void BrowserWindow::SlotRespError(QString errMsg)
 {
-	if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
-			 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
-	{
-		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
-
-		m_pInfoBrowser->GetFormPlay()->ShowMenu();
-		m_pInfoBrowser->SetCoverArt("");
-		m_pInfoBrowser->SetSubtitle(m_Root);
-	}
-	else
+	if (BROWSER_MODE_NORMAL == m_BrowserMode)
 	{
 		QMessageBox::warning(this, "Warning", errMsg);
 
 		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
 
-//		m_pInfoBrowser->GetFormPlay()->ShowMenu();
 		ShowFormPlay(false);
+//		m_pInfoBrowser->GetFormPlay()->ShowMenu();
+		m_pInfoBrowser->SetCoverArt("");
+		m_pInfoBrowser->SetSubtitle(m_Root);
+	}
+	else
+	{
+		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
+
+		m_pInfoBrowser->GetFormPlay()->ShowMenu();
 		m_pInfoBrowser->SetCoverArt("");
 		m_pInfoBrowser->SetSubtitle(m_Root);
 	}

@@ -72,6 +72,8 @@ void ListBrowserEditor::SetType(int Type)
 
 	if (SIDEMENU_BROWSER == m_Service)
 	{
+		ui->frameMenu->show();
+
 		if (iFolderType_Mask_Play_Select & m_Type)
 		{
 			ui->labelPlay->show();

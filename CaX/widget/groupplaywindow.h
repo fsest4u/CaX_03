@@ -45,7 +45,7 @@ private:
 	InfoService			*m_pInfoService;
 	IconService			*m_pIconService;
 
-	int					m_nEventID;
+	int					m_EventID;
 
 	Ui::GroupPlayWindow *ui;
 };

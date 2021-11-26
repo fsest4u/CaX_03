@@ -147,8 +147,8 @@ void IconTracks::ClearSelectMap()
 	{
 		QModelIndex index = m_Model->index(i, 0);
 		QStandardItem *item = m_Model->itemFromIndex(index);
-		bool bSelect = qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
-		if (bSelect)
+//		bool bSelect = qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
+//		if (bSelect)
 		{
 			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
 

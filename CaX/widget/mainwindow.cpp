@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //	m_bSigma(false),
 	m_bScanDB(false),
 	m_bIsDel(false),
-	m_nEventID(-1),
+	m_EventID(-1),
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
@@ -426,7 +426,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 //	bool    bSigma = false;
 	bool    bScanDB = false;
 	bool    bIsDelDB = false;
-	int     nEventID = false;
+	int     eventID = false;
 
 	if (!node.GetBool(KEY_AUDIO_CD, bAudioCD))
 	{
@@ -445,9 +445,9 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	{
 		bIsDelDB = false;
 	}
-	if (!node.GetInt(KEY_EVENT_ID, nEventID))
+	if (!node.GetInt(KEY_EVENT_ID, eventID))
 	{
-		nEventID = -1;
+		eventID = -1;
 	}
 	if (!node.GetArray(KEY_SETUP, nodeSetup))
 	{
@@ -466,7 +466,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	m_bScanDB = bScanDB;
 	m_bIsDel = bIsDelDB;
 
-	m_nEventID = nEventID;
+	m_EventID = eventID;
 	m_bAudioCD = bAudioCD;
 
 	if (m_bAudioCD)
@@ -524,7 +524,7 @@ void MainWindow::SlotEventProgress(CJsonNode node)
 		m_ProgressDialog->SetBtnSkip(node.GetBool(VAL_SKIP));
 		m_ProgressDialog->SetBtnClose(false);
 		m_ProgressDialog->SetTaskID(node.GetInt(VAL_TASK_ID));
-		m_ProgressDialog->SetEventID(m_nEventID);
+		m_ProgressDialog->SetEventID(m_EventID);
 
 		m_ProgressDialog->show();
 
@@ -546,17 +546,17 @@ void MainWindow::SlotEventProgress(CJsonNode node)
 
 void MainWindow::SlotClickBack(int taskID)
 {
-	m_pAppMgr->RequestProgressBack(m_nEventID, taskID);
+	m_pAppMgr->RequestProgressBack(m_EventID, taskID);
 }
 
 void MainWindow::SlotClickStop(int taskID)
 {
-	m_pAppMgr->RequestProgressStop(m_nEventID, taskID);
+	m_pAppMgr->RequestProgressStop(m_EventID, taskID);
 }
 
 void MainWindow::SlotClickSkip(int taskID)
 {
-	m_pAppMgr->RequestProgressSkip(m_nEventID, taskID);
+	m_pAppMgr->RequestProgressSkip(m_EventID, taskID);
 }
 
 void MainWindow::SlotSelectDevice(QString mac)
@@ -741,7 +741,7 @@ void MainWindow::DoDeviceListHome()
 
 void MainWindow::DoMusicDBHome()
 {
-	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr, m_nEventID);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_strAddr, m_EventID);
 	widget->AddWidgetItem();
 	SlotAddWidget(widget, STR_MUSIC_DB);
 	widget->RequestCategoryList();
@@ -749,7 +749,7 @@ void MainWindow::DoMusicDBHome()
 
 void MainWindow::DoAudioCDHome()
 {
-	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr, m_nEventID);
+	AudioCDWindow *widget = new AudioCDWindow(this, m_strAddr, m_EventID);
 	widget->AddWidgetAudioCDHome();
 	SlotAddWidget(widget, STR_AUDIO_CD);
 	widget->RequestTrackList();
@@ -765,7 +765,7 @@ void MainWindow::DoPlaylistHome()
 
 void MainWindow::DoBrowserHome()
 {
-	BrowserWindow *widget = new BrowserWindow(this, m_strAddr, m_nEventID);
+	BrowserWindow *widget = new BrowserWindow(this, m_strAddr, m_EventID);
 	SlotAddWidget(widget, STR_BROWSER);
 	widget->RequestRoot();
 }
@@ -818,7 +818,7 @@ void MainWindow::DoGroupPlayHome()
 {
 	GroupPlayWindow *widget = new GroupPlayWindow(this, m_strAddr);
 	SlotAddWidget(widget, STR_GROUP_PLAY);
-	widget->GroupPlayList(m_nEventID);
+	widget->GroupPlayList(m_EventID);
 
 	// event
 	connect(m_pObsMgr, SIGNAL(SigEventGroupPlayUpdate()), widget, SLOT(SlotEventGroupPlayUpdate()));
@@ -829,7 +829,7 @@ void MainWindow::DoSetupHome()
 {
 //	SetupWindow *widget = new SetupWindow(this, m_strAddr);
 //	SlotAddWidget(widget, STR_SETUP);
-//	widget->SetupHome(m_SetupList, m_nEventID);
+//	widget->SetupHome(m_SetupList, m_EventID);
 
 	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
 

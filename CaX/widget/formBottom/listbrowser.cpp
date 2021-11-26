@@ -151,8 +151,8 @@ void ListBrowser::ClearSelectMap()
 	{
 		QModelIndex index = m_Model->index(i, 0);
 		QStandardItem *item = m_Model->itemFromIndex(index);
-		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-		if (bSelect)
+//		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+//		if (bSelect)
 		{
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 

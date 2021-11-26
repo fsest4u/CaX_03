@@ -40,7 +40,7 @@ private:
 	InfoService			*m_pInfoService;
 	ListService			*m_pListService;
 
-	int m_nEventID;
+	int m_EventID;
 
 	Ui::SetupWindow *ui;
 };

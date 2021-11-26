@@ -121,7 +121,7 @@ private:
 	bool            m_bScanDB;
 	bool            m_bIsDel;
 
-	int				m_nEventID;
+	int				m_EventID;
 
 	QList<CJsonNode> m_IServiceList;
 	QList<CJsonNode> m_InputList;

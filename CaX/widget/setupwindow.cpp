@@ -55,7 +55,7 @@ SetupWindow::~SetupWindow()
 
 void SetupWindow::SetupHome(QList<CJsonNode> list, int eventID)
 {
-	m_nEventID = eventID;
+	m_EventID = eventID;
 
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pListService);
@@ -80,7 +80,7 @@ void SetupWindow::SlotSelectTitle(QString rawData)
 		return;
 	}
 	QString id = node.GetString(KEY_ID_UPPER);
-	m_pMgr->RequestSetupGroup(m_nEventID, id);
+	m_pMgr->RequestSetupGroup(m_EventID, id);
 }
 
 void SetupWindow::SlotRespList(QList<CJsonNode> list)
