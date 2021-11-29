@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QImage>
 
 #include "tcpclient.h"
 
@@ -88,12 +89,12 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 	QString filename = ConvertCoverArtURLToName(fullpath);
 	filename = m_DirTemp + "/" + filename + ".jpg";
 
-//	if (fileName.isEmpty() || QFile::exists(fileName))
-//	{
-//		LogDebug("fileName is exist [%s]", fileName.toUtf8().data());
-//		emit SigRespCoverArt(fileName, nIndex, nMode);
-//		return;
-//	}
+	if (filename.isEmpty() || QFile::exists(filename))
+	{
+		LogDebug("fileName is exist [%s]", filename.toUtf8().data());
+		emit SigRespCoverArt(filename, nIndex, nMode);
+		return;
+	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request(url);
@@ -158,12 +159,12 @@ void TCPClient::RequestCoverArt(QString fullpath)
 	QString filename = ConvertCoverArtURLToName(fullpath);
 	filename = m_DirTemp + "/" + filename + ".jpg";
 
-//	if (fileName.isEmpty() || QFile::exists(fileName))
-//	{
-//		LogDebug("fileName is exist [%s]", fileName.toUtf8().data());
-//		emit SigRespCoverArt(fileName);
-//		return;
-//	}
+	if (filename.isEmpty() || QFile::exists(filename))
+	{
+		LogDebug("fileName is exist [%s]", filename.toUtf8().data());
+		emit SigRespCoverArt(filename);
+		return;
+	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request(url);
@@ -179,6 +180,14 @@ void TCPClient::RequestCoverArt(QString fullpath)
 
 	if (m_ListReply[count]->error() == QNetworkReply::NoError)
 	{
+#if 0
+//		QByteArray jpegData = reply->readAll();
+//		QPixmap pixmap;
+//		pixmap.loadFromData(jpegData);
+//		label->setPixmap(pixmap);
+		QByteArray data = m_ListReply[count]->readAll();
+		emit SigRespSearchCoverArt(data, index);
+#else
 		QImage image;
 		if (image.loadFromData(m_ListReply[count]->readAll()))
 		{
@@ -187,10 +196,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 				emit SigRespCoverArt(filename);
 			}
 		}
-//		QByteArray jpegData = reply->readAll();
-//		QPixmap pixmap;
-//		pixmap.loadFromData(jpegData);
-//		label->setPixmap(pixmap);
+#endif
 	}
 	else
 	{

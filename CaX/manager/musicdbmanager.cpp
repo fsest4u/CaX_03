@@ -721,7 +721,7 @@ QList<CJsonNode> MusicDBManager::ParseResultNode(CJsonNode result)
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
 		list.append(result.GetArrayAt(i));
-		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
+//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
 	}
 
 	return list;

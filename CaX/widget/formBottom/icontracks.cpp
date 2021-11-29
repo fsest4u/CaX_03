@@ -97,7 +97,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 	{
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();

@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QtNetwork>
-#include <QImage>
 
 class TCPClient : public QObject
 {

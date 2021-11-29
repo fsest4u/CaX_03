@@ -1,5 +1,3 @@
-#include <QImage>
-
 #include "playmanager.h"
 
 #include "util/caxconstants.h"

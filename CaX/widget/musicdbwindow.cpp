@@ -187,15 +187,21 @@ void MusicDBWindow::RequestCategoryList()
 
 void MusicDBWindow::RequestTrackList(int nID, int nCategory, int nSort, bool bIncrease)
 {
-	m_pIconTracks->ClearNodeList();
-	m_pListTracks->ClearNodeList();
-
 	m_nID = nID;
 	m_nCategory = nCategory;
 	m_nSortTrack = nSort;
 	m_bIncreaseTrack = bIncrease;
 
-	m_pMgr->RequestCategoryOverview(m_nID, m_nCategory);
+	if (nCategory == SQLManager::CATEGORY_TRACK)
+	{
+		m_pInfoHome->SetTitle(m_nCategory);
+		m_pMgr->RequestMusicDBOverView();
+	}
+	else
+	{
+		m_pMgr->RequestCategoryOverview(m_nID, m_nCategory);
+	}
+
 	m_pMgr->RequestTrackList(m_nID,
 								   m_nCategory,
 								   m_nSortTrack,
@@ -312,6 +318,9 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 //	m_pListTracks->SetBackgroundTask(m_pSongThread);
 
 	SetOptionMenu();
+
+	m_pIconTracks->ClearNodeList();
+	m_pListTracks->ClearNodeList();
 
 	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_MUSIC_DB);
 	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_MUSIC_DB);
@@ -740,8 +749,8 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(id);
 
-	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
 	m_pMgr->RequestCoverArt(fullpath, index, mode);
+//	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
 }
 
 void MusicDBWindow::SlotAppendIconList()
@@ -839,8 +848,6 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 		m_ArtistID = "";
 	}
 
-	m_pIconTracks->ClearNodeList();
-	m_pListTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -856,8 +863,6 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 		m_GenreID = "";
 	}
 
-	m_pIconTracks->ClearNodeList();
-	m_pListTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 
@@ -873,8 +878,6 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 		m_ComposerID = "";
 	}
 
-	m_pIconTracks->ClearNodeList();
-	m_pListTracks->ClearNodeList();
 	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
 }
 

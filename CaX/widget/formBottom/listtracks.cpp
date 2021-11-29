@@ -70,7 +70,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 	{
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			int seconds = node.GetInt(KEY_TIME_CAP);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
@@ -96,7 +96,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 	{
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
