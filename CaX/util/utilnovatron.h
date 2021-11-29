@@ -13,6 +13,7 @@ public:
 	static QString GetCoverArtIcon(const int service, const int value);
 
 	static QString CalcSecondToHMS(int seconds);
+	static QString ConvertURLToFilename(QString fullpath);
 
 	static void DebugTypeForBrowser(QString title, int type);
 	static void DebugTypeForIService(QString title, int type);

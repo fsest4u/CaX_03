@@ -4,7 +4,7 @@
 #include "tcpclient.h"
 
 #include "util/log.h"
-#include "util/StringLib.h"
+#include "util/utilnovatron.h"
 
 #define CONTENT_TYPE			"application/x-www-form-urlencoded"
 
@@ -86,12 +86,19 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 
 void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 {
-	QString filename = ConvertCoverArtURLToName(fullpath);
-	filename = m_DirTemp + "/" + filename + ".jpg";
+#if 1
+	QString filename = UtilNovatron::ConvertURLToFilename(fullpath);
+	filename = m_DirTemp + "/" + filename;
 
-	if (filename.isEmpty() || QFile::exists(filename))
+	if (filename.isEmpty())
 	{
-		LogDebug("fileName is exist [%s]", filename.toUtf8().data());
+		LogDebug("fileName is empty");
+		return;
+	}
+
+	if (QFileInfo::exists(filename))
+	{
+		LogDebug("file is exist [%s]", filename.toUtf8().data());
 		emit SigRespCoverArt(filename, nIndex, nMode);
 		return;
 	}
@@ -151,17 +158,24 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 //		}
 //		m_ListReply[count]->deleteLater();
 //	});
-
+#endif
 }
 
 void TCPClient::RequestCoverArt(QString fullpath)
 {
-	QString filename = ConvertCoverArtURLToName(fullpath);
-	filename = m_DirTemp + "/" + filename + ".jpg";
+#if 1
+	QString filename = UtilNovatron::ConvertURLToFilename(fullpath);
+	filename = m_DirTemp + "/" + filename;
 
-	if (filename.isEmpty() || QFile::exists(filename))
+	if (filename.isEmpty())
 	{
-		LogDebug("fileName is exist [%s]", filename.toUtf8().data());
+		LogDebug("fileName is empty");
+		return;
+	}
+
+	if (QFileInfo::exists(filename))
+	{
+		LogDebug("file is exist [%s]", filename.toUtf8().data());
 		emit SigRespCoverArt(filename);
 		return;
 	}
@@ -207,6 +221,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 					, filename.toUtf8().data());
 	}
 	m_ListReply[count]->deleteLater();
+#endif
 }
 
 // https://forum.qt.io/topic/6853/solved-display-image-through-http-url/6
@@ -264,3 +279,4 @@ void TCPClient::SetAddr(const QString &Addr)
 {
 	m_Addr = Addr;
 }
+

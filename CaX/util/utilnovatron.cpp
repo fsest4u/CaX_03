@@ -1,5 +1,6 @@
 #include <QIcon>
 #include <QDateTime>
+#include <QFileInfo>
 
 #include "utilnovatron.h"
 
@@ -366,6 +367,22 @@ QString UtilNovatron::CalcSecondToHMS(int seconds)
 	}
 
 	return time;
+}
+
+QString UtilNovatron::ConvertURLToFilename(QString fullpath)
+{
+	QString filename = fullpath;
+	int colon = filename.length() - filename.lastIndexOf(":") - 1;
+	filename = filename.right(colon);
+	colon = filename.length() - filename.indexOf("/") - 1;
+	filename = filename.right(colon);
+	filename.replace("/", "_");
+
+	QFileInfo fileInfo(fullpath);
+	if (fileInfo.suffix().toLower().compare("jpg"))
+		filename = filename + ".jpg";
+
+	return filename;
 }
 
 void UtilNovatron::DebugTypeForBrowser(QString title, int type)

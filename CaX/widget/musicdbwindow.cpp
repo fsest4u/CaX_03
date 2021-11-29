@@ -749,8 +749,8 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(id);
 
-	m_pMgr->RequestCoverArt(fullpath, index, mode);
 //	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
+	m_pMgr->RequestCoverArt(fullpath, index, mode);
 }
 
 void MusicDBWindow::SlotAppendIconList()

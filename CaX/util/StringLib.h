@@ -100,7 +100,6 @@ QString GetNumString(int iValue, QString strSuffix = QString());
 bool	GetIntPair(QString strPair, int &i, int &n, int iDefValue = 0);		// "no / count or "no parse
 bool	GetIntBound(QString strInt, int &iInt, int nMaxBoundValue = 2100);	// for Year
 
-QString	ConvertCoverArtURLToName(QString fullpath);
 //QString	GetDateTimeString(	time_t t);
 
 bool	IsNumber(	QString strNum);

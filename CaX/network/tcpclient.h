@@ -36,7 +36,6 @@ public slots :
 
 private :
 
-
 	QNetworkAccessManager		*m_pManager;
 	QNetworkReply               *m_pReply;
 	QList<QNetworkReply*>		m_ListReply;

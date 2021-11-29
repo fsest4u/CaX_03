@@ -916,16 +916,3 @@ QString GetUrlQueryString(QString strKey, int iValue, bool blStart)
 {
 	return QString("%1%2=%3").arg(blStart? "?" : "&").arg(strKey).arg(iValue);
 }
-
-QString ConvertCoverArtURLToName(QString fullpath)
-{
-	QString filename = fullpath;
-	int colon = filename.length() - filename.lastIndexOf(":") - 1;
-	filename = filename.right(colon);
-	colon = filename.length() - filename.indexOf("/") - 1;
-	filename = filename.right(colon);
-	filename.replace("/", "_");
-	filename = filename + ".jpg";
-
-	return filename;
-}
