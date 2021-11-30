@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 ;InfoAfterFile=d:\03-Project\CaX\installer\doc\changelog.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-ArchitecturesAllowed=x86
+;ArchitecturesAllowed=x86
 OutputDir=d:\03-Project\CaX\installer\release
 OutputBaseFilename=MusicXNeo-x86-{#MyAppVersion}-Setup
 SetupIconFile=d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico
