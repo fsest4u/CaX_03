@@ -15,10 +15,10 @@ public:
 	explicit FormSearchCoverArt(QWidget *parent = nullptr);
 	~FormSearchCoverArt();
 
-	QByteArray GetCoverArt() const;
-	void SetCoverArt(const QByteArray &CoverArt);
-//	QString GetCoverArt() const;
-//	void SetCoverArt(const QString &CoverArt);
+//	QByteArray GetCoverArt() const;
+//	void SetCoverArt(const QByteArray &CoverArt);
+	QString GetCoverArt() const;
+	void SetCoverArt(const QString &CoverArt);
 
 signals:
 
@@ -30,8 +30,8 @@ protected:
 
 private:
 
-	QByteArray m_CoverArt;
-//	QString m_CoverArt;
+//	QByteArray m_CoverArt;
+	QString m_CoverArt;
 
 	Ui::FormSearchCoverArt *ui;
 };

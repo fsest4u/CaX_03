@@ -40,8 +40,8 @@ public:
 private slots:
 
 	void SlotRespCoverArtList(CJsonNode node);
-	void SlotRespSearchCoverArt(QByteArray data, int index);
-//	void SlotRespSearchCoverArt(QString filename, int index);
+//	void SlotRespSearchCoverArt(QByteArray data, int index);
+	void SlotRespSearchCoverArt(QString filename, int index);
 	void SlotSearchCoverArt(int index, QString url);
 	void SlotAppendIconList();
 	void SlotSelectCoverArt(int index);

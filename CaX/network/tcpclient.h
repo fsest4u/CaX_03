@@ -26,9 +26,10 @@ signals :
 
 	void		SigRespInfo(QString jsonData, int nCmdID = -1, int nIndex = -1);
 	void        SigRespCoverArt(QString fileName, int nIndex, int mode);
+//	void        SigRespCoverArt(QByteArray data);
 	void        SigRespCoverArt(QString fileName);
-	void		SigRespSearchCoverArt(QByteArray data, int index);
-//	void		SigRespSearchCoverArt(QString filename, int index);
+//	void		SigRespSearchCoverArt(QByteArray data, int index);
+	void		SigRespSearchCoverArt(QString filename, int index);
 
 
 public slots :

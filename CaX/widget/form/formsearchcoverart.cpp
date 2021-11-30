@@ -18,7 +18,7 @@ FormSearchCoverArt::~FormSearchCoverArt()
 	delete ui;
 }
 
-#if 1
+#if 0	// dylee
 QByteArray FormSearchCoverArt::GetCoverArt() const
 {
 	return m_CoverArt;

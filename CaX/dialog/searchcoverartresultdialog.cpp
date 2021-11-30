@@ -98,19 +98,19 @@ void SearchCoverArtResultDialog::SlotRespCoverArtList(CJsonNode node)
 	m_pIconCoverArt->SetNodeList(curNodeList, IconCoverArt::ICON_COVER_ART_MUSIC_DB);
 }
 
-void SearchCoverArtResultDialog::SlotRespSearchCoverArt(QByteArray data, int index)
-{
-	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
-	itemIcon->setData(data, IconCoverArtDelegate::ICON_COVER_ART_COVER);
-	m_pIconCoverArt->GetModel()->setItem(index, itemIcon);
-}
-
-//void SearchCoverArtResultDialog::SlotRespSearchCoverArt(QString filename, int index)
+//void SearchCoverArtResultDialog::SlotRespSearchCoverArt(QByteArray data, int index)
 //{
 //	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
-//	itemIcon->setData(filename, IconCoverArtDelegate::ICON_COVER_ART_COVER);
+//	itemIcon->setData(data, IconCoverArtDelegate::ICON_COVER_ART_COVER);
 //	m_pIconCoverArt->GetModel()->setItem(index, itemIcon);
 //}
+
+void SearchCoverArtResultDialog::SlotRespSearchCoverArt(QString filename, int index)
+{
+	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
+	itemIcon->setData(filename, IconCoverArtDelegate::ICON_COVER_ART_COVER);
+	m_pIconCoverArt->GetModel()->setItem(index, itemIcon);
+}
 
 void SearchCoverArtResultDialog::SlotSearchCoverArt(int index, QString url)
 {
@@ -142,8 +142,8 @@ void SearchCoverArtResultDialog::SlotSelectCoverArt(int index)
 void SearchCoverArtResultDialog::ConnectSigToSlot()
 {
 	connect(m_pMgr, SIGNAL(SigRespCoverArtList(CJsonNode)), this, SLOT(SlotRespCoverArtList(CJsonNode)));
-	connect(m_pMgr, SIGNAL(SigRespSearchCoverArt(QByteArray, int)), this, SLOT(SlotRespSearchCoverArt(QByteArray, int)));
-//	connect(m_pMgr, SIGNAL(SigRespSearchCoverArt(QString, int)), this, SLOT(SlotRespSearchCoverArt(QString, int)));
+//	connect(m_pMgr, SIGNAL(SigRespSearchCoverArt(QByteArray, int)), this, SLOT(SlotRespSearchCoverArt(QByteArray, int)));
+	connect(m_pMgr, SIGNAL(SigRespSearchCoverArt(QString, int)), this, SLOT(SlotRespSearchCoverArt(QString, int)));
 
 	connect(m_pIconCoverArt, SIGNAL(SigSearchCoverArt(int, QString)), this, SLOT(SlotSearchCoverArt(int, QString)));
 	connect(m_pIconCoverArt, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));

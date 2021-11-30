@@ -244,7 +244,7 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 
 	if (m_ListReply[count]->error() == QNetworkReply::NoError)
 	{
-#if 1
+#if 0
 		QByteArray data = m_ListReply[count]->readAll();
 		emit SigRespSearchCoverArt(data, index);
 #else
