@@ -493,14 +493,16 @@ void MusicDBManager::RequestSetCoverArt(int id, int category, int eventID, QStri
 	coverArt.Add(KEY_IMAGE_URL, image);
 	coverArt.Add(KEY_THUMB_URL, thumb);
 
+	CJsonNode idArr(JSON_ARRAY);
+	idArr.AppendArray((int64_t)id);
+
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_MUSIC_DB);
 	node.Add(KEY_CMD1, VAL_SET_ART);
-	node.Add(KEY_CMD2, VAL_CATEGORY);
-	node.AddInt(KEY_ID_UPPER, id);
-	node.Add(KEY_CATEGORY, strCat);
+	node.Add(KEY_CMD2, VAL_SONG);
 	node.AddInt(KEY_EVENT_ID, eventID);
 	node.Add(KEY_COVER_ART, coverArt);
+	node.Add(KEY_IDS, idArr);
 
 	RequestCommand(node, MUSICDB_SET_COVER_ART);
 

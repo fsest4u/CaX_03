@@ -1567,13 +1567,13 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 	if (resultDialog.exec() == QDialog::Accepted)
 	{
 		m_pMgr->RequestSetCoverArt(nID,
-								   m_nCategory,
+								   SQLManager::CATEGORY_TRACK,
 								   m_EventID,
 								   resultDialog.GetImage(),
 								   resultDialog.GetThumb());
 
 		// refresh
-		RequestCategoryList();
+		RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
 	}
 }
 

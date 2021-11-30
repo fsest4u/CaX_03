@@ -96,12 +96,12 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 		return;
 	}
 
-	if (QFileInfo::exists(filename))
-	{
-		LogDebug("file is exist [%s]", filename.toUtf8().data());
-		emit SigRespCoverArt(filename, nIndex, nMode);
-		return;
-	}
+//	if (QFileInfo::exists(filename))
+//	{
+//		LogDebug("file exists [%s]", filename.toUtf8().data());
+//		emit SigRespCoverArt(filename, nIndex, nMode);
+//		return;
+//	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request(url);
@@ -122,6 +122,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 		{
 			if (image.save(filename, "JPG"))
 			{
+				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename, nIndex, nMode);
 			}
 		}
@@ -173,12 +174,12 @@ void TCPClient::RequestCoverArt(QString fullpath)
 		return;
 	}
 
-	if (QFileInfo::exists(filename))
-	{
-		LogDebug("file is exist [%s]", filename.toUtf8().data());
-		emit SigRespCoverArt(filename);
-		return;
-	}
+//	if (QFileInfo::exists(filename))
+//	{
+//		LogDebug("file exists [%s]", filename.toUtf8().data());
+//		emit SigRespCoverArt(filename);
+//		return;
+//	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request(url);
@@ -200,13 +201,14 @@ void TCPClient::RequestCoverArt(QString fullpath)
 //		pixmap.loadFromData(jpegData);
 //		label->setPixmap(pixmap);
 		QByteArray data = m_ListReply[count]->readAll();
-		emit SigRespSearchCoverArt(data, index);
+		emit SigRespCoverArt(data);
 #else
 		QImage image;
 		if (image.loadFromData(m_ListReply[count]->readAll()))
 		{
 			if (image.save(filename, "JPG"))
 			{
+				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename);
 			}
 		}
