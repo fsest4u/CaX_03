@@ -25,9 +25,9 @@ DisableProgramGroupPage=yes
 ;InfoAfterFile=d:\03-Project\CaX\installer\doc\changelog.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-ArchitecturesAllowed=x86
+ArchitecturesInstallIn64BitMode=x64
 OutputDir=d:\03-Project\CaX\installer\release
-OutputBaseFilename=MusicXNeo-x86-{#MyAppVersion}-Setup
+OutputBaseFilename=MusicXNeo-x64-{#MyAppVersion}-Setup
 SetupIconFile=d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico
 ;WizardImageFile=compiler:wizmodernimage-IS.bmp
 ;WizardSmallImageFile=compiler:wizmodernsmallimage-IS.bmp
@@ -76,7 +76,7 @@ Source: "d:\03-Project\CaX\installer\src\styles\*"; DestDir: "{app}\styles"; Fla
 Source: "d:\03-Project\CaX\installer\src\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
 ;Source: "d:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico"; DestDir: "{app}"; Flags: ignoreversion
 ; VC++ redistributable runtime. Extracted by VC2017RedistNeedsInstall(), if needed.
-Source: "d:\03-Project\CaX\installer\Redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy
+Source: "d:\03-Project\CaX\installer\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -87,7 +87,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 Filename: "{app}\unins000.exe"; Parameters: "/quiet"; Flags: waituntilterminated
 
 [Run]
-Filename: "{tmp}\vc_redist.x86.exe"; Parameters: "/quiet"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
+Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/quiet"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
@@ -96,7 +96,7 @@ var
   Version: String;
 begin
   if RegQueryStringValue(HKEY_LOCAL_MACHINE,
-       'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86', 'Version', Version) then
+       'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Version', Version) then
   begin
     // Is the installed version at least 14.14 ? 
     Log('VC Redist Version check : found ' + Version);
@@ -109,7 +109,7 @@ begin
   end;
   if (Result) then
   begin
-    ExtractTemporaryFile('vc_redist.x86.exe');
+    ExtractTemporaryFile('vc_redist.x64.exe');
   end;
 end;
 

@@ -292,13 +292,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 # about jansson lib
-unix|win32: LIBS += -L$$PWD/../jansson-2.13.1/lib/ -ljansson
+win32:contains(QMAKE_HOST.arch, x86_64) {
+  LIBS += -L$$PWD/../jansson-2.13.1/lib/x64 -ljansson
+} else {
+  LIBS += -L$$PWD/../jansson-2.13.1/lib/x86 -ljansson
+}
+unix: LIBS += -L$$PWD/../jansson-2.13.1/lib/osx -ljansson
 
 INCLUDEPATH += $$PWD/../jansson-2.13.1/include
 DEPENDPATH += $$PWD/../jansson-2.13.1/include
 
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/jansson.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/libjansson.a
+#win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/jansson.lib
+#else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../jansson-2.13.1/lib/osx/libjansson.a
 
 RESOURCES += \
     resource.qrc
