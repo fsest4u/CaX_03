@@ -25,7 +25,6 @@ ListTracksEditor::ListTracksEditor(QWidget *parent) :
 
 	Initialize();
 
-
 }
 
 ListTracksEditor::~ListTracksEditor()

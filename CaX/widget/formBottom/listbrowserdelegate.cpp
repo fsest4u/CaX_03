@@ -10,6 +10,12 @@ ListBrowserDelegate::ListBrowserDelegate()
 {
 }
 
+void ListBrowserDelegate::SlotClickPlay(int type, QString rawData)
+{
+	emit SigSelectPlay(type, rawData);
+
+}
+
 void ListBrowserDelegate::SlotClickTitle(int type, QString rawData)
 {
 	emit SigSelectTitle(type, rawData);
@@ -52,6 +58,7 @@ QWidget *ListBrowserDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 
 	ListBrowserEditor *editor = new ListBrowserEditor(parent);
 //	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
+	connect(editor, SIGNAL(SigClickPlay(int, QString)), this, SLOT(SlotClickPlay(int, QString)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 	connect(editor, SIGNAL(SigMenu(int, int)), this, SLOT(SlotMenu(int, int)));
 	connect(editor, SIGNAL(SigMenu(int, int, QString)), this, SLOT(SlotMenu(int, int, QString)));

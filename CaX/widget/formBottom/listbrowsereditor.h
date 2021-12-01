@@ -54,6 +54,7 @@ public:
 signals:
 
 //	void SigClickCoverArt(QString rawData);
+	void SigClickPlay(int type, QString rawData = "");
 	void SigClickTitle(int type, QString rawData = "");
 	void SigMenu(int index, int type);
 	void SigMenu(int index, int type, QString menuName);

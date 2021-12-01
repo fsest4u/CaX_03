@@ -47,6 +47,7 @@ private slots:
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget* widget);
 
+	void SlotSelectTrackPlay(int nType, QString rawData);
 	void SlotSelectTitle(int nType, QString rawData);
 //	void SlotSelectURL(QString rawData);
 	void SlotReqCoverArt(QString path, int index);

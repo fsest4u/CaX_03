@@ -31,6 +31,7 @@ public:
 
 signals:
 
+	void SigSelectPlay(int type, QString rawData);
 	void SigSelectTitle(int type, QString rawData);
 	void SigMenu(int index, int type);
 	void SigMenu(int index, int type, QString menuName);
@@ -38,6 +39,7 @@ signals:
 
 private slots:
 
+	void SlotClickPlay(int type, QString rawData);
 	void SlotClickTitle(int type, QString rawData);
 	void SlotMenu(int index, int type);
 	void SlotMenu(int index, int type, QString menuName);

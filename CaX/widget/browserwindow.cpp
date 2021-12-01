@@ -344,6 +344,27 @@ void BrowserWindow::SlotOptionMenuAction(QString path, int type, int menuID)
 //	LogDebug("click resize");
 //}
 
+void BrowserWindow::SlotSelectTrackPlay(int nType, QString rawData)
+{
+	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
+
+	CJsonNode node;
+	if (!node.SetContent(rawData))
+	{
+		LogCritical("invalid json");
+		return;
+	}
+
+	if (iFolderType_Mask_Play_Select & nType)
+	{
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_Dirs.clear();
+		m_Files.clear();
+		m_Files.append(node.GetString(KEY_PATH));
+		m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
+	}
+}
+
 void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 {
 	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
@@ -373,14 +394,10 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 
 		emit SigAddWidget(widget, STR_BROWSER);
 	}
-	else if (iFolderType_Mask_Play_Select & nType)
-	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
-		m_Dirs.clear();
-		m_Files.clear();
-		m_Files.append(node.GetString(KEY_PATH));
-		m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files);
-	}
+//	else
+//	{
+//		SlotSelectTrackPlay(nType, rawData);
+//	}
 }
 
 //void BrowserWindow::SlotSelectURL(QString rawData)
@@ -632,6 +649,7 @@ void BrowserWindow::ConnectSigToSlot()
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 //	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, QString)), this, SLOT(SlotSelectTrackPlay(int, QString)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int)), this, SLOT(SlotOptionMenu(int, int)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotOptionMenuAction(QString, int, int)));

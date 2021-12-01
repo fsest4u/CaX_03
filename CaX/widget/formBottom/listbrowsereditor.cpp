@@ -216,7 +216,11 @@ bool ListBrowserEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->labelTitle)
+		if (object == ui->labelPlay)
+		{
+			emit SigClickPlay(m_Type, m_RawData);
+		}
+		else if (object == ui->labelTitle)
 		{
 			emit SigClickTitle(m_Type, m_RawData);
 		}
@@ -321,6 +325,7 @@ void ListBrowserEditor::Initialize()
 	ui->labelFilesize->hide();
 	ui->frameMenu->hide();
 
+	ui->labelPlay->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
