@@ -47,8 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	ReadSettings();
 	ConnectSigToSlot();
 	Initialize();
-
 	SlotMenu();
+
 	m_pDeviceMgr->RequestDeviceList();
 	DoDeviceListHome();
 }
@@ -600,7 +600,6 @@ void MainWindow::SlotSelectCancel(QString mac)
 	}
 
 	Initialize();
-
 	SlotMenu();
 }
 
@@ -651,8 +650,8 @@ void MainWindow::SlotDeviceAction(QString menuID)
 	}
 
 	Initialize();
-
 	SlotMenu();
+
 	SlotSelectDevice(menuID);
 }
 

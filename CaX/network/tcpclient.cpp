@@ -96,6 +96,9 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 		return;
 	}
 
+	QFileInfo fileInfo(filename);
+	QString suffix = fileInfo.suffix();
+
 //	if (QFileInfo::exists(filename))
 //	{
 //		LogDebug("file exists [%s]", filename.toUtf8().data());
@@ -120,7 +123,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 		QImage image;
 		if (image.loadFromData(m_ListReply[count]->readAll()))
 		{
-			if (image.save(filename, "JPG"))
+			if (image.save(filename, suffix.toLatin1().data()))
 			{
 				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename, nIndex, nMode);
@@ -174,6 +177,9 @@ void TCPClient::RequestCoverArt(QString fullpath)
 		return;
 	}
 
+	QFileInfo fileInfo(filename);
+	QString suffix = fileInfo.suffix();
+
 //	if (QFileInfo::exists(filename))
 //	{
 //		LogDebug("file exists [%s]", filename.toUtf8().data());
@@ -206,7 +212,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 		QImage image;
 		if (image.loadFromData(m_ListReply[count]->readAll()))
 		{
-			if (image.save(filename, "JPG"))
+			if (image.save(filename, suffix.toLatin1().data()))
 			{
 				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename);
@@ -232,6 +238,15 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 	QString filename = QString("Search%1").arg(index);
 	filename = m_DirTemp + "/" + filename + ".jpg";
 
+	if (strUrl.isEmpty())
+	{
+		LogDebug("strUrl is empty");
+		return;
+	}
+
+	QFileInfo fileInfo(filename);
+	QString suffix = fileInfo.suffix();
+
 	const QUrl url = QUrl::fromUserInput(strUrl);
 	QNetworkRequest request(url);
 
@@ -253,7 +268,7 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 		QImage image;
 		if (image.loadFromData(m_ListReply[count]->readAll()))
 		{
-			if (image.save(filename, "JPG"))
+			if (image.save(filename, suffix.toLatin1().data()))
 			{
 				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespSearchCoverArt(filename, index);

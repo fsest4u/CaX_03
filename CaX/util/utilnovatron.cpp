@@ -379,8 +379,10 @@ QString UtilNovatron::ConvertURLToFilename(QString fullpath)
 	filename.replace("/", "_");
 
 	QFileInfo fileInfo(fullpath);
-	if (fileInfo.suffix().toLower().compare("jpg"))
+	if (fileInfo.suffix().isEmpty())
+	{
 		filename = filename + ".jpg";
+	}
 
 	return filename;
 }
