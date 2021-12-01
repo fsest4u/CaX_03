@@ -24,7 +24,7 @@ public:
 		DEVICE_MAX
 	};
 
-	void RequestDeviceInfo();
+	void RequestDeviceList();
 	void RequestDevicePowerOn(QString wolAddr, QString mac);
 
 	// device list

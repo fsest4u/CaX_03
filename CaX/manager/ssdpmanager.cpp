@@ -27,7 +27,7 @@ void SSDPManager::ConnectToSlot()
 
 }
 
-void SSDPManager::RequestDeviceInfo()
+void SSDPManager::RequestDeviceList()
 {
 	QString strSearch = MakeStringMSearch();
 	m_pUdpClient->BindSocketSSDP();

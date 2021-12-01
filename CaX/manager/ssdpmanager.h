@@ -14,7 +14,7 @@ public:
 	explicit SSDPManager(QObject *parent = nullptr);
 	~SSDPManager();
 
-	void RequestDeviceInfo();
+	void RequestDeviceList();
 	void RequestDevicePowerOn(QString strWolAddr, QString strMac);
 
 	UDPClient *GetUdpClient() const;

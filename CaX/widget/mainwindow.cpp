@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	Initialize();
 
 	SlotMenu();
-	m_pDeviceMgr->RequestDeviceInfo();
+	m_pDeviceMgr->RequestDeviceList();
 	DoDeviceListHome();
 }
 

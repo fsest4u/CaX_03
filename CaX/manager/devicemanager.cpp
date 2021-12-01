@@ -31,9 +31,9 @@ DeviceManager::~DeviceManager()
 	}
 }
 
-void DeviceManager::RequestDeviceInfo()
+void DeviceManager::RequestDeviceList()
 {
-	m_pSsdpMgr->RequestDeviceInfo();
+	m_pSsdpMgr->RequestDeviceList();
 }
 
 void DeviceManager::RequestDevicePowerOn(QString wolAddr, QString mac)
