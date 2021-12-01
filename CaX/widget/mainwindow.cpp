@@ -40,20 +40,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pAppMgr(new AppManager),
 	m_pLoading(new Loading(this)),
 	m_ProgressDialog(new ProgressDialog),
-	m_strCurrentMac(""),
-	m_strAddr(""),
-	m_strVersion(""),
-	m_strWolAddr(""),
-	m_strUuid(""),
-	m_bConnect(false),
-	m_bAudioCD(false),
-	m_bInput(false),
-	m_bFMRadio(false),
-	m_bGroupPlay(false),
-//	m_bSigma(false),
-	m_bScanDB(false),
-	m_bIsDel(false),
-	m_EventID(-1),
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
@@ -61,6 +47,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	ReadSettings();
 	ConnectSigToSlot();
 	Initialize();
+
+	SlotMenu();
+	m_pDeviceMgr->RequestDeviceInfo();
+	DoDeviceListHome();
 }
 
 MainWindow::~MainWindow()
@@ -347,13 +337,10 @@ void MainWindow::ObserverConnect()
 
 void MainWindow::ObserverDisconnect()
 {
-	m_bConnect = false;
 	ui->widgetTop->setDisabled(true);
 	ui->widgetPlay->setDisabled(true);
 
 	m_pObsMgr->RequestDisconnectObserver();
-
-	SlotMenu();
 }
 
 void MainWindow::SlotDeviceItem(int state)
@@ -583,16 +570,13 @@ void MainWindow::SlotSelectDevice(QString mac)
 		return;
 	}
 
-//	if (m_bConnect)
-//	{
-//		ObserverDisconnect();
-//	}
-
 	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
 	QString strDev = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_DEV);
 
 	if (strAddr.isEmpty())
+	{
 		return;
+	}
 
 	m_strAddr = strAddr;
 	WriteSettings();
@@ -610,7 +594,14 @@ void MainWindow::SlotSelectCancel(QString mac)
 	if (mac.isEmpty() || mac.compare(m_strCurrentMac))
 		return;
 
-	ObserverDisconnect();
+	if (m_bConnect)
+	{
+		ObserverDisconnect();
+	}
+
+	Initialize();
+
+	SlotMenu();
 }
 
 void MainWindow::SlotWolDevice(QString mac)
@@ -654,7 +645,14 @@ void MainWindow::SlotDevice()
 
 void MainWindow::SlotDeviceAction(QString menuID)
 {
-	RemoveAllWidget();
+	if (m_bConnect)
+	{
+		ObserverDisconnect();
+	}
+
+	Initialize();
+
+	SlotMenu();
 	SlotSelectDevice(menuID);
 }
 
@@ -683,17 +681,27 @@ void MainWindow::SlotRespAirableLogout()
 void MainWindow::Initialize()
 {
 	RemoveAllWidget();
-	DoDeviceListHome();
-
-	m_pDeviceMgr->RequestDeviceInfo();
-
 	UpdateStackState();
 
 	m_IServiceList.clear();
 	m_InputList.clear();
 	m_SetupList.clear();
 
-	SlotMenu();
+	m_strCurrentMac = "",
+	m_strAddr = "",
+	m_strVersion = "",
+	m_strWolAddr = "",
+	m_strUuid = "",
+	m_bConnect = false;
+	m_bAudioCD = false;
+	m_bInput = false;
+	m_bFMRadio = false;
+	m_bGroupPlay = false;
+//	m_bSigma = false;
+	m_bScanDB = false;
+	m_bIsDel = false;
+	m_EventID = -1;
+
 }
 
 void MainWindow::ConnectSigToSlot()
@@ -942,13 +950,18 @@ void MainWindow::RemoveAllWidget()
 
 void MainWindow::UpdateStackState()
 {
-	auto idx = ui->stackMain->currentIndex();
-	auto cnt = ui->stackMain->count();
+	auto index = ui->stackMain->currentIndex();
+	auto count = ui->stackMain->count();
 
-	ui->widgetTop->SetTitle(idx);
+	if (index < 0 || count <= 0)
+	{
+		return;
+	}
+
+	ui->widgetTop->SetTitle(index);
 
 	// Update buttons depending on the page count.
-	auto hasPage = cnt > 0;
+	auto hasPage = count > 0;
 	if (!hasPage)
 	{
 		ui->widgetTop->GetBtnNext()->setEnabled(false);
@@ -957,8 +970,8 @@ void MainWindow::UpdateStackState()
 	}
 
 	// Update buttons depending on the current page index.
-	auto isLastPage = idx == cnt - 1;
-	auto isFirstPage = idx == 0;
+	auto isLastPage = index == count - 1;
+	auto isFirstPage = index == 0;
 	if (isLastPage && isFirstPage)
 	{
 		ui->widgetTop->GetBtnNext()->setEnabled(false);

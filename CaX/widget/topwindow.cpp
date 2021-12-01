@@ -41,7 +41,7 @@ void TopWindow::RemoveTitle()
 void TopWindow::SetTitle(int index)
 {
 	int count = m_TitleList.count();
-	if (count <= index)
+	if (index < 0 || count <= 0 || index >= count)
 	{
 		return;
 	}
