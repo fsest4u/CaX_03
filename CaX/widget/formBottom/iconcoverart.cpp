@@ -16,7 +16,7 @@ IconCoverArt::IconCoverArt(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconCoverArtDelegate),
 	m_ScrollBar(nullptr),
-	m_pLoading(new Loading(this)),
+//	m_pLoading(new Loading(this)),
 	ui(new Ui::IconCoverArt)
 {
 	ui->setupUi(this);
@@ -42,11 +42,11 @@ IconCoverArt::~IconCoverArt()
 		m_Delegate = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
+//	if (m_pLoading)
+//	{
+//		delete m_pLoading;
+//		m_pLoading = nullptr;
+//	}
 
 	delete ui;
 }
@@ -58,7 +58,7 @@ QList<CJsonNode> IconCoverArt::GetNodeList() const
 
 void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
@@ -77,7 +77,7 @@ void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 		index++;
 	}
 
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 void IconCoverArt::ClearNodeList()

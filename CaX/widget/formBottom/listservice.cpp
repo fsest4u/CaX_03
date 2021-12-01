@@ -12,7 +12,7 @@ ListService::ListService(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListServiceDelegate),
-	m_pLoading(new Loading(this)),
+//	m_pLoading(new Loading(this)),
 	ui(new Ui::ListService)
 {
 	ui->setupUi(this);
@@ -38,11 +38,11 @@ ListService::~ListService()
 		m_Delegate = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
+//	if (m_pLoading)
+//	{
+//		delete m_pLoading;
+//		m_pLoading = nullptr;
+//	}
 
 	delete ui;
 }
@@ -60,7 +60,7 @@ QList<CJsonNode> ListService::GetNodeList() const
 
 void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	m_NodeList = NodeList;
 	int index = 0;
 
@@ -87,13 +87,13 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 
 }
 
 void ListService::ClearSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
@@ -112,12 +112,12 @@ void ListService::ClearSelectMap()
 			m_SelectMap.remove(id);
 		}
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 void ListService::SetAllSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
@@ -136,7 +136,7 @@ void ListService::SetAllSelectMap()
 			m_SelectMap.insert(id, true);
 		}
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 QMap<int, bool> ListService::GetSelectMap() const

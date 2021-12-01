@@ -61,7 +61,7 @@ private:
 	QStandardItemModel		*m_Model;
 	ListBrowserDelegate		*m_Delegate;
 
-	Loading					*m_pLoading;
+//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<QString, int>		m_SelectMap;

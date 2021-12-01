@@ -12,7 +12,7 @@ ListDevice::ListDevice(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListDeviceDelegate),
-	m_pLoading(new Loading(this)),
+//	m_pLoading(new Loading(this)),
 	ui(new Ui::ListDevice)
 {
 	ui->setupUi(this);
@@ -38,11 +38,11 @@ ListDevice::~ListDevice()
 		m_Delegate = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
+//	if (m_pLoading)
+//	{
+//		delete m_pLoading;
+//		m_pLoading = nullptr;
+//	}
 
 	delete ui;
 
@@ -81,7 +81,7 @@ QList<CJsonNode> ListDevice::GetNodeList() const
 
 void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	m_Model->clear();
 	m_NodeList = NodeList;
 
@@ -99,7 +99,7 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 
 }
 

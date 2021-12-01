@@ -66,7 +66,7 @@ private:
 	QStandardItemModel		*m_Model;
 	ListServiceDelegate		*m_Delegate;
 
-	Loading					*m_pLoading;
+//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;

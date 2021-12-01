@@ -67,7 +67,7 @@ private:
 	IconTracksDelegate		*m_Delegate;
 	QScrollBar				*m_ScrollBar;
 
-	Loading					*m_pLoading;
+//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;

@@ -54,7 +54,7 @@ private:
 	IconCoverArtDelegate	*m_Delegate;
 	QScrollBar				*m_ScrollBar;
 
-	Loading					*m_pLoading;
+//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 

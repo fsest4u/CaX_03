@@ -14,6 +14,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/loading.h"
 #include "util/log.h"
 #include "util/settingio.h"
 
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pDeviceWin(new DeviceListWindow),
 	m_pObsMgr(new ObserverManager),
 	m_pAppMgr(new AppManager),
+	m_pLoading(new Loading(this)),
 	m_ProgressDialog(new ProgressDialog),
 	m_strCurrentMac(""),
 	m_strAddr(""),
@@ -87,6 +89,12 @@ MainWindow::~MainWindow()
 	{
 		delete m_pDeviceWin;
 		m_pDeviceWin = nullptr;
+	}
+
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
 	}
 
 	if (m_ProgressDialog)

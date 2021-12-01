@@ -40,7 +40,7 @@ private:
 	QStandardItemModel	*m_Model;
 	ListDeviceDelegate	*m_Delegate;
 
-	Loading					*m_pLoading;
+//	Loading					*m_pLoading;
 
 	QList<CJsonNode>	m_NodeList;
 

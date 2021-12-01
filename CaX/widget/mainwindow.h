@@ -11,6 +11,8 @@ class DeviceListWindow;
 class ObserverManager;
 class AppManager;
 
+class Loading;
+
 class ProgressDialog;
 
 QT_BEGIN_NAMESPACE
@@ -96,13 +98,19 @@ private:
 	DeviceManager		*m_pDeviceMgr;
 	DeviceListWindow	*m_pDeviceWin;
 
-	ObserverManager	*m_pObsMgr;
-	AppManager		*m_pAppMgr;
+	ObserverManager		*m_pObsMgr;
+	AppManager			*m_pAppMgr;
 
-	ProgressDialog	*m_ProgressDialog;
+	Loading				*m_pLoading;
+	ProgressDialog		*m_ProgressDialog;
 
+	QList<CJsonNode> m_IServiceList;
+	QList<CJsonNode> m_InputList;
+	QList<CJsonNode> m_SetupList;
+	QList<CJsonNode> m_TaskList;
 
-	///////////////////////////////////////////////////////
+	QMap<int, QString>		m_SideMenuMap;
+	QMap<QString, QString>	m_DeviceMap;
 
 	QString			m_strCurrentMac;
 	QString			m_strAddr;
@@ -121,16 +129,7 @@ private:
 	bool            m_bScanDB;
 	bool            m_bIsDel;
 
-	int				m_EventID;
-
-	QList<CJsonNode> m_IServiceList;
-	QList<CJsonNode> m_InputList;
-	QList<CJsonNode> m_SetupList;
-	QList<CJsonNode> m_TaskList;
-
-
-	QMap<int, QString> m_SideMenuMap;
-	QMap<QString, QString> m_DeviceMap;
+	int				m_EventID;	
 
 	Ui::MainWindow *ui;
 };

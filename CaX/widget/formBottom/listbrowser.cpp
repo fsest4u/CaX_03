@@ -17,7 +17,7 @@ ListBrowser::ListBrowser(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListBrowserDelegate),
-	m_pLoading(new Loading(this)),
+//	m_pLoading(new Loading(this)),
 	ui(new Ui::ListBrowser)
 {
 	ui->setupUi(this);
@@ -43,11 +43,11 @@ ListBrowser::~ListBrowser()
 		m_Delegate = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
+//	if (m_pLoading)
+//	{
+//		delete m_pLoading;
+//		m_pLoading = nullptr;
+//	}
 
 	delete ui;
 }
@@ -68,7 +68,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	int type = 0;
 	int index = 0;
 
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	m_Model->clear();
 	m_NodeList = NodeList;
 
@@ -137,14 +137,14 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 		}
 	}
 	ui->gridLayoutList->addWidget(m_ListView);
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 
 	return type;
 }
 
 void ListBrowser::ClearSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
@@ -163,13 +163,13 @@ void ListBrowser::ClearSelectMap()
 			m_SelectMap.remove(path);
 		}
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 
 }
 
 void ListBrowser::SetAllSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
@@ -189,7 +189,7 @@ void ListBrowser::SetAllSelectMap()
 			m_SelectMap.insert(path, type);
 		}
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 
 }
 

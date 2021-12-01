@@ -14,7 +14,7 @@ IconService::IconService(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconServiceDelegate),
-	m_pLoading(new Loading(this)),
+//	m_pLoading(new Loading(this)),
 	ui(new Ui::IconService)
 {
 	ui->setupUi(this);
@@ -40,11 +40,11 @@ IconService::~IconService()
 		m_Delegate = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
+//	if (m_pLoading)
+//	{
+//		delete m_pLoading;
+//		m_pLoading = nullptr;
+//	}
 
 	delete ui;
 
@@ -59,7 +59,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 {
 	int type = 0;
 
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	m_Model->clear();
 	m_NodeList = list;
 	m_Delegate->SetServiceType(nService);
@@ -200,7 +200,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 
 	return type;
 
@@ -214,7 +214,7 @@ void IconService::ClearNodeList()
 
 void IconService::ClearSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 	for (int i = 0; i < count; i++)
 	{
@@ -232,12 +232,12 @@ void IconService::ClearSelectMap()
 			m_SelectMap.remove(id);
 		}
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 void IconService::SetAllSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 	for (int i = 0; i < count; i++)
 	{
@@ -255,7 +255,7 @@ void IconService::SetAllSelectMap()
 			m_SelectMap.insert(id, true);
 		}
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 QMap<int, bool> IconService::GetSelectMap() const

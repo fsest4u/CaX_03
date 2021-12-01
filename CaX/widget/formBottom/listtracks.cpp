@@ -18,7 +18,7 @@ ListTracks::ListTracks(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListTracksDelegate),
 	m_ScrollBar(nullptr),
-	m_pLoading(new Loading(this)),
+//	m_pLoading(new Loading(this)),
 	ui(new Ui::ListTracks)
 {
 	ui->setupUi(this);
@@ -45,11 +45,11 @@ ListTracks::~ListTracks()
 		m_Delegate = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
+//	if (m_pLoading)
+//	{
+//		delete m_pLoading;
+//		m_pLoading = nullptr;
+//	}
 
 	delete ui;
 
@@ -62,7 +62,7 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 
 void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
@@ -118,7 +118,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 void ListTracks::ClearNodeList()
@@ -131,7 +131,7 @@ void ListTracks::ClearNodeList()
 
 void ListTracks::ClearSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
@@ -151,12 +151,12 @@ void ListTracks::ClearSelectMap()
 		}
 	}
 
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 void ListTracks::SetAllSelectMap()
 {
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 	for (int i = 0; i < count; i++)
 	{
@@ -174,7 +174,7 @@ void ListTracks::SetAllSelectMap()
 			m_SelectMap.insert(id, true);
 		}
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 QMap<int, bool> ListTracks::GetSelectMap() const
@@ -192,7 +192,7 @@ void ListTracks::SetResize(int resize)
 	m_Delegate->SetResize(resize);
 	m_ListView->setGridSize(QSize(resize * 1.25, resize * 1.375));
 
-	m_pLoading->Start();
+//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
@@ -200,7 +200,7 @@ void ListTracks::SetResize(int resize)
 		QModelIndex index = m_Model->index(i, 0);
 		m_ListView->openPersistentEditor(index);
 	}
-	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 QStandardItemModel *ListTracks::GetModel()
