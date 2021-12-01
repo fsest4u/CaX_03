@@ -323,11 +323,11 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-//	m_pIconTracks->ClearNodeList();
-//	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
+	m_pIconTracks->ClearNodeList();
+	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
 
-	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
+//	m_pListTracks->ClearNodeList();
+//	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
 
 //	m_pSongThread->start();
 }
@@ -467,7 +467,7 @@ void MusicDBWindow::SlotResize(int resize)
 		m_ListMode = listMode;
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
-			LogDebug("icon~~~~~~~~");
+			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
@@ -480,7 +480,7 @@ void MusicDBWindow::SlotResize(int resize)
 		}
 		else
 		{
-			LogDebug("list~~~~~~~~");
+			LogDebug("list~~~~~~~~", m_pListTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pListTracks->ClearNodeList();
@@ -638,8 +638,6 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 	case TOP_MENU_ADD_TO_PLAYLIST:
 		DoTopMenuItemAddToPlaylist();
 		break;
-
-
 	}
 
 }
