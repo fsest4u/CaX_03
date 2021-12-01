@@ -160,8 +160,17 @@ void MainWindow::SlotMenuAction(int menuID)
 		DoMusicDBHome();
 		break;
 	case SIDEMENU_AUDIO_CD:
-		DoAudioCDHome();
+	{
+		if (m_bAudioCD)
+		{
+			DoAudioCDHome();
+		}
+		else
+		{
+			QMessageBox::warning(this, STR_WARNING, STR_INSERT_CD);
+		}
 		break;
+	}
 	case SIDEMENU_PLAYLIST:
 		DoPlaylistHome();
 		break;

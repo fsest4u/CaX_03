@@ -15,8 +15,10 @@
 #define STR_INFO					TR("Info")
 #define STR_WARNING					TR("Warning")
 #define STR_CRITICAL				TR("Critical")
+
 #define STR_COMING_SOON				TR("Coming soon")
 #define	STR_UPDATE_FIRMWARE			TR("Update to the latest firmware (current version: %1)")
+#define STR_INSERT_CD				TR("Please insert a CD")
 
 //////////////////////////////////////////////////
 // response

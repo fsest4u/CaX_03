@@ -255,6 +255,7 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 		{
 			if (image.save(filename, "JPG"))
 			{
+				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespSearchCoverArt(filename, index);
 			}
 		}
