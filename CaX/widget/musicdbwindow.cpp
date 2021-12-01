@@ -1,5 +1,6 @@
 #include <QStackedWidget>
 #include <QMessageBox>
+#include <QThread>
 
 #include "musicdbwindow.h"
 #include "ui_musicdbwindow.h"
@@ -38,6 +39,8 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
+	m_pIconThread(new QThread),
+	m_pListThread(new QThread),
 	m_EventID(eventID),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
 	m_nSortCategory(SQLManager::SORT_NAME),
@@ -54,8 +57,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_CurPage(0),
 	m_nID(-1),
 	m_nOptionID(-1),
-//	m_pCatThread(new QThread),
-//	m_pSongThread(new QThread),
 	ui(new Ui::MusicDBWindow)
 {
 	ui->setupUi(this);
@@ -99,17 +100,17 @@ MusicDBWindow::~MusicDBWindow()
 		m_pListTracks = nullptr;
 	}
 
-//	if (m_pCatThread)
-//	{
-//		delete m_pCatThread;
-//		m_pCatThread = nullptr;
-//	}
+	if (m_pIconThread)
+	{
+		delete m_pIconThread;
+		m_pIconThread = nullptr;
+	}
 
-//	if (m_pSongThread)
-//	{
-//		delete m_pSongThread;
-//		m_pSongThread = nullptr;
-//	}
+	if (m_pListThread)
+	{
+		delete m_pListThread;
+		m_pListThread = nullptr;
+	}
 
 	delete ui;
 
@@ -270,19 +271,19 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 
 void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 {
-//	m_pIconTracks->SetBackgroundTask(m_pCatThread);
 
 	m_RespList = list;
 
 	SetOptionMenu();
 
+	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
+	m_pIconThread->start();
 
 //	m_pListTracks->ClearNodeList();
 //	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
 
-//	m_pCatThread->start();
 }
 
 void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
@@ -317,19 +318,19 @@ void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 
 void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
-//	m_pListTracks->SetBackgroundTask(m_pSongThread);
 
 	m_RespList = list;
 
 	SetOptionMenu();
 
+	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
+	m_pIconThread->start();
 
 //	m_pListTracks->ClearNodeList();
 //	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
 
-//	m_pSongThread->start();
 }
 
 void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
@@ -470,8 +471,10 @@ void MusicDBWindow::SlotResize(int resize)
 			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
+				m_pIconTracks->SetBackgroundTask(m_pIconThread);
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
+				m_pIconThread->start();
 			}
 
 			m_pListTracks->hide();
@@ -483,8 +486,10 @@ void MusicDBWindow::SlotResize(int resize)
 			LogDebug("list~~~~~~~~", m_pListTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
+				m_pListTracks->SetBackgroundTask(m_pListThread);
 				m_pListTracks->ClearNodeList();
 				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
+				m_pListThread->start();
 			}
 
 			m_pIconTracks->hide();

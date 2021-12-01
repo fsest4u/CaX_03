@@ -47,7 +47,6 @@ public:
 
 	void SetBackgroundTask(QThread *thread);
 
-
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);

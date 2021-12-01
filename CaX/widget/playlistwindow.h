@@ -102,6 +102,8 @@ private:
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
+	QThread				*m_pIconThread;
+	QThread				*m_pListThread;
 	QList<CJsonNode>	m_RespList;
 
 	QMap<int, QString>	m_TopMenuMap;

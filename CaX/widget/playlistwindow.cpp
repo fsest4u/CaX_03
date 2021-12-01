@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <QThread>
 
 #include "playlistwindow.h"
 #include "ui_playlistwindow.h"
@@ -30,7 +31,8 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
-	m_ID(-1),
+	m_pIconThread(new QThread),
+	m_pListThread(new QThread),
 	ui(new Ui::PlaylistWindow)
 {
 	ui->setupUi(this);
@@ -72,6 +74,18 @@ PlaylistWindow::~PlaylistWindow()
 	{
 		delete m_pListTracks;
 		m_pListTracks = nullptr;
+	}
+
+	if (m_pIconThread)
+	{
+		delete m_pIconThread;
+		m_pIconThread = nullptr;
+	}
+
+	if (m_pListThread)
+	{
+		delete m_pListThread;
+		m_pListThread = nullptr;
 	}
 
 	delete ui;
@@ -160,8 +174,10 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
+	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
+	m_pIconThread->start();
 
 //	m_pListTracks->ClearNodeList();
 //	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
@@ -193,8 +209,10 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 //	m_pIconTracks->ClearNodeList();
 //	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
 
+	m_pListTracks->SetBackgroundTask(m_pListThread);
 	m_pListTracks->ClearNodeList();
 	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
+	m_pListThread->start();
 }
 
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -360,8 +378,10 @@ void PlaylistWindow::SlotResize(int resize)
 			LogDebug("icon~~~~~~~~");
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
+				m_pIconTracks->SetBackgroundTask(m_pIconThread);
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
+				m_pIconThread->start();
 			}
 
 			m_pListTracks->hide();
@@ -373,8 +393,10 @@ void PlaylistWindow::SlotResize(int resize)
 			LogDebug("list~~~~~~~~");
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
+				m_pListTracks->SetBackgroundTask(m_pListThread);
 				m_pListTracks->ClearNodeList();
 				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
+				m_pListThread->start();
 			}
 
 			m_pIconTracks->hide();
@@ -590,6 +612,7 @@ void PlaylistWindow::ConnectSigToSlot()
 
 void PlaylistWindow::Initialize()
 {
+	m_ID = -1;
 
 	m_pInfoService->GetFormPlay()->ShowPlayAll();
 	m_pInfoService->GetFormPlay()->ShowPlayRandom();

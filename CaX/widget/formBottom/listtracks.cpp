@@ -112,7 +112,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 
-			emit SigReqCoverArt(nID, index, QListView::ListMode);
+//			emit SigReqCoverArt(nID, index, QListView::ListMode);
 			index++;
 		}
 	}

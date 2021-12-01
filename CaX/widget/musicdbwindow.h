@@ -2,7 +2,6 @@
 #define MUSICDBWINDOW_H
 
 #include <QWidget>
-#include <QThread>
 
 #include "manager/sqlmanager.h"
 
@@ -173,8 +172,8 @@ private:
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
-//	QThread				*m_pCatThread;
-//	QThread				*m_pSongThread;
+	QThread				*m_pIconThread;
+	QThread				*m_pListThread;
 	QList<CJsonNode>	m_RespList;
 
 

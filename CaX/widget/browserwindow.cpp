@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <QThread>
 
 #include "browserwindow.h"
 #include "ui_browserwindow.h"
@@ -44,6 +45,7 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoBrowser(new InfoBrowser(this)),
 	m_pIconService(new IconService(this)),
 	m_pListBrowser(new ListBrowser(this)),
+	m_pListThread(new QThread),
 	m_Root(root),
 	m_EventID(eventID),
 	ui(new Ui::BrowserWindow)
@@ -88,6 +90,12 @@ BrowserWindow::~BrowserWindow()
 	{
 		delete m_pListBrowser;
 		m_pListBrowser = nullptr;
+	}
+
+	if (m_pListThread)
+	{
+		delete m_pListThread;
+		m_pListThread = nullptr;
 	}
 
 	delete ui;
@@ -419,8 +427,10 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		m_pInfoBrowser->SetCoverArt(list[0].GetString(KEY_COVER_ART));
 		m_pInfoBrowser->SetSubtitle(m_Root);
 
+		m_pListBrowser->SetBackgroundTask(m_pListThread);
 		m_pListBrowser->ClearNodeList();
 		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
+		m_pListThread->start();
 	}
 
 	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);

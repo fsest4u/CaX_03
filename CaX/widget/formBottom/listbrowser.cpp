@@ -1,3 +1,5 @@
+#include <QThread>
+
 #include "listbrowser.h"
 #include "ui_listbrowser.h"
 
@@ -79,6 +81,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 		foreach (CJsonNode node, m_NodeList)
 		{
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			QString path = node.GetString(KEY_PATH);
 			int nodeType = node.GetInt(KEY_TYPE);
 			type = type | nodeType;
 
@@ -86,7 +89,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_BROWSER), ListBrowserDelegate::LIST_BROWSER_COVER);
-			item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_TITLE);
+			item->setData(path, ListBrowserDelegate::LIST_BROWSER_TITLE);
 			item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 			item->setData(node.GetString(KEY_DURATION), ListBrowserDelegate::LIST_BROWSER_DURATION);
 			item->setData(node.GetString(KEY_SIZE), ListBrowserDelegate::LIST_BROWSER_FILESIZE);
@@ -99,11 +102,11 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 
-			if (nodeType & iFolderType_Mask_Play_Select)
-			{
-				emit SigReqInfoBot(node.GetString(KEY_PATH), index);
-				emit SigReqCoverArt(node.GetString(KEY_PATH), index);
-			}
+//			if (nodeType & iFolderType_Mask_Play_Select)
+//			{
+//				emit SigReqInfoBot(path, index);
+//				emit SigReqCoverArt(path, index);
+//			}
 
 			index++;
 		}
@@ -128,11 +131,11 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
 
-			QString coverArt = node.GetString(KEY_ART);
-			if (!coverArt.isEmpty())
-			{
-				emit SigReqCoverArt(coverArt, index);
-			}
+//			QString coverArt = node.GetString(KEY_ART);
+//			if (!coverArt.isEmpty())
+//			{
+//				emit SigReqCoverArt(coverArt, index);
+//			}
 			index++;
 		}
 	}
@@ -222,6 +225,46 @@ QStandardItemModel *ListBrowser::GetModel()
 ListBrowserDelegate *ListBrowser::GetDelegate()
 {
 	return m_Delegate;
+}
+
+void ListBrowser::SetBackgroundTask(QThread *thread)
+{
+	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
+}
+
+void ListBrowser::SlotReqCoverArt()
+{
+	int index = 0;
+	if (SIDEMENU_BROWSER == m_Delegate->GetService())
+	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+			QThread::msleep(5);
+			QString path = node.GetString(KEY_PATH);
+			int nodeType = node.GetInt(KEY_TYPE);
+			if (nodeType & iFolderType_Mask_Play_Select)
+			{
+				emit SigReqInfoBot(path, index);
+				emit SigReqCoverArt(path, index);
+			}
+
+			index++;
+		}
+	}
+	else
+	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+			QThread::msleep(5);
+			QString coverArt = node.GetString(KEY_ART);
+			if (!coverArt.isEmpty())
+			{
+				emit SigReqCoverArt(coverArt, index);
+			}
+			index++;
+		}
+	}
+
 }
 
 void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)

@@ -43,6 +43,7 @@ public:
 	QStandardItemModel	*GetModel();
 	ListBrowserDelegate	*GetDelegate();
 
+	void SetBackgroundTask(QThread *thread);
 
 signals:
 
@@ -51,6 +52,7 @@ signals:
 
 private slots:
 
+	void SlotReqCoverArt();
 	void SlotDoubleClickItem(const QModelIndex& index);
 
 private:

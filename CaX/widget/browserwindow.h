@@ -129,10 +129,11 @@ private:
 	IconService			*m_pIconService;
 	ListBrowser			*m_pListBrowser;
 
+	QThread				*m_pListThread;
+
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<QString, int>	m_SelectMap;
-
 
 	QString				m_Root;
 	QStringList			m_Paths;
