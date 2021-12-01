@@ -98,6 +98,12 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 
 	QFileInfo fileInfo(filename);
 	QString suffix = fileInfo.suffix();
+	if (suffix.toLower().compare("png")
+			|| suffix.toLower().compare("jpg")
+			|| suffix.toLower().compare("jpeg"))
+	{
+		suffix = "jpg";
+	}
 
 //	if (QFileInfo::exists(filename))
 //	{
@@ -179,6 +185,12 @@ void TCPClient::RequestCoverArt(QString fullpath)
 
 	QFileInfo fileInfo(filename);
 	QString suffix = fileInfo.suffix();
+	if (suffix.toLower().compare("png")
+			|| suffix.toLower().compare("jpg")
+			|| suffix.toLower().compare("jpeg"))
+	{
+		suffix = "jpg";
+	}
 
 //	if (QFileInfo::exists(filename))
 //	{
@@ -246,6 +258,12 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 
 	QFileInfo fileInfo(filename);
 	QString suffix = fileInfo.suffix();
+	if (suffix.toLower().compare("png")
+			|| suffix.toLower().compare("jpg")
+			|| suffix.toLower().compare("jpeg"))
+	{
+		suffix = "jpg";
+	}
 
 	const QUrl url = QUrl::fromUserInput(strUrl);
 	QNetworkRequest request(url);
