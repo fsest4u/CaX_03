@@ -77,13 +77,14 @@ private:
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
-	int					m_ListMode;
-
-	int					m_EventID;
+	QList<CJsonNode>	m_RespList;
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<int, bool>		m_SelectMap;
+
+	int					m_ListMode;
+	int					m_EventID;
 
 	QString				m_TotalCount;
 	QString				m_TotalTime;

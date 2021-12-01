@@ -156,13 +156,15 @@ void PlaylistWindow::SlotRespError(QString message)
 
 void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 {
+	m_RespList = list;
+
 	SetOptionMenu();
 
 	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_PLAYLIST);
+	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
 
-	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_PLAYLIST);
+//	m_pListTracks->ClearNodeList();
+//	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
 }
 
 void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
@@ -184,13 +186,15 @@ void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
 
 void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
+	m_RespList = list;
+
 	SetOptionMenu();
 
-	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_PLAYLIST);
+//	m_pIconTracks->ClearNodeList();
+//	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
 
 	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_PLAYLIST);
+	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
 }
 
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -354,6 +358,12 @@ void PlaylistWindow::SlotResize(int resize)
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
 			LogDebug("icon~~~~~~~~");
+			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
+			{
+				m_pIconTracks->ClearNodeList();
+				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
+			}
+
 			m_pListTracks->hide();
 			m_pIconTracks->show();
 			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
@@ -361,6 +371,12 @@ void PlaylistWindow::SlotResize(int resize)
 		else
 		{
 			LogDebug("list~~~~~~~~");
+			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
+			{
+				m_pListTracks->ClearNodeList();
+				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
+			}
+
 			m_pIconTracks->hide();
 			m_pListTracks->show();
 			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);

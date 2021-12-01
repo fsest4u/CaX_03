@@ -96,8 +96,10 @@ void AudioCDWindow::RequestTrackList()
 
 void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
-	CJsonNode track = list.at(0);
-	LogDebug("track [%s]", track.ToCompactByteArray().data());
+	m_RespList = list;
+
+	CJsonNode track = m_RespList.at(0);
+//	LogDebug("track [%s]", track.ToCompactByteArray().data());
 
 	m_pInfoTracks->SetCoverArt(track.GetString(KEY_COVER_ART));
 	m_pInfoTracks->SetTitle(track.GetString(KEY_ALBUM));
@@ -106,13 +108,13 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(list, IconTracks::ICON_TRACKS_AUDIO_CD);
+//	m_pIconTracks->ClearNodeList();
+//	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_AUDIO_CD);
 
 	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(list, ListTracks::LIST_TRACKS_AUDIO_CD);
+	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_AUDIO_CD);
 
-	m_TotalCount = QString("%1 songs").arg(list.count());
+//	m_TotalCount = QString("%1 songs").arg(m_RespList.count());
 //	m_pInfoTracks->SetInfo( MakeInfo() );
 
 }
@@ -277,6 +279,12 @@ void AudioCDWindow::SlotResize(int resize)
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
 			LogDebug("icon~~~~~~~~");
+			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
+			{
+				m_pIconTracks->ClearNodeList();
+				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_AUDIO_CD);
+			}
+
 			m_pListTracks->hide();
 			m_pIconTracks->show();
 			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
@@ -284,6 +292,12 @@ void AudioCDWindow::SlotResize(int resize)
 		else
 		{
 			LogDebug("list~~~~~~~~");
+			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
+			{
+				m_pListTracks->ClearNodeList();
+				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_AUDIO_CD);
+			}
+
 			m_pIconTracks->hide();
 			m_pListTracks->show();
 			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);

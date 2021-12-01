@@ -175,6 +175,8 @@ private:
 
 //	QThread				*m_pCatThread;
 //	QThread				*m_pSongThread;
+	QList<CJsonNode>	m_RespList;
+
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_CategoryMenuMap;

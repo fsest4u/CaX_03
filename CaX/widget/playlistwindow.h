@@ -102,6 +102,8 @@ private:
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
+	QList<CJsonNode>	m_RespList;
+
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<int, bool>		m_SelectMap;
