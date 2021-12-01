@@ -714,12 +714,20 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
-		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-		widget->AddWidgetTrack();
-		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+		if (m_nCategory == SQLManager::CATEGORY_TRACK)
+		{
+			SlotSelectTrackPlay(nID, PLAY_CLEAR);
+		}
+		else
+		{
+			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+			widget->AddWidgetTrack();
+			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(nID, m_nCategory);
-		widget->SetCoverArt(coverArt);
+			widget->RequestTrackList(nID, m_nCategory);
+			widget->SetCoverArt(coverArt);
+		}
+
 	}
 	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
 	{
