@@ -155,14 +155,14 @@ void MusicDBWindow::AddWidgetTrack(int typeMode)
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 //	if (m_ListMode == VIEW_MODE_ICON)
 //	{
-//		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
-//		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
 //	}
 //	else
-	{
-		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
-		ui->gridLayoutBottom->addWidget(m_pListTracks);
-	}
+//	{
+//		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+//		ui->gridLayoutBottom->addWidget(m_pListTracks);
+//	}
 
 	if (m_TypeMode == TYPE_MODE_ADD_TRACK)
 	{
