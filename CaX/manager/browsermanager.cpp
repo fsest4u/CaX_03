@@ -246,6 +246,11 @@ void BrowserManager::RequestRandom()
 
 void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{

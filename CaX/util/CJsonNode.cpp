@@ -241,9 +241,15 @@ bool CJsonNode::SetContent(QString strContent)
 
 	m_lpJson = json_loads(ToAscii(strContent).data(), JSON_DISABLE_EOF_CHECK, &error);
 
-	if( m_lpJson )		m_blDecRef = true;
+	if( m_lpJson )
+	{
+		m_blDecRef = true;
+	}
 #ifndef NO_LOGGING
-	else				LogCritical(" json error on line %d: %s\n", error.line, error.text);
+	else
+	{
+		LogCritical(" json error on line %d: %s\n", error.line, error.text);
+	}
 #endif
 
 #ifdef __INC_DEC_REF_LOG__
