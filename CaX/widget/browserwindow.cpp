@@ -94,6 +94,7 @@ BrowserWindow::~BrowserWindow()
 
 	if (m_pListThread)
 	{
+		m_pListThread->terminate();
 		delete m_pListThread;
 		m_pListThread = nullptr;
 	}

@@ -78,12 +78,14 @@ PlaylistWindow::~PlaylistWindow()
 
 	if (m_pIconThread)
 	{
+		m_pIconThread->terminate();
 		delete m_pIconThread;
 		m_pIconThread = nullptr;
 	}
 
 	if (m_pListThread)
 	{
+		m_pListThread->terminate();
 		delete m_pListThread;
 		m_pListThread = nullptr;
 	}
