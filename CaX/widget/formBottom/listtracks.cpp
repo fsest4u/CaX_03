@@ -216,6 +216,7 @@ ListTracksDelegate *ListTracks::GetDelegate()
 void ListTracks::SetBackgroundTask(QThread *thread)
 {
 	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
+	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
 }
 
 void ListTracks::SlotReqCoverArt()
@@ -228,6 +229,11 @@ void ListTracks::SlotReqCoverArt()
 		emit SigReqCoverArt(nID, index, QListView::ListMode);
 		index++;
 	}
+}
+
+void ListTracks::SlotFinishThread()
+{
+	LogDebug("thread finish good");
 }
 
 void ListTracks::SlotScrollValueChanged(int value)

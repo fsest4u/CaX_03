@@ -53,6 +53,7 @@ signals:
 private slots:
 
 	void SlotReqCoverArt();
+	void SlotFinishThread();
 	void SlotDoubleClickItem(const QModelIndex& index);
 
 private:

@@ -230,6 +230,7 @@ ListBrowserDelegate *ListBrowser::GetDelegate()
 void ListBrowser::SetBackgroundTask(QThread *thread)
 {
 	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
+	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
 }
 
 void ListBrowser::SlotReqCoverArt()
@@ -265,6 +266,11 @@ void ListBrowser::SlotReqCoverArt()
 		}
 	}
 
+}
+
+void ListBrowser::SlotFinishThread()
+{
+	LogDebug("thread finish good");
 }
 
 void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)

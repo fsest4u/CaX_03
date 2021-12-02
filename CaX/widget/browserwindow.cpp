@@ -444,6 +444,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		m_pInfoBrowser->SetCoverArt(list[0].GetString(KEY_COVER_ART));
 		m_pInfoBrowser->SetSubtitle(m_Root);
 
+		m_pListThread->terminate();
 		m_pListBrowser->SetBackgroundTask(m_pListThread);
 		m_pListBrowser->ClearNodeList();
 		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
@@ -915,6 +916,9 @@ void BrowserWindow::DoTopMenuReload()
 	}
 	else
 	{
+		UtilNovatron::RemoveTempDirectory();
+		UtilNovatron::CreateTempDirectory();
+
 		RequestFolder(m_Root);
 	}
 }

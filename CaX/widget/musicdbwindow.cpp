@@ -18,6 +18,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
@@ -276,6 +277,7 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
+	m_pIconThread->terminate();
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
@@ -323,6 +325,7 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
+	m_pIconThread->terminate();
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
@@ -471,6 +474,7 @@ void MusicDBWindow::SlotResize(int resize)
 			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
+				m_pIconThread->terminate();
 				m_pIconTracks->SetBackgroundTask(m_pIconThread);
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
@@ -486,6 +490,7 @@ void MusicDBWindow::SlotResize(int resize)
 			LogDebug("list~~~~~~~~", m_pListTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
+				m_pListThread->terminate();
 				m_pListTracks->SetBackgroundTask(m_pListThread);
 				m_pListTracks->ClearNodeList();
 				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
@@ -1266,6 +1271,9 @@ void MusicDBWindow::DoTopMenuPlay(int nWhere)
 
 void MusicDBWindow::DoTopMenuReload()
 {
+	UtilNovatron::RemoveTempDirectory();
+	UtilNovatron::CreateTempDirectory();
+
 	RequestCategoryList();
 }
 

@@ -225,6 +225,7 @@ IconTracksDelegate *IconTracks::GetDelegate()
 void IconTracks::SetBackgroundTask(QThread *thread)
 {
 	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
+	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
 }
 
 void IconTracks::SlotReqCoverArt()
@@ -237,6 +238,11 @@ void IconTracks::SlotReqCoverArt()
 		emit SigReqCoverArt(nID, index, QListView::IconMode);
 		index++;
 	}
+}
+
+void IconTracks::SlotFinishThread()
+{
+	LogDebug("thread finish good");
 }
 
 void IconTracks::SlotScrollValueChanged(int value)

@@ -55,6 +55,7 @@ signals:
 private slots:
 
 	void SlotReqCoverArt();
+	void SlotFinishThread();
 	void SlotScrollValueChanged(int value);
 	void SlotDoubleClickItem(const QModelIndex& index);
 
