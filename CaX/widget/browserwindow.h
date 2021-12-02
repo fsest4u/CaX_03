@@ -124,6 +124,10 @@ private:
 	void SetOptionDirFile(QString path, int type, QStringList &dirs, QStringList & files);
 	void SetOptionPaths(QString path, int type, QStringList &paths);
 
+	void ThreadStartList();
+	void ThreadTerminateList();
+
+
 	BrowserManager		*m_pMgr;
 	InfoService			*m_pInfoService;
 	InfoBrowser			*m_pInfoBrowser;

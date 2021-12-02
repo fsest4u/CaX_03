@@ -163,6 +163,12 @@ private:
 
 	void ClearClassifyMenu();
 
+	void ThreadStartIcon();
+	void ThreadStartList();
+
+	void ThreadTerminateIcon();
+	void ThreadTerminateList();
+
 	int GetTotalCount(CJsonNode node);
 	void CalculatePage(int totalCount);
 

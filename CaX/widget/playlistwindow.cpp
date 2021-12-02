@@ -78,14 +78,14 @@ PlaylistWindow::~PlaylistWindow()
 
 	if (m_pIconThread)
 	{
-		m_pIconThread->terminate();
+		ThreadTerminateIcon();
 		delete m_pIconThread;
 		m_pIconThread = nullptr;
 	}
 
 	if (m_pListThread)
 	{
-		m_pListThread->terminate();
+		ThreadTerminateList();
 		delete m_pListThread;
 		m_pListThread = nullptr;
 	}
@@ -176,11 +176,10 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-	m_pIconThread->terminate();
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
-	m_pIconThread->start();
+	ThreadStartIcon();
 
 //	m_pListTracks->ClearNodeList();
 //	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
@@ -212,11 +211,10 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 //	m_pIconTracks->ClearNodeList();
 //	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
 
-	m_pListThread->terminate();
 	m_pListTracks->SetBackgroundTask(m_pListThread);
 	m_pListTracks->ClearNodeList();
 	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
-	m_pListThread->start();
+	ThreadStartList();
 }
 
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -257,6 +255,9 @@ void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
+		ThreadTerminateIcon();
+		ThreadTerminateList();
+
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetTrack();
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
@@ -382,11 +383,10 @@ void PlaylistWindow::SlotResize(int resize)
 			LogDebug("icon~~~~~~~~");
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
-				m_pIconThread->terminate();
 				m_pIconTracks->SetBackgroundTask(m_pIconThread);
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
-				m_pIconThread->start();
+				ThreadStartIcon();
 			}
 
 			m_pListTracks->hide();
@@ -398,11 +398,10 @@ void PlaylistWindow::SlotResize(int resize)
 			LogDebug("list~~~~~~~~");
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
-				m_pListThread->terminate();
 				m_pListTracks->SetBackgroundTask(m_pListThread);
 				m_pListTracks->ClearNodeList();
 				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
-				m_pListThread->start();
+				ThreadStartList();
 			}
 
 			m_pIconTracks->hide();
@@ -824,7 +823,9 @@ void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 {
 	if (m_TypeMode == TYPE_MODE_TRACK)
 	{
-		LogDebug("good choice");
+		ThreadTerminateIcon();
+		ThreadTerminateList();
+
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -932,6 +933,9 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 	m_ID = nID;
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
+		ThreadTerminateIcon();
+		ThreadTerminateList();
+
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -939,5 +943,35 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 
 		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
 		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
+	}
+}
+
+void PlaylistWindow::ThreadStartIcon()
+{
+	ThreadTerminateIcon();
+
+	m_pIconThread->start();
+}
+
+void PlaylistWindow::ThreadStartList()
+{
+	ThreadTerminateList();
+
+	m_pListThread->start();
+}
+
+void PlaylistWindow::ThreadTerminateIcon()
+{
+	if (m_pIconThread->isRunning())
+	{
+		m_pIconThread->terminate();
+	}
+}
+
+void PlaylistWindow::ThreadTerminateList()
+{
+	if (m_pListThread->isRunning())
+	{
+		m_pListThread->terminate();
 	}
 }

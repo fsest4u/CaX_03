@@ -96,6 +96,13 @@ private:
 	void DoOptionMenuDelete(int nID);
 	void DoOptionMenuAddToPlaylist(int nID);
 
+	void ThreadStartIcon();
+	void ThreadStartList();
+
+	void ThreadTerminateIcon();
+	void ThreadTerminateList();
+
+
 	PlaylistManager		*m_pMgr;
 	InfoService			*m_pInfoService;
 	InfoTracks			*m_pInfoTracks;

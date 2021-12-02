@@ -94,7 +94,7 @@ BrowserWindow::~BrowserWindow()
 
 	if (m_pListThread)
 	{
-		m_pListThread->terminate();
+		ThreadTerminateList();
 		delete m_pListThread;
 		m_pListThread = nullptr;
 	}
@@ -379,6 +379,8 @@ void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
 
 	if (iFolderType_Mask_Sub & nType)
 	{
+		ThreadTerminateList();
+
 		QString path = node.GetString(KEY_PATH);
 		if (!m_Root.isEmpty())
 			path = m_Root + "/" + path;
@@ -445,11 +447,10 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		m_pInfoBrowser->SetCoverArt(list[0].GetString(KEY_COVER_ART));
 		m_pInfoBrowser->SetSubtitle(m_Root);
 
-		m_pListThread->terminate();
 		m_pListBrowser->SetBackgroundTask(m_pListThread);
 		m_pListBrowser->ClearNodeList();
 		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
-		m_pListThread->start();
+		ThreadStartList();
 	}
 
 	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);
@@ -990,6 +991,8 @@ void BrowserWindow::DoTopMenuDelete()
 
 void BrowserWindow::DoTopMenuCopy(bool move)
 {
+	ThreadTerminateList();
+
 	int mode = BROWSER_MODE_MAX;
 	QString title;
 	if (move)
@@ -1214,6 +1217,8 @@ void BrowserWindow::DoOptionMenuDelete(QString path, int type)
 
 void BrowserWindow::DoOptionMenuCopy(QString path, int type, bool move)
 {
+	ThreadTerminateList();
+
 	int mode = BROWSER_MODE_MAX;
 	QString title;
 	if (move)
@@ -1399,5 +1404,21 @@ void BrowserWindow::SetOptionPaths(QString path, int type, QStringList &paths)
 	{
 		paths.append(files.at(i));
 	}
+}
+
+void BrowserWindow::ThreadStartList()
+{
+	ThreadTerminateList();
+
+	m_pListThread->start();
+}
+
+void BrowserWindow::ThreadTerminateList()
+{
+	if (m_pListThread->isRunning())
+	{
+		m_pListThread->terminate();
+	}
+
 }
 
