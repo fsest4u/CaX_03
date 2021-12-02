@@ -1274,7 +1274,14 @@ void MusicDBWindow::DoTopMenuReload()
 	UtilNovatron::RemoveTempDirectory();
 	UtilNovatron::CreateTempDirectory();
 
-	RequestCategoryList();
+	if (m_nCategory == SQLManager::CATEGORY_TRACK)
+	{
+		RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+	}
+	else
+	{
+		RequestCategoryList();
+	}
 }
 
 void MusicDBWindow::DoTopMenuSetLimitCount(int count)
