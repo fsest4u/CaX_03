@@ -155,14 +155,14 @@ void MusicDBWindow::AddWidgetTrack(int typeMode)
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 //	if (m_ListMode == VIEW_MODE_ICON)
 //	{
-		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
-		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+//		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+//		ui->gridLayoutBottom->addWidget(m_pIconTracks);
 //	}
 //	else
-//	{
-//		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
-//		ui->gridLayoutBottom->addWidget(m_pListTracks);
-//	}
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		ui->gridLayoutBottom->addWidget(m_pListTracks);
+	}
 
 	if (m_TypeMode == TYPE_MODE_ADD_TRACK)
 	{
@@ -327,13 +327,15 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-	m_pIconTracks->SetBackgroundTask(m_pIconThread);
-	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
-	ThreadStartIcon();
+//	m_pIconTracks->SetBackgroundTask(m_pIconThread);
+//	m_pIconTracks->ClearNodeList();
+//	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
+//	ThreadStartIcon();
 
-//	m_pListTracks->ClearNodeList();
-//	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
+	m_pListTracks->SetBackgroundTask(m_pListThread);
+	m_pListTracks->ClearNodeList();
+	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
+	ThreadStartList();
 
 }
 
@@ -557,7 +559,7 @@ void MusicDBWindow::SlotTrackList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode);
+	widget->AddWidgetTrack();
 	emit widget->SigAddWidget(widget, STR_TRACK);
 
 	widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
