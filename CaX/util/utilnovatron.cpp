@@ -1,6 +1,8 @@
-#include <QIcon>
 #include <QDateTime>
+#include <QDir>
 #include <QFileInfo>
+#include <QIcon>
+#include <QStandardPaths>
 
 #include "utilnovatron.h"
 
@@ -367,6 +369,39 @@ QString UtilNovatron::CalcSecondToHMS(int seconds)
 	}
 
 	return time;
+}
+
+void UtilNovatron::CreateTempDirectory()
+{
+	QString dirTmep = GetTempDirectory();
+
+	QDir dir(dirTmep);
+	if (!dir.exists(dirTmep))
+	{
+		if (dir.mkdir(dirTmep))
+		{
+//			LogDebug("success to create temp dir...");
+		}
+	}
+}
+
+QString UtilNovatron::GetTempDirectory()
+{
+	QString dirTemp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+	QString organName = QCoreApplication::organizationName();
+
+	return dirTemp + "/" + organName;
+}
+
+void UtilNovatron::RemoveTempDirectory()
+{
+	QString dirTmep = GetTempDirectory();
+
+	QDir dir(dirTmep);
+	if (dir.exists(dirTmep))
+	{
+		dir.removeRecursively();
+	}
 }
 
 QString UtilNovatron::ConvertURLToFilename(QString fullpath)

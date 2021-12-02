@@ -42,7 +42,6 @@ private :
 	QList<QNetworkReply*>		m_ListReply;
 
 	QString						m_Addr;
-	QString                     m_DirTemp;
 
 
 };

@@ -12,18 +12,7 @@ TCPClient::TCPClient(QObject *parent)
 	: QObject(parent)
 	, m_pManager(new QNetworkAccessManager)
 {
-	QString dirTemp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-	QString organName = QCoreApplication::organizationName();
-	m_DirTemp = dirTemp + "/"+ organName;
-
-	QDir dir(m_DirTemp);
-	if (!dir.exists(m_DirTemp))
-	{
-		if (dir.mkdir(m_DirTemp))
-		{
-//			LogDebug("success to create temp dir...");
-		}
-	}
+	UtilNovatron::CreateTempDirectory();
 }
 
 TCPClient::~TCPClient()
@@ -88,7 +77,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 {
 #if 1
 	QString filename = UtilNovatron::ConvertURLToFilename(fullpath);
-	filename = m_DirTemp + "/" + filename;
+	filename = UtilNovatron::GetTempDirectory() + "/" + filename;
 
 	if (filename.isEmpty())
 	{
@@ -175,7 +164,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 {
 #if 1
 	QString filename = UtilNovatron::ConvertURLToFilename(fullpath);
-	filename = m_DirTemp + "/" + filename;
+	filename = UtilNovatron::GetTempDirectory() + "/" + filename;
 
 	if (filename.isEmpty())
 	{
@@ -248,7 +237,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 {
 	QString filename = QString("Search%1").arg(index);
-	filename = m_DirTemp + "/" + filename + ".jpg";
+	filename = UtilNovatron::GetTempDirectory() + "/" + filename + ".jpg";
 
 	if (strUrl.isEmpty())
 	{
