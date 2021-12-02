@@ -136,7 +136,7 @@ void SearchCoverArtResultDialog::SlotSelectCoverArt(int index)
 	SetImageData(qvariant_cast<QByteArray>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
 //	SetImagePath(qvariant_cast<QString>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
 
-	done(1);
+	done(QDialog::Accepted);
 }
 
 void SearchCoverArtResultDialog::ConnectSigToSlot()

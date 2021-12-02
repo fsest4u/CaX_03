@@ -1,9 +1,9 @@
-#include <QMessageBox>
 #include <QThread>
 
 #include "playlistwindow.h"
 #include "ui_playlistwindow.h"
 
+#include "dialog/commondialog.h"
 #include "dialog/inputnamedialog.h"
 
 #include "manager/playlistmanager.h"
@@ -165,9 +165,10 @@ void PlaylistWindow::SlotRemoveWidget(QWidget *widget)
 	emit SigRemoveWidget(widget);
 }
 
-void PlaylistWindow::SlotRespError(QString message)
+void PlaylistWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::warning(this, "Warning", message);
+	CommonDialog dialog(this, STR_WARNING, errMsg);
+	dialog.exec();
 }
 
 void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
@@ -761,11 +762,13 @@ void PlaylistWindow::DoTopMenuAddToPlaylist()
 	{
 		if (m_SelectMap.count() <= 0)
 		{
-			QMessageBox::warning(this, "Warning", tr("no select"));
+			CommonDialog dialog(this, STR_WARNING, tr("no select"));
+			dialog.exec();
 		}
 		else if (m_SelectMap.count() > 1)
 		{
-			QMessageBox::warning(this, "Warning", tr("select only one"));
+			CommonDialog dialog(this, STR_WARNING, tr("select only one"));
+			dialog.exec();
 		}
 		else if (m_SelectMap.count() == 1)
 		{

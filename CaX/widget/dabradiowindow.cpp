@@ -1,14 +1,7 @@
-#include <QMessageBox>
-
 #include "dabradiowindow.h"
 #include "ui_dabradiowindow.h"
 
-#include "widget/form/formplay.h"
-#include "widget/form/formsort.h"
-
-#include "widget/formTop/infoservice.h"
-#include "widget/formBottom/iconservice.h"
-#include "widget/formBottom/iconservicedelegate.h"
+#include "dialog/commondialog.h"
 
 #include "manager/dabradiomanager.h"
 
@@ -17,6 +10,13 @@
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
+
+#include "widget/form/formplay.h"
+#include "widget/form/formsort.h"
+
+#include "widget/formTop/infoservice.h"
+#include "widget/formBottom/iconservice.h"
+#include "widget/formBottom/iconservicedelegate.h"
 
 #define MAIN_TITLE	"DAB Radio"
 #define RESERVE_TITLE	"Reserved record list"
@@ -126,7 +126,8 @@ void DABRadioWindow::SlotTopMenuAction(int menuID)
 
 void DABRadioWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::warning(this, "Warning", errMsg);
+	CommonDialog dialog(this, STR_WARNING, errMsg);
+	dialog.exec();
 }
 
 void DABRadioWindow::SlotSelectTitle(int nType)

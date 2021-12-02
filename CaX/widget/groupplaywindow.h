@@ -25,7 +25,7 @@ public:
 
 private slots:
 
-	void SlotRespError(QString message);
+	void SlotRespError(QString errMsg);
 	void SlotRespGroupPlayList(QList<CJsonNode> list);
 
 	void SlotReqCoverArt(int id, int index, int mode);

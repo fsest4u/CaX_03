@@ -1,9 +1,9 @@
 #include <QtWebEngineWidgets/QWebEngineView>
-#include <QMessageBox>
 
 #include "iservicewindow.h"
 #include "ui_iservicewindow.h"
 
+#include "dialog/commondialog.h"
 #include "dialog/logindialog.h"
 #include "dialog/webengineviewdialog.h"
 #include "dialog/searchdialog.h"
@@ -228,7 +228,8 @@ void IServiceWindow::SlotRespAirableLogout()
 
 void IServiceWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::warning(this, "Warning", errMsg);
+	CommonDialog dialog(this, STR_WARNING, errMsg);
+	dialog.exec();
 }
 
 void IServiceWindow::SlotSelectIconTitle(int nType)
@@ -553,7 +554,8 @@ void IServiceWindow::Initialize()
 
 void IServiceWindow::SelectTitleForQobuz(int nType, QString rawData)
 {
-	QMessageBox::warning(this, "Warning", "coming soon~~");
+	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
+	dialog.exec();
 
 //	if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
 //			 || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == nType

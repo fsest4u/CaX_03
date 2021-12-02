@@ -1,7 +1,10 @@
-#include <QMessageBox>
-
 #include "audiocdwindow.h"
 #include "ui_audiocdwindow.h"
+
+#include "dialog/cdripinfodialog.h"
+#include "dialog/commondialog.h"
+#include "dialog/trackinfodialog.h"
+#include "dialog/trackinfo.h"
 
 #include "manager/audiocdmanager.h"
 
@@ -19,9 +22,6 @@
 #include "widget/formBottom/listtracks.h"
 #include "widget/formBottom/listtracksdelegate.h"
 
-#include "dialog/cdripinfodialog.h"
-#include "dialog/trackinfodialog.h"
-#include "dialog/trackinfo.h"
 
 AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
@@ -174,7 +174,8 @@ void AudioCDWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 void AudioCDWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::warning(this, "Warning", errMsg);
+	CommonDialog dialog(this, STR_WARNING, errMsg);
+	dialog.exec();
 }
 
 void AudioCDWindow::SlotSelectTitle(int id, QString coverArt)

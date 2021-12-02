@@ -1,19 +1,19 @@
-#include <QMessageBox>
-
 #include "groupplaywindow.h"
 #include "ui_groupplaywindow.h"
 
+#include "dialog/commondialog.h"
+
 #include "manager/groupplaymanager.h"
+
+#include "util/caxconstants.h"
+#include "util/caxkeyvalue.h"
+#include "util/log.h"
 
 #include "widget/form/formsort.h"
 
 #include "widget/formTop/infoservice.h"
 #include "widget/formBottom/iconservice.h"
 #include "widget/formBottom/iconservicedelegate.h"
-
-#include "util/caxconstants.h"
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
 
 GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
@@ -67,9 +67,10 @@ void GroupPlayWindow::GroupPlayList(int eventID)
 	m_pMgr->RequestGroupPlayList(m_EventID);
 }
 
-void GroupPlayWindow::SlotRespError(QString message)
+void GroupPlayWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::warning(this, "Warning", message);
+	CommonDialog dialog(this, STR_WARNING, errMsg);
+	dialog.exec();
 }
 
 void GroupPlayWindow::SlotRespGroupPlayList(QList<CJsonNode> list)

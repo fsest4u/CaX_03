@@ -206,12 +206,12 @@ void CDRipInfoDialog::accept()
 	m_InfoData.Del(KEY_TRACKS);
 	m_InfoData.Add(KEY_TRACKS, trackArr);
 
-	done(1);
+	done(QDialog::Accepted);
 }
 
 void CDRipInfoDialog::reject()
 {
-	done(0);
+	done(QDialog::Rejected);
 }
 
 void CDRipInfoDialog::UpdateStackState()

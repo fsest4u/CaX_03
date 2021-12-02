@@ -1,4 +1,3 @@
-#include <QMessageBox>
 #include <QThread>
 
 #include "browserwindow.h"
@@ -6,6 +5,7 @@
 
 #include "browser.h"
 
+#include "dialog/commondialog.h"
 #include "dialog/inputnamedialog.h"
 #include "dialog/logindialog.h"
 #include "dialog/selectformatdialog.h"
@@ -481,7 +481,8 @@ void BrowserWindow::SlotRespError(QString errMsg)
 {
 	if (BROWSER_MODE_NORMAL == m_BrowserMode)
 	{
-		QMessageBox::warning(this, "Warning", errMsg);
+		CommonDialog dialog(this, STR_WARNING, errMsg);
+		dialog.exec();
 
 		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
 

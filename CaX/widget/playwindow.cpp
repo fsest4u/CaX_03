@@ -1,10 +1,11 @@
 #include <QMouseEvent>
 #include <QTimer>
 #include <QWidgetAction>
-#include <QMessageBox>
 
 #include "playwindow.h"
 #include "ui_playwindow.h"
+
+#include "dialog/commondialog.h"
 
 #include "manager/playmanager.h"
 
@@ -250,7 +251,8 @@ void PlayWindow::SlotQueueList(CJsonNode node)
 {
 //	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
-//	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
+//	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
+//	dialog.exec();
 
 }
 

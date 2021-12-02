@@ -1,10 +1,10 @@
 #include <QStackedWidget>
-#include <QMessageBox>
 #include <QThread>
 
 #include "musicdbwindow.h"
 #include "ui_musicdbwindow.h"
 
+#include "dialog/commondialog.h"
 #include "dialog/inputnamedialog.h"
 #include "dialog/limitcountdialog.h"
 #include "dialog/searchcoverartdialog.h"
@@ -236,7 +236,8 @@ void MusicDBWindow::SlotRemoveWidget(QWidget *widget)
 
 void MusicDBWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::warning(this, "Warning", errMsg);
+	CommonDialog dialog(this, STR_WARNING, errMsg);
+	dialog.exec();
 }
 
 void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)

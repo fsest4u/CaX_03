@@ -1,9 +1,9 @@
-#include <QMessageBox>
 
 #include "fmradiowindow.h"
 #include "ui_fmradiowindow.h"
 
 #include "dialog/addradiodialog.h"
+#include "dialog/commondialog.h"
 #include "dialog/progressfmdialog.h"
 
 #include "manager/fmradiomanager.h"
@@ -138,7 +138,8 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 
 void FMRadioWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::warning(this, "Warning", errMsg);
+	CommonDialog dialog(this, STR_WARNING, errMsg);
+	dialog.exec();
 }
 
 void FMRadioWindow::SlotSelectTitle(int nType)

@@ -1,10 +1,8 @@
-//#include <QMouseEvent>
-#include <QMessageBox>
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include "dialog/aboutdialog.h"
+#include "dialog/commondialog.h"
 #include "dialog/poweroffdialog.h"
 #include "dialog/progressdialog.h"
 
@@ -165,7 +163,8 @@ void MainWindow::SlotMenuAction(int menuID)
 		}
 		else
 		{
-			QMessageBox::warning(this, STR_WARNING, STR_INSERT_CD);
+			CommonDialog dialog(this, STR_WARNING, STR_INSERT_CD);
+			dialog.exec();
 		}
 		break;
 	}
@@ -242,8 +241,8 @@ void MainWindow::SlotBtnNext()
 
 void MainWindow::SlotBtnSearch()
 {
-	LogDebug("click btn search");
-	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
+	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
+	dialog.exec();
 }
 
 void MainWindow::ReadSettings()
@@ -352,7 +351,8 @@ void MainWindow::SlotDeviceItem(int state)
 
 void MainWindow::SlotRespError(QString errMsg)
 {
-	QMessageBox::critical(this, "critical", errMsg);
+	CommonDialog dialog(this, STR_CRITICAL, errMsg);
+	dialog.exec();
 }
 
 
@@ -412,8 +412,8 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 	int version = m_strVersion.right(m_strVersion.length() - index).toInt();
 	if (version < FIRMWARE_MIN_VERSION)
 	{
-		LogDebug("version [%d]", version);
-		QMessageBox::warning(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
+		CommonDialog dialog(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
+		dialog.exec();
 		return;
 	}
 
@@ -851,12 +851,12 @@ void MainWindow::DoGroupPlayHome()
 
 void MainWindow::DoSetupHome()
 {
+	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
+	dialog.exec();
+
 //	SetupWindow *widget = new SetupWindow(this, m_strAddr);
 //	SlotAddWidget(widget, STR_SETUP);
 //	widget->SetupHome(m_SetupList, m_EventID);
-
-	QMessageBox::warning(this, STR_WARNING, STR_COMING_SOON);
-
 }
 
 void MainWindow::DoPowerOff()

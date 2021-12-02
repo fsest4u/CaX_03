@@ -13,6 +13,7 @@ SOURCES += \
     dialog/addradiodialog.cpp \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
+    dialog/commondialog.cpp \
     dialog/groupplaydialog.cpp \
     dialog/inputnamedialog.cpp \
     dialog/limitcountdialog.cpp \
@@ -111,6 +112,7 @@ HEADERS += \
     dialog/addradiodialog.h \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
+    dialog/commondialog.h \
     dialog/groupplaydialog.h \
     dialog/inputnamedialog.h \
     dialog/limitcountdialog.h \
@@ -220,6 +222,7 @@ FORMS += \
     dialog/addradiodialog.ui \
     dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \
+    dialog/commondialog.ui \
     dialog/groupplaydialog.ui \
     dialog/inputnamedialog.ui \
     dialog/limitcountdialog.ui \
