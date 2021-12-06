@@ -101,7 +101,6 @@ void MainWindow::SlotMenu()
 
 	if (m_bConnect)
 	{
-
 		m_SideMenuMap.insert(SIDEMENU_MUSIC_DB, STR_MUSIC_DB);
 		m_SideMenuMap.insert(SIDEMENU_PLAYLIST, STR_PLAYLIST);
 		m_SideMenuMap.insert(SIDEMENU_BROWSER, STR_BROWSER);
@@ -136,7 +135,7 @@ void MainWindow::SlotMenu()
 		{
 			m_SideMenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
 		}
-	}
+			}
 	else
 	{
 		m_SideMenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
@@ -209,6 +208,13 @@ void MainWindow::SlotMenuAction(int menuID)
 	}
 }
 
+void MainWindow::SlotSearchKeyword(QString keyword)
+{
+	// save keyword
+
+	DoSearchHome(keyword);
+}
+
 void MainWindow::SlotBtnHome()
 {
 	RemoveAllWidget();
@@ -241,8 +247,12 @@ void MainWindow::SlotBtnNext()
 
 void MainWindow::SlotBtnSearch()
 {
-	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
-	dialog.exec();
+//	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
+//	dialog.exec();
+
+	m_bCBSearch = !m_bCBSearch;
+	ui->widgetTop->ShowCBSearch(m_bCBSearch);
+
 }
 
 void MainWindow::ReadSettings()
@@ -326,6 +336,7 @@ void MainWindow::ObserverConnect()
 
 	m_bConnect = true;
 	ui->widgetTop->setDisabled(false);
+	ui->widgetTop->GetBtnSearch()->setDisabled(false);
 	ui->widgetPlay->setDisabled(false);
 
 	m_pObsMgr->RequestObserverInfo(strAddr);
@@ -337,6 +348,7 @@ void MainWindow::ObserverConnect()
 void MainWindow::ObserverDisconnect()
 {
 	ui->widgetTop->setDisabled(true);
+	ui->widgetTop->GetBtnSearch()->setDisabled(true);
 	ui->widgetPlay->setDisabled(true);
 
 	m_pObsMgr->RequestDisconnectObserver();
@@ -701,6 +713,8 @@ void MainWindow::Initialize()
 	m_bIsDel = false;
 	m_EventID = -1;
 
+	m_bCBSearch = false;
+
 }
 
 void MainWindow::ConnectSigToSlot()
@@ -711,15 +725,14 @@ void MainWindow::ConnectSigToSlot()
 
 void MainWindow::ConnectForUI()
 {
-	// top menu
 	connect(ui->widgetTop, SIGNAL(SigMenu()), this, SLOT(SlotMenu()));
 	connect(ui->widgetTop, SIGNAL(SigMenuAction(int)), this, SLOT(SlotMenuAction(int)));
+	connect(ui->widgetTop, SIGNAL(SigSearchKeyword(QString)), this, SLOT(SlotSearchKeyword(QString)));
 	connect(ui->widgetTop->GetBtnHome(), SIGNAL(clicked()), this, SLOT(SlotBtnHome()));
 	connect(ui->widgetTop->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPrev()));
 	connect(ui->widgetTop->GetBtnNext(), SIGNAL(clicked()), this, SLOT(SlotBtnNext()));
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
-	// play menu
 	connect(ui->widgetPlay, SIGNAL(SigMenu()), this, SLOT(SlotDevice()));
 	connect(ui->widgetPlay, SIGNAL(SigMenuAction(QString)), this, SLOT(SlotDeviceAction(QString)));
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
@@ -754,6 +767,7 @@ void MainWindow::ConnectForApp()
 void MainWindow::DoDeviceListHome()
 {
 //	ui->widgetTop->setDisabled(true);
+	ui->widgetTop->GetBtnSearch()->setDisabled(true);
 	ui->widgetPlay->setDisabled(true);
 
 	SlotAddWidget(m_pDeviceWin, STR_SELECT_DEVICE);
@@ -905,6 +919,11 @@ void MainWindow::DoAbout()
 {
 	AboutDialog dialog;
 	dialog.exec();
+}
+
+void MainWindow::DoSearchHome(QString keyword)
+{
+	LogDebug("search [%s]", keyword.toUtf8().data());
 }
 
 void MainWindow::SlotAddWidget(QWidget *widget, QString title)

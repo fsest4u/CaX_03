@@ -12,6 +12,7 @@ TopWindow::TopWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	ConnectSigToSlot();
 	Initialize();
 }
 
@@ -92,6 +93,49 @@ void TopWindow::SetMenu(QMap<int, QString> list)
 
 }
 
+void TopWindow::ShowCBSearch(bool show)
+{
+	if (show)
+	{
+		ui->cbSearch->show();
+	}
+	else
+	{
+		QString keyword = ui->cbSearch->currentText().toUtf8().data();
+		ui->cbSearch->addItem(keyword);
+		ui->cbSearch->hide();
+
+		emit SigSearchKeyword(keyword);
+	}
+}
+
+//void TopWindow::ClearCBSearch()
+//{
+//	ui->cbSearch->clear();
+//}
+
+//void TopWindow::SetCBSearch(QStringList list)
+//{
+//	int count = list.count();
+//	for (int i = 0; i < count; i++)
+//	{
+//		ui->cbSearch->setItemText(i, list.at(i));
+//	}
+//}
+
+//QStringList TopWindow::GetCBSearch()
+//{
+//	int count = ui->cbSearch->count();
+//	QStringList list;
+
+//	for (int i = 0; i < count; i++)
+//	{
+//		list.append(ui->cbSearch->itemText(i));
+//	}
+
+//	return list;
+//}
+
 void TopWindow::SlotMenu()
 {
 	emit SigMenu();
@@ -100,6 +144,19 @@ void TopWindow::SlotMenu()
 void TopWindow::SlotMenuAction(QAction *action)
 {
 	emit SigMenuAction(action->data().toInt());
+}
+
+//void TopWindow::SlotInputSearchKeyword(const QString keyword)
+//{
+//	LogDebug("keyword [%s]", keyword.toUtf8().data());
+//}
+
+void TopWindow::ConnectSigToSlot()
+{
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+//	connect(ui->cbSearch, SIGNAL(editTextChanged(const QString)), this, SLOT(SlotInputSearchKeyword(const QString)));
+//	connect(ui->cbSearch, SIGNAL(currentTextChanged(const QString)), this, SLOT(SlotInputSearchKeyword(const QString)));
 }
 
 void TopWindow::Initialize()
@@ -121,9 +178,7 @@ void TopWindow::Initialize()
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
 
-	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
-
 	m_TitleList.clear();
 
+	ui->cbSearch->hide();
 }

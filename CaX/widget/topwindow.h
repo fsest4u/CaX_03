@@ -30,18 +30,27 @@ public:
 	void ClearMenu();
 	void SetMenu(QMap<int, QString> list);
 
+	void ShowCBSearch(bool show);
+//	void ClearCBSearch();
+//	void SetCBSearch(QStringList list);
+//	QStringList GetCBSearch();
+
 signals:
 
 	void SigMenu();
 	void SigMenuAction(int menuID);
 
+	void SigSearchKeyword(QString keyword);
+
 private slots:
 
 	void SlotMenu();
 	void SlotMenuAction(QAction *action);
+//	void SlotInputSearchKeyword(const QString keyword);
 
 private:
 
+	void ConnectSigToSlot();
 	void Initialize();
 
 	QList<QString>	m_TitleList;

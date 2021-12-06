@@ -31,6 +31,7 @@ public slots:
 
 	void SlotMenu();
 	void SlotMenuAction(int menuID);
+	void SlotSearchKeyword(QString keyword);
 	void SlotBtnHome();
 	void SlotBtnPrev();
 	void SlotBtnNext();
@@ -92,6 +93,8 @@ private:
 	void DoPowerOn();
 	void DoAbout();
 
+	void DoSearchHome(QString keyword);
+
 	void RemoveAllWidget();
 	void UpdateStackState();
 
@@ -128,6 +131,8 @@ private:
 //	bool            m_bSigma;
 	bool            m_bScanDB;
 	bool            m_bIsDel;
+
+	bool			m_bCBSearch;
 
 	int				m_EventID;	
 
