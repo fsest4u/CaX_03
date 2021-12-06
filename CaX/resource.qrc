@@ -784,5 +784,23 @@
         <file>resource/top-btn22-sortd-h.png</file>
         <file>resource/top-btn22-sortd-h@2x.png</file>
         <file>resource/top-btn22-sortd-h@3x.png</file>
+        <file>resource/audiocd-popup-btn22-left.png</file>
+        <file>resource/audiocd-popup-btn22-left@2x.png</file>
+        <file>resource/audiocd-popup-btn22-left@3x.png</file>
+        <file>resource/audiocd-popup-btn22-right.png</file>
+        <file>resource/audiocd-popup-btn22-right@2x.png</file>
+        <file>resource/audiocd-popup-btn22-right@3x.png</file>
+        <file>resource/browser-img160-folder-h.png</file>
+        <file>resource/browser-img160-folder-h@2x.png</file>
+        <file>resource/browser-img160-folder-h@3x.png</file>
+        <file>resource/browser-img160-folder-n.png</file>
+        <file>resource/browser-img160-folder-n@2x.png</file>
+        <file>resource/browser-img160-folder-n@3x.png</file>
+        <file>resource/browser-img60-folder.png</file>
+        <file>resource/browser-img60-folder@2x.png</file>
+        <file>resource/browser-img60-folder@3x.png</file>
+        <file>resource/groupp-icon30-volume-mute.png</file>
+        <file>resource/groupp-icon30-volume-mute@2x.png</file>
+        <file>resource/groupp-icon30-volume-mute@3x.png</file>
     </qresource>
 </RCC>

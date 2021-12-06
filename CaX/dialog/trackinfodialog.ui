@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
+    <width>374</width>
     <height>379</height>
    </rect>
   </property>
@@ -55,7 +55,35 @@ QWidget
        <number>0</number>
       </property>
       <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnEdit">
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
+        </property>
         <property name="text">
          <string>Edit</string>
         </property>
@@ -63,6 +91,21 @@ QWidget
       </item>
       <item>
        <widget class="QPushButton" name="btnSave">
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
+        </property>
         <property name="text">
          <string>Save</string>
         </property>
@@ -70,10 +113,38 @@ QWidget
       </item>
       <item>
        <widget class="QPushButton" name="btnCancel">
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
+        </property>
         <property name="text">
          <string>Cancel</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -88,8 +159,8 @@ QWidget
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>410</width>
-        <height>317</height>
+        <width>354</width>
+        <height>325</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayoutScrollArea"/>

@@ -47,18 +47,29 @@ QWidget
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/top-btn40-rew-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn22-left@3x.png&quot;);
 }
-
-QPushButton:hover
-{
-  border-image: url(&quot;:/resource/top-btn40-rew-h@3x.png&quot;);
-}</string>
+</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -83,8 +94,8 @@ QPushButton:hover
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>399</width>
-        <height>404</height>
+        <width>389</width>
+        <height>395</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -118,13 +129,9 @@ QPushButton:hover
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/top-btn40-ff-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn22-right@3x.png&quot;);
 }
-
-QPushButton:hover
-{
-  border-image: url(&quot;:/resource/top-btn40-ff-h@3x.png&quot;);
-}</string>
+</string>
      </property>
     </widget>
    </item>

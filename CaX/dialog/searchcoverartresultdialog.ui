@@ -87,6 +87,21 @@ QWidget
           <height>16777215</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
+        </property>
         <property name="text">
          <string>More</string>
         </property>
@@ -105,6 +120,21 @@ QWidget
           <width>80</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

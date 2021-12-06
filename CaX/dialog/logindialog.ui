@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>223</width>
-    <height>98</height>
+    <width>316</width>
+    <height>136</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,8 +41,14 @@ QWidget
       <widget class="QLabel" name="label">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>90</width>
          <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>90</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
@@ -51,7 +57,20 @@ QWidget
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditID"/>
+      <widget class="QLineEdit" name="lineEditID">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -61,8 +80,14 @@ QWidget
       <widget class="QLabel" name="label_2">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>90</width>
          <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>90</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
@@ -72,6 +97,18 @@ QWidget
      </item>
      <item>
       <widget class="QLineEdit" name="lineEditPW">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
@@ -81,11 +118,29 @@ QWidget
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

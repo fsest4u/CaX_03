@@ -95,19 +95,19 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	}
 	else if (value.contains(STR_PLAY_NOW))
 	{
-		return QIcon(":/resource/audiocd-popup-icon16-play@3x.png");
+		return QIcon(":/resource/browser-icon16-playnow@3x.png");
 	}
 	else if (value.contains(STR_PLAY_LAST))
 	{
-		return QIcon("");
+		return QIcon(":/resource/browser-icon16-playlast@3x.png");
 	}
 	else if (value.contains(STR_PLAY_NEXT))
 	{
-		return QIcon("");
+		return QIcon(":/resource/browser-icon16-playnext@3x.png");
 	}
 	else if (value.contains(STR_PLAY_CLEAR))
 	{
-		return QIcon("");
+		return QIcon(":/resource/browser-icon16-clearreplay@3x.png");
 	}
 	else if (value.contains(STR_RELOAD))
 	{
@@ -240,7 +240,7 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 		}
 		else
 		{
-			coverArt = ":/resource/browser-img160-hdd-n@3x.png";
+			coverArt = ":/resource/browser-img160-folder-n@3x.png";
 		}
 	}
 	else if (service == SIDEMENU_ISERVICE)

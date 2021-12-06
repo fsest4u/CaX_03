@@ -19,7 +19,12 @@
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;
 }
-QDialog
+QPushButton
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QWidget
 {
 	background-color: rgb(255, 255, 255);
 }</string>
@@ -37,11 +42,29 @@ QDialog
    </item>
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+width: 110px;
+color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+width: 110px;
+color: rgb(255, 255, 255)
+}</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

@@ -233,7 +233,7 @@ void FormCoverArt::SetMute(bool Mute)
 	{
 		style = QString("QLabel	\
 						{	\
-							border-image: url(\":/resource/play-btn28-popupmenu-h@3x.png\");	\
+							border-image: url(\":/resource/groupp-icon30-volume-mute@3x.png\");	\
 						}");
 	}
 	else

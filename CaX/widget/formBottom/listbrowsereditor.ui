@@ -56,7 +56,7 @@
      <property name="styleSheet">
       <string notr="true">QFrame 
 {
-	border-image: url(&quot;:resource/browser-img160-hdd-n@3x.png&quot;); 
+	border-image: url(&quot;:resource/browser-img160-folder-n@3x.png&quot;); 
 }</string>
      </property>
      <property name="frameShape">
