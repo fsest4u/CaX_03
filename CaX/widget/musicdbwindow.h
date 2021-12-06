@@ -95,7 +95,8 @@ private slots:
 	void SlotItemIncDec(bool bIncrease);
 //	void SlotItemResize(int resize);
 
-	void SlotSelectPlay(int nID, int playType);
+	void SlotSelectPlay(int nID, int where);
+	void SlotSelectCategoryPlay(int nID, int where);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
 	void SlotSelectTitle(int nID, QString coverArt);
@@ -104,7 +105,7 @@ private slots:
 	void SlotAppendIconList();
 	void SlotAppendList();
 
-	void SlotSelectTrackPlay(int nID, int playType);
+	void SlotSelectTrackPlay(int nID, int where);
 	void SlotSelectTrackFavorite(int nID, int nFavorite);
 
 	void SlotClassifyFavorite(int nFavorite);

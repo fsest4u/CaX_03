@@ -685,6 +685,18 @@ void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 	RequestTrackList(m_nID, m_nCategory, m_nSortCategory, bIncrease);
 }
 
+void MusicDBWindow::SlotSelectPlay(int nID, int where)
+{
+	if (m_TypeMode == TYPE_MODE_ITEM)
+	{
+		SlotSelectCategoryPlay(nID, where);
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		SlotSelectTrackPlay(nID, where);
+	}
+}
+
 //void MusicDBWindow::SlotItemResize(int resize)
 //{
 //	int listMode = VIEW_MODE_ICON;
@@ -768,11 +780,11 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 
 }
 
-void MusicDBWindow::SlotSelectPlay(int nID, int playType)
+void MusicDBWindow::SlotSelectCategoryPlay(int nID, int where)
 {
 	QMap<int, bool> map;
 	map.insert(nID, true);
-	m_pMgr->RequestManageCategory(VAL_PLAY, map, playType, m_nCategory);
+	m_pMgr->RequestManageCategory(VAL_PLAY, map, where, m_nCategory);
 }
 
 void MusicDBWindow::SlotSelectFavorite(int nID, int nFavorite)
@@ -844,12 +856,12 @@ void MusicDBWindow::SlotAppendList()
 	}
 }
 
-void MusicDBWindow::SlotSelectTrackPlay(int nID, int playType)
+void MusicDBWindow::SlotSelectTrackPlay(int nID, int where)
 {
 //	m_pMgr->RequestPlaySong(nID);
 	QMap<int, bool> map;
 	map.insert(nID, true);
-	m_pMgr->RequestManageCategory(VAL_PLAY, map, playType, SQLManager::CATEGORY_TRACK);
+	m_pMgr->RequestManageCategory(VAL_PLAY, map, where, SQLManager::CATEGORY_TRACK);
 }
 
 void MusicDBWindow::SlotSelectTrackFavorite(int nID, int nFavorite)
@@ -1105,7 +1117,7 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
@@ -1539,14 +1551,7 @@ void MusicDBWindow::SetOptionMenu()
 
 void MusicDBWindow::DoOptionMenuPlay(int nID, int where)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
-	{
-		SlotSelectPlay(nID, where);
-	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
-	{
-		SlotSelectTrackPlay(nID, where);
-	}
+	SlotSelectPlay(nID, where);
 }
 
 void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
