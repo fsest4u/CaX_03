@@ -148,13 +148,23 @@ void SearchWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int category
 	}
 }
 
-void SearchWindow::SigSelectTitle(int id, QString coverArt)
+void SearchWindow::SlotSelectAlbum(int id, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetTrack();
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->RequestTrackList(id, SQLManager::CATEGORY_ALBUM);
+	widget->SetCoverArt(coverArt);
+}
+
+void SearchWindow::SlotSelectArtist(int id, QString coverArt)
+{
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
+	widget->AddWidgetTrack();
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+	widget->RequestTrackList(id, SQLManager::CATEGORY_ARTIST);
 	widget->SetCoverArt(coverArt);
 }
 
@@ -186,9 +196,11 @@ void SearchWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_Album, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_Album->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SigSelectTitle(int, QString)));
+	connect(m_Album->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectAlbum(int, QString)));
 
 	connect(m_Artist, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	connect(m_Artist->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectArtist(int, QString)));
+
 	connect(m_Track, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_Track->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 //	connect(m_Track->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));

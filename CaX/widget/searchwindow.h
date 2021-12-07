@@ -40,7 +40,8 @@ private slots:
 
 	void SlotReqCoverArt(int id, int index, int category);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int category);
-	void SigSelectTitle(int id, QString coverArt);
+	void SlotSelectAlbum(int id, QString coverArt);
+	void SlotSelectArtist(int id, QString coverArt);
 	void SlotSelectPlay(int id, int playType);
 
 	void SlotOptionMenuAction(int id, int menuID, QString coverArt = "");
