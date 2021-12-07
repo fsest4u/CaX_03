@@ -9,13 +9,11 @@
 
 DeviceManager::DeviceManager(QObject *parent) :
 	QObject(parent),
-	m_pSsdpMgr(new SSDPManager),
-	m_AutoMac("")
+	m_pSsdpMgr(new SSDPManager)
 {
 	m_DeviceList.Clear();
 	m_DeviceListWol.Clear();
 
-	connect(m_pSsdpMgr->GetUdpClient(), SIGNAL(SigRespDeviceItem(QString)),	this, SLOT(SlotRespDeviceItem(QString)));
 
 }
 
@@ -34,11 +32,11 @@ DeviceManager::~DeviceManager()
 void DeviceManager::RequestDeviceList()
 {
 	m_pSsdpMgr->RequestDeviceList();
+	connect(m_pSsdpMgr->GetUdpClient(), SIGNAL(SigRespDeviceItem(QString)),	this, SLOT(SlotRespDeviceItem(QString)));
 }
 
 void DeviceManager::RequestDevicePowerOn(QString wolAddr, QString mac)
 {
-	m_AutoMac = mac;
 	m_pSsdpMgr->RequestDevicePowerOn(wolAddr, mac);
 }
 
@@ -236,13 +234,6 @@ void DeviceManager::SlotRespDeviceItem(QString deviceData)
 		{
 			AddDevice(strMac, strAddr, strCaName, strCaDev);
 			emit SigDeviceItem(state);
-			return;
-		}
-
-		if (!m_AutoMac.compare(strMac))
-		{
-			LogInfo("auto connect device");
-			m_AutoMac.clear();
 			emit SigAutoConnectDevice(strMac);
 			return;
 		}

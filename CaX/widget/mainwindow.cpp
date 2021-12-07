@@ -43,12 +43,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ReadSettings();
 	ConnectSigToSlot();
 	Initialize();
 	SlotMenu();
+	ReadSettings();
 
-	m_pDeviceMgr->RequestDeviceList();
 	DoDeviceListHome();
 }
 
@@ -272,6 +271,11 @@ void MainWindow::ReadSettings()
 	ui->widgetPlay->SetAddr(m_strAddr);
 	m_pAppMgr->SetAddr(m_strAddr);
 
+	LogDebug("*****************************************");
+	LogDebug("mac read [%s]", m_strCurrentMac.toUtf8().data());
+	LogDebug("*****************************************");
+
+
 	// load wol list
 	QString strNodeWol = settings.value("node_wol").toString();
 	if (!strNodeWol.isEmpty())
@@ -307,8 +311,17 @@ void MainWindow::WriteSettings()
 
 	settings.setValue("geometry", saveGeometry());
 
-	settings.setValue("recent_device", m_strCurrentMac);
-	settings.setValue("recent_addr", m_strAddr);
+	if (!m_strCurrentMac.isEmpty())
+	{
+		settings.setValue("recent_device", m_strCurrentMac);
+		LogDebug("*****************************************");
+		LogDebug("mac write [%s]", m_strCurrentMac.toUtf8().data());
+		LogDebug("*****************************************");
+	}
+	if (!m_strAddr.isEmpty())
+	{
+		settings.setValue("recent_addr", m_strAddr);
+	}
 
 	// save wol list
 	CJsonNode nodeList = m_pDeviceMgr->GetDeviceListWol();
@@ -360,6 +373,14 @@ void MainWindow::SlotDeviceItem(int state)
 	Q_UNUSED(state)
 
 	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
+}
+
+void MainWindow::SlotAutoConnectDevice(QString mac)
+{
+	if (!m_strCurrentMac.compare(mac) && !m_bConnect)
+	{
+		SlotSelectDevice(mac);
+	}
 }
 
 void MainWindow::SlotRespError(QString errMsg)
@@ -578,10 +599,22 @@ void MainWindow::SlotClickSkip(int taskID)
 
 void MainWindow::SlotSelectDevice(QString mac)
 {
+	LogDebug("*****************************************");
+	LogDebug("mac select [%s]", mac.toUtf8().data());
+	LogDebug("*****************************************");
+
 	if (mac.isEmpty())
 	{
 		return;
 	}
+
+	if (m_bConnect)
+	{
+		ObserverDisconnect();
+	}
+
+	Initialize();
+	SlotMenu();
 
 	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
 	QString strDev = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_DEV);
@@ -592,6 +625,8 @@ void MainWindow::SlotSelectDevice(QString mac)
 	}
 
 	m_strAddr = strAddr;
+	m_strCurrentMac = mac;
+
 	WriteSettings();
 
 	ui->widgetPlay->SetAddr(m_strAddr);
@@ -657,17 +692,8 @@ void MainWindow::SlotDevice()
 
 void MainWindow::SlotDeviceAction(QString menuID)
 {
-	if (m_bConnect)
-	{
-		ObserverDisconnect();
-	}
-
-	Initialize();
-	SlotMenu();
-
 	SlotSelectDevice(menuID);
 }
-
 
 void MainWindow::SlotDisconnectObserver()
 {
@@ -735,17 +761,14 @@ void MainWindow::ConnectForUI()
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
 	connect(ui->widgetPlay, SIGNAL(SigMenu()), this, SLOT(SlotDevice()));
-	connect(ui->widgetPlay, SIGNAL(SigMenuAction(QString)), this, SLOT(SlotDeviceAction(QString)));
+	connect(ui->widgetPlay, SIGNAL(SigMenuAction(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-
-
-
 }
 
 void MainWindow::ConnectForApp()
 {
 	connect(m_pDeviceMgr, SIGNAL(SigDeviceItem(int)), this, SLOT(SlotDeviceItem(int)));
-	connect(m_pDeviceMgr, SIGNAL(SigAutoConnectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
+	connect(m_pDeviceMgr, SIGNAL(SigAutoConnectDevice(QString)), this, SLOT(SlotAutoConnectDevice(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespTaskList(CJsonNode)), this, SLOT(SlotRespTaskList(CJsonNode)));
 	connect(m_pAppMgr, SIGNAL(SigRespDeviceInfo(CJsonNode)), this, SLOT(SlotRespDeviceInfo(CJsonNode)));
@@ -767,6 +790,8 @@ void MainWindow::ConnectForApp()
 
 void MainWindow::DoDeviceListHome()
 {
+	m_pDeviceMgr->RequestDeviceList();
+
 //	ui->widgetTop->setDisabled(true);
 	ui->widgetTop->GetBtnSearch()->setDisabled(true);
 	ui->widgetPlay->setDisabled(true);
@@ -968,6 +993,7 @@ void MainWindow::RemoveAllWidget()
 	{
 		auto backWidget = ui->stackMain->widget(i);
 		ui->stackMain->removeWidget(backWidget);
+		ui->widgetTop->RemoveTitle();
 	}
 }
 

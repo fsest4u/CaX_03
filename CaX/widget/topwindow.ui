@@ -32,6 +32,7 @@
    <string notr="true">QComboBox
 {
 	color: rgb(84, 84, 84);
+	background-color: rgb(255, 255, 255);
 	font: 14pt &quot;Segoe UI&quot;;
 }
 QFrame

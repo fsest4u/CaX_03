@@ -40,7 +40,6 @@ public slots:
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget *widget);
 
-	void SlotDeviceItem(int state);
 	void SlotRespError(QString errMsg);
 	void SlotRespTaskList(CJsonNode node);
 	void SlotRespDeviceInfo(CJsonNode node);
@@ -51,6 +50,8 @@ public slots:
 	void SlotClickStop(int taskID);
 	void SlotClickSkip(int taskID);
 
+	void SlotDeviceItem(int state);
+	void SlotAutoConnectDevice(QString mac);
 	void SlotSelectDevice(QString mac);
 	void SlotSelectCancel(QString mac);
 

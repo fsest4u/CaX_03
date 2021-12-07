@@ -10,7 +10,6 @@ SSDPManager::SSDPManager(QObject *parent)
 	: QObject(parent)
 	, m_pUdpClient(new UDPClient())
 {
-	ConnectToSlot();
 }
 
 SSDPManager::~SSDPManager()
@@ -22,13 +21,10 @@ SSDPManager::~SSDPManager()
 	}
 }
 
-void SSDPManager::ConnectToSlot()
-{
-
-}
-
 void SSDPManager::RequestDeviceList()
 {
+	ResetUdpClient();
+
 	QString strSearch = MakeStringMSearch();
 	m_pUdpClient->BindSocketSSDP();
 	m_pUdpClient->SendSocketMSearch(strSearch);
@@ -60,5 +56,16 @@ UDPClient *SSDPManager::GetUdpClient() const
 void SSDPManager::SetUdpClient(UDPClient *pUdpClient)
 {
 	m_pUdpClient = pUdpClient;
+}
+
+void SSDPManager::ResetUdpClient()
+{
+	if (m_pUdpClient)
+	{
+		delete m_pUdpClient;
+		m_pUdpClient = nullptr;
+	}
+
+	m_pUdpClient = new UDPClient();
 }
 

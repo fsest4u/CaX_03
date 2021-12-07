@@ -66,8 +66,6 @@ private:
 	CJsonNode		m_DeviceList;
 	CJsonNode		m_DeviceListWol;
 
-	QString			m_AutoMac;
-
 };
 
 #endif // DEVICEMANAGER_H

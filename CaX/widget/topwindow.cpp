@@ -39,7 +39,10 @@ void TopWindow::AddTitle(QString title)
 
 void TopWindow::RemoveTitle()
 {
-	m_TitleList.removeLast();
+	if (m_TitleList.count() > 0)
+	{
+		m_TitleList.removeLast();
+	}
 }
 
 void TopWindow::SetTitle(int index)

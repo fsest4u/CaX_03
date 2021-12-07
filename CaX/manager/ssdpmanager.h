@@ -20,6 +20,7 @@ public:
 	UDPClient *GetUdpClient() const;
 	void SetUdpClient(UDPClient *pUdpClient);
 
+	void ResetUdpClient();
 
 private:
 
