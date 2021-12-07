@@ -33,7 +33,6 @@ public:
 	void SetNodeList(QList<CJsonNode> list, int type);
 	void ClearNodeList();
 
-
 	void ClearSelectMap();
 	void SetAllSelectMap();
 

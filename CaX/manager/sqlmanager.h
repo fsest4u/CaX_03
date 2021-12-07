@@ -69,6 +69,8 @@ public:
 	QString GetColumnName(int nSort);
 	QString GetIncrease(bool bIncrease);
 
+	QString GetQuerySearchList(int nCategory, QString keyword);
+
 
 signals:
 

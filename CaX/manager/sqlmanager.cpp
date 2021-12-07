@@ -439,3 +439,35 @@ QString SQLManager::GetIncrease(bool bIncrease)
 
 	return increase;
 }
+
+QString SQLManager::GetQuerySearchList(int nCategory, QString keyword)
+{
+	QString query;
+
+	switch (nCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = QString(SQL_SEARCH_ALBUM_LIST).arg(keyword);
+		break;
+	case CATEGORY_ALBUMARTIST:
+		query = QString(SQL_SEARCH_ALBUM_LIST).arg(keyword);
+		break;
+	case CATEGORY_ARTIST:
+		query = QString(SQL_SEARCH_ARTIST_LIST).arg(keyword);
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_SEARCH_ALBUM_LIST).arg(keyword);
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_SEARCH_ALBUM_LIST).arg(keyword);
+		break;
+	case CATEGORY_MOOD:
+		query = QString(SQL_SEARCH_ALBUM_LIST).arg(keyword);
+		break;
+	case CATEGORY_TRACK:
+		query = QString(SQL_SEARCH_TRACK_LIST).arg(keyword);
+		break;
+	}
+
+	return query;
+}

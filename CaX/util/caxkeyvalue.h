@@ -11,6 +11,7 @@
 #define		KEY_AL				"Al"
 #define		KEY_ALBUM			"Album"
 #define		KEY_ALBUM_ARTIST	"AlbumArtist"
+#define		KEY_ALBUM_ID		"AlbumID"
 #define		KEY_APP				"App"
 #define		KEY_ART				"Art"
 #define		KEY_ART_URL			"ArtUrl"

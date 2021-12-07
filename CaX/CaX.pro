@@ -45,6 +45,7 @@ SOURCES += \
     manager/playmanager.cpp \
     manager/qobuzmanager.cpp \
     manager/searchcoverartresultmanager.cpp \
+    manager/searchmanager.cpp \
     manager/setupmanager.cpp \
     manager/sqlmanager.cpp \
     manager/ssdpmanager.cpp \
@@ -93,6 +94,12 @@ SOURCES += \
     widget/formBottom/listtracks.cpp \
     widget/formBottom/listtracksdelegate.cpp \
     widget/formBottom/listtrackseditor.cpp \
+    widget/formSearch/searchcategory.cpp \
+    widget/formSearch/searchcategorydelegate.cpp \
+    widget/formSearch/searchcategoryeditor.cpp \
+    widget/formSearch/searchtrack.cpp \
+    widget/formSearch/searchtrackdelegate.cpp \
+    widget/formSearch/searchtrackeditor.cpp \
     widget/formTop/infobrowser.cpp \
     widget/formTop/infohome.cpp \
     widget/formTop/infoservice.cpp \
@@ -104,6 +111,7 @@ SOURCES += \
     widget/musicdbwindow.cpp \
     widget/playlistwindow.cpp \
     widget/playwindow.cpp \
+    widget/searchwindow.cpp \
     widget/setupwindow.cpp \
     widget/topwindow.cpp
 
@@ -145,6 +153,7 @@ HEADERS += \
     manager/playmanager.h \
     manager/qobuzmanager.h \
     manager/searchcoverartresultmanager.h \
+    manager/searchmanager.h \
     manager/setupmanager.h \
     manager/sqlmanager.h \
     manager/ssdpmanager.h \
@@ -201,6 +210,12 @@ HEADERS += \
     widget/formBottom/listtracks.h \
     widget/formBottom/listtracksdelegate.h \
     widget/formBottom/listtrackseditor.h \
+    widget/formSearch/searchcategory.h \
+    widget/formSearch/searchcategorydelegate.h \
+    widget/formSearch/searchcategoryeditor.h \
+    widget/formSearch/searchtrack.h \
+    widget/formSearch/searchtrackdelegate.h \
+    widget/formSearch/searchtrackeditor.h \
     widget/formTop/infobrowser.h \
     widget/formTop/infohome.h \
     widget/formTop/infoservice.h \
@@ -213,6 +228,7 @@ HEADERS += \
     widget/playlistwindow.h \
     widget/playwindow.h \
     widget/qobuz.h \
+    widget/searchwindow.h \
     widget/setup.h \
     widget/setupwindow.h \
     widget/topwindow.h
@@ -263,6 +279,10 @@ FORMS += \
     widget/formBottom/listserviceeditor.ui \
     widget/formBottom/listtracks.ui \
     widget/formBottom/listtrackseditor.ui \
+    widget/formSearch/searchcategory.ui \
+    widget/formSearch/searchcategoryeditor.ui \
+    widget/formSearch/searchtrack.ui \
+    widget/formSearch/searchtrackeditor.ui \
     widget/formTop/infobrowser.ui \
     widget/formTop/infohome.ui \
     widget/formTop/infoservice.ui \
@@ -274,6 +294,7 @@ FORMS += \
     widget/musicdbwindow.ui \
     widget/playlistwindow.ui \
     widget/playwindow.ui \
+    widget/searchwindow.ui \
     widget/setupwindow.ui \
     widget/topwindow.ui
 

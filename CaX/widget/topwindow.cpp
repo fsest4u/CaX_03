@@ -1,6 +1,9 @@
 #include "topwindow.h"
 #include "ui_topwindow.h"
 
+#include "dialog/commondialog.h"
+
+#include "util/caxconstants.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
@@ -102,6 +105,13 @@ void TopWindow::ShowCBSearch(bool show)
 	else
 	{
 		QString keyword = ui->cbSearch->currentText().toUtf8().data();
+
+		if (keyword.length() < SEARCH_WORD_LIMIT_COUNT)
+		{
+			CommonDialog dialog(this, STR_WARNING, STR_ENTER_SEARCH_WORD);
+			dialog.exec();
+			return;
+		}
 		ui->cbSearch->addItem(keyword);
 		ui->cbSearch->hide();
 

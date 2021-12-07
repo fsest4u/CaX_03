@@ -26,6 +26,7 @@
 #include "widget/fmradiowindow.h"
 #include "widget/dabradiowindow.h"
 #include "widget/groupplaywindow.h"
+#include "widget/searchwindow.h"
 #include "widget/setupwindow.h"
 
 const QString SETTINGS_GROUP = "MainWindow";
@@ -135,7 +136,7 @@ void MainWindow::SlotMenu()
 		{
 			m_SideMenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
 		}
-			}
+	}
 	else
 	{
 		m_SideMenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
@@ -924,6 +925,10 @@ void MainWindow::DoAbout()
 void MainWindow::DoSearchHome(QString keyword)
 {
 	LogDebug("search [%s]", keyword.toUtf8().data());
+	SearchWindow *widget = new SearchWindow(this, m_strAddr);
+	SlotAddWidget(widget, STR_SEARCH);
+
+	widget->SetKeyword(keyword);
 }
 
 void MainWindow::SlotAddWidget(QWidget *widget, QString title)

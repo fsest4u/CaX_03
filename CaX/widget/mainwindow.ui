@@ -33,7 +33,7 @@
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">background-color: rgb(52, 174, 214);</string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="leftMargin">
@@ -90,7 +90,11 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QStackedWidget" name="stackMain"/>
+     <widget class="QStackedWidget" name="stackMain">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

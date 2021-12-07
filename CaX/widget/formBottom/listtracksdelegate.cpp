@@ -1,7 +1,7 @@
 #include <QApplication>
-#include <QPainter>
-#include <QFile>
-#include <QLabel>
+//#include <QPainter>
+//#include <QFile>
+//#include <QLabel>
 
 #include "listtracksdelegate.h"
 #include "listtrackseditor.h"

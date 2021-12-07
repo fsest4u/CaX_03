@@ -9,7 +9,6 @@ class ListBrowserDelegate : public QStyledItemDelegate
 public:
 	ListBrowserDelegate();
 
-
 	enum {
 		LIST_BROWSER_ID = Qt::UserRole + 0,
 		LIST_BROWSER_TYPE,

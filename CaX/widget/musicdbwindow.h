@@ -43,7 +43,7 @@ public:
 signals:
 
 	//	void SigCategoryInfo(int nID, int nCategory);
-	void SigAddWidget(QWidget *widget, QString);
+	void SigAddWidget(QWidget *widget, QString title);
 	void SigRemoveWidget(QWidget* widget);
 	void SigAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);
 	void SigAddTrackFromPlaylist(QMap<int, bool> idMap);
@@ -51,7 +51,7 @@ signals:
 
 private slots:
 
-	void SlotAddWidget(QWidget *widget, QString);
+	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotRespError(QString errMsg);

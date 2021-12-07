@@ -109,6 +109,7 @@ public:
 
 signals:
 
+	void SigRespError(QString errMsg);
 	void SigRespMusicOverview(CJsonNode node);
 	void SigRespCategoryList(QList<CJsonNode> nodeList);
 	void SigRespCategoryOverview(CJsonNode node);
@@ -121,10 +122,7 @@ signals:
 	void SigRespTrackInfo(CJsonNode node);
 	void SigRespSearchCoverArt(CJsonNode node);
 
-
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
-
-	void SigRespError(QString errMsg);
 
 private slots:
 

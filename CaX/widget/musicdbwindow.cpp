@@ -138,7 +138,7 @@ void MusicDBWindow::AddWidgetItem(int typeMode)
 //		ui->gridLayoutBottom->addWidget(m_pListTracks);
 //	}
 
-	if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_pInfoHome->GetFormPlay()->ShowPlayAll(false);
 		m_pInfoHome->GetFormPlay()->ShowPlayRandom(false);
@@ -164,7 +164,7 @@ void MusicDBWindow::AddWidgetTrack(int typeMode)
 		ui->gridLayoutBottom->addWidget(m_pListTracks);
 	}
 
-	if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	if (m_TypeMode == TYPE_MODE_TRACK_ADD)
 	{
 		m_pInfoTracks->GetFormPlay()->ShowPlayAll(false);
 		m_pInfoTracks->GetFormPlay()->ShowPlayRandom(false);
@@ -307,7 +307,7 @@ void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 
 	if (title.isEmpty())
 	{
-		title = "Track";
+		title = STR_TRACK;
 	}
 
 	CalculatePage(count.toInt());
@@ -762,13 +762,13 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		}
 
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		ThreadTerminateIcon();
 		ThreadTerminateList();
 
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-		widget->AddWidgetTrack(TYPE_MODE_ADD_TRACK);
+		widget->AddWidgetTrack(TYPE_MODE_TRACK_ADD);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 		widget->RequestTrackList(nID, m_nCategory);
@@ -800,7 +800,7 @@ void MusicDBWindow::SlotSelectRating(int nID, int nRating)
 void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 {
 	QString strCat;
-	if (m_TypeMode == TYPE_MODE_ITEM || m_TypeMode == TYPE_MODE_ADD_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM || m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		strCat = m_pMgr->GetSqlMgr()->GetCategoryName(m_nCategory);
 	}
@@ -1236,11 +1236,11 @@ void MusicDBWindow::SetSelectOffTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK_ADD)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	}
@@ -1277,12 +1277,12 @@ void MusicDBWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK_ADD)
 	{
 		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
@@ -1376,13 +1376,13 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 		ThreadTerminateList();
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
-		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
+		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
 		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotTopMenuAddToPlaylist(int)));
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		emit SigAddCategoryFromPlaylist(m_nCategory, m_SelectMap);
 		emit SigRemoveWidget(this);
@@ -1492,13 +1492,13 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 		ThreadTerminateList();
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
-		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
+		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
 		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotTopMenuAddToPlaylist(int)));
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK_ADD)
 	{
 		emit SigAddTrackFromPlaylist(m_SelectMap);
 		emit SigRemoveWidget(this);
@@ -1536,11 +1536,11 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK_ADD)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 	}
@@ -1564,7 +1564,7 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 		ThreadTerminateList();
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
-		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
+		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
 		widget->RequestPlaylist();
 
@@ -1576,20 +1576,20 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 		ThreadTerminateList();
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
-		widget->AddWidgetItem(TYPE_MODE_ADD_ITEM);
+		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
 		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_ITEM)
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
 		emit SigAddCategoryFromPlaylist(m_nCategory, map);
 		emit SigRemoveWidget(this);
 	}
-	else if (m_TypeMode == TYPE_MODE_ADD_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK_ADD)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);

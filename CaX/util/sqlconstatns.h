@@ -144,7 +144,7 @@ where Song.IsDel = 0 and Song.AlbumID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -178,7 +178,7 @@ where Song.IsDel = 0 and Song.ArtistID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -213,7 +213,7 @@ where Song.IsDel = 0 and Song.ComposerID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -248,7 +248,7 @@ where Song.IsDel = 0 and Song.GenreID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -283,7 +283,7 @@ where Song.IsDel = 0 and Song.MoodID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -318,7 +318,7 @@ where Song.IsDel = 0 and Song.FolderID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -350,7 +350,7 @@ where Song.IsDel = 0 and Song.Year = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -380,7 +380,7 @@ where Song.IsDel = 0	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -460,7 +460,7 @@ where PlsSong.PlsID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.nov_Time as time	\
+	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
@@ -520,5 +520,53 @@ from Mood	\
 where Mood.IsDel = 0	\
 "
 
+////////////////////////////////////////////
+/// Search result list
+////////////////////////////////////////////
+
+#define SQL_SEARCH_ALBUM_LIST	"	\
+SELECT	\
+	Album.ROWID as id,	\
+	Album.Name as title,	\
+	Artist.Name as subtitle	\
+FROM Song	\
+INNER JOIN Album on Song.AlbumID = Album.ROWID	\
+INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
+WHERE Album.IsDel = 0 AND Album.Name like \"%%1%\"	\
+GROUP BY Song.AlbumID	\
+ORDER BY Album.Name	\
+LIMIT 0, 100	\
+"
+
+#define SQL_SEARCH_ARTIST_LIST	"	\
+SELECT	\
+	Artist.ROWID as id,	\
+	Artist.Name as title	\
+FROM Song	\
+INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
+WHERE Artist.IsDel = 0 AND Artist.Name like \"%%1%\"	\
+GROUP BY Song.ArtistID	\
+ORDER BY Artist.Name	\
+LIMIT 0, 100	\
+"
+
+#define SQL_SEARCH_TRACK_LIST	"	\
+SELECT	\
+	Song.ROWID as id,	\
+	Song.Name as title,	\
+	Song.nov_time as time,	\
+	Artist.Name as Artist,	\
+	Album.ROWID as AlbumID,	\
+	Album.Name as Album,	\
+	Genre.Name as Genre	\
+FROM Song	\
+INNER JOIN Album on Song.AlbumID = Album.ROWID	\
+INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
+INNER JOIN Genre on Song.GenreID = Genre.ROWID	\
+WHERE Album.IsDel = 0 AND Song.Name like \"%%1%\"	\
+GROUP BY Song.ROWID	\
+ORDER BY Song.Name	\
+LIMIT 0, 100	\
+"
 
 #endif // SQLCONSTATNS_H

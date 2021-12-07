@@ -17,8 +17,9 @@
 #define STR_CRITICAL				TR("Critical")
 
 #define STR_COMING_SOON				TR("Coming soon")
-#define	STR_UPDATE_FIRMWARE			TR("Update to the latest firmware (current version: %1)")
+#define STR_ENTER_SEARCH_WORD		TR("Please enter a search term of at least 3 characters")
 #define STR_INSERT_CD				TR("Please insert a CD")
+#define	STR_UPDATE_FIRMWARE			TR("Update to the latest firmware (current version: %1)")
 
 //////////////////////////////////////////////////
 // response
@@ -47,6 +48,7 @@
 #define STR_POWER_ON				TR("Power on")
 #define STR_POWER_OFF				TR("Power off")
 #define STR_ABOUT					TR("About")
+#define STR_SEARCH					TR("Search")
 
 #define STR_AVAILABLE				TR("Available")
 #define STR_NOT_AVAILABLE			TR("Not available")
@@ -100,6 +102,7 @@
 #define STR_EXPORT_TRACK			TR("Export track")
 #define STR_GAIN_SET				TR("Gain set")
 #define STR_GAIN_CLEAR				TR("Gain clear")
+#define STR_GO_TO_ALBUM				TR("Go to album")
 #define STR_INFO					TR("Info")
 #define STR_LOAD_COUNT				TR("Load count")
 #define STR_MOVE              		TR("Move")
