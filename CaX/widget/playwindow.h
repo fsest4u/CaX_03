@@ -79,8 +79,21 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+	void InitVariable();
+	void SetVariable(CJsonNode node);
+	void DebugVariable();
+
+	void InitPlayInfo();
 	void InitPlayTimeSlider();
 	void EnableUI(bool bEnable);
+
+	void EnableBtnInfo(bool bEnable);
+	void EnableBtnNext(bool bEnable);
+	void EnableBtnPlay(bool bEnable);
+	void EnableBtnPrev(bool bEnable);
+	void EnableBtnRandom(bool bEnable);
+	void EnableBtnSlider(bool bEnable);
+	void EnableBtnStop(bool bEnable);
 
 	void SetTimer(bool bStart);
 	void SetPlayState();
@@ -99,19 +112,42 @@ private:
 
 	QMenu				*m_Menu;
 	QMenu				*m_VolumeMenu;
-
 	QSlider				*m_Slider;
-
 	QTimer				*m_Timer;
-	int					m_TotTime;
-	int					m_CurTime;
 
-	int					m_ID;
+	QString				m_DeviceName;
+
+//----------------------------------------------
+	bool	m_Info;
+	bool	m_List;
+	bool	m_Mute;
+	bool	m_Next;
+	bool	m_PlayPause;
+	bool	m_Prev;
+	bool	m_Program;
+	bool	m_Record;
+	bool	m_Recordable;
+	bool	m_Seek;
+	bool	m_Swap;
+
+	int		m_Duration;
+	int		m_ID;
+	int		m_PlayTime;
+	int		m_SampleRate;
+	int		m_Volume;
+	int64_t	m_TimeStamp;
+
+	QString m_Bot;
+	QString	m_CoverArt;
+	QString m_Format;
+	QString m_Input;
+	QString m_PlayState;
+	QString m_Repeat;
+	QString m_Src;
+	QString m_Top;
+
 	bool				m_bPause;
 	int					m_nRepeatMode;
-
-	QString				m_CoverArt;
-	QString				m_DeviceName;
 
 	Ui::PlayWindow *ui;
 };

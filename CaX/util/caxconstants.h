@@ -127,6 +127,7 @@ enum {
 #define SRC_PHONO_IN		"PHONO IN"
 
 #define SRC_FM_RADIO		"FM Radio"
+#define SRC_DAB_RADIO		"DAB"
 #define SRC_I_RADIO			"i-Radio"
 #define SRC_PODCAST			"Podcasts"
 #define SRC_TIDAL			"TIDAL"

@@ -13,6 +13,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 #include "util/StringLib.h"
+#include "util/utilnovatron.h"
 
 #include "widget/form/formtitle.h"
 #include "widget/form/formcoverart.h"
@@ -26,19 +27,14 @@ PlayWindow::PlayWindow(QWidget *parent)	:
 	m_VolumeMenu(new QMenu(this)),
 	m_Slider(new QSlider(this)),
 	m_Timer(nullptr),
-	m_TotTime(0),
-	m_CurTime(0),
-	m_bPause(false),
-	m_CoverArt(""),
 	m_DeviceName(""),
 	ui(new Ui::PlayWindow)
 {
 	ui->setupUi(this);
 
 	ConnectSigToSlot();
-
 	Initialize();
-	EnableUI(false);
+	InitVariable();
 }
 
 PlayWindow::~PlayWindow()
@@ -134,32 +130,43 @@ void PlayWindow::SlotClickCoverArt()
 
 void PlayWindow::SlotBtnInfo()
 {
-	m_pMgr->RequestSongInfo(m_ID);
+	if (m_Info)
+	{
+		m_pMgr->RequestSongInfo(m_ID);
+	}
 }
 
 void PlayWindow::SlotBtnPlayPrev()
 {
-	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PREV);
+	if (m_Prev)
+	{
+		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PREV);
+	}
 }
 
 void PlayWindow::SlotBtnPlay()
 {
-	m_bPause = !m_bPause;
-	SetPlayState();
+	if (m_PlayPause)
+	{
+		m_bPause = !m_bPause;
+		SetPlayState();
 
-	if (m_bPause)
-	{
-		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PAUSE);
-	}
-	else
-	{
-		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PLAY);
+		if (m_bPause)
+		{
+			m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PAUSE);
+		}
+		else
+		{
+			m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PLAY);
+		}
 	}
 }
 
 void PlayWindow::SlotBtnStop()
 {
+	InitPlayInfo();
 	InitPlayTimeSlider();
+	EnableUI(false);
 
 	m_bPause = true;
 	SetPlayState();
@@ -169,7 +176,10 @@ void PlayWindow::SlotBtnStop()
 
 void PlayWindow::SlotBtnPlayNext()
 {
-	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_NEXT);
+	if (m_Next)
+	{
+		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_NEXT);
+	}
 }
 
 void PlayWindow::SlotBtnRandom()
@@ -190,7 +200,6 @@ void PlayWindow::SlotMenuAction(QAction *action)
 void PlayWindow::SlotVolumeSliderValueChanged(int value)
 {
 	ui->labelVolume->setText(QString("%1").arg(value));
-	m_pMgr->RequestVolume(value);
 }
 
 void PlayWindow::SlotVolumeSliderReleased()
@@ -219,7 +228,7 @@ void PlayWindow::SlotPlayTimeSliderReleased()
 
 void PlayWindow::SlotPlayTimeSliderUpdate()
 {
-	m_CurTime += 1000;
+	m_PlayTime += 1000;
 	SetPlayTimeSliderState();
 }
 
@@ -228,8 +237,18 @@ void PlayWindow::SlotEventNowPlay(CJsonNode node)
 	QString state = node.GetString(KEY_PLAY_STATE);
 	if (!state.toLower().compare(KEY_STOP))
 	{
-//		EnableUI(false);
-//		SetTimer(false);
+		InitPlayInfo();
+		InitPlayTimeSlider();
+		EnableUI(false);
+
+		m_bPause = true;
+		SetPlayState();
+
+		QString volume = node.GetString(KEY_VOLUME_CAP);
+		if (!volume.isEmpty())
+		{
+			ui->labelVolume->setText(volume);
+		}
 	}
 	else
 	{
@@ -249,7 +268,7 @@ void PlayWindow::SlotCoverArtUpdate(QString fileName)
 
 void PlayWindow::SlotQueueList(CJsonNode node)
 {
-//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 //	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
 //	dialog.exec();
@@ -286,17 +305,123 @@ void PlayWindow::Initialize()
 
 	m_pFormTitle->SetTitleFont(FONT_SIZE_ICON_TITLE, FONT_COLOR_WHITE);
 	m_pFormTitle->SetSubtitleFont(FONT_SIZE_ICON_SUBTITLE, FONT_COLOR_WHITE);
-	m_pFormTitle->SetTitle("-");
-	m_pFormTitle->SetSubtitle("-");
-	m_pFormCoverArt->SetCoverArt("");
-
-	InitPlayTimeSlider();
 
 //	SetPlayState();
 	SetRepeatMode("");
 	SetDeviceMenu();
 	SetVolumeMenu();
 
+	InitPlayInfo();
+	InitPlayTimeSlider();
+	EnableUI(false);
+}
+
+void PlayWindow::InitVariable()
+{
+	m_Info = false;
+	m_List = false;
+	m_Mute = false;
+	m_Next = false;
+	m_PlayPause = false;
+	m_Prev = false;
+	m_Program = false;
+	m_Record = false;
+	m_Recordable = false;
+	m_Seek = false;
+	m_Swap = false;
+
+	m_Duration = -1;
+	m_ID = -1;
+	m_PlayTime = -1;
+	m_SampleRate = -1;
+	m_Volume = -1;
+	m_TimeStamp = -1;
+
+	m_Bot = "";
+	m_CoverArt = "";
+	m_Format = "";
+	m_Input = "";
+	m_PlayState = "";
+	m_Repeat = "";
+	m_Src = "";
+	m_Top= "";
+}
+
+void PlayWindow::SetVariable(CJsonNode node)
+{
+	m_Info = node.GetBool(KEY_INFO);
+	m_List = node.GetBool(KEY_LIST);
+	m_Mute = node.GetBool(KEY_MUTE_CAP);
+	m_Next = node.GetBool(KEY_NEXT);
+	m_PlayPause = node.GetBool(KEY_PLAY_PAUSE);
+	m_Prev = node.GetBool(KEY_PREV);
+	m_Program = node.GetBool(KEY_PROGRAM);
+	m_Record = node.GetBool(KEY_RECORD);
+	m_Recordable = node.GetBool(KEY_RECORDABLE);
+	m_Seek = node.GetBool(KEY_SEEK);
+	m_Swap = node.GetBool(KEY_SWAP);
+
+	EnableBtnInfo(m_Info);
+	EnableBtnNext(m_Next);
+	EnableBtnPlay(m_PlayPause);
+	EnableBtnPrev(m_Prev);
+	EnableBtnRandom(m_PlayPause);
+	EnableBtnSlider(m_Seek);
+	EnableBtnStop(m_PlayPause);
+
+	m_Duration = node.GetInt(KEY_DURATION);
+	m_ID = node.GetInt(KEY_ID_UPPER);
+	m_PlayTime = node.GetInt(KEY_PLAY_TIME);
+	m_SampleRate = node.GetInt(KEY_INPUT_SAMPLE_RATE);
+	m_Volume = node.GetInt(KEY_VOLUME_CAP);
+	m_TimeStamp = node.GetInt64(KEY_TIME_STAMP);
+
+	m_Bot = node.GetString(KEY_BOT);
+	m_CoverArt = node.GetString(KEY_COVER_ART);
+	m_Format = node.GetString(KEY_FORMAT);
+	m_Input = node.GetString(KEY_INPUT);
+	m_PlayState = node.GetString(KEY_PLAY_STATE);
+	m_Repeat = node.GetString(KEY_REPEAT);
+	m_Src = node.GetString(KEY_SRC);
+	m_Top = node.GetString(KEY_TOP);
+
+	DebugVariable();
+}
+
+void PlayWindow::DebugVariable()
+{
+	LogDebug("m_Info [%d]", m_Info);
+	LogDebug("m_List [%d]", m_List);
+	LogDebug("m_Mute [%d]", m_Mute);
+	LogDebug("m_Next [%d]", m_Next);
+	LogDebug("m_PlayPause [%d]", m_PlayPause);
+	LogDebug("m_Prev [%d]", m_Prev);
+	LogDebug("m_Program [%d]", m_Program);
+	LogDebug("m_Record [%d]", m_Record);
+	LogDebug("m_Recordable [%d]", m_Recordable);
+	LogDebug("m_Seek [%d]", m_Seek);
+	LogDebug("m_Swap [%d]", m_Swap);
+	LogDebug("m_Duration [%d]", m_Duration);
+	LogDebug("m_ID [%d]", m_ID);
+	LogDebug("m_PlayTime [%d]", m_PlayTime);
+	LogDebug("m_SampleRate [%d]", m_SampleRate);
+	LogDebug("m_Volume [%d]", m_Volume);
+	LogDebug("m_TimeStamp [%d]", m_TimeStamp);
+	LogDebug("m_Bot [%s]", m_Bot.toUtf8().data());
+	LogDebug("m_CoverArt [%s]", m_CoverArt.toUtf8().data());
+	LogDebug("m_Format [%s]", m_Format.toUtf8().data());
+	LogDebug("m_Input [%s]", m_Input.toUtf8().data());
+	LogDebug("m_PlayState [%s]", m_PlayState.toUtf8().data());
+	LogDebug("m_Repeat [%s]", m_Repeat.toUtf8().data());
+	LogDebug("m_Src [%s]", m_Src.toUtf8().data());
+	LogDebug("m_Top [%s]", m_Top.toUtf8().data());
+}
+
+void PlayWindow::InitPlayInfo()
+{
+	m_pFormTitle->SetTitle("-");
+	m_pFormTitle->SetSubtitle("-");
+	m_pFormCoverArt->SetCoverArt("");
 }
 
 void PlayWindow::InitPlayTimeSlider()
@@ -310,15 +435,48 @@ void PlayWindow::InitPlayTimeSlider()
 
 void PlayWindow::EnableUI(bool bEnable)
 {
-	ui->btnInfo->setEnabled(bEnable);
-	ui->btnPrev->setEnabled(bEnable);
-	ui->btnPlay->setEnabled(bEnable);
-	ui->btnStop->setEnabled(bEnable);
-	ui->btnNext->setEnabled(bEnable);
-	ui->btnRandom->setEnabled(bEnable);
-	ui->btnVolume->setEnabled(bEnable);
+	EnableBtnInfo(bEnable);
+	EnableBtnNext(bEnable);
+	EnableBtnPlay(bEnable);
+	EnableBtnPrev(bEnable);
+	EnableBtnRandom(bEnable);
+	EnableBtnSlider(bEnable);
+	EnableBtnStop(bEnable);
+}
 
+void PlayWindow::EnableBtnInfo(bool bEnable)
+{
+	ui->btnInfo->setEnabled(bEnable);
+}
+
+void PlayWindow::EnableBtnPrev(bool bEnable)
+{
+	ui->btnPrev->setEnabled(bEnable);
+}
+
+void PlayWindow::EnableBtnRandom(bool bEnable)
+{
+	ui->btnRandom->setEnabled(bEnable);
+}
+
+void PlayWindow::EnableBtnNext(bool bEnable)
+{
+	ui->btnNext->setEnabled(bEnable);
+}
+
+void PlayWindow::EnableBtnPlay(bool bEnable)
+{
+	ui->btnPlay->setEnabled(bEnable);
+}
+
+void PlayWindow::EnableBtnSlider(bool bEnable)
+{
 	ui->horizontalSlider->setEnabled(bEnable);
+}
+
+void PlayWindow::EnableBtnStop(bool bEnable)
+{
+	ui->btnStop->setEnabled(bEnable);
 }
 
 void PlayWindow::SetTimer(bool bStart)
@@ -408,19 +566,22 @@ void PlayWindow::SetCoverArt(QString filepath)
 
 void PlayWindow::SetQueueList(uint timestamp)
 {
-	m_pMgr->RequestQueueList(timestamp);
+	if (m_List)
+	{
+		m_pMgr->RequestQueueList(timestamp);
+	}
 }
 
 void PlayWindow::SetPlayTimeSliderState()
 {
 	ui->horizontalSlider->setMinimum(0);
-	ui->horizontalSlider->setMaximum(m_TotTime);
-	ui->horizontalSlider->setValue(m_CurTime);
+	ui->horizontalSlider->setMaximum(m_Duration);
+	ui->horizontalSlider->setValue(m_PlayTime);
 
-	QString strTime = ConvertMSecToHHMMSSStr(m_TotTime);
+	QString strTime = ConvertMSecToHHMMSSStr(m_Duration);
 	ui->labelTotalTime->setText(strTime);
 
-	strTime = ConvertMSecToHHMMSSStr(m_CurTime);
+	strTime = ConvertMSecToHHMMSSStr(m_PlayTime);
 	ui->labelCurTime->setText(strTime);
 
 	ui->horizontalSlider->setHidden(false);
@@ -469,59 +630,74 @@ void PlayWindow::SetVolumeMenu()
 void PlayWindow::DoNowPlay(CJsonNode node)
 {
 	EnableUI(true);
+	SetVariable(node);
 
-	QString strSrc = node.GetString(KEY_SRC);
-
-	if (!strSrc.compare(SRC_MUSIC_DB)
-			|| !strSrc.compare(SRC_BROWSER)
-			|| !strSrc.compare(SRC_AUDIO_CD) )
+	emit SigSetVolumeSlider(m_Volume);
+	if (m_PlayState.compare(KEY_PLAY))
 	{
-		m_pFormTitle->SetTitle(node.GetString(KEY_TOP));
-		m_pFormTitle->SetSubtitle(node.GetString(KEY_BOT));
-
-		m_ID = node.GetInt(KEY_ID_UPPER);
-		m_TotTime = node.GetInt(KEY_DURATION);
-		m_CurTime = node.GetInt(KEY_PLAY_TIME);
-		emit SigSetVolumeSlider(node.GetInt(KEY_VOLUME_CAP));
-		if (node.GetString(KEY_PLAY_STATE).compare(KEY_PLAY))
-		{
-			m_bPause = true;
-		}
-		else
-		{
-			m_bPause = false;
-		}
-
-		SetPlayTimeSliderState();
-		SetPlayState();
-		SetRepeatMode(node.GetString(KEY_REPEAT));
-		SetCoverArt(node.GetString(KEY_COVER_ART));
-		SetQueueList(node.GetInt64(KEY_TIME_STAMP));
+		m_bPause = true;
 	}
-	else if (!strSrc.compare(SRC_AES_EBU)
-			 || !strSrc.compare(SRC_COAXIAL)
-			 || !strSrc.compare(SRC_TOSLINK)
-			 || !strSrc.compare(SRC_ANALOG_IN)
-			 || !strSrc.compare(SRC_AUX_IN)
-			 || !strSrc.compare(SRC_PHONO_IN) )
+	else
 	{
-		LogDebug("todo src is [%s]", strSrc.toUtf8().data());
+		m_bPause = false;
 	}
-	else if (!strSrc.compare(SRC_FM_RADIO))
+
+	SetPlayTimeSliderState();
+	SetPlayState();
+	SetRepeatMode(m_Repeat);
+	SetQueueList(m_TimeStamp);
+
+	if (!m_Src.compare(SRC_MUSIC_DB)
+			|| !m_Src.compare(SRC_BROWSER)
+			|| !m_Src.compare(SRC_AUDIO_CD) )
 	{
-		LogDebug("todo src is [%s]", strSrc.toUtf8().data());
+		m_pFormTitle->SetTitle(m_Top);
+		m_pFormTitle->SetSubtitle(m_Bot);
+
+		SetCoverArt(m_CoverArt);
 	}
-	else if (!strSrc.compare(SRC_I_RADIO)
-			 || !strSrc.compare(SRC_PODCAST)
-			 || !strSrc.compare(SRC_TIDAL)
-			 || !strSrc.compare(SRC_DEEZER)
-			 || !strSrc.compare(SRC_NAPSTER)
-			 || !strSrc.compare(SRC_HIGH_RES_AUDIO)
-			 || !strSrc.compare(SRC_AMAZON)
-			 || !strSrc.compare(SRC_AIRABLE_UPNP)
-			 || !strSrc.compare(SRC_QOBUZ) )
+	else if (!m_Src.compare(SRC_AES_EBU)
+			 || !m_Src.compare(SRC_COAXIAL)
+			 || !m_Src.compare(SRC_TOSLINK)
+			 || !m_Src.compare(SRC_ANALOG_IN)
+			 || !m_Src.compare(SRC_AUX_IN)
+			 || !m_Src.compare(SRC_PHONO_IN) )
 	{
-		LogDebug("todo src is [%s]", strSrc.toUtf8().data());
+		m_pFormTitle->SetTitle(m_Top);
+		m_pFormTitle->SetSubtitle(m_Format);
+
+		m_CoverArt = UtilNovatron::GetCoverArtIcon(SIDEMENU_INPUT, m_Src);
+		SlotCoverArtUpdate(m_CoverArt);
+	}
+	else if (!m_Src.compare(SRC_FM_RADIO)
+			 || !m_Src.compare(SRC_DAB_RADIO))
+	{
+		m_pFormTitle->SetTitle(m_Top);
+		m_pFormTitle->SetSubtitle(m_Src);
+
+		m_CoverArt = UtilNovatron::GetCoverArtIcon(SIDEMENU_FM_RADIO);
+		SlotCoverArtUpdate(m_CoverArt);
+	}
+	else if (!m_Src.compare(SRC_I_RADIO)
+			 || !m_Src.compare(SRC_PODCAST)
+			 || !m_Src.compare(SRC_TIDAL)
+			 || !m_Src.compare(SRC_DEEZER)
+			 || !m_Src.compare(SRC_NAPSTER)
+			 || !m_Src.compare(SRC_HIGH_RES_AUDIO)
+			 || !m_Src.compare(SRC_AMAZON)
+			 || !m_Src.compare(SRC_AIRABLE_UPNP)
+			 || !m_Src.compare(SRC_QOBUZ) )
+	{
+		m_pFormTitle->SetTitle(m_Top);
+		m_pFormTitle->SetSubtitle(m_Src);
+
+		SetCoverArt(m_CoverArt);
+	}
+	else
+	{
+		LogWarning("====================================");
+		LogWarning("This source is not supported [%s]", m_Src.toUtf8().data());
+		LogWarning("====================================");
 	}
 
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>874</width>
-    <height>135</height>
+    <width>1064</width>
+    <height>107</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,14 +96,14 @@
        <widget class="QFrame" name="frameFormTitle">
         <property name="minimumSize">
          <size>
-          <width>100</width>
-          <height>60</height>
+          <width>200</width>
+          <height>80</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>200</width>
-          <height>60</height>
+          <height>80</height>
          </size>
         </property>
         <property name="frameShape">
@@ -204,13 +204,13 @@
                 <number>0</number>
                </property>
                <property name="topMargin">
-                <number>15</number>
+                <number>10</number>
                </property>
                <property name="rightMargin">
                 <number>0</number>
                </property>
                <property name="bottomMargin">
-                <number>15</number>
+                <number>10</number>
                </property>
                <item>
                 <widget class="QPushButton" name="btnInfo">
@@ -462,13 +462,13 @@ QPushButton:hover
        <widget class="QFrame" name="frame_13">
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>120</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>100</width>
+          <width>120</width>
           <height>16777215</height>
          </size>
         </property>
@@ -484,13 +484,13 @@ QPushButton:hover
        <widget class="QFrame" name="frame_4">
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>80</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>100</width>
+          <width>80</width>
           <height>16777215</height>
          </size>
         </property>
@@ -508,7 +508,7 @@ QPushButton:hover
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>50</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -570,7 +570,7 @@ QPushButton::menu-indicator
         </property>
         <property name="maximumSize">
          <size>
-          <width>100</width>
+          <width>80</width>
           <height>16777215</height>
          </size>
         </property>
@@ -596,6 +596,19 @@ QPushButton::menu-indicator
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
          <item>
           <widget class="QPushButton" name="btnVolume">
            <property name="minimumSize">

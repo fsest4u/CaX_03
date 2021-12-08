@@ -261,27 +261,27 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 	}
 	else if (service == SIDEMENU_INPUT)
 	{
-		if (value.contains("AES/EBU"))
+		if (value.contains(SRC_AES_EBU))
 		{
 			coverArt = ":/resource/input-img160-aesebu-n@3x.png";
 		}
-		else if (value.contains("COAXIAL"))
+		else if (value.contains(SRC_COAXIAL))
 		{
 			coverArt = ":/resource/input-img160-coaxial-n@3x.png";
 		}
-		else if (value.contains("TOSLINK"))
+		else if (value.contains(SRC_TOSLINK))
 		{
 			coverArt = ":/resource/input-img160-toslink-n@3x.png";
 		}
-		else if (value.contains("ANALOG IN"))
+		else if (value.contains(SRC_ANALOG_IN))
 		{
 			coverArt = ":/resource/input-img160-analogin-n@3x.png";
 		}
-		else if (value.contains("AUX IN"))
+		else if (value.contains(SRC_AUX_IN))
 		{
 			coverArt = ":/resource/input-img160-auxin-n@3x.png";
 		}
-		else if (value.contains("PHONO IN"))
+		else if (value.contains(SRC_PHONO_IN))
 		{
 			coverArt = ":/resource/input-img160-ponoin-n@3x.png";
 		}
