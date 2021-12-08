@@ -304,5 +304,24 @@ enum
 #define FORMAT_OGG				"ogg"
 #define FORMAT_WMA				"wma"
 
+//////////////////////////////////////////////////
+// font
+//////////////////////////////////////////////////
+
+#define FONT_SIZE_INFO_TITLE			42
+#define FONT_SIZE_INFO_SUBTITLE			42
+#define FONT_SIZE_INFO_SUBTITLE2		20
+#define FONT_SIZE_ICON_TITLE			14
+#define FONT_SIZE_ICON_SUBTITLE			14
+#define FONT_SIZE_SEARCH_TITLE			20
+#define FONT_SIZE_SEARCH_SUBTITLE		16
+
+#define FONT_COLOR_NORMAL		"545454"
+#define FONT_COLOR_WHITE		"ffffff"
+
+#define FONT_WEIGHT_NORMAL		"normal"
+#define FONT_WEIGHT_BOLD		"bold"
+
+
 
 #endif // CAXCONSTANTS_H

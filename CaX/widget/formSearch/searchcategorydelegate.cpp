@@ -50,6 +50,8 @@ void SearchCategoryDelegate::setEditorData(QWidget *editor, const QModelIndex &i
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<int>(index.data(SEARCH_CATEGORY_ID)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(SEARCH_CATEGORY_COVER)));
+	widget->GetFormTitle()->SetTitleFont(FONT_SIZE_SEARCH_TITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_NORMAL);
+	widget->GetFormTitle()->SetSubtitleFont(FONT_SIZE_SEARCH_SUBTITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_NORMAL);
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(SEARCH_CATEGORY_TITLE)));
 	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(SEARCH_CATEGORY_SUBTITLE)));
 	widget->blockSignals(false);

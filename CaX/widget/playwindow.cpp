@@ -284,9 +284,9 @@ void PlayWindow::Initialize()
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 
-	m_pFormTitle->SetTitleFont(14, "FFFFFF");
+	m_pFormTitle->SetTitleFont(FONT_SIZE_ICON_TITLE, FONT_COLOR_WHITE);
+	m_pFormTitle->SetSubtitleFont(FONT_SIZE_ICON_SUBTITLE, FONT_COLOR_WHITE);
 	m_pFormTitle->SetTitle("-");
-	m_pFormTitle->SetSubtitleFont(14, "FFFFFF");
 	m_pFormTitle->SetSubtitle("-");
 	m_pFormCoverArt->SetCoverArt("");
 

@@ -74,8 +74,6 @@ void IconTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<int>(index.data(ICON_TRACKS_ID)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_TRACKS_COVER)));
-	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_TRACKS_TITLE)));
-	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_TRACKS_SUBTITLE)));
 	widget->GetFormCoverArt()->SetCount(qvariant_cast<int>(index.data(ICON_TRACKS_COUNT)));
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
@@ -83,6 +81,10 @@ void IconTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 		widget->GetFormCoverArt()->SetRating(qvariant_cast<int>(index.data(ICON_TRACKS_RATING)));
 	}
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_TRACKS_SELECT)));
+	widget->GetFormTitle()->SetTitleFont(FONT_SIZE_ICON_TITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_BOLD);
+	widget->GetFormTitle()->SetSubtitleFont(FONT_SIZE_ICON_SUBTITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_NORMAL);
+	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_TRACKS_TITLE)));
+	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_TRACKS_SUBTITLE)));
 	widget->blockSignals(false);
 }
 

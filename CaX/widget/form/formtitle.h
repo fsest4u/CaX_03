@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "util/caxconstants.h"
+
 namespace Ui {
 class FormTitle;
 }
@@ -17,11 +19,11 @@ public:
 
 	QString GetTitle();
 	void SetTitle(QString title);
-	void SetTitleFont(int size = 14, QString color = "545454");
+	void SetTitleFont(int size = FONT_SIZE_ICON_TITLE, QString color = FONT_COLOR_NORMAL, QString weight = FONT_WEIGHT_NORMAL);
 
 	QString GetSubtitle();
 	void SetSubtitle(QString subtitle);
-	void SetSubtitleFont(int size = 14, QString color = "545454");
+	void SetSubtitleFont(int size = FONT_SIZE_ICON_SUBTITLE, QString color = FONT_COLOR_NORMAL, QString weight = FONT_WEIGHT_NORMAL);
 
 signals:
 

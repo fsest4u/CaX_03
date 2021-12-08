@@ -61,7 +61,7 @@ void InfoTracks::SetTitle(QString title)
 	{
 		title = STR_UNKNOWN;
 	}
-	m_pFormTitle->SetTitleFont(42);
+	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
 	m_pFormTitle->SetTitle(title);
 }
 
@@ -71,7 +71,7 @@ void InfoTracks::SetSubtitle(QString subtitle)
 	{
 		subtitle = STR_UNKNOWN;
 	}
-	m_pFormTitle->SetSubtitleFont(20);
+	m_pFormTitle->SetSubtitleFont(FONT_SIZE_INFO_SUBTITLE2);
 	m_pFormTitle->SetSubtitle(subtitle);
 }
 

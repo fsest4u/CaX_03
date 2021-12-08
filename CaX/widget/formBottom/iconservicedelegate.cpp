@@ -87,6 +87,8 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	{
 		widget->GetFormCoverArt()->SetMute(qvariant_cast<bool>(index.data(ICON_SERVICE_MUTE)));
 	}
+	widget->GetFormTitle()->SetTitleFont(FONT_SIZE_ICON_TITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_BOLD);
+	widget->GetFormTitle()->SetSubtitleFont(FONT_SIZE_ICON_SUBTITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_NORMAL);
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE)));
 	widget->GetFormTitle()->SetSubtitle(qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE)));
 	widget->blockSignals(false);
