@@ -45,6 +45,8 @@ public:
 	int GetServiceType() const;
 	void SetServiceType(int ServiceType);
 
+	QThread *GetListThread() const;
+
 	void AddWidgetItem();
 
 
@@ -117,6 +119,9 @@ private:
 
 	void SetInfoTitle(QString title);
 
+	void ThreadStartList();
+	void ThreadTerminateList();
+
 	AirableManager		*m_pAirableMgr;
 	QobuzManager		*m_pQobuzMgr;
 	InfoService			*m_pInfoService;
@@ -125,6 +130,8 @@ private:
 	IconService			*m_pIconService;
 	ListBrowser			*m_pListBrowser;
 //	ListService			*m_pListService;
+
+	QThread				*m_pListThread;
 
 	QMap<int, QString>	m_OptionMenuMap;
 

@@ -1,4 +1,5 @@
 #include <QtWebEngineWidgets/QWebEngineView>
+#include <QThread>
 
 #include "iservicewindow.h"
 #include "ui_iservicewindow.h"
@@ -42,6 +43,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	m_pIconService(new IconService(this)),
 	m_pListBrowser(new ListBrowser(this)),
 //	m_pListService(new ListService(this)),
+	m_pListThread(new QThread),
 	m_WebURL(""),
 	m_ServiceType(-1),
 	ui(new Ui::IServiceWindow)
@@ -100,6 +102,13 @@ IServiceWindow::~IServiceWindow()
 //		delete m_pListService;
 //		m_pListService = nullptr;
 //	}
+
+	if (m_pListThread)
+	{
+		ThreadTerminateList();
+		delete m_pListThread;
+		m_pListThread = nullptr;
+	}
 
 	delete ui;
 
@@ -197,6 +206,11 @@ int IServiceWindow::GetServiceType() const
 void IServiceWindow::SetServiceType(int ServiceType)
 {
 	m_ServiceType = ServiceType;
+}
+
+QThread *IServiceWindow::GetListThread() const
+{
+	return m_pListThread;
 }
 
 void IServiceWindow::AddWidgetItem()
@@ -474,7 +488,11 @@ void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNod
 	widget->AddWidgetItem();
 
 	widget->GetInfoBrowser()->SetSubtitle(title);
+
+	widget->GetListBrowser()->SetBackgroundTask(widget->GetListThread());
+	widget->GetListBrowser()->ClearNodeList();
 	widget->GetListBrowser()->SetNodeList(list, SIDEMENU_ISERVICE);
+	widget->ThreadStartList();
 }
 
 void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
@@ -1077,4 +1095,19 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 void IServiceWindow::SetInfoTitle(QString title)
 {
 	m_pInfoService->SetSubtitle(title);
+}
+
+void IServiceWindow::ThreadStartList()
+{
+	ThreadTerminateList();
+
+	m_pListThread->start();
+}
+
+void IServiceWindow::ThreadTerminateList()
+{
+	if (m_pListThread->isRunning())
+	{
+		m_pListThread->terminate();
+	}
 }

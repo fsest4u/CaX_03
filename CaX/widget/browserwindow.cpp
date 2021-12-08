@@ -1420,6 +1420,5 @@ void BrowserWindow::ThreadTerminateList()
 	{
 		m_pListThread->terminate();
 	}
-
 }
 
