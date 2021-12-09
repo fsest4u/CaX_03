@@ -1,11 +1,18 @@
 <RCC>
     <qresource prefix="/">
+        <file>resource/about.html</file>
         <file>resource/audiocd-popup-btn110-ok-h.png</file>
         <file>resource/audiocd-popup-btn110-ok-h@2x.png</file>
         <file>resource/audiocd-popup-btn110-ok-h@3x.png</file>
         <file>resource/audiocd-popup-btn110-ok-n.png</file>
         <file>resource/audiocd-popup-btn110-ok-n@2x.png</file>
         <file>resource/audiocd-popup-btn110-ok-n@3x.png</file>
+        <file>resource/audiocd-popup-btn22-left.png</file>
+        <file>resource/audiocd-popup-btn22-left@2x.png</file>
+        <file>resource/audiocd-popup-btn22-left@3x.png</file>
+        <file>resource/audiocd-popup-btn22-right.png</file>
+        <file>resource/audiocd-popup-btn22-right@2x.png</file>
+        <file>resource/audiocd-popup-btn22-right@3x.png</file>
         <file>resource/audiocd-popup-icon16-cdrip.png</file>
         <file>resource/audiocd-popup-icon16-cdrip@2x.png</file>
         <file>resource/audiocd-popup-icon16-cdrip@3x.png</file>
@@ -36,6 +43,9 @@
         <file>resource/browser-icon16-cleanreplaygain.png</file>
         <file>resource/browser-icon16-cleanreplaygain@2x.png</file>
         <file>resource/browser-icon16-cleanreplaygain@3x.png</file>
+        <file>resource/browser-icon16-clearreplay.png</file>
+        <file>resource/browser-icon16-clearreplay@2x.png</file>
+        <file>resource/browser-icon16-clearreplay@3x.png</file>
         <file>resource/browser-icon16-convertaudio.png</file>
         <file>resource/browser-icon16-convertaudio@2x.png</file>
         <file>resource/browser-icon16-convertaudio@3x.png</file>
@@ -57,6 +67,21 @@
         <file>resource/browser-icon16-newfolder.png</file>
         <file>resource/browser-icon16-newfolder@2x.png</file>
         <file>resource/browser-icon16-newfolder@3x.png</file>
+        <file>resource/browser-icon16-overwrite.png</file>
+        <file>resource/browser-icon16-overwrite@2x.png</file>
+        <file>resource/browser-icon16-overwrite@3x.png</file>
+        <file>resource/browser-icon16-playlast.png</file>
+        <file>resource/browser-icon16-playlast@2x.png</file>
+        <file>resource/browser-icon16-playlast@3x.png</file>
+        <file>resource/browser-icon16-playnext.png</file>
+        <file>resource/browser-icon16-playnext@2x.png</file>
+        <file>resource/browser-icon16-playnext@3x.png</file>
+        <file>resource/browser-icon16-playnow.png</file>
+        <file>resource/browser-icon16-playnow@2x.png</file>
+        <file>resource/browser-icon16-playnow@3x.png</file>
+        <file>resource/browser-icon16-playsubfolder.png</file>
+        <file>resource/browser-icon16-playsubfolder@2x.png</file>
+        <file>resource/browser-icon16-playsubfolder@3x.png</file>
         <file>resource/browser-icon16-reload.png</file>
         <file>resource/browser-icon16-reload@2x.png</file>
         <file>resource/browser-icon16-reload@3x.png</file>
@@ -81,6 +106,12 @@
         <file>resource/browser-img160-brank-n.png</file>
         <file>resource/browser-img160-brank-n@2x.png</file>
         <file>resource/browser-img160-brank-n@3x.png</file>
+        <file>resource/browser-img160-folder-h.png</file>
+        <file>resource/browser-img160-folder-h@2x.png</file>
+        <file>resource/browser-img160-folder-h@3x.png</file>
+        <file>resource/browser-img160-folder-n.png</file>
+        <file>resource/browser-img160-folder-n@2x.png</file>
+        <file>resource/browser-img160-folder-n@3x.png</file>
         <file>resource/browser-img160-hdd-h.png</file>
         <file>resource/browser-img160-hdd-h@2x.png</file>
         <file>resource/browser-img160-hdd-h@3x.png</file>
@@ -102,6 +133,9 @@
         <file>resource/browser-img160-upnp-n.png</file>
         <file>resource/browser-img160-upnp-n@2x.png</file>
         <file>resource/browser-img160-upnp-n@3x.png</file>
+        <file>resource/browser-img60-folder.png</file>
+        <file>resource/browser-img60-folder@2x.png</file>
+        <file>resource/browser-img60-folder@3x.png</file>
         <file>resource/btm-btn20-info-h.png</file>
         <file>resource/btm-btn20-info-h@2x.png</file>
         <file>resource/btm-btn20-info-h@3x.png</file>
@@ -144,6 +178,12 @@
         <file>resource/btm-btn40-play-n.png</file>
         <file>resource/btm-btn40-play-n@2x.png</file>
         <file>resource/btm-btn40-play-n@3x.png</file>
+        <file>resource/btm-btn40-stop-h.png</file>
+        <file>resource/btm-btn40-stop-h@2x.png</file>
+        <file>resource/btm-btn40-stop-h@3x.png</file>
+        <file>resource/btm-btn40-stop-n.png</file>
+        <file>resource/btm-btn40-stop-n@2x.png</file>
+        <file>resource/btm-btn40-stop-n@3x.png</file>
         <file>resource/btm-btn50-device-h.png</file>
         <file>resource/btm-btn50-device-h@2x.png</file>
         <file>resource/btm-btn50-device-h@3x.png</file>
@@ -195,6 +235,9 @@
         <file>resource/groupp-btn20-togle-on.png</file>
         <file>resource/groupp-btn20-togle-on@2x.png</file>
         <file>resource/groupp-btn20-togle-on@3x.png</file>
+        <file>resource/groupp-icon30-volume-mute.png</file>
+        <file>resource/groupp-icon30-volume-mute@2x.png</file>
+        <file>resource/groupp-icon30-volume-mute@3x.png</file>
         <file>resource/groupp-icon30-volume.png</file>
         <file>resource/groupp-icon30-volume@2x.png</file>
         <file>resource/groupp-icon30-volume@3x.png</file>
@@ -240,24 +283,60 @@
         <file>resource/input-img160-toslink-n.png</file>
         <file>resource/input-img160-toslink-n@2x.png</file>
         <file>resource/input-img160-toslink-n@3x.png</file>
+        <file>resource/internets-btn28-record-h.png</file>
+        <file>resource/internets-btn28-record-h@2x.png</file>
+        <file>resource/internets-btn28-record-h@3x.png</file>
+        <file>resource/internets-btn28-record-n.png</file>
+        <file>resource/internets-btn28-record-n@2x.png</file>
+        <file>resource/internets-btn28-record-n@3x.png</file>
+        <file>resource/internets-btn28-record-u.png</file>
+        <file>resource/internets-btn28-record-u@2x.png</file>
+        <file>resource/internets-btn28-record-u@3x.png</file>
+        <file>resource/internets-icon40-reservedrecordlist.png</file>
+        <file>resource/internets-icon40-reservedrecordlist@2x.png</file>
+        <file>resource/internets-icon40-reservedrecordlist@3x.png</file>
+        <file>resource/internets-icon40-search.png</file>
+        <file>resource/internets-icon40-search@2x.png</file>
+        <file>resource/internets-icon40-search@3x.png</file>
+        <file>resource/internets-icon40-titlecover.png</file>
+        <file>resource/internets-icon40-titlecover@2x.png</file>
+        <file>resource/internets-icon40-titlecover@3x.png</file>
         <file>resource/internets-img160-airable-h.png</file>
         <file>resource/internets-img160-airable-h@2x.png</file>
         <file>resource/internets-img160-airable-h@3x.png</file>
         <file>resource/internets-img160-airable-n.png</file>
         <file>resource/internets-img160-airable-n@2x.png</file>
         <file>resource/internets-img160-airable-n@3x.png</file>
+        <file>resource/internets-img160-amazonmusic-h.png</file>
+        <file>resource/internets-img160-amazonmusic-h@2x.png</file>
+        <file>resource/internets-img160-amazonmusic-h@3x.png</file>
+        <file>resource/internets-img160-amazonmusic-n.png</file>
+        <file>resource/internets-img160-amazonmusic-n@2x.png</file>
+        <file>resource/internets-img160-amazonmusic-n@3x.png</file>
         <file>resource/internets-img160-deezer-h.png</file>
         <file>resource/internets-img160-deezer-h@2x.png</file>
         <file>resource/internets-img160-deezer-h@3x.png</file>
         <file>resource/internets-img160-deezer-n.png</file>
         <file>resource/internets-img160-deezer-n@2x.png</file>
         <file>resource/internets-img160-deezer-n@3x.png</file>
+        <file>resource/internets-img160-highresaudio-h.png</file>
+        <file>resource/internets-img160-highresaudio-h@2x.png</file>
+        <file>resource/internets-img160-highresaudio-h@3x.png</file>
+        <file>resource/internets-img160-highresaudio-n.png</file>
+        <file>resource/internets-img160-highresaudio-n@2x.png</file>
+        <file>resource/internets-img160-highresaudio-n@3x.png</file>
         <file>resource/internets-img160-napster-h.png</file>
         <file>resource/internets-img160-napster-h@2x.png</file>
         <file>resource/internets-img160-napster-h@3x.png</file>
         <file>resource/internets-img160-napster-n.png</file>
         <file>resource/internets-img160-napster-n@2x.png</file>
         <file>resource/internets-img160-napster-n@3x.png</file>
+        <file>resource/internets-img160-podcast-h.png</file>
+        <file>resource/internets-img160-podcast-h@2x.png</file>
+        <file>resource/internets-img160-podcast-h@3x.png</file>
+        <file>resource/internets-img160-podcast-n.png</file>
+        <file>resource/internets-img160-podcast-n@2x.png</file>
+        <file>resource/internets-img160-podcast-n@3x.png</file>
         <file>resource/internets-img160-qobuz-h.png</file>
         <file>resource/internets-img160-qobuz-h@2x.png</file>
         <file>resource/internets-img160-qobuz-h@3x.png</file>
@@ -282,6 +361,7 @@
         <file>resource/internets-img160-tidal-n.png</file>
         <file>resource/internets-img160-tidal-n@2x.png</file>
         <file>resource/internets-img160-tidal-n@3x.png</file>
+        <file>resource/logo-icon-musicxneo-256.png</file>
         <file>resource/mid-icon16-likeoff.png</file>
         <file>resource/mid-icon16-likeoff@2x.png</file>
         <file>resource/mid-icon16-likeoff@3x.png</file>
@@ -312,6 +392,9 @@
         <file>resource/mid-icon16-rankon.png</file>
         <file>resource/mid-icon16-rankon@2x.png</file>
         <file>resource/mid-icon16-rankon@3x.png</file>
+        <file>resource/mid-icon30-play-h.png</file>
+        <file>resource/mid-icon30-play-h@2x.png</file>
+        <file>resource/mid-icon30-play-h@3x.png</file>
         <file>resource/mid-icon30-play-n.png</file>
         <file>resource/mid-icon30-play-n@2x.png</file>
         <file>resource/mid-icon30-play-n@3x.png</file>
@@ -363,6 +446,24 @@
         <file>resource/play-btn28-rank-n.png</file>
         <file>resource/play-btn28-rank-n@2x.png</file>
         <file>resource/play-btn28-rank-n@3x.png</file>
+        <file>resource/play-btn28-rank-sel0.png</file>
+        <file>resource/play-btn28-rank-sel0@2x.png</file>
+        <file>resource/play-btn28-rank-sel0@3x.png</file>
+        <file>resource/play-btn28-rank-sel1.png</file>
+        <file>resource/play-btn28-rank-sel1@2x.png</file>
+        <file>resource/play-btn28-rank-sel1@3x.png</file>
+        <file>resource/play-btn28-rank-sel2.png</file>
+        <file>resource/play-btn28-rank-sel2@2x.png</file>
+        <file>resource/play-btn28-rank-sel2@3x.png</file>
+        <file>resource/play-btn28-rank-sel3.png</file>
+        <file>resource/play-btn28-rank-sel3@2x.png</file>
+        <file>resource/play-btn28-rank-sel3@3x.png</file>
+        <file>resource/play-btn28-rank-sel4.png</file>
+        <file>resource/play-btn28-rank-sel4@2x.png</file>
+        <file>resource/play-btn28-rank-sel4@3x.png</file>
+        <file>resource/play-btn28-rank-sel5.png</file>
+        <file>resource/play-btn28-rank-sel5@2x.png</file>
+        <file>resource/play-btn28-rank-sel5@3x.png</file>
         <file>resource/play-popup-icon16-addplaylist.png</file>
         <file>resource/play-popup-icon16-addplaylist@2x.png</file>
         <file>resource/play-popup-icon16-addplaylist@3x.png</file>
@@ -462,6 +563,15 @@
         <file>resource/radio-icon-ytn.png</file>
         <file>resource/radio-icon-ytn@2x.png</file>
         <file>resource/radio-icon-ytn@3x.png</file>
+        <file>resource/radio-icon16-clearseekall.png</file>
+        <file>resource/radio-icon16-clearseekall@2x.png</file>
+        <file>resource/radio-icon16-clearseekall@3x.png</file>
+        <file>resource/radio-icon16-reservedrecordlist.png</file>
+        <file>resource/radio-icon16-reservedrecordlist@2x.png</file>
+        <file>resource/radio-icon16-reservedrecordlist@3x.png</file>
+        <file>resource/radio-icon16-seekall.png</file>
+        <file>resource/radio-icon16-seekall@2x.png</file>
+        <file>resource/radio-icon16-seekall@3x.png</file>
         <file>resource/radio-img160-blank-h.png</file>
         <file>resource/radio-img160-blank-h@2x.png</file>
         <file>resource/radio-img160-blank-h@3x.png</file>
@@ -480,9 +590,42 @@
         <file>resource/Rectangle 383.png</file>
         <file>resource/Rectangle 383@2x.png</file>
         <file>resource/Rectangle 383@3x.png</file>
+        <file>resource/search-btn60-close-n.png</file>
+        <file>resource/search-btn60-close-n@2x.png</file>
+        <file>resource/search-btn60-close-n@3x.png</file>
+        <file>resource/search-btn60-more-h.png</file>
+        <file>resource/search-btn60-more-h@2x.png</file>
+        <file>resource/search-btn60-more-h@3x.png</file>
+        <file>resource/search-btn60-more-n.png</file>
+        <file>resource/search-btn60-more-n@2x.png</file>
+        <file>resource/search-btn60-more-n@3x.png</file>
+        <file>resource/search-btn60-more-u.png</file>
+        <file>resource/search-btn60-more-u@2x.png</file>
+        <file>resource/search-btn60-more-u@3x.png</file>
         <file>resource/search-icon24-on.png</file>
         <file>resource/search-icon24-on@2x.png</file>
         <file>resource/search-icon24-on@3x.png</file>
+        <file>resource/selectd-bar150-cancel-h.png</file>
+        <file>resource/selectd-bar150-cancel-h@2x.png</file>
+        <file>resource/selectd-bar150-cancel-h@3x.png</file>
+        <file>resource/selectd-bar150-cancel-n.png</file>
+        <file>resource/selectd-bar150-cancel-n@2x.png</file>
+        <file>resource/selectd-bar150-cancel-n@3x.png</file>
+        <file>resource/selectd-bar550-select-h.png</file>
+        <file>resource/selectd-bar550-select-h@2x.png</file>
+        <file>resource/selectd-bar550-select-h@3x.png</file>
+        <file>resource/selectd-bar550-select-n.png</file>
+        <file>resource/selectd-bar550-select-n@2x.png</file>
+        <file>resource/selectd-bar550-select-n@3x.png</file>
+        <file>resource/selectd-icon40-liading.png</file>
+        <file>resource/selectd-icon40-liading@2x.png</file>
+        <file>resource/selectd-icon40-liading@3x.png</file>
+        <file>resource/selectd-icon40-loading.png</file>
+        <file>resource/selectd-icon40-loading@2x.png</file>
+        <file>resource/selectd-icon40-loading@3x.png</file>
+        <file>resource/submenu-icon40-aboutmusicx.png</file>
+        <file>resource/submenu-icon40-aboutmusicx@2x.png</file>
+        <file>resource/submenu-icon40-aboutmusicx@3x.png</file>
         <file>resource/submenu-icon40-audiocd.png</file>
         <file>resource/submenu-icon40-audiocd@2x.png</file>
         <file>resource/submenu-icon40-audiocd@3x.png</file>
@@ -522,6 +665,9 @@
         <file>resource/submenu-icon40-setup.png</file>
         <file>resource/submenu-icon40-setup@2x.png</file>
         <file>resource/submenu-icon40-setup@3x.png</file>
+        <file>resource/submenu-icon40-wolpoweron.png</file>
+        <file>resource/submenu-icon40-wolpoweron@2x.png</file>
+        <file>resource/submenu-icon40-wolpoweron@3x.png</file>
         <file>resource/top-bar22-iconsize-drag.png</file>
         <file>resource/top-bar22-iconsize-drag@2x.png</file>
         <file>resource/top-bar22-iconsize-drag@3x.png</file>
@@ -531,6 +677,12 @@
         <file>resource/top-bar22-iconsize-on.png</file>
         <file>resource/top-bar22-iconsize-on@2x.png</file>
         <file>resource/top-bar22-iconsize-on@3x.png</file>
+        <file>resource/top-btn150-sort-h.png</file>
+        <file>resource/top-btn150-sort-h@2x.png</file>
+        <file>resource/top-btn150-sort-h@3x.png</file>
+        <file>resource/top-btn150-sort-n.png</file>
+        <file>resource/top-btn150-sort-n@2x.png</file>
+        <file>resource/top-btn150-sort-n@3x.png</file>
         <file>resource/top-btn22-classify-like-h.png</file>
         <file>resource/top-btn22-classify-like-h@2x.png</file>
         <file>resource/top-btn22-classify-like-h@3x.png</file>
@@ -543,6 +695,12 @@
         <file>resource/top-btn22-classify-rank-n.png</file>
         <file>resource/top-btn22-classify-rank-n@2x.png</file>
         <file>resource/top-btn22-classify-rank-n@3x.png</file>
+        <file>resource/top-btn22-sortd-h.png</file>
+        <file>resource/top-btn22-sortd-h@2x.png</file>
+        <file>resource/top-btn22-sortd-h@3x.png</file>
+        <file>resource/top-btn22-sortd-n.png</file>
+        <file>resource/top-btn22-sortd-n@2x.png</file>
+        <file>resource/top-btn22-sortd-n@3x.png</file>
         <file>resource/top-btn22-sortu-h.png</file>
         <file>resource/top-btn22-sortu-h@2x.png</file>
         <file>resource/top-btn22-sortu-h@3x.png</file>
@@ -599,6 +757,12 @@
         <file>resource/top-btn82-classify-add-n.png</file>
         <file>resource/top-btn82-classify-add-n@2x.png</file>
         <file>resource/top-btn82-classify-add-n@3x.png</file>
+        <file>resource/top-btn82-classify-h.png</file>
+        <file>resource/top-btn82-classify-h@2x.png</file>
+        <file>resource/top-btn82-classify-h@3x.png</file>
+        <file>resource/top-btn82-classify-n.png</file>
+        <file>resource/top-btn82-classify-n@2x.png</file>
+        <file>resource/top-btn82-classify-n@3x.png</file>
         <file>resource/top-icon20-musicx-logo.png</file>
         <file>resource/top-icon20-musicx-logo@2x.png</file>
         <file>resource/top-icon20-musicx-logo@3x.png</file>
@@ -638,169 +802,5 @@
         <file>resource/volume-btn160.png</file>
         <file>resource/volume-btn160@2x.png</file>
         <file>resource/volume-btn160@3x.png</file>
-        <file>resource/selectd-bar150-cancel-h.png</file>
-        <file>resource/selectd-bar150-cancel-h@2x.png</file>
-        <file>resource/selectd-bar150-cancel-h@3x.png</file>
-        <file>resource/selectd-bar150-cancel-n.png</file>
-        <file>resource/selectd-bar150-cancel-n@2x.png</file>
-        <file>resource/selectd-bar150-cancel-n@3x.png</file>
-        <file>resource/selectd-bar550-select-h.png</file>
-        <file>resource/selectd-bar550-select-h@2x.png</file>
-        <file>resource/selectd-bar550-select-h@3x.png</file>
-        <file>resource/selectd-bar550-select-n.png</file>
-        <file>resource/selectd-bar550-select-n@2x.png</file>
-        <file>resource/selectd-bar550-select-n@3x.png</file>
-        <file>resource/selectd-icon40-liading.png</file>
-        <file>resource/selectd-icon40-liading@2x.png</file>
-        <file>resource/selectd-icon40-liading@3x.png</file>
-        <file>resource/selectd-icon40-loading.png</file>
-        <file>resource/selectd-icon40-loading@2x.png</file>
-        <file>resource/selectd-icon40-loading@3x.png</file>
-        <file>resource/top-btn82-classify-h.png</file>
-        <file>resource/top-btn82-classify-h@2x.png</file>
-        <file>resource/top-btn82-classify-h@3x.png</file>
-        <file>resource/top-btn82-classify-n.png</file>
-        <file>resource/top-btn82-classify-n@2x.png</file>
-        <file>resource/top-btn82-classify-n@3x.png</file>
-        <file>resource/btm-btn40-stop-h.png</file>
-        <file>resource/btm-btn40-stop-h@2x.png</file>
-        <file>resource/btm-btn40-stop-h@3x.png</file>
-        <file>resource/btm-btn40-stop-n.png</file>
-        <file>resource/btm-btn40-stop-n@2x.png</file>
-        <file>resource/btm-btn40-stop-n@3x.png</file>
-        <file>resource/internets-img160-amazonmusic-h.png</file>
-        <file>resource/internets-img160-amazonmusic-h@2x.png</file>
-        <file>resource/internets-img160-amazonmusic-h@3x.png</file>
-        <file>resource/internets-img160-amazonmusic-n.png</file>
-        <file>resource/internets-img160-amazonmusic-n@2x.png</file>
-        <file>resource/internets-img160-amazonmusic-n@3x.png</file>
-        <file>resource/internets-img160-highresaudio-h.png</file>
-        <file>resource/internets-img160-highresaudio-h@2x.png</file>
-        <file>resource/internets-img160-highresaudio-h@3x.png</file>
-        <file>resource/internets-img160-highresaudio-n.png</file>
-        <file>resource/internets-img160-highresaudio-n@2x.png</file>
-        <file>resource/internets-img160-highresaudio-n@3x.png</file>
-        <file>resource/internets-img160-podcast-h.png</file>
-        <file>resource/internets-img160-podcast-h@2x.png</file>
-        <file>resource/internets-img160-podcast-h@3x.png</file>
-        <file>resource/internets-img160-podcast-n.png</file>
-        <file>resource/internets-img160-podcast-n@2x.png</file>
-        <file>resource/internets-img160-podcast-n@3x.png</file>
-        <file>resource/mid-icon30-play-h.png</file>
-        <file>resource/mid-icon30-play-h@2x.png</file>
-        <file>resource/mid-icon30-play-h@3x.png</file>
-        <file>resource/submenu-icon40-aboutmusicx.png</file>
-        <file>resource/submenu-icon40-aboutmusicx@2x.png</file>
-        <file>resource/submenu-icon40-aboutmusicx@3x.png</file>
-        <file>resource/submenu-icon40-wolpoweron.png</file>
-        <file>resource/submenu-icon40-wolpoweron@2x.png</file>
-        <file>resource/submenu-icon40-wolpoweron@3x.png</file>
-        <file>resource/internets-btn28-record-h.png</file>
-        <file>resource/internets-btn28-record-h@2x.png</file>
-        <file>resource/internets-btn28-record-h@3x.png</file>
-        <file>resource/internets-btn28-record-n.png</file>
-        <file>resource/internets-btn28-record-n@2x.png</file>
-        <file>resource/internets-btn28-record-n@3x.png</file>
-        <file>resource/internets-btn28-record-u.png</file>
-        <file>resource/internets-btn28-record-u@2x.png</file>
-        <file>resource/internets-btn28-record-u@3x.png</file>
-        <file>resource/top-btn22-sortd-n.png</file>
-        <file>resource/top-btn22-sortd-n@2x.png</file>
-        <file>resource/top-btn22-sortd-n@3x.png</file>
-        <file>resource/top-btn150-sort-h.png</file>
-        <file>resource/top-btn150-sort-h@2x.png</file>
-        <file>resource/top-btn150-sort-h@3x.png</file>
-        <file>resource/top-btn150-sort-n.png</file>
-        <file>resource/top-btn150-sort-n@2x.png</file>
-        <file>resource/top-btn150-sort-n@3x.png</file>
-        <file>resource/play-btn28-rank-sel0.png</file>
-        <file>resource/play-btn28-rank-sel0@2x.png</file>
-        <file>resource/play-btn28-rank-sel0@3x.png</file>
-        <file>resource/play-btn28-rank-sel1.png</file>
-        <file>resource/play-btn28-rank-sel1@2x.png</file>
-        <file>resource/play-btn28-rank-sel1@3x.png</file>
-        <file>resource/play-btn28-rank-sel2.png</file>
-        <file>resource/play-btn28-rank-sel2@2x.png</file>
-        <file>resource/play-btn28-rank-sel2@3x.png</file>
-        <file>resource/play-btn28-rank-sel3.png</file>
-        <file>resource/play-btn28-rank-sel3@2x.png</file>
-        <file>resource/play-btn28-rank-sel3@3x.png</file>
-        <file>resource/play-btn28-rank-sel4.png</file>
-        <file>resource/play-btn28-rank-sel4@2x.png</file>
-        <file>resource/play-btn28-rank-sel4@3x.png</file>
-        <file>resource/play-btn28-rank-sel5.png</file>
-        <file>resource/play-btn28-rank-sel5@2x.png</file>
-        <file>resource/play-btn28-rank-sel5@3x.png</file>
-        <file>resource/logo-icon-musicxneo-256.png</file>
-        <file>resource/about.html</file>
-        <file>resource/browser-icon16-clearreplay.png</file>
-        <file>resource/browser-icon16-clearreplay@2x.png</file>
-        <file>resource/browser-icon16-clearreplay@3x.png</file>
-        <file>resource/browser-icon16-overwrite.png</file>
-        <file>resource/browser-icon16-overwrite@2x.png</file>
-        <file>resource/browser-icon16-overwrite@3x.png</file>
-        <file>resource/browser-icon16-playlast.png</file>
-        <file>resource/browser-icon16-playlast@2x.png</file>
-        <file>resource/browser-icon16-playlast@3x.png</file>
-        <file>resource/browser-icon16-playnext.png</file>
-        <file>resource/browser-icon16-playnext@2x.png</file>
-        <file>resource/browser-icon16-playnext@3x.png</file>
-        <file>resource/browser-icon16-playnow.png</file>
-        <file>resource/browser-icon16-playnow@2x.png</file>
-        <file>resource/browser-icon16-playnow@3x.png</file>
-        <file>resource/browser-icon16-playsubfolder.png</file>
-        <file>resource/browser-icon16-playsubfolder@2x.png</file>
-        <file>resource/browser-icon16-playsubfolder@3x.png</file>
-        <file>resource/internets-icon40-reservedrecordlist.png</file>
-        <file>resource/internets-icon40-reservedrecordlist@2x.png</file>
-        <file>resource/internets-icon40-reservedrecordlist@3x.png</file>
-        <file>resource/internets-icon40-search.png</file>
-        <file>resource/internets-icon40-search@2x.png</file>
-        <file>resource/internets-icon40-search@3x.png</file>
-        <file>resource/internets-icon40-titlecover.png</file>
-        <file>resource/internets-icon40-titlecover@2x.png</file>
-        <file>resource/internets-icon40-titlecover@3x.png</file>
-        <file>resource/radio-icon16-clearseekall.png</file>
-        <file>resource/radio-icon16-clearseekall@2x.png</file>
-        <file>resource/radio-icon16-clearseekall@3x.png</file>
-        <file>resource/radio-icon16-reservedrecordlist.png</file>
-        <file>resource/radio-icon16-reservedrecordlist@2x.png</file>
-        <file>resource/radio-icon16-reservedrecordlist@3x.png</file>
-        <file>resource/radio-icon16-seekall.png</file>
-        <file>resource/radio-icon16-seekall@2x.png</file>
-        <file>resource/radio-icon16-seekall@3x.png</file>
-        <file>resource/search-btn60-close-n.png</file>
-        <file>resource/search-btn60-close-n@2x.png</file>
-        <file>resource/search-btn60-close-n@3x.png</file>
-        <file>resource/search-btn60-more-h.png</file>
-        <file>resource/search-btn60-more-h@2x.png</file>
-        <file>resource/search-btn60-more-h@3x.png</file>
-        <file>resource/search-btn60-more-n.png</file>
-        <file>resource/search-btn60-more-n@2x.png</file>
-        <file>resource/search-btn60-more-n@3x.png</file>
-        <file>resource/search-btn60-more-u.png</file>
-        <file>resource/search-btn60-more-u@2x.png</file>
-        <file>resource/search-btn60-more-u@3x.png</file>
-        <file>resource/top-btn22-sortd-h.png</file>
-        <file>resource/top-btn22-sortd-h@2x.png</file>
-        <file>resource/top-btn22-sortd-h@3x.png</file>
-        <file>resource/audiocd-popup-btn22-left.png</file>
-        <file>resource/audiocd-popup-btn22-left@2x.png</file>
-        <file>resource/audiocd-popup-btn22-left@3x.png</file>
-        <file>resource/audiocd-popup-btn22-right.png</file>
-        <file>resource/audiocd-popup-btn22-right@2x.png</file>
-        <file>resource/audiocd-popup-btn22-right@3x.png</file>
-        <file>resource/browser-img160-folder-h.png</file>
-        <file>resource/browser-img160-folder-h@2x.png</file>
-        <file>resource/browser-img160-folder-h@3x.png</file>
-        <file>resource/browser-img160-folder-n.png</file>
-        <file>resource/browser-img160-folder-n@2x.png</file>
-        <file>resource/browser-img160-folder-n@3x.png</file>
-        <file>resource/browser-img60-folder.png</file>
-        <file>resource/browser-img60-folder@2x.png</file>
-        <file>resource/browser-img60-folder@3x.png</file>
-        <file>resource/groupp-icon30-volume-mute.png</file>
-        <file>resource/groupp-icon30-volume-mute@2x.png</file>
-        <file>resource/groupp-icon30-volume-mute@3x.png</file>
     </qresource>
 </RCC>
