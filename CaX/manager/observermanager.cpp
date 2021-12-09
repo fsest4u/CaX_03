@@ -66,26 +66,21 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 		LogDebug("info    [%s]", node.ToTabedByteArray().data());
 		LogDebug("*****************************************");
 
-		if (strCmd0.contains("Dev"))
+		if (strCmd0.contains(KEY_DEV))
 		{
 			emit SigRespObserverInfo(node);
 		}
-//		else if (strCmd0.contains("Task"))
+//		else if (strCmd0.contains(KEY_TASK))
 //		{
 ////			emit SigObserveInfo();
 //		}
-//		else if (strCmd0.contains("Swap"))
+//		else if (strCmd0.contains(KEY_SWAP))
 //		{
 ////			emit SigObserveInfo();
 //		}
-		else if (strCmd0.contains("Progress"))
+		else if (strCmd0.contains(KEY_PROGRESS))
 		{
-			// setup - music db scan status
-			// todo-dylee, 4.2 "MusicDB" -> "Info" -> "SetAlbum"
-
-			// audio cd - cd rip
-			// browser folder copy / move / delete
-			// browser convert / set replay gain / clear replay gain
+			// todo-dylee, setup - music db scan status
 
 			emit SigEventProgress(node);
 

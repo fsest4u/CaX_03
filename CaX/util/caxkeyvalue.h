@@ -128,6 +128,7 @@
 #define		KEY_POSITION		"Pos"
 #define		KEY_PREV			"Prev"
 #define		KEY_PROGRAM			"Program"
+#define		KEY_PROGRESS		"Progress"
 
 #define		KEY_QOBUZ_MENU		"QobuzMenu"
 
@@ -165,6 +166,7 @@
 #define		KEY_SVC_TYPE		"SvcType"
 #define		KEY_SWAP			"Swap"
 
+#define		KEY_TASK			"Task"
 #define		KEY_TASK_ID			"TaskID"
 #define		KEY_TEMPO			"Tempo"
 #define		KEY_TITLE			"title"

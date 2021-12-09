@@ -41,6 +41,7 @@ signals:
 	void SigMenuAction(QString menuID);
 
 	void SigSetVolumeSlider(int volume);
+	void SigSetDial(int volume);
 
 	void SigQueueList(CJsonNode node);
 
@@ -55,6 +56,9 @@ private slots:
 	void SlotBtnRandom();
 	void SlotMenu();
 	void SlotMenuAction(QAction *action);
+	void SlotDialValueChanged(int value);
+	void SlotDialReleased();
+	void SlotSetDial(int volume);
 	void SlotVolumeSliderValueChanged(int value);
 	void SlotVolumeSliderReleased();
 	void SlotSetVolumeSlider(int volume);
@@ -104,6 +108,7 @@ private:
 	void SetPlayTimeSliderState();
 	void SetDeviceMenu();
 	void SetVolumeMenu();
+	void SetDialMenu();
 
 	void DoNowPlay(CJsonNode node);
 

@@ -187,6 +187,24 @@ void PlayWindow::SlotMenuAction(QAction *action)
 	emit SigMenuAction(action->data().toString());
 }
 
+void PlayWindow::SlotDialValueChanged(int value)
+{
+	ui->labelDial->setText(QString("%1").arg(value));
+}
+
+void PlayWindow::SlotDialReleased()
+{
+	int value = ui->dial->value();
+	ui->labelDial->setText(QString("%1").arg(value));
+	m_pMgr->RequestVolume(value);
+}
+
+void PlayWindow::SlotSetDial(int volume)
+{
+	ui->labelDial->setText(QString("%1").arg(volume));
+	ui->dial->setValue(volume);
+}
+
 void PlayWindow::SlotVolumeSliderValueChanged(int value)
 {
 	ui->labelVolume->setText(QString("%1").arg(value));
@@ -237,7 +255,9 @@ void PlayWindow::SlotEventNowPlay(CJsonNode node)
 		QString volume = node.GetString(KEY_VOLUME_CAP);
 		if (!volume.isEmpty())
 		{
-			ui->labelVolume->setText(volume);
+			int vol = volume.toInt();
+			SlotSetVolumeSlider(vol);
+			SlotSetDial(vol);
 		}
 	}
 	else
@@ -275,6 +295,8 @@ void PlayWindow::ConnectSigToSlot()
 	connect(ui->horizontalSlider, SIGNAL(sliderReleased()), this, SLOT(SlotPlayTimeSliderReleased()));
 
 	connect(this, SIGNAL(SigSetVolumeSlider(int)), this, SLOT(SlotSetVolumeSlider(int)));
+	connect(this, SIGNAL(SigSetDial(int)), this, SLOT(SlotSetDial(int)));
+
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	connect(m_pMgr, SIGNAL(SigTrackInfo(CJsonNode)), this, SLOT(SlotTrackInfo(CJsonNode)));
@@ -295,6 +317,7 @@ void PlayWindow::Initialize()
 	SetRepeatMode("");
 	SetDeviceMenu();
 	SetVolumeMenu();
+	SetDialMenu();
 
 	InitPlayInfo();
 	InitPlayTimeSlider();
@@ -604,12 +627,23 @@ void PlayWindow::SetVolumeMenu()
 	connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(SlotVolumeSliderReleased()));
 }
 
+void PlayWindow::SetDialMenu()
+{
+	// temp_code, dylee -> change to dial
+	ui->frameVolume->hide();
+
+	connect(ui->dial, SIGNAL(valueChanged(int)), this, SLOT(SlotDialValueChanged(int)));
+	connect(ui->dial, SIGNAL(sliderReleased()), this, SLOT(SlotDialReleased()));
+
+}
+
 void PlayWindow::DoNowPlay(CJsonNode node)
 {
 	EnableUI(true);
 	SetVariable(node);
 
 	emit SigSetVolumeSlider(m_Volume);
+	emit SigSetDial(m_Volume);
 	if (m_PlayState.compare(KEY_PLAY))
 	{
 		m_bPause = true;
