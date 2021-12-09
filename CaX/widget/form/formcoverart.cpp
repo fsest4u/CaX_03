@@ -47,7 +47,7 @@ void FormCoverArt::SetCoverArt(QString coverArt)
 	m_CoverArt = coverArt;
 	if (m_CoverArt.isEmpty())
 	{
-		m_CoverArt = ":/resource/playlist-img160-albumart-h@3x.png";
+		m_CoverArt = ":/resource/playlist-img160-albumart-h.png";
 	}
 
 //	QImage image;
@@ -99,32 +99,32 @@ void FormCoverArt::SetFavorite(int Favorite)
 	{
 //		style = QString("QLabel	\
 //						{	\
-//						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+//						  border-image: url(\":/resource/mid-icon16-likeoff.png\");	\
 //						}	\
 //						QLabel:hover	\
 //						{	\
-//						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+//						  border-image: url(\":/resource/mid-icon16-likeon.png\");	\
 //						}");
 
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+						  border-image: url(\":/resource/mid-icon16-likeoff.png\");	\
 						}");
 	}
 	else
 	{
 //		style = QString("QLabel	\
 //						{	\
-//						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+//						  border-image: url(\":/resource/mid-icon16-likeon.png\");	\
 //						}	\
 //						QLabel:hover	\
 //						{	\
-//						  border-image: url(\":/resource/mid-icon16-likeoff@3x.png\");	\
+//						  border-image: url(\":/resource/mid-icon16-likeoff.png\");	\
 //						}");
 
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/mid-icon16-likeon@3x.png\");	\
+						  border-image: url(\":/resource/mid-icon16-likeon.png\");	\
 						}");
 	}
 	ui->labelFavorite->setStyleSheet(style);
@@ -148,27 +148,27 @@ void FormCoverArt::SetRating(int Rating)
 
 	if (m_Rating == 1)
 	{
-		style = "mid-icon16-rankon-h1@3x.png";
+		style = "mid-icon16-rankon-h1.png";
 	}
 	else if (m_Rating == 2)
 	{
-		style = "mid-icon16-rankon-h2@3x.png";
+		style = "mid-icon16-rankon-h2.png";
 	}
 	else if (m_Rating == 3)
 	{
-		style = "mid-icon16-rankon-h3@3x.png";
+		style = "mid-icon16-rankon-h3.png";
 	}
 	else if (m_Rating == 4)
 	{
-		style = "mid-icon16-rankon-h4@3x.png";
+		style = "mid-icon16-rankon-h4.png";
 	}
 	else if (m_Rating == 5)
 	{
-		style = "mid-icon16-rankon-h5@3x.png";
+		style = "mid-icon16-rankon-h5.png";
 	}
 	else
 	{
-		style = "mid-icon16-rankon-h@3x.png";
+		style = "mid-icon16-rankon-h.png";
 	}
 
 //	style = QString("QFrame	\
@@ -177,7 +177,7 @@ void FormCoverArt::SetRating(int Rating)
 //					}	\
 //					QFrame:hover	\
 //					{	\
-//					  border-image: url(\":/resource/mid-icon16-rankon-h@3x.png\");	\
+//					  border-image: url(\":/resource/mid-icon16-rankon-h.png\");	\
 //					}").arg(style);
 	style = QString("QFrame	\
 					{	\
@@ -202,7 +202,7 @@ void FormCoverArt::SetSelect(bool Select)
 
 	if (m_Select)
 	{
-		style = "playlist-icon30-select@3x.png";
+		style = "playlist-icon30-select.png";
 	}
 	else
 	{
@@ -233,14 +233,14 @@ void FormCoverArt::SetMute(bool Mute)
 	{
 		style = QString("QLabel	\
 						{	\
-							border-image: url(\":/resource/groupp-icon30-volume-mute@3x.png\");	\
+							border-image: url(\":/resource/groupp-icon30-volume-mute.png\");	\
 						}");
 	}
 	else
 	{
 		style = QString("QLabel	\
 						{	\
-							border-image: url(\":/resource/groupp-icon30-volume@3x.png\");	\
+							border-image: url(\":/resource/groupp-icon30-volume.png\");	\
 						}");
 
 	}

@@ -55,13 +55,13 @@
       <string notr="true">QLabel
 {
 	color: rgb(84, 84, 84);
-  border-image: url(&quot;:/resource/selectd-bar550-select-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/selectd-bar550-select-n.png&quot;);
 }
 
 QLabel:hover
 {
 	color: rgb(84, 84, 84);
-  border-image: url(&quot;:/resource/selectd-bar550-select-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/selectd-bar550-select-h.png&quot;);
 }</string>
      </property>
      <property name="text">
@@ -99,13 +99,13 @@ QLabel:hover
       <string notr="true">QLabel
 {
 color: rgb(84, 84, 84);
-border-image: url(&quot;:/resource/selectd-bar150-cancel-n@3x.png&quot;);
+border-image: url(&quot;:/resource/selectd-bar150-cancel-n.png&quot;);
 }
 
 QLabel:hover
 {
 color: rgb(84, 84, 84);
-border-image: url(&quot;:/resource/selectd-bar150-cancel-h@3x.png&quot;);
+border-image: url(&quot;:/resource/selectd-bar150-cancel-h.png&quot;);
 }</string>
      </property>
      <property name="text">

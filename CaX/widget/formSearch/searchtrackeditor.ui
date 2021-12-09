@@ -86,12 +86,12 @@
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/audiocd-popup-icon16-play@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-icon16-play.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/btm-btn40-play-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn40-play-h.png&quot;);
 }</string>
      </property>
      <property name="alignment">
@@ -275,12 +275,12 @@ QLabel:hover
         <property name="styleSheet">
          <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/play-btn28-popupmenu-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-popupmenu-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/play-btn28-popupmenu-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-popupmenu-h.png&quot;);
 }
 QPushButton::menu-indicator
 {

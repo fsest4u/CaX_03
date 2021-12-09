@@ -52,7 +52,7 @@
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/btm-btn40-play-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn40-play-n.png&quot;);
 }
 
 </string>

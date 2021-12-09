@@ -106,27 +106,27 @@ void FormPlay::SetRating(int Rating)
 
 	if (m_Rating == 1)
 	{
-		style = "play-btn28-rank-sel1@3x.png";
+		style = "play-btn28-rank-sel1.png";
 	}
 	else if (m_Rating == 2)
 	{
-		style = "play-btn28-rank-sel2@3x.png";
+		style = "play-btn28-rank-sel2.png";
 	}
 	else if (m_Rating == 3)
 	{
-		style = "play-btn28-rank-sel3@3x.png";
+		style = "play-btn28-rank-sel3.png";
 	}
 	else if (m_Rating == 4)
 	{
-		style = "play-btn28-rank-sel4@3x.png";
+		style = "play-btn28-rank-sel4.png";
 	}
 	else if (m_Rating == 5)
 	{
-		style = "play-btn28-rank-sel5@3x.png";
+		style = "play-btn28-rank-sel5.png";
 	}
 	else
 	{
-		style = "play-btn28-rank-sel0@3x.png";
+		style = "play-btn28-rank-sel0.png";
 	}
 
 	style = QString("QFrame	\
@@ -135,7 +135,7 @@ void FormPlay::SetRating(int Rating)
 					}	\
 					QFrame:hover	\
 					{	\
-					  border-image: url(\":/resource/play-btn28-rank-sel0@3x.png\");	\
+					  border-image: url(\":/resource/play-btn28-rank-sel0.png\");	\
 					}").arg(style);
 
 	ui->frameRating->setStyleSheet(style);
@@ -173,11 +173,11 @@ void FormPlay::SetFavorite(int Favorite)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
+						  border-image: url(\":/resource/play-btn28-like-n.png\");	\
 						}	\
 						QLabel:hover	\
 						{	\
-						  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
+						  border-image: url(\":/resource/play-btn28-like-h.png\");	\
 						}");
 
 	}
@@ -185,11 +185,11 @@ void FormPlay::SetFavorite(int Favorite)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/play-btn28-like-h@3x.png\");	\
+						  border-image: url(\":/resource/play-btn28-like-h.png\");	\
 						}	\
 						QLabel:hover	\
 						{	\
-						  border-image: url(\":/resource/play-btn28-like-n@3x.png\");	\
+						  border-image: url(\":/resource/play-btn28-like-n.png\");	\
 						}");
 
 	}

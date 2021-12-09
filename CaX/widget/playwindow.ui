@@ -229,12 +229,12 @@
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn20-info-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn20-info-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn20-info-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn20-info-h.png&quot;);
 }</string>
                  </property>
                  <property name="text">
@@ -259,12 +259,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn26-rew-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-rew-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn26-rew-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-rew-h.png&quot;);
 }
 
 </string>
@@ -288,12 +288,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn40-play-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn40-play-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn40-play-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn40-play-h.png&quot;);
 }
 
 </string>
@@ -317,12 +317,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn40-stop-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn40-stop-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn40-stop-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn40-stop-h.png&quot;);
 }
 
 </string>
@@ -346,12 +346,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn26-ff-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-ff-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn26-ff-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-ff-h.png&quot;);
 }
 </string>
                  </property>
@@ -374,12 +374,12 @@ QPushButton:hover
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn20-random-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn20-random-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn20-random-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn20-random-h.png&quot;);
 }
 </string>
                  </property>
@@ -540,12 +540,12 @@ QPushButton:hover
             <string notr="true">QPushButton
 {
   color: rgb(255, 255, 255);
-  border-image: url(&quot;:/resource/btm-btn50-device-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn50-device-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn50-device-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn50-device-h.png&quot;);
 }
 QPushButton::menu-indicator
 {
@@ -633,12 +633,12 @@ QPushButton::menu-indicator
             <string notr="true">QPushButton
 {
   color: rgb(255, 255, 255);
-  border-image: url(&quot;:/resource/btm-btn30-volume-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn30-volume-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn30-volume-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn30-volume-h.png&quot;);
 }
 QPushButton::menu-indicator
 {
@@ -726,7 +726,7 @@ QPushButton::menu-indicator
             <string notr="true">QDial
 {
   color: rgb(255, 255, 255);
-  border-image: url(&quot;:/resource/top-btn22-classify-rank-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn22-classify-rank-h.png&quot;);
 }</string>
            </property>
           </widget>

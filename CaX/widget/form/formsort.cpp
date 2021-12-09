@@ -115,11 +115,11 @@ void FormSort::SetIncrease(bool bIncrease)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/top-btn22-sortu-n@3x.png\");	\
+						  border-image: url(\":/resource/top-btn22-sortu-n.png\");	\
 						}	\
 						QLabel:hover	\
 						{	\
-						  border-image: url(\":/resource/top-btn22-sortu-h@3x.png\");	\
+						  border-image: url(\":/resource/top-btn22-sortu-h.png\");	\
 						}");
 
 	}
@@ -127,11 +127,11 @@ void FormSort::SetIncrease(bool bIncrease)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/top-btn22-sortd-n@3x.png\");	\
+						  border-image: url(\":/resource/top-btn22-sortd-n.png\");	\
 						}	\
 						QLabel:hover	\
 						{	\
-						  border-image: url(\":/resource/top-btn22-sortd-h@3x.png\");	\
+						  border-image: url(\":/resource/top-btn22-sortd-h.png\");	\
 						}");
 
 	}

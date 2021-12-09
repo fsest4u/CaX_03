@@ -53,13 +53,13 @@
       <string notr="true">QPushButton
 {
   color: rgb(52, 174, 214);
-  border-image: url(&quot;:/resource/top-btn150-sort-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn150-sort-n.png&quot;);
 }
 
 QPushButton:hover
 {
   color: rgb(255, 255, 255);
-  border-image: url(&quot;:/resource/top-btn150-sort-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn150-sort-h.png&quot;);
 }
 QPushButton::menu-indicator
 {
@@ -85,12 +85,12 @@ QPushButton::menu-indicator
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-btn22-sortu-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn22-sortu-n.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/top-btn22-sortu-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn22-sortu-h.png&quot;);
 }</string>
      </property>
     </widget>
@@ -128,12 +128,12 @@ QLabel:hover
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/top-bar22-iconsize-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-bar22-iconsize-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/top-bar22-iconsize-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-bar22-iconsize-n.png&quot;);
 }
 QPushButton::menu-indicator
 {

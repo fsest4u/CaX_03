@@ -54,14 +54,14 @@ QWidget
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
 width: 110px;
 color: rgb(84, 84, 84)
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
 width: 110px;
 color: rgb(255, 255, 255)
 }</string>

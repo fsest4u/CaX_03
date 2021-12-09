@@ -58,12 +58,12 @@
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-btn52-play-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-play-n.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/top-btn52-play-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-play-h.png&quot;);
 }</string>
      </property>
     </widget>
@@ -85,12 +85,12 @@ QLabel:hover
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-btn52-random-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-random-n.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/top-btn52-random-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-random-h.png&quot;);
 }</string>
      </property>
     </widget>
@@ -112,12 +112,12 @@ QLabel:hover
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/play-btn28-like-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-like-n.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/play-btn28-like-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-like-h.png&quot;);
 }</string>
      </property>
     </widget>
@@ -289,12 +289,12 @@ border: none;</string>
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/play-btn28-menu-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-menu-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/play-btn28-menu-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-menu-h.png&quot;);
 }
 QPushButton::menu-indicator
 {

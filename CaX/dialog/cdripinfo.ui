@@ -383,7 +383,7 @@ QWidget
         <property name="styleSheet">
          <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/playlist-img160-albumart-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/playlist-img160-albumart-h.png&quot;);
 }
 </string>
         </property>

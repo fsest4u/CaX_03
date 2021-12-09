@@ -244,7 +244,7 @@ border-left : 1px solid #b9b8ba;
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-icon68-genre@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-icon68-genre.png&quot;);
 }</string>
            </property>
            <property name="text">
@@ -366,7 +366,7 @@ border-left : 1px solid #b9b8ba;
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-icon68-album@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-icon68-album.png&quot;);
 }</string>
            </property>
           </widget>
@@ -488,7 +488,7 @@ border-left : 1px solid #b9b8ba;
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-icon68-artist@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-icon68-artist.png&quot;);
 }</string>
            </property>
           </widget>
@@ -610,7 +610,7 @@ border-left : 1px solid #b9b8ba;
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-icon68-track@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-icon68-track.png&quot;);
 }</string>
            </property>
           </widget>
@@ -738,12 +738,12 @@ border-left : 1px solid #b9b8ba;
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/top-btn52-menu-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-menu-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/top-btn52-menu-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-menu-h.png&quot;);
 }
 QPushButton::menu-indicator
 {

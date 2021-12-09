@@ -77,11 +77,11 @@ void ListTracksEditor::SetFavorite(int Favorite)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/play-btn12-like-n@3x.png\");	\
+						  border-image: url(\":/resource/play-btn12-like-n.png\");	\
 						}	\
 						QLabel:hover	\
 						{	\
-						  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
+						  border-image: url(\":/resource/play-btn12-like-h.png\");	\
 						}");
 
 	}
@@ -89,11 +89,11 @@ void ListTracksEditor::SetFavorite(int Favorite)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/play-btn12-like-u@3x.png\");	\
+						  border-image: url(\":/resource/play-btn12-like-u.png\");	\
 						}	\
 						QLabel:hover	\
 						{	\
-						  border-image: url(\":/resource/play-btn12-like-h@3x.png\");	\
+						  border-image: url(\":/resource/play-btn12-like-h.png\");	\
 						}");
 
 	}

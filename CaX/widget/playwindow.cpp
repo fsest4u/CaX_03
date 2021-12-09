@@ -512,11 +512,11 @@ void PlayWindow::SetPlayState()
 		// pause state
 		style = QString("QPushButton	\
 						{	\
-						  border-image: url(\":/resource/btm-btn40-play-n@3x.png\");	\
+						  border-image: url(\":/resource/btm-btn40-play-n.png\");	\
 						}\
 						QPushButton:hover	\
 						{	\
-						  border-image: url(\":/resource/btm-btn40-play-h@3x.png\");	\
+						  border-image: url(\":/resource/btm-btn40-play-h.png\");	\
 						}");
 
 	}
@@ -525,11 +525,11 @@ void PlayWindow::SetPlayState()
 		// play state
 		style = QString("QPushButton	\
 						{	\
-						  border-image: url(\":/resource/btm-btn40-pause-n@3x.png\");	\
+						  border-image: url(\":/resource/btm-btn40-pause-n.png\");	\
 						}\
 						QPushButton:hover	\
 						{	\
-						  border-image: url(\":/resource/btm-btn40-pause-h@3x.png\");	\
+						  border-image: url(\":/resource/btm-btn40-pause-h.png\");	\
 						}");
 
 	}

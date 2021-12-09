@@ -23,31 +23,31 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 {
 	if (value.contains(STR_ADD))
 	{
-		return QIcon(":/resource/browser-icon16-newfolder@3x.png");
+		return QIcon(":/resource/browser-icon16-newfolder.png");
 	}
 	else if (value.contains(STR_ADD_TO_PLAYLIST))
 	{
-		return QIcon(":/resource/play-popup-icon16-addplaylist@3x.png");
+		return QIcon(":/resource/play-popup-icon16-addplaylist.png");
 	}
 	else if (value.contains(STR_CD_RIPPING))
 	{
-		return QIcon(":/resource/audiocd-popup-icon16-cdrip@3x.png");
+		return QIcon(":/resource/audiocd-popup-icon16-cdrip.png");
 	}
 	else if (value.contains(STR_CLEAR_ALL))
 	{
-		return QIcon(":/resource/playlist-icon16-clearall@3x.png");
+		return QIcon(":/resource/playlist-icon16-clearall.png");
 	}
 	else if (value.contains(STR_CONVERT_FORMAT))
 	{
-		return QIcon(":/resource/browser-icon16-convertaudio@3x.png");
+		return QIcon(":/resource/browser-icon16-convertaudio.png");
 	}
 	else if (value.contains(STR_COPY))
 	{
-		return QIcon(":/resource/browser-icon16-copy@3x.png");
+		return QIcon(":/resource/browser-icon16-copy.png");
 	}
 	else if (value.contains(STR_DELETE))
 	{
-		return QIcon(":/resource/playlist-icon16-delete@3x.png");
+		return QIcon(":/resource/playlist-icon16-delete.png");
 	}
 	else if (value.contains(STR_DELETE_TO_PLAYLIST))
 	{
@@ -55,35 +55,35 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	}
 	else if (value.contains(STR_EDIT_TAG))
 	{
-		return QIcon(":/resource/browser-icon16-settag@3x.png");
+		return QIcon(":/resource/browser-icon16-settag.png");
 	}
 	else if (value.contains(STR_EJECT_CD))
 	{
-		return QIcon(":/resource/audiocd-popup-icon16-eject@3x.png");
+		return QIcon(":/resource/audiocd-popup-icon16-eject.png");
 	}
 	else if (value.contains(STR_EXPORT_TRACK))
 	{
-		return QIcon(":/resource/playlist-icon16-exportsong@3x.png");
+		return QIcon(":/resource/playlist-icon16-exportsong.png");
 	}
 	else if (value.contains(STR_GAIN_SET))
 	{
-		return QIcon(":/resource/play-popup-icon16-replaygain@3x.png");
+		return QIcon(":/resource/play-popup-icon16-replaygain.png");
 	}
 	else if (value.contains(STR_GAIN_CLEAR))
 	{
-		return QIcon(":/resource/play-popup-icon16-cleanreplaygain@3x.png");
+		return QIcon(":/resource/play-popup-icon16-cleanreplaygain.png");
 	}
 	else if (value.contains(STR_INFO))
 	{
-		return QIcon(":/resource/browser-icon16-infoalbum@3x.png");
+		return QIcon(":/resource/browser-icon16-infoalbum.png");
 	}
 	else if (value.contains(STR_LOAD_COUNT))
 	{
-		return QIcon(":/resource/play-popup-icon16-loadalloff@3x.png");
+		return QIcon(":/resource/play-popup-icon16-loadalloff.png");
 	}
 	else if (value.contains(STR_MOVE))
 	{
-		return QIcon(":/resource/browser-icon16-move@3x.png");
+		return QIcon(":/resource/browser-icon16-move.png");
 	}
 	else if (value.contains(STR_OPTION_PLAY_SUBDIR))
 	{
@@ -95,27 +95,27 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	}
 	else if (value.contains(STR_PLAY_NOW))
 	{
-		return QIcon(":/resource/browser-icon16-playnow@3x.png");
+		return QIcon(":/resource/browser-icon16-playnow.png");
 	}
 	else if (value.contains(STR_PLAY_LAST))
 	{
-		return QIcon(":/resource/browser-icon16-playlast@3x.png");
+		return QIcon(":/resource/browser-icon16-playlast.png");
 	}
 	else if (value.contains(STR_PLAY_NEXT))
 	{
-		return QIcon(":/resource/browser-icon16-playnext@3x.png");
+		return QIcon(":/resource/browser-icon16-playnext.png");
 	}
 	else if (value.contains(STR_PLAY_CLEAR))
 	{
-		return QIcon(":/resource/browser-icon16-clearreplay@3x.png");
+		return QIcon(":/resource/browser-icon16-clearreplay.png");
 	}
 	else if (value.contains(STR_RELOAD))
 	{
-		return QIcon(":/resource/play-popup-icon16-reload@3x.png");
+		return QIcon(":/resource/play-popup-icon16-reload.png");
 	}
 	else if (value.contains(STR_RENAME))
 	{
-		return QIcon(":/resource/play-popup-icon16-nameedit@3x.png");
+		return QIcon(":/resource/play-popup-icon16-nameedit.png");
 	}
 	else if (value.contains(STR_RESERVE_RECORD_LIST))
 	{
@@ -131,72 +131,72 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	}
 	else if (value.contains(STR_SEARCH_COVERART))
 	{
-		return QIcon(":/resource/play-popup-icon16-searchcoverart@3x.png");
+		return QIcon(":/resource/play-popup-icon16-searchcoverart.png");
 	}
 	else if (value.contains(STR_SELECT_ALL))
 	{
-		return QIcon(":/resource/play-popup-icon16-selectall@3x.png");
+		return QIcon(":/resource/play-popup-icon16-selectall.png");
 	}
 	else if (value.contains(STR_SEARCH_COVERART))
 	{
-		return QIcon(":/resource/play-popup-icon16-searchcoverart@3x.png");
+		return QIcon(":/resource/play-popup-icon16-searchcoverart.png");
 	}
 	// side menu
 	else if (value.contains(STR_MUSIC_DB))
 	{
-		return QIcon(":/resource/submenu-icon40-musicdb@3x.png");
+		return QIcon(":/resource/submenu-icon40-musicdb.png");
 	}
 	else if (value.contains(STR_AUDIO_CD))
 	{
-		return QIcon(":/resource/submenu-icon40-audiocd@3x.png");
+		return QIcon(":/resource/submenu-icon40-audiocd.png");
 	}
 	else if (value.contains(STR_PLAYLIST))
 	{
-		return QIcon(":/resource/submenu-icon40-playlist@3x.png");
+		return QIcon(":/resource/submenu-icon40-playlist.png");
 	}
 	else if (value.contains(STR_BROWSER))
 	{
-		return QIcon(":/resource/submenu-icon40-browser@3x.png");
+		return QIcon(":/resource/submenu-icon40-browser.png");
 	}
 	else if (value.contains(STR_ISERVICE))
 	{
-		return QIcon(":/resource/submenu-icon40-internetservice@3x.png");
+		return QIcon(":/resource/submenu-icon40-internetservice.png");
 	}
 	else if (value.contains(STR_INPUT))
 	{
-		return QIcon(":/resource/submenu-icon40-input@3x.png");
+		return QIcon(":/resource/submenu-icon40-input.png");
 	}
 	else if (value.contains(STR_FM_RADIO))
 	{
-		return QIcon(":/resource/submenu-icon40-fmradio@3x.png");
+		return QIcon(":/resource/submenu-icon40-fmradio.png");
 	}
 	else if (value.contains(STR_DAB_RADIO))
 	{
-		return QIcon(":/resource/submenu-icon40-davradio@3x.png");
+		return QIcon(":/resource/submenu-icon40-davradio.png");
 	}
 	else if (value.contains(STR_GROUP_PLAY))
 	{
-		return QIcon(":/resource/submenu-icon40-groupplay@3x.png");
+		return QIcon(":/resource/submenu-icon40-groupplay.png");
 	}
 	else if (value.contains(STR_SETUP))
 	{
-		return QIcon(":/resource/submenu-icon40-setup@3x.png");
+		return QIcon(":/resource/submenu-icon40-setup.png");
 	}
 	else if (value.contains(STR_SELECT_DEVICE))
 	{
-		return QIcon(":/resource/submenu-icon40-selectdevice@3x.png");
+		return QIcon(":/resource/submenu-icon40-selectdevice.png");
 	}
 	else if (value.contains(STR_POWER_ON))
 	{
-		return QIcon(":/resource/submenu-icon40-wolpoweron@3x.png");
+		return QIcon(":/resource/submenu-icon40-wolpoweron.png");
 	}
 	else if (value.contains(STR_POWER_OFF))
 	{
-		return QIcon(":/resource/submenu-icon40-poweroff@3x.png");
+		return QIcon(":/resource/submenu-icon40-poweroff.png");
 	}
 	else if (value.contains(STR_ABOUT))
 	{
-		return QIcon(":/resource/submenu-icon40-aboutmusicx@3x.png");
+		return QIcon(":/resource/submenu-icon40-aboutmusicx.png");
 	}
 	else
 	{
@@ -216,7 +216,7 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 	}
 	else if (service == SIDEMENU_AUDIO_CD)
 	{
-		coverArt = ":/resource/playlist-img160-albumart-h@3x.png";
+		coverArt = ":/resource/playlist-img160-albumart-h.png";
 
 	}
 	else if (service == SIDEMENU_PLAYLIST)
@@ -228,75 +228,75 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 	{
 		if (value.contains("HDD1"))
 		{
-			coverArt = ":/resource/browser-img160-hdd-n@3x.png";
+			coverArt = ":/resource/browser-img160-hdd-n.png";
 		}
 		else if (value.contains("NET"))
 		{
-			coverArt = ":/resource/browser-img160-net-n@3x.png";
+			coverArt = ":/resource/browser-img160-net-n.png";
 		}
 		else if (value.contains("UPnP"))
 		{
-			coverArt = ":/resource/browser-img160-upnp-n@3x.png";
+			coverArt = ":/resource/browser-img160-upnp-n.png";
 		}
 		else
 		{
-			coverArt = ":/resource/browser-img160-folder-n@3x.png";
+			coverArt = ":/resource/browser-img160-folder-n.png";
 		}
 	}
 	else if (service == SIDEMENU_ISERVICE)
 	{
 		if (value.contains("rec_list"))
 		{
-			coverArt = ":/resource/internets-icon40-reservedrecordlist@3x.png";
+			coverArt = ":/resource/internets-icon40-reservedrecordlist.png";
 		}
 		else if (value.contains("search"))
 		{
-			coverArt = ":/resource/internets-icon40-search@3x.png";
+			coverArt = ":/resource/internets-icon40-search.png";
 		}
 		else
 		{
 			LogDebug("value [%s]", value.toUtf8().data());
-			coverArt = ":/resource/internets-icon40-titlecover@3x.png";
+			coverArt = ":/resource/internets-icon40-titlecover.png";
 		}
 	}
 	else if (service == SIDEMENU_INPUT)
 	{
 		if (value.contains(SRC_AES_EBU))
 		{
-			coverArt = ":/resource/input-img160-aesebu-n@3x.png";
+			coverArt = ":/resource/input-img160-aesebu-n.png";
 		}
 		else if (value.contains(SRC_COAXIAL))
 		{
-			coverArt = ":/resource/input-img160-coaxial-n@3x.png";
+			coverArt = ":/resource/input-img160-coaxial-n.png";
 		}
 		else if (value.contains(SRC_TOSLINK))
 		{
-			coverArt = ":/resource/input-img160-toslink-n@3x.png";
+			coverArt = ":/resource/input-img160-toslink-n.png";
 		}
 		else if (value.contains(SRC_ANALOG_IN))
 		{
-			coverArt = ":/resource/input-img160-analogin-n@3x.png";
+			coverArt = ":/resource/input-img160-analogin-n.png";
 		}
 		else if (value.contains(SRC_AUX_IN))
 		{
-			coverArt = ":/resource/input-img160-auxin-n@3x.png";
+			coverArt = ":/resource/input-img160-auxin-n.png";
 		}
 		else if (value.contains(SRC_PHONO_IN))
 		{
-			coverArt = ":/resource/input-img160-ponoin-n@3x.png";
+			coverArt = ":/resource/input-img160-ponoin-n.png";
 		}
 	}
 	else if (service == SIDEMENU_FM_RADIO)
 	{
-		coverArt = ":/resource/radio-img160-channelicon-n@3x.png";
+		coverArt = ":/resource/radio-img160-channelicon-n.png";
 	}
 	else if (service == SIDEMENU_DAB_RADIO)
 	{
-		coverArt = ":/resource/radio-img160-channelicon-n@3x.png";
+		coverArt = ":/resource/radio-img160-channelicon-n.png";
 	}
 	else if (service == SIDEMENU_GROUP_PLAY)
 	{
-		coverArt = ":/resource/groupp-img160-n@3x.png";
+		coverArt = ":/resource/groupp-img160-n.png";
 
 	}
 	else if (service == SIDEMENU_SETUP)
@@ -321,35 +321,35 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const int value)
 	{
 		if (value == iIServiceType_Qobuz)
 		{
-			coverArt = ":/resource/internets-img160-qobuz-n@3x.png";
+			coverArt = ":/resource/internets-img160-qobuz-n.png";
 		}
 		else if (value == iIServiceType_Radios)
 		{
-			coverArt = ":/resource/internets-img160-airable-n@3x.png";
+			coverArt = ":/resource/internets-img160-airable-n.png";
 		}
 		else if (value == iIServiceType_Podcasts)
 		{
-			coverArt = ":/resource/internets-img160-podcast-n@3x.png";
+			coverArt = ":/resource/internets-img160-podcast-n.png";
 		}
 		else if (value == iIServiceType_Tidal)
 		{
-			coverArt = ":/resource/internets-img160-tidal-n@3x.png";
+			coverArt = ":/resource/internets-img160-tidal-n.png";
 		}
 		else if (value == iIServiceType_Deezer)
 		{
-			coverArt = ":/resource/internets-img160-deezer-n@3x.png";
+			coverArt = ":/resource/internets-img160-deezer-n.png";
 		}
 		else if (value == iIServiceType_Napster)
 		{
-			coverArt = ":/resource/internets-img160-napster-n@3x.png";
+			coverArt = ":/resource/internets-img160-napster-n.png";
 		}
 		else if (value == iIServiceType_HighResAudio)
 		{
-			coverArt = ":/resource/internets-img160-highresaudio-n@3x.png";
+			coverArt = ":/resource/internets-img160-highresaudio-n.png";
 		}
 		else if (value == iIServiceType_AmazonMusic)
 		{
-			coverArt = ":/resource/internets-img160-amazonmusic-n@3x.png";
+			coverArt = ":/resource/internets-img160-amazonmusic-n.png";
 		}
 	}
 

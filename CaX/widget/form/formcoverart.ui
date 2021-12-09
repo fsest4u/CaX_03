@@ -89,12 +89,12 @@
            <property name="styleSheet">
             <string notr="true">QFrame 
 {
-  border-image: url(&quot;:/resource/mid-icon16-rankon-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/mid-icon16-rankon-h.png&quot;);
 }
 
 QFrame:hover
 {
-  border-image: url(&quot;:/resource/mid-icon16-rankon-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/mid-icon16-rankon-h.png&quot;);
 }</string>
            </property>
            <property name="frameShape">
@@ -245,12 +245,12 @@ border: none;</string>
            <property name="styleSheet">
             <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/mid-icon16-likeoff@3x.png&quot;);
+  border-image: url(&quot;:/resource/mid-icon16-likeoff.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/mid-icon16-likeon@3x.png&quot;);
+  border-image: url(&quot;:/resource/mid-icon16-likeon.png&quot;);
 }</string>
            </property>
           </widget>
@@ -345,13 +345,13 @@ QLabel:hover
             <string notr="true">QLabel
 {
 	color: rgb(52, 174, 214);
-  border-image: url(&quot;:/resource/mid-icon30-play-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/mid-icon30-play-n.png&quot;);
 }
 
 QLabel:hover
 {
 	color: rgb(52, 174, 214);
-  border-image: url(&quot;:/resource/top-btn52-play-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-play-h.png&quot;);
 }</string>
            </property>
            <property name="alignment">

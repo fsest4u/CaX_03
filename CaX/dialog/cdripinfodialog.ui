@@ -47,7 +47,7 @@ QWidget
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn22-left@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn22-left.png&quot;);
 }
 </string>
      </property>
@@ -58,14 +58,14 @@ QWidget
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
 width: 110px;
 color: rgb(84, 84, 84)
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
 width: 110px;
 color: rgb(255, 255, 255)
 }</string>
@@ -129,7 +129,7 @@ color: rgb(255, 255, 255)
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn22-right@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn22-right.png&quot;);
 }
 </string>
      </property>

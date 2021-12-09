@@ -46,12 +46,12 @@
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/top-btn82-classify-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn82-classify-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/top-btn82-classify-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn82-classify-h.png&quot;);
 }
 QPushButton::menu-indicator
 {
@@ -77,12 +77,12 @@ QPushButton::menu-indicator
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-btn22-classify-like-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn22-classify-like-n.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/top-btn22-classify-like-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/top-btn22-classify-like-h.png&quot;);
 }</string>
      </property>
     </widget>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
+    <width>398</width>
     <height>379</height>
    </rect>
   </property>
@@ -72,14 +72,14 @@ QWidget
         <property name="styleSheet">
          <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
 width: 110px;
 color: rgb(84, 84, 84)
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
 width: 110px;
 color: rgb(255, 255, 255)
 }</string>
@@ -94,14 +94,14 @@ color: rgb(255, 255, 255)
         <property name="styleSheet">
          <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
 width: 110px;
 color: rgb(84, 84, 84)
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
 width: 110px;
 color: rgb(255, 255, 255)
 }</string>
@@ -116,14 +116,14 @@ color: rgb(255, 255, 255)
         <property name="styleSheet">
          <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
 width: 110px;
 color: rgb(84, 84, 84)
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
 width: 110px;
 color: rgb(255, 255, 255)
 }</string>
@@ -159,7 +159,7 @@ color: rgb(255, 255, 255)
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>354</width>
+        <width>378</width>
         <height>325</height>
        </rect>
       </property>
