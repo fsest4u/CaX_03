@@ -182,6 +182,10 @@ void QueuelistWindow::Initialize()
 	ui->stackedQueue->addWidget(m_Lyrics);
 	ui->stackedQueue->addWidget(m_Artist);
 
+	// temp_code, dylee
+	ui->btnLyrics->hide();
+	ui->btnArtist->hide();
+
 	m_pFormTitle->SetTitleFont(FONT_SIZE_QUEUE_TITLE, FONT_COLOR_WHITE, FONT_WEIGHT_NORMAL);
 
 }
