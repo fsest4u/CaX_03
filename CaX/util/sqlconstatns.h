@@ -569,4 +569,22 @@ ORDER BY Song.Name	\
 LIMIT 0, 100	\
 "
 
+////////////////////////////////////////////
+/// queue list info
+////////////////////////////////////////////
+
+#define SQL_QUEUE_CATEGORY_INFO	"	\
+SELECT	\
+	Album.Name as Album,	\
+	Album.ROWID as AlbumID,	\
+	Artist.Name as Artist,	\
+	Artist.ROWID as ArtistID	\
+FROM Song	\
+INNER JOIN Album on Song.AlbumID = Album.ROWID	\
+INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
+WHERE Song.IsDel = 0 and Song.ROWID = %1	\
+"
+
+
+
 #endif // SQLCONSTATNS_H

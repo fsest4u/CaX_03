@@ -64,6 +64,8 @@ public slots:
 	void SlotDisconnectObserver();
 	void SlotRespAirableLogout();
 
+	void SlotQueueList(CJsonNode node);
+
 private:
 
 	void ReadSettings();

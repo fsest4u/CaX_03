@@ -203,12 +203,12 @@ QPushButton::menu-indicator
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/play-btn20-play-icon@3x.png&quot;);
+  border-image: url(&quot;:/resource/audiocd-popup-icon16-play@3x.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/play-btn20-play-icon@3x.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn40-play-h@3x.png&quot;);
 }</string>
      </property>
     </widget>

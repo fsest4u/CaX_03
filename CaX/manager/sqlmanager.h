@@ -70,6 +70,7 @@ public:
 	QString GetIncrease(bool bIncrease);
 
 	QString GetQuerySearchList(int nCategory, QString keyword);
+	QString GetQueryQueueCategoryInfo(int nID);
 
 
 signals:

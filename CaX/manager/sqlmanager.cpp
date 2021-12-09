@@ -471,3 +471,12 @@ QString SQLManager::GetQuerySearchList(int nCategory, QString keyword)
 
 	return query;
 }
+
+QString SQLManager::GetQueryQueueCategoryInfo(int nID)
+{
+	QString query;
+
+	query = QString(SQL_QUEUE_CATEGORY_INFO).arg(nID);
+
+	return query;
+}

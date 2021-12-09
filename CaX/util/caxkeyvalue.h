@@ -16,6 +16,7 @@
 #define		KEY_ART				"Art"
 #define		KEY_ART_URL			"ArtUrl"
 #define		KEY_ARTIST			"Artist"
+#define		KEY_ARTIST_ID			"ArtistID"
 #define		KEY_AS				"As"
 #define		KEY_AUDIO_CD		"AudioCd"
 

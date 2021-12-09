@@ -465,6 +465,7 @@ void IServiceWindow::SlotRespList(QList<CJsonNode> list)
 	widget->SetServiceType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 
+	widget->GetListBrowser()->ClearNodeList();
 	widget->GetListBrowser()->SetNodeList(list, -1);
 
 }

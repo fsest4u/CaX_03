@@ -130,35 +130,28 @@ void PlayWindow::SlotClickCoverArt()
 
 void PlayWindow::SlotBtnInfo()
 {
-	if (m_Info)
-	{
-		m_pMgr->RequestSongInfo(m_ID);
-	}
+//	m_pMgr->RequestSongInfo(m_ID);
+
+	m_pMgr->RequestQueueList(m_TimeStamp);
 }
 
 void PlayWindow::SlotBtnPlayPrev()
 {
-	if (m_Prev)
-	{
-		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PREV);
-	}
+	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PREV);
 }
 
 void PlayWindow::SlotBtnPlay()
 {
-	if (m_PlayPause)
-	{
-		m_bPause = !m_bPause;
-		SetPlayState();
+	m_bPause = !m_bPause;
+	SetPlayState();
 
-		if (m_bPause)
-		{
-			m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PAUSE);
-		}
-		else
-		{
-			m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PLAY);
-		}
+	if (m_bPause)
+	{
+		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PAUSE);
+	}
+	else
+	{
+		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_PLAY);
 	}
 }
 
@@ -176,10 +169,7 @@ void PlayWindow::SlotBtnStop()
 
 void PlayWindow::SlotBtnPlayNext()
 {
-	if (m_Next)
-	{
-		m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_NEXT);
-	}
+	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_NEXT);
 }
 
 void PlayWindow::SlotBtnRandom()
@@ -268,13 +258,8 @@ void PlayWindow::SlotCoverArtUpdate(QString fileName)
 
 void PlayWindow::SlotQueueList(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
-
-//	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
-//	dialog.exec();
-
+	emit SigQueueList(node);
 }
-
 
 void PlayWindow::ConnectSigToSlot()
 {
@@ -564,14 +549,6 @@ void PlayWindow::SetCoverArt(QString filepath)
 	m_pMgr->RequestCoverArt(filepath);
 }
 
-void PlayWindow::SetQueueList(uint timestamp)
-{
-	if (m_List)
-	{
-		m_pMgr->RequestQueueList(timestamp);
-	}
-}
-
 void PlayWindow::SetPlayTimeSliderState()
 {
 	ui->horizontalSlider->setMinimum(0);
@@ -645,7 +622,6 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	SetPlayTimeSliderState();
 	SetPlayState();
 	SetRepeatMode(m_Repeat);
-	SetQueueList(m_TimeStamp);
 
 	if (!m_Src.compare(SRC_MUSIC_DB)
 			|| !m_Src.compare(SRC_BROWSER)

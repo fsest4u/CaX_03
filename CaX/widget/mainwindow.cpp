@@ -28,6 +28,8 @@
 #include "widget/groupplaywindow.h"
 #include "widget/searchwindow.h"
 #include "widget/setupwindow.h"
+#include "widget/queuelistwindow.h"
+
 
 const QString SETTINGS_GROUP = "MainWindow";
 
@@ -715,6 +717,20 @@ void MainWindow::SlotRespAirableLogout()
 	DoIServiceHome();
 }
 
+void MainWindow::SlotQueueList(CJsonNode node)
+{
+	QList<CJsonNode> list;
+	list.clear();
+	for (int i = 0; i < node.ArraySize(); i++)
+	{
+		list.append(node.GetArrayAt(i));
+//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
+	}
+
+	QueuelistWindow *widget = new QueuelistWindow(this, m_strAddr, m_EventID);
+	SlotAddWidget(widget, STR_NOW_PLAY);
+	widget->RequestQueuelist(list);
+}
 
 void MainWindow::Initialize()
 {
@@ -760,9 +776,11 @@ void MainWindow::ConnectForUI()
 	connect(ui->widgetTop->GetBtnNext(), SIGNAL(clicked()), this, SLOT(SlotBtnNext()));
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
+	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(ui->widgetPlay, SIGNAL(SigMenu()), this, SLOT(SlotDevice()));
 	connect(ui->widgetPlay, SIGNAL(SigMenuAction(QString)), this, SLOT(SlotSelectDevice(QString)));
-	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
+	connect(ui->widgetPlay, SIGNAL(SigQueueList(CJsonNode)), this, SLOT(SlotQueueList(CJsonNode)));
+
 }
 
 void MainWindow::ConnectForApp()

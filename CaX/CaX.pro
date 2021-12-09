@@ -44,6 +44,7 @@ SOURCES += \
     manager/playlistmanager.cpp \
     manager/playmanager.cpp \
     manager/qobuzmanager.cpp \
+    manager/queuelistmanager.cpp \
     manager/searchcoverartresultmanager.cpp \
     manager/searchmanager.cpp \
     manager/setupmanager.cpp \
@@ -94,6 +95,11 @@ SOURCES += \
     widget/formBottom/listtracks.cpp \
     widget/formBottom/listtracksdelegate.cpp \
     widget/formBottom/listtrackseditor.cpp \
+    widget/formQueue/queueartist.cpp \
+    widget/formQueue/queuelyrics.cpp \
+    widget/formQueue/queuetrack.cpp \
+    widget/formQueue/queuetrackdelegate.cpp \
+    widget/formQueue/queuetrackeditor.cpp \
     widget/formSearch/searchcategory.cpp \
     widget/formSearch/searchcategorydelegate.cpp \
     widget/formSearch/searchcategoryeditor.cpp \
@@ -111,6 +117,7 @@ SOURCES += \
     widget/musicdbwindow.cpp \
     widget/playlistwindow.cpp \
     widget/playwindow.cpp \
+    widget/queuelistwindow.cpp \
     widget/searchwindow.cpp \
     widget/setupwindow.cpp \
     widget/topwindow.cpp
@@ -152,6 +159,7 @@ HEADERS += \
     manager/playlistmanager.h \
     manager/playmanager.h \
     manager/qobuzmanager.h \
+    manager/queuelistmanager.h \
     manager/searchcoverartresultmanager.h \
     manager/searchmanager.h \
     manager/setupmanager.h \
@@ -210,6 +218,11 @@ HEADERS += \
     widget/formBottom/listtracks.h \
     widget/formBottom/listtracksdelegate.h \
     widget/formBottom/listtrackseditor.h \
+    widget/formQueue/queueartist.h \
+    widget/formQueue/queuelyrics.h \
+    widget/formQueue/queuetrack.h \
+    widget/formQueue/queuetrackdelegate.h \
+    widget/formQueue/queuetrackeditor.h \
     widget/formSearch/searchcategory.h \
     widget/formSearch/searchcategorydelegate.h \
     widget/formSearch/searchcategoryeditor.h \
@@ -228,6 +241,7 @@ HEADERS += \
     widget/playlistwindow.h \
     widget/playwindow.h \
     widget/qobuz.h \
+    widget/queuelistwindow.h \
     widget/searchwindow.h \
     widget/setup.h \
     widget/setupwindow.h \
@@ -279,6 +293,10 @@ FORMS += \
     widget/formBottom/listserviceeditor.ui \
     widget/formBottom/listtracks.ui \
     widget/formBottom/listtrackseditor.ui \
+    widget/formQueue/queueartist.ui \
+    widget/formQueue/queuelyrics.ui \
+    widget/formQueue/queuetrack.ui \
+    widget/formQueue/queuetrackeditor.ui \
     widget/formSearch/searchcategory.ui \
     widget/formSearch/searchcategoryeditor.ui \
     widget/formSearch/searchtrack.ui \
@@ -294,6 +312,7 @@ FORMS += \
     widget/musicdbwindow.ui \
     widget/playlistwindow.ui \
     widget/playwindow.ui \
+    widget/queuelistwindow.ui \
     widget/searchwindow.ui \
     widget/setupwindow.ui \
     widget/topwindow.ui

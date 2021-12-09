@@ -18,11 +18,7 @@ ListTracksEditor::ListTracksEditor(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	m_ID = -1;
-//	m_CoverArt.clear();
-
 	ConnectSigToSlot();
-
 	Initialize();
 
 }
@@ -254,4 +250,6 @@ void ListTracksEditor::Initialize()
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 
+	m_ID = -1;
+//	m_CoverArt.clear();
 }

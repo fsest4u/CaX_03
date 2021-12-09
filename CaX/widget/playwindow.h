@@ -42,6 +42,8 @@ signals:
 
 	void SigSetVolumeSlider(int volume);
 
+	void SigQueueList(CJsonNode node);
+
 private slots:
 
 	void SlotClickCoverArt();
@@ -99,7 +101,6 @@ private:
 	void SetPlayState();
 	void SetRepeatMode(QString mode);
 	void SetCoverArt(QString filepath);
-	void SetQueueList(uint timestamp);
 	void SetPlayTimeSliderState();
 	void SetDeviceMenu();
 	void SetVolumeMenu();

@@ -1,9 +1,9 @@
 #ifndef LISTTRACKS_H
 #define LISTTRACKS_H
 
+#include <QWidget>
 #include <QListView>
 #include <QStandardItemModel>
-#include <QWidget>
 
 #include "util/CJsonNode.h"
 
