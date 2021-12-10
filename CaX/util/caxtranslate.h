@@ -19,6 +19,7 @@
 #define STR_COMING_SOON				TR("Coming soon")
 #define STR_ENTER_SEARCH_WORD		TR("Please enter a search term of at least 3 characters")
 #define STR_INSERT_CD				TR("Please insert a CD")
+#define STR_NO_DEVICES				TR("No devices found")
 #define	STR_UPDATE_FIRMWARE			TR("Update to the latest firmware (current version: %1)")
 
 //////////////////////////////////////////////////

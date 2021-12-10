@@ -655,23 +655,53 @@ void MainWindow::SlotSelectCancel(QString mac)
 
 void MainWindow::SlotWolDevice(QString mac)
 {
-	if (mac.isEmpty())
-		return;
+	LogDebug("*****************************************");
+	LogDebug("mac select [%s]", mac.toUtf8().data());
+	LogDebug("*****************************************");
 
-	RemoveAllWidget();
+	if (mac.isEmpty())
+	{
+		return;
+	}
+
+	if (m_bConnect)
+	{
+		ObserverDisconnect();
+	}
+
+	Initialize();
+	SlotMenu();
 
 	QString strAddr = m_pDeviceMgr->GetDeviceValueWol(mac, DEVICE_WOL_ADDR);
 	if (strAddr.isEmpty())
+	{
 		return;
+	}
+
+	m_strAddr = strAddr;
+	m_strCurrentMac = mac;
+
+	WriteSettings();
+
+	ui->widgetPlay->SetAddr(m_strAddr);
+
+	m_pAppMgr->SetAddr(m_strAddr);
 
 	m_pDeviceMgr->RequestDevicePowerOn(strAddr, mac);
 }
 
 void MainWindow::SlotWolCancel(QString mac)
 {
-	Q_UNUSED(mac)
+	if (mac.isEmpty() || mac.compare(m_strCurrentMac))
+		return;
 
-	LogDebug("SlotWolCancel");
+	if (m_bConnect)
+	{
+		ObserverDisconnect();
+	}
+
+	Initialize();
+	SlotMenu();
 }
 
 void MainWindow::SlotDevice()
@@ -922,21 +952,26 @@ void MainWindow::DoPowerOff()
 	PowerOffDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		int index = m_pDeviceMgr->CheckDeviceWol(m_strCurrentMac);
+		int indexWol = m_pDeviceMgr->CheckDeviceWol(m_strCurrentMac);
+		int indexDev = m_pDeviceMgr->CheckDevice(m_strCurrentMac);
 
 		bool bWol = dialog.GetIsWol();
 		if (bWol)
 		{
-			if (index < 0)
+			if (indexWol < 0)
 			{
 				m_pDeviceMgr->AddDeviceWol(m_strCurrentMac, m_strVersion, m_strWolAddr, m_strUuid);
+			}
+			if (indexDev >= 0)
+			{
+				m_pDeviceMgr->DelDevice(indexDev);
 			}
 		}
 		else
 		{
-			if (index >= 0)
+			if (indexWol >= 0)
 			{
-				m_pDeviceMgr->DelDeviceWol(index);
+				m_pDeviceMgr->DelDeviceWol(indexWol);
 			}
 		}
 
@@ -948,14 +983,23 @@ void MainWindow::DoPowerOff()
 
 void MainWindow::DoPowerOn()
 {
-	DeviceListWindow *widget = new DeviceListWindow;
-	SlotAddWidget(widget, STR_POWER_ON);
+	CJsonNode list = m_pDeviceMgr->GetDeviceListWol();
+	if (list.ArraySize() <= 0)
+	{
+		CommonDialog dialog(this, STR_WARNING, STR_NO_DEVICES);
+		dialog.exec();
+	}
+	else
+	{
+		DeviceListWindow *widget = new DeviceListWindow;
+		SlotAddWidget(widget, STR_POWER_ON);
 
-	connect(widget, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotWolDevice(QString)));
-	connect(widget, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotWolCancel(QString)));
+		connect(widget, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotWolDevice(QString)));
+		connect(widget, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotWolCancel(QString)));
 
-	widget->SetTitle(STR_POWER_ON);
-	widget->SetDeviceList(m_pDeviceMgr->GetDeviceListWol());
+		widget->SetTitle(STR_POWER_ON);
+		widget->SetDeviceList(list);
+	}
 
 }
 
