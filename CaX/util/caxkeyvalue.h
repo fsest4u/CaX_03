@@ -63,6 +63,7 @@
 #define		KEY_FILTERS			"Filters"
 #define		KEY_FM_RADIO		"FmRadio"
 #define		KEY_FOLDER			"Folder"
+#define		KEY_FORM			"Form"
 #define		KEY_FORMATS			"Formats"
 #define		KEY_FORMAT			"Format"
 #define		KEY_FREE			"Free"

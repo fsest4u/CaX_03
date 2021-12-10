@@ -192,6 +192,13 @@ void AirableManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
 
 void AirableManager::ParseURL(CJsonNode node)
 {
+	bool bForm = node.GetBool(KEY_FORM);
+	if (bForm)
+	{
+		emit SigRespForm(m_ServiceType, node);
+		return;
+	}
+
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{

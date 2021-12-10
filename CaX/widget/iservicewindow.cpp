@@ -496,6 +496,20 @@ void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNod
 	widget->ThreadStartList();
 }
 
+void IServiceWindow::SlotRespForm(int nServiceType, CJsonNode node)
+{
+	SearchDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString keyword = dialog.GetKeyword();
+		QString url = node.GetString(KEY_URL);
+
+		url = url + "?q=" + keyword;
+
+		RequestIServiceURL(nServiceType, url);
+	}
+}
+
 void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	Q_UNUSED(mode);
@@ -556,6 +570,7 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(m_pAirableMgr, SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAuth(int)));
 	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QString, QList<CJsonNode>)), this, SLOT(SlotRespURL(int, QString, QList<CJsonNode>)));
+	connect(m_pAirableMgr, SIGNAL(SigRespForm(int, CJsonNode)), this, SLOT(SlotRespForm(int, CJsonNode)));
 	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 //	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));

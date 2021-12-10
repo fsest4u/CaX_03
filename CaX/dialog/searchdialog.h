@@ -18,6 +18,11 @@ public:
 	QString GetKeyword();
 	void SetKeyword(QString keyword);
 
+private slots:
+
+	void accept();
+	void reject();
+
 private:
 	Ui::SearchDialog *ui;
 };

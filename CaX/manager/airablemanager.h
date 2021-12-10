@@ -29,6 +29,7 @@ signals:
 	void SigRespLogout();
 	void SigRespAuth(int nServiceType);
 	void SigRespURL(int nServiceType, QString title, QList<CJsonNode> nodeList);
+	void SigRespForm(int nServiceType, CJsonNode node);
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 private slots:
