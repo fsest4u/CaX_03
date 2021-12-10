@@ -6,6 +6,7 @@
 
 #include "util/CJsonNode.h"
 
+//class FormTitle;
 class FormPlay;
 class FormClassify;
 class FormSort;
@@ -76,6 +77,7 @@ private:
 
 	void Initialize();
 
+//	FormTitle		*m_pFormTitle;
 	FormPlay		*m_pFormPlay;
 	FormClassify	*m_pFormClassify;
 	FormSort		*m_pFormSort;

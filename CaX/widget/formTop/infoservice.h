@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class FormTitle;
+//class FormTitle;
 class FormPlay;
 class FormSort;
 
@@ -20,7 +20,7 @@ public:
 	~InfoService();
 
 	void SetTitle(const QString title);
-	void SetSubtitle(const QString title);
+//	void SetSubtitle(const QString title);
 
 	FormPlay *GetFormPlay();
 	FormSort *GetFormSort();
@@ -35,7 +35,7 @@ private:
 
 	void ConnectSigToSlot();
 
-	FormTitle		*m_pFormTitle;
+//	FormTitle		*m_pFormTitle;
 	FormPlay		*m_pFormPlay;
 	FormSort		*m_pFormSort;
 

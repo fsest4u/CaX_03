@@ -62,7 +62,7 @@ void SetupWindow::SetupHome(QList<CJsonNode> list, int eventID)
 
 	SetSetupHome(list);
 
-	m_pInfoService->SetSubtitle(MAIN_TITLE);
+	m_pInfoService->SetTitle(MAIN_TITLE);
 	m_pListService->SetNodeList(list, ListService::LIST_SERVICE_SETUP);
 }
 

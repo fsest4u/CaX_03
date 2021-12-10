@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1199</width>
-    <height>314</height>
+    <height>433</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,18 +46,25 @@
     </spacer>
    </item>
    <item row="1" column="0">
-    <widget class="QFrame" name="frame">
+    <widget class="QFrame" name="frameFormTitle">
      <property name="minimumSize">
       <size>
-       <width>250</width>
-       <height>56</height>
+       <width>300</width>
+       <height>70</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>250</width>
-       <height>16777215</height>
+       <width>300</width>
+       <height>70</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame
+{
+  border: 1px solid #00ffff;
+}
+</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -65,7 +72,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
+     <layout class="QGridLayout" name="gridLayoutFormTitle">
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -82,11 +89,11 @@
        <number>0</number>
       </property>
       <item row="0" column="0">
-       <widget class="WidgetMarqueeLabel" name="labelTitle">
+       <widget class="QLabel" name="labelTitle">
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>42</pointsize>
+          <pointsize>36</pointsize>
          </font>
         </property>
         <property name="styleSheet">
@@ -97,7 +104,7 @@ color: rgb(84, 84, 84);
 </string>
         </property>
         <property name="text">
-         <string>Select Device</string>
+         <string>-</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -150,8 +157,8 @@ border: 0px;
     <widget class="QFrame" name="frame_3">
      <property name="minimumSize">
       <size>
-       <width>40</width>
-       <height>40</height>
+       <width>60</width>
+       <height>60</height>
       </size>
      </property>
      <property name="frameShape">
@@ -182,13 +189,6 @@ border: 0px;
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>WidgetMarqueeLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">util/widgetmarqueelabel.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -4,6 +4,7 @@
 #include "formBottom/listdevice.h"
 #include "formBottom/listdevicedelegate.h"
 
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 DeviceListWindow::DeviceListWindow(QWidget *parent) :
@@ -14,9 +15,6 @@ DeviceListWindow::DeviceListWindow(QWidget *parent) :
 	ui->setupUi(this);
 
 	ConnectSigToSlot();
-
-	ui->gridLayout->addWidget(m_pListDevice);
-
 }
 
 DeviceListWindow::~DeviceListWindow()
@@ -55,6 +53,7 @@ QString DeviceListWindow::GetTitle() const
 void DeviceListWindow::SetTitle(const QString &Title)
 {
 	ui->labelTitle->setText(Title);
+//	ui->labelTitle->startTimer();
 }
 
 void DeviceListWindow::SlotSelectDevice(QString mac)
@@ -72,4 +71,5 @@ void DeviceListWindow::ConnectSigToSlot()
 	connect(m_pListDevice->GetDelegate(), SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(m_pListDevice->GetDelegate(), SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
 
+	ui->gridLayout->addWidget(m_pListDevice);
 }

@@ -168,7 +168,7 @@ void FMRadioWindow::SlotRespList(CJsonNode node)
 
 	SetHome(nodeList);
 
-	m_pInfoService->SetSubtitle(MAIN_TITLE);
+	m_pInfoService->SetTitle(MAIN_TITLE);
 	m_pIconService->SetNodeList(nodeList, IconService::ICON_SERVICE_FM_RADIO);
 }
 
@@ -176,7 +176,7 @@ void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 {
 	SetHome(list);
 
-	m_pInfoService->SetSubtitle(RESERVE_TITLE);
+	m_pInfoService->SetTitle(RESERVE_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_FM_RADIO_RECORD);
 }
 

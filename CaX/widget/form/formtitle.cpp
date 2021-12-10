@@ -3,6 +3,8 @@
 #include "formtitle.h"
 #include "ui_formtitle.h"
 
+#include "util/log.h"
+
 FormTitle::FormTitle(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::FormTitle)
@@ -11,6 +13,8 @@ FormTitle::FormTitle(QWidget *parent) :
 
 	ui->labelTitle->installEventFilter(this);
 	ui->labelSubtitle->installEventFilter(this);
+
+	ui->labelTitle->activateWindow();
 
 	ui->labelTitle->hide();
 	ui->labelSubtitle->hide();
@@ -28,8 +32,12 @@ QString FormTitle::GetTitle()
 
 void FormTitle::SetTitle(QString title)
 {
-	ui->labelTitle->show();
-	ui->labelTitle->setText(title);
+	if (!title.isEmpty())
+	{
+		ui->labelTitle->show();
+		ui->labelTitle->setText(title);
+		ui->labelTitle->stopTimer();
+	}
 }
 
 void FormTitle::SetTitleFont(int size, QString color, QString weight)
@@ -49,6 +57,7 @@ void FormTitle::SetSubtitle(QString subtitle)
 	{
 		ui->labelSubtitle->show();
 		ui->labelSubtitle->setText(subtitle);
+		ui->labelSubtitle->stopTimer();
 	}
 }
 
@@ -60,6 +69,7 @@ void FormTitle::SetSubtitleFont(int size, QString color, QString weight)
 
 bool FormTitle::eventFilter(QObject *object, QEvent *event)
 {
+//	LogDebug("type [%d]", event->type());
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
 		if (object == ui->labelTitle)
@@ -69,6 +79,28 @@ bool FormTitle::eventFilter(QObject *object, QEvent *event)
 		else if (object == ui->labelSubtitle)
 		{
 			emit SigSubtitle();
+		}
+	}
+	else if (event->type() == QMouseEvent::Enter)
+	{
+		if (object == ui->labelTitle)
+		{
+			ui->labelTitle->startTimer();
+		}
+		else if (object == ui->labelSubtitle)
+		{
+			ui->labelSubtitle->startTimer();
+		}
+	}
+	else if (event->type() == QMouseEvent::Leave)
+	{
+		if (object == ui->labelTitle)
+		{
+			ui->labelTitle->stopTimer();
+		}
+		else if (object == ui->labelSubtitle)
+		{
+			ui->labelSubtitle->stopTimer();
 		}
 	}
 

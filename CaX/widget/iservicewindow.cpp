@@ -121,7 +121,7 @@ void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 
 	SetIServiceHome(list);
 
-	m_pInfoService->SetSubtitle(ISERVICE_TITLE);
+	m_pInfoService->SetTitle(ISERVICE_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -703,7 +703,7 @@ void IServiceWindow::DoQobuzHome()
 	QList<CJsonNode> list;
 	SetQobuzHome(list);
 
-	m_pInfoService->SetSubtitle(QOBUZ_TITLE);
+	m_pInfoService->SetTitle(QOBUZ_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -715,7 +715,7 @@ void IServiceWindow::DoQobuzSearch()
 	QList<CJsonNode> list;
 	SetQobuzSearch(list);
 
-	m_pInfoService->SetSubtitle(STR_SEARCH);
+	m_pInfoService->SetTitle(STR_SEARCH);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -727,7 +727,7 @@ void IServiceWindow::DoQobuzRecommend()
 	QList<CJsonNode> list;
 	SetQobuzRecommend(list);
 
-	m_pInfoService->SetSubtitle(STR_RECOMMEND);
+	m_pInfoService->SetTitle(STR_RECOMMEND);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -739,7 +739,7 @@ void IServiceWindow::DoQobuzFavorite()
 	QList<CJsonNode> list;
 	SetQobuzFavorite(list);
 
-	m_pInfoService->SetSubtitle(STR_FAVORITE);
+	m_pInfoService->SetTitle(STR_FAVORITE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -751,7 +751,7 @@ void IServiceWindow::DoRecommendAlbum()
 	QList<CJsonNode> list;
 	SetRecommendAlbum(list);
 
-	m_pInfoService->SetSubtitle(STR_ALBUM);
+	m_pInfoService->SetTitle(STR_ALBUM);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -763,7 +763,7 @@ void IServiceWindow::DoRecommendPlaylist()
 	QList<CJsonNode> list;
 	SetRecommendPlaylist(list);
 
-	m_pInfoService->SetSubtitle(STR_PLAYLIST);
+	m_pInfoService->SetTitle(STR_PLAYLIST);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -775,7 +775,7 @@ void IServiceWindow::DoRecommendGenre(int nType, QString strID)
 	QList<CJsonNode> list;
 	SetRecommendGenre(list, strID);
 
-	m_pInfoService->SetSubtitle(STR_GENRE);
+	m_pInfoService->SetTitle(STR_GENRE);
 //	m_pListService->SetNodeList(list, ListService::LIST_SERVICE_ISERVICE);
 }
 
@@ -1095,7 +1095,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 
 void IServiceWindow::SetInfoTitle(QString title)
 {
-	m_pInfoService->SetSubtitle(title);
+	m_pInfoService->SetTitle(title);
 }
 
 void IServiceWindow::ThreadStartList()

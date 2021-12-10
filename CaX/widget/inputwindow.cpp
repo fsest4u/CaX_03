@@ -64,7 +64,7 @@ void InputWindow::InputHome(QList<CJsonNode> list)
 
 	SetInputHome(list);
 
-	m_pInfoService->SetSubtitle(MAIN_TITLE);
+	m_pInfoService->SetTitle(MAIN_TITLE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_INPUT);
 }
 

@@ -14,7 +14,7 @@
 InfoTracks::InfoTracks(QWidget *parent) :
 	QWidget(parent),
 	m_pFormCoverArt(new FormCoverArt(this)),
-	m_pFormTitle(new FormTitle(this)),
+//	m_pFormTitle(new FormTitle(this)),
 	m_pFormPlay(new FormPlay(this)),
 	m_pFormSort(new FormSort(this)),
 	ui(new Ui::InfoTracks)
@@ -33,11 +33,11 @@ InfoTracks::~InfoTracks()
 		m_pFormCoverArt = nullptr;
 	}
 
-	if (m_pFormTitle)
-	{
-		delete m_pFormTitle;
-		m_pFormTitle = nullptr;
-	}
+//	if (m_pFormTitle)
+//	{
+//		delete m_pFormTitle;
+//		m_pFormTitle = nullptr;
+//	}
 
 	if (m_pFormPlay)
 	{
@@ -61,18 +61,22 @@ void InfoTracks::SetTitle(QString title)
 	{
 		title = STR_UNKNOWN;
 	}
-	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
-	m_pFormTitle->SetTitle(title);
+//	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
+//	m_pFormTitle->SetTitle(title);
+	ui->labelTitle->setText(title);
+	ui->labelTitle->startTimer();
 }
 
-void InfoTracks::SetSubtitle(QString subtitle)
+void InfoTracks::SetSubtitle(QString title)
 {
-	if (subtitle.isEmpty())
+	if (title.isEmpty())
 	{
-		subtitle = STR_UNKNOWN;
+		title = STR_UNKNOWN;
 	}
-	m_pFormTitle->SetSubtitleFont(FONT_SIZE_INFO_SUBTITLE2);
-	m_pFormTitle->SetSubtitle(subtitle);
+//	m_pFormTitle->SetSubtitleFont(FONT_SIZE_INFO_SUBTITLE2);
+//	m_pFormTitle->SetSubtitle(subtitle);
+	ui->labelSubtitle->setText(title);
+	ui->labelSubtitle->startTimer();
 }
 
 //void InfoTracks::SetInfo(QString info)
@@ -120,7 +124,7 @@ void InfoTracks::ConnectSigToSlot()
 {
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
-	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
+//	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 

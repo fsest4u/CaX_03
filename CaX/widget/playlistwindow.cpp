@@ -96,7 +96,7 @@ PlaylistWindow::~PlaylistWindow()
 
 void PlaylistWindow::AddWidgetItem(int typeMode)
 {
-	m_pInfoService->SetSubtitle(STR_PLAYLIST);
+	m_pInfoService->SetTitle(STR_PLAYLIST);
 	m_ListMode = VIEW_MODE_ICON;
 	m_TypeMode = typeMode;
 

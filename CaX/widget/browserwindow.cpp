@@ -430,7 +430,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		ui->gridLayoutBottom->addWidget(m_pIconService);
 
 		m_pInfoService->GetFormPlay()->ShowMenu();
-		m_pInfoService->SetSubtitle(STR_BROWSER);
+		m_pInfoService->SetTitle(STR_BROWSER);
 
 		m_pIconService->ClearNodeList();
 		nType = m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);

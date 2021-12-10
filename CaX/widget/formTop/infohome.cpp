@@ -3,6 +3,7 @@
 #include "infohome.h"
 #include "ui_infohome.h"
 
+#include "widget/form/formtitle.h"
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
 #include "widget/form/formclassify.h"
@@ -15,6 +16,7 @@
 
 InfoHome::InfoHome(QWidget *parent)	:
 	QWidget(parent),
+//	m_pFormTitle(new FormTitle(this)),
 	m_pFormPlay(new FormPlay(this)),
 	m_pFormClassify(new FormClassify(this)),
 	m_pFormSort(new FormSort(this)),
@@ -30,6 +32,12 @@ InfoHome::~InfoHome()
 {
 
 	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+
+//	if (m_pFormTitle)
+//	{
+//		delete m_pFormTitle;
+//		m_pFormTitle = nullptr;
+//	}
 
 	if (m_pFormPlay)
 	{
@@ -92,7 +100,11 @@ void InfoHome::SetTitle(const int nCategory)
 		break;
 	}
 
+//	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
+//	m_pFormTitle->SetTitle(title);
 	ui->labelTitle->setText(title);
+	ui->labelTitle->startTimer();
+
 }
 
 void InfoHome::SetAlbumCnt(const QString count)
@@ -213,6 +225,7 @@ void InfoHome::Initialize()
 	ui->frameTrack->installEventFilter(this);
 	ui->frameGenre->installEventFilter(this);
 
+//	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
 	ui->gridLayoutFormClassify->addWidget(m_pFormClassify);
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);

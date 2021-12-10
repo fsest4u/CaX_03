@@ -4,7 +4,7 @@
 #include <QWidget>
 
 class FormCoverArt;
-class FormTitle;
+//class FormTitle;
 class FormPlay;
 
 namespace Ui {
@@ -38,7 +38,7 @@ private:
 	void ConnectSigToSlot();
 
 	FormCoverArt	*m_pFormCoverArt;
-	FormTitle		*m_pFormTitle;
+//	FormTitle		*m_pFormTitle;
 	FormPlay		*m_pFormPlay;
 
 	Ui::InfoBrowser *ui;

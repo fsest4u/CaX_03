@@ -12,7 +12,7 @@
 
 InfoService::InfoService(QWidget *parent) :
 	QWidget(parent),
-	m_pFormTitle(new FormTitle(this)),
+//	m_pFormTitle(new FormTitle(this)),
 	m_pFormPlay(new FormPlay(this)),
 	m_pFormSort(new FormSort(this)),
 	ui(new Ui::InfoService)
@@ -25,11 +25,11 @@ InfoService::InfoService(QWidget *parent) :
 
 InfoService::~InfoService()
 {
-	if (m_pFormTitle)
-	{
-		delete m_pFormTitle;
-		m_pFormTitle = nullptr;
-	}
+//	if (m_pFormTitle)
+//	{
+//		delete m_pFormTitle;
+//		m_pFormTitle = nullptr;
+//	}
 
 	if (m_pFormPlay)
 	{
@@ -49,15 +49,19 @@ InfoService::~InfoService()
 
 void InfoService::SetTitle(const QString title)
 {
-	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
-	m_pFormTitle->SetTitle(title);
+//	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
+//	m_pFormTitle->SetTitle(title);
+	ui->labelTitle->setText(title);
+	ui->labelTitle->startTimer();
 }
 
-void InfoService::SetSubtitle(const QString title)
-{
-	m_pFormTitle->SetSubtitleFont(FONT_SIZE_INFO_SUBTITLE);
-	m_pFormTitle->SetSubtitle(title);
-}
+//void InfoService::SetSubtitle(const QString title)
+//{
+////	m_pFormTitle->SetSubtitleFont(FONT_SIZE_INFO_SUBTITLE);
+////	m_pFormTitle->SetSubtitle(title);
+//	ui->labelSubtitle->setText(title);
+//	ui->labelSubtitle->startTimer();
+//}
 
 FormPlay *InfoService::GetFormPlay()
 {
@@ -82,7 +86,7 @@ void InfoService::SlotSubtitle()
 
 void InfoService::ConnectSigToSlot()
 {
-	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
+//	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);
 

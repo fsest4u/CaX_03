@@ -5,15 +5,16 @@ WidgetMarqueeLabel::WidgetMarqueeLabel(QWidget *parent)
 {	
 	px = 0;
 	py = 15;
-	speed = 2;
+	speed = 1;
 	direction = RightToLeft;
 	connect(&timer, SIGNAL(timeout()), this, SLOT(refreshLabel()));
-	timer.start(15);
+//	timer.start(25);
+	setAlignment(Qt::AlignVCenter);
 }
 
 void WidgetMarqueeLabel::refreshLabel()
 {
-	repaint();	
+	repaint();
 }
 
 WidgetMarqueeLabel::~WidgetMarqueeLabel()
@@ -46,7 +47,7 @@ void WidgetMarqueeLabel::paintEvent(QPaintEvent *evt)
 		if(px >= width())
 			px = - textLength;
 	}
-	p.drawText(px, py + fontPointSize, text());	
+	p.drawText(px, py + fontPointSize, text());
 	p.translate(px,0);
 }
 
@@ -82,6 +83,19 @@ void WidgetMarqueeLabel::setSpeed(int s)
 int WidgetMarqueeLabel::getSpeed()
 {
 	return speed;
+}
+
+void WidgetMarqueeLabel::startTimer()
+{
+	timer.start(25);
+	px = 0;
+}
+
+void WidgetMarqueeLabel::stopTimer()
+{
+	timer.stop();
+	px = 0;
+
 }
 
 void WidgetMarqueeLabel::setDirection(int d)

@@ -309,9 +309,9 @@ enum
 // font (point unit)
 //////////////////////////////////////////////////
 
-#define FONT_SIZE_INFO_TITLE			42
-#define FONT_SIZE_INFO_SUBTITLE			42
-#define FONT_SIZE_INFO_SUBTITLE2		20
+#define FONT_SIZE_INFO_TITLE			36
+#define FONT_SIZE_INFO_SUBTITLE			36
+#define FONT_SIZE_INFO_SUBTITLE2		18
 #define FONT_SIZE_ICON_TITLE			14
 #define FONT_SIZE_ICON_SUBTITLE			14
 #define FONT_SIZE_SEARCH_TITLE			20

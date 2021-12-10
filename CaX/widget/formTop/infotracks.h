@@ -4,7 +4,7 @@
 #include <QWidget>
 
 class FormCoverArt;
-class FormTitle;
+//class FormTitle;
 class FormPlay;
 class FormSort;
 
@@ -22,7 +22,7 @@ public:
 
 	void SetCoverArt(QString coverArt);
 	void SetTitle(QString title);
-	void SetSubtitle(QString subtitle);
+	void SetSubtitle(QString title);
 //	void SetInfo(QString info);
 
 	FormPlay *GetFormPlay();
@@ -39,7 +39,7 @@ private:
 	void ConnectSigToSlot();
 
 	FormCoverArt	*m_pFormCoverArt;
-	FormTitle		*m_pFormTitle;
+//	FormTitle		*m_pFormTitle;
 	FormPlay		*m_pFormPlay;
 	FormSort		*m_pFormSort;
 
