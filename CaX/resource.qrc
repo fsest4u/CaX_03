@@ -25,12 +25,21 @@
         <file>resource/audiocd-popup-icon16-trackinfo.png</file>
         <file>resource/audiocd-popup-icon16-trackinfo@2x.png</file>
         <file>resource/audiocd-popup-icon16-trackinfo@3x.png</file>
+        <file>resource/blackscreen-btn26-close-n.png</file>
+        <file>resource/blackscreen-btn26-close-n@2x.png</file>
+        <file>resource/blackscreen-btn26-close-n@3x.png</file>
+        <file>resource/blackscreen-btn26-close-u.png</file>
+        <file>resource/blackscreen-btn26-close-u@2x.png</file>
+        <file>resource/blackscreen-btn26-close-u@3x.png</file>
         <file>resource/blackscreen-btn26-close.png</file>
         <file>resource/blackscreen-btn26-close@2x.png</file>
         <file>resource/blackscreen-btn26-close@3x.png</file>
         <file>resource/blackscreen-btn26-lyrics-n.png</file>
         <file>resource/blackscreen-btn26-lyrics-n@2x.png</file>
         <file>resource/blackscreen-btn26-lyrics-n@3x.png</file>
+        <file>resource/blackscreen-btn26-lyrics-u.png</file>
+        <file>resource/blackscreen-btn26-lyrics-u@2x.png</file>
+        <file>resource/blackscreen-btn26-lyrics-u@3x.png</file>
         <file>resource/blackscreen-btn26-play-n.png</file>
         <file>resource/blackscreen-btn26-play-n@2x.png</file>
         <file>resource/blackscreen-btn26-play-n@3x.png</file>
@@ -40,6 +49,9 @@
         <file>resource/blackscreen-btn26-review-n.png</file>
         <file>resource/blackscreen-btn26-review-n@2x.png</file>
         <file>resource/blackscreen-btn26-review-n@3x.png</file>
+        <file>resource/blackscreen-btn26-review-u.png</file>
+        <file>resource/blackscreen-btn26-review-u@2x.png</file>
+        <file>resource/blackscreen-btn26-review-u@3x.png</file>
         <file>resource/browser-icon16-cleanreplaygain.png</file>
         <file>resource/browser-icon16-cleanreplaygain@2x.png</file>
         <file>resource/browser-icon16-cleanreplaygain@3x.png</file>
@@ -723,6 +735,7 @@
         <file>resource/top-btn40-menu-h@2x.png</file>
         <file>resource/top-btn40-menu-h@3x.png</file>
         <file>resource/top-btn40-menu-n.png</file>
+        <file>resource/top-btn40-menu-n@2x.png</file>
         <file>resource/top-btn40-menu-n@3x.png</file>
         <file>resource/top-btn40-rew-h.png</file>
         <file>resource/top-btn40-rew-h@2x.png</file>

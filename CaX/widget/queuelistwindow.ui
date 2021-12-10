@@ -98,6 +98,10 @@
         <property name="styleSheet">
          <string notr="true">QPushButton
 {
+  border-image: url(&quot;:/resource/blackscreen-btn26-play-n.png&quot;);
+}
+QPushButton:hover
+{
   border-image: url(&quot;:/resource/blackscreen-btn26-play-u.png&quot;);
 }</string>
         </property>
@@ -121,6 +125,10 @@
          <string notr="true">QPushButton
 {
   border-image: url(&quot;:/resource/blackscreen-btn26-lyrics-n.png&quot;);
+}
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/blackscreen-btn26-lyrics-u.png&quot;);
 }</string>
         </property>
        </widget>
@@ -143,6 +151,10 @@
          <string notr="true">QPushButton
 {
   border-image: url(&quot;:/resource/blackscreen-btn26-review-n.png&quot;);
+}
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/blackscreen-btn26-review-u.png&quot;);
 }</string>
         </property>
        </widget>
@@ -164,7 +176,11 @@
         <property name="styleSheet">
          <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/blackscreen-btn26-close.png&quot;);
+  border-image: url(&quot;:/resource/blackscreen-btn26-close-n.png&quot;);
+}
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/blackscreen-btn26-close-u.png&quot;);
 }</string>
         </property>
        </widget>
