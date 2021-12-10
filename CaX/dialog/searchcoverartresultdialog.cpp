@@ -108,8 +108,11 @@ void SearchCoverArtResultDialog::SlotRespCoverArtList(CJsonNode node)
 void SearchCoverArtResultDialog::SlotRespSearchCoverArt(QString filename, int index)
 {
 	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
-	itemIcon->setData(filename, IconCoverArtDelegate::ICON_COVER_ART_COVER);
-	m_pIconCoverArt->GetModel()->setItem(index, itemIcon);
+	if (itemIcon)
+	{
+		itemIcon->setData(filename, IconCoverArtDelegate::ICON_COVER_ART_COVER);
+		m_pIconCoverArt->GetModel()->setItem(index, itemIcon);
+	}
 }
 
 void SearchCoverArtResultDialog::SlotSearchCoverArt(int index, QString url)
