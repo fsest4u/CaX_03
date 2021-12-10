@@ -60,11 +60,7 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QFrame
-{
-  border: 1px solid #00ffff;
-}
-</string>
+      <string notr="true"/>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>

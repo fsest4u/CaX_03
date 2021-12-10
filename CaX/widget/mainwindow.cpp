@@ -924,7 +924,7 @@ void MainWindow::DoPowerOff()
 	{
 		int index = m_pDeviceMgr->CheckDeviceWol(m_strCurrentMac);
 
-		bool bWol = dialog.GetBtnWol()->isChecked();
+		bool bWol = dialog.GetIsWol();
 		if (bWol)
 		{
 			if (index < 0)

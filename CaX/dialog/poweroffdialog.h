@@ -15,7 +15,8 @@ public:
 	explicit PowerOffDialog(QWidget *parent = nullptr);
 	~PowerOffDialog();
 
-	QPushButton* GetBtnWol();
+	bool GetIsWol() const;
+
 
 private:
 	Ui::PowerOffDialog *ui;

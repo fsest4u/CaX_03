@@ -11,8 +11,8 @@ PowerOffDialog::PowerOffDialog(QWidget *parent) :
 	ui->setupUi(this);
 
 	ui->labelPowerOff->setText(STR_ASK_POWER_OFF);
-	ui->labelWol->setText(STR_WOL);
-
+	ui->cbWol->setText(STR_WOL);
+	ui->cbWol->setCheckState(Qt::Checked);
 }
 
 PowerOffDialog::~PowerOffDialog()
@@ -20,7 +20,14 @@ PowerOffDialog::~PowerOffDialog()
 	delete ui;
 }
 
-QPushButton *PowerOffDialog::GetBtnWol()
+bool PowerOffDialog::GetIsWol() const
 {
-	return ui->btnWol;
+	if (ui->cbWol->checkState() == Qt::Checked)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

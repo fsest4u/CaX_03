@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>244</width>
-    <height>333</height>
+    <width>341</width>
+    <height>142</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,7 +42,7 @@ QWidget
       <item row="0" column="0">
        <widget class="QLabel" name="labelPowerOff">
         <property name="text">
-         <string>power off</string>
+         <string>-</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -62,30 +62,9 @@ QWidget
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QPushButton" name="btnWol">
-        <property name="styleSheet">
-         <string notr="true">QPushButton {
-border: none;
-background: transparent;
-}</string>
-        </property>
+       <widget class="QCheckBox" name="cbWol">
         <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>:/resource/Icon-22-rating.png</normaloff>
-          <normalon>:/resource/Icon-22-rating-o.png</normalon>:/resource/Icon-22-rating.png</iconset>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="labelWol">
-        <property name="text">
-         <string>Wake on lan</string>
+         <string>-</string>
         </property>
        </widget>
       </item>
