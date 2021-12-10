@@ -33,6 +33,14 @@
        <family>Segoe UI</family>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QTextEdit
+{
+color: #545454;
+border: 1px solid #545454;
+}
+</string>
+     </property>
     </widget>
    </item>
   </layout>

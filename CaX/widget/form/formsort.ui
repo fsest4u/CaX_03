@@ -46,7 +46,7 @@
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -54,6 +54,8 @@
 {
   color: rgb(52, 174, 214);
   border-image: url(&quot;:/resource/top-btn150-sort-n.png&quot;);
+  text-align: left;
+  padding-left: 10px;
 }
 
 QPushButton:hover

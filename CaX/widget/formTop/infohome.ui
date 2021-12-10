@@ -262,8 +262,8 @@ border-left : 1px solid #b9b8ba;
            </property>
            <property name="maximumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>16777215</width>
+             <height>16777215</height>
             </size>
            </property>
            <property name="frameShape">
@@ -381,8 +381,8 @@ border-left : 1px solid #b9b8ba;
            </property>
            <property name="maximumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>16777215</width>
+             <height>16777215</height>
             </size>
            </property>
            <property name="frameShape">
@@ -503,8 +503,8 @@ border-left : 1px solid #b9b8ba;
            </property>
            <property name="maximumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>16777215</width>
+             <height>16777215</height>
             </size>
            </property>
            <property name="frameShape">
@@ -625,8 +625,8 @@ border-left : 1px solid #b9b8ba;
            </property>
            <property name="maximumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>16777215</width>
+             <height>16777215</height>
             </size>
            </property>
            <property name="frameShape">

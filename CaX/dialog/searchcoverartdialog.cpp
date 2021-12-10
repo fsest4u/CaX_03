@@ -69,7 +69,7 @@ void SearchCoverArtDialog::SlotClickSearchEngine()
 
 void SearchCoverArtDialog::accept()
 {
-	if (GetKeyword().length() < SEARCH_WORD_LIMIT_COUNT || GetArtist().length() < SEARCH_WORD_LIMIT_COUNT)
+	if (GetKeyword().length() < SEARCH_WORD_LIMIT_COUNT && GetArtist().length() < SEARCH_WORD_LIMIT_COUNT)
 	{
 		CommonDialog dialog(this, STR_WARNING, STR_ENTER_SEARCH_WORD);
 		dialog.exec();
