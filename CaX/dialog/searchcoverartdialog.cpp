@@ -1,7 +1,10 @@
 #include "searchcoverartdialog.h"
 #include "ui_searchcoverartdialog.h"
 
+#include "dialog/commondialog.h"
+
 #include "util/caxconstants.h"
+#include "util/caxtranslate.h"
 #include "util/log.h"
 
 SearchCoverArtDialog::SearchCoverArtDialog(QWidget *parent) :
@@ -62,4 +65,21 @@ void SearchCoverArtDialog::SlotClickSearchEngine()
 	{
 		SetSite(SEARCH_GRACENOTE);
 	}
+}
+
+void SearchCoverArtDialog::accept()
+{
+	if (GetKeyword().length() < SEARCH_WORD_LIMIT_COUNT || GetArtist().length() < SEARCH_WORD_LIMIT_COUNT)
+	{
+		CommonDialog dialog(this, STR_WARNING, STR_ENTER_SEARCH_WORD);
+		dialog.exec();
+		return;
+	}
+
+	done(QDialog::Accepted);
+}
+
+void SearchCoverArtDialog::reject()
+{
+	done(QDialog::Rejected);
 }

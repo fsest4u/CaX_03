@@ -25,6 +25,8 @@ private slots:
 
 	void SlotClickSearchEngine();
 
+	void accept();
+	void reject();
 
 private:
 
