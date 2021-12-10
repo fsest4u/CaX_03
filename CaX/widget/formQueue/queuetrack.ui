@@ -13,6 +13,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame
+{
+  border: 0px solid #ffffff;
+}
+</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout"/>
  </widget>
  <resources/>

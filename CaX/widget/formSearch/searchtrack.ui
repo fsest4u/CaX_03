@@ -110,6 +110,13 @@
        <height>250</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame
+{
+  border: 0px solid #ffffff;
+}
+</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
