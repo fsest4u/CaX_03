@@ -69,7 +69,7 @@ private slots:
 
 	void SlotRespError(QString errMsg);
 	void SlotSelectIconTitle(int nType);
-	void SlotSelectTitle(int nType, QString rawData);
+	void SlotSelectTitle(int nType, CJsonNode node);
 //	void SlotSelectURL(QString rawData);
 	void SlotReqCoverArt(QString url, int index);
 
@@ -94,8 +94,8 @@ private:
 	void ConnectSigToSlot();
 	void Initialize();
 
-	void SelectTitleForQobuz(int nType, QString rawData);
-	void SelectTitleForAirable(int nType, QString rawData);
+	void SelectTitleForQobuz(int nType, CJsonNode node);
+	void SelectTitleForAirable(int nType, CJsonNode node);
 
 	void SetOptionMenu(int type, QString menuName);
 
@@ -135,6 +135,8 @@ private:
 	QThread				*m_pListThread;
 
 	QMap<int, QString>	m_OptionMenuMap;
+
+	CJsonNode			m_Node;
 
 	QString				m_WebURL;
 	int					m_ServiceType;

@@ -358,8 +358,12 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const int value)
 
 QString UtilNovatron::CalcSecondToHMS(int seconds)
 {
-	QString time;
-	if (seconds > 3599)
+	QString time = "";
+	if (0 > seconds)
+	{
+		time = "";
+	}
+	else if (seconds > 3599)
 	{
 		time = QDateTime::fromTime_t(seconds).toUTC().toString("hh:mm:ss");
 	}

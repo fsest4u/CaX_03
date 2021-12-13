@@ -10,15 +10,14 @@ ListBrowserDelegate::ListBrowserDelegate()
 {
 }
 
-void ListBrowserDelegate::SlotClickPlay(int type, QString rawData)
+void ListBrowserDelegate::SlotClickPlay(int type, CJsonNode node)
 {
-	emit SigSelectPlay(type, rawData);
-
+	emit SigSelectPlay(type, node);
 }
 
-void ListBrowserDelegate::SlotClickTitle(int type, QString rawData)
+void ListBrowserDelegate::SlotClickTitle(int type, CJsonNode node)
 {
-	emit SigSelectTitle(type, rawData);
+	emit SigSelectTitle(type, node);
 }
 
 void ListBrowserDelegate::SlotMenu(int index, int type)
@@ -34,6 +33,11 @@ void ListBrowserDelegate::SlotMenu(int index, int type, QString menuName)
 void ListBrowserDelegate::SlotMenuAction(QString path, int type, int menuID)
 {
 	emit SigMenuAction(path, type, menuID);
+}
+
+void ListBrowserDelegate::SlotMenuAction(CJsonNode node, int type, int menuID)
+{
+	emit SigMenuAction(node, type, menuID);
 }
 
 void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -57,11 +61,11 @@ QWidget *ListBrowserDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	Q_UNUSED(index)
 
 	ListBrowserEditor *editor = new ListBrowserEditor(parent);
-//	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
-	connect(editor, SIGNAL(SigClickPlay(int, QString)), this, SLOT(SlotClickPlay(int, QString)));
-	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
+	connect(editor, SIGNAL(SigClickPlay(int, CJsonNode)), this, SLOT(SlotClickPlay(int, CJsonNode)));
+	connect(editor, SIGNAL(SigClickTitle(int, CJsonNode)), this, SLOT(SlotClickTitle(int, CJsonNode)));
 	connect(editor, SIGNAL(SigMenu(int, int)), this, SLOT(SlotMenu(int, int)));
 	connect(editor, SIGNAL(SigMenu(int, int, QString)), this, SLOT(SlotMenu(int, int, QString)));
+	connect(editor, SIGNAL(SigMenuAction(CJsonNode, int, int)), this, SLOT(SlotMenuAction(CJsonNode, int, int)));
 	connect(editor, SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotMenuAction(QString, int, int)));
 
 	return editor;

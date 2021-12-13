@@ -216,13 +216,21 @@ bool ListBrowserEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
+		CJsonNode node;
+		if (!node.SetContent(m_RawData))
+		{
+			return false;
+		}
+		node.AddInt(KEY_ID_LOWER, m_ID);
+		node.AddString(KEY_ART, m_pFormCoverArt->GetCoverArt());
+
 		if (object == ui->labelPlay)
 		{
-			emit SigClickPlay(m_Type, m_RawData);
+			emit SigClickPlay(m_Type, node);
 		}
 		else if (object == ui->labelTitle)
 		{
-			emit SigClickTitle(m_Type, m_RawData);
+			emit SigClickTitle(m_Type, node);
 		}
 	}
 
@@ -264,7 +272,14 @@ void ListBrowserEditor::SlotMenuAction(QAction *action)
 {
 	if (SIDEMENU_BROWSER == m_Service)
 	{
-		emit SigMenuAction(ui->labelTitle->text(), m_Type, action->data().toInt());
+		CJsonNode node;
+		if (!node.SetContent(m_RawData))
+		{
+			return;
+		}
+		node.AddInt(KEY_ID_LOWER, m_ID);
+
+		emit SigMenuAction(node, m_Type, action->data().toInt());
 	}
 	else if (SIDEMENU_ISERVICE == m_Service)
 	{

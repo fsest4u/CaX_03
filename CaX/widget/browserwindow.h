@@ -47,8 +47,9 @@ private slots:
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget* widget);
 
-	void SlotSelectTrackPlay(int nType, QString rawData);
-	void SlotSelectTitle(int nType, QString rawData);
+	void SlotIconSelectTitle(int nType, QString rawData);
+	void SlotSelectTrackPlay(int nType, CJsonNode node);
+	void SlotSelectTitle(int nType, CJsonNode node);
 //	void SlotSelectURL(QString rawData);
 	void SlotReqCoverArt(QString path, int index);
 	void SlotReqInfoBot(QString path, int nIndex);
@@ -68,7 +69,7 @@ private slots:
 //	void SlotResize();
 
 	void SlotOptionMenu(int id, int type);
-	void SlotOptionMenuAction(QString path, int type, int menuID);
+	void SlotOptionMenuAction(CJsonNode node, int type, int menuID);
 
 	void SlotCopyHere(bool move, QString dstPath, QString path, int type);
 //	void SlotOptionCopyHere(bool move, QString dstPath, QString path, int type);
@@ -101,7 +102,7 @@ private:
 
 	void SetOptionMenu(int type);
 
-	void DoOptionMenuPlay(QString path, int type, int where);
+	void DoOptionMenuPlay(CJsonNode node, int type, int where);
 	void DoOptionMenuGain(QString path, int type, QString gain);
 	void DoOptionMenuOptionPlaySubDir();
 	void DoOptionMenuOptionOverwrite();

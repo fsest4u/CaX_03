@@ -3,6 +3,8 @@
 
 #include <QStyledItemDelegate>
 
+#include "util/CJsonNode.h"
+
 class ListBrowserDelegate : public QStyledItemDelegate
 {
 	Q_OBJECT
@@ -30,19 +32,21 @@ public:
 
 signals:
 
-	void SigSelectPlay(int type, QString rawData);
-	void SigSelectTitle(int type, QString rawData);
+	void SigSelectPlay(int type, CJsonNode node);
+	void SigSelectTitle(int type, CJsonNode node);
 	void SigMenu(int index, int type);
 	void SigMenu(int index, int type, QString menuName);
 	void SigMenuAction(QString path, int type, int menuID);
+	void SigMenuAction(CJsonNode node, int type, int menuID);
 
 private slots:
 
-	void SlotClickPlay(int type, QString rawData);
-	void SlotClickTitle(int type, QString rawData);
+	void SlotClickPlay(int type, CJsonNode node);
+	void SlotClickTitle(int type, CJsonNode node);
 	void SlotMenu(int index, int type);
 	void SlotMenu(int index, int type, QString menuName);
 	void SlotMenuAction(QString path, int type, int menuID);
+	void SlotMenuAction(CJsonNode node, int type, int menuID);
 
 private:
 

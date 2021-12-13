@@ -15,7 +15,7 @@ public:
 	void RequestFolder(QString strPath, bool dirOnly = false, bool imageOnly = false);
 	void RequestInfoBot(QString strPath, int nIndex);
 	void RequestTrackPlay(QString root, QStringList dirs, QStringList files, int where = PLAY_CLEAR);
-	void RequestPlaylistPlay(QString path, QList<int> indexes);
+	void RequestPlaylistPlay(QString path, QStringList indexes, int where = PLAY_CLEAR);
 	void RequestReplayGain(QString root, QStringList paths, QString gain, int eventID);
 	void RequestConvertFormat(QString root, QStringList paths, QString format, int eventID);
 	void RequestCreate(QString path);

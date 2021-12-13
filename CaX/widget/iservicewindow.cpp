@@ -284,15 +284,15 @@ void IServiceWindow::SlotSelectIconTitle(int nType)
 //	}
 }
 
-void IServiceWindow::SlotSelectTitle(int nType, QString rawData)
+void IServiceWindow::SlotSelectTitle(int nType, CJsonNode node)
 {
 	if (iIServiceType_Qobuz == m_ServiceType)
 	{
-		SelectTitleForQobuz(nType, rawData);
+		SelectTitleForQobuz(nType, node);
 	}
 	else
 	{
-		SelectTitleForAirable(nType, rawData);
+		SelectTitleForAirable(nType, node);
 	}
 }
 
@@ -490,6 +490,7 @@ void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNod
 
 	widget->GetInfoBrowser()->SetSubtitle(title);
 
+	widget->GetListBrowser()->SetNodeInfo(m_Node);
 	widget->GetListBrowser()->SetBackgroundTask(widget->GetListThread());
 	widget->GetListBrowser()->ClearNodeList();
 	widget->GetListBrowser()->SetNodeList(list, SIDEMENU_ISERVICE);
@@ -548,7 +549,8 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectIconTitle(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int, QString)), this, SLOT(SlotOptionMenu(int, int, QString)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotOptionMenuAction(QString, int, int)));
 	connect(m_pListBrowser, SIGNAL(SigReqCoverArt(QString, int)), this, SLOT(SlotReqCoverArt(QString, int)));
@@ -586,7 +588,7 @@ void IServiceWindow::Initialize()
 	m_bGenreSubmenu = false;
 }
 
-void IServiceWindow::SelectTitleForQobuz(int nType, QString rawData)
+void IServiceWindow::SelectTitleForQobuz(int nType, CJsonNode node)
 {
 	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
 	dialog.exec();
@@ -651,18 +653,16 @@ void IServiceWindow::SelectTitleForQobuz(int nType, QString rawData)
 //	}
 }
 
-void IServiceWindow::SelectTitleForAirable(int nType, QString rawData)
+void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForAirable("SlotSelectTitle", nType);
 
-	CJsonNode node;
-	if (!node.SetContent(rawData))
-	{
-		SlotRespError(STR_INVALID_JSON);
-		return;
-	}
-	QString title = node.GetString(KEY_NAME);
-	QString url = node.GetString(KEY_URL);
+	m_Node.Clear();
+	m_Node = node;
+
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+
+	QString url = m_Node.GetString(KEY_URL);
 
 	if (nType & iAirableType_Mask_Dir)
 	{
@@ -677,7 +677,7 @@ void IServiceWindow::SelectTitleForAirable(int nType, QString rawData)
 			 || nType & iAirableType_Mask_Feed
 			 || nType & iAirableType_Mask_Play)
 	{
-		m_pAirableMgr->RequestPlay(m_ServiceType, node);
+		m_pAirableMgr->RequestPlay(m_ServiceType, m_Node);
 	}
 	else if (nType & iAirableType_Mask_Logout)
 	{

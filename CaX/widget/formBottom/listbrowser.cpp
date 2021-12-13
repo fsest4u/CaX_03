@@ -81,17 +81,24 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 		foreach (CJsonNode node, m_NodeList)
 		{
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
-			QString path = node.GetString(KEY_PATH);
+			QString title = node.GetString(KEY_NAME_CAP);
+			if (title.isEmpty())
+			{
+				title = node.GetString(KEY_PATH);
+			}
 			int nodeType = node.GetInt(KEY_TYPE);
 			type = type | nodeType;
+
+			int seconds = node.GetInt(KEY_DURATION);
+			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_BROWSER), ListBrowserDelegate::LIST_BROWSER_COVER);
-			item->setData(path, ListBrowserDelegate::LIST_BROWSER_TITLE);
+			item->setData(title, ListBrowserDelegate::LIST_BROWSER_TITLE);
 			item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
-			item->setData(node.GetString(KEY_DURATION), ListBrowserDelegate::LIST_BROWSER_DURATION);
+			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 			item->setData(node.GetString(KEY_SIZE), ListBrowserDelegate::LIST_BROWSER_FILESIZE);
 			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
@@ -104,8 +111,8 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 //			if (nodeType & iFolderType_Mask_Play_Select)
 //			{
-//				emit SigReqInfoBot(path, index);
-//				emit SigReqCoverArt(path, index);
+//				emit SigReqInfoBot(title, index);
+//				emit SigReqCoverArt(title, index);
 //			}
 
 			index++;
@@ -118,12 +125,16 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			UtilNovatron::DebugTypeForAirable("SetNodeList", node.GetInt(KEY_TYPE));
 
+			int seconds = node.GetInt(KEY_TIME_CAP);
+			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
+
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
 			item->setData(node.GetInt(KEY_TYPE), ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_ICON)), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
-			item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
+			item->setData(node.GetString(KEY_BOT1), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
+			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
@@ -143,6 +154,26 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 //	m_pLoading->Stop();
 
 	return type;
+}
+
+void ListBrowser::SetNodeInfo(CJsonNode node)
+{
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	if (node.IsNull())
+	{
+		return;
+	}
+
+	ui->frameInfo->show();
+	QString style;
+	style = QString("QLabel	\
+					{	\
+					  border-image: url(\'%1\');	\
+					}").arg(node.GetString(KEY_ART));
+	ui->labelCoverArt->setStyleSheet(style);
+	ui->labelTitle->setText(node.GetString(KEY_TOP));
+	ui->labelSubtitle->setText(node.GetString(KEY_BOT1));
 }
 
 void ListBrowser::ClearSelectMap()
@@ -245,7 +276,10 @@ void ListBrowser::SlotReqCoverArt()
 			int nodeType = node.GetInt(KEY_TYPE);
 			if (nodeType & iFolderType_Mask_Play_Select)
 			{
-				emit SigReqInfoBot(path, index);
+				if (!(nodeType & iFolderType_Mask_Pls))
+				{
+					emit SigReqInfoBot(path, index);
+				}
 				emit SigReqCoverArt(path, index);
 			}
 
@@ -303,5 +337,7 @@ void ListBrowser::Initialize()
 	m_ListView->setViewMode(QListView::ListMode);
 
 	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
+
+	ui->frameInfo->hide();
 
 }

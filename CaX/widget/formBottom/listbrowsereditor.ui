@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>58</height>
+    <width>968</width>
+    <height>66</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -119,6 +119,18 @@ QLabel:hover
    </item>
    <item>
     <widget class="QLabel" name="labelTitle">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
@@ -135,6 +147,18 @@ QLabel:hover
    </item>
    <item>
     <widget class="QLabel" name="labelSubtitle">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
@@ -151,6 +175,18 @@ QLabel:hover
    </item>
    <item>
     <widget class="QLabel" name="labelDuration">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>90</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
@@ -161,12 +197,27 @@ QLabel:hover
       </font>
      </property>
      <property name="text">
-      <string>duration</string>
+      <string>00:00:00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="labelFilesize">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>90</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
@@ -177,7 +228,10 @@ QLabel:hover
       </font>
      </property>
      <property name="text">
-      <string>filesize</string>
+      <string>999.9MB</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>

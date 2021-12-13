@@ -32,6 +32,8 @@ public:
 	QList<CJsonNode> GetNodeList() const;
 	int SetNodeList(const QList<CJsonNode> &NodeList, int nService);
 
+	void SetNodeInfo(CJsonNode node);
+
 	void ClearSelectMap();
 	void SetAllSelectMap();
 

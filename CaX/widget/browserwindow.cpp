@@ -180,9 +180,17 @@ void BrowserWindow::SlotRemoveWidget(QWidget *widget)
 
 void BrowserWindow::SlotPlayAll(int where)
 {
-	SetDirFile();
+	if (m_FolderType & iFolderType_Mask_Pls)
+	{
+		m_Files.clear();
+		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, where);
+	}
+	else
+	{
+		SetDirFile();
 
-	m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files, where);
+		m_pMgr->RequestTrackPlay(m_Root, m_Dirs, m_Files, where);
+	}
 }
 
 void BrowserWindow::SlotPlayRandom()
@@ -276,24 +284,25 @@ void BrowserWindow::SlotOptionMenu(int index, int type)
 	m_pListBrowser->SetEditor(index);
 }
 
-void BrowserWindow::SlotOptionMenuAction(QString path, int type, int menuID)
+void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 {
+	QString path = node.GetString(KEY_PATH);
 	LogDebug("click option menu [%s] [%d] [%d]", path.toUtf8().data(), type, menuID);
 	switch (menuID) {
 	case OPTION_MENU_OPTION_PLAY_SUBDIR:
 		DoOptionMenuOptionPlaySubDir();
 		break;
 	case OPTION_MENU_PLAY_NOW:
-		DoOptionMenuPlay(path, type, PLAY_NOW);
+		DoOptionMenuPlay(node, type, PLAY_NOW);
 		break;
 	case OPTION_MENU_PLAY_LAST:
-		DoOptionMenuPlay(path, type, PLAY_LAST);
+		DoOptionMenuPlay(node, type, PLAY_LAST);
 		break;
 	case OPTION_MENU_PLAY_NEXT:
-		DoOptionMenuPlay(path, type, PLAY_NEXT);
+		DoOptionMenuPlay(node, type, PLAY_NEXT);
 		break;
 	case OPTION_MENU_PLAY_CLEAR:
-		DoOptionMenuPlay(path, type, PLAY_CLEAR);
+		DoOptionMenuPlay(node, type, PLAY_CLEAR);
 		break;
 	case OPTION_MENU_GAIN_SET:
 		DoOptionMenuGain(path, type, VAL_SET);
@@ -345,20 +354,57 @@ void BrowserWindow::SlotOptionMenuAction(QString path, int type, int menuID)
 //	LogDebug("click resize");
 //}
 
-void BrowserWindow::SlotSelectTrackPlay(int nType, QString rawData)
+
+void BrowserWindow::SlotIconSelectTitle(int nType, QString rawData)
 {
 	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
 
 	CJsonNode node;
 	if (!node.SetContent(rawData))
 	{
-		LogCritical("invalid json");
 		return;
 	}
 
-	if (iFolderType_Mask_Play_Select & nType)
+	if (iFolderType_Mask_Sub & nType)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		ThreadTerminateList();
+
+		QString path = node.GetString(KEY_PATH);
+		if (!m_Root.isEmpty())
+			path = m_Root + "/" + path;
+
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID, path);
+
+		if (iFolderType_Mask_Play_Top & nType
+				&& BROWSER_MODE_NORMAL == m_BrowserMode)
+		{
+			widget->ShowFormPlay(true);
+		}
+		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
+		widget->RequestFolder(path);
+
+		emit SigAddWidget(widget, STR_BROWSER);
+	}
+//	else
+//	{
+//		SlotSelectTrackPlay(nType, rawData);
+//	}
+}
+
+void BrowserWindow::SlotSelectTrackPlay(int nType, CJsonNode node)
+{
+	UtilNovatron::DebugTypeForBrowser("SlotSelectTrackPlay", nType);
+
+	if  (iFolderType_Mask_Pls & nType)
+	{
+//		LogDebug("Pls node [%s]", node.ToCompactByteArray().data());
+		m_Files.clear();
+		m_Files.append(node.GetString(KEY_ID_LOWER));
+		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, PLAY_NOW);
+	}
+	else if (iFolderType_Mask_Play_Select & nType)
+	{
+//		LogDebug("Play_Select node [%s]", node.ToCompactByteArray().data());
 		m_Dirs.clear();
 		m_Files.clear();
 		m_Files.append(node.GetString(KEY_PATH));
@@ -366,16 +412,9 @@ void BrowserWindow::SlotSelectTrackPlay(int nType, QString rawData)
 	}
 }
 
-void BrowserWindow::SlotSelectTitle(int nType, QString rawData)
+void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
-
-	CJsonNode node;
-	if (!node.SetContent(rawData))
-	{
-		LogCritical("invalid json");
-		return;
-	}
 
 	if (iFolderType_Mask_Sub & nType)
 	{
@@ -454,6 +493,18 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 	}
 
 	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);
+
+	if (iFolderType_Mask_Pls & nType
+			&& iFolderType_Mask_Dir & nType)
+	{
+		ShowFormPlay(false);
+		m_pInfoBrowser->GetFormPlay()->ShowMenu(false);
+	}
+	else
+	{
+		ShowFormPlay(true);
+	}
+
 	SetFolderType(nType);
 
 }
@@ -515,9 +566,12 @@ void BrowserWindow::SlotInfoBotUpdate(CJsonNode node, int nIndex)
 	if (nIndex < 0)
 		return;
 
+	int seconds = node.GetInt(KEY_DURATION);
+	QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
+
 	QStandardItem *item = m_pListBrowser->GetModel()->item(nIndex);
 	item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
-	item->setData(node.GetString(KEY_DURATION), ListBrowserDelegate::LIST_BROWSER_DURATION);
+	item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 	m_pListBrowser->GetModel()->setItem(nIndex, item);
 }
 
@@ -650,13 +704,12 @@ void BrowserWindow::ConnectSigToSlot()
 
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
-	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotIconSelectTitle(int, QString)));
 
-//	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectURL(QString)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, QString)), this, SLOT(SlotSelectTrackPlay(int, QString)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, CJsonNode)), this, SLOT(SlotSelectTrackPlay(int, CJsonNode)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
 	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int)), this, SLOT(SlotOptionMenu(int, int)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotOptionMenuAction(QString, int, int)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(CJsonNode, int, int)), this, SLOT(SlotOptionMenuAction(CJsonNode, int, int)));
 	connect(m_pListBrowser, SIGNAL(SigReqCoverArt(QString, int)), this, SLOT(SlotReqCoverArt(QString, int)));
 	connect(m_pListBrowser, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
 
@@ -819,6 +872,18 @@ void BrowserWindow::SetSelectOffTopMenu()
 			if (m_FolderType & iFolderType_Mask_FileMgr)
 			{
 				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+			}
+
+			if (m_FolderType & iFolderType_Mask_Pls)
+			{
+				m_TopMenuMap.clear();
+				if (m_FolderType & iFolderType_Mask_Song)
+				{
+					m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+					m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+					m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+					m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+				}
 			}
 
 			m_pInfoBrowser->GetFormPlay()->ClearMenu();
@@ -1120,20 +1185,43 @@ void BrowserWindow::SetOptionMenu(int type)
 			m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_EDIT_TAG);
 			m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
 		}
+
+		if (type & iFolderType_Mask_Pls)
+		{
+			m_OptionMenuMap.clear();
+			if (type & iFolderType_Mask_Song)
+			{
+				m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
+				m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
+				m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+				m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+			}
+		}
 	}
 
 	m_pListBrowser->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 
 }
 
-void BrowserWindow::DoOptionMenuPlay(QString path, int type, int where)
+void BrowserWindow::DoOptionMenuPlay(CJsonNode node, int type, int where)
 {
-	QStringList dirs;
-	QStringList files;
-	SetOptionDirFile(path, type, dirs, files);
+	if  (iFolderType_Mask_Pls & type)
+	{
+		LogDebug("Pls node [%s]", node.ToCompactByteArray().data());
+		m_Files.clear();
+		m_Files.append(node.GetString(KEY_ID_LOWER));
+		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, PLAY_NOW);
+	}
+	else
+	{
+		LogDebug("Play_Select node [%s]", node.ToCompactByteArray().data());
+		QString path = node.GetString(KEY_PATH);
+		QStringList dirs;
+		QStringList files;
+		SetOptionDirFile(path, type, dirs, files);
 
-	m_pMgr->RequestTrackPlay(m_Root, dirs, files, where);
-
+		m_pMgr->RequestTrackPlay(m_Root, dirs, files, where);
+	}
 }
 
 void BrowserWindow::DoOptionMenuGain(QString path, int type, QString gain)

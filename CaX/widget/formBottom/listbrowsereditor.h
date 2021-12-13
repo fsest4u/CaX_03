@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QMenu>
 
+#include "util/CJsonNode.h"
+
 class FormCoverArt;
 
 namespace Ui {
@@ -53,11 +55,11 @@ public:
 
 signals:
 
-//	void SigClickCoverArt(QString rawData);
-	void SigClickPlay(int type, QString rawData = "");
-	void SigClickTitle(int type, QString rawData = "");
+	void SigClickPlay(int type, CJsonNode node);
+	void SigClickTitle(int type, CJsonNode node);
 	void SigMenu(int index, int type);
 	void SigMenu(int index, int type, QString menuName);
+	void SigMenuAction(CJsonNode node, int type, int menuID);
 	void SigMenuAction(QString path, int type, int menuID);
 
 protected:

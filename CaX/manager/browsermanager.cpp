@@ -204,9 +204,20 @@ void BrowserManager::RequestTrackPlay(QString root, QStringList dirs, QStringLis
 	RequestCommand(node, BROWSER_TRACK_PLAY);
 }
 
-void BrowserManager::RequestPlaylistPlay(QString path, QList<int> indexes)
+void BrowserManager::RequestPlaylistPlay(QString path, QStringList indexes, int where)
 {
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_PLS);
+	node.Add	(KEY_CMD2,		VAL_PLAY);
+	node.AddInt	(KEY_WHERE,		where);
+	node.Add(KEY_PATH, path);
+	if (indexes.count() > 0)
+	{
+		node.Add(KEY_INDEXES, indexes);
+	}
 
+	RequestCommand(node, BROWSER_PLAYLIST_PLAY);
 }
 
 void BrowserManager::RequestReplayGain(QString root, QStringList paths, QString gain, int eventID)
