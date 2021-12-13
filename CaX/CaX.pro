@@ -92,6 +92,9 @@ SOURCES += \
     widget/formBottom/listservice.cpp \
     widget/formBottom/listservicedelegate.cpp \
     widget/formBottom/listserviceeditor.cpp \
+    widget/formBottom/listsetup.cpp \
+    widget/formBottom/listsetupdelegate.cpp \
+    widget/formBottom/listsetupeditor.cpp \
     widget/formBottom/listtracks.cpp \
     widget/formBottom/listtracksdelegate.cpp \
     widget/formBottom/listtrackseditor.cpp \
@@ -215,6 +218,9 @@ HEADERS += \
     widget/formBottom/listservice.h \
     widget/formBottom/listservicedelegate.h \
     widget/formBottom/listserviceeditor.h \
+    widget/formBottom/listsetup.h \
+    widget/formBottom/listsetupdelegate.h \
+    widget/formBottom/listsetupeditor.h \
     widget/formBottom/listtracks.h \
     widget/formBottom/listtracksdelegate.h \
     widget/formBottom/listtrackseditor.h \
@@ -291,6 +297,8 @@ FORMS += \
     widget/formBottom/listdeviceeditor.ui \
     widget/formBottom/listservice.ui \
     widget/formBottom/listserviceeditor.ui \
+    widget/formBottom/listsetup.ui \
+    widget/formBottom/listsetupeditor.ui \
     widget/formBottom/listtracks.ui \
     widget/formBottom/listtrackseditor.ui \
     widget/formQueue/queueartist.ui \

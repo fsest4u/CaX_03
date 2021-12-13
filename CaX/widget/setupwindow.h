@@ -7,7 +7,7 @@
 
 class SetupManager;
 class InfoService;
-class ListService;
+class ListSetup;
 
 namespace Ui {
 class SetupWindow;
@@ -25,8 +25,7 @@ public:
 
 private slots:
 
-	void SlotSelectCoverArt(QString rawData);
-	void SlotSelectTitle(QString rawData);
+	void SlotSelectTitle(QString strID);
 
 	void SlotRespList(QList<CJsonNode> list);
 
@@ -34,11 +33,11 @@ private:
 
 	void ConnectSigToSlot();
 
-	void SetSetupHome(QList<CJsonNode> & list);
+//	void SetSetupHome(QList<CJsonNode> & list);
 
 	SetupManager		*m_pMgr;
 	InfoService			*m_pInfoService;
-	ListService			*m_pListService;
+	ListSetup			*m_pListSetup;
 
 	int m_EventID;
 

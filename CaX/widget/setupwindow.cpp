@@ -2,8 +2,8 @@
 #include "ui_setupwindow.h"
 
 #include "widget/formTop/infoservice.h"
-#include "widget/formBottom/listservice.h"
-#include "widget/formBottom/listservicedelegate.h"
+#include "widget/formBottom/listsetup.h"
+#include "widget/formBottom/listsetupdelegate.h"
 
 #include "manager/setupmanager.h"
 
@@ -19,7 +19,7 @@ SetupWindow::SetupWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
 	m_pMgr(new SetupManager),
 	m_pInfoService(new InfoService(this)),
-	m_pListService(new ListService(this)),
+	m_pListSetup(new ListSetup(this)),
 	ui(new Ui::SetupWindow)
 {
 	ui->setupUi(this);
@@ -43,10 +43,10 @@ SetupWindow::~SetupWindow()
 		m_pInfoService = nullptr;
 	}
 
-	if (m_pListService)
+	if (m_pListSetup)
 	{
-		delete m_pListService;
-		m_pListService = nullptr;
+		delete m_pListSetup;
+		m_pListSetup = nullptr;
 	}
 
 	delete ui;
@@ -58,29 +58,18 @@ void SetupWindow::SetupHome(QList<CJsonNode> list, int eventID)
 	m_EventID = eventID;
 
 	ui->gridLayoutTop->addWidget(m_pInfoService);
-	ui->gridLayoutBottom->addWidget(m_pListService);
+	ui->gridLayoutBottom->addWidget(m_pListSetup);
 
-	SetSetupHome(list);
+//	SetSetupHome(list);
 
 	m_pInfoService->SetTitle(MAIN_TITLE);
-	m_pListService->SetNodeList(list, ListService::LIST_SERVICE_SETUP);
+	m_pListSetup->SetNodeList(list);
 }
 
-void SetupWindow::SlotSelectCoverArt(QString rawData)
+void SetupWindow::SlotSelectTitle(QString strID)
 {
-	LogDebug("good choice icon [%s]", rawData.toUtf8().data());
-}
-
-void SetupWindow::SlotSelectTitle(QString rawData)
-{
-//	LogDebug("good choice title [%s]", rawData.toUtf8().data());
-	CJsonNode node;
-	if (!node.SetContent(rawData))
-	{
-		return;
-	}
-	QString id = node.GetString(KEY_ID_UPPER);
-	m_pMgr->RequestSetupGroup(m_EventID, id);
+	LogDebug("good choice title [%s]", strID.toUtf8().data());
+	m_pMgr->RequestSetupGroup(m_EventID, strID);
 }
 
 void SetupWindow::SlotRespList(QList<CJsonNode> list)
@@ -93,27 +82,24 @@ void SetupWindow::SlotRespList(QList<CJsonNode> list)
 
 void SetupWindow::ConnectSigToSlot()
 {
-	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectCoverArt(QString)), this, SLOT(SlotSelectCoverArt(QString)));
-	connect(m_pListService->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectTitle(QString)));
-
+	connect(m_pListSetup->GetDelegate(), SIGNAL(SigSelectTitle(QString)), this, SLOT(SlotSelectTitle(QString)));
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
-
 }
 
-void SetupWindow::SetSetupHome(QList<CJsonNode> &list)
-{
-	QList<CJsonNode> tempList;
-	int index = 0;
-	QString strCover = "";
+//void SetupWindow::SetSetupHome(QList<CJsonNode> &list)
+//{
+//	QList<CJsonNode> tempList;
+//	int index = 0;
+//	QString strCover = "";
 
-	foreach (CJsonNode node, list)
-	{
-		node.Add(KEY_COVER_ART, strCover);
-		node.AddInt(KEY_TYPE, index);
+//	foreach (CJsonNode node, list)
+//	{
+//		node.Add(KEY_COVER_ART, strCover);
+//		node.AddInt(KEY_TYPE, index);
 
-		tempList.append(node);
-		index++;
-	}
+//		tempList.append(node);
+//		index++;
+//	}
 
-	list = tempList;
-}
+//	list = tempList;
+//}

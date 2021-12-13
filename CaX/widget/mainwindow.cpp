@@ -935,12 +935,9 @@ void MainWindow::DoGroupPlayHome()
 
 void MainWindow::DoSetupHome()
 {
-	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
-	dialog.exec();
-
-//	SetupWindow *widget = new SetupWindow(this, m_strAddr);
-//	SlotAddWidget(widget, STR_SETUP);
-//	widget->SetupHome(m_SetupList, m_EventID);
+	SetupWindow *widget = new SetupWindow(this, m_strAddr);
+	SlotAddWidget(widget, STR_SETUP);
+	widget->SetupHome(m_SetupList, m_EventID);
 }
 
 void MainWindow::DoPowerOff()
