@@ -62,7 +62,7 @@ public:
 	void RequestSetCategoryInfo(int id, int eventID, CJsonNode node);
 	void RequestRenameCategory(int id, QString name, int nCategory, int eventID);
 	void RequestTrackInfo(int id);
-	void RequestSetTrackInfo(int id, int eventID);
+	void RequestSetTrackInfo(int id, int eventID, CJsonNode node);
 	void RequestRenameTrack(int id, QString name, int eventID);
 
 	void RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category);

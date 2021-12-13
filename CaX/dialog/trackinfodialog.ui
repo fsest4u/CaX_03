@@ -36,6 +36,9 @@ QWidget
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="verticalSpacing">
+    <number>18</number>
+   </property>
    <item row="1" column="0">
     <widget class="QFrame" name="frame">
      <property name="frameShape">
@@ -172,7 +175,7 @@ color: rgb(255, 255, 255)
         <x>0</x>
         <y>0</y>
         <width>362</width>
-        <height>348</height>
+        <height>336</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayoutScrollArea"/>

@@ -424,11 +424,10 @@ void MusicDBManager::RequestTrackInfo(int id)
 	RequestCommand(node, MUSICDB_TRACK_INFO);
 }
 
-void MusicDBManager::RequestSetTrackInfo(int id, int eventID)
+void MusicDBManager::RequestSetTrackInfo(int id, int eventID, CJsonNode node)
 {
 	Q_UNUSED(eventID)
 
-	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
 	node.Add	(KEY_CMD1,		VAL_INFO);
 	node.Add	(KEY_CMD2,		VAL_SET_TAG);

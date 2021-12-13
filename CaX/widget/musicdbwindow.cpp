@@ -948,7 +948,6 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
 	dialog.SetWindowTitle("Album info");
-	dialog.SetBtnEdit(true);
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);
@@ -956,6 +955,7 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 	dialog.SetGenreList(m_GenreList);
 	dialog.SetComposerList(m_ComposerList);
 	dialog.SetMoodList(m_MoodList);
+	dialog.SetBtnEdit(true);
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);
 	if (dialog.exec() == QDialog::Accepted)
@@ -975,9 +975,14 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 	TrackInfoDialog dialog;
 	dialog.SetWindowTitle("Track info");
 	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetBtnEdit(true);
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);
-	dialog.exec();
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		node = dialog.GetInfoData();
+		m_pMgr->RequestSetTrackInfo(m_nOptionID, m_EventID, node);
+	}
 }
 
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
