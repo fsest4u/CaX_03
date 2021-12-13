@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
+    <width>592</width>
     <height>58</height>
    </rect>
   </property>
@@ -17,29 +17,35 @@
    <string notr="true">QLabel
 {
 	color: rgb(84, 84, 84);
-	font: 20pt &quot;Segoe UI&quot;;
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>20</number>
+   </property>
    <property name="leftMargin">
     <number>50</number>
    </property>
-   <property name="topMargin">
-    <number>5</number>
-   </property>
    <property name="rightMargin">
-    <number>20</number>
+    <number>50</number>
    </property>
-   <property name="bottomMargin">
-    <number>5</number>
-   </property>
-   <property name="horizontalSpacing">
-    <number>18</number>
-   </property>
-   <property name="verticalSpacing">
-    <number>0</number>
-   </property>
-   <item row="0" column="1">
+   <item>
+    <spacer name="horizontalSpacerIndent">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>5</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
     <widget class="QFrame" name="frameFormCoverArt">
      <property name="minimumSize">
       <size>
@@ -84,14 +90,98 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="6">
+   <item>
+    <widget class="QLabel" name="labelPlay">
+     <property name="minimumSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+  border-image: url(&quot;:/resource/audiocd-popup-icon16-play.png&quot;);
+}
+
+QLabel:hover
+{
+  border-image: url(&quot;:/resource/btm-btn40-play-h.png&quot;);
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelTitle">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>title</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelSubtitle">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>subtitle</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelDuration">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>duration</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="labelFilesize">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
      <property name="text">
       <string>filesize</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="7">
+   <item>
     <widget class="QFrame" name="frameMenu">
      <property name="minimumSize">
       <size>
@@ -144,73 +234,6 @@ QPushButton::menu-indicator
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QLabel" name="labelTitle">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="text">
-      <string>title</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="5">
-    <widget class="QLabel" name="labelDuration">
-     <property name="text">
-      <string>duration</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <spacer name="horizontalSpacerIndent">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>5</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="4">
-    <widget class="QLabel" name="labelSubtitle">
-     <property name="text">
-      <string>subtitle</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="labelPlay">
-     <property name="minimumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel
-{
-  border-image: url(&quot;:/resource/audiocd-popup-icon16-play.png&quot;);
-}
-
-QLabel:hover
-{
-  border-image: url(&quot;:/resource/btm-btn40-play-h.png&quot;);
-}</string>
-     </property>
     </widget>
    </item>
   </layout>

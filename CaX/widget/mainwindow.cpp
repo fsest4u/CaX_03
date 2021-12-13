@@ -249,12 +249,8 @@ void MainWindow::SlotBtnNext()
 
 void MainWindow::SlotBtnSearch()
 {
-//	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
-//	dialog.exec();
-
 	m_bCBSearch = !m_bCBSearch;
 	ui->widgetTop->ShowCBSearch(m_bCBSearch);
-
 }
 
 void MainWindow::ReadSettings()

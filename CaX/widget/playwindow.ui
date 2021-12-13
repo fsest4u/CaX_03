@@ -416,7 +416,8 @@ QPushButton:hover
                 <widget class="QLabel" name="labelCurTime">
                  <property name="font">
                   <font>
-                   <family>Segoe UI Semilight</family>
+                   <family>Segoe UI</family>
+                   <pointsize>12</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -438,7 +439,8 @@ QPushButton:hover
                 <widget class="QLabel" name="labelTotalTime">
                  <property name="font">
                   <font>
-                   <family>Segoe UI Semilight</family>
+                   <family>Segoe UI</family>
+                   <pointsize>12</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -692,7 +694,10 @@ QPushButton::menu-indicator
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QGridLayout" name="gridLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -705,10 +710,7 @@ QPushButton::menu-indicator
          <property name="bottomMargin">
           <number>9</number>
          </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
+         <item>
           <widget class="QDial" name="dial">
            <property name="minimumSize">
             <size>
@@ -731,7 +733,7 @@ QPushButton::menu-indicator
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item>
           <widget class="QLabel" name="labelDial">
            <property name="minimumSize">
             <size>
