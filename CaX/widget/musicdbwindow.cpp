@@ -171,6 +171,9 @@ void MusicDBWindow::AddWidgetTrack(int typeMode)
 		m_pInfoTracks->GetFormPlay()->ShowFavorite(false);
 		m_pInfoTracks->GetFormPlay()->ShowRating(false);
 	}
+
+	m_pListTracks->SetLineEditReadOnly(false);
+
 }
 
 void MusicDBWindow::RequestCategoryList()
@@ -991,6 +994,15 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 	}
 }
 
+void MusicDBWindow::SlotRespUpdateCategory(int updateId)
+{
+	if (updateId >= 0)
+	{
+		m_nID = updateId;
+	}
+	RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+}
+
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 {
 
@@ -1064,6 +1076,24 @@ void MusicDBWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
 	emit SigRemoveWidget(this);
 }
 
+void MusicDBWindow::SlotEditAllArtist(QString value)
+{
+	LogDebug("edit artist [%s]", value.toUtf8().data());
+	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_ARTIST, value);
+}
+
+void MusicDBWindow::SlotEditAllAlbum(QString value)
+{
+	LogDebug("edit album [%s]", value.toUtf8().data());
+	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_ALBUM, value);
+}
+
+void MusicDBWindow::SlotEditAllGenre(QString value)
+{
+	LogDebug("edit genre [%s]", value.toUtf8().data());
+	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_GENRE, value);
+}
+
 void MusicDBWindow::ConnectSigToSlot()
 {
 	// recursive
@@ -1081,7 +1111,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfoList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryInfoList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
-
+	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
@@ -1128,6 +1158,10 @@ void MusicDBWindow::ConnectSigToSlot()
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
+	connect(m_pListTracks, SIGNAL(SigEditAllArtist(QString)), this, SLOT(SlotEditAllArtist(QString)));
+	connect(m_pListTracks, SIGNAL(SigEditAllAlbum(QString)), this, SLOT(SlotEditAllAlbum(QString)));
+	connect(m_pListTracks, SIGNAL(SigEditAllGenre(QString)), this, SLOT(SlotEditAllGenre(QString)));
+
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));

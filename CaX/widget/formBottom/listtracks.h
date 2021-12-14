@@ -45,11 +45,16 @@ public:
 	ListTracksDelegate	*GetDelegate();
 
 	void SetBackgroundTask(QThread *thread);
+	void SetLineEditReadOnly(bool readOnly);
 
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);
 	void SigAppendList();
+
+	void SigEditAllArtist(QString value);
+	void SigEditAllAlbum(QString value);
+	void SigEditAllGenre(QString value);
 
 private slots:
 
@@ -58,8 +63,13 @@ private slots:
 	void SlotScrollValueChanged(int value);
 	void SlotDoubleClickItem(const QModelIndex& index);
 
+	void SlotEditAllArtist();
+	void SlotEditAllAlbum();
+	void SlotEditAllGenre();
+
 private:
 
+	void ConnectSigToSlot();
 	void Initialize();
 
 	QListView				*m_ListView;

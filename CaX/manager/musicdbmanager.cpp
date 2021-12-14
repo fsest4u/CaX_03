@@ -507,6 +507,56 @@ void MusicDBManager::RequestSetCoverArt(int id, int category, int eventID, QStri
 
 }
 
+void MusicDBManager::RequestCheckCategory(int id, int category, int updateCategory, QString updateName)
+{
+	m_ID = id;
+	m_Category = category;
+	m_UpdateCategory = updateCategory;
+	m_UpdateName = updateName;
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryCheckCategory(m_UpdateCategory, m_UpdateName));
+
+	RequestCommand(node, MUSICDB_CHECK_CATEGORY);
+}
+
+void MusicDBManager::RequestInsertCategory(int updateCategory, QString updateName)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryInsertCategory(updateCategory, updateName));
+
+	RequestCommand(node, MUSICDB_INSERT_CATEGORY);
+}
+
+void MusicDBManager::RequestUpdateCategory(int id, int category, int updateCategory, int updateId)
+{
+	if (updateCategory == category)
+	{
+		m_ID = updateId;
+	}
+	else
+	{
+		m_ID = -1;
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryUpdateCategory(id, category, updateCategory, updateId));
+
+	RequestCommand(node, MUSICDB_UPDATE_CATEGORY);
+}
+
 void MusicDBManager::RequestRandom()
 {
 	CJsonNode node(JSON_OBJECT);
@@ -573,6 +623,15 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_TRACK_INFO:
 		ParseTrackInfo(node);
 		return;
+	case MUSICDB_CHECK_CATEGORY:
+		ParseCheckCategory(node);
+		return;
+	case MUSICDB_INSERT_CATEGORY:
+		ParseInsertCategory(node);
+		return;
+	case MUSICDB_UPDATE_CATEGORY:
+		ParseUpdateCategory(node);
+		return;
 	case MUSICDB_MAX:
 		emit SigRespError(STR_INVALID_ID);
 		return;
@@ -625,6 +684,10 @@ void MusicDBManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
 
 void MusicDBManager::InitMusic()
 {
+	m_ID = -1;
+	m_Category = -1;
+	m_UpdateCategory = -1;
+	m_UpdateName = "";
 }
 
 void MusicDBManager::ParseMusicOverview(CJsonNode result)
@@ -713,6 +776,56 @@ void MusicDBManager::ParseTrackInfo(CJsonNode node)
 void MusicDBManager::ParseSearchCoverArt(CJsonNode node)
 {
 	emit SigRespSearchCoverArt(node);
+}
+
+void MusicDBManager::ParseCheckCategory(CJsonNode node)
+{
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+		LogDebug("insert updateCategory[%d], updateName[%s]", m_UpdateCategory, m_UpdateName.toUtf8().data());
+		RequestInsertCategory(m_UpdateCategory, m_UpdateName);
+	}
+	else
+	{
+		int updateId = -1;
+		QList<CJsonNode> list = ParseResultNode(result);
+		foreach (CJsonNode node, list)
+		{
+			updateId = node.GetString(KEY_ID_LOWER).toInt();
+		}
+
+		LogDebug("exist & update id[%d] category[%d], updateId[%d]", m_ID, m_Category, updateId);
+		RequestUpdateCategory(m_ID, m_Category, m_UpdateCategory, updateId);
+	}
+}
+
+void MusicDBManager::ParseInsertCategory(CJsonNode node)
+{
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+		LogDebug("error insert updateCategory[%d], updateName[%s]", m_UpdateCategory, m_UpdateName.toUtf8().data());
+//		emit SigRespError("error insert category");
+	}
+	else
+	{
+		int updateId = -1;
+		QList<CJsonNode> list = ParseResultNode(result);
+		foreach (CJsonNode node, list)
+		{
+			updateId = node.GetString(KEY_ID_LOWER).toInt();
+		}
+
+		LogDebug("update category id[%d] category[%d], updateId[%d]", m_ID, m_Category, updateId);
+		RequestUpdateCategory(m_ID, m_Category, m_UpdateCategory, updateId);
+	}
+}
+
+void MusicDBManager::ParseUpdateCategory(CJsonNode node)
+{
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	emit SigRespUpdateCategory(m_ID);
 }
 
 QList<CJsonNode> MusicDBManager::ParseResultNode(CJsonNode result)

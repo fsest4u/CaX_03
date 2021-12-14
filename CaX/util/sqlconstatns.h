@@ -586,5 +586,139 @@ WHERE Song.IsDel = 0 and Song.ROWID = %1	\
 "
 
 
+////////////////////////////////////////////
+/// Check category
+////////////////////////////////////////////
+
+#define SQL_CHECK_ALBUM	"	\
+SELECT	\
+	ROWID AS id	\
+FROM Album	\
+WHERE Album.IsDel = 0 AND Album.Name = '%1'	\
+"
+
+#define SQL_CHECK_ALBUMARTIST	"	\
+SELECT	\
+	ROWID AS id	\
+FROM AlbumArtist	\
+WHERE AlbumArtist.IsDel = 0 AND AlbumArtist.Name = '%1'	\
+"
+
+#define SQL_CHECK_ARTIST	"	\
+SELECT	\
+	ROWID AS id	\
+FROM Artist	\
+WHERE Artist.IsDel = 0 AND Artist.Name = '%1'	\
+"
+
+#define SQL_CHECK_GENRE	"	\
+SELECT	\
+	ROWID AS id	\
+FROM Genre	\
+WHERE Genre.IsDel = 0 AND Genre.Name = '%1'	\
+"
+
+#define SQL_CHECK_COMPOSER	"	\
+SELECT	\
+	ROWID AS id	\
+FROM Composer	\
+WHERE Composer.IsDel = 0 AND Composer.Name = '%1'	\
+"
+
+#define SQL_CHECK_MOOD	"	\
+SELECT	\
+	ROWID AS id	\
+FROM Mood	\
+WHERE Mood.IsDel = 0 AND Mood.Name = '%1'	\
+"
+
+////////////////////////////////////////////
+/// Insert category
+////////////////////////////////////////////
+
+#define SQL_INSERT_ALBUM		"	\
+INSERT INTO	\
+	Album (Name)	\
+VALUES ('%1');		\
+SELECT	\
+	ROWID AS id	\
+FROM Album	\
+ORDER BY ROWID DESC	\
+LIMIT 1;	\
+"
+
+#define SQL_INSERT_ALBUMARTIST		"	\
+INSERT INTO	\
+	AlbumArtist (Name)	\
+VALUES ('%1');		\
+SELECT	\
+	ROWID AS id	\
+FROM AlbumArtist	\
+ORDER BY ROWID DESC	\
+LIMIT 1;	\
+"
+
+#define SQL_INSERT_ARTIST		"	\
+INSERT INTO	\
+	Artist (Name)	\
+VALUES ('%1');		\
+SELECT	\
+	ROWID AS id	\
+FROM Artist	\
+ORDER BY ROWID DESC	\
+LIMIT 1;	\
+"
+
+#define SQL_INSERT_GENRE		"	\
+INSERT INTO	\
+	Genre (Name)	\
+VALUES ('%1');		\
+SELECT	\
+	ROWID AS id	\
+FROM Genre	\
+ORDER BY ROWID DESC	\
+LIMIT 1;	\
+"
+
+
+#define SQL_INSERT_COMPOSER		"	\
+INSERT INTO	\
+	Composer (Name)	\
+VALUES ('%1');		\
+SELECT	\
+	ROWID AS id	\
+FROM Composer	\
+ORDER BY ROWID DESC	\
+LIMIT 1;	\
+"
+
+
+#define SQL_INSERT_MOOD		"	\
+INSERT INTO	\
+	Mood (Name)	\
+VALUES ('%1');		\
+SELECT	\
+	ROWID AS id	\
+FROM Mood	\
+ORDER BY ROWID DESC	\
+LIMIT 1;	\
+"
+
+
+////////////////////////////////////////////
+/// Update category
+////////////////////////////////////////////
+
+
+#define SQL_UPDATE_ALBUM		"UPDATE Song SET AlbumID = %1 WHERE Song.%2ID = %3"
+#define SQL_UPDATE_ALBUMARTIST	"UPDATE Song SET AlbumArtistID =%1 WHERE Song.%2ID = %3"
+#define SQL_UPDATE_ARTIST		"UPDATE Song SET ArtistID = %1 WHERE Song.%2ID = %3"
+#define SQL_UPDATE_GENRE		"UPDATE Song SET GenreID = %1 WHERE Song.%2ID = %3"
+#define SQL_UPDATE_COMPOSER		"UPDATE Song SET ComposerID = %1 WHERE Song.%2ID = %3"
+#define SQL_UPDATE_MOOD			"UPDATE Song SET MoodID = %1 WHERE Song.%2ID = %3"
+
+
+
 
 #endif // SQLCONSTATNS_H
+

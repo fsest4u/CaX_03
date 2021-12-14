@@ -480,3 +480,102 @@ QString SQLManager::GetQueryQueueCategoryInfo(int nID)
 
 	return query;
 }
+
+QString SQLManager::GetQueryCheckCategory(int updateCategory, QString updateName)
+{
+	QString query;
+
+	switch (updateCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = QString(SQL_CHECK_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_ALBUMARTIST:
+		query = QString(SQL_CHECK_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_ARTIST:
+		query = QString(SQL_CHECK_ARTIST).arg(updateName);
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_CHECK_GENRE).arg(updateName);
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_CHECK_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_MOOD:
+		query = QString(SQL_CHECK_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_TRACK:
+		query = QString(SQL_CHECK_ALBUM).arg(updateName);
+		break;
+	}
+
+	return query;
+}
+
+QString SQLManager::GetQueryInsertCategory(int updateCategory, QString updateName)
+{
+	QString query;
+
+	switch (updateCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = QString(SQL_INSERT_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_ALBUMARTIST:
+		query = QString(SQL_INSERT_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_ARTIST:
+		query = QString(SQL_INSERT_ARTIST).arg(updateName);
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_INSERT_GENRE).arg(updateName);
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_INSERT_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_MOOD:
+		query = QString(SQL_INSERT_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_TRACK:
+		query = QString(SQL_INSERT_ALBUM).arg(updateName);
+		break;
+	}
+
+	return query;
+}
+
+QString SQLManager::GetQueryUpdateCategory(int id, int category, int updateCategory, int updateId)
+{
+	QString query;
+
+	QString categoryName = GetCategoryName(category);
+
+
+	switch (updateCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = QString(SQL_UPDATE_ALBUM).arg(updateId).arg(categoryName).arg(id);
+		break;
+	case CATEGORY_ALBUMARTIST:
+		query = QString(SQL_UPDATE_ALBUM).arg(updateId).arg(categoryName).arg(id);
+		break;
+	case CATEGORY_ARTIST:
+		query = QString(SQL_UPDATE_ARTIST).arg(updateId).arg(categoryName).arg(id);
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_UPDATE_GENRE).arg(updateId).arg(categoryName).arg(id);
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_UPDATE_ALBUM).arg(updateId).arg(categoryName).arg(id);
+		break;
+	case CATEGORY_MOOD:
+		query = QString(SQL_UPDATE_ALBUM).arg(updateId).arg(categoryName).arg(id);
+		break;
+	case CATEGORY_TRACK:
+		query = QString(SQL_UPDATE_ALBUM).arg(updateId).arg(categoryName).arg(id);
+		break;
+	}
+
+	return query;
+}

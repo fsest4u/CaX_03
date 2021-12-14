@@ -8,6 +8,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/loading.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
@@ -23,6 +24,7 @@ ListTracks::ListTracks(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	ConnectSigToSlot();
 	Initialize();
 }
 
@@ -221,6 +223,36 @@ void ListTracks::SetBackgroundTask(QThread *thread)
 	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
 }
 
+void ListTracks::SetLineEditReadOnly(bool readOnly)
+{
+	if (readOnly)
+	{
+		ui->labelHeaderTime->setText("");
+		ui->lineEditHeaderArtist->setText("");
+		ui->lineEditHeaderAlbum->setText("");
+		ui->lineEditHeaderGenre->setText("");
+
+		ui->lineEditHeaderArtist->setPlaceholderText("");
+		ui->lineEditHeaderAlbum->setPlaceholderText("");
+		ui->lineEditHeaderGenre->setPlaceholderText("");
+	}
+	else
+	{
+		ui->labelHeaderTime->setText(KEY_TIME_CAP);
+		ui->lineEditHeaderArtist->setText("");
+		ui->lineEditHeaderAlbum->setText("");
+		ui->lineEditHeaderGenre->setText("");
+
+		ui->lineEditHeaderArtist->setPlaceholderText(STR_ARTIST);
+		ui->lineEditHeaderAlbum->setPlaceholderText(STR_ALBUM);
+		ui->lineEditHeaderGenre->setPlaceholderText(STR_GENRE);
+	}
+
+	ui->lineEditHeaderArtist->setReadOnly(readOnly);
+	ui->lineEditHeaderAlbum->setReadOnly(readOnly);
+	ui->lineEditHeaderGenre->setReadOnly(readOnly);
+}
+
 void ListTracks::SlotReqCoverArt()
 {
 	int index = 0;
@@ -269,6 +301,31 @@ void ListTracks::SlotDoubleClickItem(const QModelIndex &index)
 	}
 }
 
+void ListTracks::SlotEditAllArtist()
+{
+	emit SigEditAllArtist(ui->lineEditHeaderArtist->text());
+	ui->lineEditHeaderArtist->setText("");
+}
+
+void ListTracks::SlotEditAllAlbum()
+{
+	emit SigEditAllAlbum(ui->lineEditHeaderAlbum->text());
+	ui->lineEditHeaderAlbum->setText("");
+}
+
+void ListTracks::SlotEditAllGenre()
+{
+	emit SigEditAllGenre(ui->lineEditHeaderGenre->text());
+	ui->lineEditHeaderGenre->setText("");
+}
+
+void ListTracks::ConnectSigToSlot()
+{
+	connect(ui->lineEditHeaderArtist, SIGNAL(returnPressed()), this, SLOT(SlotEditAllArtist()));
+	connect(ui->lineEditHeaderAlbum, SIGNAL(returnPressed()), this, SLOT(SlotEditAllAlbum()));
+	connect(ui->lineEditHeaderGenre, SIGNAL(returnPressed()), this, SLOT(SlotEditAllGenre()));
+}
+
 void ListTracks::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -281,6 +338,11 @@ void ListTracks::Initialize()
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
+
+	ui->labelHeaderTitle->setText(KEY_TITLE_CAP);
+	ui->labelHeaderMenu->setText(KEY_INFO);
+
+	SetLineEditReadOnly(true);
 
 }
 
