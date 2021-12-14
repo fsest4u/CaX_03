@@ -114,8 +114,6 @@ private slots:
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
 
-
-
 	void SlotOptionMenuAction(int nID, int menuID);
 
 	void SlotTopMenuAddToPlaylist(int id);

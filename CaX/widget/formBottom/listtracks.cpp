@@ -97,12 +97,14 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 		foreach (CJsonNode node, list)
 		{
 //			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			int seconds = node.GetInt(KEY_TIME);
+			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
 			item->setData(node.GetString(KEY_TITLE), ListTracksDelegate::LIST_TRACKS_TITLE);
-			item->setData(node.GetString(KEY_TIME), ListTracksDelegate::LIST_TRACKS_TIME);
+			item->setData(hhmmss, ListTracksDelegate::LIST_TRACKS_TIME);
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);

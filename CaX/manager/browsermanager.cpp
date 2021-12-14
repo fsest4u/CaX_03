@@ -307,8 +307,9 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_SCAN_DB:
 	case BROWSER_REMOVE_DB:
 	case BROWSER_SET_ART:
-	case BROWSER_SET_TAG:
 		emit SigListUpdate();
+		break;
+	case BROWSER_SET_TAG:
 		break;
 	case BROWSER_INFO_TAG:
 		ParseInfoTag(node);

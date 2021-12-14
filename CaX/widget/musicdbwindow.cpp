@@ -951,10 +951,10 @@ void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);
-	dialog.SetArtistList(m_ArtistList);
-	dialog.SetGenreList(m_GenreList);
-	dialog.SetComposerList(m_ComposerList);
-	dialog.SetMoodList(m_MoodList);
+//	dialog.SetArtistList(m_ArtistList);
+//	dialog.SetGenreList(m_GenreList);
+//	dialog.SetComposerList(m_ComposerList);
+//	dialog.SetMoodList(m_MoodList);
 	dialog.SetBtnEdit(true);
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);
@@ -975,6 +975,12 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 	TrackInfoDialog dialog;
 	dialog.SetWindowTitle("Track info");
 	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetAlbumList(m_AlbumList);
+	dialog.SetAlbumArtistList(m_AlbumArtistList);
+	dialog.SetArtistList(m_ArtistList);
+	dialog.SetGenreList(m_GenreList);
+	dialog.SetComposerList(m_ComposerList);
+	dialog.SetMoodList(m_MoodList);
 	dialog.SetBtnEdit(true);
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);
@@ -1164,6 +1170,8 @@ void MusicDBWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+
+	m_pListTracks->SetLineEditReadOnly(true);
 
 }
 
@@ -1622,6 +1630,13 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUMARTIST);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
+
 		m_pMgr->RequestTrackInfo(nID);
 	}
 }

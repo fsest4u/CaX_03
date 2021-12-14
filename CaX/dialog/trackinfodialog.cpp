@@ -49,6 +49,10 @@ int TrackInfoDialog::GetMode() const
 void TrackInfoDialog::SetMode(int Mode)
 {
 	m_TrackInfo->SetMode(Mode);
+	if (Mode == TrackInfo::TRACK_INFO_MODE_EDIT)
+	{
+		ui->btnSave->show();
+	}
 }
 
 void TrackInfoDialog::SetWindowTitle(QString title)
