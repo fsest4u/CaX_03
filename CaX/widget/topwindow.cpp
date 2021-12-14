@@ -1,3 +1,5 @@
+#include <QKeyEvent>
+
 #include "topwindow.h"
 #include "ui_topwindow.h"
 
@@ -107,7 +109,7 @@ void TopWindow::ShowCBSearch(bool show)
 	}
 	else
 	{
-		QString keyword = ui->cbSearch->currentText().toUtf8().data();
+		QString keyword = ui->cbSearch->currentText();
 
 		if (keyword.length() < SEARCH_WORD_LIMIT_COUNT)
 		{
@@ -120,6 +122,23 @@ void TopWindow::ShowCBSearch(bool show)
 
 		emit SigSearchKeyword(keyword);
 	}
+}
+
+bool TopWindow::eventFilter(QObject *object, QEvent *event)
+{
+	if (event->type() == QEvent::KeyPress)
+	{
+		QKeyEvent* key = static_cast<QKeyEvent*>(event);
+		if ( (key->key()==Qt::Key_Enter) || (key->key()==Qt::Key_Return) )
+		{
+			if (object == ui->cbSearch)
+			{
+				ShowCBSearch(false);
+			}
+		}
+	}
+
+	return QObject::eventFilter(object, event);
 }
 
 //void TopWindow::ClearCBSearch()
@@ -159,17 +178,10 @@ void TopWindow::SlotMenuAction(QAction *action)
 	emit SigMenuAction(action->data().toInt());
 }
 
-//void TopWindow::SlotInputSearchKeyword(const QString keyword)
-//{
-//	LogDebug("keyword [%s]", keyword.toUtf8().data());
-//}
-
 void TopWindow::ConnectSigToSlot()
 {
 	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
-//	connect(ui->cbSearch, SIGNAL(editTextChanged(const QString)), this, SLOT(SlotInputSearchKeyword(const QString)));
-//	connect(ui->cbSearch, SIGNAL(currentTextChanged(const QString)), this, SLOT(SlotInputSearchKeyword(const QString)));
 }
 
 void TopWindow::Initialize()
@@ -194,4 +206,6 @@ void TopWindow::Initialize()
 	m_TitleList.clear();
 
 	ui->cbSearch->hide();
+	ui->cbSearch->installEventFilter(this);
+
 }

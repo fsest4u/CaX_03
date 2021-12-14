@@ -42,11 +42,14 @@ signals:
 
 	void SigSearchKeyword(QString keyword);
 
+protected:
+
+	bool eventFilter(QObject *object, QEvent *event);
+
 private slots:
 
 	void SlotMenu();
 	void SlotMenuAction(QAction *action);
-//	void SlotInputSearchKeyword(const QString keyword);
 
 private:
 
