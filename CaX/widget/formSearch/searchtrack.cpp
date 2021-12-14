@@ -64,13 +64,15 @@ void SearchTrack::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 
 	foreach (CJsonNode node, m_NodeList)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		int seconds = node.GetInt(KEY_TIME);
+		QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
 		QStandardItem *item = new QStandardItem;
 		int nID = node.GetString(KEY_ID_LOWER).toInt();
 		item->setData(nID, SearchTrackDelegate::SEARCH_TRACKS_ID);
 		item->setData(node.GetString(KEY_TITLE), SearchTrackDelegate::SEARCH_TRACKS_TITLE);
-		item->setData(node.GetString(KEY_TIME), SearchTrackDelegate::SEARCH_TRACKS_TIME);
+		item->setData(hhmmss, SearchTrackDelegate::SEARCH_TRACKS_TIME);
 		item->setData(node.GetString(KEY_ARTIST), SearchTrackDelegate::SEARCH_TRACKS_ARTIST);
 		item->setData(node.GetInt(KEY_ALBUM_ID), SearchTrackDelegate::SEARCH_TRACKS_ALBUM_ID);
 		item->setData(node.GetString(KEY_ALBUM), SearchTrackDelegate::SEARCH_TRACKS_ALBUM);
