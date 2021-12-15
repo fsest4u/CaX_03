@@ -70,7 +70,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			type = type | node.GetInt(KEY_TYPE);
 			QString path = node.GetString(KEY_PATH);
 
@@ -99,6 +99,8 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetInt(KEY_ID_UPPER), IconServiceDelegate::ICON_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);

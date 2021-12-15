@@ -111,16 +111,22 @@ void QobuzManager::RequestCategory(int nType, QString strID, int nStart, int nCo
 	RequestCommand(node, QOBUZ_CATEGORY);
 }
 
-void QobuzManager::RequestPlay(CJsonNode srcNode)
+void QobuzManager::RequestPlay(QMap<int, CJsonNode> nodeMap, int nWhere)
 {
+	CJsonNode nodeArr(JSON_ARRAY);
+	QMap<int, CJsonNode>::iterator i;
+	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+		nodeArr.AppendArray(i.value());
+	}
+
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_QOBUZ);
 	node.Add	(KEY_CMD1,		VAL_PLAY);
-	node.AddInt	(KEY_WHERE,		3);	// play new
+	node.AddInt	(KEY_WHERE,		nWhere);
 
-	CJsonNode trackNode(JSON_ARRAY);
-	trackNode.AppendArray(srcNode);
-	node.Add	(KEY_TRACKS,	trackNode);
+	node.Add	(KEY_TRACKS,	nodeArr);
 
 	RequestCommand(node, QOBUZ_PLAY);
 }
@@ -150,7 +156,7 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	QString strMsg;
 	bool	bSuccess = false;
@@ -192,10 +198,10 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 		case QOBUZ_RECOMMEND:
 		case QOBUZ_FAVORITE:
 		case QOBUZ_PLAYLIST:
-			ParseList(node);
+			ParseList(node, false);
 			break;
 		case QOBUZ_GENRE_SUB:
-			ParseGenreSubList(node);
+			ParseList(node, true);
 			break;
 		case QOBUZ_PLAY:
 			break;
@@ -211,7 +217,7 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 
 }
 
-void QobuzManager::ParseList(CJsonNode node)
+void QobuzManager::ParseList(CJsonNode node, bool genre)
 {
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
@@ -226,24 +232,6 @@ void QobuzManager::ParseList(CJsonNode node)
 		nodeList.append(result.GetArrayAt(i));
 	}
 
-	emit SigRespList(nodeList);
-}
-
-void QobuzManager::ParseGenreSubList(CJsonNode node)
-{
-	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
-	{
-		emit SigRespError(STR_NO_RESULT);
-		return;
-	}
-
-	QList<CJsonNode> nodeList;
-	for (int i = 0; i < result.ArraySize(); i++)
-	{
-		nodeList.append(result.GetArrayAt(i));
-	}
-
-	emit SigRespGenreSubList(nodeList);
+	emit SigRespList(nodeList, genre);
 }
 

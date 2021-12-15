@@ -85,7 +85,7 @@ void AirableManager::RequestPlay(int nServiceType, CJsonNode srcNode)
 	int nType = srcNode.GetInt(KEY_TYPE);
 
 	srcNode.Del(KEY_TYPE);
-	srcNode.Del(KEY_ICON);
+	srcNode.Del(KEY_ART);
 	srcNode.Del(KEY_ACTS);
 
 	CJsonNode node(JSON_OBJECT);

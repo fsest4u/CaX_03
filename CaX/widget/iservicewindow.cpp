@@ -46,6 +46,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	m_pListThread(new QThread),
 	m_WebURL(""),
 	m_ServiceType(-1),
+	m_bGenre(false),
 	ui(new Ui::IServiceWindow)
 {
 	ui->setupUi(this);
@@ -132,50 +133,37 @@ void IServiceWindow::RequestIServiceURL(int nServiceType, QString url)
 
 void IServiceWindow::RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount)
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pListService);
-
 	m_pQobuzMgr->RequestSearch(nType, keyword, nStart, nCount);
 }
 
 void IServiceWindow::RequestQobuzGenre(QString strID)
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pListService);
-
 	m_pQobuzMgr->RequestGenre(strID);
 }
 
 void IServiceWindow::RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount, QString strGenreID)
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pListService);
-
 	m_pQobuzMgr->RequestRecommend(nType, strID, nStart, nCount, strGenreID);
 }
 
 void IServiceWindow::RequestQobuzFavorite(int nType, int nStart, int nCount)
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pListService);
-
 	m_pQobuzMgr->RequestFavorite(nType, nStart, nCount);
 }
 
 void IServiceWindow::RequestQobuzPlaylist(int nStart, int nCount)
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pListService);
-
 	m_pQobuzMgr->RequestPlaylist(nStart, nCount);
 }
 
 void IServiceWindow::RequestQobuzCategory(int nType, QString strID, int nStart, int nCount)
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pListService);
-
 	m_pQobuzMgr->RequestCategory(nType, strID, nStart, nCount);
+}
+
+void IServiceWindow::RequestQobuzPlay(QMap<int, CJsonNode> nodeMap, int nWhere)
+{
+	m_pQobuzMgr->RequestPlay(nodeMap, nWhere);
 }
 
 AirableManager *IServiceWindow::GetAirableManager()
@@ -225,6 +213,16 @@ void IServiceWindow::AddWidgetItem()
 
 }
 
+bool IServiceWindow::GetGenre() const
+{
+	return m_bGenre;
+}
+
+void IServiceWindow::SetGenre(bool bGenre)
+{
+	m_bGenre = bGenre;
+}
+
 void IServiceWindow::SlotAddWidget(QWidget *widget, QString title)
 {
 	emit SigAddWidget(widget, title);		// recursive
@@ -248,47 +246,38 @@ void IServiceWindow::SlotRespError(QString errMsg)
 
 void IServiceWindow::SlotSelectIconTitle(int nType)
 {
-	UtilNovatron::DebugTypeForIService("SlotSelectIconTitle", nType);
-
 	if (iIServiceType_Qobuz == nType)
 	{
+		UtilNovatron::DebugTypeForQobuz("SlotSelectIconTitle", nType);
 		m_pQobuzMgr->RequestLogin();
 	}
 	else if (iIServiceType_Radios <= nType && nType <= iIServiceType_AmazonMusic)
 	{
+		UtilNovatron::DebugTypeForIService("SlotSelectIconTitle", nType);
 		m_pAirableMgr->RequestAuth(nType);
 	}
-//	else if (iQobuzType_Mask_Search == nType)
-//	{
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->DoQobuzSearch();
-//	}
-//	else if (iQobuzType_Mask_Recommend == nType)
-//	{
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->DoQobuzRecommend();
-//	}
-//	else if (iQobuzType_Mask_Favorite == nType)
-//	{
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->DoQobuzFavorite();
-//	}
-//	else if (iQobuzType_Mask_UserPlaylist == nType)
-//	{
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->RequestQobuzPlaylist(0, 50);
-//	}
 }
 
 void IServiceWindow::SlotSelectTitle(int nType, CJsonNode node)
 {
 	if (iIServiceType_Qobuz == m_ServiceType)
 	{
-		SelectTitleForQobuz(nType, node);
+		if (iQobuzType_Mask_Search & nType)
+		{
+			SelectSearchForQobuz(nType, node);
+		}
+		else if (iQobuzType_Mask_Recommend & nType)
+		{
+			SelectRecommendForQobuz(nType, node);
+		}
+		else if (iQobuzType_Mask_Favorite & nType)
+		{
+			SelectFavoriteForQobuz(nType, node);
+		}
+		else if ((iQobuzType_Mask_UserPlaylist & nType))
+		{
+			SelectUserPlaylistForQobuz(nType, node);
+		}
 	}
 	else
 	{
@@ -330,7 +319,7 @@ void IServiceWindow::SlotSelectTitle(int nType, CJsonNode node)
 //		{
 //			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 //			emit SigAddWidget(widget, STR_ISERVICE);
-//			widget->RequestQobuzCategory(nType, strID, 0, 50);
+//			widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 //		}
 //		else if (nType & iQobuzType_Mask_Menu_Genre)
 //		{
@@ -341,7 +330,7 @@ void IServiceWindow::SlotSelectTitle(int nType, CJsonNode node)
 
 //				IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 //				emit SigAddWidget(widget, STR_ISERVICE);
-//				widget->RequestQobuzRecommend(nType, strID, 0, 50, strGenreID);
+//				widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT, strGenreID);
 //			}
 //			else
 //			{
@@ -408,9 +397,7 @@ void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
 
 void IServiceWindow::SlotRespQobuzLoginSuccess()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-	emit SigAddWidget(widget, STR_ISERVICE);
-	widget->DoQobuzHome();
+	DoQobuzHome();
 }
 
 void IServiceWindow::SlotRespAirableLoginFail(CJsonNode node)
@@ -458,22 +445,19 @@ void IServiceWindow::SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAut
 
 }
 
-void IServiceWindow::SlotRespList(QList<CJsonNode> list)
+void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre)
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
 	emit SigAddWidget(widget, STR_ISERVICE);
 	widget->SetServiceType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 
+	widget->GetInfoBrowser()->SetSubtitle(QOBUZ_TITLE);
+
 	widget->GetListBrowser()->ClearNodeList();
 	widget->GetListBrowser()->SetNodeList(list, -1);
 
-}
-
-void IServiceWindow::SlotRespGenreSubList(QList<CJsonNode> list)
-{
-//	m_pListService->SetNodeList(list, ListService::LIST_SERVICE_ISERVICE);
-	m_bGenreSubmenu = true;
+	widget->SetGenre(genre);
 }
 
 void IServiceWindow::SlotRespAuth(int nServiceType)
@@ -561,8 +545,7 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
-	connect(m_pQobuzMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
-	connect(m_pQobuzMgr, SIGNAL(SigRespGenreSubList(QList<CJsonNode>)), this, SLOT(SlotRespGenreSubList(QList<CJsonNode>)));
+	connect(m_pQobuzMgr, SIGNAL(SigRespList(QList<CJsonNode>, bool)), this, SLOT(SlotRespQobuzList(QList<CJsonNode>, bool)));
 
 
 	connect(m_pAirableMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
@@ -584,62 +567,89 @@ void IServiceWindow::Initialize()
 //	m_pInfoService->GetFormSort()->ShowResize();
 
 	m_OptionMenuMap.clear();
-
-	m_bGenreSubmenu = false;
 }
 
 void IServiceWindow::SelectTitleForQobuz(int nType, CJsonNode node)
 {
-	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
-	dialog.exec();
+	UtilNovatron::DebugTypeForQobuz("SelectTitleForQobuz", nType);
 
-//	if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
-//			 || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == nType
-//			 || (iQobuzType_Mask_Search | iQobuzType_Mask_Track) == nType
-//			 || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == nType)
-//	{
-//		LogDebug("search ");
-//		SearchDialog dialog;
-//		if (dialog.exec() == QDialog::Accepted)
-//		{
-//			QString keyword = dialog.GetKeyword();
-//			IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//			emit SigAddWidget(widget, STR_ISERVICE);
-//			widget->RequestQobuzSearch(nType, keyword, 0, 50);
-//			widget->SetInfoTitle(title);
-//		}
+	m_Node.Clear();
+	m_Node = node;
 
-//	}
-//	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
-//	{
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+
+	if (iQobuzType_Mask_Search == nType)
+	{
+		DoQobuzSearch();
+	}
+	else if (iQobuzType_Mask_Recommend == nType)
+	{
+		DoQobuzRecommend();
+	}
+	else if (iQobuzType_Mask_Favorite == nType)
+	{
+		DoQobuzFavorite();
+	}
+	else if (iQobuzType_Mask_UserPlaylist == nType)
+	{
+		RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
+	}
+
+}
+
+void IServiceWindow::SelectTitleForQobuzSubMenu(int nType, CJsonNode node)
+{
+	UtilNovatron::DebugTypeForQobuz("SelectTitleForQobuzSubMenu", nType);
+
+	m_Node.Clear();
+	m_Node = node;
+
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+
+	if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
+		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == nType
+		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Track) == nType
+		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == nType)
+	 {
+	   LogDebug("search ");
+//	   SearchDialog dialog;
+//	   if (dialog.exec() == QDialog::Accepted)
+//	   {
+//		 QString keyword = dialog.GetKeyword();
+//		 IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+//		 emit SigAddWidget(widget, STR_ISERVICE);
+//		 widget->RequestQobuzSearch(nType, keyword, QOBUZ_START, QOBUZ_COUNT);
+//	   }
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
+	{
+		LogDebug("recommend ");
 //		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 //		emit SigAddWidget(widget, STR_ISERVICE);
 //		widget->DoRecommendAlbum();
-//		widget->SetInfoTitle(title);
-//	}
-//	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
-//	{
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
+	{
+		LogDebug("recommend ");
 //		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 //		emit SigAddWidget(widget, STR_ISERVICE);
 //		widget->DoRecommendPlaylist();
-//		widget->SetInfoTitle(title);
-//	}
-//	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist) == nType
-//			|| (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album) == nType
-//			|| (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track) == nType)
-//	{
-//		LogDebug("favorite ");
+	}
+	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track) == nType)
+	{
+		LogDebug("favorite ");
 //		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 //		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->RequestQobuzFavorite(nType, 0, 50);
-//		widget->SetInfoTitle(title);
-//	}
-//	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre) == nType
-//			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
-//	{
+//		widget->RequestQobuzFavorite(nType, QOBUZ_START, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre) == nType
+			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
+	{
+		LogDebug("recommend ");
 //		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 //		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->SetInfoTitle(title);
 
 //		QString strID = node.GetString(KEY_ID_UPPER);
 //		if (!strID.compare(VAL_GENRE))
@@ -648,9 +658,197 @@ void IServiceWindow::SelectTitleForQobuz(int nType, CJsonNode node)
 //		}
 //		else
 //		{
-//			widget->RequestQobuzRecommend(nType, strID, 0, 50);
+//			widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 //		}
-//	}
+	}
+}
+
+void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
+{
+	UtilNovatron::DebugTypeForQobuz("SelectSearchForQobuz", nType);
+
+	m_Node.Clear();
+	m_Node = node;
+
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+
+	int itemType = node.GetInt(KEY_ITEM_TYPE);
+
+	if (iQobuzType_Mask_Search == nType && itemType < 0)
+	{
+		DoQobuzSearch();
+	}
+	else if (iQobuzType_Mask_Search == nType
+			 && ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == itemType
+				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == itemType
+				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Track) == itemType
+				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == itemType))
+	{
+		SearchDialog dialog;
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			QString keyword = dialog.GetKeyword();
+
+			RequestQobuzSearch(itemType, keyword, QOBUZ_START, QOBUZ_COUNT);
+		}
+	}
+	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
+		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == nType
+		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == nType)
+	{
+		QString strID = m_Node.GetString(KEY_ID_UPPER);
+		RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Track) == nType)
+	{
+		QMap<int, CJsonNode> map;
+		map.insert(0, m_Node);
+		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
+
+}
+
+void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
+{
+	UtilNovatron::DebugTypeForQobuz("SelectRecommendForQobuz", nType);
+
+	m_Node.Clear();
+	m_Node = node;
+
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+
+	if (iQobuzType_Mask_Recommend == nType)
+	{
+		DoQobuzRecommend();
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
+	{
+		DoRecommendAlbum();
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
+	{
+		DoRecommendPlaylist();
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre) == nType)
+	{
+		QString strID = node.GetString(KEY_ID_UPPER);
+		if (!strID.compare(VAL_GENRE))
+		{
+			RequestQobuzGenre();
+		}
+		else if (!strID.compare(VAL_ID_BEST_SELLERS)
+				 || !strID.compare(VAL_ID_MOST_STREAMED)
+				 || !strID.compare(VAL_ID_NEW_RELEASES)
+				 || !strID.compare(VAL_ID_PRESS_AWARDS)
+				 || !strID.compare(VAL_ID_EDITOR_PICKS)
+				 || !strID.compare(VAL_ID_MOST_FEATURED))
+		{
+			QString strGenreID = m_Node.GetString(KEY_GENRE_ID);
+			RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT, strGenreID);
+		}
+		else
+		{
+			if (m_bGenre)
+			{
+				m_bGenre = false;
+				DoRecommendGenre(nType, strID);
+			}
+			else
+			{
+				RequestQobuzGenre(strID);
+			}
+		}
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album) == nType
+			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
+	{
+		QString strID = node.GetString(KEY_ID_UPPER);
+		if (!strID.compare(VAL_ID_BEST_SELLERS)
+				 || !strID.compare(VAL_ID_MOST_STREAMED)
+				 || !strID.compare(VAL_ID_NEW_RELEASES)
+				 || !strID.compare(VAL_ID_PRESS_AWARDS)
+				 || !strID.compare(VAL_ID_EDITOR_PICKS)
+				 || !strID.compare(VAL_ID_MOST_FEATURED)
+				 || !strID.compare(VAL_ID_LAST_CREATED))
+		{
+			RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+		}
+		else
+		{
+			QString strID = m_Node.GetString(KEY_ID_UPPER);
+			RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+		}
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Track) == nType)
+	{
+		QMap<int, CJsonNode> map;
+		map.insert(0, m_Node);
+		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
+}
+
+void IServiceWindow::SelectFavoriteForQobuz(int nType, CJsonNode node)
+{
+	UtilNovatron::DebugTypeForQobuz("SelectFavoriteForQobuz", nType);
+
+	m_Node.Clear();
+	m_Node = node;
+
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+
+	if (iQobuzType_Mask_Favorite == nType)
+	{
+		DoQobuzFavorite();
+	}
+	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track) == nType)
+	{
+		RequestQobuzFavorite(nType, QOBUZ_START, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Artist) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Album) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Album) == nType)
+	{
+		QString strID = m_Node.GetString(KEY_ID_UPPER);
+		RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track | iQobuzType_Mask_Track) == nType)
+	{
+		QMap<int, CJsonNode> map;
+		map.insert(0, m_Node);
+		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
+}
+
+void IServiceWindow::SelectUserPlaylistForQobuz(int nType, CJsonNode node)
+{
+	UtilNovatron::DebugTypeForQobuz("SelectUserPlaylistForQobuz", nType);
+
+	m_Node.Clear();
+	m_Node = node;
+
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+
+	if (iQobuzType_Mask_UserPlaylist == nType)
+	{
+		RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == nType)
+	{
+		QString strID = m_Node.GetString(KEY_ID_UPPER);
+		RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Track) == nType)
+	{
+		QMap<int, CJsonNode> map;
+		map.insert(0, m_Node);
+		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
 }
 
 void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
@@ -712,86 +910,114 @@ void IServiceWindow::SetOptionMenu(int type, QString menuName)
 
 void IServiceWindow::DoQobuzHome()
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pIconService);
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget, STR_ISERVICE);
+	widget->SetServiceType(iIServiceType_Qobuz);
+	widget->AddWidgetItem();
 
 	QList<CJsonNode> list;
-	SetQobuzHome(list);
+	widget->SetQobuzHome(list);
 
-	m_pInfoService->SetTitle(QOBUZ_TITLE);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
+	widget->GetInfoBrowser()->SetSubtitle(QOBUZ_TITLE);
+
+	widget->GetListBrowser()->ClearNodeList();
+	widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
 void IServiceWindow::DoQobuzSearch()
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pIconService);
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget, STR_ISERVICE);
+	widget->SetServiceType(iIServiceType_Qobuz);
+	widget->AddWidgetItem();
 
 	QList<CJsonNode> list;
 	SetQobuzSearch(list);
 
-	m_pInfoService->SetTitle(STR_SEARCH);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
+	widget->GetInfoBrowser()->SetSubtitle(STR_SEARCH);
+
+	widget->GetListBrowser()->ClearNodeList();
+	widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
 void IServiceWindow::DoQobuzRecommend()
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pIconService);
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget, STR_ISERVICE);
+	widget->SetServiceType(iIServiceType_Qobuz);
+	widget->AddWidgetItem();
 
 	QList<CJsonNode> list;
 	SetQobuzRecommend(list);
 
-	m_pInfoService->SetTitle(STR_RECOMMEND);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
+	widget->GetInfoBrowser()->SetSubtitle(STR_RECOMMEND);
+
+	widget->GetListBrowser()->ClearNodeList();
+	widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
 void IServiceWindow::DoQobuzFavorite()
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pIconService);
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget, STR_ISERVICE);
+	widget->SetServiceType(iIServiceType_Qobuz);
+	widget->AddWidgetItem();
 
 	QList<CJsonNode> list;
 	SetQobuzFavorite(list);
 
-	m_pInfoService->SetTitle(STR_FAVORITE);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
+	widget->GetInfoBrowser()->SetSubtitle(STR_FAVORITE);
+
+	widget->GetListBrowser()->ClearNodeList();
+	widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
 void IServiceWindow::DoRecommendAlbum()
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pIconService);
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget, STR_ISERVICE);
+	widget->SetServiceType(iIServiceType_Qobuz);
+	widget->AddWidgetItem();
 
 	QList<CJsonNode> list;
 	SetRecommendAlbum(list);
 
-	m_pInfoService->SetTitle(STR_ALBUM);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
+	widget->GetInfoBrowser()->SetSubtitle(STR_ALBUM);
+
+	widget->GetListBrowser()->ClearNodeList();
+	widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
 void IServiceWindow::DoRecommendPlaylist()
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pIconService);
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget, STR_ISERVICE);
+	widget->SetServiceType(iIServiceType_Qobuz);
+	widget->AddWidgetItem();
 
 	QList<CJsonNode> list;
 	SetRecommendPlaylist(list);
 
-	m_pInfoService->SetTitle(STR_PLAYLIST);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
+	widget->GetInfoBrowser()->SetSubtitle(STR_PLAYLIST);
+
+	widget->GetListBrowser()->ClearNodeList();
+	widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
 void IServiceWindow::DoRecommendGenre(int nType, QString strID)
 {
-//	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	ui->gridLayoutBottom->addWidget(m_pListService);
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	emit SigAddWidget(widget, STR_ISERVICE);
+	widget->SetServiceType(iIServiceType_Qobuz);
+	widget->AddWidgetItem();
 
 	QList<CJsonNode> list;
 	SetRecommendGenre(list, strID);
 
-	m_pInfoService->SetTitle(STR_GENRE);
-//	m_pListService->SetNodeList(list, ListService::LIST_SERVICE_ISERVICE);
+	widget->GetInfoBrowser()->SetSubtitle(STR_GENRE);
+
+	widget->GetListBrowser()->ClearNodeList();
+	widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
 void IServiceWindow::SetIServiceHome(QList<CJsonNode> &list)
@@ -811,23 +1037,23 @@ void IServiceWindow::SetQobuzHome(QList<CJsonNode> &list)
 {
 	CJsonNode nodeSearch(JSON_OBJECT);
 	nodeSearch.AddInt(KEY_TYPE, iQobuzType_Mask_Search);
-	nodeSearch.AddString(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeSearch.AddString(KEY_NAME, "Search");
+	nodeSearch.AddString(KEY_COVER_ART, ":/resource/internets-icon40-search.png");
+	nodeSearch.AddString(KEY_TOP, VAL_SEARCH);
 
 	CJsonNode nodeRecommend(JSON_OBJECT);
 	nodeRecommend.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend);
-	nodeRecommend.AddString(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeRecommend.AddString(KEY_NAME, "Recommend");
+	nodeRecommend.AddString(KEY_COVER_ART, "");
+	nodeRecommend.AddString(KEY_TOP, VAL_RECOMMEND);
 
 	CJsonNode nodeFavorite(JSON_OBJECT);
 	nodeFavorite.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite);
-	nodeFavorite.AddString(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeFavorite.AddString(KEY_NAME, "Favorite");
+	nodeFavorite.AddString(KEY_COVER_ART, "");
+	nodeFavorite.AddString(KEY_TOP, VAL_FAVORITE);
 
 	CJsonNode nodePlaylist(JSON_OBJECT);
 	nodePlaylist.AddInt(KEY_TYPE, iQobuzType_Mask_UserPlaylist);
-	nodePlaylist.AddString(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodePlaylist.AddString(KEY_NAME, "Playlist");
+	nodePlaylist.AddString(KEY_COVER_ART, "");
+	nodePlaylist.AddString(KEY_TOP, VAL_PLAYLIST);
 
 	list.append(nodeSearch);
 	list.append(nodeRecommend);
@@ -839,37 +1065,37 @@ void IServiceWindow::SetQobuzHome(QList<CJsonNode> &list)
 void IServiceWindow::SetQobuzSearch(QList<CJsonNode> &list)
 {
 	CJsonNode nodeArtist(JSON_OBJECT);
-	nodeArtist.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Artist);
-	nodeArtist.Add(KEY_NAME, VAL_ARTIST);
+	nodeArtist.AddInt(KEY_TYPE, iQobuzType_Mask_Search);
+	nodeArtist.Add(KEY_TOP, VAL_ARTIST);
 	nodeArtist.Add(KEY_CMD1, "m_SearchArtist");
-	nodeArtist.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodeArtist.Add(KEY_COVER_ART, ":/resource/internets-icon40-search.png");
 	nodeArtist.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeArtist.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Artist);
 	nodeArtist.AddInt(KEY_MENU_DEPTH, 1);
 
 	CJsonNode nodeAlbum(JSON_OBJECT);
-	nodeAlbum.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Album);
-	nodeAlbum.Add(KEY_NAME, VAL_ALBUM);
+	nodeAlbum.AddInt(KEY_TYPE, iQobuzType_Mask_Search);
+	nodeAlbum.Add(KEY_TOP, VAL_ALBUM);
 	nodeAlbum.Add(KEY_CMD1, "m_SearchAlbum");
-	nodeAlbum.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodeAlbum.Add(KEY_COVER_ART, ":/resource/internets-icon40-search.png");
 	nodeAlbum.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeAlbum.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Album);
 	nodeAlbum.AddInt(KEY_MENU_DEPTH, 1);
 
 	CJsonNode nodeTrack(JSON_OBJECT);
-	nodeTrack.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Track);
-	nodeTrack.Add(KEY_NAME, VAL_TRACK);
+	nodeTrack.AddInt(KEY_TYPE, iQobuzType_Mask_Search);
+	nodeTrack.Add(KEY_TOP, VAL_TRACK);
 	nodeTrack.Add(KEY_CMD1, "m_SearchTrack");
-	nodeTrack.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodeTrack.Add(KEY_COVER_ART, ":/resource/internets-icon40-search.png");
 	nodeTrack.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeTrack.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Track);
 	nodeTrack.AddInt(KEY_MENU_DEPTH, 1);
 
 	CJsonNode nodePlaylist(JSON_OBJECT);
-	nodePlaylist.AddInt(KEY_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Playlist);
-	nodePlaylist.Add(KEY_NAME, "Playlist");
+	nodePlaylist.AddInt(KEY_TYPE, iQobuzType_Mask_Search);
+	nodePlaylist.Add(KEY_TOP, VAL_PLAYLIST);
 	nodePlaylist.Add(KEY_CMD1, "m_SearchPlaylist");
-	nodePlaylist.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodePlaylist.Add(KEY_COVER_ART, ":/resource/internets-icon40-search.png");
 	nodePlaylist.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodePlaylist.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Search | iQobuzType_Mask_Playlist);
 	nodePlaylist.AddInt(KEY_MENU_DEPTH, 1);
@@ -884,18 +1110,18 @@ void IServiceWindow::SetQobuzRecommend(QList<CJsonNode> &list)
 {
 	CJsonNode nodeAlbum(JSON_OBJECT);
 	nodeAlbum.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album);
-	nodeAlbum.Add(KEY_NAME, VAL_ALBUM);
+	nodeAlbum.Add(KEY_TOP, VAL_ALBUM);
 	nodeAlbum.Add(KEY_CMD1, "m_RecommendAlbum");
-	nodeAlbum.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodeAlbum.Add(KEY_COVER_ART, "");
 	nodeAlbum.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeAlbum.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album);
 	nodeAlbum.AddInt(KEY_MENU_DEPTH, 1);
 
 	CJsonNode nodePlaylist(JSON_OBJECT);
 	nodePlaylist.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist);
-	nodePlaylist.Add(KEY_NAME, "Playlist");
+	nodePlaylist.Add(KEY_TOP, VAL_PLAYLIST);
 	nodePlaylist.Add(KEY_CMD1, "m_RecommendPlaylist");
-	nodePlaylist.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodePlaylist.Add(KEY_COVER_ART, "");
 	nodePlaylist.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodePlaylist.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist);
 	nodePlaylist.AddInt(KEY_MENU_DEPTH, 1);
@@ -909,27 +1135,27 @@ void IServiceWindow::SetQobuzFavorite(QList<CJsonNode> &list)
 	// m_QobuzFavorite
 	CJsonNode nodeArtist(JSON_OBJECT);
 	nodeArtist.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist);
-	nodeArtist.Add(KEY_NAME, VAL_ARTIST);
+	nodeArtist.Add(KEY_TOP, VAL_ARTIST);
 	nodeArtist.Add(KEY_CMD1, "m_FavoriteArtist");
-	nodeArtist.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodeArtist.Add(KEY_COVER_ART, "");
 	nodeArtist.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeArtist.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist);
 	nodeArtist.AddInt(KEY_MENU_DEPTH, 1);
 
 	CJsonNode nodeAlbum(JSON_OBJECT);
 	nodeAlbum.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album);
-	nodeAlbum.Add(KEY_NAME, VAL_ALBUM);
+	nodeAlbum.Add(KEY_TOP, VAL_ALBUM);
 	nodeAlbum.Add(KEY_CMD1, "m_FavoriteAlbum");
-	nodeAlbum.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodeAlbum.Add(KEY_COVER_ART, "");
 	nodeAlbum.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeAlbum.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album);
 	nodeAlbum.AddInt(KEY_MENU_DEPTH, 1);
 
 	CJsonNode nodeTrack(JSON_OBJECT);
 	nodeTrack.AddInt(KEY_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track);
-	nodeTrack.Add(KEY_NAME, VAL_TRACK);
+	nodeTrack.Add(KEY_TOP, VAL_TRACK);
 	nodeTrack.Add(KEY_CMD1, "m_FavoriteTrack");
-	nodeTrack.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
+	nodeTrack.Add(KEY_COVER_ART, "");
 	nodeTrack.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeTrack.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track);
 	nodeTrack.AddInt(KEY_MENU_DEPTH, 1);
@@ -945,8 +1171,8 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 	CJsonNode nodeGenre(JSON_OBJECT);
 	nodeGenre.Add(KEY_ID_UPPER, VAL_GENRE);
 	nodeGenre.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeGenre.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeGenre.Add(KEY_NAME, VAL_GENRE);
+	nodeGenre.Add(KEY_COVER_ART, "");
+	nodeGenre.Add(KEY_TOP, VAL_GENRE);
 	nodeGenre.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeGenre.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeGenre.AddInt(KEY_MENU_DEPTH, 2);
@@ -954,8 +1180,8 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 	CJsonNode nodeBestSellers(JSON_OBJECT);
 	nodeBestSellers.Add(KEY_ID_UPPER, VAL_ID_BEST_SELLERS);
 	nodeBestSellers.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeBestSellers.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeBestSellers.Add(KEY_NAME, VAL_BEST_SELLERS);
+	nodeBestSellers.Add(KEY_COVER_ART, "");
+	nodeBestSellers.Add(KEY_TOP, VAL_BEST_SELLERS);
 	nodeBestSellers.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeBestSellers.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeBestSellers.AddInt(KEY_MENU_DEPTH, 2);
@@ -963,8 +1189,8 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 	CJsonNode nodeMostStreamd(JSON_OBJECT);
 	nodeMostStreamd.Add(KEY_ID_UPPER, VAL_ID_MOST_STREAMED);
 	nodeMostStreamd.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostStreamd.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeMostStreamd.Add(KEY_NAME, VAL_MOST_STREAMED);
+	nodeMostStreamd.Add(KEY_COVER_ART, "");
+	nodeMostStreamd.Add(KEY_TOP, VAL_MOST_STREAMED);
 	nodeMostStreamd.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeMostStreamd.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeMostStreamd.AddInt(KEY_MENU_DEPTH, 2);
@@ -972,8 +1198,8 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 	CJsonNode nodeNewReleases(JSON_OBJECT);
 	nodeNewReleases.Add(KEY_ID_UPPER, VAL_ID_NEW_RELEASES);
 	nodeNewReleases.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeNewReleases.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeNewReleases.Add(KEY_NAME, VAL_NEW_RELEASES);
+	nodeNewReleases.Add(KEY_COVER_ART, "");
+	nodeNewReleases.Add(KEY_TOP, VAL_NEW_RELEASES);
 	nodeNewReleases.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeNewReleases.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeNewReleases.AddInt(KEY_MENU_DEPTH, 2);
@@ -981,8 +1207,8 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 	CJsonNode nodePressAward(JSON_OBJECT);
 	nodePressAward.Add(KEY_ID_UPPER, VAL_ID_PRESS_AWARDS);
 	nodePressAward.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodePressAward.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodePressAward.Add(KEY_NAME, VAL_PRESS_AWARDS);
+	nodePressAward.Add(KEY_COVER_ART, "");
+	nodePressAward.Add(KEY_TOP, VAL_PRESS_AWARDS);
 	nodePressAward.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodePressAward.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodePressAward.AddInt(KEY_MENU_DEPTH, 2);
@@ -990,8 +1216,8 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 	CJsonNode nodeEditorPicks(JSON_OBJECT);
 	nodeEditorPicks.Add(KEY_ID_UPPER, VAL_ID_EDITOR_PICKS);
 	nodeEditorPicks.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeEditorPicks.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeEditorPicks.Add(KEY_NAME, VAL_EDITOR_PICKS);
+	nodeEditorPicks.Add(KEY_COVER_ART, "");
+	nodeEditorPicks.Add(KEY_TOP, VAL_EDITOR_PICKS);
 	nodeEditorPicks.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeEditorPicks.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeEditorPicks.AddInt(KEY_MENU_DEPTH, 2);
@@ -999,8 +1225,8 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 	CJsonNode nodeMostFeatured(JSON_OBJECT);
 	nodeMostFeatured.Add(KEY_ID_UPPER, VAL_ID_MOST_FEATURED);
 	nodeMostFeatured.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostFeatured.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeMostFeatured.Add(KEY_NAME, VAL_MOST_FEATURED);
+	nodeMostFeatured.Add(KEY_COVER_ART, "");
+	nodeMostFeatured.Add(KEY_TOP, VAL_MOST_FEATURED);
 	nodeMostFeatured.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeMostFeatured.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
 	nodeMostFeatured.AddInt(KEY_MENU_DEPTH, 2);
@@ -1017,10 +1243,10 @@ void IServiceWindow::SetRecommendAlbum(QList<CJsonNode> &list)
 void IServiceWindow::SetRecommendPlaylist(QList<CJsonNode> &list)
 {
 	CJsonNode nodeLastCreated(JSON_OBJECT);
-	nodeLastCreated.Add(KEY_ID_UPPER, "last-created");
+	nodeLastCreated.Add(KEY_ID_UPPER, VAL_ID_LAST_CREATED);
 	nodeLastCreated.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
-	nodeLastCreated.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeLastCreated.Add(KEY_NAME, "LastCreated");
+	nodeLastCreated.Add(KEY_COVER_ART, "");
+	nodeLastCreated.Add(KEY_TOP, VAL_LAST_CREATED);
 	nodeLastCreated.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeLastCreated.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
 	nodeLastCreated.AddInt(KEY_MENU_DEPTH, 2);
@@ -1028,8 +1254,8 @@ void IServiceWindow::SetRecommendPlaylist(QList<CJsonNode> &list)
 	CJsonNode nodeEditorPicks(JSON_OBJECT);
 	nodeEditorPicks.Add(KEY_ID_UPPER, VAL_ID_EDITOR_PICKS);
 	nodeEditorPicks.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
-	nodeEditorPicks.Add(KEY_COVER_ART, ":/resource/playlist-img160-albumart-h.png");
-	nodeEditorPicks.Add(KEY_NAME, VAL_EDITOR_PICKS);
+	nodeEditorPicks.Add(KEY_COVER_ART, "");
+	nodeEditorPicks.Add(KEY_TOP, VAL_EDITOR_PICKS);
 	nodeEditorPicks.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
 	nodeEditorPicks.AddInt(KEY_ITEM_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist);
 	nodeEditorPicks.AddInt(KEY_MENU_DEPTH, 2);
@@ -1043,7 +1269,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	CJsonNode nodeBestSellers(JSON_OBJECT);
 	nodeBestSellers.Add(KEY_ID_UPPER, VAL_ID_BEST_SELLERS);
 	nodeBestSellers.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeBestSellers.Add(KEY_ICON, ":/resource/playlist-img160-albumart-h.png");
+	nodeBestSellers.Add(KEY_COVER_ART, "");
 	nodeBestSellers.Add(KEY_TOP, VAL_BEST_SELLERS);
 	nodeBestSellers.Add(KEY_GENRE_ID, strID);
 	nodeBestSellers.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -1053,7 +1279,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	CJsonNode nodeMostStreamd(JSON_OBJECT);
 	nodeMostStreamd.Add(KEY_ID_UPPER, VAL_ID_MOST_STREAMED);
 	nodeMostStreamd.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostStreamd.Add(KEY_ICON, ":/resource/playlist-img160-albumart-h.png");
+	nodeMostStreamd.Add(KEY_COVER_ART, "");
 	nodeMostStreamd.Add(KEY_TOP, VAL_MOST_STREAMED);
 	nodeMostStreamd.Add(KEY_GENRE_ID, strID);
 	nodeMostStreamd.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -1063,7 +1289,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	CJsonNode nodeNewReleases(JSON_OBJECT);
 	nodeNewReleases.Add(KEY_ID_UPPER, VAL_ID_NEW_RELEASES);
 	nodeNewReleases.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeNewReleases.Add(KEY_ICON, ":/resource/playlist-img160-albumart-h.png");
+	nodeNewReleases.Add(KEY_COVER_ART, "");
 	nodeNewReleases.Add(KEY_TOP, VAL_NEW_RELEASES);
 	nodeNewReleases.Add(KEY_GENRE_ID, strID);
 	nodeNewReleases.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -1073,7 +1299,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	CJsonNode nodePressAward(JSON_OBJECT);
 	nodePressAward.Add(KEY_ID_UPPER, VAL_ID_PRESS_AWARDS);
 	nodePressAward.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodePressAward.Add(KEY_ICON, ":/resource/playlist-img160-albumart-h.png");
+	nodePressAward.Add(KEY_COVER_ART, "");
 	nodePressAward.Add(KEY_TOP, VAL_PRESS_AWARDS);
 	nodePressAward.Add(KEY_GENRE_ID, strID);
 	nodePressAward.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -1083,7 +1309,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	CJsonNode nodeEditorPicks(JSON_OBJECT);
 	nodeEditorPicks.Add(KEY_ID_UPPER, VAL_ID_EDITOR_PICKS);
 	nodeEditorPicks.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeEditorPicks.Add(KEY_ICON, ":/resource/playlist-img160-albumart-h.png");
+	nodeEditorPicks.Add(KEY_COVER_ART, "");
 	nodeEditorPicks.Add(KEY_TOP, VAL_EDITOR_PICKS);
 	nodeEditorPicks.Add(KEY_GENRE_ID, strID);
 	nodeEditorPicks.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -1093,7 +1319,7 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	CJsonNode nodeMostFeatured(JSON_OBJECT);
 	nodeMostFeatured.Add(KEY_ID_UPPER, VAL_ID_MOST_FEATURED);
 	nodeMostFeatured.AddInt(KEY_TYPE, iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre);
-	nodeMostFeatured.Add(KEY_ICON, ":/resource/playlist-img160-albumart-h.png");
+	nodeMostFeatured.Add(KEY_COVER_ART, "");
 	nodeMostFeatured.Add(KEY_TOP, VAL_MOST_FEATURED);
 	nodeMostFeatured.Add(KEY_GENRE_ID, strID);
 	nodeMostFeatured.AddInt(KEY_QOBUZ_MENU, iQobuzMenu_CoverView | iQobuzMenu_AddFavorite);
@@ -1106,11 +1332,6 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	list.append(nodePressAward);
 	list.append(nodeEditorPicks);
 	list.append(nodeMostFeatured);
-}
-
-void IServiceWindow::SetInfoTitle(QString title)
-{
-	m_pInfoService->SetTitle(title);
 }
 
 void IServiceWindow::ThreadStartList()

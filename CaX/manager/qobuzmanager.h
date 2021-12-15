@@ -18,7 +18,7 @@ public:
 	void RequestPlaylist(int nStart, int nCount);
 	void RequestCategory(int nType, QString strID, int nStart, int nCount);
 
-	void RequestPlay(CJsonNode srcNode);
+	void RequestPlay(QMap<int, CJsonNode> nodeMap, int nWhere);
 	void RequestAdd();
 	void RequestDelete();
 
@@ -28,8 +28,7 @@ signals:
 	void SigRespLoginFail(CJsonNode node);
 	void SigRespLoginSuccess();
 
-	void SigRespList(QList<CJsonNode> nodeList);
-	void SigRespGenreSubList(QList<CJsonNode> nodeList);
+	void SigRespList(QList<CJsonNode> nodeList, bool genre);
 
 private slots:
 
@@ -52,8 +51,7 @@ private:
 		QOBUZ_MAX
 	};
 
-	void ParseList(CJsonNode node);
-	void ParseGenreSubList(CJsonNode node);
+	void ParseList(CJsonNode node, bool genre);
 
 };
 

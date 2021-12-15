@@ -65,6 +65,9 @@
 #define LIST_BROWSER_INDENT_0		5
 #define LIST_BROWSER_INDENT_1		45
 
+#define QOBUZ_START					0
+#define QOBUZ_COUNT					50
+
 #define SEARCH_WORD_LIMIT_COUNT		3
 #define MSG_LIMIT_COUNT				100
 

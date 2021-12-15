@@ -35,6 +35,7 @@ public:
 	void RequestQobuzFavorite(int nType, int nStart, int nCount);
 	void RequestQobuzPlaylist(int nStart, int nCount);
 	void RequestQobuzCategory(int nType, QString strID, int nStart, int nCount);
+	void RequestQobuzPlay(QMap<int, CJsonNode> nodeMap, int nWhere);
 
 	AirableManager	*GetAirableManager();
 	QobuzManager	*GetQobuzManager();
@@ -49,7 +50,8 @@ public:
 
 	void AddWidgetItem();
 
-
+	bool GetGenre() const;
+	void SetGenre(bool bGenre);
 
 signals:
 
@@ -78,8 +80,7 @@ private slots:
 	void SlotRespAirableLoginFail(CJsonNode node);
 	void SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAuth);
 
-	void SlotRespList(QList<CJsonNode> list);
-	void SlotRespGenreSubList(QList<CJsonNode> list);
+	void SlotRespQobuzList(QList<CJsonNode> list, bool genre);
 
 	void SlotRespAuth(int nServiceType);
 	void SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list);
@@ -95,6 +96,12 @@ private:
 	void Initialize();
 
 	void SelectTitleForQobuz(int nType, CJsonNode node);
+	void SelectTitleForQobuzSubMenu(int nType, CJsonNode node);
+
+	void SelectSearchForQobuz(int nType, CJsonNode node);
+	void SelectRecommendForQobuz(int nType, CJsonNode node);
+	void SelectFavoriteForQobuz(int nType, CJsonNode node);
+	void SelectUserPlaylistForQobuz(int nType, CJsonNode node);
 	void SelectTitleForAirable(int nType, CJsonNode node);
 
 	void SetOptionMenu(int type, QString menuName);
@@ -118,8 +125,6 @@ private:
 	void SetRecommendPlaylist(QList<CJsonNode> &list);
 	void SetRecommendGenre(QList<CJsonNode> &list, QString strID);
 
-	void SetInfoTitle(QString title);
-
 	void ThreadStartList();
 	void ThreadTerminateList();
 
@@ -141,7 +146,7 @@ private:
 	QString				m_WebURL;
 	int					m_ServiceType;
 
-	bool				m_bGenreSubmenu;
+	bool				m_bGenre;
 
 
 	Ui::IServiceWindow *ui;

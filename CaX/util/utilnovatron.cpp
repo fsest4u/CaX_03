@@ -625,6 +625,11 @@ void UtilNovatron::DebugTypeForQobuz(QString title, int type)
 	{
 		LogDebug("[%s] iQobuzType_Mask_Menu_Track", title.toUtf8().data());
 	}
+
+}
+
+void UtilNovatron::DebugTypeForQobuzMenu(QString title, int type)
+{
 	if (type & iQobuzMenu_AddFavorite)
 	{
 		LogDebug("[%s] iQobuzMenu_AddFavorite", title.toUtf8().data());

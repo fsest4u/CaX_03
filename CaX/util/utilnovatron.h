@@ -22,6 +22,7 @@ public:
 	static void DebugTypeForBrowser(QString title, int type);
 	static void DebugTypeForIService(QString title, int type);
 	static void DebugTypeForQobuz(QString title, int type);
+	static void DebugTypeForQobuzMenu(QString title, int type);
 	static void DebugTypeForAirable(QString title, int type);
 };
 

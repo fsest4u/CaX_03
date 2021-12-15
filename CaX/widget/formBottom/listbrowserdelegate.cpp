@@ -77,6 +77,7 @@ void ListBrowserDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->blockSignals(true);
 	widget->SetService(m_Service);
 	widget->SetID(qvariant_cast<int>(index.data(LIST_BROWSER_ID)));
+	widget->SetIndex(qvariant_cast<int>(index.data(LIST_BROWSER_INDEX)));
 	widget->SetType(qvariant_cast<int>(index.data(LIST_BROWSER_TYPE)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_BROWSER_COVER)));
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_BROWSER_SELECT)));
@@ -95,6 +96,7 @@ void ListBrowserDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 {
 	ListBrowserEditor *widget = static_cast<ListBrowserEditor*>(editor);
 	model->setData(index, widget->GetID(), LIST_BROWSER_ID);
+	model->setData(index, widget->GetIndex(), LIST_BROWSER_INDEX);
 	model->setData(index, widget->GetType(), LIST_BROWSER_TYPE);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), LIST_BROWSER_COVER);
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_BROWSER_SELECT);

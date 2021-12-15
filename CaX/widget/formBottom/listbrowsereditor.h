@@ -23,6 +23,9 @@ public:
 	int GetID() const;
 	void SetID(int ID);
 
+	int GetIndex() const;
+	void SetIndex(int index);
+
 	int GetType() const;
 	void SetType(int Type);
 
@@ -80,6 +83,7 @@ private:
 	QMenu			*m_Menu;
 
 	int				m_ID;
+	int				m_Index;
 	int				m_Type;
 	QString			m_RawData;
 

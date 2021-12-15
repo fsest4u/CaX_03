@@ -246,6 +246,7 @@
 
 #define		VAL_ID_BEST_SELLERS		"best-sellers"
 #define		VAL_ID_EDITOR_PICKS		"editor-picks"
+#define		VAL_ID_LAST_CREATED		"last-created"
 #define		VAL_ID_MOST_FEATURED	"most-featured"
 #define		VAL_ID_MOST_STREAMED	"most-streamed"
 #define		VAL_ID_NEW_RELEASES		"new-releases"
@@ -255,6 +256,7 @@
 #define		VAL_INFO			"Info"
 #define		VAL_INPUT			"Input"
 
+#define		VAL_LAST_CREATED	"LastCreated"
 #define		VAL_LIST			"List"
 #define		VAL_LOGIN			"Login"
 

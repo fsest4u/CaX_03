@@ -69,7 +69,7 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 		foreach (CJsonNode node, m_NodeList)
 		{
 			LogDebug("type : [%d]", node.GetInt(KEY_TYPE));
-	//		LogDebug("icon : [%s]", node.GetString(KEY_ICON).toUtf8().data());
+	//		LogDebug("cover art : [%s]", node.GetString(KEY_COVER_ART).toUtf8().data());
 			LogDebug("title : [%s]", node.GetString(KEY_TOP).toUtf8().data());
 	//		LogDebug("url : [%s]", node.GetString(VAL_URL).toUtf8().data());
 			QStandardItem *item = new QStandardItem;

@@ -80,7 +80,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			QString title = node.GetString(KEY_NAME_CAP);
 			if (title.isEmpty())
 			{
@@ -118,11 +118,11 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			index++;
 		}
 	}
-	else
+	else if (SIDEMENU_ISERVICE == nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			UtilNovatron::DebugTypeForAirable("SetNodeList", node.GetInt(KEY_TYPE));
 
 			int seconds = node.GetInt(KEY_TIME_CAP);
@@ -131,7 +131,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
 			item->setData(node.GetInt(KEY_TYPE), ListBrowserDelegate::LIST_BROWSER_TYPE);
-			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_ICON)), ListBrowserDelegate::LIST_BROWSER_COVER);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_COVER_ART)), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
 			item->setData(node.GetString(KEY_BOT1), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
@@ -150,6 +150,40 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			index++;
 		}
 	}
+	else // qobuz
+	{
+		foreach (CJsonNode node, m_NodeList)
+		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			UtilNovatron::DebugTypeForQobuz("SetNodeList", node.GetInt(KEY_TYPE));
+
+			int seconds = node.GetInt(KEY_TIME_CAP);
+			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
+
+			QStandardItem *item = new QStandardItem;
+			item->setData(node.GetString(KEY_ID_UPPER), ListBrowserDelegate::LIST_BROWSER_ID);
+			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
+			item->setData(node.GetInt(KEY_TYPE), ListBrowserDelegate::LIST_BROWSER_TYPE);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_COVER_ART)), ListBrowserDelegate::LIST_BROWSER_COVER);
+			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
+			item->setData(node.GetString(KEY_BOT1), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
+			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
+			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
+//			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+			QString coverArt = node.GetString(KEY_ART);
+			if (!coverArt.isEmpty())
+			{
+				emit SigReqCoverArt(coverArt, index);
+			}
+			index++;
+		}
+	}
+
 	ui->gridLayoutList->addWidget(m_ListView);
 //	m_pLoading->Stop();
 

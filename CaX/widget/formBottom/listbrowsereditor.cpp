@@ -61,6 +61,16 @@ void ListBrowserEditor::SetID(int ID)
 	m_ID = ID;
 }
 
+int ListBrowserEditor::GetIndex() const
+{
+	return m_Index;
+}
+
+void ListBrowserEditor::SetIndex(int index)
+{
+	m_Index = index;
+}
+
 int ListBrowserEditor::GetType() const
 {
 	return m_Type;
