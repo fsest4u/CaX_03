@@ -360,6 +360,10 @@ RESOURCES += \
     resource.qrc
 
 DISTFILES += \
+    ../installer/build-64.bat \
+    ../installer/build-86.bat \
+    ../installer/installer-64.iss \
+    ../installer/installer-86.iss \
     CaX_de_DE.ts \
     CaX_en_US.ts \
     CaX_it_IT.ts \
