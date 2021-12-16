@@ -131,6 +131,11 @@ void IServiceWindow::RequestIServiceURL(int nServiceType, QString url)
 	m_pAirableMgr->RequestURL(nServiceType, url);
 }
 
+void IServiceWindow::RequestIServicePlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int nWhere)
+{
+	m_pAirableMgr->RequestPlay(nServiceType, nodeMap, nWhere);
+}
+
 void IServiceWindow::RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount)
 {
 	m_pQobuzMgr->RequestSearch(nType, keyword, nStart, nCount);
@@ -465,7 +470,6 @@ void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre)
 		widget->AddWidgetItem();
 	}
 
-
 	widget->GetInfoBrowser()->SetSubtitle(QOBUZ_TITLE);
 
 	widget->GetListBrowser()->ClearNodeList();
@@ -481,10 +485,20 @@ void IServiceWindow::SlotRespAuth(int nServiceType)
 
 void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list)
 {
+	int count = list.count() - 1;
+	int nType =  list[count].GetInt(KEY_TYPE);
+
 	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
 	emit SigAddWidget(widget, STR_ISERVICE);
 	widget->SetServiceType(nServiceType);
-	widget->AddWidgetItem();
+	if (iAirableType_Mask_Play & nType)
+	{
+		widget->AddWidgetItem(true);
+	}
+	else
+	{
+		widget->AddWidgetItem();
+	}
 
 	widget->GetInfoBrowser()->SetSubtitle(title);
 
@@ -521,26 +535,47 @@ void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 void IServiceWindow::SlotPlayAll(int where)
 {
-	m_SelectMap = m_pListBrowser->GetSelectMapQobuz();
+	m_SelectMap = m_pListBrowser->GetSelectMapIService();
 
 	if (m_SelectMap.count() <= 0)
 	{
 		m_pListBrowser->SetAllSelectMap();
-		m_SelectMap = m_pListBrowser->GetSelectMapQobuz();
+		m_SelectMap = m_pListBrowser->GetSelectMapIService();
 	}
 
-	RequestQobuzPlay(m_SelectMap, where);
-
+	if (iIServiceType_Qobuz == m_ServiceType)
+	{
+		RequestQobuzPlay(m_SelectMap, where);
+	}
+	else
+	{
+		RequestIServicePlay(m_ServiceType, m_SelectMap, where);
+	}
 }
 
 void IServiceWindow::SlotPlayRandom()
 {
-	m_pQobuzMgr->RequestRandom();
+	if (iIServiceType_Qobuz == m_ServiceType)
+	{
+		m_pQobuzMgr->RequestRandom();
+	}
+	else
+	{
+		m_pAirableMgr->RequestRandom();
+	}
+
 }
 
 void IServiceWindow::SlotTopMenu()
 {
-	m_SelectMap = m_pListBrowser->GetSelectMapQobuz();
+	if (iIServiceType_Qobuz == m_ServiceType)
+	{
+		m_SelectMap = m_pListBrowser->GetSelectMapIService();
+	}
+	else
+	{
+		m_SelectMap = m_pListBrowser->GetSelectMapIService();
+	}
 
 	if (m_SelectMap.count() > 0)
 	{
@@ -902,7 +937,9 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 			 || nType & iAirableType_Mask_Feed
 			 || nType & iAirableType_Mask_Play)
 	{
-		m_pAirableMgr->RequestPlay(m_ServiceType, m_Node);
+		QMap<int, CJsonNode> map;
+		map.insert(0, m_Node);
+		RequestIServicePlay(m_ServiceType, map, PLAY_CLEAR);
 	}
 	else if (nType & iAirableType_Mask_Logout)
 	{

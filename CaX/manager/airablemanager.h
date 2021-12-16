@@ -16,10 +16,12 @@ public:
 	void RequestAuth(int nServiceType);
 	void RequestURL(int nServiceType, QString url = "");
 
-	void RequestPlay(int nServiceType, CJsonNode srcNode);
+	void RequestPlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int where);
 	void RequestActionUrl(int nServiceType, QString url);
 
 	// todo-dylee, record set
+
+	void RequestRandom();
 
 signals:
 
@@ -46,6 +48,7 @@ private:
 		AIRABLE_URL,
 		AIRABLE_PLAY,
 		AIRABLE_ACTION_URL,
+		AIRABLE_RANDOM,
 		AIRABLE_MAX
 	};
 

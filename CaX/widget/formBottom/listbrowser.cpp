@@ -130,6 +130,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
+			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(node.GetInt(KEY_TYPE), ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_COVER_ART)), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
@@ -235,10 +236,6 @@ void ListBrowser::ClearSelectMap()
 			}
 		}
 	}
-	else if (SIDEMENU_ISERVICE == serviceType)
-	{
-
-	}
 	else
 	{
 		for (int i = 0; i < count; i++)
@@ -254,7 +251,7 @@ void ListBrowser::ClearSelectMap()
 				m_ListView->openPersistentEditor(index);
 
 				int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
-				m_SelectMapQobuz.remove(index);
+				m_SelectMapIService.remove(index);
 			}
 		}
 	}
@@ -278,20 +275,15 @@ void ListBrowser::SetAllSelectMap()
 			bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
 			if (!bSelect)
 			{
-				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
-
 	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
 				m_ListView->openPersistentEditor(index);
 
 				QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
 				int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
 				m_SelectMap.insert(path, type);
+				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
 			}
 		}
-	}
-	else if (SIDEMENU_ISERVICE == serviceType)
-	{
-
 	}
 	else
 	{
@@ -302,8 +294,6 @@ void ListBrowser::SetAllSelectMap()
 			bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
 			if (!bSelect)
 			{
-				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
-
 	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
 				m_ListView->openPersistentEditor(index);
 
@@ -313,9 +303,15 @@ void ListBrowser::SetAllSelectMap()
 				CJsonNode node;
 				if (!node.SetContent(rawData))
 				{
-					return;
+					continue;
 				}
-				m_SelectMapQobuz.insert(index, node);
+				QString icon = node.GetString(KEY_ICON);
+				if (icon.isEmpty() || icon.compare("feed"))
+				{
+					continue;;
+				}
+				m_SelectMapIService.insert(index, node);
+				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
 			}
 		}
 	}
@@ -334,14 +330,14 @@ void ListBrowser::SetSelectMap(const QMap<QString, int> &SelectMap)
 	m_SelectMap = SelectMap;
 }
 
-QMap<int, CJsonNode> ListBrowser::GetSelectMapQobuz() const
+QMap<int, CJsonNode> ListBrowser::GetSelectMapIService() const
 {
-	return m_SelectMapQobuz;
+	return m_SelectMapIService;
 }
 
-void ListBrowser::SetSelectMapQobuz(const QMap<int, CJsonNode> &SelectMap)
+void ListBrowser::SetSelectMapIService(const QMap<int, CJsonNode> &SelectMap)
 {
-	m_SelectMapQobuz = SelectMap;
+	m_SelectMapIService = SelectMap;
 }
 
 void ListBrowser::SetEditor(int i)
@@ -421,7 +417,6 @@ void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
 	{
 		QStandardItem *item = m_Model->itemFromIndex(index);
 		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 	//	QModelIndex modelIndex = m_Model->indexFromItem(item);
 		m_ListView->openPersistentEditor(index);
@@ -436,16 +431,13 @@ void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
 		{
 			m_SelectMap.remove(path);
 		}
-	}
-	else if (SIDEMENU_ISERVICE == serviceType)
-	{
+		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 	}
 	else
 	{
 		QStandardItem *item = m_Model->itemFromIndex(index);
 		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 	//	QModelIndex modelIndex = m_Model->indexFromItem(item);
 		m_ListView->openPersistentEditor(index);
@@ -459,12 +451,20 @@ void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
 			{
 				return;
 			}
-			m_SelectMapQobuz.insert(index, node);
+			QString icon = node.GetString(KEY_ICON);
+			if (icon.isEmpty() || icon.compare("feed"))
+			{
+				return;
+			}
+
+			m_SelectMapIService.insert(index, node);
 		}
 		else
 		{
-			m_SelectMapQobuz.remove(index);
+			m_SelectMapIService.remove(index);
 		}
+		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
 	}
 
 
@@ -483,6 +483,6 @@ void ListBrowser::Initialize()
 	ui->frameInfo->hide();
 
 	m_SelectMap.clear();
-	m_SelectMapQobuz.clear();
+	m_SelectMapIService.clear();
 
 }

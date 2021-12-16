@@ -30,6 +30,8 @@ public:
 	void IServiceHome(QList<CJsonNode> list);
 
 	void RequestIServiceURL(int nServiceType, QString url = "");
+	void RequestIServicePlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int nWhere);
+
 	void RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount);
 	void RequestQobuzGenre(QString strID = "");
 	void RequestQobuzRecommend(int nType, QString strID, int nStart, int nCount, QString strGenreID = "");
