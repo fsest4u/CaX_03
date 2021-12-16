@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "util/CJsonNode.h"
+#include "util/caxconstants.h"
 
 class AirableManager;
 class QobuzManager;
@@ -48,7 +49,7 @@ public:
 
 	QThread *GetListThread() const;
 
-	void AddWidgetItem();
+	void AddWidgetItem(bool playMenu = false);
 
 	bool GetGenre() const;
 	void SetGenre(bool bGenre);
@@ -87,6 +88,11 @@ private slots:
 	void SlotRespForm(int nServiceType, CJsonNode node);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
+	void SlotPlayAll(int where = PLAY_CLEAR);
+	void SlotPlayRandom();
+	void SlotTopMenu();
+	void SlotTopMenuAction(int menuID);
+
 	void SlotOptionMenu(int id, int type, QString menuName);
 	void SlotOptionMenuAction(QString url, int type, int menuID);
 
@@ -95,16 +101,22 @@ private:
 	void ConnectSigToSlot();
 	void Initialize();
 
-	void SelectTitleForQobuz(int nType, CJsonNode node);
-	void SelectTitleForQobuzSubMenu(int nType, CJsonNode node);
+	void SetSelectOffTopMenu();
+	void SetSelectOnTopMenu();
+
+	void DoTopMenuSelectAll();
+	void DoTopMenuClearAll();
+	void DoTopMenuPlay(int nWhere);
+
+	void SetOptionMenu(int type, QString menuName);
+
+	void DoOptionMenuPlay(int nID, int where);
 
 	void SelectSearchForQobuz(int nType, CJsonNode node);
 	void SelectRecommendForQobuz(int nType, CJsonNode node);
 	void SelectFavoriteForQobuz(int nType, CJsonNode node);
 	void SelectUserPlaylistForQobuz(int nType, CJsonNode node);
 	void SelectTitleForAirable(int nType, CJsonNode node);
-
-	void SetOptionMenu(int type, QString menuName);
 
 	void DoQobuzHome();
 	void DoQobuzSearch();
@@ -139,7 +151,9 @@ private:
 
 	QThread				*m_pListThread;
 
-	QMap<int, QString>	m_OptionMenuMap;
+	QMap<int, QString>		m_TopMenuMap;
+	QMap<int, QString>		m_OptionMenuMap;
+	QMap<int, CJsonNode>	m_SelectMap;
 
 	CJsonNode			m_Node;
 

@@ -169,7 +169,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(node.GetString(KEY_BOT1), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
-//			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -215,22 +215,50 @@ void ListBrowser::ClearSelectMap()
 //	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
-	for (int i = 0; i < count; i++)
+	int serviceType = m_Delegate->GetService();
+	if (SIDEMENU_BROWSER == serviceType)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
-//		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-//		if (bSelect)
+		for (int i = 0; i < count; i++)
 		{
-			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+			QModelIndex index = m_Model->index(i, 0);
+			QStandardItem *item = m_Model->itemFromIndex(index);
+	//		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+	//		if (bSelect)
+			{
+				item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
-//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
+	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+				m_ListView->openPersistentEditor(index);
 
-			QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
-			m_SelectMap.remove(path);
+				QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+				m_SelectMap.remove(path);
+			}
 		}
 	}
+	else if (SIDEMENU_ISERVICE == serviceType)
+	{
+
+	}
+	else
+	{
+		for (int i = 0; i < count; i++)
+		{
+			QModelIndex index = m_Model->index(i, 0);
+			QStandardItem *item = m_Model->itemFromIndex(index);
+	//		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+	//		if (bSelect)
+			{
+				item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
+	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+				m_ListView->openPersistentEditor(index);
+
+				int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+				m_SelectMapQobuz.remove(index);
+			}
+		}
+	}
+
 //	m_pLoading->Stop();
 
 }
@@ -240,23 +268,58 @@ void ListBrowser::SetAllSelectMap()
 //	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
-	for (int i = 0; i < count; i++)
+	int serviceType = m_Delegate->GetService();
+	if (SIDEMENU_BROWSER == serviceType)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
-		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-		if (!bSelect)
+		for (int i = 0; i < count; i++)
 		{
-			item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
+			QModelIndex index = m_Model->index(i, 0);
+			QStandardItem *item = m_Model->itemFromIndex(index);
+			bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+			if (!bSelect)
+			{
+				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
-//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
+	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+				m_ListView->openPersistentEditor(index);
 
-			QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
-			int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
-			m_SelectMap.insert(path, type);
+				QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+				int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+				m_SelectMap.insert(path, type);
+			}
 		}
 	}
+	else if (SIDEMENU_ISERVICE == serviceType)
+	{
+
+	}
+	else
+	{
+		for (int i = 0; i < count; i++)
+		{
+			QModelIndex index = m_Model->index(i, 0);
+			QStandardItem *item = m_Model->itemFromIndex(index);
+			bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+			if (!bSelect)
+			{
+				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
+	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
+				m_ListView->openPersistentEditor(index);
+
+				int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+				QString rawData = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_RAW));
+
+				CJsonNode node;
+				if (!node.SetContent(rawData))
+				{
+					return;
+				}
+				m_SelectMapQobuz.insert(index, node);
+			}
+		}
+	}
+
 //	m_pLoading->Stop();
 
 }
@@ -269,6 +332,16 @@ QMap<QString, int> ListBrowser::GetSelectMap() const
 void ListBrowser::SetSelectMap(const QMap<QString, int> &SelectMap)
 {
 	m_SelectMap = SelectMap;
+}
+
+QMap<int, CJsonNode> ListBrowser::GetSelectMapQobuz() const
+{
+	return m_SelectMapQobuz;
+}
+
+void ListBrowser::SetSelectMapQobuz(const QMap<int, CJsonNode> &SelectMap)
+{
+	m_SelectMapQobuz = SelectMap;
 }
 
 void ListBrowser::SetEditor(int i)
@@ -343,23 +416,58 @@ void ListBrowser::SlotFinishThread()
 
 void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
 {
-	QStandardItem *item = m_Model->itemFromIndex(index);
-	bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-	item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
-
-//	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(index);
-
-	QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
-	int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
-	if (bSelect)
+	int serviceType = m_Delegate->GetService();
+	if (SIDEMENU_BROWSER == serviceType)
 	{
-		m_SelectMap.insert(path, type);
+		QStandardItem *item = m_Model->itemFromIndex(index);
+		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
+	//	QModelIndex modelIndex = m_Model->indexFromItem(item);
+		m_ListView->openPersistentEditor(index);
+
+		QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+		int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+		if (bSelect)
+		{
+			m_SelectMap.insert(path, type);
+		}
+		else
+		{
+			m_SelectMap.remove(path);
+		}
+	}
+	else if (SIDEMENU_ISERVICE == serviceType)
+	{
+
 	}
 	else
 	{
-		m_SelectMap.remove(path);
+		QStandardItem *item = m_Model->itemFromIndex(index);
+		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
+
+	//	QModelIndex modelIndex = m_Model->indexFromItem(item);
+		m_ListView->openPersistentEditor(index);
+
+		int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+		QString rawData = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_RAW));
+		if (bSelect)
+		{
+			CJsonNode node;
+			if (!node.SetContent(rawData))
+			{
+				return;
+			}
+			m_SelectMapQobuz.insert(index, node);
+		}
+		else
+		{
+			m_SelectMapQobuz.remove(index);
+		}
 	}
+
+
 }
 
 void ListBrowser::Initialize()
@@ -373,5 +481,8 @@ void ListBrowser::Initialize()
 	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
 
 	ui->frameInfo->hide();
+
+	m_SelectMap.clear();
+	m_SelectMapQobuz.clear();
 
 }

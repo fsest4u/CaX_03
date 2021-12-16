@@ -201,13 +201,17 @@ QThread *IServiceWindow::GetListThread() const
 	return m_pListThread;
 }
 
-void IServiceWindow::AddWidgetItem()
+void IServiceWindow::AddWidgetItem(bool playMenu)
 {
 	ui->gridLayoutTop->addWidget(m_pInfoBrowser);
 	ui->gridLayoutBottom->addWidget(m_pListBrowser);
 
-//	m_pInfoBrowser->GetFormPlay()->ShowMenu();
-//	m_pInfoBrowser->GetFormSort()->ShowResize();
+	if (playMenu)
+	{
+		m_pInfoBrowser->GetFormPlay()->ShowPlayAll();
+		m_pInfoBrowser->GetFormPlay()->ShowPlayRandom();
+		m_pInfoBrowser->GetFormPlay()->ShowMenu();
+	}
 
 	m_pInfoBrowser->SetCoverArt(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, m_ServiceType));
 
@@ -447,10 +451,20 @@ void IServiceWindow::SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAut
 
 void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre)
 {
+	int nType =  list[0].GetInt(KEY_TYPE);
+
 	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
 	emit SigAddWidget(widget, STR_ISERVICE);
 	widget->SetServiceType(iIServiceType_Qobuz);
-	widget->AddWidgetItem();
+	if (iQobuzType_Mask_Track & nType)
+	{
+		widget->AddWidgetItem(true);
+	}
+	else
+	{
+		widget->AddWidgetItem();
+	}
+
 
 	widget->GetInfoBrowser()->SetSubtitle(QOBUZ_TITLE);
 
@@ -505,6 +519,63 @@ void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 
 }
 
+void IServiceWindow::SlotPlayAll(int where)
+{
+	m_SelectMap = m_pListBrowser->GetSelectMapQobuz();
+
+	if (m_SelectMap.count() <= 0)
+	{
+		m_pListBrowser->SetAllSelectMap();
+		m_SelectMap = m_pListBrowser->GetSelectMapQobuz();
+	}
+
+	RequestQobuzPlay(m_SelectMap, where);
+
+}
+
+void IServiceWindow::SlotPlayRandom()
+{
+	m_pQobuzMgr->RequestRandom();
+}
+
+void IServiceWindow::SlotTopMenu()
+{
+	m_SelectMap = m_pListBrowser->GetSelectMapQobuz();
+
+	if (m_SelectMap.count() > 0)
+	{
+		SetSelectOnTopMenu();
+	}
+	else
+	{
+		SetSelectOffTopMenu();
+	}
+}
+
+void IServiceWindow::SlotTopMenuAction(int menuID)
+{
+	switch (menuID) {
+	case TOP_MENU_PLAY_NOW:
+		DoTopMenuPlay(PLAY_NOW);
+		break;
+	case TOP_MENU_PLAY_LAST:
+		DoTopMenuPlay(PLAY_LAST);
+		break;
+	case TOP_MENU_PLAY_NEXT:
+		DoTopMenuPlay(PLAY_NEXT);
+		break;
+	case TOP_MENU_PLAY_CLEAR:
+		DoTopMenuPlay(PLAY_CLEAR);
+		break;
+	case TOP_MENU_SELECT_ALL:
+		DoTopMenuSelectAll();
+		break;
+	case TOP_MENU_CLEAR_ALL:
+		DoTopMenuClearAll();
+		break;
+	}
+}
+
 void IServiceWindow::SlotOptionMenu(int index, int type, QString menuName)
 {
 	SetOptionMenu(type, menuName);
@@ -529,6 +600,11 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(this, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
 
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
+
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectIconTitle(int)));
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
@@ -546,7 +622,6 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
 	connect(m_pQobuzMgr, SIGNAL(SigRespList(QList<CJsonNode>, bool)), this, SLOT(SlotRespQobuzList(QList<CJsonNode>, bool)));
-
 
 	connect(m_pAirableMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pAirableMgr, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
@@ -566,101 +641,53 @@ void IServiceWindow::Initialize()
 {
 //	m_pInfoService->GetFormSort()->ShowResize();
 
+	m_TopMenuMap.clear();
 	m_OptionMenuMap.clear();
+	m_SelectMap.clear();
 }
 
-void IServiceWindow::SelectTitleForQobuz(int nType, CJsonNode node)
+void IServiceWindow::SetSelectOffTopMenu()
 {
-	UtilNovatron::DebugTypeForQobuz("SelectTitleForQobuz", nType);
+	m_TopMenuMap.clear();
+	m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+	m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+	m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+	m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 
-	m_Node.Clear();
-	m_Node = node;
-
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
-
-	if (iQobuzType_Mask_Search == nType)
-	{
-		DoQobuzSearch();
-	}
-	else if (iQobuzType_Mask_Recommend == nType)
-	{
-		DoQobuzRecommend();
-	}
-	else if (iQobuzType_Mask_Favorite == nType)
-	{
-		DoQobuzFavorite();
-	}
-	else if (iQobuzType_Mask_UserPlaylist == nType)
-	{
-		RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
-	}
+	m_pInfoBrowser->GetFormPlay()->ClearMenu();
+	m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
 
 }
 
-void IServiceWindow::SelectTitleForQobuzSubMenu(int nType, CJsonNode node)
+void IServiceWindow::SetSelectOnTopMenu()
 {
-	UtilNovatron::DebugTypeForQobuz("SelectTitleForQobuzSubMenu", nType);
+	m_TopMenuMap.clear();
+	m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+	m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+	m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+	m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 
-	m_Node.Clear();
-	m_Node = node;
+	m_pInfoBrowser->GetFormPlay()->ClearMenu();
+	m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+}
 
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+void IServiceWindow::DoTopMenuSelectAll()
+{
+	m_pListBrowser->SetAllSelectMap();
 
-	if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
-		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == nType
-		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Track) == nType
-		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == nType)
-	 {
-	   LogDebug("search ");
-//	   SearchDialog dialog;
-//	   if (dialog.exec() == QDialog::Accepted)
-//	   {
-//		 QString keyword = dialog.GetKeyword();
-//		 IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		 emit SigAddWidget(widget, STR_ISERVICE);
-//		 widget->RequestQobuzSearch(nType, keyword, QOBUZ_START, QOBUZ_COUNT);
-//	   }
-	}
-	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
-	{
-		LogDebug("recommend ");
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->DoRecommendAlbum();
-	}
-	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
-	{
-		LogDebug("recommend ");
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->DoRecommendPlaylist();
-	}
-	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist) == nType
-			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album) == nType
-			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track) == nType)
-	{
-		LogDebug("favorite ");
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
-//		widget->RequestQobuzFavorite(nType, QOBUZ_START, QOBUZ_COUNT);
-	}
-	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre) == nType
-			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
-	{
-		LogDebug("recommend ");
-//		IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
-//		emit SigAddWidget(widget, STR_ISERVICE);
+}
 
-//		QString strID = node.GetString(KEY_ID_UPPER);
-//		if (!strID.compare(VAL_GENRE))
-//		{
-//			widget->RequestQobuzGenre();
-//		}
-//		else
-//		{
-//			widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT);
-//		}
-	}
+void IServiceWindow::DoTopMenuClearAll()
+{
+	m_pListBrowser->ClearSelectMap();
+
+}
+
+void IServiceWindow::DoTopMenuPlay(int nWhere)
+{
+	SlotPlayAll(nWhere);
 }
 
 void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)

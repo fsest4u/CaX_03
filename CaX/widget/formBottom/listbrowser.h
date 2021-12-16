@@ -40,6 +40,9 @@ public:
 	QMap<QString, int> GetSelectMap() const;
 	void SetSelectMap(const QMap<QString, int> &SelectMap);
 
+	QMap<int, CJsonNode> GetSelectMapQobuz() const;
+	void SetSelectMapQobuz(const QMap<int, CJsonNode> &SelectMap);
+
 	void SetEditor(int index);
 
 	QStandardItemModel	*GetModel();
@@ -70,6 +73,7 @@ private:
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<QString, int>		m_SelectMap;
+	QMap<int, CJsonNode>	m_SelectMapQobuz;
 
 	Ui::ListBrowser *ui;
 };

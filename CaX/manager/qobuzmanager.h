@@ -22,6 +22,8 @@ public:
 	void RequestAdd();
 	void RequestDelete();
 
+	void RequestRandom();
+
 signals:
 
 	void SigRespError(QString errMsg);
@@ -48,6 +50,7 @@ private:
 		QOBUZ_PLAY,
 		QOBUZ_ADD,
 		QOBUZ_DELETE,
+		QOBUZ_RANDOM,
 		QOBUZ_MAX
 	};
 

@@ -147,6 +147,15 @@ void QobuzManager::RequestDelete()
 	RequestCommand(node, QOBUZ_DELETE);
 }
 
+void QobuzManager::RequestRandom()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_REMOTE);
+	node.Add(KEY_KEY, VAL_SHUFFLE);
+
+	RequestCommand(node, QOBUZ_RANDOM);
+}
+
 void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 {
 	CJsonNode node;
@@ -204,10 +213,9 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 			ParseList(node, true);
 			break;
 		case QOBUZ_PLAY:
-			break;
 		case QOBUZ_ADD:
-			break;
 		case QOBUZ_DELETE:
+		case QOBUZ_RANDOM:
 			break;
 		case QOBUZ_MAX:
 			emit SigRespError(STR_INVALID_ID);
