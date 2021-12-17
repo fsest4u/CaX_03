@@ -58,3 +58,5 @@ installer/Redist/
 installer/install-small1.bmp
 installer/install-small2.bmp
 installer/src_64/
+installer/src-64/
+installer/src-86/

@@ -45,6 +45,10 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; 
 
+[Icons]
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+
 [Files]
 Source: "D:\03-Project\CaX\installer\src-64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\03-Project\CaX\installer\src-64\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion

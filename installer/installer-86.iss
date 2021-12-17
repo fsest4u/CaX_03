@@ -45,36 +45,40 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; 
 
+[Icons]
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+
 [Files]
-Source: "D:\03-Project\CaX\installer\src-x86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Positioning.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Qml.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Quick.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5QuickWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5SerialPort.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5WebChannel.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5WebEngineCore.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5WebEngineWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\QtWebEngineProcess.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-x86\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\position\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\printsupport\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\resources\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-x86\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Positioning.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Qml.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Quick.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5QuickWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5SerialPort.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5WebChannel.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5WebEngineCore.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5WebEngineWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\QtWebEngineProcess.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\position\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\printsupport\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\resources\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\03-Project\CaX\installer\src-86\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; VC++ redistributable runtime. Extracted by VC2017RedistNeedsInstall(), if needed.
 Source: "d:\03-Project\CaX\installer\Redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
