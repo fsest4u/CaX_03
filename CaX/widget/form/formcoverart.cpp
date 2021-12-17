@@ -15,21 +15,8 @@ FormCoverArt::FormCoverArt(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->widgetCoverLeft->hide();
-//	ui->frameRating->hide();
-//	ui->labelFavorite->hide();
-	ui->labelCheck->hide();
-	ui->labelPlay->hide();
-
-	ui->frameRating->installEventFilter(this);
-//	ui->labelFavorite->installEventFilter(this);
-	ui->labelPlay->installEventFilter(this);
-
-//	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
-//	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
-//	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
-//	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
-//	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
+	ConnectSigToSlot();
+	Initialize();
 }
 
 FormCoverArt::~FormCoverArt()
@@ -251,17 +238,25 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->labelFavorite)
+		if (object == ui->frameCoverArt)
 		{
-//			emit SigFavorite(m_Favorite);
+			emit SigCoverArt();
+//			return true;
 		}
-		else if (object == ui->labelPlay)
+		if (object == ui->labelPlay)
 		{
 			emit SigPlay();
+//			return true;
 		}
+//		else if (object == ui->labelFavorite)
+//		{
+//			emit SigFavorite(m_Favorite);
+//			return true;
+//		}
+
 	}
 
-	return QObject::eventFilter(object, event);
+	return QObject::eventFilter(object, event);;
 
 }
 
@@ -292,5 +287,29 @@ void FormCoverArt::SlotBtnRating4()
 void FormCoverArt::SlotBtnRating5()
 {
 //	SetRating(5);
-//	emit SigRating(m_Rating);
+	//	emit SigRating(m_Rating);
+}
+
+void FormCoverArt::ConnectSigToSlot()
+{
+//	connect(ui->btnRating1, SIGNAL(clicked()), this, SLOT(SlotBtnRating1()));
+//	connect(ui->btnRating2, SIGNAL(clicked()), this, SLOT(SlotBtnRating2()));
+//	connect(ui->btnRating3, SIGNAL(clicked()), this, SLOT(SlotBtnRating3()));
+//	connect(ui->btnRating4, SIGNAL(clicked()), this, SLOT(SlotBtnRating4()));
+//	connect(ui->btnRating5, SIGNAL(clicked()), this, SLOT(SlotBtnRating5()));
+}
+
+void FormCoverArt::Initialize()
+{
+	ui->widgetCoverLeft->hide();
+//	ui->frameRating->hide();
+//	ui->labelFavorite->hide();
+	ui->labelCheck->hide();
+	ui->labelPlay->hide();
+
+//	ui->frameRating->installEventFilter(this);
+//	ui->labelFavorite->installEventFilter(this);
+	ui->labelPlay->installEventFilter(this);
+	ui->frameCoverArt->installEventFilter(this);
+
 }

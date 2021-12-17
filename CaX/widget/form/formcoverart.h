@@ -35,6 +35,7 @@ public:
 
 signals:
 
+	void SigCoverArt();
 	void SigRating(int nRating);
 	void SigFavorite(int nFavorite);
 	void SigPlay();
@@ -53,6 +54,9 @@ private slots:
 	void SlotBtnRating5();
 
 private:
+
+	void ConnectSigToSlot();
+	void Initialize();
 
 	QString m_CoverArt;
 	int		m_Rating;
