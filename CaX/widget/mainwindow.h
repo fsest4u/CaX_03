@@ -7,6 +7,7 @@
 
 class DeviceManager;
 class DeviceListWindow;
+class QueuelistWindow;
 
 class ObserverManager;
 class AppManager;
@@ -39,6 +40,7 @@ public slots:
 
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget *widget);
+	void SlotRemoveQueueWidget(QWidget *widget);
 
 	void SlotRespError(QString errMsg);
 	void SlotRespTaskList(CJsonNode node);
@@ -64,7 +66,7 @@ public slots:
 	void SlotDisconnectObserver();
 	void SlotRespAirableLogout();
 
-	void SlotQueueList(CJsonNode node);
+	void SlotSetQueueList(CJsonNode node);
 
 private:
 
@@ -103,6 +105,7 @@ private:
 
 	DeviceManager		*m_pDeviceMgr;
 	DeviceListWindow	*m_pDeviceWin;
+	QueuelistWindow		*m_pQueueWin;
 
 	ObserverManager		*m_pObsMgr;
 	AppManager			*m_pAppMgr;

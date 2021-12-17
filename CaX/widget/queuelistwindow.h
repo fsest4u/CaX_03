@@ -28,7 +28,7 @@ public:
 
 signals:
 
-	void SigRemoveWidget(QWidget* widget);
+	void SigRemoveQueueWidget(QWidget* widget);
 
 private slots:
 

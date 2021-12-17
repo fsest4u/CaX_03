@@ -81,6 +81,12 @@ MainWindow::~MainWindow()
 		m_pDeviceWin = nullptr;
 	}
 
+	if (m_pQueueWin)
+	{
+		delete m_pQueueWin;
+		m_pQueueWin = nullptr;
+	}
+
 	if (m_pLoading)
 	{
 		delete m_pLoading;
@@ -743,19 +749,29 @@ void MainWindow::SlotRespAirableLogout()
 	DoIServiceHome();
 }
 
-void MainWindow::SlotQueueList(CJsonNode node)
+void MainWindow::SlotSetQueueList(CJsonNode node)
 {
-	QList<CJsonNode> list;
-	list.clear();
-	for (int i = 0; i < node.ArraySize(); i++)
+	if (m_pQueueWin)
 	{
-		list.append(node.GetArrayAt(i));
-//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
+		SlotRemoveWidget(m_pQueueWin);
+
+		delete m_pQueueWin;
+		m_pQueueWin = nullptr;
 	}
 
-	QueuelistWindow *widget = new QueuelistWindow(this, m_strAddr, m_EventID);
-	SlotAddWidget(widget, STR_NOW_PLAY);
-	widget->RequestQueuelist(list);
+	{
+		QList<CJsonNode> list;
+		list.clear();
+		for (int i = 0; i < node.ArraySize(); i++)
+		{
+			list.append(node.GetArrayAt(i));
+	//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
+		}
+
+		m_pQueueWin = new QueuelistWindow(this, m_strAddr, m_EventID);
+		SlotAddWidget(m_pQueueWin, STR_NOW_PLAY);
+		m_pQueueWin->RequestQueuelist(list);
+	}
 }
 
 void MainWindow::Initialize()
@@ -783,6 +799,7 @@ void MainWindow::Initialize()
 	m_EventID = -1;
 
 	m_bCBSearch = false;
+	m_pQueueWin = nullptr;
 
 }
 
@@ -805,7 +822,7 @@ void MainWindow::ConnectForUI()
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(ui->widgetPlay, SIGNAL(SigMenu()), this, SLOT(SlotDevice()));
 	connect(ui->widgetPlay, SIGNAL(SigMenuAction(QString)), this, SLOT(SlotSelectDevice(QString)));
-	connect(ui->widgetPlay, SIGNAL(SigQueueList(CJsonNode)), this, SLOT(SlotQueueList(CJsonNode)));
+	connect(ui->widgetPlay, SIGNAL(SigSetQueueList(CJsonNode)), this, SLOT(SlotSetQueueList(CJsonNode)));
 
 }
 
@@ -1039,6 +1056,20 @@ void MainWindow::SlotRemoveWidget(QWidget *widget)
 	ui->widgetTop->RemoveTitle();
 
 	UpdateStackState();
+}
+
+void MainWindow::SlotRemoveQueueWidget(QWidget *widget)
+{
+	Q_UNUSED(widget)
+
+	if (m_pQueueWin)
+	{
+		SlotRemoveWidget(m_pQueueWin);
+
+		delete m_pQueueWin;
+		m_pQueueWin = nullptr;
+	}
+
 }
 
 void MainWindow::RemoveAllWidget()

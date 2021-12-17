@@ -125,6 +125,7 @@ void PlayWindow::SetMenu(QMap<QString, QString> map)
 void PlayWindow::SlotClickCoverArt()
 {
 	LogDebug("click label cover art");
+//	m_pMgr->RequestQueueList(m_TimeStamp);
 
 }
 
@@ -278,7 +279,7 @@ void PlayWindow::SlotCoverArtUpdate(QString fileName)
 
 void PlayWindow::SlotQueueList(CJsonNode node)
 {
-	emit SigQueueList(node);
+	emit SigSetQueueList(node);
 }
 
 void PlayWindow::ConnectSigToSlot()
@@ -302,7 +303,6 @@ void PlayWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigTrackInfo(CJsonNode)), this, SLOT(SlotTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
 	connect(m_pMgr, SIGNAL(SigQueueList(CJsonNode)), this, SLOT(SlotQueueList(CJsonNode)));
-
 }
 
 void PlayWindow::Initialize()

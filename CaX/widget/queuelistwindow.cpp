@@ -110,7 +110,7 @@ void QueuelistWindow::SlotClickBtnArtist()
 
 void QueuelistWindow::SlotClickBtnClose()
 {
-	emit SigRemoveWidget(this);
+	emit SigRemoveQueueWidget(this);
 }
 
 void QueuelistWindow::SlotRespError(QString errMsg)
@@ -158,7 +158,7 @@ void QueuelistWindow::SlotSelectPlay(int index, int playType)
 
 void QueuelistWindow::ConnectSigToSlot()
 {
-	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
+	connect(this, SIGNAL(SigRemoveQueueWidget(QWidget*)), parent(), SLOT(SlotRemoveQueueWidget(QWidget*)));
 
 	connect(ui->btnTrack, SIGNAL(clicked()), this, SLOT(SlotClickBtnTrack()));
 	connect(ui->btnLyrics, SIGNAL(clicked()), this, SLOT(SlotClickBtnLyrics()));

@@ -43,7 +43,7 @@ signals:
 	void SigSetVolumeSlider(int volume);
 	void SigSetDial(int volume);
 
-	void SigQueueList(CJsonNode node);
+	void SigSetQueueList(CJsonNode node);
 
 private slots:
 
