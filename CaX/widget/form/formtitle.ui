@@ -33,7 +33,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="WidgetMarqueeLabel" name="labelTitle">
+    <widget class="QLabel" name="labelTitle">
      <property name="styleSheet">
       <string notr="true">QLabel
 {
@@ -46,7 +46,7 @@
     </widget>
    </item>
    <item>
-    <widget class="WidgetMarqueeLabel" name="labelSubtitle">
+    <widget class="QLabel" name="labelSubtitle">
      <property name="styleSheet">
       <string notr="true">QLabel
 {
@@ -60,13 +60,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>WidgetMarqueeLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">util/widgetmarqueelabel.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

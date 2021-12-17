@@ -64,7 +64,6 @@ void InfoTracks::SetTitle(QString title)
 //	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
 //	m_pFormTitle->SetTitle(title);
 	ui->labelTitle->setText(title);
-	ui->labelTitle->startTimer();
 }
 
 void InfoTracks::SetSubtitle(QString title)
@@ -76,7 +75,6 @@ void InfoTracks::SetSubtitle(QString title)
 //	m_pFormTitle->SetSubtitleFont(FONT_SIZE_INFO_SUBTITLE2);
 //	m_pFormTitle->SetSubtitle(subtitle);
 	ui->labelSubtitle->setText(title);
-	ui->labelSubtitle->startTimer();
 }
 
 //void InfoTracks::SetInfo(QString info)

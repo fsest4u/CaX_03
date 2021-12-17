@@ -60,7 +60,6 @@ void InfoBrowser::SetTitle(const QString title)
 //	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
 //	m_pFormTitle->SetTitle(title);
 	ui->labelTitle->setText(title);
-	ui->labelTitle->startTimer();
 }
 
 QString InfoBrowser::GetSubtitle() const
@@ -74,7 +73,6 @@ void InfoBrowser::SetSubtitle(const QString title)
 //	m_pFormTitle->SetSubtitleFont(FONT_SIZE_INFO_SUBTITLE);
 //	m_pFormTitle->SetSubtitle(title);
 	ui->labelSubtitle->setText(title);
-	ui->labelSubtitle->startTimer();
 }
 
 FormPlay *InfoBrowser::GetFormPlay()

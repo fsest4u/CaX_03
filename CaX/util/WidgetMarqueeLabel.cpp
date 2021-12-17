@@ -8,7 +8,7 @@ WidgetMarqueeLabel::WidgetMarqueeLabel(QWidget *parent)
 	speed = 1;
 	direction = RightToLeft;
 	connect(&timer, SIGNAL(timeout()), this, SLOT(refreshLabel()));
-//	timer.start(25);
+	timer.start(25);
 	setAlignment(Qt::AlignVCenter);
 }
 
@@ -83,19 +83,6 @@ void WidgetMarqueeLabel::setSpeed(int s)
 int WidgetMarqueeLabel::getSpeed()
 {
 	return speed;
-}
-
-void WidgetMarqueeLabel::startTimer()
-{
-	timer.start(25);
-	px = 0;
-}
-
-void WidgetMarqueeLabel::stopTimer()
-{
-	timer.stop();
-	px = 0;
-
 }
 
 void WidgetMarqueeLabel::setDirection(int d)

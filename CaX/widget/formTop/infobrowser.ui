@@ -129,7 +129,7 @@
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="WidgetMarqueeLabel" name="labelSubtitle">
+          <widget class="QLabel" name="labelSubtitle">
            <property name="font">
             <font>
              <family>Segoe UI</family>
@@ -148,7 +148,7 @@ color: rgb(84, 84, 84);
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="WidgetMarqueeLabel" name="labelTitle">
+          <widget class="QLabel" name="labelTitle">
            <property name="font">
             <font>
              <family>Segoe UI</family>
@@ -266,13 +266,6 @@ color: rgb(84, 84, 84);
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>WidgetMarqueeLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">util/widgetmarqueelabel.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

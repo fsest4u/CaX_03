@@ -52,7 +52,6 @@ void InfoService::SetTitle(const QString title)
 //	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
 //	m_pFormTitle->SetTitle(title);
 	ui->labelTitle->setText(title);
-	ui->labelTitle->startTimer();
 }
 
 //void InfoService::SetSubtitle(const QString title)

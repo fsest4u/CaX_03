@@ -36,7 +36,6 @@ void FormTitle::SetTitle(QString title)
 	{
 		ui->labelTitle->show();
 		ui->labelTitle->setText(title);
-		ui->labelTitle->stopTimer();
 	}
 }
 
@@ -57,7 +56,6 @@ void FormTitle::SetSubtitle(QString subtitle)
 	{
 		ui->labelSubtitle->show();
 		ui->labelSubtitle->setText(subtitle);
-		ui->labelSubtitle->stopTimer();
 	}
 }
 
@@ -85,22 +83,18 @@ bool FormTitle::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelTitle)
 		{
-			ui->labelTitle->startTimer();
 		}
 		else if (object == ui->labelSubtitle)
 		{
-			ui->labelSubtitle->startTimer();
 		}
 	}
 	else if (event->type() == QMouseEvent::Leave)
 	{
 		if (object == ui->labelTitle)
 		{
-			ui->labelTitle->stopTimer();
 		}
 		else if (object == ui->labelSubtitle)
 		{
-			ui->labelSubtitle->stopTimer();
 		}
 	}
 
