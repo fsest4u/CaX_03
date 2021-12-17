@@ -84,8 +84,8 @@
 //////////////////////////////////////////////////
 
 #define STR_ADD						TR("Add")
-//#define STR_ADD_FAVORITE			TR("Add favorite")
-//#define STR_ADD_PLAYLIST			TR("Add playlist")
+#define STR_ADD_PLAYLIST			TR("Add playlist")
+#define STR_ADD_TO_FAVORITE			TR("Add to favorite")
 //#define STR_ADD_RADIO				TR("Add radio")
 #define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
 #define STR_CD_RIPPING				TR("CD ripping")
@@ -94,9 +94,9 @@
 #define STR_COPY              		TR("Copy")
 #define STR_COPY_HERE              	TR("Copy here")
 #define STR_DELETE					TR("Delete")
-//#define STR_DELETE_FAVORITE			TR("Delete favorite")
-//#define STR_DELETE_PLAYLIST			TR("Delete playlist")
+#define STR_DELETE_PLAYLIST			TR("Delete playlist")
 //#define STR_DELETE_RADIO			TR("Delete radio")
+#define STR_DELETE_TO_FAVORITE		TR("Delete to favorite")
 #define STR_DELETE_TO_PLAYLIST		TR("Delete track to playlist")
 #define STR_EDIT_TAG          		TR("Edit tag")
 #define STR_EJECT_CD				TR("Eject CD")

@@ -12,6 +12,8 @@
 
 #include "widget/airable.h"
 #include "widget/browser.h"
+#include "widget/qobuz.h"
+
 #include "widget/form/formcoverart.h"
 
 #define ICON_DIR		"dir"
@@ -118,6 +120,26 @@ void ListBrowserEditor::SetType(int Type)
 				|| m_Type & iAirableType_Mask_Radio
 				|| m_Type & iAirableType_Mask_Feed
 				|| m_Type & iAirableType_Mask_Play)
+		{
+			ui->labelPlay->show();
+		}
+		else
+		{
+			ui->labelPlay->hide();
+		}
+	}
+	else	// qobuz
+	{
+		if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == m_Type)
+		{
+			ui->frameMenu->show();
+		}
+		else
+		{
+			ui->frameMenu->hide();
+		}
+
+		if (m_Type & iQobuzType_Mask_Track)
 		{
 			ui->labelPlay->show();
 		}
@@ -251,7 +273,7 @@ void ListBrowserEditor::SlotMenu()
 {
 	if (SIDEMENU_BROWSER == m_Service)
 	{
-		emit SigMenu(m_ID, m_Type);
+		emit SigMenu(m_Index, m_Type);
 	}
 	else if (SIDEMENU_ISERVICE == m_Service)
 	{
@@ -273,8 +295,12 @@ void ListBrowserEditor::SlotMenu()
 		QString name = act.GetString(KEY_NAME_CAP);
 		if (!name.isEmpty())
 		{
-			emit SigMenu(m_ID, m_Type, name);
+			emit SigMenu(m_Index, m_Type, name);
 		}
+	}
+	else
+	{
+		emit SigMenu(m_Index, m_Type);
 	}
 }
 
@@ -313,6 +339,16 @@ void ListBrowserEditor::SlotMenuAction(QAction *action)
 		{
 			emit SigMenuAction(url, m_Type, action->data().toInt());
 		}
+	}
+	else
+	{
+		CJsonNode node;
+		if (!node.SetContent(m_RawData))
+		{
+			return;
+		}
+		QString id = node.GetString(KEY_ID_UPPER);
+		emit SigMenuAction(id, m_Type, action->data().toInt());
 	}
 }
 

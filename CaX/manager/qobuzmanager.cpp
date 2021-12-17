@@ -131,20 +131,91 @@ void QobuzManager::RequestPlay(QMap<int, CJsonNode> nodeMap, int nWhere)
 	RequestCommand(node, QOBUZ_PLAY);
 }
 
-void QobuzManager::RequestAdd()
+void QobuzManager::RequestAddToFavorite(int nType, QMap<int, CJsonNode> nodeMap)
 {
+	CJsonNode nodeArr(JSON_ARRAY);
+	QMap<int, CJsonNode>::iterator i;
+	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+		nodeArr.AppendArray(i.value().GetString(KEY_ID_UPPER));
+	}
+
 	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QOBUZ);
+	node.Add	(KEY_CMD1,		VAL_ADD);
+	node.Add	(KEY_CMD2,		VAL_FAVORITE);
+	node.AddInt(KEY_TYPE,		nType);
 
+	node.Add	(KEY_IDS,	nodeArr);
 
-	RequestCommand(node, QOBUZ_ADD);
+	RequestCommand(node, QOBUZ_ADD_TO_FAVORITE);
 }
 
-void QobuzManager::RequestDelete()
+void QobuzManager::RequestDeleteToFavorite(int nType, QMap<int, CJsonNode> nodeMap)
+{
+	CJsonNode nodeArr(JSON_ARRAY);
+	QMap<int, CJsonNode>::iterator i;
+	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+		nodeArr.AppendArray(i.value().GetString(KEY_ID_UPPER));
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QOBUZ);
+	node.Add	(KEY_CMD1,		VAL_DEL);
+	node.Add	(KEY_CMD2,		VAL_FAVORITE);
+	node.AddInt(KEY_TYPE,		nType);
+
+	node.Add	(KEY_IDS,	nodeArr);
+
+	RequestCommand(node, QOBUZ_DELETE_TO_FAVORITE);
+}
+
+void QobuzManager::RequestAddPlaylist(QString name, QString desc)
 {
 	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QOBUZ);
+	node.Add	(KEY_CMD1,		VAL_ADD);
+	node.Add	(KEY_CMD2,		VAL_PLAYLIST);
+	node.Add	(KEY_NAME_CAP,  name);
+	node.Add	(KEY_DESC,		desc);
 
+	RequestCommand(node, QOBUZ_ADD_PLAYLIST);
+}
 
-	RequestCommand(node, QOBUZ_DELETE);
+void QobuzManager::RequestDeletePlaylist(QString strID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QOBUZ);
+	node.Add	(KEY_CMD1,		VAL_DEL);
+	node.Add	(KEY_CMD2,		VAL_PLAYLIST);
+
+	node.Add	(KEY_ID_UPPER,		strID);
+
+	RequestCommand(node, QOBUZ_DELETE_PLAYLIST);
+}
+
+void QobuzManager::RequestDeleteTrack(QString playlistID, QMap<int, CJsonNode> nodeMap)
+{
+	CJsonNode nodeArr(JSON_ARRAY);
+	QMap<int, CJsonNode>::iterator i;
+	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
+	{
+		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+		nodeArr.AppendArray(i.value().GetString(KEY_ID_UPPER));
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QOBUZ);
+	node.Add	(KEY_CMD1,		VAL_DEL);
+	node.Add	(KEY_CMD2,		VAL_TRACK);
+	node.Add	(KEY_ID_UPPER,	playlistID);
+
+	node.Add	(KEY_IDS,	nodeArr);
+
+	RequestCommand(node, QOBUZ_DELETE_TRACK);
 }
 
 void QobuzManager::RequestRandom()
@@ -213,9 +284,20 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 			ParseList(node, true);
 			break;
 		case QOBUZ_PLAY:
-		case QOBUZ_ADD:
-		case QOBUZ_DELETE:
 		case QOBUZ_RANDOM:
+			break;
+		case QOBUZ_ADD_TO_FAVORITE:
+			emit SigRespError(STR_INVALID_ID);
+			break;
+		case QOBUZ_DELETE_TO_FAVORITE:
+			emit SigRespError(STR_INVALID_ID);
+			break;
+		case QOBUZ_ADD_PLAYLIST:
+		case QOBUZ_DELETE_PLAYLIST:
+		case QOBUZ_DELETE_TRACK:
+			// refresh
+			emit SigListUpdate();
+			emit
 			break;
 		case QOBUZ_MAX:
 			emit SigRespError(STR_INVALID_ID);

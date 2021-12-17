@@ -42,6 +42,7 @@
 #define		KEY_COVER_ART		"CoverArt"
 
 #define		KEY_DAB				"Dab"
+#define		KEY_DESC			"Desc"
 #define		KEY_DEV				"Dev"
 #define		KEY_DEV_LIST		"DevList"
 #define		KEY_DEV_LIST_UPDATE	"DevListUpdated"

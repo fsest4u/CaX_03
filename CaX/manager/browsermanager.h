@@ -47,7 +47,7 @@ signals:
 	void SigInfoTagUpdate(CJsonNode node);
 	void SigRespCategoryList(QList<CJsonNode> list);
 
-	void SigListUpdate();	// refresh
+	void SigListUpdate();
 
 private slots:
 

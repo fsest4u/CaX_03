@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     dialog/aboutdialog.cpp \
+    dialog/addqobuzplaylist.cpp \
     dialog/addradiodialog.cpp \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
@@ -127,6 +128,7 @@ SOURCES += \
 
 HEADERS += \
     dialog/aboutdialog.h \
+    dialog/addqobuzplaylist.h \
     dialog/addradiodialog.h \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
@@ -255,6 +257,7 @@ HEADERS += \
 
 FORMS += \
     dialog/aboutdialog.ui \
+    dialog/addqobuzplaylist.ui \
     dialog/addradiodialog.ui \
     dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \

@@ -49,12 +49,18 @@ public:
 	int GetServiceType() const;
 	void SetServiceType(int ServiceType);
 
+	int GetType() const;
+	void SetType(int Type);
+
 	QThread *GetListThread() const;
 
-	void AddWidgetItem(bool playMenu = false);
+	void AddWidgetItem(bool playAll = false, bool playRandom = false, bool menu = false);
 
 	bool GetGenre() const;
 	void SetGenre(bool bGenre);
+
+	QString GetPlaylistID() const;
+	void SetPlaylistID(const QString &PlaylistID);
 
 signals:
 
@@ -84,6 +90,7 @@ private slots:
 	void SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAuth);
 
 	void SlotRespQobuzList(QList<CJsonNode> list, bool genre);
+	void SlotListUpdate();
 
 	void SlotRespAuth(int nServiceType);
 	void SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list);
@@ -95,6 +102,7 @@ private slots:
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 
+	void SlotOptionMenu(int id, int type);
 	void SlotOptionMenu(int id, int type, QString menuName);
 	void SlotOptionMenuAction(QString url, int type, int menuID);
 
@@ -109,8 +117,13 @@ private:
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
 	void DoTopMenuPlay(int nWhere);
+	void DoTopMenuAddToFavorite();
+	void DoTopMenuDeleteToFavorite();
+	void DoTopMenuAddPlaylist();
+	void DoTopMenuDeletePlaylist();
+	void DoTopMenuDeleteTrack();
 
-	void SetOptionMenu(int type, QString menuName);
+	void SetOptionMenu(int type, QString menuName = "");
 
 	void DoOptionMenuPlay(int nID, int where);
 
@@ -160,9 +173,13 @@ private:
 	CJsonNode			m_Node;
 
 	QString				m_WebURL;
+	QString				m_PlaylistID;
+
 	int					m_ServiceType;
+	int					m_Type;
 
 	bool				m_bGenre;
+	bool				m_Refresh;
 
 
 	Ui::IServiceWindow *ui;

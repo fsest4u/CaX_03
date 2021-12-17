@@ -19,8 +19,11 @@ public:
 	void RequestCategory(int nType, QString strID, int nStart, int nCount);
 
 	void RequestPlay(QMap<int, CJsonNode> nodeMap, int nWhere);
-	void RequestAdd();
-	void RequestDelete();
+	void RequestAddToFavorite(int nType, QMap<int, CJsonNode> nodeMap);
+	void RequestDeleteToFavorite(int nType, QMap<int, CJsonNode> nodeMap);
+	void RequestAddPlaylist(QString name, QString desc);
+	void RequestDeletePlaylist(QString strID);
+	void RequestDeleteTrack(QString playlistID, QMap<int, CJsonNode> nodeMap);
 
 	void RequestRandom();
 
@@ -31,6 +34,8 @@ signals:
 	void SigRespLoginSuccess();
 
 	void SigRespList(QList<CJsonNode> nodeList, bool genre);
+	void SigListUpdate();
+
 
 private slots:
 
@@ -48,8 +53,11 @@ private:
 		QOBUZ_FAVORITE,
 		QOBUZ_PLAYLIST,
 		QOBUZ_PLAY,
-		QOBUZ_ADD,
-		QOBUZ_DELETE,
+		QOBUZ_ADD_TO_FAVORITE,
+		QOBUZ_DELETE_TO_FAVORITE,
+		QOBUZ_ADD_PLAYLIST,
+		QOBUZ_DELETE_PLAYLIST,
+		QOBUZ_DELETE_TRACK,
 		QOBUZ_RANDOM,
 		QOBUZ_MAX
 	};
