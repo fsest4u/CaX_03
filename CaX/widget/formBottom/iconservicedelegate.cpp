@@ -17,6 +17,11 @@ IconServiceDelegate::IconServiceDelegate()
 
 }
 
+void IconServiceDelegate::SlotClickCoverArt(int index)
+{
+	emit SigSelectCoverArt(index);
+}
+
 void IconServiceDelegate::SlotClickPlay(int index, bool muted)
 {
 	emit SigSelectPlay(index, muted);
@@ -68,6 +73,7 @@ QWidget *IconServiceDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	Q_UNUSED(index)
 
 	IconServiceEditor *editor = new IconServiceEditor(parent);
+	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickPlay(int, bool)), this, SLOT(SlotClickPlay(int, bool)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 
@@ -82,6 +88,7 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->SetType(qvariant_cast<int>(index.data(ICON_SERVICE_TYPE)));
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
+	widget->GetFormCoverArt()->SetIndex(qvariant_cast<int>(index.data(ICON_SERVICE_INDEX)));
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT)));
 	if (IconService::ICON_SERVICE_GROUP_PLAY == m_nServiceType)
 	{
@@ -101,6 +108,7 @@ void IconServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetType(), ICON_SERVICE_TYPE);
 	model->setData(index, widget->GetRawData(), ICON_SERVICE_RAW);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_SERVICE_COVER);
+	model->setData(index, widget->GetFormCoverArt()->GetIndex(), ICON_SERVICE_INDEX);
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), ICON_SERVICE_SELECT);
 	if (IconService::ICON_SERVICE_GROUP_PLAY == m_nServiceType)
 	{

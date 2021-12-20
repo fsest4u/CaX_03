@@ -26,6 +26,7 @@ public:
 
 signals:
 
+	void SigClickCoverArt(int index);
 	void SigClickPlay(int nID);
 	void SigClickFavorite(int nID, int nFavorite);
 	void SigClickRating(int nID, int nRating);
@@ -34,6 +35,7 @@ signals:
 
 private slots:
 
+	void SlotCoverArt(int index);
 	void SlotRating(int nRating);
 	void SlotFavorite(int nFavorite);
 	void SlotPlay();

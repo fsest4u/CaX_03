@@ -79,6 +79,11 @@ FormCoverArt *IconServiceEditor::GetFormCoverArt() const
 	return m_pFormCoverArt;
 }
 
+void IconServiceEditor::SlotCoverArt(int index)
+{
+	emit SigClickCoverArt(index);
+}
+
 void IconServiceEditor::SlotPlay()
 {
 	emit SigClickPlay(m_ID, m_pFormCoverArt->GetMute());
@@ -96,6 +101,7 @@ void IconServiceEditor::ConnectSigToSlot()
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
 	connect(m_pFormCoverArt, SIGNAL(SigPlay()), this, SLOT(SlotPlay()));
 	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotTitle()));

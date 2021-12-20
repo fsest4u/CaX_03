@@ -57,7 +57,7 @@ private slots:
 	void SlotReqCoverArt();
 	void SlotFinishThread();
 	void SlotScrollValueChanged(int value);
-	void SlotDoubleClickItem(const QModelIndex& index);
+	void SlotSelectCoverArt(int index);
 
 private:
 

@@ -18,6 +18,7 @@ public:
 		ICON_SERVICE_TITLE,
 		ICON_SERVICE_SUBTITLE,
 		ICON_SERVICE_RAW,
+		ICON_SERVICE_INDEX,
 		ICON_SERVICE_SELECT,
 		ICON_SERVICE_MAX
 	};
@@ -27,12 +28,14 @@ public:
 
 signals:
 
+	void SigSelectCoverArt(int index);
 	void SigSelectPlay(int index, bool muted);
 	void SigSelectTitle(int nType);
 	void SigSelectTitle(int nType, QString rawData);
 
 private slots:
 
+	void SlotClickCoverArt(int index);
 	void SlotClickPlay(int index, bool muted);
 	void SlotClickTitle(int nType, QString rawData);
 

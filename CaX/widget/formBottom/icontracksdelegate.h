@@ -23,6 +23,7 @@ public:
 //		ICON_TRACKS_ARTIST,
 //		ICON_TRACKS_ALBUM,
 //		ICON_TRACKS_GENRE,
+		ICON_TRACKS_INDEX,
 		ICON_TRACKS_SELECT,
 		ICON_TRACKS_MAX
 	};
@@ -35,6 +36,7 @@ public:
 
 signals:
 
+	void SigSelectCoverArt(int index);
 	void SigSelectPlay(int nID, int playType);
 	void SigSelectFavorite(int nID, int nFavorite);
 	void SigSelectRating(int nID, int nRating);
@@ -43,6 +45,7 @@ signals:
 
 private slots:
 
+	void SlotClickCoverArt(int index);
 	void SlotClickPlay(int nID);
 	void SlotClickFavorite(int nID, int nFavorite);
 	void SlotClickRating(int nID, int nRating);

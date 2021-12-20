@@ -13,7 +13,6 @@ public:
 
 	enum {
 		LIST_BROWSER_ID = Qt::UserRole + 0,
-		LIST_BROWSER_INDEX,
 		LIST_BROWSER_TYPE,
 		LIST_BROWSER_COVER,
 		LIST_BROWSER_TITLE,
@@ -21,6 +20,7 @@ public:
 		LIST_BROWSER_DURATION,
 		LIST_BROWSER_FILESIZE,
 		LIST_BROWSER_RAW,
+		LIST_BROWSER_INDEX,
 		LIST_BROWSER_SELECT,
 		LIST_BROWSER_MAX
 	};
@@ -33,6 +33,7 @@ public:
 
 signals:
 
+	void SigSelectCoverArt(int index);
 	void SigSelectPlay(int type, CJsonNode node);
 	void SigSelectTitle(int type, CJsonNode node);
 	void SigMenu(int index, int type);
@@ -42,6 +43,7 @@ signals:
 
 private slots:
 
+	void SlotClickCoverArt(int index);
 	void SlotClickPlay(int type, CJsonNode node);
 	void SlotClickTitle(int type, CJsonNode node);
 	void SlotMenu(int index, int type);

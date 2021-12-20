@@ -12,6 +12,11 @@ IconTracksDelegate::IconTracksDelegate()
 	m_TypeMode = TYPE_MODE_MAX;
 }
 
+void IconTracksDelegate::SlotClickCoverArt(int index)
+{
+	emit SigSelectCoverArt(index);
+}
+
 void IconTracksDelegate::SlotClickPlay(int nID)
 {
 	emit SigSelectPlay(nID, PLAY_CLEAR);
@@ -59,6 +64,7 @@ QWidget *IconTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	Q_UNUSED(index)
 
 	IconTracksEditor *editor = new IconTracksEditor(parent);
+	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
 	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
 	connect(editor, SIGNAL(SigClickRating(int, int)), this, SLOT(SlotClickRating(int, int)));
@@ -81,6 +87,7 @@ void IconTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 		widget->GetFormCoverArt()->SetRating(qvariant_cast<int>(index.data(ICON_TRACKS_RATING)));
 	}
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_TRACKS_SELECT)));
+	widget->GetFormCoverArt()->SetIndex(qvariant_cast<int>(index.data(ICON_TRACKS_INDEX)));
 	widget->GetFormTitle()->SetTitleFont(FONT_SIZE_ICON_TITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_BOLD);
 	widget->GetFormTitle()->SetSubtitleFont(FONT_SIZE_ICON_SUBTITLE, FONT_COLOR_NORMAL, FONT_WEIGHT_NORMAL);
 	widget->GetFormTitle()->SetTitle(qvariant_cast<QString>(index.data(ICON_TRACKS_TITLE)));
@@ -100,6 +107,7 @@ void IconTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 		model->setData(index, widget->GetFormCoverArt()->GetRating(), ICON_TRACKS_RATING);
 	}
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), ICON_TRACKS_SELECT);
+	model->setData(index, widget->GetFormCoverArt()->GetIndex(), ICON_TRACKS_INDEX);
 	model->setData(index, widget->GetFormTitle()->GetTitle(), ICON_TRACKS_TITLE);
 	model->setData(index, widget->GetFormTitle()->GetSubtitle(), ICON_TRACKS_SUBTITLE);
 }

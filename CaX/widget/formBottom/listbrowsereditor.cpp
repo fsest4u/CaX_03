@@ -49,7 +49,6 @@ ListBrowserEditor::~ListBrowserEditor()
 		m_Menu = nullptr;
 	}
 
-
 	delete ui;
 }
 
@@ -61,16 +60,6 @@ int ListBrowserEditor::GetID() const
 void ListBrowserEditor::SetID(int ID)
 {
 	m_ID = ID;
-}
-
-int ListBrowserEditor::GetIndex() const
-{
-	return m_Index;
-}
-
-void ListBrowserEditor::SetIndex(int index)
-{
-	m_Index = index;
 }
 
 int ListBrowserEditor::GetType() const
@@ -273,7 +262,7 @@ void ListBrowserEditor::SlotMenu()
 {
 	if (SIDEMENU_BROWSER == m_Service)
 	{
-		emit SigMenu(m_Index, m_Type);
+		emit SigMenu(m_pFormCoverArt->GetIndex(), m_Type);
 	}
 	else if (SIDEMENU_ISERVICE == m_Service)
 	{
@@ -295,12 +284,12 @@ void ListBrowserEditor::SlotMenu()
 		QString name = act.GetString(KEY_NAME_CAP);
 		if (!name.isEmpty())
 		{
-			emit SigMenu(m_Index, m_Type, name);
+			emit SigMenu(m_pFormCoverArt->GetIndex(), m_Type, name);
 		}
 	}
 	else
 	{
-		emit SigMenu(m_Index, m_Type);
+		emit SigMenu(m_pFormCoverArt->GetIndex(), m_Type);
 	}
 }
 
@@ -352,10 +341,18 @@ void ListBrowserEditor::SlotMenuAction(QAction *action)
 	}
 }
 
+void ListBrowserEditor::SlotCoverArt(int index)
+{
+	emit SigClickCoverArt(index);
+}
+
 void ListBrowserEditor::ConnectSigToSlot()
 {
 	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
+
 }
 
 void ListBrowserEditor::Initialize()

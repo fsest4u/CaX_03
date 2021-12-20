@@ -94,7 +94,6 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
-			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_BROWSER), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(title, ListBrowserDelegate::LIST_BROWSER_TITLE);
@@ -102,6 +101,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 			item->setData(node.GetString(KEY_SIZE), ListBrowserDelegate::LIST_BROWSER_FILESIZE);
 			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
+			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 //			SetBrowserOptionMenu(nodeType);
@@ -134,13 +134,13 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
-			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_COVER_ART)), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
 			item->setData(node.GetString(KEY_BOT1), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
+			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 			m_Model->appendRow(item);
@@ -170,13 +170,13 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_ID_UPPER), ListBrowserDelegate::LIST_BROWSER_ID);
-			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_COVER_ART)), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
 			item->setData(node.GetString(KEY_BOT1), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 			item->setData(node.ToCompactString(), ListBrowserDelegate::LIST_BROWSER_RAW);
+			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 			m_Model->appendRow(item);
@@ -417,16 +417,16 @@ void ListBrowser::SlotFinishThread()
 	LogDebug("thread finish good");
 }
 
-void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
+void ListBrowser::SlotSelectCoverArt(int index)
 {
 	int serviceType = m_Delegate->GetService();
 	if (SIDEMENU_BROWSER == serviceType)
 	{
-		QStandardItem *item = m_Model->itemFromIndex(index);
+		QStandardItem *item = m_Model->item(index);
 		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
 
-	//	QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(index);
+		QModelIndex modelIndex = m_Model->indexFromItem(item);
+		m_ListView->openPersistentEditor(modelIndex);
 
 		QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
 		int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
@@ -443,11 +443,11 @@ void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
 	}
 	else
 	{
-		QStandardItem *item = m_Model->itemFromIndex(index);
+		QStandardItem *item = m_Model->item(index);
 		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
 
-	//	QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(index);
+		QModelIndex modelIndex = m_Model->indexFromItem(item);
+		m_ListView->openPersistentEditor(modelIndex);
 
 		int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
 		QString rawData = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_RAW));
@@ -473,8 +473,6 @@ void ListBrowser::SlotDoubleClickItem(const QModelIndex &index)
 		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 	}
-
-
 }
 
 void ListBrowser::Initialize()
@@ -485,7 +483,7 @@ void ListBrowser::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
 
-	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
+	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
 	ui->frameInfo->hide();
 

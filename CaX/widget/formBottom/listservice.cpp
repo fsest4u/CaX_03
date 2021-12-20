@@ -77,6 +77,8 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			item->setData(node.GetInt(KEY_TYPE), ListServiceDelegate::LIST_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_NAME_CAP), ListServiceDelegate::LIST_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), ListServiceDelegate::LIST_SERVICE_RAW);
+			item->setData(index, ListServiceDelegate::LIST_SERVICE_INDEX);
+			item->setData(false, ListServiceDelegate::LIST_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
@@ -159,14 +161,14 @@ ListServiceDelegate *ListService::GetDelegate()
 	return m_Delegate;
 }
 
-void ListService::SlotDoubleClickItem(const QModelIndex &index)
+void ListService::SlotSelectCoverArt(int index)
 {
-	QStandardItem *item = m_Model->itemFromIndex(index);
+	QStandardItem *item = m_Model->item(index);
 	bool bSelect = !qvariant_cast<bool>(item->data(ListServiceDelegate::LIST_SERVICE_SELECT));
 	item->setData(bSelect, ListServiceDelegate::LIST_SERVICE_SELECT);
 
-//	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(index);
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
 
 	int id = qvariant_cast<int>(item->data(ListServiceDelegate::LIST_SERVICE_ID));
 	if (bSelect)
@@ -187,6 +189,6 @@ void ListService::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
 
-	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
+	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 }
 

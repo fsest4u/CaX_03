@@ -81,6 +81,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+			item->setData(index, IconTracksDelegate::ICON_TRACKS_INDEX);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
 
@@ -106,6 +107,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
+			item->setData(index, IconTracksDelegate::ICON_TRACKS_INDEX);
 			if (ICON_TRACKS_MUSIC_DB == type)
 			{
 				item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
@@ -256,14 +258,14 @@ void IconTracks::SlotScrollValueChanged(int value)
 	}
 }
 
-void IconTracks::SlotDoubleClickItem(const QModelIndex &index)
+void IconTracks::SlotSelectCoverArt(int index)
 {
-	QStandardItem *item = m_Model->itemFromIndex(index);
+	QStandardItem *item = m_Model->item(index);
 	bool bSelect = !qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
 	item->setData(bSelect, IconTracksDelegate::ICON_TRACKS_SELECT);
 
-//	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(index);
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
 
 	int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
 	if (bSelect)
@@ -274,13 +276,6 @@ void IconTracks::SlotDoubleClickItem(const QModelIndex &index)
 	{
 		m_SelectMap.remove(id);
 	}
-
-//	// for debug
-//	QMap<int, bool>::iterator i;
-//	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
-//	{
-//		LogDebug("key [%d] value [%d]", i.key(), i.value());
-//	}
 }
 
 void IconTracks::Initialize()
@@ -295,5 +290,5 @@ void IconTracks::Initialize()
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
-	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
+	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 }

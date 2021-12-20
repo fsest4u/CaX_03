@@ -11,9 +11,9 @@ ListServiceDelegate::ListServiceDelegate()
 
 }
 
-void ListServiceDelegate::SlotClickCoverArt(QString rawData)
+void ListServiceDelegate::SlotClickCoverArt(int index)
 {
-	emit SigSelectCoverArt(rawData);
+	emit SigSelectCoverArt(index);
 }
 
 void ListServiceDelegate::SlotClickTitle(QString rawData)
@@ -42,7 +42,7 @@ QWidget *ListServiceDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 	Q_UNUSED(index)
 
 	ListServiceEditor *editor = new ListServiceEditor(parent);
-//	connect(editor, SIGNAL(SigClickCoverArt(QString)), this, SLOT(SlotClickCoverArt(QString)));
+	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
 	connect(editor, SIGNAL(SigClickTitle(QString)), this, SLOT(SlotClickTitle(QString)));
 
 	return editor;
@@ -50,15 +50,12 @@ QWidget *ListServiceDelegate::createEditor(QWidget *parent, const QStyleOptionVi
 
 void ListServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-//	LogDebug("type : [%d]", qvariant_cast<int>(index.data(LIST_SERVICE_TYPE)));
-//	LogDebug("icon : [%s]", qvariant_cast<QString>(index.data(LIST_SERVICE_ICON)).toUtf8().data());
-//	LogDebug("title : [%s]", qvariant_cast<QString>(index.data(LIST_SERVICE_TITLE)).toUtf8().data());
-//	LogDebug("url : [%s]", qvariant_cast<QString>(index.data(LIST_SERVICE_URL)).toUtf8().data());
 	ListServiceEditor *widget = static_cast<ListServiceEditor*>(editor);
 	widget->blockSignals(true);
 	widget->SetID(qvariant_cast<QString>(index.data(LIST_SERVICE_ID)));
 	widget->SetType(qvariant_cast<int>(index.data(LIST_SERVICE_TYPE)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_SERVICE_COVER_ART)));
+	widget->GetFormCoverArt()->SetIndex(qvariant_cast<int>(index.data(LIST_SERVICE_INDEX)));
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_SERVICE_SELECT)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_SERVICE_TITLE)));
 	widget->SetSubtitle(qvariant_cast<QString>(index.data(LIST_SERVICE_SUBTITLE)));
@@ -73,6 +70,7 @@ void ListServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetID(), LIST_SERVICE_ID);
 	model->setData(index, widget->GetType(), LIST_SERVICE_TYPE);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), LIST_SERVICE_COVER_ART);
+	model->setData(index, widget->GetFormCoverArt()->GetIndex(), LIST_SERVICE_INDEX);
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_SERVICE_SELECT);
 	model->setData(index, widget->GetTitle(), LIST_SERVICE_TITLE);
 	model->setData(index, widget->GetSubtitle(), LIST_SERVICE_SUBTITLE);

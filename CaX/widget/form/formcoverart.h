@@ -33,9 +33,12 @@ public:
 	bool GetMute() const;
 	void SetMute(bool Mute);
 
+	int GetIndex() const;
+	void SetIndex(int Index);
+
 signals:
 
-	void SigCoverArt();
+	void SigCoverArt(int index);
 	void SigRating(int nRating);
 	void SigFavorite(int nFavorite);
 	void SigPlay();
@@ -62,6 +65,7 @@ private:
 	int		m_Rating;
 	int		m_Favorite;
 	int		m_Count;
+	int		m_Index;
 	bool	m_Select;
 	bool	m_Mute;
 

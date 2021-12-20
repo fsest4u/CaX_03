@@ -115,6 +115,11 @@ bool ListServiceEditor::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
+void ListServiceEditor::SlotCoverArt(int index)
+{
+	emit SigClickCoverArt(index);
+}
+
 void ListServiceEditor::ConnectSigToSlot()
 {
 	ui->labelTitle->installEventFilter(this);
@@ -122,5 +127,8 @@ void ListServiceEditor::ConnectSigToSlot()
 	ui->labelDuration->hide();
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
+
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
+
 }
 

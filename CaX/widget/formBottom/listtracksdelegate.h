@@ -22,6 +22,7 @@ public:
 		LIST_TRACKS_ARTIST,
 		LIST_TRACKS_ALBUM,
 		LIST_TRACKS_GENRE,
+		LIST_TRACKS_INDEX,
 		LIST_TRACKS_SELECT,
 		LIST_TRACKS_MAX
 	};
@@ -34,6 +35,7 @@ public:
 
 signals:
 
+	void SigSelectCoverArt(int index);
 	void SigSelectPlay(int nID, int playType);
 	void SigSelectFavorite(int nID, int nFavorite);
 	void SigSelectTitle(int nID, QString coverArt);
@@ -41,7 +43,7 @@ signals:
 
 private slots:
 
-	void SlotClickCoverArt(int nID);
+	void SlotClickCoverArt(int index);
 	void SlotClickPlay(int nID);
 	void SlotClickTitle(int nID, QString coverArt);
 	void SlotClickFavorite(int nID, int nFavorite);

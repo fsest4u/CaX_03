@@ -39,7 +39,7 @@ public:
 
 signals:
 
-//	void SigClickCoverArt(QString rawData);
+	void SigClickCoverArt(int index);
 	void SigClickTitle(QString rawData);
 
 protected:
@@ -48,6 +48,7 @@ protected:
 
 private slots:
 
+	void SlotCoverArt(int index);
 
 private:
 

@@ -33,12 +33,14 @@ public:
 
 signals:
 
+	void SigClickCoverArt(int index);
 	void SigClickPlay(int index, bool muted);
 	void SigClickTitle(int nType, QString rawData = "");
 
 
 private slots:
 
+	void SlotCoverArt(int index);
 	void SlotPlay();
 	void SlotTitle();
 

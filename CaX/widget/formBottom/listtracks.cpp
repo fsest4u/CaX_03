@@ -84,6 +84,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
+			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 			m_Model->appendRow(item);
@@ -110,6 +111,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
+			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 			m_Model->appendRow(item);
@@ -281,14 +283,14 @@ void ListTracks::SlotScrollValueChanged(int value)
 	}
 }
 
-void ListTracks::SlotDoubleClickItem(const QModelIndex &index)
+void ListTracks::SlotSelectCoverArt(int index)
 {
-	QStandardItem *item = m_Model->itemFromIndex(index);
+	QStandardItem *item = m_Model->item(index);
 	bool bSelect = !qvariant_cast<bool>(item->data(ListTracksDelegate::LIST_TRACKS_SELECT));
 	item->setData(bSelect, ListTracksDelegate::LIST_TRACKS_SELECT);
 
-//	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(index);
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
 
 	int id = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_ID));
 	if (bSelect)
@@ -337,7 +339,7 @@ void ListTracks::Initialize()
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
-	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
+	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
 	ui->labelHeaderTitle->setText(KEY_TITLE_CAP);
 	ui->labelHeaderMenu->setText(KEY_INFO);

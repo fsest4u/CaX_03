@@ -46,7 +46,7 @@ public:
 
 signals:
 
-	void SigClickCoverArt(int nID);
+	void SigClickCoverArt(int index);
 	void SigClickPlay(int nID);
 	void SigClickTitle(int nID, QString coverArt);
 	void SigClickFavorite(int nID, int Favorite);
@@ -64,6 +64,7 @@ protected:
 private slots:
 
 	void SlotMenuAction(QAction* action);
+	void SlotCoverArt(int index);
 
 private:
 

@@ -234,19 +234,29 @@ void FormCoverArt::SetMute(bool Mute)
 	ui->labelPlay->setStyleSheet(style);
 }
 
+int FormCoverArt::GetIndex() const
+{
+	return m_Index;
+}
+
+void FormCoverArt::SetIndex(int Index)
+{
+	m_Index = Index;
+}
+
 bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
 		if (object == ui->frameCoverArt)
 		{
-			emit SigCoverArt();
-//			return true;
+			emit SigCoverArt(m_Index);
+			return true;
 		}
 		if (object == ui->labelPlay)
 		{
 			emit SigPlay();
-//			return true;
+			return true;
 		}
 //		else if (object == ui->labelFavorite)
 //		{

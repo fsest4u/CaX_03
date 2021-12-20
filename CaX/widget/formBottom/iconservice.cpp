@@ -88,11 +88,14 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 				item->setData(" ", IconServiceDelegate::ICON_SERVICE_SUBTITLE);
 			}
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
+
+			index++;
 		}
 	}
 	else if (ICON_SERVICE_ISERVICE == nService)
@@ -107,11 +110,14 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_NAME_CAP), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
+
+			index++;
 		}
 	}
 	else if (ICON_SERVICE_INPUT == nService)
@@ -124,11 +130,14 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_INPUT, node.GetString(KEY_RIGHT)), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
+
+			index++;
 		}
 	}
 	else if (ICON_SERVICE_FM_RADIO == nService
@@ -142,11 +151,14 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
+
+			index++;
 		}
 	}
 	else if (ICON_SERVICE_FM_RADIO_RECORD == nService
@@ -160,11 +172,14 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_TOP), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
 			QModelIndex modelIndex = m_Model->indexFromItem(item);
 			m_ListView->openPersistentEditor(modelIndex);
+
+			index++;
 		}
 	}
 	else if (ICON_SERVICE_GROUP_PLAY == nService)
@@ -186,6 +201,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(node.GetString(KEY_CA_NAME), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(subtitle, IconServiceDelegate::ICON_SERVICE_SUBTITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
@@ -280,18 +296,27 @@ IconServiceDelegate *IconService::GetDelegate()
 	return m_Delegate;
 }
 
-void IconService::SlotDoubleClickItem(const QModelIndex &index)
+void IconService::SlotSelectCoverArt(int index)
 {
-	if (m_Delegate->GetServiceType() == ICON_SERVICE_BROWSER
-			|| m_Delegate->GetServiceType() == ICON_SERVICE_ISERVICE)
+	if ((index < 0)
+			||  (m_Delegate->GetServiceType() == ICON_SERVICE_BROWSER
+				 || m_Delegate->GetServiceType() == ICON_SERVICE_ISERVICE
+				 || m_Delegate->GetServiceType() == ICON_SERVICE_INPUT
+				 ))
+	{
 		return;
+	}
 
-	QStandardItem *item = m_Model->itemFromIndex(index);
+	QStandardItem *item = m_Model->item(index);
+	if (item == nullptr)
+	{
+		return;
+	}
 	bool bSelect = !qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
 	item->setData(bSelect, IconServiceDelegate::ICON_SERVICE_SELECT);
 
-//	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(index);
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
 
 	int id = qvariant_cast<int>(item->data(IconServiceDelegate::ICON_SERVICE_ID));
 	if (bSelect)
@@ -302,7 +327,6 @@ void IconService::SlotDoubleClickItem(const QModelIndex &index)
 	{
 		m_SelectMap.remove(id);
 	}
-
 }
 
 void IconService::Initialize()
@@ -314,7 +338,7 @@ void IconService::Initialize()
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	m_ListView->setViewMode(QListView::IconMode);
 
-	connect(m_ListView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(SlotDoubleClickItem(const QModelIndex&)));
+	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 }
 
 QString IconService::GetGroupPlayStatus(int type)

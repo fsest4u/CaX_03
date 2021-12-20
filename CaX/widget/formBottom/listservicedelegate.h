@@ -18,6 +18,7 @@ public:
 		LIST_SERVICE_SUBTITLE,
 		LIST_SERVICE_TIME,
 		LIST_SERVICE_RAW,
+		LIST_SERVICE_INDEX,
 		LIST_SERVICE_SELECT,
 		LIST_SERVICE_MAX
 	};
@@ -25,12 +26,12 @@ public:
 
 signals:
 
-	void SigSelectCoverArt(QString rawData);
+	void SigSelectCoverArt(int index);
 	void SigSelectTitle(QString rawData);
 
 private slots:
 
-	void SlotClickCoverArt(QString rawData);
+	void SlotClickCoverArt(int index);
 	void SlotClickTitle(QString rawData);
 
 private:
