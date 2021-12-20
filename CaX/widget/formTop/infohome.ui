@@ -736,12 +736,12 @@ border-left : 1px solid #b9b8ba;
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/top-btn52-menu-n.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-menu2-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/top-btn52-menu-h.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-menu2-h.png&quot;);
 }
 QPushButton::menu-indicator
 {
