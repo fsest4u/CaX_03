@@ -1,4 +1,5 @@
 #include <QMouseEvent>
+#include <QThread>
 
 #include "infohome.h"
 #include "ui_infohome.h"
@@ -182,6 +183,23 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 			emit SigTrackList();
 		}
 	}
+	else if (event->type() == QMouseEvent::Enter)
+	{
+		if (object == ui->labelTitle)
+		{
+			QThread::sleep(1);
+			ui->labelTitle->startTimer();
+		}
+
+	}
+	else if (event->type() == QMouseEvent::Leave)
+	{
+		if (object == ui->labelTitle)
+		{
+			ui->labelTitle->stopTimer();
+		}
+
+	}
 
 	return QObject::eventFilter(object, event);
 }
@@ -223,6 +241,8 @@ void InfoHome::Initialize()
 	ui->frameArtist->installEventFilter(this);
 	ui->frameTrack->installEventFilter(this);
 	ui->frameGenre->installEventFilter(this);
+
+	ui->labelTitle->installEventFilter(this);
 
 //	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);

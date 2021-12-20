@@ -15,6 +15,8 @@ class WidgetMarqueeLabel : public QLabel
 		void show();
 		void setAlignment(Qt::Alignment);
 		int getSpeed();
+		void startTimer();
+		void stopTimer();
 		
 	public slots: //Public Member Slots
 		void setSpeed(int s);
@@ -34,6 +36,8 @@ class WidgetMarqueeLabel : public QLabel
 		int direction;
 		int fontPointSize;
 		int textLength;
+
+		bool bPaint;
 
 	private slots: //Private Member Slots
 		void refreshLabel();

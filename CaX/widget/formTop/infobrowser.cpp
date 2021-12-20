@@ -1,3 +1,6 @@
+#include <QMouseEvent>
+#include <QThread>
+
 #include "infobrowser.h"
 #include "ui_infobrowser.h"
 
@@ -81,6 +84,36 @@ FormPlay *InfoBrowser::GetFormPlay()
 
 }
 
+bool InfoBrowser::eventFilter(QObject *object, QEvent *event)
+{
+	if (event->type() == QMouseEvent::Enter)
+	{
+		if (object == ui->labelTitle)
+		{
+			QThread::sleep(1);
+			ui->labelTitle->startTimer();
+		}
+		else if (object == ui->labelSubtitle)
+		{
+			QThread::sleep(1);
+			ui->labelSubtitle->startTimer();
+		}
+	}
+	else if (event->type() == QMouseEvent::Leave)
+	{
+		if (object == ui->labelTitle)
+		{
+			ui->labelTitle->stopTimer();
+		}
+		else if (object == ui->labelSubtitle)
+		{
+			ui->labelSubtitle->stopTimer();
+		}
+	}
+
+	return QObject::eventFilter(object, event);
+}
+
 void InfoBrowser::SlotCoverArt()
 {
 	LogDebug("good choice cover art");
@@ -102,6 +135,9 @@ void InfoBrowser::ConnectSigToSlot()
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 //	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
+
+	ui->labelTitle->installEventFilter(this);
+	ui->labelSubtitle->installEventFilter(this);
 
 //	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 //	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));

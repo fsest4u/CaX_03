@@ -1,4 +1,5 @@
 #include <QMouseEvent>
+#include <QThread>
 
 #include "infoservice.h"
 #include "ui_infoservice.h"
@@ -72,6 +73,29 @@ FormSort *InfoService::GetFormSort()
 	return m_pFormSort;
 }
 
+bool InfoService::eventFilter(QObject *object, QEvent *event)
+{
+	if (event->type() == QMouseEvent::Enter)
+	{
+		if (object == ui->labelTitle)
+		{
+			QThread::sleep(1);
+			ui->labelTitle->startTimer();
+		}
+
+	}
+	else if (event->type() == QMouseEvent::Leave)
+	{
+		if (object == ui->labelTitle)
+		{
+			ui->labelTitle->stopTimer();
+		}
+
+	}
+
+	return QObject::eventFilter(object, event);
+}
+
 void InfoService::SlotTitle()
 {
 	LogDebug("good choice title");
@@ -88,6 +112,8 @@ void InfoService::ConnectSigToSlot()
 //	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);
+
+	ui->labelTitle->installEventFilter(this);
 
 //	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 //	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));

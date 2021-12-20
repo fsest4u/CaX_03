@@ -1,4 +1,5 @@
 #include <QMouseEvent>
+#include <QThread>
 
 #include "infotracks.h"
 #include "ui_infotracks.h"
@@ -101,6 +102,36 @@ FormSort *InfoTracks::GetFormSort()
 	return m_pFormSort;
 }
 
+bool InfoTracks::eventFilter(QObject *object, QEvent *event)
+{
+	if (event->type() == QMouseEvent::Enter)
+	{
+		if (object == ui->labelTitle)
+		{
+			QThread::sleep(1);
+			ui->labelTitle->startTimer();
+		}
+		else if (object == ui->labelSubtitle)
+		{
+			QThread::sleep(1);
+			ui->labelSubtitle->startTimer();
+		}
+	}
+	else if (event->type() == QMouseEvent::Leave)
+	{
+		if (object == ui->labelTitle)
+		{
+			ui->labelTitle->stopTimer();
+		}
+		else if (object == ui->labelSubtitle)
+		{
+			ui->labelSubtitle->stopTimer();
+		}
+	}
+
+	return QObject::eventFilter(object, event);
+}
+
 void InfoTracks::SlotCoverArt()
 {
 	LogDebug("good choice cover art");
@@ -125,6 +156,9 @@ void InfoTracks::ConnectSigToSlot()
 //	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 	ui->gridLayoutFormPlay->addWidget(m_pFormPlay);
 	ui->gridLayoutFormSort->addWidget(m_pFormSort);
+
+	ui->labelTitle->installEventFilter(this);
+	ui->labelSubtitle->installEventFilter(this);
 
 //	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotTitle()));
 //	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotSubtitle()));

@@ -1,6 +1,8 @@
 #include "WidgetMarqueeLabel.h"
 #include <QPainter>
 
+#include "util/log.h"
+
 WidgetMarqueeLabel::WidgetMarqueeLabel(QWidget *parent)
 {	
 	px = 0;
@@ -8,8 +10,9 @@ WidgetMarqueeLabel::WidgetMarqueeLabel(QWidget *parent)
 	speed = 1;
 	direction = RightToLeft;
 	connect(&timer, SIGNAL(timeout()), this, SLOT(refreshLabel()));
-	timer.start(25);
+//	timer.start(25);
 	setAlignment(Qt::AlignVCenter);
+	bPaint = false;
 }
 
 void WidgetMarqueeLabel::refreshLabel()
@@ -47,6 +50,20 @@ void WidgetMarqueeLabel::paintEvent(QPaintEvent *evt)
 		if(px >= width())
 			px = - textLength;
 	}
+
+//	LogDebug("[%s] width larger [%d] > [%d]", text().toUtf8().data(), width(), textLength);
+	if (width() > textLength)
+	{
+		px = 0;
+	}
+
+	if (!bPaint && px != 0)
+	{
+//		LogDebug("[%s] return", text().toUtf8().data());
+		px = 0;
+	}
+
+	LogDebug("[%s] px [%d]", text().toUtf8().data(), px);
 	p.drawText(px, py + fontPointSize, text());
 	p.translate(px,0);
 }
@@ -73,6 +90,8 @@ void WidgetMarqueeLabel::updateCoordinates()
 	}
 	fontPointSize = font().pointSize()/2;
 	textLength = fontMetrics().width(text());
+	LogDebug("textLength [%d]", textLength);
+
 }
 
 void WidgetMarqueeLabel::setSpeed(int s)
@@ -85,10 +104,32 @@ int WidgetMarqueeLabel::getSpeed()
 	return speed;
 }
 
+void WidgetMarqueeLabel::startTimer()
+{
+	if (!timer.isActive())
+	{
+		timer.start(25);
+		bPaint = true;
+		px = 10;
+		setAlignment(Qt::AlignVCenter);
+	}
+}
+
+void WidgetMarqueeLabel::stopTimer()
+{
+	if (timer.isActive())
+	{
+		timer.stop();
+		bPaint = false;
+		px = 0;
+		repaint();
+	}
+}
+
 void WidgetMarqueeLabel::setDirection(int d)
 {
 	direction = d;
-	if (direction==RightToLeft)
+	if (direction == RightToLeft)
 		px = width() - textLength;
 	else
 		px = 0;

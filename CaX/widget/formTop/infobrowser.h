@@ -27,6 +27,10 @@ public:
 
 	FormPlay *GetFormPlay();
 
+protected:
+
+	bool eventFilter(QObject *object, QEvent *event);
+
 private slots:
 
 	void SlotCoverArt();

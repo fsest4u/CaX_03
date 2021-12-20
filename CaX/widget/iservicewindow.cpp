@@ -525,7 +525,7 @@ void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre)
 			widget->AddWidgetItem();
 		}
 
-		widget->GetInfoBrowser()->SetSubtitle(QOBUZ_TITLE);
+		widget->GetInfoBrowser()->SetTitle(QOBUZ_TITLE);
 
 		widget->GetListBrowser()->ClearNodeList();
 		nType = widget->GetListBrowser()->SetNodeList(list, -1);
@@ -577,7 +577,7 @@ void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNod
 		widget->AddWidgetItem();
 	}
 
-	widget->GetInfoBrowser()->SetSubtitle(title);
+	widget->GetInfoBrowser()->SetTitle(title);
 
 	widget->GetListBrowser()->SetNodeInfo(m_Node);
 	widget->GetListBrowser()->SetBackgroundTask(widget->GetListThread());
@@ -1248,7 +1248,7 @@ void IServiceWindow::DoQobuzHome()
 	QList<CJsonNode> list;
 	widget->SetQobuzHome(list);
 
-	widget->GetInfoBrowser()->SetSubtitle(QOBUZ_TITLE);
+	widget->GetInfoBrowser()->SetTitle(QOBUZ_TITLE);
 
 	widget->GetListBrowser()->ClearNodeList();
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
@@ -1264,7 +1264,7 @@ void IServiceWindow::DoQobuzSearch()
 	QList<CJsonNode> list;
 	SetQobuzSearch(list);
 
-	widget->GetInfoBrowser()->SetSubtitle(STR_SEARCH);
+	widget->GetInfoBrowser()->SetTitle(STR_SEARCH);
 
 	widget->GetListBrowser()->ClearNodeList();
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
@@ -1280,7 +1280,7 @@ void IServiceWindow::DoQobuzRecommend()
 	QList<CJsonNode> list;
 	SetQobuzRecommend(list);
 
-	widget->GetInfoBrowser()->SetSubtitle(STR_RECOMMEND);
+	widget->GetInfoBrowser()->SetTitle(STR_RECOMMEND);
 
 	widget->GetListBrowser()->ClearNodeList();
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
@@ -1296,7 +1296,7 @@ void IServiceWindow::DoQobuzFavorite()
 	QList<CJsonNode> list;
 	SetQobuzFavorite(list);
 
-	widget->GetInfoBrowser()->SetSubtitle(STR_FAVORITE);
+	widget->GetInfoBrowser()->SetTitle(STR_FAVORITE);
 
 	widget->GetListBrowser()->ClearNodeList();
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
@@ -1312,7 +1312,7 @@ void IServiceWindow::DoRecommendAlbum()
 	QList<CJsonNode> list;
 	SetRecommendAlbum(list);
 
-	widget->GetInfoBrowser()->SetSubtitle(STR_ALBUM);
+	widget->GetInfoBrowser()->SetTitle(STR_ALBUM);
 
 	widget->GetListBrowser()->ClearNodeList();
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
@@ -1328,7 +1328,7 @@ void IServiceWindow::DoRecommendPlaylist()
 	QList<CJsonNode> list;
 	SetRecommendPlaylist(list);
 
-	widget->GetInfoBrowser()->SetSubtitle(STR_PLAYLIST);
+	widget->GetInfoBrowser()->SetTitle(STR_PLAYLIST);
 
 	widget->GetListBrowser()->ClearNodeList();
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
@@ -1344,7 +1344,7 @@ void IServiceWindow::DoRecommendGenre(int nType, QString strID)
 	QList<CJsonNode> list;
 	SetRecommendGenre(list, strID);
 
-	widget->GetInfoBrowser()->SetSubtitle(STR_GENRE);
+	widget->GetInfoBrowser()->SetTitle(STR_GENRE);
 
 	widget->GetListBrowser()->ClearNodeList();
 	nType = widget->GetListBrowser()->SetNodeList(list, -1);

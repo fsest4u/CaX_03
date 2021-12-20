@@ -484,7 +484,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 	//	m_pInfoBrowser->GetFormSort()->ShowResize();
 
 		m_pInfoBrowser->SetCoverArt(list[0].GetString(KEY_COVER_ART));
-		m_pInfoBrowser->SetSubtitle(m_Root);
+		m_pInfoBrowser->SetTitle(m_Root);
 
 		m_pListBrowser->SetBackgroundTask(m_pListThread);
 		m_pListBrowser->ClearNodeList();
@@ -540,7 +540,7 @@ void BrowserWindow::SlotRespError(QString errMsg)
 		ShowFormPlay(false);
 //		m_pInfoBrowser->GetFormPlay()->ShowMenu();
 		m_pInfoBrowser->SetCoverArt("");
-		m_pInfoBrowser->SetSubtitle(m_Root);
+		m_pInfoBrowser->SetTitle(m_Root);
 	}
 	else
 	{
@@ -548,7 +548,7 @@ void BrowserWindow::SlotRespError(QString errMsg)
 
 		m_pInfoBrowser->GetFormPlay()->ShowMenu();
 		m_pInfoBrowser->SetCoverArt("");
-		m_pInfoBrowser->SetSubtitle(m_Root);
+		m_pInfoBrowser->SetTitle(m_Root);
 	}
 }
 

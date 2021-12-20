@@ -25,11 +25,14 @@ public:
 	FormPlay *GetFormPlay();
 	FormSort *GetFormSort();
 
+protected:
+
+	bool eventFilter(QObject *object, QEvent *event);
+
 private slots:
 
 	void SlotTitle();
 	void SlotSubtitle();
-
 
 private:
 
