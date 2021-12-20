@@ -29,16 +29,7 @@ public:
 
 	PlayManager *GetManager() {	return m_pMgr;	}
 
-	QString GetDeviceName() const;
-	void SetDeviceName(const QString &DeviceName);
-
-	void ClearMenu();
-	void SetMenu(QMap<QString, QString> map);
-
 signals:
-
-	void SigMenu();
-	void SigMenuAction(QString menuID);
 
 	void SigSetVolumeSlider(int volume);
 	void SigSetDial(int volume);
@@ -54,8 +45,6 @@ private slots:
 	void SlotBtnStop();
 	void SlotBtnPlayNext();
 	void SlotBtnRandom();
-	void SlotMenu();
-	void SlotMenuAction(QAction *action);
 	void SlotDialValueChanged(int value);
 	void SlotDialReleased();
 	void SlotSetDial(int volume);
@@ -106,7 +95,6 @@ private:
 	void SetRepeatMode(QString mode);
 	void SetCoverArt(QString filepath);
 	void SetPlayTimeSliderState();
-	void SetDeviceMenu();
 	void SetVolumeMenu();
 	void SetDialMenu();
 
@@ -116,12 +104,10 @@ private:
 	FormCoverArt		*m_pFormCoverArt;
 	FormTitle			*m_pFormTitle;
 
-	QMenu				*m_Menu;
 	QMenu				*m_VolumeMenu;
 	QSlider				*m_Slider;
 	QTimer				*m_Timer;
 
-	QString				m_DeviceName;
 
 //----------------------------------------------
 	bool	m_Info;

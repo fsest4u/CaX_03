@@ -12,7 +12,9 @@
 
 TopWindow::TopWindow(QWidget *parent) :
 	QWidget(parent),
-	m_Menu(new QMenu(this)),
+	m_SideMenu(new QMenu(this)),
+	m_DeviceMenu(new QMenu(this)),
+	m_DeviceName(""),
 	ui(new Ui::TopWindow)
 {
 	ui->setupUi(this);
@@ -23,12 +25,20 @@ TopWindow::TopWindow(QWidget *parent) :
 
 TopWindow::~TopWindow()
 {
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	disconnect(m_SideMenu, SIGNAL(triggered(QAction*)));
 
-	if (m_Menu)
+	if (m_SideMenu)
 	{
-		delete m_Menu;
-		m_Menu = nullptr;
+		delete m_SideMenu;
+		m_SideMenu = nullptr;
+	}
+
+	disconnect(m_DeviceMenu, SIGNAL(triggered(QAction*)));
+
+	if (m_DeviceMenu)
+	{
+		delete m_DeviceMenu;
+		m_DeviceMenu = nullptr;
 	}
 
 	delete ui;
@@ -58,9 +68,9 @@ void TopWindow::SetTitle(int index)
 	ui->labelTitle->setText(title);
 }
 
-QPushButton *TopWindow::GetBtnMenu()
+QPushButton *TopWindow::GetBtnSideMenu()
 {
-	return ui->btnMenu;
+	return ui->btnSideMenu;
 }
 
 QPushButton *TopWindow::GetBtnHome()
@@ -83,22 +93,51 @@ QPushButton *TopWindow::GetBtnSearch()
 	return ui->btnSearch;
 }
 
-void TopWindow::ClearMenu()
+void TopWindow::ClearSideMenu()
 {
-	m_Menu->clear();
+	m_SideMenu->clear();
 }
 
-void TopWindow::SetMenu(QMap<int, QString> list)
+void TopWindow::SetSideMenu(QMap<int, QString> map)
 {
 	QMap<int, QString>::iterator i;
-	for (i = list.begin(); i!= list.end(); i++)
+	for (i = map.begin(); i!= map.end(); i++)
 	{
 		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
 		QAction *action = new QAction(icon, i.value(), this);
 		action->setData(i.key());
-		m_Menu->addAction(action);
+		m_SideMenu->addAction(action);
 	}
 
+}
+
+void TopWindow::ClearDeviceMenu()
+{
+	m_DeviceMenu->clear();
+
+}
+
+void TopWindow::SetDeviceMenu(QMap<QString, QString> map)
+{
+
+	QMap<QString, QString>::iterator i;
+	for (i = map.begin(); i != map.end(); i++)
+	{
+		QAction *action = new QAction(i.value(), this);
+		action->setData(i.key());
+		m_DeviceMenu->addAction(action);
+	}
+}
+
+QString TopWindow::GetDeviceName() const
+{
+	return m_DeviceName;
+}
+
+void TopWindow::SetDeviceName(const QString &DeviceName)
+{
+	m_DeviceName = DeviceName;
+	ui->btnDeviceMenu->setText(m_DeviceName);
 }
 
 void TopWindow::ShowCBSearch(bool show)
@@ -168,26 +207,38 @@ bool TopWindow::eventFilter(QObject *object, QEvent *event)
 //	return list;
 //}
 
-void TopWindow::SlotMenu()
+void TopWindow::SlotSideMenu()
 {
-	emit SigMenu();
+	emit SigSideMenu();
 }
 
-void TopWindow::SlotMenuAction(QAction *action)
+void TopWindow::SlotSideMenuAction(QAction *action)
 {
-	emit SigMenuAction(action->data().toInt());
+	emit SigSideMenuAction(action->data().toInt());
+}
+
+void TopWindow::SlotDeviceMenu()
+{
+	emit SigDeviceMenu();
+}
+
+void TopWindow::SlotDeviceMenuAction(QAction *action)
+{
+	emit SigDeviceMenuAction(action->data().toString());
 }
 
 void TopWindow::ConnectSigToSlot()
 {
-	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+	connect(ui->btnSideMenu, SIGNAL(pressed()), this, SLOT(SlotSideMenu()));
+	connect(m_SideMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotSideMenuAction(QAction*)));
+	connect(ui->btnDeviceMenu, SIGNAL(pressed()), this, SLOT(SlotDeviceMenu()));
+	connect(m_DeviceMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotDeviceMenuAction(QAction*)));
 }
 
 void TopWindow::Initialize()
 {
 
-	QString style = QString("QMenu::icon {	\
+	QString styleSide = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
 							}	\
 							QMenu::item {	\
@@ -200,8 +251,26 @@ void TopWindow::Initialize()
 							QMenu::item:selected {	\
 								background: rgba(201,237,248,255);	\
 							}");
-	m_Menu->setStyleSheet(style);
-	ui->btnMenu->setMenu(m_Menu);
+	m_SideMenu->setStyleSheet(styleSide);
+	ui->btnSideMenu->setMenu(m_SideMenu);
+
+	QString styleDevice = QString("QMenu {	\
+								  background-color: rgb(0, 0, 0);	\
+							  }	\
+							  QMenu::item {	\
+								  width: 160px;	\
+								  height: 40px;	\
+								  color: rgb(174,176,179);	\
+								  font-size: 16pt;	\
+								  padding: 0px 20px 0px 20px;	\
+							  }	\
+							  QMenu::item:selected {	\
+								  background: rgbargb(238,238,238,255);	\
+							  }");
+
+	m_DeviceMenu->setStyleSheet(styleDevice);
+	ui->btnDeviceMenu->setMenu(m_DeviceMenu);
+
 
 	m_TitleList.clear();
 
@@ -209,3 +278,4 @@ void TopWindow::Initialize()
 	ui->cbSearch->installEventFilter(this);
 
 }
+

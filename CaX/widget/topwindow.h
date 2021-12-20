@@ -21,24 +21,33 @@ public:
 	void RemoveTitle();
 	void SetTitle(int index);
 
-	QPushButton* GetBtnMenu();
+	QPushButton* GetBtnSideMenu();
 	QPushButton* GetBtnHome();
 	QPushButton* GetBtnPrev();
 	QPushButton* GetBtnNext();
 	QPushButton* GetBtnSearch();
 
-	void ClearMenu();
-	void SetMenu(QMap<int, QString> list);
+	void ClearSideMenu();
+	void SetSideMenu(QMap<int, QString> map);
+
+	void ClearDeviceMenu();
+	void SetDeviceMenu(QMap<QString, QString> map);
+
+	QString GetDeviceName() const;
+	void SetDeviceName(const QString &DeviceName);
 
 	void ShowCBSearch(bool show);
 //	void ClearCBSearch();
 //	void SetCBSearch(QStringList list);
 //	QStringList GetCBSearch();
 
+
 signals:
 
-	void SigMenu();
-	void SigMenuAction(int menuID);
+	void SigSideMenu();
+	void SigSideMenuAction(int menuID);
+	void SigDeviceMenu();
+	void SigDeviceMenuAction(QString menuID);
 
 	void SigSearchKeyword(QString keyword);
 
@@ -48,8 +57,10 @@ protected:
 
 private slots:
 
-	void SlotMenu();
-	void SlotMenuAction(QAction *action);
+	void SlotSideMenu();
+	void SlotSideMenuAction(QAction *action);
+	void SlotDeviceMenu();
+	void SlotDeviceMenuAction(QAction *action);
 
 private:
 
@@ -57,7 +68,12 @@ private:
 	void Initialize();
 
 	QList<QString>	m_TitleList;
-	QMenu			*m_Menu;
+
+	QMenu			*m_SideMenu;
+	QMenu			*m_DeviceMenu;
+
+	QString			m_DeviceName;
+
 
 	Ui::TopWindow *ui;
 };

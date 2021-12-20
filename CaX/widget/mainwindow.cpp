@@ -105,7 +105,7 @@ MainWindow::~MainWindow()
 void MainWindow::SlotMenu()
 {
 	m_SideMenuMap.clear();
-	ui->widgetTop->ClearMenu();
+	ui->widgetTop->ClearSideMenu();
 
 	if (m_bConnect)
 	{
@@ -151,7 +151,7 @@ void MainWindow::SlotMenu()
 		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 	}
 
-	ui->widgetTop->SetMenu(m_SideMenuMap);
+	ui->widgetTop->SetSideMenu(m_SideMenuMap);
 }
 
 void MainWindow::SlotMenuAction(int menuID)
@@ -634,7 +634,7 @@ void MainWindow::SlotSelectDevice(QString mac)
 	WriteSettings();
 
 	ui->widgetPlay->SetAddr(m_strAddr);
-	ui->widgetPlay->SetDeviceName(strDev);
+	ui->widgetTop->SetDeviceName(strDev);
 
 	m_pAppMgr->SetAddr(m_strAddr);
 	m_pAppMgr->RequestDeviceInfo();
@@ -717,10 +717,10 @@ void MainWindow::SlotDevice()
 		m_DeviceMap.insert(node.GetString(KEY_MAC), node.GetString(KEY_DEV));
 	}
 
-	ui->widgetPlay->ClearMenu();
+	ui->widgetTop->ClearDeviceMenu();
 	if (m_DeviceMap.count() > 0)
 	{
-		ui->widgetPlay->SetMenu(m_DeviceMap);
+		ui->widgetTop->SetDeviceMenu(m_DeviceMap);
 	}
 }
 
@@ -811,17 +811,17 @@ void MainWindow::ConnectSigToSlot()
 
 void MainWindow::ConnectForUI()
 {
-	connect(ui->widgetTop, SIGNAL(SigMenu()), this, SLOT(SlotMenu()));
-	connect(ui->widgetTop, SIGNAL(SigMenuAction(int)), this, SLOT(SlotMenuAction(int)));
+	connect(ui->widgetTop, SIGNAL(SigSideMenu()), this, SLOT(SlotMenu()));
+	connect(ui->widgetTop, SIGNAL(SigSideMenuAction(int)), this, SLOT(SlotMenuAction(int)));
 	connect(ui->widgetTop, SIGNAL(SigSearchKeyword(QString)), this, SLOT(SlotSearchKeyword(QString)));
 	connect(ui->widgetTop->GetBtnHome(), SIGNAL(clicked()), this, SLOT(SlotBtnHome()));
 	connect(ui->widgetTop->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPrev()));
 	connect(ui->widgetTop->GetBtnNext(), SIGNAL(clicked()), this, SLOT(SlotBtnNext()));
+	connect(ui->widgetTop, SIGNAL(SigDeviceMenu()), this, SLOT(SlotDevice()));
+	connect(ui->widgetTop, SIGNAL(SigDeviceMenuAction(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(ui->widgetPlay, SIGNAL(SigMenu()), this, SLOT(SlotDevice()));
-	connect(ui->widgetPlay, SIGNAL(SigMenuAction(QString)), this, SLOT(SlotSelectDevice(QString)));
 	connect(ui->widgetPlay, SIGNAL(SigSetQueueList(CJsonNode)), this, SLOT(SlotSetQueueList(CJsonNode)));
 
 }

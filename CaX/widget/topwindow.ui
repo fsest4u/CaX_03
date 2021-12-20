@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>891</width>
+    <width>1210</width>
     <height>60</height>
    </rect>
   </property>
@@ -81,13 +81,13 @@ background-color: rgb(52, 174, 214);
        <widget class="QFrame" name="frame">
         <property name="minimumSize">
          <size>
-          <width>200</width>
+          <width>250</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>250</width>
           <height>16777215</height>
          </size>
         </property>
@@ -114,7 +114,7 @@ background-color: rgb(52, 174, 214);
           <number>0</number>
          </property>
          <item>
-          <widget class="QPushButton" name="btnMenu">
+          <widget class="QPushButton" name="btnSideMenu">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -246,6 +246,47 @@ QPushButton:hover
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="btnDeviceMenu">
+           <property name="minimumSize">
+            <size>
+             <width>52</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>52</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+  color: rgb(255, 255, 255);
+  border-image: url(&quot;:/resource/btm-btn50-device-n.png&quot;);
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/btm-btn50-device-h.png&quot;);
+}
+QPushButton::menu-indicator
+{
+	image:none;
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -294,13 +335,13 @@ color: rgb(255, 255, 255);</string>
        <widget class="QFrame" name="frame_3">
         <property name="minimumSize">
          <size>
-          <width>200</width>
+          <width>250</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>250</width>
           <height>16777215</height>
          </size>
         </property>
@@ -360,7 +401,7 @@ QPushButton:hover
           <widget class="QComboBox" name="cbSearch">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>150</width>
              <height>0</height>
             </size>
            </property>

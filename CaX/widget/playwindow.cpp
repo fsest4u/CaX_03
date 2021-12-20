@@ -23,11 +23,9 @@ PlayWindow::PlayWindow(QWidget *parent)	:
 	m_pMgr(new PlayManager),
 	m_pFormCoverArt(new FormCoverArt(this)),
 	m_pFormTitle(new FormTitle(this)),
-	m_Menu(new QMenu(this)),
 	m_VolumeMenu(new QMenu(this)),
 	m_Slider(new QSlider(this)),
 	m_Timer(nullptr),
-	m_DeviceName(""),
 	ui(new Ui::PlayWindow)
 {
 	ui->setupUi(this);
@@ -39,8 +37,6 @@ PlayWindow::PlayWindow(QWidget *parent)	:
 
 PlayWindow::~PlayWindow()
 {
-
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
 
 	if (m_pMgr)
 	{
@@ -67,12 +63,6 @@ PlayWindow::~PlayWindow()
 		m_pFormTitle = nullptr;
 	}
 
-	if (m_Menu)
-	{
-		delete m_Menu;
-		m_Menu = nullptr;
-	}
-
 	if (m_VolumeMenu)
 	{
 		delete m_VolumeMenu;
@@ -92,34 +82,6 @@ PlayWindow::~PlayWindow()
 void PlayWindow::SetAddr(const QString &addr)
 {
 	m_pMgr->SetAddr(addr);
-}
-
-
-QString PlayWindow::GetDeviceName() const
-{
-	return m_DeviceName;
-}
-
-void PlayWindow::SetDeviceName(const QString &DeviceName)
-{
-	m_DeviceName = DeviceName;
-	ui->btnDevice->setText(m_DeviceName);
-}
-
-void PlayWindow::ClearMenu()
-{
-	m_Menu->clear();
-}
-
-void PlayWindow::SetMenu(QMap<QString, QString> map)
-{
-	QMap<QString, QString>::iterator i;
-	for (i = map.begin(); i != map.end(); i++)
-	{
-		QAction *action = new QAction(i.value(), this);
-		action->setData(i.key());
-		m_Menu->addAction(action);
-	}
 }
 
 void PlayWindow::SlotClickCoverArt()
@@ -176,16 +138,6 @@ void PlayWindow::SlotBtnPlayNext()
 void PlayWindow::SlotBtnRandom()
 {
 	m_pMgr->RequestRepeatMode();
-}
-
-void PlayWindow::SlotMenu()
-{
-	emit SigMenu();
-}
-
-void PlayWindow::SlotMenuAction(QAction *action)
-{
-	emit SigMenuAction(action->data().toString());
 }
 
 void PlayWindow::SlotDialValueChanged(int value)
@@ -290,15 +242,12 @@ void PlayWindow::ConnectSigToSlot()
 	connect(ui->btnStop, SIGNAL(clicked()), this, SLOT(SlotBtnStop()));
 	connect(ui->btnNext, SIGNAL(clicked()), this, SLOT(SlotBtnPlayNext()));
 	connect(ui->btnRandom, SIGNAL(clicked()), this, SLOT(SlotBtnRandom()));
-	connect(ui->btnDevice, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 
 	connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(SlotPlayTimeSliderValueChanged(int)));
 	connect(ui->horizontalSlider, SIGNAL(sliderReleased()), this, SLOT(SlotPlayTimeSliderReleased()));
 
 	connect(this, SIGNAL(SigSetVolumeSlider(int)), this, SLOT(SlotSetVolumeSlider(int)));
 	connect(this, SIGNAL(SigSetDial(int)), this, SLOT(SlotSetDial(int)));
-
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	connect(m_pMgr, SIGNAL(SigTrackInfo(CJsonNode)), this, SLOT(SlotTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
@@ -315,7 +264,6 @@ void PlayWindow::Initialize()
 
 //	SetPlayState();
 	SetRepeatMode(RM_NORMAL);
-	SetDeviceMenu();
 	SetVolumeMenu();
 	SetDialMenu();
 
@@ -645,27 +593,6 @@ void PlayWindow::SetPlayTimeSliderState()
 	ui->horizontalSlider->setHidden(false);
 	ui->labelTotalTime->setHidden(false);
 	ui->labelCurTime->setHidden(false);
-}
-
-void PlayWindow::SetDeviceMenu()
-{
-	QString style = QString("QMenu {	\
-								background-color: rgb(0, 0, 0);	\
-							}	\
-							QMenu::item {	\
-								width: 160px;	\
-								height: 40px;	\
-								color: rgb(174,176,179);	\
-								font-size: 16pt;	\
-								padding: 0px 20px 0px 20px;	\
-							}	\
-							QMenu::item:selected {	\
-								background: rgbargb(238,238,238,255);	\
-							}");
-
-	m_Menu->setStyleSheet(style);
-	ui->btnDevice->setMenu(m_Menu);
-
 }
 
 void PlayWindow::SetVolumeMenu()
