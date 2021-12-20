@@ -276,25 +276,25 @@ border: none;</string>
     <widget class="QPushButton" name="btnMenu">
      <property name="minimumSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>52</width>
+       <height>52</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>52</width>
+       <height>52</height>
       </size>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/play-btn28-menu-n.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-menu2-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/play-btn28-menu-h.png&quot;);
+  border-image: url(&quot;:/resource/top-btn52-menu2-h.png&quot;);
 }
 QPushButton::menu-indicator
 {
