@@ -314,7 +314,7 @@ void PlayWindow::Initialize()
 	m_pFormTitle->SetSubtitleFont(FONT_SIZE_ICON_SUBTITLE, FONT_COLOR_WHITE);
 
 //	SetPlayState();
-	SetRepeatMode("");
+	SetRepeatMode(RM_NORMAL);
 	SetDeviceMenu();
 	SetVolumeMenu();
 	SetDialMenu();
@@ -389,9 +389,15 @@ void PlayWindow::SetVariable(CJsonNode node)
 	m_Format = node.GetString(KEY_FORMAT);
 	m_Input = node.GetString(KEY_INPUT);
 	m_PlayState = node.GetString(KEY_PLAY_STATE);
-	m_Repeat = node.GetString(KEY_REPEAT);
 	m_Src = node.GetString(KEY_SRC);
 	m_Top = node.GetString(KEY_TOP);
+
+	m_Repeat = node.GetString(KEY_REPEAT);
+	if (!m_Repeat.isEmpty())
+	{
+		SetRepeatMode(m_Repeat);
+	}
+
 
 	DebugVariable();
 }
@@ -541,30 +547,82 @@ void PlayWindow::SetPlayState()
 
 void PlayWindow::SetRepeatMode(QString mode)
 {
-	if (!mode.compare(RM_SHUFFLE))
+	QString style;
+	if (!mode.compare(RM_NORMAL))
 	{
-		m_nRepeatMode = PLAY_REPEAT_SHFFLE;
+		m_nRepeatMode = PLAY_REPEAT_NORMAL;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-normal-n.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-normal-h.png\");	\
+						}");
 	}
 	else if (!mode.compare(RM_RANDOM))
 	{
 		m_nRepeatMode = PLAY_REPEAT_RANDOM;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-randomr-n.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-randomr-h.png\");	\
+						}");
 	}
 	else if (!mode.compare(RM_ONCE))
 	{
 		m_nRepeatMode = PLAY_REPEAT_ONCE;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-once-n.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-once-h.png\");	\
+						}");
 	}
 	else if (!mode.compare(RM_R_ONE))
 	{
 		m_nRepeatMode = PLAY_REPEAT_ONE;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-repeatone-n.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-repeatone-h.png\");	\
+						}");
 	}
 	else if (!mode.compare(RM_R_ALL))
 	{
 		m_nRepeatMode = PLAY_REPEAT_ALL;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-normal-n.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-normal-h.png\");	\
+						}");
 	}
-	else //if (!mode.compare(RM_NORMAL))
+	else if (!mode.compare(RM_SHUFFLE))
 	{
-		m_nRepeatMode = PLAY_REPEAT_NORMAL;
+		m_nRepeatMode = PLAY_REPEAT_SHFFLE;
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-random-n.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/btm-btn26-random-h.png\");	\
+						}");
 	}
+
+	ui->btnRandom->setStyleSheet(style);
+
 }
 
 void PlayWindow::SetCoverArt(QString filepath)
