@@ -216,25 +216,25 @@
                 <widget class="QPushButton" name="btnInfo">
                  <property name="minimumSize">
                   <size>
-                   <width>20</width>
-                   <height>20</height>
+                   <width>26</width>
+                   <height>26</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>20</width>
-                   <height>20</height>
+                   <width>26</width>
+                   <height>26</height>
                   </size>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn20-info-n.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-info-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn20-info-h.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-info-h.png&quot;);
 }</string>
                  </property>
                  <property name="text">
@@ -275,14 +275,14 @@ QPushButton:hover
                 <widget class="QPushButton" name="btnPlay">
                  <property name="minimumSize">
                   <size>
-                   <width>40</width>
-                   <height>40</height>
+                   <width>30</width>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>40</width>
-                   <height>40</height>
+                   <width>30</width>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="styleSheet">
@@ -304,14 +304,14 @@ QPushButton:hover
                 <widget class="QPushButton" name="btnStop">
                  <property name="minimumSize">
                   <size>
-                   <width>40</width>
-                   <height>40</height>
+                   <width>30</width>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>40</width>
-                   <height>40</height>
+                   <width>30</width>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="styleSheet">
@@ -361,25 +361,25 @@ QPushButton:hover
                 <widget class="QPushButton" name="btnRandom">
                  <property name="minimumSize">
                   <size>
-                   <width>20</width>
-                   <height>20</height>
+                   <width>26</width>
+                   <height>26</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>20</width>
-                   <height>20</height>
+                   <width>26</width>
+                   <height>26</height>
                   </size>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/btm-btn20-random-n.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-random-n.png&quot;);
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn20-random-h.png&quot;);
+  border-image: url(&quot;:/resource/btm-btn26-random-h.png&quot;);
 }
 </string>
                  </property>

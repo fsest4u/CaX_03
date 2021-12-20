@@ -815,5 +815,47 @@
         <file>resource/volume-btn160.png</file>
         <file>resource/volume-btn160@2x.png</file>
         <file>resource/volume-btn160@3x.png</file>
+        <file>resource/btm-btn26-info-h.png</file>
+        <file>resource/btm-btn26-info-h@2x.png</file>
+        <file>resource/btm-btn26-info-h@3x.png</file>
+        <file>resource/btm-btn26-info-n.png</file>
+        <file>resource/btm-btn26-info-n@2x.png</file>
+        <file>resource/btm-btn26-info-n@3x.png</file>
+        <file>resource/btm-btn26-normal-h.png</file>
+        <file>resource/btm-btn26-normal-h@2x.png</file>
+        <file>resource/btm-btn26-normal-h@3x.png</file>
+        <file>resource/btm-btn26-normal-n.png</file>
+        <file>resource/btm-btn26-normal-n@2x.png</file>
+        <file>resource/btm-btn26-normal-n@3x.png</file>
+        <file>resource/btm-btn26-once-h.png</file>
+        <file>resource/btm-btn26-once-h@2x.png</file>
+        <file>resource/btm-btn26-once-h@3x.png</file>
+        <file>resource/btm-btn26-once-n.png</file>
+        <file>resource/btm-btn26-once-n@2x.png</file>
+        <file>resource/btm-btn26-once-n@3x.png</file>
+        <file>resource/btm-btn26-random-h.png</file>
+        <file>resource/btm-btn26-random-h@2x.png</file>
+        <file>resource/btm-btn26-random-h@3x.png</file>
+        <file>resource/btm-btn26-random-n.png</file>
+        <file>resource/btm-btn26-random-n@2x.png</file>
+        <file>resource/btm-btn26-random-n@3x.png</file>
+        <file>resource/btm-btn26-randomr-h.png</file>
+        <file>resource/btm-btn26-randomr-h@2x.png</file>
+        <file>resource/btm-btn26-randomr-h@3x.png</file>
+        <file>resource/btm-btn26-randomr-n.png</file>
+        <file>resource/btm-btn26-randomr-n@2x.png</file>
+        <file>resource/btm-btn26-randomr-n@3x.png</file>
+        <file>resource/btm-btn26-repeatone-h.png</file>
+        <file>resource/btm-btn26-repeatone-h@2x.png</file>
+        <file>resource/btm-btn26-repeatone-h@3x.png</file>
+        <file>resource/btm-btn26-repeatone-n.png</file>
+        <file>resource/btm-btn26-repeatone-n@2x.png</file>
+        <file>resource/btm-btn26-repeatone-n@3x.png</file>
+        <file>resource/top-btn52-menu2-h.png</file>
+        <file>resource/top-btn52-menu2-h@2x.png</file>
+        <file>resource/top-btn52-menu2-h@3x.png</file>
+        <file>resource/top-btn52-menu2-n.png</file>
+        <file>resource/top-btn52-menu2-n@2x.png</file>
+        <file>resource/top-btn52-menu2-n@3x.png</file>
     </qresource>
 </RCC>
