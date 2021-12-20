@@ -845,8 +845,6 @@ void MainWindow::ConnectForApp()
 	connect(m_ProgressDialog, SIGNAL(SigClickBack(int)), this, SLOT(SlotClickBack(int)));
 	connect(m_ProgressDialog, SIGNAL(SigClickStop(int)), this, SLOT(SlotClickStop(int)));
 	connect(m_ProgressDialog, SIGNAL(SigClickSkip(int)), this, SLOT(SlotClickSkip(int)));
-
-
 }
 
 void MainWindow::DoDeviceListHome()

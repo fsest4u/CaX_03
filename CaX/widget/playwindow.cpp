@@ -513,11 +513,11 @@ void PlayWindow::SetRepeatMode(QString mode)
 		m_nRepeatMode = PLAY_REPEAT_RANDOM;
 		style = QString("QPushButton	\
 						{	\
-						  border-image: url(\":/resource/btm-btn26-randomr-n.png\");	\
+						  border-image: url(\":/resource/btm-btn26-random-n.png\");	\
 						}\
 						QPushButton:hover	\
 						{	\
-						  border-image: url(\":/resource/btm-btn26-randomr-h.png\");	\
+						  border-image: url(\":/resource/btm-btn26-random-h.png\");	\
 						}");
 	}
 	else if (!mode.compare(RM_ONCE))
@@ -549,11 +549,11 @@ void PlayWindow::SetRepeatMode(QString mode)
 		m_nRepeatMode = PLAY_REPEAT_ALL;
 		style = QString("QPushButton	\
 						{	\
-						  border-image: url(\":/resource/btm-btn26-normal-n.png\");	\
+						  border-image: url(\":/resource/btm-btn26-normalall-n.png\");	\
 						}\
 						QPushButton:hover	\
 						{	\
-						  border-image: url(\":/resource/btm-btn26-normal-h.png\");	\
+						  border-image: url(\":/resource/btm-btn26-normalall-h.png\");	\
 						}");
 	}
 	else if (!mode.compare(RM_SHUFFLE))
@@ -561,11 +561,11 @@ void PlayWindow::SetRepeatMode(QString mode)
 		m_nRepeatMode = PLAY_REPEAT_SHFFLE;
 		style = QString("QPushButton	\
 						{	\
-						  border-image: url(\":/resource/btm-btn26-random-n.png\");	\
+						  border-image: url(\":/resource/btm-btn26-shuffle-n.png\");	\
 						}\
 						QPushButton:hover	\
 						{	\
-						  border-image: url(\":/resource/btm-btn26-random-h.png\");	\
+						  border-image: url(\":/resource/btm-btn26-shuffle-h.png\");	\
 						}");
 	}
 

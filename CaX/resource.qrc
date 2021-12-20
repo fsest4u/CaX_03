@@ -857,5 +857,47 @@
         <file>resource/top-btn52-menu2-n.png</file>
         <file>resource/top-btn52-menu2-n@2x.png</file>
         <file>resource/top-btn52-menu2-n@3x.png</file>
+        <file>resource/btm-btn26-normalall-h.png</file>
+        <file>resource/btm-btn26-normalall-h@2x.png</file>
+        <file>resource/btm-btn26-normalall-h@3x.png</file>
+        <file>resource/btm-btn26-normalall-n.png</file>
+        <file>resource/btm-btn26-normalall-n@2x.png</file>
+        <file>resource/btm-btn26-normalall-n@3x.png</file>
+        <file>resource/btm-btn26-shuffle-h.png</file>
+        <file>resource/btm-btn26-shuffle-h@2x.png</file>
+        <file>resource/btm-btn26-shuffle-h@3x.png</file>
+        <file>resource/btm-btn26-shuffle-n.png</file>
+        <file>resource/btm-btn26-shuffle-n@2x.png</file>
+        <file>resource/btm-btn26-shuffle-n@3x.png</file>
+        <file>resource/play-btn52-like-h.png</file>
+        <file>resource/play-btn52-like-h@2x.png</file>
+        <file>resource/play-btn52-like-h@3x.png</file>
+        <file>resource/play-btn52-like-n.png</file>
+        <file>resource/play-btn52-like-n@2x.png</file>
+        <file>resource/play-btn52-like-n@3x.png</file>
+        <file>resource/play-btn52-rank-h.png</file>
+        <file>resource/play-btn52-rank-h@2x.png</file>
+        <file>resource/play-btn52-rank-h@3x.png</file>
+        <file>resource/play-btn52-rank-n.png</file>
+        <file>resource/play-btn52-rank-n@2x.png</file>
+        <file>resource/play-btn52-rank-n@3x.png</file>
+        <file>resource/play-btn52-rank-sel0.png</file>
+        <file>resource/play-btn52-rank-sel0@2x.png</file>
+        <file>resource/play-btn52-rank-sel0@3x.png</file>
+        <file>resource/play-btn52-rank-sel1.png</file>
+        <file>resource/play-btn52-rank-sel1@2x.png</file>
+        <file>resource/play-btn52-rank-sel1@3x.png</file>
+        <file>resource/play-btn52-rank-sel2.png</file>
+        <file>resource/play-btn52-rank-sel2@2x.png</file>
+        <file>resource/play-btn52-rank-sel2@3x.png</file>
+        <file>resource/play-btn52-rank-sel3.png</file>
+        <file>resource/play-btn52-rank-sel3@2x.png</file>
+        <file>resource/play-btn52-rank-sel3@3x.png</file>
+        <file>resource/play-btn52-rank-sel4.png</file>
+        <file>resource/play-btn52-rank-sel4@2x.png</file>
+        <file>resource/play-btn52-rank-sel4@3x.png</file>
+        <file>resource/play-btn52-rank-sel5.png</file>
+        <file>resource/play-btn52-rank-sel5@2x.png</file>
+        <file>resource/play-btn52-rank-sel5@3x.png</file>
     </qresource>
 </RCC>
