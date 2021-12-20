@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>355</width>
+    <width>416</width>
     <height>52</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
-    <number>12</number>
+    <number>6</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
@@ -99,25 +99,25 @@ QLabel:hover
     <widget class="QLabel" name="labelFavorite">
      <property name="minimumSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>52</width>
+       <height>52</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>52</width>
+       <height>52</height>
       </size>
      </property>
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/play-btn28-like-n.png&quot;);
+  border-image: url(&quot;:/resource/play-btn52-like-n.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/play-btn28-like-h.png&quot;);
+  border-image: url(&quot;:/resource/play-btn52-like-h.png&quot;);
 }</string>
      </property>
     </widget>
@@ -126,25 +126,25 @@ QLabel:hover
     <widget class="QFrame" name="frameRating">
      <property name="minimumSize">
       <size>
-       <width>110</width>
-       <height>28</height>
+       <width>184</width>
+       <height>52</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>110</width>
-       <height>28</height>
+       <width>184</width>
+       <height>52</height>
       </size>
      </property>
      <property name="styleSheet">
       <string notr="true">QFrame 
 {
-  border-image: url(&quot;:/resource/play-btn28-rank-sel0.png&quot;);
+  border-image: url(&quot;:/resource/play-btn52-rank-sel0.png&quot;);
 }
 
 QFrame:hover
 {
-  border-image: url(&quot;:/resource/play-btn28-rank-sel0.png&quot;);
+  border-image: url(&quot;:/resource/play-btn52-rank-sel0.png&quot;);
 }</string>
      </property>
      <property name="frameShape">
