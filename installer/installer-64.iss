@@ -84,7 +84,7 @@ Source: "D:\03-Project\CaX\installer\Redist\vc_redist.x64.exe"; DestDir: {tmp}; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/quiet"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
+Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/quiet /passive /install /norestart"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]

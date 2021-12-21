@@ -18,7 +18,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={localappdata}\{#MyAppName}-x86
+DefaultDirName={localappdata}\{#MyAppName}
 ;LicenseFile=d:\03-Project\CaX\installer\doc\license.txt
 ;InfoBeforeFile=d:\03-Project\CaX\installer\doc\readme.txt
 ;InfoAfterFile=d:\03-Project\CaX\installer\doc\changelog.txt
@@ -26,7 +26,7 @@ DefaultDirName={localappdata}\{#MyAppName}-x86
 ;PrivilegesRequired=lowest
 ;ArchitecturesAllowed=x86
 OutputDir=D:\03-Project\CaX\installer\release
-OutputBaseFilename=MusicXNeo-{#MyAppVersion}-Setup-x86
+OutputBaseFilename=MusicXNeo-{#MyAppVersion}-Setup
 SetupIconFile=D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico
 WizardImageFile=D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c164.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c192.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c246.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c273.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c328.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c355.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c410.bmp
 WizardSmallImageFile=D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-55.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-64.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-83.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-92.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-110.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-119.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-138.bmp
@@ -84,7 +84,7 @@ Source: "d:\03-Project\CaX\installer\Redist\vc_redist.x86.exe"; DestDir: {tmp}; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{tmp}\vc_redist.x86.exe"; Parameters: "/quiet"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
+Filename: "{tmp}\vc_redist.x86.exe"; Parameters: "/quiet /passive /install /norestart"; Check: VC2017RedistNeedsInstall ; Flags: waituntilterminated
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
