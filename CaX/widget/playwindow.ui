@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1151</width>
-    <height>107</height>
+    <height>82</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -461,28 +461,6 @@ QPushButton:hover
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_13">
-        <property name="minimumSize">
-         <size>
-          <width>120</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>120</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QFrame" name="frameVolume">
         <property name="minimumSize">
          <size>
@@ -598,13 +576,13 @@ QPushButton::menu-indicator
        <widget class="QFrame" name="frameDial">
         <property name="minimumSize">
          <size>
-          <width>85</width>
+          <width>200</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>85</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>
@@ -628,37 +606,14 @@ QPushButton::menu-indicator
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>9</number>
+          <number>0</number>
          </property>
-         <item>
-          <widget class="QDial" name="dial">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QDial
-{
-  color: rgb(255, 255, 255);
-  border-image: url(&quot;:/resource/top-btn22-classify-rank-h.png&quot;);
-}</string>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QLabel" name="labelDial">
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>20</height>
+             <width>50</width>
+             <height>0</height>
             </size>
            </property>
            <property name="font">
@@ -674,7 +629,30 @@ QPushButton::menu-indicator
             <string>-</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDial" name="dial">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QDial
+{
+  color: rgb(255, 255, 255);
+  border-image: url(&quot;:/resource/top-btn22-classify-rank-h.png&quot;);
+}</string>
            </property>
           </widget>
          </item>
