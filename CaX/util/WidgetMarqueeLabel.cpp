@@ -1,7 +1,7 @@
 #include "WidgetMarqueeLabel.h"
 #include <QPainter>
 
-#include "util/log.h"
+//#include "util/log.h"
 
 WidgetMarqueeLabel::WidgetMarqueeLabel(QWidget *parent)
 {	
@@ -63,7 +63,7 @@ void WidgetMarqueeLabel::paintEvent(QPaintEvent *evt)
 		px = 0;
 	}
 
-	LogDebug("[%s] px [%d]", text().toUtf8().data(), px);
+//	LogDebug("[%s] px [%d]", text().toUtf8().data(), px);
 	p.drawText(px, py + fontPointSize, text());
 	p.translate(px,0);
 }
@@ -90,7 +90,7 @@ void WidgetMarqueeLabel::updateCoordinates()
 	}
 	fontPointSize = font().pointSize()/2;
 	textLength = fontMetrics().width(text());
-	LogDebug("textLength [%d]", textLength);
+//	LogDebug("textLength [%d]", textLength);
 
 }
 
