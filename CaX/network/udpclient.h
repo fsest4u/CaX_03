@@ -46,10 +46,15 @@ public slots:
 	void SlotWolBytesWritten();
 	void SlotWolReadData();
 
+	// for test
+	void SlotSSDPReadDataTest();
+
+
 private:
 
 	void ConnectSigToSlot();
 	QNetworkInterface CheckIP();
+	QNetworkInterface CheckInterface();
 
 	QHostAddress	m_HostAddress;
 	QUdpSocket		*m_pSocketSSDP;

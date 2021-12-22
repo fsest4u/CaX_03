@@ -511,15 +511,6 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	m_EventID = eventID;
 	m_bAudioCD = bAudioCD;
 
-	if (m_bAudioCD)
-	{
-		DoAudioCDHome();
-	}
-	else
-	{
-		DoMusicDBHome();
-	}
-
 	SlotMenu();
 
 	if (!nodeSetup.IsNull())
@@ -544,6 +535,15 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 		{
 			m_InputList.append(nodeInput.GetArrayAt(i));
 		}
+	}
+
+	if (m_bAudioCD)
+	{
+		DoAudioCDHome();
+	}
+	else
+	{
+		DoMusicDBHome();
 	}
 
 	m_pAppMgr->RequestTaskList();
@@ -950,9 +950,12 @@ void MainWindow::DoGroupPlayHome()
 
 void MainWindow::DoSetupHome()
 {
-	SetupWindow *widget = new SetupWindow(this, m_strAddr);
-	SlotAddWidget(widget, STR_SETUP);
-	widget->SetupHome(m_SetupList, m_EventID);
+	CommonDialog dialog(this, STR_WARNING, STR_COMING_SOON);
+	dialog.exec();
+
+//	SetupWindow *widget = new SetupWindow(this, m_strAddr);
+//	SlotAddWidget(widget, STR_SETUP);
+//	widget->SetupHome(m_SetupList, m_EventID);
 }
 
 void MainWindow::DoPowerOff()

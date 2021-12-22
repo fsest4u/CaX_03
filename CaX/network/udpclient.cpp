@@ -59,17 +59,22 @@ bool UDPClient::BindSocketSSDP()
 {
 	m_HostAddress = QHostAddress(QStringLiteral(SSDP_ADDR));
 
+#if 1
 	if( !m_pSocketSSDP->bind(QHostAddress::AnyIPv4, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
+#else	// for test
+	QHostAddress addr = QHostAddress("192.168.0.100");
+	if( !m_pSocketSSDP->bind(addr, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
+#endif
 	{
 		LogCritical("%s", m_pSocketSSDP->errorString().toUtf8().data());
 		CloseSocketSSDP();
 		return false;
 	}
 
-#if 1
+#if 0
 	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress) )
-#else
-	QNetworkInterface interface = CheckIP();
+#else	// for test
+	QNetworkInterface interface = CheckInterface();
 	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress, interface) )
 #endif
 	{
@@ -209,9 +214,6 @@ void UDPClient::SlotWolReadData()
 	}
 }
 
-
-
-
 void UDPClient::SlotSSDPConnected()
 {
 	LogDebug("########## SlotSSDPConnected ");
@@ -276,6 +278,8 @@ void UDPClient::ConnectSigToSlot()
 
 	connect(m_pSocketWol, SIGNAL(readyRead()), this, SLOT(SlotWolReadData()));
 
+	m_pSocketSSDP->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+
 }
 
 QNetworkInterface UDPClient::CheckIP()
@@ -284,16 +288,19 @@ QNetworkInterface UDPClient::CheckIP()
 	QString ipAddress;
 	QString Adddress;
 	QNetworkInterface interface;
+
 	QList<QNetworkInterface> macList = interface.allInterfaces();
 	QList<QHostAddress> ipList = interface.allAddresses();
+
 	for (int i = 0; i < macList.size(); i++)
 	{
-//		LogDebug("macList hardwareAddress : ", macList.at(i).hardwareAddress().data());
-		QString str = macList.at(i).hardwareAddress();       // MAC
-		if(str != "" )  // at windows os
-//		if(str != "00:00:00:00:00:00") // at linux os
+		QString hardwareAddress = macList.at(i).hardwareAddress();       // MAC
+		LogDebug("hardwareAddress : [%s]", hardwareAddress.toUtf8().data());
+		if(hardwareAddress != "" )  // at windows os
+//		if(hardwareAddress != "00:00:00:00:00:00") // at linux os
 		{
-			macAddress = str;
+			macAddress = hardwareAddress;
+			LogDebug("macAddress :[%s] ", macAddress.toUtf8().data());
 			break;
 		}
 	}
@@ -301,17 +308,98 @@ QNetworkInterface UDPClient::CheckIP()
 	QNetworkInterface myInterface;
 	for (int i = 0; i < ipList.size(); i++)
 	{
-//		LogDebug("ipList i : ", i);
-//		LogDebug("ipList at(i) : ", ipList.at(i).toString().data());
-//		LogDebug("ipList toIPv4Address : ", ipList.at(i).toIPv4Address());
+		LogDebug("i [%d] ipList.at(i) [%s] toIPv4Address [%u]", i, ipList.at(i).toString().toUtf8().data(), ipList.at(i).toIPv4Address());
 		myInterface = interface.interfaceFromIndex(i);
 		if (ipList.at(i) != QHostAddress::LocalHost && ipList.at(i).toIPv4Address())
 		{
 			ipAddress = ipList.at(i).toString();
+			LogDebug("ipAddress :[%s] ", ipAddress.toUtf8().data());
 			break;
 		}
 	}
 
 	return myInterface;
 
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// https://stackoverflow.com/questions/19218994/qt-joinmulticastgroup-for-all-interface
+///////////////////////////////////////////////////////////////////////////////////////////
+QNetworkInterface UDPClient::CheckInterface()
+{
+//	// Windows is weird
+//	QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
+//	// Try the multicast UDP socket for SA first
+//	saMC = new QUdpSocket(this);
+//	saMC->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+//	//saMC->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
+//	connect(saMC, &QUdpSocket::readyRead, this, &Commander::handleDatagram, Qt::UniqueConnection);
+//	QHostAddress toBind("192.168.0.51");
+//	if(saMC->bind(toBind, 6969, QUdpSocket::ShareAddress|QUdpSocket::ReuseAddressHint))
+//	{
+//		foreach(QNetworkInterface interface, interfaces)
+//		{
+//			//qDebug()<<"interface:"<<interface.isValid()<<interface.flags();
+//			QNetworkInterface::InterfaceFlags iflags = interface.flags();
+//			if(interface.isValid() && !iflags.testFlag(QNetworkInterface::IsLoopBack) && iflags.testFlag(QNetworkInterface::CanMulticast) && iflags.testFlag(QNetworkInterface::IsRunning))
+//			{
+
+//				QList<QNetworkAddressEntry> addressEntries = interface.addressEntries();
+//				for (int i = 0; i < addressEntries.length(); i++) {
+//					QNetworkAddressEntry ae = addressEntries.at(i);
+//					if(ae.ip() == toBind)
+//					{
+//						bool ok = false;
+//						if (ae.ip().protocol() == QAbstractSocket::IPv4Protocol)
+//						{
+//							ok = saMC->joinMulticastGroup(QHostAddress("239.2.3.1"), interface);
+//						}
+//						if(ok)
+//						{
+//							qDebug()<<"SA bound...join mc group:"<<ae.ip();
+//						}
+//						else
+//						{
+//							qDebug()<<"SA bound...interface unsuitable for Multicast:"<<ae.ip();
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//	else
+//	{
+//		qDebug()<<"SA multicast socket unable to bind...."<<saMC->errorString();
+//	}
+
+	// Windows is weird
+	QNetworkInterface myInterface;
+	QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
+
+	foreach(QNetworkInterface interface, interfaces)
+	{
+		//qDebug()<<"interface:"<<interface.isValid()<<interface.flags();
+		QNetworkInterface::InterfaceFlags iflags = interface.flags();
+		if(interface.isValid()
+				&& !iflags.testFlag(QNetworkInterface::IsLoopBack)
+				&& iflags.testFlag(QNetworkInterface::CanMulticast)
+				&& iflags.testFlag(QNetworkInterface::IsRunning))
+		{
+			QList<QNetworkAddressEntry> addressEntries = interface.addressEntries();
+			for (int i = 0; i < addressEntries.length(); i++)
+			{
+				QNetworkAddressEntry ae = addressEntries.at(i);
+				if (ae.ip().protocol() == QAbstractSocket::IPv4Protocol
+						&& ae.ip() != QHostAddress::LocalHost
+						&& ae.ip().toIPv4Address())
+				{
+					LogDebug("ipAddress :[%s] ", ae.ip().toString().toUtf8().data());
+					myInterface = interface;
+					break;
+				}
+			}
+		}
+	}
+
+	return myInterface;
 }
