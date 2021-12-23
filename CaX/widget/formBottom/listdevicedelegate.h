@@ -20,13 +20,13 @@ public:
 
 signals:
 
-	void SigSelectDevice(QString mac);
-	void SigSelectCancel(QString mac);
+	void SigSelectDevice(QString mac, QString addr, QString val, QString dev);
+	void SigSelectCancel(QString mac, QString addr, QString val, QString dev);
 
 private slots:
 
-	void SlotClickDevice(QString mac);
-	void SlotClickCancel(QString mac);
+	void SlotClickDevice(QString mac, QString addr, QString val, QString dev);
+	void SlotClickCancel(QString mac, QString addr, QString val, QString dev);
 
 private:
 

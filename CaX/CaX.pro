@@ -27,6 +27,7 @@ SOURCES += \
     dialog/searchcoverartresultdialog.cpp \
     dialog/searchdialog.cpp \
     dialog/selectformatdialog.cpp \
+    dialog/selectnetworkinterfacedialog.cpp \
     dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
@@ -147,6 +148,7 @@ HEADERS += \
     dialog/searchcoverartresultdialog.h \
     dialog/searchdialog.h \
     dialog/selectformatdialog.h \
+    dialog/selectnetworkinterfacedialog.h \
     dialog/trackinfo.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
@@ -276,6 +278,7 @@ FORMS += \
     dialog/searchcoverartresultdialog.ui \
     dialog/searchdialog.ui \
     dialog/selectformatdialog.ui \
+    dialog/selectnetworkinterfacedialog.ui \
     dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \

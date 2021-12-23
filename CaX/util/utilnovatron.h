@@ -28,6 +28,8 @@ public:
 	static void DebugTypeForSetupBtn(QString title, int type);
 	static void DebugTypeForSetupInput(QString title, int type);
 
+	static void DebugTypeForUDP(QString title, int flag);
+
 };
 
 #endif // UTILNOVATRON_H

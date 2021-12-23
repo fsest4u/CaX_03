@@ -2,8 +2,11 @@
 
 #include <QtNetwork>
 
+#include "dialog/selectnetworkinterfacedialog.h"
+
 #include "util/caxconstants.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 UDPClient::UDPClient(QObject *parent)
 	: QObject(parent)
@@ -57,10 +60,39 @@ void UDPClient::CloseSocketWol()
 
 bool UDPClient::BindSocketSSDP()
 {
+	QString strIP;
+	QNetworkInterface interface;
+
+//	QNetworkInterface interface = CheckIP();
+	QMap<QString, QNetworkInterface> map = GetInterface();
+	if (map.count() <= 0)
+	{
+		return false;
+	}
+	else if (map.count() == 1)
+	{
+		interface = map.first();
+	}
+	else if (map.count() > 1)
+	{
+		SelectNetworkInterfaceDialog dialog;
+		dialog.SetList(map);
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			strIP = dialog.GetIP();
+			interface = dialog.GetInterface();
+		}
+	}
+
+	if (strIP.isEmpty())
+	{
+		return false;
+	}
+
 	m_HostAddress = QHostAddress(QStringLiteral(SSDP_ADDR));
 
 #if 1
-	if( !m_pSocketSSDP->bind(QHostAddress::AnyIPv4, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
+	if( !m_pSocketSSDP->bind(QHostAddress(strIP), SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 #else	// for test
 	QHostAddress addr = QHostAddress("192.168.0.100");
 	if( !m_pSocketSSDP->bind(addr, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
@@ -74,7 +106,6 @@ bool UDPClient::BindSocketSSDP()
 #if 0
 	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress) )
 #else	// for test
-	QNetworkInterface interface = CheckInterface();
 	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress, interface) )
 #endif
 	{
@@ -301,7 +332,7 @@ QNetworkInterface UDPClient::CheckIP()
 		{
 			macAddress = hardwareAddress;
 			LogDebug("macAddress :[%s] ", macAddress.toUtf8().data());
-			break;
+//			break;
 		}
 	}
 
@@ -314,7 +345,7 @@ QNetworkInterface UDPClient::CheckIP()
 		{
 			ipAddress = ipList.at(i).toString();
 			LogDebug("ipAddress :[%s] ", ipAddress.toUtf8().data());
-			break;
+//			break;
 		}
 	}
 
@@ -325,7 +356,7 @@ QNetworkInterface UDPClient::CheckIP()
 ///////////////////////////////////////////////////////////////////////////////////////////
 // https://stackoverflow.com/questions/19218994/qt-joinmulticastgroup-for-all-interface
 ///////////////////////////////////////////////////////////////////////////////////////////
-QNetworkInterface UDPClient::CheckInterface()
+QMap<QString, QNetworkInterface> UDPClient::GetInterface()
 {
 //	// Windows is weird
 //	QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
@@ -373,13 +404,15 @@ QNetworkInterface UDPClient::CheckInterface()
 //	}
 
 	// Windows is weird
-	QNetworkInterface myInterface;
+	QMap<QString, QNetworkInterface> map;
 	QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
 
 	foreach(QNetworkInterface interface, interfaces)
 	{
 		//qDebug()<<"interface:"<<interface.isValid()<<interface.flags();
 		QNetworkInterface::InterfaceFlags iflags = interface.flags();
+		UtilNovatron::DebugTypeForUDP("Check Interface flag", iflags);
+
 		if(interface.isValid()
 				&& !iflags.testFlag(QNetworkInterface::IsLoopBack)
 				&& iflags.testFlag(QNetworkInterface::CanMulticast)
@@ -389,17 +422,17 @@ QNetworkInterface UDPClient::CheckInterface()
 			for (int i = 0; i < addressEntries.length(); i++)
 			{
 				QNetworkAddressEntry ae = addressEntries.at(i);
+				LogDebug("ipAddress :[%s] ", ae.ip().toString().toUtf8().data());
 				if (ae.ip().protocol() == QAbstractSocket::IPv4Protocol
 						&& ae.ip() != QHostAddress::LocalHost
 						&& ae.ip().toIPv4Address())
 				{
-					LogDebug("ipAddress :[%s] ", ae.ip().toString().toUtf8().data());
-					myInterface = interface;
-					break;
+					LogDebug("ipAddress append :[%s] ", ae.ip().toString().toUtf8().data());
+					map.insert(ae.ip().toString(), interface);
 				}
 			}
 		}
 	}
 
-	return myInterface;
+	return map;
 }

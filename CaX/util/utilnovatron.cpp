@@ -3,6 +3,7 @@
 #include <QFileInfo>
 #include <QIcon>
 #include <QStandardPaths>
+#include <QtNetwork>
 
 #include "utilnovatron.h"
 
@@ -833,6 +834,34 @@ void UtilNovatron::DebugTypeForSetupInput(QString title, int type)
 		LogDebug("[%s] iSetupInput_CurrTime", title.toUtf8().data());
 	}
 
+}
+
+void UtilNovatron::DebugTypeForUDP(QString title, int flag)
+{
+	if (flag & QNetworkInterface::IsUp)
+	{
+		LogDebug("[%s] IsUp", title.toUtf8().data());
+	}
+	if (flag & QNetworkInterface::IsRunning)
+	{
+		LogDebug("[%s] IsRunning", title.toUtf8().data());
+	}
+	if (flag & QNetworkInterface::CanBroadcast)
+	{
+		LogDebug("[%s] CanBroadcast", title.toUtf8().data());
+	}
+	if (flag & QNetworkInterface::IsLoopBack)
+	{
+		LogDebug("[%s] IsLoopBack", title.toUtf8().data());
+	}
+	if (flag & QNetworkInterface::IsPointToPoint)
+	{
+		LogDebug("[%s] IsPointToPoint", title.toUtf8().data());
+	}
+	if (flag & QNetworkInterface::CanMulticast)
+	{
+		LogDebug("[%s] CanMulticast", title.toUtf8().data());
+	}
 }
 
 

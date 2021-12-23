@@ -50,7 +50,7 @@ private:
 
 	void ConnectSigToSlot();
 	QNetworkInterface CheckIP();
-	QNetworkInterface CheckInterface();
+	QMap<QString, QNetworkInterface> GetInterface();
 
 	QHostAddress	m_HostAddress;
 	QUdpSocket		*m_pSocketSSDP;

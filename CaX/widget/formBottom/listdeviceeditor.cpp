@@ -78,11 +78,11 @@ bool ListDeviceEditor::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelDevice)
 		{
-			emit SigClickDevice(m_Mac);
+			emit SigClickDevice(m_Mac, m_Addr, m_Val, m_Dev);
 		}
 		else if (object == ui->labelCancel)
 		{
-			emit SigClickCancel(m_Mac);
+			emit SigClickCancel(m_Mac, m_Addr, m_Val, m_Dev);
 		}
 	}
 

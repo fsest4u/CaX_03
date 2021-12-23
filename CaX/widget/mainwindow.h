@@ -53,15 +53,15 @@ public slots:
 	void SlotClickSkip(int taskID);
 
 	void SlotDeviceItem(int state);
-	void SlotAutoConnectDevice(QString mac);
-	void SlotSelectDevice(QString mac);
-	void SlotSelectCancel(QString mac);
+	void SlotAutoConnectDevice(QString mac, QString addr, QString val, QString dev);
+	void SlotSelectDevice(QString mac, QString addr, QString val, QString dev);
+	void SlotSelectCancel(QString mac, QString addr, QString val, QString dev);
 
-	void SlotWolDevice(QString mac);
-	void SlotWolCancel(QString mac);
+	void SlotWolDevice(QString mac, QString addr, QString val, QString dev);
+	void SlotWolCancel(QString mac, QString addr, QString val, QString dev);
 
 	void SlotDevice();
-	void SlotDeviceAction(QString menuID);
+	void SlotDeviceAction(QString mac);
 
 	void SlotDisconnectObserver();
 	void SlotRespAirableLogout();

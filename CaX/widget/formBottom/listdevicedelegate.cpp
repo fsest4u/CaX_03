@@ -9,14 +9,14 @@ ListDeviceDelegate::ListDeviceDelegate()
 
 }
 
-void ListDeviceDelegate::SlotClickDevice(QString mac)
+void ListDeviceDelegate::SlotClickDevice(QString mac, QString addr, QString val, QString dev)
 {
-	emit SigSelectDevice(mac);
+	emit SigSelectDevice(mac, addr, val, dev);
 }
 
-void ListDeviceDelegate::SlotClickCancel(QString mac)
+void ListDeviceDelegate::SlotClickCancel(QString mac, QString addr, QString val, QString dev)
 {
-	emit SigSelectCancel(mac);
+	emit SigSelectCancel(mac, addr, val, dev);
 }
 
 void ListDeviceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -40,8 +40,8 @@ QWidget *ListDeviceDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	Q_UNUSED(index)
 
 	ListDeviceEditor *editor = new ListDeviceEditor(parent);
-	connect(editor, SIGNAL(SigClickDevice(QString)), this, SLOT(SlotClickDevice(QString)));
-	connect(editor, SIGNAL(SigClickCancel(QString)), this, SLOT(SlotClickCancel(QString)));
+	connect(editor, SIGNAL(SigClickDevice(QString, QString, QString, QString)), this, SLOT(SlotClickDevice(QString, QString, QString, QString)));
+	connect(editor, SIGNAL(SigClickCancel(QString, QString, QString, QString)), this, SLOT(SlotClickCancel(QString, QString, QString, QString)));
 
 	editor->SetLabelCancelShow(true);
 

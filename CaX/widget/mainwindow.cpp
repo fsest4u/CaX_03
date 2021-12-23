@@ -379,11 +379,11 @@ void MainWindow::SlotDeviceItem(int state)
 	m_pDeviceWin->SetDeviceList(m_pDeviceMgr->GetDeviceList());
 }
 
-void MainWindow::SlotAutoConnectDevice(QString mac)
+void MainWindow::SlotAutoConnectDevice(QString mac, QString addr, QString val, QString dev)
 {
 	if (!m_strCurrentMac.compare(mac) && !m_bConnect)
 	{
-		SlotSelectDevice(mac);
+		SlotSelectDevice(mac, addr, val, dev);
 	}
 }
 
@@ -601,7 +601,7 @@ void MainWindow::SlotClickSkip(int taskID)
 	m_pAppMgr->RequestProgressSkip(m_EventID, taskID);
 }
 
-void MainWindow::SlotSelectDevice(QString mac)
+void MainWindow::SlotSelectDevice(QString mac, QString addr, QString val, QString dev)
 {
 	LogDebug("*****************************************");
 	LogDebug("mac select [%s]", mac.toUtf8().data());
@@ -620,28 +620,28 @@ void MainWindow::SlotSelectDevice(QString mac)
 	Initialize();
 	SlotMenu();
 
-	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
-	QString strDev = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_DEV);
+//	QString strAddr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
+//	QString strDev = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_DEV);
 
-	if (strAddr.isEmpty())
+	if (addr.isEmpty())
 	{
 		return;
 	}
 
-	m_strAddr = strAddr;
+	m_strAddr = addr;
 	m_strCurrentMac = mac;
 
 	WriteSettings();
 
 	ui->widgetPlay->SetAddr(m_strAddr);
-	ui->widgetTop->SetDeviceName(strDev);
+	ui->widgetTop->SetDeviceName(dev);
 
 	m_pAppMgr->SetAddr(m_strAddr);
 	m_pAppMgr->RequestDeviceInfo();
 
 }
 
-void MainWindow::SlotSelectCancel(QString mac)
+void MainWindow::SlotSelectCancel(QString mac, QString addr, QString val, QString dev)
 {
 	if (mac.isEmpty() || mac.compare(m_strCurrentMac))
 		return;
@@ -655,7 +655,7 @@ void MainWindow::SlotSelectCancel(QString mac)
 	SlotMenu();
 }
 
-void MainWindow::SlotWolDevice(QString mac)
+void MainWindow::SlotWolDevice(QString mac, QString addr, QString val, QString dev)
 {
 	LogDebug("*****************************************");
 	LogDebug("mac select [%s]", mac.toUtf8().data());
@@ -674,13 +674,13 @@ void MainWindow::SlotWolDevice(QString mac)
 	Initialize();
 	SlotMenu();
 
-	QString strAddr = m_pDeviceMgr->GetDeviceValueWol(mac, DEVICE_WOL_ADDR);
-	if (strAddr.isEmpty())
+//	QString strAddr = m_pDeviceMgr->GetDeviceValueWol(mac, DEVICE_WOL_ADDR);
+	if (addr.isEmpty())
 	{
 		return;
 	}
 
-	m_strAddr = strAddr;
+	m_strAddr = addr;
 	m_strCurrentMac = mac;
 
 	WriteSettings();
@@ -689,10 +689,10 @@ void MainWindow::SlotWolDevice(QString mac)
 
 	m_pAppMgr->SetAddr(m_strAddr);
 
-	m_pDeviceMgr->RequestDevicePowerOn(strAddr, mac);
+	m_pDeviceMgr->RequestDevicePowerOn(m_strAddr, mac);
 }
 
-void MainWindow::SlotWolCancel(QString mac)
+void MainWindow::SlotWolCancel(QString mac, QString addr, QString val, QString dev)
 {
 	if (mac.isEmpty() || mac.compare(m_strCurrentMac))
 		return;
@@ -724,15 +724,19 @@ void MainWindow::SlotDevice()
 	}
 }
 
-void MainWindow::SlotDeviceAction(QString menuID)
+void MainWindow::SlotDeviceAction(QString mac)
 {
-	SlotSelectDevice(menuID);
+	QString addr = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_ADDR);
+	QString val = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_VAL);
+	QString dev = m_pDeviceMgr->GetDeviceValue(mac, DEVICE_DEV);
+
+	SlotSelectDevice(mac, addr, val, dev);
 }
 
 void MainWindow::SlotDisconnectObserver()
 {
 	RemoveAllWidget();
-	DoDeviceListHome();
+//	DoDeviceListHome();
 
 	if (m_pDeviceMgr)
 	{
@@ -818,7 +822,7 @@ void MainWindow::ConnectForUI()
 	connect(ui->widgetTop->GetBtnPrev(), SIGNAL(clicked()), this, SLOT(SlotBtnPrev()));
 	connect(ui->widgetTop->GetBtnNext(), SIGNAL(clicked()), this, SLOT(SlotBtnNext()));
 	connect(ui->widgetTop, SIGNAL(SigDeviceMenu()), this, SLOT(SlotDevice()));
-	connect(ui->widgetTop, SIGNAL(SigDeviceMenuAction(QString)), this, SLOT(SlotSelectDevice(QString)));
+	connect(ui->widgetTop, SIGNAL(SigDeviceMenuAction(QString)), this, SLOT(SlotDeviceAction(QString)));
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
@@ -829,7 +833,7 @@ void MainWindow::ConnectForUI()
 void MainWindow::ConnectForApp()
 {
 	connect(m_pDeviceMgr, SIGNAL(SigDeviceItem(int)), this, SLOT(SlotDeviceItem(int)));
-	connect(m_pDeviceMgr, SIGNAL(SigAutoConnectDevice(QString)), this, SLOT(SlotAutoConnectDevice(QString)));
+	connect(m_pDeviceMgr, SIGNAL(SigAutoConnectDevice(QString, QString, QString, QString)), this, SLOT(SlotAutoConnectDevice(QString, QString, QString, QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pAppMgr, SIGNAL(SigRespTaskList(CJsonNode)), this, SLOT(SlotRespTaskList(CJsonNode)));
 	connect(m_pAppMgr, SIGNAL(SigRespDeviceInfo(CJsonNode)), this, SLOT(SlotRespDeviceInfo(CJsonNode)));
@@ -839,8 +843,8 @@ void MainWindow::ConnectForApp()
 	connect(m_pObsMgr, SIGNAL(SigEventProgress(CJsonNode)), this, SLOT(SlotEventProgress(CJsonNode)));
 	connect(m_pObsMgr, SIGNAL(SigEventNowPlay(CJsonNode)), ui->widgetPlay, SLOT(SlotEventNowPlay(CJsonNode)));
 
-	connect(m_pDeviceWin, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
-	connect(m_pDeviceWin, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
+	connect(m_pDeviceWin, SIGNAL(SigSelectDevice(QString, QString, QString, QString)), this, SLOT(SlotSelectDevice(QString, QString, QString, QString)));
+	connect(m_pDeviceWin, SIGNAL(SigSelectCancel(QString, QString, QString, QString)), this, SLOT(SlotSelectCancel(QString, QString, QString, QString)));
 
 	connect(m_ProgressDialog, SIGNAL(SigClickBack(int)), this, SLOT(SlotClickBack(int)));
 	connect(m_ProgressDialog, SIGNAL(SigClickStop(int)), this, SLOT(SlotClickStop(int)));
@@ -1007,8 +1011,8 @@ void MainWindow::DoPowerOn()
 		DeviceListWindow *widget = new DeviceListWindow;
 		SlotAddWidget(widget, STR_POWER_ON);
 
-		connect(widget, SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotWolDevice(QString)));
-		connect(widget, SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotWolCancel(QString)));
+		connect(widget, SIGNAL(SigSelectDevice(QString, QString, QString, QString)), this, SLOT(SlotWolDevice(QString, QString, QString, QString)));
+		connect(widget, SIGNAL(SigSelectCancel(QString, QString, QString, QString)), this, SLOT(SlotWolCancel(QString, QString, QString, QString)));
 
 		widget->SetTitle(STR_POWER_ON);
 		widget->SetDeviceList(list);

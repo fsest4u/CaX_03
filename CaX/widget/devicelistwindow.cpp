@@ -56,20 +56,20 @@ void DeviceListWindow::SetTitle(const QString &Title)
 //	ui->labelTitle->startTimer();
 }
 
-void DeviceListWindow::SlotSelectDevice(QString mac)
+void DeviceListWindow::SlotSelectDevice(QString mac, QString addr, QString val, QString dev)
 {
-	emit SigSelectDevice(mac);
+	emit SigSelectDevice(mac, addr, val, dev);
 }
 
-void DeviceListWindow::SlotSelectCancel(QString mac)
+void DeviceListWindow::SlotSelectCancel(QString mac, QString addr, QString val, QString dev)
 {
-	emit SigSelectCancel(mac);
+	emit SigSelectCancel(mac, addr, val, dev);
 }
 
 void DeviceListWindow::ConnectSigToSlot()
 {
-	connect(m_pListDevice->GetDelegate(), SIGNAL(SigSelectDevice(QString)), this, SLOT(SlotSelectDevice(QString)));
-	connect(m_pListDevice->GetDelegate(), SIGNAL(SigSelectCancel(QString)), this, SLOT(SlotSelectCancel(QString)));
+	connect(m_pListDevice->GetDelegate(), SIGNAL(SigSelectDevice(QString, QString, QString, QString)), this, SLOT(SlotSelectDevice(QString, QString, QString, QString)));
+	connect(m_pListDevice->GetDelegate(), SIGNAL(SigSelectCancel(QString, QString, QString, QString)), this, SLOT(SlotSelectCancel(QString, QString, QString, QString)));
 
 	ui->gridLayout->addWidget(m_pListDevice);
 }

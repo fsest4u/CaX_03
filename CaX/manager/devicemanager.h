@@ -53,7 +53,7 @@ public:
 signals:
 
 	void			SigDeviceItem(int state);
-	void			SigAutoConnectDevice(QString mac);
+	void			SigAutoConnectDevice(QString mac, QString addr, QString val, QString dev);
 
 public slots:
 

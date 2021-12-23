@@ -244,7 +244,7 @@ void DeviceManager::SlotRespDeviceItem(QString deviceData)
 		{
 			AddDevice(strMac, strAddr, strCaName, strCaDev);
 			emit SigDeviceItem(state);
-			emit SigAutoConnectDevice(strMac);
+			emit SigAutoConnectDevice(strMac, strAddr, strCaName, strCaDev);
 			return;
 		}
 	}

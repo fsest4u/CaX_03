@@ -34,8 +34,8 @@ public:
 signals:
 
 	void SigClickPlus();
-	void SigClickDevice(QString mac);
-	void SigClickCancel(QString mac);
+	void SigClickDevice(QString mac, QString addr, QString val, QString dev);
+	void SigClickCancel(QString mac, QString addr, QString val, QString dev);
 
 protected:
 
