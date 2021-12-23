@@ -208,6 +208,23 @@ void FormSort::SetResizeMenu()
 	m_Slider->setMaximum(ICON_HEIGHT_MAX);
 	m_Slider->setGeometry( 0, 0, 340, 22 );
 
+	QString style = QString("QSlider::groove:horizontal {	\
+								background-color: #e8e6e6;	\
+								border: 1px solid #e8e6e6;	\
+								height: 2px;	\
+								border-radius: 2px;	\
+							}	\
+							QSlider::handle:horizontal {	\
+								background-color: #34aed6;	\
+								border: 1px solid #34aed6;	\
+								width: 10px;	\
+								height: 10px;	\
+								border-radius: 5px;	\
+								margin: -4px 0;	\
+							}");
+
+	m_Slider->setStyleSheet(style);
+
 	QWidgetAction *action = new QWidgetAction(this);
 	action->setDefaultWidget(m_Slider);
 	m_ResizeMenu->addAction(action);
