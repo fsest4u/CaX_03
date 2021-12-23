@@ -46,6 +46,7 @@ private:
 	IconService			*m_pIconService;
 
 	int					m_EventID;
+	QString				m_Addr;
 
 	Ui::GroupPlayWindow *ui;
 };

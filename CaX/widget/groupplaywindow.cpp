@@ -2,6 +2,7 @@
 #include "ui_groupplaywindow.h"
 
 #include "dialog/commondialog.h"
+#include "dialog/groupplaydialog.h"
 
 #include "manager/groupplaymanager.h"
 
@@ -24,7 +25,8 @@ GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
 {
 	ui->setupUi(this);
 
-	m_pMgr->SetAddr(addr);
+	m_Addr = addr;
+	m_pMgr->SetAddr(m_Addr);
 
 	ConnectSigToSlot();
 
@@ -64,6 +66,7 @@ void GroupPlayWindow::GroupPlayList(int eventID)
 
 	m_pInfoService->SetTitle(STR_GROUP_PLAY);
 
+	m_pMgr->SetAddr(m_Addr);
 	m_pMgr->RequestGroupPlayList(m_EventID);
 }
 
@@ -117,12 +120,16 @@ void GroupPlayWindow::SlotSelectPlay(int index, bool muted)
 	LogDebug("good choice!~!~");
 	muted = !muted;
 
-	// server / client ??
+	CJsonNode node = m_pIconService->GetNodeList().at(index);
+	QString location = node.GetString(KEY_LOCATION);
+	m_pMgr->SetAddr(location);
 	m_pMgr->RequestGroupPlayMute(muted);
 
 	QStandardItem *item = m_pIconService->GetModel()->item(index);
 	item->setData(muted, IconServiceDelegate::ICON_SERVICE_MUTE);
 	m_pIconService->GetModel()->setItem(index, item);
+
+
 }
 
 void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
@@ -136,14 +143,20 @@ void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
 		return;
 	}
 
-//	// todo-dylee
 //	LogDebug("node [%s]", node.ToCompactByteArray().data());
 //	bool enabled = node.GetBool(KEY_ENABLED);
 //	m_pMgr->RequestGroupPlayEnable(!enabled);
+
+	GroupPlayDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+
+	}
 }
 
 void GroupPlayWindow::SlotEventGroupPlayUpdate()
 {
+	m_pMgr->SetAddr(m_Addr);
 	m_pMgr->RequestGroupPlayList(m_EventID);
 }
 
