@@ -40,6 +40,11 @@ void DeviceManager::RequestDevicePowerOn(QString wolAddr, QString mac)
 	m_pSsdpMgr->RequestDevicePowerOn(wolAddr, mac);
 }
 
+void DeviceManager::ClearDeviceList()
+{
+	m_DeviceList.Clear();
+}
+
 CJsonNode DeviceManager::GetDeviceList() const
 {
 	return m_DeviceList;
@@ -97,6 +102,11 @@ QString DeviceManager::GetDeviceValue(QString mac, QString key)
 		value = node.GetString(key);
 	}
 	return value;
+}
+
+void DeviceManager::ClearDeviceListWol()
+{
+	m_DeviceListWol.Clear();
 }
 
 CJsonNode DeviceManager::GetDeviceListWol() const

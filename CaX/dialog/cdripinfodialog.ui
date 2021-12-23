@@ -61,6 +61,12 @@ QWidget
    </item>
    <item row="1" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>34</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
@@ -105,7 +111,7 @@ color: rgb(255, 255, 255)
         <x>0</x>
         <y>0</y>
         <width>390</width>
-        <height>500</height>
+        <height>492</height>
        </rect>
       </property>
       <property name="styleSheet">

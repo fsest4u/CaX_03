@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>271</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,6 +42,12 @@ QWidget
    </item>
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>34</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton
 {

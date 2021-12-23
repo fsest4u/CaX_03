@@ -41,6 +41,12 @@ QWidget
    </property>
    <item row="1" column="0">
     <widget class="QFrame" name="frame">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -175,7 +181,7 @@ color: rgb(255, 255, 255)
         <x>0</x>
         <y>0</y>
         <width>362</width>
-        <height>336</height>
+        <height>314</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayoutScrollArea"/>

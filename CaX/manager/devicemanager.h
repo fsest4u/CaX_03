@@ -28,6 +28,7 @@ public:
 	void RequestDevicePowerOn(QString wolAddr, QString mac);
 
 	// device list
+	void			ClearDeviceList();
 	CJsonNode		GetDeviceList() const;
 	void			SetDeviceList(const CJsonNode &list);
 	int				GetDeviceCount();
@@ -39,6 +40,7 @@ public:
 	QString			GetDeviceValue(QString mac, QString key);
 
 	// wol list
+	void			ClearDeviceListWol();
 	CJsonNode		GetDeviceListWol() const;
 	void			SetDeviceListWol(const CJsonNode &list);
 

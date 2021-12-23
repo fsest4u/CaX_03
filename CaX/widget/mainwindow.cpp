@@ -849,6 +849,8 @@ void MainWindow::ConnectForApp()
 
 void MainWindow::DoDeviceListHome()
 {
+	m_pDeviceMgr->ClearDeviceList();
+	m_pDeviceMgr->ClearDeviceListWol();
 	m_pDeviceMgr->RequestDeviceList();
 
 //	ui->widgetTop->setDisabled(true);
