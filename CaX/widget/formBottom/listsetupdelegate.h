@@ -4,6 +4,8 @@
 #include <QStyledItemDelegate>
 #include <QListView>
 
+#include "util/CJsonNode.h"
+
 class ListSetupDelegate : public QStyledItemDelegate
 {
 	Q_OBJECT
@@ -13,16 +15,24 @@ public:
 	enum {
 		LIST_SETUP_ID = Qt::UserRole + 0,
 		LIST_SETUP_TITLE,
+		LIST_SETUP_INDEX,
 		LIST_SETUP_MAX
 	};
 
+	QMap<QString, CJsonNode> GetMenuMap() const;
+	void SetMenuMap(const QMap<QString, CJsonNode> &MenuMap);
+
 signals:
 
-	void SigSelectTitle(QString strID);
+	void SigSelectTitle(QString strID, int index);
+	void SigMenuAction(QString strID, QString json);
+	void SigSubMenuAction(QString value, QString json);
 
 private slots:
 
-	void SlotClickTitle(QString strID);
+	void SlotClickTitle(QString strID, int index);
+	void SlotMenuAction(QString strID, QString json);
+	void SlotSubMenuAction(QString value, QString json);
 
 private:
 
@@ -33,6 +43,9 @@ private:
 	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+
+	QMap<QString, CJsonNode> m_MenuMap;
+
 };
 
 #endif // LISTSETUPDELEGATE_H

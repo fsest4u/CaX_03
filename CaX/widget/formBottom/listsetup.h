@@ -25,6 +25,8 @@ public:
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(const QList<CJsonNode> &NodeList);
 
+	void SetEditor(int index);
+
 	QStandardItemModel *GetModel();
 	ListSetupDelegate *GetDelegate();
 

@@ -53,6 +53,7 @@ QList<CJsonNode> ListSetup::GetNodeList() const
 
 void ListSetup::SetNodeList(const QList<CJsonNode> &NodeList)
 {
+	int index = 0;
 	m_NodeList = NodeList;
 
 	foreach (CJsonNode node, m_NodeList)
@@ -62,14 +63,28 @@ void ListSetup::SetNodeList(const QList<CJsonNode> &NodeList)
 		QStandardItem *item = new QStandardItem;
 		item->setData(node.GetString(KEY_ID_UPPER), ListSetupDelegate::LIST_SETUP_ID);
 		item->setData(node.GetString(KEY_NAME_CAP), ListSetupDelegate::LIST_SETUP_TITLE);
+		item->setData(index, ListSetupDelegate::LIST_SETUP_INDEX);
 
 		m_Model->appendRow(item);
 		QModelIndex modelIndex = m_Model->indexFromItem(item);
 		m_ListView->openPersistentEditor(modelIndex);
+
+		index++;
 	}
 
 	ui->gridLayout->addWidget(m_ListView);
 
+}
+
+void ListSetup::SetEditor(int index)
+{
+	QModelIndex modelIndex = m_Model->index(index, 0);
+
+	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
+	QString title = qvariant_cast<QString>(item->data(ListSetupDelegate::LIST_SETUP_TITLE));
+	item->setData(title.trimmed() + " ", ListSetupDelegate::LIST_SETUP_TITLE);
+
+	m_ListView->openPersistentEditor(modelIndex);
 }
 
 QStandardItemModel *ListSetup::GetModel()

@@ -46,10 +46,6 @@ public slots:
 	void SlotWolBytesWritten();
 	void SlotWolReadData();
 
-	// for test
-	void SlotSSDPReadDataTest();
-
-
 private:
 
 	void ConnectSigToSlot();

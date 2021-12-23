@@ -5,6 +5,7 @@
 // key
 //////////////////////////////////////////////////
 
+#define		KEY_ACTION			"Action"
 #define		KEY_ACTIVE_CHANNEL	"activeChannel"
 #define		KEY_ACTS			"Acts"
 #define		KEY_ADDR			"Addr"
@@ -26,6 +27,7 @@
 #define		KEY_BOT1			"Bot1"
 
 #define		KEY_CA_NAME			"caName"
+#define		KEY_CANCEL			"Cancel"
 #define		KEY_CAT_ORDER		"CatOrder"
 #define		KEY_CATEGORY		"Cat"
 #define		KEY_CDNUMBER		"CdNumber"
@@ -89,6 +91,7 @@
 #define		KEY_INDEX			"Index"
 #define		KEY_INDEXES			"Indexes"
 #define		KEY_INPUT			"Input"
+#define		KEY_INPUTS			"Inputs"
 #define		KEY_INPUT_SAMPLE_RATE	"InputSampleRate"
 #define		KEY_IS_DEL_DB		"IsDelDB"
 #define		KEY_ISERVICE		"IService"
@@ -114,6 +117,7 @@
 #define		KEY_NEXT_URL		"NextUrl"
 #define		KEY_NOW_PLAY		"NowPlaying"
 
+#define		KEY_OK			"Ok"
 #define		KEY_ORDER			"Order"
 #define		KEY_OVERWRITE		"Overwrite"
 
@@ -187,6 +191,8 @@
 #define		KEY_USER			"User"
 
 #define		KEY_VAL				"Val"
+#define		KEY_VALUE			"Value"
+#define		KEY_VALUES			"Values"
 #define		KEY_VOLUME			"volume"
 #define		KEY_VOLUME_CAP		"Volume"
 

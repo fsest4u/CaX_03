@@ -25,9 +25,13 @@ public:
 
 private slots:
 
-	void SlotSelectTitle(QString strID);
+	void SlotSelectTitle(QString strID, int index);
+	void SlotMenuAction(QString strID, QString json);
+	void SlotSubMenuAction(QString value, QString json);
 
-	void SlotRespList(QList<CJsonNode> list);
+	void SlotRespError(QString errMsg);
+	void SlotRespGroup(QList<CJsonNode> list, int index);
+	void SlotRespSet(CJsonNode node);
 
 private:
 
@@ -35,11 +39,16 @@ private:
 
 //	void SetSetupHome(QList<CJsonNode> & list);
 
+	void SetMenuMap(QList<CJsonNode> list);
+
 	SetupManager		*m_pMgr;
 	InfoService			*m_pInfoService;
 	ListSetup			*m_pListSetup;
 
 	int m_EventID;
+	QString m_StrID;
+
+	QMap<QString, CJsonNode>	m_MenuMap;
 
 	Ui::SetupWindow *ui;
 };

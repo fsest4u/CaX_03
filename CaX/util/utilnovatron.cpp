@@ -13,6 +13,7 @@
 #include "widget/airable.h"
 #include "widget/browser.h"
 #include "widget/qobuz.h"
+#include "widget/setup.h"
 
 UtilNovatron::UtilNovatron()
 {
@@ -697,6 +698,139 @@ void UtilNovatron::DebugTypeForAirable(QString title, int type)
 	if (type & iAirableType_Mask_Logout)
 	{
 		LogDebug("[%s] iAirableType_Mask_Logout", title.toUtf8().data());
+	}
+
+}
+
+void UtilNovatron::DebugTypeForSetup(QString title, int type)
+{
+	if (type & iAppSetupType_Mask_Enum)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_Enum", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_Select)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_Select", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_List)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_List", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_Exec)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_Exec", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_FormSelect)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_FormSelect", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_App)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_App", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_Sub)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_Sub", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_PlayDisable)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_PlayDisable", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_Disable)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_Disable", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_HideValue)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_HideValue", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_Browser)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_Browser", title.toUtf8().data());
+	}
+	if (type & iAppSetupType_Mask_Event)
+	{
+		LogDebug("[%s] iAppSetupType_Mask_Event", title.toUtf8().data());
+	}
+}
+
+void UtilNovatron::DebugTypeForSetupBtn(QString title, int type)
+{
+	if (type & iSetupBtnAction_None)
+	{
+		LogDebug("[%s] iSetupBtnAction_None", title.toUtf8().data());
+	}
+	if (type & iSetupBtnAction_Request)
+	{
+		LogDebug("[%s] iSetupBtnAction_Request", title.toUtf8().data());
+	}
+	if (type & iSetupBtnAction_Event)
+	{
+		LogDebug("[%s] iSetupBtnAction_Event", title.toUtf8().data());
+	}
+	if (type & iSetupBtnAction_OpenWeb)
+	{
+		LogDebug("[%s] iSetupBtnAction_OpenWeb", title.toUtf8().data());
+	}
+	if (type & iSetupBtnAction_Cancel)
+	{
+		LogDebug("[%s] iSetupBtnAction_Cancel", title.toUtf8().data());
+	}
+	if (type & iSetupBtnAction_Max)
+	{
+		LogDebug("[%s] iSetupBtnAction_Max", title.toUtf8().data());
+	}
+}
+
+void UtilNovatron::DebugTypeForSetupInput(QString title, int type)
+{
+	if (type & iSetupInput_Disp)
+	{
+		LogDebug("[%s] iSetupInput_Disp", title.toUtf8().data());
+	}
+	if (type & iSetupInput_Label)
+	{
+		LogDebug("[%s] iSetupInput_Label", title.toUtf8().data());
+	}
+	if (type & iSetupInput_Hidden)
+	{
+		LogDebug("[%s] iSetupInput_Hidden", title.toUtf8().data());
+	}
+	if (type & iSetupInput_Slider)
+	{
+		LogDebug("[%s] iSetupInput_Slider", title.toUtf8().data());
+	}
+	if (type & iSetupInput_List)
+	{
+		LogDebug("[%s] iSetupInput_List", title.toUtf8().data());
+	}
+	if (type & iSetupInput_IP)
+	{
+		LogDebug("[%s] iSetupInput_IP", title.toUtf8().data());
+	}
+	if (type & iSetupInput_Password)
+	{
+		LogDebug("[%s] iSetupInput_Password", title.toUtf8().data());
+	}
+	if (type & iSetupInput_Text)
+	{
+		LogDebug("[%s] iSetupInput_Text", title.toUtf8().data());
+	}
+	if (type & iSetupInput_Time)
+	{
+		LogDebug("[%s] iSetupInput_Time", title.toUtf8().data());
+	}
+	if (type & iSetupInput_Switch)
+	{
+		LogDebug("[%s] iSetupInput_Switch", title.toUtf8().data());
+	}
+	if (type & iSetupInput_CurrDate)
+	{
+		LogDebug("[%s] iSetupInput_CurrDate", title.toUtf8().data());
+	}
+	if (type & iSetupInput_CurrTime)
+	{
+		LogDebug("[%s] iSetupInput_CurrTime", title.toUtf8().data());
 	}
 
 }

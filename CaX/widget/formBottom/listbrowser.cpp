@@ -347,15 +347,15 @@ void ListBrowser::SetSelectMapIService(const QMap<int, CJsonNode> &SelectMap)
 	m_SelectMapIService = SelectMap;
 }
 
-void ListBrowser::SetEditor(int i)
+void ListBrowser::SetEditor(int index)
 {
-	QModelIndex index = m_Model->index(i, 0);
+	QModelIndex modelIndex = m_Model->index(index, 0);
 
-	QStandardItem *item = m_Model->itemFromIndex(index);
+	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
 	QString subtitle = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
 	item->setData(subtitle + " ", ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 
-	m_ListView->openPersistentEditor(index);
+	m_ListView->openPersistentEditor(modelIndex);
 }
 
 QStandardItemModel *ListBrowser::GetModel()

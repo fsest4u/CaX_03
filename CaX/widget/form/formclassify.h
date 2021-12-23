@@ -6,7 +6,6 @@
 
 #include "util/CJsonNode.h"
 
-
 namespace Ui {
 class FormClassify;
 }

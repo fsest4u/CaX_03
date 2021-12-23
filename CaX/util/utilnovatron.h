@@ -24,6 +24,10 @@ public:
 	static void DebugTypeForQobuz(QString title, int type);
 	static void DebugTypeForQobuzMenu(QString title, int type);
 	static void DebugTypeForAirable(QString title, int type);
+	static void DebugTypeForSetup(QString title, int type);
+	static void DebugTypeForSetupBtn(QString title, int type);
+	static void DebugTypeForSetupInput(QString title, int type);
+
 };
 
 #endif // UTILNOVATRON_H
