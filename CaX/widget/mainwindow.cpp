@@ -805,6 +805,12 @@ void MainWindow::Initialize()
 	m_bCBSearch = false;
 	m_pQueueWin = nullptr;
 
+	QString appPath = QCoreApplication::applicationDirPath();
+	QFile file(appPath + "/log.txt");
+	if (file.exists())
+	{
+		file.remove();
+	}
 }
 
 void MainWindow::ConnectSigToSlot()
