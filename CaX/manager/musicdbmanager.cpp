@@ -578,6 +578,11 @@ void MusicDBManager::SetSqlMgr(SQLManager *pSql)
 
 void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{

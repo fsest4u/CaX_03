@@ -55,6 +55,11 @@ void SetupManager::RequestSetupSet(int eventID, QString id, bool ok)
 
 void SetupManager::SlotRespInfo(QString json, int cmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{

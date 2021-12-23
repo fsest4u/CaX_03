@@ -138,6 +138,11 @@ void AirableManager::RequestRandom()
 
 void AirableManager::SlotRespInfo(QString json, int nCmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{

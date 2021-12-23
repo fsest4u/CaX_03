@@ -99,8 +99,10 @@ void DabRadioManager::RequestRecordSet()
 
 void DabRadioManager::SlotRespInfo(QString json, int nCmdID)
 {
-	if (json.isEmpty() || nCmdID >= DAB_MAX)
+	if (json.isEmpty())
+	{
 		return;
+	}
 
 	CJsonNode node;
 	if (!node.SetContent(json))

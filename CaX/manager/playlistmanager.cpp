@@ -220,6 +220,11 @@ void PlaylistManager::RequestRandom()
 
 void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{

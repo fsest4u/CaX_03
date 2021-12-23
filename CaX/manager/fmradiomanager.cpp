@@ -110,8 +110,10 @@ void FmRadioManager::RequestRecordSet()
 
 void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 {
-	if (json.isEmpty() || nCmdID >= FM_MAX)
+	if (json.isEmpty())
+	{
 		return;
+	}
 
 	CJsonNode node;
 	if (!node.SetContent(json))

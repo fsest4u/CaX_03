@@ -101,6 +101,11 @@ void PlayManager::RequestQueuePlay(int nID)
 
 void PlayManager::SlotRespInfo(QString json, int nCmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{

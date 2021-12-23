@@ -83,6 +83,11 @@ SQLManager *SearchManager::GetSqlMgr() const
 
 void SearchManager::SlotRespInfo(QString json, int cmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{

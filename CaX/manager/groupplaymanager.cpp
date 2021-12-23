@@ -41,6 +41,11 @@ void GroupPlayManager::RequestGroupPlayMute(bool mute)
 
 void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
+
 	CJsonNode node;
 	if (!node.SetContent(json))
 	{
@@ -48,7 +53,7 @@ void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
 		return;
 	}
 
-//	LogDebug("cmdID [%d] node [%s]", cmdID, node.ToTabedByteArray().data());
+	LogDebug("cmdID [%d] node [%s]", cmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);

@@ -78,9 +78,14 @@ void AppManager::RequestProgressSkip(int eventID, int taskID)
 
 void AppManager::SlotRespInfo(QString json, int cmdID)
 {
+	if (json.isEmpty())
+	{
+		return;
+	}
 
 	CJsonNode node;
-	if (!node.SetContent(json)) {
+	if (!node.SetContent(json))
+	{
 		emit SigRespError(STR_INVALID_JSON);
 		return;
 	}
