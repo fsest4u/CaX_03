@@ -543,7 +543,8 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	}
 	else
 	{
-		DoMusicDBHome();
+//		DoMusicDBHome();
+		DoGroupPlayHome();
 	}
 
 	m_pAppMgr->RequestTaskList();
@@ -704,6 +705,53 @@ void MainWindow::SlotWolCancel(QString mac, QString addr, QString val, QString d
 
 	Initialize();
 	SlotMenu();
+}
+
+void MainWindow::SlotPowerOff(QList<CJsonNode> list)
+{
+	QStringList devices;
+	foreach (CJsonNode node, list)
+	{
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		devices.append(node.GetString(KEY_CA_NAME));
+	}
+
+	PowerOffDialog dialog;
+	dialog.SetDevices(devices.join(','));
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		foreach (CJsonNode node, list)
+		{
+			QString mac = node.GetString(KEY_MAC_ADDR);
+			QString addr = node.GetString(KEY_LOCATION);
+
+			int indexWol = m_pDeviceMgr->CheckDeviceWol(mac);
+			int indexDev = m_pDeviceMgr->CheckDevice(mac);
+
+			bool bWol = dialog.GetIsWol();
+			if (bWol)
+			{
+				if (indexWol < 0)
+				{
+					m_pDeviceMgr->AddDeviceWol(mac, addr);
+				}
+				if (indexDev >= 0)
+				{
+					m_pDeviceMgr->DelDevice(indexDev);
+				}
+			}
+			else
+			{
+				if (indexWol >= 0)
+				{
+					m_pDeviceMgr->DelDeviceWol(indexWol);
+				}
+			}
+			m_pAppMgr->SetAddr(addr);
+			m_pAppMgr->RequestDevicePowerOff(bWol);
+			m_pAppMgr->SetAddr(m_strAddr);
+		}
+	}
 }
 
 void MainWindow::SlotDevice()
@@ -951,12 +999,13 @@ void MainWindow::DoDabRadioHome()
 
 void MainWindow::DoGroupPlayHome()
 {
-	GroupPlayWindow *widget = new GroupPlayWindow(this, m_strAddr);
+	GroupPlayWindow *widget = new GroupPlayWindow(this, m_strAddr, m_EventID);
 	SlotAddWidget(widget, STR_GROUP_PLAY);
-	widget->GroupPlayList(m_EventID);
+	widget->GroupPlayList();
 
 	// event
 	connect(m_pObsMgr, SIGNAL(SigEventGroupPlayUpdate()), widget, SLOT(SlotEventGroupPlayUpdate()));
+	connect(widget, SIGNAL(SigPowerOff(QList<CJsonNode>)), this, SLOT(SlotPowerOff(QList<CJsonNode>)));
 
 }
 
@@ -983,7 +1032,7 @@ void MainWindow::DoPowerOff()
 		{
 			if (indexWol < 0)
 			{
-				m_pDeviceMgr->AddDeviceWol(m_strCurrentMac, m_strVersion, m_strWolAddr, m_strUuid);
+				m_pDeviceMgr->AddDeviceWol(m_strCurrentMac, m_strWolAddr, m_strVersion, m_strUuid);
 			}
 			if (indexDev >= 0)
 			{
@@ -998,8 +1047,9 @@ void MainWindow::DoPowerOff()
 			}
 		}
 
+		m_pAppMgr->SetAddr(m_strWolAddr);
 		m_pAppMgr->RequestDevicePowerOff(bWol);
-
+		m_pAppMgr->SetAddr(m_strAddr);
 	}
 
 }

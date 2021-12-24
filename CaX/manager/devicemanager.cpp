@@ -119,7 +119,7 @@ void DeviceManager::SetDeviceListWol(const CJsonNode &list)
 	m_DeviceListWol = list;
 }
 
-void DeviceManager::AddDeviceWol(QString mac, QString version, QString addrWol, QString uuid)
+void DeviceManager::AddDeviceWol(QString mac, QString addrWol, QString version, QString uuid)
 {
 	QString devAddr = GetDeviceValue(mac, DEVICE_ADDR);
 	QString devName = GetDeviceValue(mac, DEVICE_DEV);
@@ -129,8 +129,8 @@ void DeviceManager::AddDeviceWol(QString mac, QString version, QString addrWol, 
 	node.Add(DEVICE_MAC, mac);
 	node.Add(DEVICE_VAL, devName);
 	node.Add(DEVICE_APP, true);
-	node.Add(DEVICE_VERSION, version);
 	node.Add(DEVICE_WOL_ADDR, addrWol);
+	node.Add(DEVICE_VERSION, version);
 	node.Add(DEVICE_UUID, uuid);
 
 	m_DeviceListWol.AppendArray(node);

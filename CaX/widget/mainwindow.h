@@ -60,6 +60,8 @@ public slots:
 	void SlotWolDevice(QString mac, QString addr, QString val, QString dev);
 	void SlotWolCancel(QString mac, QString addr, QString val, QString dev);
 
+	void SlotPowerOff(QList<CJsonNode> list);
+
 	void SlotDevice();
 	void SlotDeviceAction(QString mac);
 

@@ -44,7 +44,7 @@ public:
 	CJsonNode		GetDeviceListWol() const;
 	void			SetDeviceListWol(const CJsonNode &list);
 
-	void			AddDeviceWol(QString mac, QString version, QString addrWol, QString uuid);
+	void			AddDeviceWol(QString mac, QString addrWol, QString version = "", QString uuid = "");
 	void			DelDeviceWol(int index);
 	int				CheckDeviceWol(QString mac);
 

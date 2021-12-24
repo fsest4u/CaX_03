@@ -3,6 +3,7 @@
 
 #include "dialog/commondialog.h"
 #include "dialog/groupplaydialog.h"
+#include "dialog/poweroffdialog.h"
 
 #include "manager/groupplaymanager.h"
 
@@ -16,11 +17,13 @@
 #include "widget/formBottom/iconservice.h"
 #include "widget/formBottom/iconservicedelegate.h"
 
-GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr) :
+GroupPlayWindow::GroupPlayWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
 	m_pMgr(new GroupPlayManager),
 	m_pInfoService(new InfoService(this)),
 	m_pIconService(new IconService(this)),
+	m_Dialog(new GroupPlayDialog(this)),
+	m_EventID(eventID),
 	ui(new Ui::GroupPlayWindow)
 {
 	ui->setupUi(this);
@@ -54,13 +57,18 @@ GroupPlayWindow::~GroupPlayWindow()
 		m_pIconService = nullptr;
 	}
 
+	if (m_Dialog)
+	{
+		delete m_Dialog;
+		m_Dialog = nullptr;
+	}
+
 	delete ui;
 
 }
 
-void GroupPlayWindow::GroupPlayList(int eventID)
+void GroupPlayWindow::GroupPlayList()
 {
-	m_EventID = eventID;
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pIconService);
 
@@ -121,9 +129,9 @@ void GroupPlayWindow::SlotSelectPlay(int index, bool muted)
 	muted = !muted;
 
 	CJsonNode node = m_pIconService->GetNodeList().at(index);
-	QString location = node.GetString(KEY_LOCATION);
-	m_pMgr->SetAddr(location);
-	m_pMgr->RequestGroupPlayMute(muted);
+	QString addr = node.GetString(KEY_LOCATION);
+	m_pMgr->SetAddr(addr);
+	m_pMgr->RequestMute(muted, m_EventID);
 
 	QStandardItem *item = m_pIconService->GetModel()->item(index);
 	item->setData(muted, IconServiceDelegate::ICON_SERVICE_MUTE);
@@ -143,21 +151,100 @@ void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
 		return;
 	}
 
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-//	bool enabled = node.GetBool(KEY_ENABLED);
-//	m_pMgr->RequestGroupPlayEnable(!enabled);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-	GroupPlayDialog dialog;
-	if (dialog.exec() == QDialog::Accepted)
+	if (!node.GetString(KEY_LOCATION).compare(m_Addr))
 	{
-
+		m_Dialog->SetSelf(true);
 	}
+	else
+	{
+		m_Dialog->SetSelf(false);
+	}
+	m_Dialog->SetData(node);
+	m_Dialog->exec();
+
 }
 
 void GroupPlayWindow::SlotEventGroupPlayUpdate()
 {
 	m_pMgr->SetAddr(m_Addr);
 	m_pMgr->RequestGroupPlayList(m_EventID);
+}
+
+void GroupPlayWindow::SlotGroupPlay(QString addr, bool enabled)
+{
+	LogDebug("group play enable [%d]", enabled);
+	m_pMgr->SetAddr(addr);
+	m_pMgr->RequestGroupPlay(enabled, m_EventID);
+}
+
+void GroupPlayWindow::SlotAutoJoin(QString addr, bool enabled)
+{
+	LogDebug("auto join enable [%d]", enabled);
+	m_pMgr->SetAddr(addr);
+	m_pMgr->RequestAutoJoin(enabled, m_EventID);
+}
+
+void GroupPlayWindow::SlotMute(QString addr, bool enabled)
+{
+	LogDebug("mute enable [%d]", enabled);
+	m_pMgr->SetAddr(addr);
+	m_pMgr->RequestMute(enabled, m_EventID);
+}
+
+void GroupPlayWindow::SlotPlayStop(QString addr, bool enabled)
+{
+	m_pMgr->SetAddr(addr);
+	m_pMgr->RequestPlayStop(m_EventID);
+}
+
+void GroupPlayWindow::SlotPowerOff(QString addr, bool self)
+{
+	LogDebug("power off self [%d]", self);
+//	m_pMgr->SetAddr(addr);
+
+	QList<CJsonNode> nodeList = m_pIconService->GetNodeList();
+
+	if (self)	// self node
+	{
+		// remove self node
+		nodeList.removeFirst();
+		emit SigPowerOff(nodeList);
+	}
+	else	// dev node
+	{
+		CJsonNode devNode;
+		foreach (CJsonNode node, nodeList)
+		{
+			QString tempAddr = node.GetString(KEY_LOCATION);
+			if (!tempAddr.compare(addr))
+			{
+				devNode = node;
+				break;
+			}
+		}
+		nodeList.clear();
+		nodeList.append(devNode);
+
+		emit SigPowerOff(nodeList);
+	}
+
+}
+
+void GroupPlayWindow::SlotVolumeSliderReleased(QString addr, int value)
+{
+	LogDebug("volume [%d]", value);
+	m_pMgr->SetAddr(addr);
+	m_pMgr->RequestVolume(value, m_EventID);
+}
+
+void GroupPlayWindow::SlotChangedChannel(QString addr, int value)
+{
+	LogDebug("channel [%d]", value);
+	m_pMgr->SetAddr(addr);
+	m_pMgr->RequestChannel(value, m_EventID);
+
 }
 
 //void GroupPlayWindow::SlotResize()
@@ -177,7 +264,15 @@ void GroupPlayWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespGroupPlayList(QList<CJsonNode>)), this, SLOT(SlotRespGroupPlayList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
-//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
+	connect(m_Dialog, SIGNAL(SigGroupPlay(QString, bool)), this, SLOT(SlotGroupPlay(QString, bool)));
+	connect(m_Dialog, SIGNAL(SigAutoJoin(QString, bool)), this, SLOT(SlotAutoJoin(QString, bool)));
+	connect(m_Dialog, SIGNAL(SigMute(QString, bool)), this, SLOT(SlotMute(QString, bool)));
+	connect(m_Dialog, SIGNAL(SigPlayStop(QString, bool)), this, SLOT(SlotPlayStop(QString, bool)));
+	connect(m_Dialog, SIGNAL(SigPowerOff(QString, bool)), this, SLOT(SlotPowerOff(QString, bool)));
 
+	connect(m_Dialog, SIGNAL(SigVolumeSliderReleased(QString, int)), this, SLOT(SlotVolumeSliderReleased(QString, int)));
+	connect(m_Dialog, SIGNAL(SigChangedChannel(QString, int)), this, SLOT(SlotChangedChannel(QString, int)));
+
+//	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
 }

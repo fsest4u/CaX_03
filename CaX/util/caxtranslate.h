@@ -148,7 +148,9 @@
 // dialog
 //////////////////////////////////////////////////
 
+#define STR_ADD_TO_DEVICE			TR("Add to device")
 #define STR_ASK_POWER_OFF			TR("Do you want to power off?")
+#define STR_POWER_OFF_OTHERS		TR("Power off Others")
 #define STR_WOL						TR("Wake on lan")
 
 

@@ -20,6 +20,9 @@
 #define		KEY_ARTIST_ID			"ArtistID"
 #define		KEY_AS				"As"
 #define		KEY_AUDIO_CD		"AudioCd"
+#define		KEY_AUTO_JOIN		"Autojoin"
+#define		KEY_AUTO_JOIN_ENABLED		"autoJoinEnabled"
+
 
 #define		KEY_BITRATE			"BitRate"
 #define		KEY_BPS				"bps"
@@ -34,6 +37,7 @@
 #define		KEY_CDTOTAL			"CdTotal"
 #define		KEY_CDYEAR			"CdYear"
 #define		KEY_CHANNEL			"Channel"
+#define		KEY_CHANNELS			"Channels"
 #define		KEY_CLEAR			"Clear"
 #define		KEY_CLIENT_LIST		"ClientList"
 #define		KEY_CMD0			"Cmd0"
@@ -155,6 +159,7 @@
 #define		KEY_SEARCH2			"Search2"
 #define		KEY_SEEK			"Seek"
 #define		KEY_SELF			"Self"
+#define		KEY_SERVER			"Server"
 #define		KEY_SETUP			"Setup"
 #define		KEY_SITE			"Site"
 #define		KEY_SIZE			"Size"
@@ -222,6 +227,7 @@
 #define		VAL_BROWSER			"Browser"
 
 #define		VAL_CATEGORY		"Cat"
+#define		VAL_CHANNEL			"Channel"
 #define		VAL_CLEAR			"Clear"
 #define		VAL_COMPOSER		"Composer"
 #define		VAL_CONVERT			"Convert"
@@ -263,6 +269,8 @@
 #define		VAL_INDEX			"Index"
 #define		VAL_INFO			"Info"
 #define		VAL_INPUT			"Input"
+
+#define		VAL_JOIN			"Join"
 
 #define		VAL_LAST_CREATED	"LastCreated"
 #define		VAL_LIST			"List"

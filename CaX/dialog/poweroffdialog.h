@@ -16,6 +16,7 @@ public:
 	~PowerOffDialog();
 
 	bool GetIsWol() const;
+	void SetDevices(QString devices);
 
 
 private:

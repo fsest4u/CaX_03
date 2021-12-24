@@ -19,24 +19,80 @@ void GroupPlayManager::RequestGroupPlayList(int eventID)
 	RequestCommand(node, GROUP_PLAY_LIST);
 }
 
-void GroupPlayManager::RequestGroupPlayEnable(bool enable)
+void GroupPlayManager::RequestGroupPlay(bool enable, int eventID)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_GROUP_PLAY);
 	node.Add(KEY_CMD1, VAL_ENABLE);
 	node.Add(KEY_ENABLE_CAP, enable);
+	node.AddInt(KEY_EVENT_ID, eventID);
 
 	RequestCommand(node, GROUP_PLAY_ENABLE);
 }
 
-void GroupPlayManager::RequestGroupPlayMute(bool mute)
+void GroupPlayManager::RequestAutoJoin(bool enable, int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_GROUP_PLAY);
+	node.Add(KEY_CMD1, VAL_JOIN);
+	node.Add(KEY_AUTO_JOIN, enable);
+	node.AddInt(KEY_EVENT_ID, eventID);
+
+	RequestCommand(node, GROUP_PLAY_AUTO_JOIN);
+}
+
+void GroupPlayManager::RequestMute(bool enable, int eventID)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_PLAY);
 	node.Add(KEY_CMD1, VAL_SET_MUTE);
-	node.Add(KEY_MUTE_CAP, mute);
+	node.Add(KEY_MUTE_CAP, enable);
+	node.AddInt(KEY_EVENT_ID, eventID);
 
 	RequestCommand(node, GROUP_PLAY_MUTE);
+}
+
+void GroupPlayManager::RequestPlayStop(int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAY);
+	node.Add(KEY_CMD1, VAL_PLAY);
+	node.Add(KEY_PLAY, VAL_STOP);
+	node.AddInt(KEY_EVENT_ID, eventID);
+
+	RequestCommand(node, GROUP_PLAY_MUTE);
+}
+
+void GroupPlayManager::RequestPowerOff(bool wol)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_SETUP);
+	node.Add(KEY_CMD1, VAL_POWER_OFF);
+	node.Add(KEY_WOL, wol);
+
+	RequestCommand(node, GROUP_PLAY_POWER_OFF);
+}
+
+void GroupPlayManager::RequestVolume(int value, int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAY);
+	node.Add(KEY_CMD1, VAL_SET_VOLUME);
+	node.AddInt(KEY_VOLUME_CAP, value);
+	node.AddInt(KEY_EVENT_ID, eventID);
+
+	RequestCommand(node, GROUP_PLAY_VOLUME);
+}
+
+void GroupPlayManager::RequestChannel(int value, int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_GROUP_PLAY);
+	node.Add(KEY_CMD1, VAL_CHANNEL);
+	node.AddInt(KEY_CHANNELS, value);
+	node.AddInt(KEY_EVENT_ID, eventID);
+
+	RequestCommand(node, GROUP_PLAY_CHANNEL);
 }
 
 void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
@@ -75,8 +131,11 @@ void GroupPlayManager::SlotRespInfo(QString json, int cmdID)
 		ParseGroupPlayList(node);
 		break;
 	case GROUP_PLAY_ENABLE:
-		break;
+	case GROUP_PLAY_AUTO_JOIN:
 	case GROUP_PLAY_MUTE:
+	case GROUP_PLAY_POWER_OFF:
+	case GROUP_PLAY_VOLUME:
+	case GROUP_PLAY_CHANNEL:
 		break;
 	}
 

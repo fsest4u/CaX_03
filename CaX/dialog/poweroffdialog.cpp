@@ -11,8 +11,10 @@ PowerOffDialog::PowerOffDialog(QWidget *parent) :
 	ui->setupUi(this);
 
 	ui->labelPowerOff->setText(STR_ASK_POWER_OFF);
+	ui->labelDevices->hide();
 	ui->cbWol->setText(STR_WOL);
 	ui->cbWol->setCheckState(Qt::Checked);
+
 }
 
 PowerOffDialog::~PowerOffDialog()
@@ -30,4 +32,10 @@ bool PowerOffDialog::GetIsWol() const
 	{
 		return false;
 	}
+}
+
+void PowerOffDialog::SetDevices(QString devices)
+{
+	ui->labelDevices->show();
+	ui->labelDevices->setText(devices);
 }

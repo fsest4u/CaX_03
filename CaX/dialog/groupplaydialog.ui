@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>271</height>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,23 +24,233 @@ QPushButton
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;
 }
+QComboBox
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
 QWidget
 {
 	background-color: rgb(255, 255, 255);
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QFrame" name="frame">
+   <item row="4" column="0">
+    <widget class="QFrame" name="frameMute">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Mute</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxMute">
+        <property name="styleSheet">
+         <string notr="true">
+QCheckBox::indicator {
+    width: 20px;
+    height: 10px;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(&quot;:/resource/groupp-btn20-togle-off.png&quot;);
+}
+
+QCheckBox::indicator:checked {
+    image: url(&quot;:/resource/groupp-btn20-togle-on.png&quot;);
+}
+</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="6" column="0">
+    <widget class="QFrame" name="framePowerOff">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="labelPowerOff">
+        <property name="text">
+         <string>Power off client</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxPowerOff">
+        <property name="styleSheet">
+         <string notr="true">
+QCheckBox::indicator {
+    width: 20px;
+    height: 10px;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(&quot;:/resource/groupp-btn20-togle-off.png&quot;);
+}
+
+QCheckBox::indicator:checked {
+    image: url(&quot;:/resource/groupp-btn20-togle-on.png&quot;);
+}
+</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QFrame" name="frameGroupPlay">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Group play enabled</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxGroupPlay">
+        <property name="styleSheet">
+         <string notr="true">
+QCheckBox::indicator {
+    width: 20px;
+    height: 10px;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(&quot;:/resource/groupp-btn20-togle-off.png&quot;);
+}
+
+QCheckBox::indicator:checked {
+    image: url(&quot;:/resource/groupp-btn20-togle-on.png&quot;);
+}
+</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QFrame" name="frameChannel">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Channels</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBoxChannel"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QFrame" name="frameVolume">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Volume</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSlider" name="horizontalSlider">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QSlider::groove:horizontal {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    height: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background-color: #34aed6;
+    border: 1px solid #34aed6;
+    width: 10px;
+	height: 10px;
+    border-radius: 5px;
+	margin: -4px 0;
+}</string>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="minimumSize">
       <size>
@@ -67,11 +277,107 @@ color: rgb(255, 255, 255)
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Close</set>
      </property>
      <property name="centerButtons">
       <bool>true</bool>
      </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QFrame" name="frameAutoJoin">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Auto join enabled</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxAutoJoin">
+        <property name="styleSheet">
+         <string notr="true">
+QCheckBox::indicator {
+    width: 20px;
+    height: 10px;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(&quot;:/resource/groupp-btn20-togle-off.png&quot;);
+}
+
+QCheckBox::indicator:checked {
+    image: url(&quot;:/resource/groupp-btn20-togle-on.png&quot;);
+}
+</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QFrame" name="framePlayStop">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QLabel" name="labelPlayStop">
+        <property name="text">
+         <string>Play stop</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxPlayStop">
+        <property name="styleSheet">
+         <string notr="true">
+QCheckBox::indicator {
+    width: 20px;
+    height: 10px;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(&quot;:/resource/groupp-btn20-togle-off.png&quot;);
+}
+
+QCheckBox::indicator:checked {
+    image: url(&quot;:/resource/groupp-btn20-togle-on.png&quot;);
+}
+</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

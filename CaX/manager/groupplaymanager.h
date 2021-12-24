@@ -10,8 +10,16 @@ public:
 	GroupPlayManager();
 
 	void RequestGroupPlayList(int eventID);
-	void RequestGroupPlayEnable(bool enable);
-	void RequestGroupPlayMute(bool mute);
+
+	void RequestGroupPlay(bool enable, int eventID);
+	void RequestAutoJoin(bool enable, int eventID);
+	void RequestMute(bool enable, int eventID);
+	void RequestPlayStop(int eventID);
+	void RequestPowerOff(bool wol);
+
+	void RequestVolume(int value, int eventID);
+	void RequestChannel(int value, int eventID);
+
 
 
 signals:
@@ -30,7 +38,11 @@ private:
 	enum {
 		GROUP_PLAY_LIST = 0,
 		GROUP_PLAY_ENABLE,
+		GROUP_PLAY_AUTO_JOIN,
 		GROUP_PLAY_MUTE,
+		GROUP_PLAY_POWER_OFF,
+		GROUP_PLAY_VOLUME,
+		GROUP_PLAY_CHANNEL,
 		GROUP_PLAY_MAX
 	};
 
