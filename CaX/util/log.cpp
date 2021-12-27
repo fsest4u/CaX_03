@@ -33,7 +33,7 @@ void LogCax(int nLevel, const char *filename, const char *funcname, const int li
 		break;
 	}
 
-#if 1
+#if 0
 	QString appPath = QCoreApplication::applicationDirPath();
 	QFile file(appPath + "/log.txt");
 	if(!file.open(QIODevice::Append | QIODevice::Text))
