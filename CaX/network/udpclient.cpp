@@ -73,7 +73,7 @@ bool UDPClient::BindSocketSSDP()
 	QMap<QString, QNetworkInterface>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
-		LogDebug("key [%s]", i.key().toUtf8().data());
+		LogDebug("addr [%s]", i.key().toUtf8().data());
 		addr = i.key();
 		interface = i.value();
 
@@ -85,14 +85,14 @@ bool UDPClient::BindSocketSSDP()
 
 		if( !socket->bind(QHostAddress(addr), SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 		{
-			LogCritical("%s", socket->errorString().toUtf8().data());
+			LogCritical("bind error [%s]", socket->errorString().toUtf8().data());
 			CloseSocketSSDP();
 			return false;
 		}
 
 		if( !socket->joinMulticastGroup(m_HostAddress, interface) )
 		{
-			LogCritical("%s", socket->errorString().toUtf8().data());
+			LogCritical("join error [%s]", socket->errorString().toUtf8().data());
 			CloseSocketSSDP();
 			return false;
 		}
@@ -108,7 +108,7 @@ bool UDPClient::SendSocketMSearch(QString strSearch)
 
 	if( !m_pSocketMSearch->bind(m_HostAddress, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 	{
-		LogCritical("%s", m_pSocketMSearch->errorString().toUtf8().data());
+		LogCritical("bind error [%s]", m_pSocketMSearch->errorString().toUtf8().data());
 		CloseSocketMSearch();
 		return false;
 	}
@@ -116,7 +116,7 @@ bool UDPClient::SendSocketMSearch(QString strSearch)
 	m_pSocketMSearch->writeDatagram(strSearch.toUtf8(), m_HostAddress, SSDP_PORT);
 	if( !m_pSocketMSearch->waitForDisconnected(3000) )
 	{
-		LogCritical("%s", m_pSocketMSearch->errorString().toUtf8().data());
+		LogCritical("write & disconnect error [%s]", m_pSocketMSearch->errorString().toUtf8().data());
 		CloseSocketMSearch();
 		return false;
 	}
@@ -160,7 +160,7 @@ bool UDPClient::SendSocketWol(QString strWolAddr, QString strMac)
 	m_pSocketWol->writeDatagram(packet.c_str(), 102, m_HostAddress, WOL_PORT);
 	if (!m_pSocketWol->waitForDisconnected(3000))
 	{
-		LogCritical("%s", m_pSocketWol->errorString().toUtf8().data());
+		LogCritical("write & disconnect [%s]", m_pSocketWol->errorString().toUtf8().data());
 		CloseSocketWol();
 		return false;
 	}
@@ -178,16 +178,15 @@ void UDPClient::SlotSSDPReadData()
 	{
 		if (socket)
 		{
-			LogDebug("####### socket ip addr [%s]", socket->localAddress().toString().toUtf8().data());
+//			LogDebug("####### socket ip addr [%s]", socket->localAddress().toString().toUtf8().data());
 			while( socket->hasPendingDatagrams() )
 			{
 				ssdpData.resize(socket->pendingDatagramSize());
-
 				socket->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
 
-		//		LogDebug("1 Message from: %s ", sender.toString().toUtf8().data());
-		//		LogDebug("1 Message from: %d ", senderPort);
-		//		LogDebug("1 Message from: %s ", ssdpData.data());
+//				LogDebug("1 Message from: %s ", sender.toString().toUtf8().data());
+//				LogDebug("1 Message from: %d ", senderPort);
+//				LogDebug("1 Message from: %s ", ssdpData.data());
 			}
 
 			if (!ssdpData.isEmpty())
@@ -241,7 +240,7 @@ void UDPClient::SlotWolReadData()
 
 void UDPClient::ConnectSigToSlot()
 {
-	connect(m_pSocketMSearch, SIGNAL(readyRead()),			this, SLOT(SlotMSearchReadData()));
+	connect(m_pSocketMSearch, SIGNAL(readyRead()), this, SLOT(SlotMSearchReadData()));
 	connect(m_pSocketWol, SIGNAL(readyRead()), this, SLOT(SlotWolReadData()));
 }
 
@@ -271,7 +270,7 @@ QNetworkInterface UDPClient::CheckIP()
 	QNetworkInterface myInterface;
 	for (int i = 0; i < ipList.size(); i++)
 	{
-		LogDebug("i [%d] ipList.at(i) [%s] toIPv4Address [%u]", i, ipList.at(i).toString().toUtf8().data(), ipList.at(i).toIPv4Address());
+		LogDebug("index [%d] ipList.at(i) [%s] toIPv4Address [%u]", i, ipList.at(i).toString().toUtf8().data(), ipList.at(i).toIPv4Address());
 		myInterface = interface.interfaceFromIndex(i);
 		if (ipList.at(i) != QHostAddress::LocalHost && ipList.at(i).toIPv4Address())
 		{
@@ -343,7 +342,7 @@ QMap<QString, QNetworkInterface> UDPClient::GetInterface()
 	{
 		//qDebug()<<"interface:"<<interface.isValid()<<interface.flags();
 		QNetworkInterface::InterfaceFlags iflags = interface.flags();
-		UtilNovatron::DebugTypeForUDP("Check Interface flag", iflags);
+//		UtilNovatron::DebugTypeForUDP("Check Interface flag", iflags);
 
 		if(interface.isValid()
 				&& !iflags.testFlag(QNetworkInterface::IsLoopBack)
@@ -354,7 +353,7 @@ QMap<QString, QNetworkInterface> UDPClient::GetInterface()
 			for (int i = 0; i < addressEntries.length(); i++)
 			{
 				QNetworkAddressEntry ae = addressEntries.at(i);
-				LogDebug("ipAddress :[%s] ", ae.ip().toString().toUtf8().data());
+//				LogDebug("ipAddress :[%s] ", ae.ip().toString().toUtf8().data());
 				if (ae.ip().protocol() == QAbstractSocket::IPv4Protocol
 						&& ae.ip() != QHostAddress::LocalHost
 						&& ae.ip().toIPv4Address())
