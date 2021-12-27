@@ -35,7 +35,8 @@ signals:
 
 private slots:
 
-	void SlotCoverArt(int index);
+	void SlotCoverArtLeft(int index);
+	void SlotCoverArtRight(int index);
 	void SlotRating(int nRating);
 	void SlotFavorite(int nFavorite);
 	void SlotPlay();

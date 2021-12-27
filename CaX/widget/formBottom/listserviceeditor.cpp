@@ -115,7 +115,13 @@ bool ListServiceEditor::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
-void ListServiceEditor::SlotCoverArt(int index)
+void ListServiceEditor::SlotCoverArtLeft(int index)
+{
+	Q_UNUSED(index)
+	emit SigClickTitle(m_RawData);
+}
+
+void ListServiceEditor::SlotCoverArtRight(int index)
 {
 	emit SigClickCoverArt(index);
 }
@@ -128,7 +134,8 @@ void ListServiceEditor::ConnectSigToSlot()
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtLeft(int)), this, SLOT(SlotCoverArtLeft(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtRight(int)), this, SLOT(SlotCoverArtRight(int)));
 
 }
 

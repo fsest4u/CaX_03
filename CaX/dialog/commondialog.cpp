@@ -10,6 +10,7 @@ CommonDialog::CommonDialog(QWidget *parent, QString title, QString content) :
 	ConnectSigToSlot();
 	SetTitle(title);
 	SetContent(content);
+	ShowBtnCancel(false);
 }
 
 CommonDialog::~CommonDialog()

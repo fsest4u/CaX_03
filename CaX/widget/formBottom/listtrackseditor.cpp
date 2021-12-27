@@ -214,7 +214,13 @@ void ListTracksEditor::SlotMenuAction(QAction *action)
 	emit SigMenuAction(m_ID, action->data().toInt());
 }
 
-void ListTracksEditor::SlotCoverArt(int index)
+void ListTracksEditor::SlotCoverArtLeft(int index)
+{
+	Q_UNUSED(index)
+	emit SigClickTitle(m_ID, m_pFormCoverArt->GetCoverArt());
+}
+
+void ListTracksEditor::SlotCoverArtRight(int index)
 {
 	emit SigClickCoverArt(index);
 }
@@ -222,7 +228,8 @@ void ListTracksEditor::SlotCoverArt(int index)
 void ListTracksEditor::ConnectSigToSlot()
 {
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtLeft(int)), this, SLOT(SlotCoverArtLeft(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtRight(int)), this, SLOT(SlotCoverArtRight(int)));
 }
 
 void ListTracksEditor::Initialize()

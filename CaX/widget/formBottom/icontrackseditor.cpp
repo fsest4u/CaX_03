@@ -59,7 +59,13 @@ FormCoverArt *IconTracksEditor::GetFormCoverArt() const
 	return m_pFormCoverArt;
 }
 
-void IconTracksEditor::SlotCoverArt(int index)
+void IconTracksEditor::SlotCoverArtLeft(int index)
+{
+	Q_UNUSED(index)
+	emit SigClickTitle(m_ID, m_pFormCoverArt->GetCoverArt());
+}
+
+void IconTracksEditor::SlotCoverArtRight(int index)
 {
 	emit SigClickCoverArt(index);
 }
@@ -105,7 +111,8 @@ void IconTracksEditor::ConnectSigToSlot()
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtLeft(int)), this, SLOT(SlotCoverArtLeft(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtRight(int)), this, SLOT(SlotCoverArtRight(int)));
 	connect(m_pFormCoverArt, SIGNAL(SigRating(int)), this, SLOT(SlotRating(int)));
 	connect(m_pFormCoverArt, SIGNAL(SigFavorite(int)), this, SLOT(SlotFavorite(int)));
 	connect(m_pFormCoverArt, SIGNAL(SigPlay()), this, SLOT(SlotPlay()));

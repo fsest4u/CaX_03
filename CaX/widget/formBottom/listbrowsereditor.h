@@ -69,7 +69,8 @@ private slots:
 
 	void SlotMenu();
 	void SlotMenuAction(QAction* action);
-	void SlotCoverArt(int index);
+	void SlotCoverArtLeft(int index);
+	void SlotCoverArtRight(int index);
 
 private:
 

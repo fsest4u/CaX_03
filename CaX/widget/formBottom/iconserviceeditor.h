@@ -40,7 +40,8 @@ signals:
 
 private slots:
 
-	void SlotCoverArt(int index);
+	void SlotCoverArtLeft(int index);
+	void SlotCoverArtRight(int index);
 	void SlotPlay();
 	void SlotTitle();
 

@@ -38,7 +38,8 @@ public:
 
 signals:
 
-	void SigCoverArt(int index);
+	void SigCoverArtLeft(int index);
+	void SigCoverArtRight(int index);
 	void SigRating(int nRating);
 	void SigFavorite(int nFavorite);
 	void SigPlay();

@@ -341,7 +341,22 @@ void ListBrowserEditor::SlotMenuAction(QAction *action)
 	}
 }
 
-void ListBrowserEditor::SlotCoverArt(int index)
+void ListBrowserEditor::SlotCoverArtLeft(int index)
+{
+	Q_UNUSED(index)
+	CJsonNode node;
+	if (!node.SetContent(m_RawData))
+	{
+		return;
+	}
+	node.AddInt(KEY_ID_LOWER, m_ID);
+	node.AddString(KEY_ART, m_pFormCoverArt->GetCoverArt());
+
+	emit SigClickTitle(m_Type, node);
+
+}
+
+void ListBrowserEditor::SlotCoverArtRight(int index)
 {
 	emit SigClickCoverArt(index);
 }
@@ -351,7 +366,8 @@ void ListBrowserEditor::ConnectSigToSlot()
 	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtLeft(int)), this, SLOT(SlotCoverArtLeft(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArtRight(int)), this, SLOT(SlotCoverArtRight(int)));
 
 }
 

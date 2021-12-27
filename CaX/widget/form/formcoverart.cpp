@@ -250,8 +250,17 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->frameCoverArt)
 		{
-			emit SigCoverArt(m_Index);
-			return true;
+			if (((QMouseEvent*)event)->button() == Qt::LeftButton)
+			{
+				emit SigCoverArtLeft(m_Index);
+				return true;
+			}
+			else
+			{
+				emit SigCoverArtRight(m_Index);
+				return true;
+			}
+
 		}
 		if (object == ui->labelPlay)
 		{
