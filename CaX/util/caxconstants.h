@@ -3,7 +3,7 @@
 
 #include <QCoreApplication>
 
-#define	APP_VERSION					"0.11"
+#define	APP_VERSION					"1.1"
 #define FIRMWARE_MIN_VERSION		1720
 //////////////////////////////////////////////////
 // ssdp
