@@ -10,7 +10,6 @@
 
 UDPClient::UDPClient(QObject *parent)
 	: QObject(parent)
-	, m_pSocketSSDP(new QUdpSocket(this))
 	, m_pSocketMSearch(new QUdpSocket(this))
 	, m_pSocketWol(new QUdpSocket(this))
 {
@@ -26,13 +25,16 @@ UDPClient::~UDPClient()
 
 void UDPClient::CloseSocketSSDP()
 {
-	if( m_pSocketSSDP )
+	foreach (QUdpSocket *socket, m_SocketSSDPList)
 	{
-		LogDebug("########## CloseSocketSSDP ");
-		m_pSocketSSDP->leaveMulticastGroup(m_HostAddress);
-		m_pSocketSSDP->close();
-		delete m_pSocketSSDP;
-		m_pSocketSSDP = nullptr;
+		if( socket )
+		{
+			LogDebug("########## CloseSocketSSDP ");
+			socket->leaveMulticastGroup(m_HostAddress);
+			socket->close();
+			delete socket;
+			socket = nullptr;
+		}
 	}
 }
 
@@ -60,58 +62,41 @@ void UDPClient::CloseSocketWol()
 
 bool UDPClient::BindSocketSSDP()
 {
-	QString strIP;
+	m_HostAddress = QHostAddress(QStringLiteral(SSDP_ADDR));
+
+	QString addr;
 	QNetworkInterface interface;
 
 //	QNetworkInterface interface = CheckIP();
 	QMap<QString, QNetworkInterface> map = GetInterface();
-	if (map.count() <= 0)
+
+	QMap<QString, QNetworkInterface>::iterator i;
+	for (i = map.begin(); i!= map.end(); i++)
 	{
-		return false;
-	}
-	else if (map.count() == 1)
-	{
-		interface = map.first();
-	}
-	else if (map.count() > 1)
-	{
-		SelectNetworkInterfaceDialog dialog;
-		dialog.SetList(map);
-		if (dialog.exec() == QDialog::Accepted)
+		LogDebug("key [%s]", i.key().toUtf8().data());
+		addr = i.key();
+		interface = i.value();
+
+		QUdpSocket *socket = new QUdpSocket(this);
+		m_SocketSSDPList.append(socket);
+
+		connect(socket, SIGNAL(readyRead()), this, SLOT(SlotSSDPReadData()));
+		socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+
+		if( !socket->bind(QHostAddress(addr), SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 		{
-			strIP = dialog.GetIP();
-			interface = dialog.GetInterface();
+			LogCritical("%s", socket->errorString().toUtf8().data());
+			CloseSocketSSDP();
+			return false;
 		}
-	}
 
-	if (strIP.isEmpty())
-	{
-		return false;
-	}
+		if( !socket->joinMulticastGroup(m_HostAddress, interface) )
+		{
+			LogCritical("%s", socket->errorString().toUtf8().data());
+			CloseSocketSSDP();
+			return false;
+		}
 
-	m_HostAddress = QHostAddress(QStringLiteral(SSDP_ADDR));
-
-#if 1
-	if( !m_pSocketSSDP->bind(QHostAddress(strIP), SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
-#else	// for test
-	QHostAddress addr = QHostAddress("192.168.0.100");
-	if( !m_pSocketSSDP->bind(addr, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
-#endif
-	{
-		LogCritical("%s", m_pSocketSSDP->errorString().toUtf8().data());
-		CloseSocketSSDP();
-		return false;
-	}
-
-#if 0
-	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress) )
-#else	// for test
-	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress, interface) )
-#endif
-	{
-		LogCritical("%s", m_pSocketSSDP->errorString().toUtf8().data());
-		CloseSocketSSDP();
-		return false;
 	}
 
 	return true;
@@ -189,21 +174,30 @@ void UDPClient::SlotSSDPReadData()
 	QHostAddress sender;
 	quint16 senderPort;
 
-//	LogDebug("########## SlotSSDPReadData");
-	while( m_pSocketSSDP->hasPendingDatagrams() )
+	foreach (QUdpSocket *socket, m_SocketSSDPList)
 	{
-		ssdpData.resize(m_pSocketSSDP->pendingDatagramSize());
+		if (socket)
+		{
+			LogDebug("####### socket ip addr [%s]", socket->localAddress().toString().toUtf8().data());
+			while( socket->hasPendingDatagrams() )
+			{
+				ssdpData.resize(socket->pendingDatagramSize());
 
-		m_pSocketSSDP->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
+				socket->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
 
-//		LogDebug("1 Message from: %s ", sender.toString().toUtf8().data());
-//		LogDebug("1 Message from: %d ", senderPort);
-//		LogDebug("1 Message from: %s ", ssdpData.data());
+		//		LogDebug("1 Message from: %s ", sender.toString().toUtf8().data());
+		//		LogDebug("1 Message from: %d ", senderPort);
+		//		LogDebug("1 Message from: %s ", ssdpData.data());
+			}
+
+			if (!ssdpData.isEmpty())
+			{
+				emit SigRespDeviceItem(QString(ssdpData));
+			}
+		}
 	}
 
-	emit SigRespDeviceItem(QString(ssdpData));
 }
-
 
 void UDPClient::SlotMSearchReadData()
 {
@@ -245,72 +239,10 @@ void UDPClient::SlotWolReadData()
 	}
 }
 
-void UDPClient::SlotSSDPConnected()
-{
-	LogDebug("########## SlotSSDPConnected ");
-
-}
-void UDPClient::SlotSSDPDisconnected()
-{
-	LogDebug("########## SlotSSDPDisconnected ");
-
-}
-void UDPClient::SlotSSDPBytesWritten()
-{
-	LogDebug("########## SlotSSDPBytesWritten ");
-
-}
-
-
-void UDPClient::SlotMSearchConnected()
-{
-	LogDebug("########## SlotMSearchConnected ");
-
-}
-void UDPClient::SlotMSearchDisconnected()
-{
-	LogDebug("########## SlotMSearchDisconnected ");
-
-}
-void UDPClient::SlotMSearchBytesWritten()
-{
-	LogDebug("########## SlotMSearchBytesWritten ");
-
-}
-
-void UDPClient::SlotWolConnected()
-{
-	LogDebug("########## SlotWolConnected ");
-
-}
-void UDPClient::SlotWolDisconnected()
-{
-	LogDebug("########## SlotWolDisconnected ");
-
-}
-void UDPClient::SlotWolBytesWritten()
-{
-	LogDebug("########## SlotWolBytesWritten ");
-
-}
-
-
 void UDPClient::ConnectSigToSlot()
 {
-	connect(m_pSocketSSDP, SIGNAL(connected()),				this, SLOT(SlotSSDPConnected()));
-	connect(m_pSocketSSDP, SIGNAL(disconnected()),			this, SLOT(SlotSSDPDisconnected()));
-	connect(m_pSocketSSDP, SIGNAL(bytesWritten(qint64)),	this, SLOT(SlotSSDPBytesWritten()));
-	connect(m_pSocketSSDP, SIGNAL(readyRead()),				this, SLOT(SlotSSDPReadData()));
-
-	connect(m_pSocketMSearch, SIGNAL(connected()),			this, SLOT(SlotMSearchConnected()));
-	connect(m_pSocketMSearch, SIGNAL(disconnected()),		this, SLOT(SlotMSearchDisconnected()));
-	connect(m_pSocketMSearch, SIGNAL(bytesWritten(qint64)), this, SLOT(SlotMSearchBytesWritten()));
 	connect(m_pSocketMSearch, SIGNAL(readyRead()),			this, SLOT(SlotMSearchReadData()));
-
 	connect(m_pSocketWol, SIGNAL(readyRead()), this, SLOT(SlotWolReadData()));
-
-	m_pSocketSSDP->setSocketOption(QAbstractSocket::LowDelayOption, 1);
-
 }
 
 QNetworkInterface UDPClient::CheckIP()

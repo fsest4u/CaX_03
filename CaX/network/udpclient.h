@@ -29,21 +29,12 @@ signals:
 public slots:
 
 	// for ssdp
-	void SlotSSDPConnected();
-	void SlotSSDPDisconnected();
-	void SlotSSDPBytesWritten();
 	void SlotSSDPReadData();
 
 	// for msearch
-	void SlotMSearchConnected();
-	void SlotMSearchDisconnected();
-	void SlotMSearchBytesWritten();
 	void SlotMSearchReadData();
 
 	// for wol
-	void SlotWolConnected();
-	void SlotWolDisconnected();
-	void SlotWolBytesWritten();
 	void SlotWolReadData();
 
 private:
@@ -53,7 +44,8 @@ private:
 	QMap<QString, QNetworkInterface> GetInterface();
 
 	QHostAddress	m_HostAddress;
-	QUdpSocket		*m_pSocketSSDP;
+
+	QList<QUdpSocket*>	m_SocketSSDPList;
 	QUdpSocket		*m_pSocketMSearch;
 	QUdpSocket		*m_pSocketWol;
 
