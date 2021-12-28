@@ -36,8 +36,6 @@
 
 const QString SETTINGS_GROUP = "Browser";
 
-#define BROWSER_TITLE		"Browser"
-
 BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const int &eventID, const QString &root) :
 	QWidget(parent),
 	m_pMgr(new BrowserManager),
@@ -170,7 +168,7 @@ void BrowserWindow::SetBrowserMode(int BrowserMode, QString optionPath, int opti
 
 void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget, title);		// recursive
+	emit SigAddWidget(widget, STR_BROWSER);		// recursive
 }
 
 void BrowserWindow::SlotRemoveWidget(QWidget *widget)
@@ -1075,7 +1073,7 @@ void BrowserWindow::DoTopMenuCopy(bool move)
 	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->SetBrowserMode(mode);
 	widget->RequestRoot();
-	emit SigAddWidget(widget, title);
+	emit SigAddWidget(widget, STR_BROWSER);
 
 }
 
@@ -1324,7 +1322,7 @@ void BrowserWindow::DoOptionMenuCopy(QString path, int type, bool move)
 	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->SetBrowserMode(mode, path, type);
 	widget->RequestRoot();
-	emit SigAddWidget(widget, title);
+	emit SigAddWidget(widget, STR_BROWSER);
 }
 
 //void BrowserWindow::DoOptionMenuCopyHere(QString path, bool move)

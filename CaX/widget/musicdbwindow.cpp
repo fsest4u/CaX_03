@@ -229,7 +229,7 @@ void MusicDBWindow::SetCategory(int nCategory)
 
 void MusicDBWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget, title);	// recursive
+	emit SigAddWidget(widget, STR_MUSIC_DB);	// recursive
 }
 
 void MusicDBWindow::SlotRemoveWidget(QWidget *widget)
@@ -532,7 +532,7 @@ void MusicDBWindow::SlotAlbumList()
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(m_TypeMode);
-	emit widget->SigAddWidget(widget, STR_ALBUM);
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->SetCategory(SQLManager::CATEGORY_ALBUM);
 	widget->RequestCategoryList();
@@ -545,7 +545,7 @@ void MusicDBWindow::SlotAlbumArtistList()
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetTrack();
-	emit widget->SigAddWidget(widget, STR_ALBUM_ARTIST);
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->RequestTrackList(-1, SQLManager::CATEGORY_ALBUMARTIST);
 	widget->RequestCategoryList();
@@ -559,7 +559,7 @@ void MusicDBWindow::SlotArtistList()
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(m_TypeMode);
-	emit widget->SigAddWidget(widget, STR_ARTIST);
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->SetCategory(SQLManager::CATEGORY_ARTIST);
 	widget->RequestCategoryList();
@@ -572,7 +572,7 @@ void MusicDBWindow::SlotGenreList()
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(m_TypeMode);
-	emit widget->SigAddWidget(widget, STR_GENRE);
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->SetCategory(SQLManager::CATEGORY_GENRE);
 	widget->RequestCategoryList();
@@ -595,7 +595,7 @@ void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(m_TypeMode);
-	emit widget->SigAddWidget(widget, title);
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->SetCategory(nCategory);
 	widget->RequestCategoryList();
@@ -1433,7 +1433,7 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
+		emit widget->SigAddWidget(widget, STR_PLAYLIST);
 		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotTopMenuAddToPlaylist(int)));
@@ -1549,7 +1549,7 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
+		emit widget->SigAddWidget(widget, STR_PLAYLIST);
 		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotTopMenuAddToPlaylist(int)));
@@ -1573,7 +1573,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_INFO);
+		m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_TAG_EDIT);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
@@ -1586,7 +1586,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_INFO);
+		m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_TAG_EDIT);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
@@ -1621,7 +1621,7 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
+		emit widget->SigAddWidget(widget, STR_PLAYLIST);
 		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));
@@ -1633,7 +1633,7 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		emit widget->SigAddWidget(widget, STR_ADD_TO_PLAYLIST);
+		emit widget->SigAddWidget(widget, STR_PLAYLIST);
 		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));

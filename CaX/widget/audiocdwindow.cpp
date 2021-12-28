@@ -494,7 +494,7 @@ void AudioCDWindow::DoTopMenuClearAll()
 void AudioCDWindow::DoTopMenuCDRipping()
 {
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUMARTIST);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
@@ -523,7 +523,7 @@ void AudioCDWindow::SetOptionMenu()
 {
 	m_OptionMenuMap.clear();
 	m_OptionMenuMap.insert(OPTION_MENU_CD_RIPPING, STR_CD_RIPPING);
-	m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_INFO);
+	m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_TAG_EDIT);
 
 	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }
@@ -531,7 +531,7 @@ void AudioCDWindow::SetOptionMenu()
 void AudioCDWindow::DoOptionMenuCDRipping(int id)
 {
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUMARTIST);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);

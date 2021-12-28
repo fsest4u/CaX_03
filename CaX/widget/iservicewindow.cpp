@@ -32,7 +32,6 @@
 //#include "widget/formBottom/listservice.h"
 //#include "widget/formBottom/listservicedelegate.h"
 
-#define ISERVICE_TITLE	"Internet Service"
 #define QOBUZ_TITLE		"Qobuz"
 
 IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
@@ -124,7 +123,7 @@ void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 
 	SetIServiceHome(list);
 
-	m_pInfoService->SetTitle(ISERVICE_TITLE);
+	m_pInfoService->SetTitle(STR_ISERVICE);
 	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_ISERVICE);
 }
 
@@ -253,7 +252,7 @@ void IServiceWindow::SetPlaylistID(const QString &PlaylistID)
 
 void IServiceWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget, title);		// recursive
+	emit SigAddWidget(widget, STR_ISERVICE);		// recursive
 }
 
 void IServiceWindow::SlotRespAirableLogout()
