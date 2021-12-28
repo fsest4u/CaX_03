@@ -25,8 +25,8 @@ public:
 
 	void SetTitle(const int nCategory);
 	void SetAlbumCnt(const QString count);
+	void SetAlbumArtistCnt(const QString count);
 	void SetArtistCnt(const QString count);
-	void SetTrackCnt(const QString count);
 	void SetGenreCnt(const QString count);
 
 	FormPlay *GetFormPlay();
@@ -38,10 +38,10 @@ public:
 
 signals:
 
-	void SigGenreList();
 	void SigAlbumList();
+	void SigAlbumArtistList();
 	void SigArtistList();
-	void SigTrackList();
+	void SigGenreList();
 	void SigMenu();
 	void SigMenuAction(int nCategory, QString title);
 

@@ -32,8 +32,6 @@ InfoHome::InfoHome(QWidget *parent)	:
 InfoHome::~InfoHome()
 {
 
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
-
 //	if (m_pFormTitle)
 //	{
 //		delete m_pFormTitle;
@@ -58,6 +56,7 @@ InfoHome::~InfoHome()
 		m_pFormSort = nullptr;
 	}
 
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
 	if (m_Menu)
 	{
 		delete m_Menu;
@@ -112,22 +111,19 @@ void InfoHome::SetAlbumCnt(const QString count)
 	ui->labelAlbumCnt->setText(count);
 }
 
+void InfoHome::SetAlbumArtistCnt(const QString count)
+{
+	ui->labelAlbumArtistCnt->setText(count);
+}
+
 void InfoHome::SetArtistCnt(const QString count)
 {
 	ui->labelArtistCnt->setText(count);
-
-}
-
-void InfoHome::SetTrackCnt(const QString count)
-{
-	ui->labelTrackCnt->setText(count);
-
 }
 
 void InfoHome::SetGenreCnt(const QString count)
 {
 	ui->labelGenreCnt->setText(count);
-
 }
 
 FormPlay *InfoHome::GetFormPlay()
@@ -166,21 +162,21 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->frameGenre)
-		{
-			emit SigGenreList();
-		}
-		else if (object == ui->frameAlbum)
+		if (object == ui->frameAlbum)
 		{
 			emit SigAlbumList();
+		}
+		else if (object == ui->frameAlbumArtist)
+		{
+			emit SigAlbumArtistList();
 		}
 		else if (object == ui->frameArtist)
 		{
 			emit SigArtistList();
 		}
-		else if (object == ui->frameTrack)
+		else if (object == ui->frameGenre)
 		{
-			emit SigTrackList();
+			emit SigGenreList();
 		}
 	}
 	else if (event->type() == QMouseEvent::Enter)
@@ -238,8 +234,8 @@ void InfoHome::Initialize()
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	ui->frameAlbum->installEventFilter(this);
+	ui->frameAlbumArtist->installEventFilter(this);
 	ui->frameArtist->installEventFilter(this);
-	ui->frameTrack->installEventFilter(this);
 	ui->frameGenre->installEventFilter(this);
 
 	ui->labelTitle->installEventFilter(this);

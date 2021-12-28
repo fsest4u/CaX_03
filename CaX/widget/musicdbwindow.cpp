@@ -250,13 +250,18 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 	CalculatePage(totalCount);
 
 	QString strAlbumCnt = node.GetString(KEY_ALBUM);
+	QString strAlbumArtistCnt = node.GetString(KEY_ALBUM_ARTIST);
 	QString strArtistCnt = node.GetString(KEY_ARTIST);
 	QString strGenreCnt = node.GetString(KEY_GENRE);
-	QString strTrackCnt = node.GetString(KEY_SONG);
 
 	if (strAlbumCnt.toInt() > 0)
 	{
 		m_pInfoHome->SetAlbumCnt(strAlbumCnt);
+	}
+	if (strAlbumArtistCnt.toInt() > 0)
+	{
+		m_pInfoHome->SetAlbumArtistCnt(node.GetString(KEY_ALBUM_ARTIST));
+		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_COMPOSER);
 	}
 	if (strArtistCnt.toInt() > 0)
 	{
@@ -268,12 +273,6 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 		m_pInfoHome->SetGenreCnt(node.GetString(KEY_GENRE));
 		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_GENRE);
 	}
-	if (strTrackCnt.toInt() > 0)
-	{
-		m_pInfoHome->SetTrackCnt(node.GetString(KEY_SONG));
-		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_COMPOSER);
-	}
-
 }
 
 void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
@@ -517,19 +516,6 @@ void MusicDBWindow::SlotResize(int resize)
 	}
 }
 
-void MusicDBWindow::SlotGenreList()
-{
-	ThreadTerminateIcon();
-	ThreadTerminateList();
-
-	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode);
-	emit widget->SigAddWidget(widget, STR_GENRE);
-
-	widget->SetCategory(SQLManager::CATEGORY_GENRE);
-	widget->RequestCategoryList();
-}
-
 void MusicDBWindow::SlotAlbumList()
 {
 	ThreadTerminateIcon();
@@ -541,6 +527,20 @@ void MusicDBWindow::SlotAlbumList()
 
 	widget->SetCategory(SQLManager::CATEGORY_ALBUM);
 	widget->RequestCategoryList();
+}
+
+void MusicDBWindow::SlotAlbumArtistList()
+{
+	ThreadTerminateIcon();
+	ThreadTerminateList();
+
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+	widget->AddWidgetTrack();
+	emit widget->SigAddWidget(widget, STR_ALBUM_ARTIST);
+
+	widget->RequestTrackList(-1, SQLManager::CATEGORY_ALBUMARTIST);
+	widget->RequestCategoryList();
+//	widget->SetCoverArt("");
 }
 
 void MusicDBWindow::SlotArtistList()
@@ -556,26 +556,26 @@ void MusicDBWindow::SlotArtistList()
 	widget->RequestCategoryList();
 }
 
-void MusicDBWindow::SlotTrackList()
+void MusicDBWindow::SlotGenreList()
 {
 	ThreadTerminateIcon();
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetTrack();
-	emit widget->SigAddWidget(widget, STR_TRACK);
+	widget->AddWidgetItem(m_TypeMode);
+	emit widget->SigAddWidget(widget, STR_GENRE);
 
-	widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
-	widget->SetCoverArt("");
+	widget->SetCategory(SQLManager::CATEGORY_GENRE);
+	widget->RequestCategoryList();
 }
 
 void MusicDBWindow::SlotCategoryMenu()
 {
 	m_CategoryMenuMap.clear();
-	m_CategoryMenuMap.insert(SQLManager::CATEGORY_ALBUMARTIST, STR_ALBUM_ARTIST);
 	m_CategoryMenuMap.insert(SQLManager::CATEGORY_COMPOSER, STR_COMPOSER);
 	m_CategoryMenuMap.insert(SQLManager::CATEGORY_MOOD, STR_MOOD);
 	m_CategoryMenuMap.insert(SQLManager::CATEGORY_FOLDER, STR_FOLDER);
+	m_CategoryMenuMap.insert(SQLManager::CATEGORY_TRACK, STR_TRACK);
 	m_CategoryMenuMap.insert(SQLManager::CATEGORY_YEAR, STR_YEAR);
 
 	m_pInfoHome->ClearMenu();
@@ -1129,10 +1129,10 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotIncDec(bool)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
-	connect(m_pInfoHome, SIGNAL(SigGenreList()), this, SLOT(SlotGenreList()));
 	connect(m_pInfoHome, SIGNAL(SigAlbumList()), this, SLOT(SlotAlbumList()));
+	connect(m_pInfoHome, SIGNAL(SigAlbumArtistList()), this, SLOT(SlotAlbumArtistList()));
 	connect(m_pInfoHome, SIGNAL(SigArtistList()), this, SLOT(SlotArtistList()));
-	connect(m_pInfoHome, SIGNAL(SigTrackList()), this, SLOT(SlotTrackList()));
+	connect(m_pInfoHome, SIGNAL(SigGenreList()), this, SLOT(SlotGenreList()));
 	connect(m_pInfoHome, SIGNAL(SigMenu()), this, SLOT(SlotCategoryMenu()));
 	connect(m_pInfoHome, SIGNAL(SigMenuAction(int, QString)), this, SLOT(SlotCategoryMenuAction(int, QString)));
 

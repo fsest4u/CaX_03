@@ -10,6 +10,7 @@
 #define SQL_MUSIC_DB_OVERVIEW	"	\
 select	\
 	(select count(*) from (select * from Song where Song.IsDel = 0 group by song.AlbumID)) as Album	\
+	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.AlbumArtistID)) as AlbumArtist	\
 	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.ArtistID)) as Artist	\
 	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.ComposerID)) as Composer	\
 	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.GenreID)) as Genre	\

@@ -77,10 +77,10 @@ private slots:
 	void SlotIncDec(bool bIncrease);
 	void SlotResize(int resize);
 
-	void SlotGenreList();
 	void SlotAlbumList();
+	void SlotAlbumArtistList();
 	void SlotArtistList();
-	void SlotTrackList();
+	void SlotGenreList();
 	void SlotCategoryMenu();
 	void SlotCategoryMenuAction(int nCategory, QString title);
 
