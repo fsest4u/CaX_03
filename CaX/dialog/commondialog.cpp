@@ -11,6 +11,9 @@ CommonDialog::CommonDialog(QWidget *parent, QString title, QString content) :
 	SetTitle(title);
 	SetContent(content);
 	ShowBtnCancel(false);
+
+	connect(ui->btnOK, SIGNAL(clicked()), this, SLOT(accept()));
+	connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
 CommonDialog::~CommonDialog()
@@ -30,19 +33,25 @@ void CommonDialog::SetContent(QString content)
 
 void CommonDialog::ShowBtnOk(bool show)
 {
-	if (!show)
+	if (show)
 	{
-		QPushButton* btn = ui->buttonBox->button(QDialogButtonBox::Ok);
-		ui->buttonBox->removeButton((QAbstractButton*)btn);
+		ui->btnOK->show();
+	}
+	else
+	{
+		ui->btnOK->hide();
 	}
 }
 
 void CommonDialog::ShowBtnCancel(bool show)
 {
-	if (!show)
+	if (show)
 	{
-		QPushButton* btn = ui->buttonBox->button(QDialogButtonBox::Cancel);
-		ui->buttonBox->removeButton((QAbstractButton*)btn);
+		ui->btnCancel->show();
+	}
+	else
+	{
+		ui->btnCancel->hide();
 	}
 }
 

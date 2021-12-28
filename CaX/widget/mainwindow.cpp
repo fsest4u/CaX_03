@@ -348,16 +348,19 @@ void MainWindow::ObserverConnect()
 	if (m_strCurrentMac.isEmpty())
 		return;
 
-	QString strAddr = m_pDeviceMgr->GetDeviceValue(m_strCurrentMac, DEVICE_ADDR);
-	if (strAddr.isEmpty())
-		return;
+	if (m_strAddr.isEmpty())
+	{
+		m_strAddr = m_pDeviceMgr->GetDeviceValue(m_strCurrentMac, DEVICE_ADDR);
+		if (m_strAddr.isEmpty())
+			return;
+	}
 
 	m_bConnect = true;
 	ui->widgetTop->setDisabled(false);
 	ui->widgetTop->GetBtnSearch()->setDisabled(false);
 	ui->widgetPlay->setDisabled(false);
 
-	m_pObsMgr->RequestObserverInfo(strAddr);
+	m_pObsMgr->RequestObserverInfo(m_strAddr);
 
 	SlotMenu();
 
@@ -451,7 +454,13 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 	if (version < FIRMWARE_MIN_VERSION)
 	{
 		CommonDialog dialog(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
-		dialog.exec();
+		dialog.ShowBtnOk(false);
+		dialog.ShowBtnCancel(true);
+		if (dialog.exec() == QDialog::Rejected)
+		{
+//			DoDeviceListHome();
+		}
+
 		return;
 	}
 
@@ -906,8 +915,8 @@ void MainWindow::ConnectForApp()
 
 void MainWindow::DoDeviceListHome()
 {
-	m_pDeviceMgr->ClearDeviceList();
-	m_pDeviceMgr->ClearDeviceListWol();
+//	m_pDeviceMgr->ClearDeviceList();
+//	m_pDeviceMgr->ClearDeviceListWol();
 	m_pDeviceMgr->RequestDeviceList();
 
 //	ui->widgetTop->setDisabled(true);
