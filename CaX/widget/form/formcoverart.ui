@@ -306,6 +306,14 @@ QLabel:hover
              <height>30</height>
             </size>
            </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel
+{
+	color: rgb(52, 174, 214);
+  border-image: url(&quot;:/resource/playlist-btn30-selecton-n.png&quot;);
+}
+</string>
+           </property>
           </widget>
          </item>
          <item>

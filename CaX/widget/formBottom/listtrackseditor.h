@@ -64,8 +64,8 @@ protected:
 private slots:
 
 	void SlotMenuAction(QAction* action);
-	void SlotCoverArtLeft(int index);
-	void SlotCoverArtRight(int index);
+	void SlotCoverArt(int index);
+	void SlotCheck(int index);
 
 private:
 

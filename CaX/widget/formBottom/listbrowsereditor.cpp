@@ -341,7 +341,7 @@ void ListBrowserEditor::SlotMenuAction(QAction *action)
 	}
 }
 
-void ListBrowserEditor::SlotCoverArtLeft(int index)
+void ListBrowserEditor::SlotCoverArt(int index)
 {
 	Q_UNUSED(index)
 	CJsonNode node;
@@ -356,7 +356,7 @@ void ListBrowserEditor::SlotCoverArtLeft(int index)
 
 }
 
-void ListBrowserEditor::SlotCoverArtRight(int index)
+void ListBrowserEditor::SlotCheck(int index)
 {
 	emit SigClickCoverArt(index);
 }
@@ -366,8 +366,8 @@ void ListBrowserEditor::ConnectSigToSlot()
 	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArtLeft(int)), this, SLOT(SlotCoverArtLeft(int)));
-	connect(m_pFormCoverArt, SIGNAL(SigCoverArtRight(int)), this, SLOT(SlotCoverArtRight(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotCoverArt(int)));
+	connect(m_pFormCoverArt, SIGNAL(SigCheck(int)), this, SLOT(SlotCheck(int)));
 
 }
 

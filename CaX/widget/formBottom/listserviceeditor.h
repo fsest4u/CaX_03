@@ -48,8 +48,8 @@ protected:
 
 private slots:
 
-	void SlotCoverArtLeft(int index);
-	void SlotCoverArtRight(int index);
+	void SlotCoverArt(int index);
+	void SlotCheck(int index);
 
 private:
 

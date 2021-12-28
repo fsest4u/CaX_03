@@ -189,11 +189,11 @@ void FormCoverArt::SetSelect(bool Select)
 
 	if (m_Select)
 	{
-		style = "playlist-icon30-select.png";
+		style = "playlist-btn30-selecton-h.png";
 	}
 	else
 	{
-		style = "";
+		style = "playlist-btn30-selecton-n.png";
 	}
 
 	style = QString("QLabel	\
@@ -248,21 +248,12 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->frameCoverArt)
+		if (object == ui->labelCheck)
 		{
-			if (((QMouseEvent*)event)->button() == Qt::LeftButton)
-			{
-				emit SigCoverArtLeft(m_Index);
-				return true;
-			}
-			else
-			{
-				emit SigCoverArtRight(m_Index);
-				return true;
-			}
-
+			emit SigCheck(m_Index);
+			return true;
 		}
-		if (object == ui->labelPlay)
+		else if (object == ui->labelPlay)
 		{
 			emit SigPlay();
 			return true;
@@ -272,6 +263,11 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 //			emit SigFavorite(m_Favorite);
 //			return true;
 //		}
+		else if (object == ui->frameCoverArt)
+		{
+			emit SigCoverArt(m_Index);
+			return true;
+		}
 
 	}
 
@@ -328,6 +324,7 @@ void FormCoverArt::Initialize()
 
 //	ui->frameRating->installEventFilter(this);
 //	ui->labelFavorite->installEventFilter(this);
+	ui->labelCheck->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 	ui->frameCoverArt->installEventFilter(this);
 
