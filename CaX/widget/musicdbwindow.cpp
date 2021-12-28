@@ -500,6 +500,15 @@ void MusicDBWindow::SlotResize(int resize)
 				ThreadStartList();
 			}
 
+			if (m_TypeMode == TYPE_MODE_ITEM)
+			{
+				m_pListTracks->SetHeaderTitle(STR_NAME);
+			}
+			else if (m_TypeMode == TYPE_MODE_TRACK)
+			{
+				m_pListTracks->SetHeaderTitle(STR_TITLE);
+			}
+
 			m_pIconTracks->hide();
 			m_pListTracks->show();
 			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);

@@ -47,6 +47,8 @@ public:
 	void SetBackgroundTask(QThread *thread);
 	void SetLineEditReadOnly(bool readOnly);
 
+	void SetHeaderTitle(QString title);
+
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);

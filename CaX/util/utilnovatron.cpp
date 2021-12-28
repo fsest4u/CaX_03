@@ -75,7 +75,7 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	{
 		return QIcon(":/resource/play-popup-icon16-cleanreplaygain.png");
 	}
-	else if (value.contains(STR_INFO))
+	else if (value.contains(STR_TAG_EDIT))
 	{
 		return QIcon(":/resource/browser-icon16-infoalbum.png");
 	}

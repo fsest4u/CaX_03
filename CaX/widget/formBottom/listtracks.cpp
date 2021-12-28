@@ -255,6 +255,11 @@ void ListTracks::SetLineEditReadOnly(bool readOnly)
 	ui->lineEditHeaderGenre->setReadOnly(readOnly);
 }
 
+void ListTracks::SetHeaderTitle(QString title)
+{
+	ui->labelHeaderTitle->setText(title);
+}
+
 void ListTracks::SlotReqCoverArt()
 {
 	int index = 0;
@@ -341,8 +346,8 @@ void ListTracks::Initialize()
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
-	ui->labelHeaderTitle->setText(KEY_TITLE_CAP);
-	ui->labelHeaderMenu->setText(KEY_INFO);
+	ui->labelHeaderTitle->setText(STR_TITLE);
+	ui->labelHeaderMenu->setText(STR_MENU);
 
 	SetLineEditReadOnly(true);
 

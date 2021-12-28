@@ -104,10 +104,11 @@
 #define STR_GAIN_SET				TR("Gain set")
 #define STR_GAIN_CLEAR				TR("Gain clear")
 #define STR_GO_TO_ALBUM				TR("Go to album")
-#define STR_INFO					TR("Info")
 #define STR_LOAD_COUNT				TR("Load count")
+#define STR_MENU              		TR("Menu")
 #define STR_MOVE              		TR("Move")
 #define STR_MOVE_HERE          		TR("Move here")
+#define	STR_NAME					TR("Name")
 #define STR_ON						TR("on")
 #define STR_OFF						TR("off")
 #define STR_OPTION_PLAY_SUBDIR		TR("Play subdirectories")
@@ -115,7 +116,7 @@
 #define STR_PLAY_NOW				TR("Play now")
 #define STR_PLAY_LAST				TR("Play last")
 #define STR_PLAY_NEXT				TR("Play next")
-#define STR_PLAY_CLEAR				TR("Play clear")
+#define STR_PLAY_CLEAR				TR("Clear & Play")
 #define STR_RELOAD					TR("Reload")
 #define STR_RENAME					TR("Rename")
 //#define STR_RENAME_PLAYLIST			TR("Rename playlist")
@@ -126,6 +127,9 @@
 #define STR_SEARCH_ALL				TR("Search all")
 #define STR_SEARCH_COVERART   		TR("Search coverart")
 #define STR_SELECT_ALL				TR("Select all")
+#define STR_TAG_EDIT           		TR("Tag edit")
+#define STR_TITLE           		TR("Title")
+
 
 
 

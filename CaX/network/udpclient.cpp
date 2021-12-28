@@ -183,14 +183,11 @@ void UDPClient::SlotSSDPReadData()
 			{
 				ssdpData.resize(socket->pendingDatagramSize());
 				socket->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
-
-//				LogDebug("1 Message from: %s ", sender.toString().toUtf8().data());
-//				LogDebug("1 Message from: %d ", senderPort);
-//				LogDebug("1 Message from: %s ", ssdpData.data());
 			}
 
 			if (!ssdpData.isEmpty())
 			{
+//				LogDebug("####### ssdpData [%s]", ssdpData.data());
 				emit SigRespDeviceItem(QString(ssdpData));
 			}
 		}
