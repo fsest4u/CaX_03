@@ -26,6 +26,7 @@ InfoHome::InfoHome(QWidget *parent)	:
 {
 	ui->setupUi(this);
 
+	ConnectSigToSlot();
 	Initialize();
 }
 
@@ -210,6 +211,12 @@ void InfoHome::SlotMenuAction(QAction *action)
 	emit SigMenuAction(action->data().toInt(), action->text());
 }
 
+void InfoHome::ConnectSigToSlot()
+{
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+}
+
 void InfoHome::Initialize()
 {
 
@@ -229,9 +236,6 @@ void InfoHome::Initialize()
 
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
-
-	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 	ui->frameAlbum->installEventFilter(this);
 	ui->frameAlbumArtist->installEventFilter(this);

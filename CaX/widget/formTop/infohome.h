@@ -75,6 +75,7 @@ private:
 		SORT_MAX
 	};
 
+	void ConnectSigToSlot();
 	void Initialize();
 
 //	FormTitle		*m_pFormTitle;
