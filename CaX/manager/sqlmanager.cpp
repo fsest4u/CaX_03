@@ -2,6 +2,7 @@
 
 #include "util/caxkeyvalue.h"
 #include "util/sqlconstatns.h"
+#include "util/log.h"
 
 SQLManager::SQLManager(QObject *parent)
 	: QObject(parent)
@@ -63,6 +64,9 @@ QString SQLManager::GetQueryMusicDBCategoryList(int nCategory,
 	case CATEGORY_ALBUM:
 		query = QString(SQL_ALBUM_LIST);
 		break;
+	case CATEGORY_ALBUM_ARTIST:
+		query = QString(SQL_ALBUM_ARTIST_LIST);
+		break;
 	case CATEGORY_ARTIST:
 		query = QString(SQL_ARTIST_LIST);
 		break;
@@ -94,6 +98,8 @@ QString SQLManager::GetQueryMusicDBCategoryList(int nCategory,
 			.arg(nStartIndex)
 			.arg(nLimitCount);
 
+	LogDebug("query [%s]", query.toUtf8().data());
+
 	return query;
 }
 
@@ -105,6 +111,9 @@ QString SQLManager::GetQueryMusicDBCategoryOverview(int nID, int nCategory)
 	{
 	case CATEGORY_ALBUM:
 		query = QString(SQL_ALBUM_OVERVIEW).arg(nID);
+		break;
+	case CATEGORY_ALBUM_ARTIST:
+		query = QString(SQL_ALBUM_ARTIST_OVERVIEW).arg(nID);
 		break;
 	case CATEGORY_ARTIST:
 		query = QString(SQL_ARTIST_OVERVIEW).arg(nID);
@@ -147,6 +156,14 @@ QString SQLManager::GetQueryMusicDBTrackList(int nID,
 	{
 	case CATEGORY_ALBUM:
 		query = QString(SQL_ALBUM_TRACK_LIST)
+				.arg(nID)
+				.arg(column)
+				.arg(increase)
+				.arg(nStartIndex)
+				.arg(nLimitCount);
+		break;
+	case CATEGORY_ALBUM_ARTIST:
+		query = QString(SQL_ALBUM_ARTIST_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
@@ -237,8 +254,8 @@ QString SQLManager::GetQueryUpdateCatFavorite(int nID, int nFavorite, int nCateg
 	case CATEGORY_ALBUM:
 		query = QString(SQL_UPDATE_FAVORITE_OF_ALBUM).arg(nFavorite).arg(nID);
 		break;
-	case CATEGORY_ALBUMARTIST:
-		query = QString(SQL_UPDATE_FAVORITE_OF_ALBUMARTIST).arg(nFavorite).arg(nID);
+	case CATEGORY_ALBUM_ARTIST:
+		query = QString(SQL_UPDATE_FAVORITE_OF_ALBUM_ARTIST).arg(nFavorite).arg(nID);
 		break;
 	case CATEGORY_ARTIST:
 		query = QString(SQL_UPDATE_FAVORITE_OF_ARTIST).arg(nFavorite).arg(nID);
@@ -272,8 +289,8 @@ QString SQLManager::GetQueryUpdateCatRating(int nID, int nRating, int nCategory)
 	case CATEGORY_ALBUM:
 		query = QString(SQL_UPDATE_RATING_OF_ALBUM).arg(nRating).arg(nID);
 		break;
-	case CATEGORY_ALBUMARTIST:
-		query = QString(SQL_UPDATE_RATING_OF_ALBUMARTIST).arg(nRating).arg(nID);
+	case CATEGORY_ALBUM_ARTIST:
+		query = QString(SQL_UPDATE_RATING_OF_ALBUM_ARTIST).arg(nRating).arg(nID);
 		break;
 	case CATEGORY_ARTIST:
 		query = QString(SQL_UPDATE_RATING_OF_ARTIST).arg(nRating).arg(nID);
@@ -331,7 +348,7 @@ QString SQLManager::GetQueryCategoryList(int nCategory)
 	case CATEGORY_ALBUM:
 		query = SQL_CATEGORY_ALBUM_LIST;
 		break;
-	case CATEGORY_ALBUMARTIST:
+	case CATEGORY_ALBUM_ARTIST:
 		query = SQL_CATEGORY_ALBUM_ARTIST_LIST;
 		break;
 	case CATEGORY_ARTIST:
@@ -449,7 +466,7 @@ QString SQLManager::GetQuerySearchList(int nCategory, QString keyword)
 	case CATEGORY_ALBUM:
 		query = QString(SQL_SEARCH_ALBUM_LIST).arg(keyword);
 		break;
-	case CATEGORY_ALBUMARTIST:
+	case CATEGORY_ALBUM_ARTIST:
 		query = QString(SQL_SEARCH_ALBUM_LIST).arg(keyword);
 		break;
 	case CATEGORY_ARTIST:
@@ -490,7 +507,7 @@ QString SQLManager::GetQueryCheckCategory(int updateCategory, QString updateName
 	case CATEGORY_ALBUM:
 		query = QString(SQL_CHECK_ALBUM).arg(updateName);
 		break;
-	case CATEGORY_ALBUMARTIST:
+	case CATEGORY_ALBUM_ARTIST:
 		query = QString(SQL_CHECK_ALBUM).arg(updateName);
 		break;
 	case CATEGORY_ARTIST:
@@ -522,7 +539,7 @@ QString SQLManager::GetQueryInsertCategory(int updateCategory, QString updateNam
 	case CATEGORY_ALBUM:
 		query = QString(SQL_INSERT_ALBUM).arg(updateName);
 		break;
-	case CATEGORY_ALBUMARTIST:
+	case CATEGORY_ALBUM_ARTIST:
 		query = QString(SQL_INSERT_ALBUM).arg(updateName);
 		break;
 	case CATEGORY_ARTIST:
@@ -557,7 +574,7 @@ QString SQLManager::GetQueryUpdateCategory(int id, int category, int updateCateg
 	case CATEGORY_ALBUM:
 		query = QString(SQL_UPDATE_ALBUM).arg(updateId).arg(categoryName).arg(id);
 		break;
-	case CATEGORY_ALBUMARTIST:
+	case CATEGORY_ALBUM_ARTIST:
 		query = QString(SQL_UPDATE_ALBUM).arg(updateId).arg(categoryName).arg(id);
 		break;
 	case CATEGORY_ARTIST:

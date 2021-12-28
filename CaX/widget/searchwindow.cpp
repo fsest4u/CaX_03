@@ -69,7 +69,7 @@ void SearchWindow::SetKeyword(const QString keyword)
 
 void SearchWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget, title);	// recursive
+	emit SigAddWidget(widget, STR_SEARCH);	// recursive
 
 }
 

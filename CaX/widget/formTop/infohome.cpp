@@ -75,7 +75,7 @@ void InfoHome::SetTitle(const int nCategory)
 	case SQLManager::CATEGORY_ALBUM:
 		title = KEY_ALBUM;
 		break;
-	case SQLManager::CATEGORY_ALBUMARTIST:
+	case SQLManager::CATEGORY_ALBUM_ARTIST:
 		title = KEY_ALBUM_ARTIST;
 		break;
 	case SQLManager::CATEGORY_ARTIST:

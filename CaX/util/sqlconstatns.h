@@ -39,6 +39,20 @@ group by Song.AlbumID	\
 order by Song.%6 %7	\
 limit %8, %9"
 
+#define SQL_ALBUM_ARTIST_LIST	"	\
+select	\
+	AlbumArtist.ROWID as id	\
+	, AlbumArtist.Name as title	\
+	, AlbumArtist.favorite as favorite	\
+	, AlbumArtist.rating as rating	\
+	, count(AlbumArtist.ROWID) as count	\
+from Song	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+where AlbumArtist.IsDel = 0	%1 %2 %3 %4 %5 \
+group by Song.AlbumArtistID	\
+order by Song.%6 %7	\
+limit %8, %9"
+
 #define SQL_ARTIST_LIST	"	\
 select	\
 	Artist.ROWID as id	\
@@ -155,6 +169,41 @@ inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1	\
+order by Song.%2 %3	\
+limit %4, %5"
+
+#define SQL_ALBUM_ARTIST_OVERVIEW	"	\
+select	\
+	AlbumArtist.Name as title	\
+	, Artist.Name as Artist	\
+	, AlbumArtist.favorite as favorite \
+	, AlbumArtist.rating as rating \
+	, count(*) as count	\
+	, sum(song.nov_time) as total	\
+	, Song.FileName as extension	\
+	, Song.nov_Bitrate as bps	\
+	, Song.nov_Samplerate as samplerate	\
+from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+where Song.IsDel = 0 and Song.AlbumArtistID = %1	\
+"
+
+#define SQL_ALBUM_ARTIST_TRACK_LIST	"	\
+select	\
+	Song.ROWID as id	\
+	, Song.Name as title	\
+	, Song.nov_time as time	\
+	, Artist.Name as Artist	\
+	, Album.Name as Album	\
+	, Genre.Name as Genre	\
+	, Song.favorite as favorite	\
+from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
+where Song.IsDel = 0 and Song.AlbumArtistID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
 
@@ -395,7 +444,7 @@ order by Song.%1 %2	\
 limit %3, %4"
 
 #define SQL_UPDATE_FAVORITE_OF_ALBUM		"update Album set Favorite=%1 where Album.ROWID=%2"
-#define SQL_UPDATE_FAVORITE_OF_ALBUMARTIST	"update AlbumArtist set Favorite=%1 where AlbumArtist.ROWID=%2"
+#define SQL_UPDATE_FAVORITE_OF_ALBUM_ARTIST	"update AlbumArtist set Favorite=%1 where AlbumArtist.ROWID=%2"
 #define SQL_UPDATE_FAVORITE_OF_ARTIST		"update Artist set Favorite=%1 where Artist.ROWID=%2"
 #define SQL_UPDATE_FAVORITE_OF_GENRE		"update Genre set Favorite=%1 where Genre.ROWID=%2"
 #define SQL_UPDATE_FAVORITE_OF_COMPOSER		"update Composer set Favorite=%1 where Composer.ROWID=%2"
@@ -404,7 +453,7 @@ limit %3, %4"
 #define SQL_UPDATE_FAVORITE_OF_SONG			"update Song set Favorite=%1 where Song.ROWID=%2"
 
 #define SQL_UPDATE_RATING_OF_ALBUM			"update Album set Rating=%1 where Album.ROWID=%2"
-#define SQL_UPDATE_RATING_OF_ALBUMARTIST	"update AlbumArtist set Rating=%1 where AlbumArtist.ROWID=%2"
+#define SQL_UPDATE_RATING_OF_ALBUM_ARTIST	"update AlbumArtist set Rating=%1 where AlbumArtist.ROWID=%2"
 #define SQL_UPDATE_RATING_OF_ARTIST			"update Artist set Rating=%1 where Artist.ROWID=%2"
 #define SQL_UPDATE_RATING_OF_GENRE			"update Genre set Rating=%1 where Genre.ROWID=%2"
 #define SQL_UPDATE_RATING_OF_COMPOSER		"update Composer set Rating=%1 where Composer.ROWID=%2"
@@ -598,7 +647,7 @@ FROM Album	\
 WHERE Album.IsDel = 0 AND Album.Name = '%1'	\
 "
 
-#define SQL_CHECK_ALBUMARTIST	"	\
+#define SQL_CHECK_ALBUM_ARTIST	"	\
 SELECT	\
 	ROWID AS id	\
 FROM AlbumArtist	\
@@ -648,7 +697,7 @@ ORDER BY ROWID DESC	\
 LIMIT 1;	\
 "
 
-#define SQL_INSERT_ALBUMARTIST		"	\
+#define SQL_INSERT_ALBUM_ARTIST		"	\
 INSERT INTO	\
 	AlbumArtist (Name)	\
 VALUES ('%1');		\
@@ -712,7 +761,7 @@ LIMIT 1;	\
 
 
 #define SQL_UPDATE_ALBUM		"UPDATE Song SET AlbumID = %1 WHERE Song.%2ID = %3"
-#define SQL_UPDATE_ALBUMARTIST	"UPDATE Song SET AlbumArtistID =%1 WHERE Song.%2ID = %3"
+#define SQL_UPDATE_ALBUM_ARTIST	"UPDATE Song SET AlbumArtistID =%1 WHERE Song.%2ID = %3"
 #define SQL_UPDATE_ARTIST		"UPDATE Song SET ArtistID = %1 WHERE Song.%2ID = %3"
 #define SQL_UPDATE_GENRE		"UPDATE Song SET GenreID = %1 WHERE Song.%2ID = %3"
 #define SQL_UPDATE_COMPOSER		"UPDATE Song SET ComposerID = %1 WHERE Song.%2ID = %3"

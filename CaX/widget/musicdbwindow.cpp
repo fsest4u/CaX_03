@@ -544,12 +544,11 @@ void MusicDBWindow::SlotAlbumArtistList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetTrack();
+	widget->AddWidgetItem(m_TypeMode);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(-1, SQLManager::CATEGORY_ALBUMARTIST);
+	widget->SetCategory(SQLManager::CATEGORY_ALBUM_ARTIST);
 	widget->RequestCategoryList();
-//	widget->SetCoverArt("");
 }
 
 void MusicDBWindow::SlotArtistList()
@@ -593,12 +592,27 @@ void MusicDBWindow::SlotCategoryMenu()
 
 void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 {
-	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode);
-	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+	ThreadTerminateIcon();
+	ThreadTerminateList();
 
-	widget->SetCategory(nCategory);
-	widget->RequestCategoryList();
+	if (nCategory == SQLManager::CATEGORY_TRACK)
+	{
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->AddWidgetTrack();
+		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+		widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
+		widget->SetCoverArt("");
+	}
+	else
+	{
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->AddWidgetItem(m_TypeMode);
+		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+		widget->SetCategory(nCategory);
+		widget->RequestCategoryList();
+	}
 }
 
 void MusicDBWindow::SlotItemPlayAll()
@@ -1663,7 +1677,7 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 	if (m_TypeMode == TYPE_MODE_ITEM)
 	{
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUMARTIST);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
@@ -1674,7 +1688,7 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUMARTIST);
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
@@ -1850,7 +1864,7 @@ int MusicDBWindow::GetTotalCount(CJsonNode node)
 	case SQLManager::CATEGORY_ALBUM:
 		totalCount = node.GetString(KEY_ALBUM).toInt();
 		break;
-//	case SQLManager::CATEGORY_ALBUMARTIST:
+//	case SQLManager::CATEGORY_ALBUM_ARTIST:
 //		totalCount = node.GetString(KEY_ALBUM_ARTIST).toInt();
 //		break;
 	case SQLManager::CATEGORY_ARTIST:

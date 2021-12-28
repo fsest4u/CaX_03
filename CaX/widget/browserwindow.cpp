@@ -1342,7 +1342,7 @@ void BrowserWindow::DoOptionMenuEditTag(QString path, int type)
 	m_OptionPath = path;
 
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUMARTIST);
+	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
