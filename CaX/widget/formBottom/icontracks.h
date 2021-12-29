@@ -23,14 +23,13 @@ public:
 	~IconTracks();
 
 	enum {
-		ICON_TRACKS_MUSIC_DB = 0,
-		ICON_TRACKS_AUDIO_CD,
-		ICON_TRACKS_PLAYLIST,
+		ICON_TRACKS_MUSIC_DB_YEAR = 0,
+		ICON_TRACKS_MUSIC_DB_TRACK,
 		ICON_TRACKS_MAX
 	};
 
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(QList<CJsonNode> &list, int type);
+	void SetNodeList(QList<CJsonNode> &list, int service);
 	void ClearNodeList();
 
 	void ClearSelectMap();

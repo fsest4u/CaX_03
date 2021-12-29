@@ -121,7 +121,6 @@ MusicDBWindow::~MusicDBWindow()
 
 void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 {
-//	AddSortMusicDBHome();
 	SetSortMenu(category);
 
 	m_TypeMode = typeMode;
@@ -151,7 +150,6 @@ void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 
 void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 {
-//	AddSortCategoryHome();
 	SetSortMenu(SQLManager::CATEGORY_TRACK);
 
 	m_TypeMode = typeMode;
@@ -177,8 +175,8 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 		m_pInfoTracks->GetFormPlay()->ShowPlayAll(false);
 		m_pInfoTracks->GetFormPlay()->ShowPlayRandom(false);
 		m_pInfoTracks->GetFormPlay()->ShowFavorite(false);
-		m_pInfoTracks->GetFormPlay()->ShowRating(false);
 	}
+	m_pInfoTracks->GetFormPlay()->ShowRating(false);
 
 	m_pListTracks->SetLineEditReadOnly(false);
 
@@ -294,13 +292,19 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
+	int service = SIDEMENU_MUSIC_DB;
+	if (m_nCategory == SQLManager::CATEGORY_YEAR)
+	{
+		service = IconTracks::ICON_TRACKS_MUSIC_DB_YEAR;
+	}
+	else if (m_nCategory == SQLManager::CATEGORY_TRACK)
+	{
+		service = IconTracks::ICON_TRACKS_MUSIC_DB_TRACK;
+	}
+
 	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
+	m_pIconTracks->SetNodeList(m_RespList, service);
 	ThreadStartIcon();
-
-//	m_pListTracks->ClearNodeList();
-//	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
-
 }
 
 void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
@@ -340,12 +344,18 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-//	m_pIconTracks->ClearNodeList();
-//	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
-//	ThreadStartIcon();
+	int service = SIDEMENU_MUSIC_DB;
+	if (m_nCategory == SQLManager::CATEGORY_YEAR)
+	{
+		service = ListTracks::LIST_TRACKS_MUSIC_DB_YEAR;
+	}
+	else if (m_nCategory == SQLManager::CATEGORY_TRACK)
+	{
+		service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
+	}
 
 	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
+	m_pListTracks->SetNodeList(m_RespList, service);
 	ThreadStartList();
 
 }
@@ -485,11 +495,21 @@ void MusicDBWindow::SlotResize(int resize)
 		m_ListMode = listMode;
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
+			int service = SIDEMENU_MUSIC_DB;
+			if (m_nCategory == SQLManager::CATEGORY_YEAR)
+			{
+				service = IconTracks::ICON_TRACKS_MUSIC_DB_YEAR;
+			}
+			else if (m_nCategory == SQLManager::CATEGORY_TRACK)
+			{
+				service = IconTracks::ICON_TRACKS_MUSIC_DB_TRACK;
+			}
+
 			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
-			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
+//			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
-				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
+				m_pIconTracks->SetNodeList(m_RespList, service);
 				ThreadStartIcon();
 			}
 
@@ -499,11 +519,21 @@ void MusicDBWindow::SlotResize(int resize)
 		}
 		else
 		{
+			int service = SIDEMENU_MUSIC_DB;
+			if (m_nCategory == SQLManager::CATEGORY_YEAR)
+			{
+				service = ListTracks::LIST_TRACKS_MUSIC_DB_YEAR;
+			}
+			else if (m_nCategory == SQLManager::CATEGORY_TRACK)
+			{
+				service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
+			}
+
 			LogDebug("list~~~~~~~~", m_pListTracks->GetNodeList().count(), m_RespList.count());
-			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
+//			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pListTracks->ClearNodeList();
-				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
+				m_pListTracks->SetNodeList(m_RespList, service);
 				ThreadStartList();
 			}
 
@@ -1822,36 +1852,6 @@ void MusicDBWindow::SetSortMenu(int category)
 		m_pInfoHome->GetFormSort()->SetMenuTitle(title);
 	}
 }
-
-//void MusicDBWindow::AddSortMusicDBHome()
-//{
-//	QMap<int, QString> list;
-//	list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
-//	list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
-//	list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
-//	list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
-
-//	m_pInfoHome->GetFormSort()->SetMenu(list);
-//	m_pInfoHome->GetFormSort()->SetMenuTitle(STR_SORT_IMPORTED_DATE);
-//}
-
-//void MusicDBWindow::AddSortCategoryHome()
-//{
-////	QMap<int, QString> list;
-////	list.insert(SQLManager::SORT_NAME, STR_SORT_NAME);
-////	list.insert(SQLManager::SORT_ALBUM, STR_SORT_ALBUM);
-////	list.insert(SQLManager::SORT_ALBUM_ARTIST, STR_SORT_ALBUM_ARTIST);
-////	list.insert(SQLManager::SORT_ARTIST, STR_SORT_ARTIST);
-////	list.insert(SQLManager::SORT_GENRE, STR_SORT_GENRE);
-////	list.insert(SQLManager::SORT_COMPOSER, STR_SORT_COMPOSER);
-////	list.insert(SQLManager::SORT_MOOD, STR_SORT_MOOD);
-////	list.insert(SQLManager::SORT_FOLDER, STR_SORT_FOLDER);
-////	list.insert(SQLManager::SORT_YEAR, STR_SORT_YEAR);
-
-////	m_pInfoTracks->GetFormSort()->SetMenu(list);
-////	m_pInfoTracks->GetFormSort()->SetMenuTitle(STR_SORT_NAME);
-
-//}
 
 void MusicDBWindow::ClearClassifyMenu()
 {

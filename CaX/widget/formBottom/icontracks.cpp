@@ -59,13 +59,13 @@ QList<CJsonNode> IconTracks::GetNodeList() const
 	return m_NodeList;
 }
 
-void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
+void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 {
 //	m_pLoading->Start();
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
-	if (ICON_TRACKS_AUDIO_CD == type)
+	if (SIDEMENU_AUDIO_CD == service)
 	{
 //		int totalTime = 0;
 		foreach (CJsonNode node, list)
@@ -108,10 +108,15 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int type)
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
 			item->setData(index, IconTracksDelegate::ICON_TRACKS_INDEX);
-			if (ICON_TRACKS_MUSIC_DB == type)
+			if (SIDEMENU_MUSIC_DB == service)
 			{
 				item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
 				item->setData(node.GetString(KEY_RATING), IconTracksDelegate::ICON_TRACKS_RATING);
+			}
+			else if (ICON_TRACKS_MUSIC_DB_TRACK == service)
+			{
+				item->setData(node.GetString(KEY_FAVORITE), IconTracksDelegate::ICON_TRACKS_FAVORITE);
+				item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
 			}
 			else
 			{

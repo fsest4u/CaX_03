@@ -75,8 +75,8 @@ void FormCoverArt::SetFavorite(int Favorite)
 {
 	if (Favorite >= 0)
 	{
-		ui->widgetCoverLeft->show();
-//		ui->labelFavorite->show();
+//		ui->widgetCoverLeft->show();
+		ui->labelFavorite->show();
 		m_Favorite = Favorite;
 	}
 
@@ -126,8 +126,8 @@ void FormCoverArt::SetRating(int Rating)
 {
 	if (Rating >= 0)
 	{
-		ui->widgetCoverLeft->show();
-//		ui->frameRating->show();
+//		ui->widgetCoverLeft->show();
+		ui->frameRating->show();
 		m_Rating = Rating;
 	}
 
@@ -302,7 +302,7 @@ void FormCoverArt::SlotBtnRating4()
 void FormCoverArt::SlotBtnRating5()
 {
 //	SetRating(5);
-	//	emit SigRating(m_Rating);
+//	emit SigRating(m_Rating);
 }
 
 void FormCoverArt::ConnectSigToSlot()
@@ -316,9 +316,9 @@ void FormCoverArt::ConnectSigToSlot()
 
 void FormCoverArt::Initialize()
 {
-	ui->widgetCoverLeft->hide();
-//	ui->frameRating->hide();
-//	ui->labelFavorite->hide();
+//	ui->widgetCoverLeft->hide();
+	ui->frameRating->hide();
+	ui->labelFavorite->hide();
 	ui->labelCheck->hide();
 	ui->labelPlay->hide();
 

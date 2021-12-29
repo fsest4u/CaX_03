@@ -109,10 +109,10 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 	SetOptionMenu();
 
 //	m_pIconTracks->ClearNodeList();
-//	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_AUDIO_CD);
+//	m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
 
 	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_AUDIO_CD);
+	m_pListTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
 
 //	m_TotalCount = QString("%1 songs").arg(m_RespList.count());
 //	m_pInfoTracks->SetInfo( MakeInfo() );
@@ -283,7 +283,7 @@ void AudioCDWindow::SlotResize(int resize)
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
-				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_AUDIO_CD);
+				m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
 			}
 
 			m_pListTracks->hide();
@@ -296,7 +296,7 @@ void AudioCDWindow::SlotResize(int resize)
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pListTracks->ClearNodeList();
-				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_AUDIO_CD);
+				m_pListTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
 			}
 
 			m_pIconTracks->hide();

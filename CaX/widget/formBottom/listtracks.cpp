@@ -62,13 +62,13 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 	return m_NodeList;
 }
 
-void ListTracks::SetNodeList(QList<CJsonNode> list, int type)
+void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 {
 //	m_pLoading->Start();
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
-	if (LIST_TRACKS_AUDIO_CD == type)
+	if (SIDEMENU_AUDIO_CD == service)
 	{
 		foreach (CJsonNode node, list)
 		{

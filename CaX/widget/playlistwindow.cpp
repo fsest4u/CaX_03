@@ -178,11 +178,11 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 	SetOptionMenu();
 
 	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
+	m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
 	ThreadStartIcon();
 
 //	m_pListTracks->ClearNodeList();
-//	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
+//	m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
 }
 
 void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
@@ -209,10 +209,10 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 	SetOptionMenu();
 
 //	m_pIconTracks->ClearNodeList();
-//	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
+//	m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
 
 	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
+	m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
 	ThreadStartList();
 }
 
@@ -383,7 +383,7 @@ void PlaylistWindow::SlotResize(int resize)
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
-				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_PLAYLIST);
+				m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
 				ThreadStartIcon();
 			}
 
@@ -397,7 +397,7 @@ void PlaylistWindow::SlotResize(int resize)
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pListTracks->ClearNodeList();
-				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_PLAYLIST);
+				m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
 				ThreadStartList();
 			}
 

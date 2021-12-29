@@ -23,14 +23,13 @@ public:
 	~ListTracks();
 
 	enum {
-		LIST_TRACKS_MUSIC_DB = 0,
-		LIST_TRACKS_AUDIO_CD,
-		LIST_TRACKS_PLAYLIST,
+		LIST_TRACKS_MUSIC_DB_YEAR = 0,
+		LIST_TRACKS_MUSIC_DB_TRACK,
 		LIST_TRACKS_MAX
 	};
 
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(QList<CJsonNode> list, int type);
+	void SetNodeList(QList<CJsonNode> list, int service);
 	void ClearNodeList();
 
 	void ClearSelectMap();
