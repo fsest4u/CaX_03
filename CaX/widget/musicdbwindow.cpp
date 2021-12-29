@@ -184,7 +184,8 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 
 void MusicDBWindow::RequestCategoryList()
 {
-	m_pInfoHome->SetTitle(m_nCategory);
+	QString title = UtilNovatron::GetCategoryTitleName(m_nCategory);
+	m_pInfoHome->SetTitle(title);
 	m_pMgr->RequestMusicDBOverView();
 	m_pMgr->RequestCategoryList(m_nCategory,
 								m_nSortCategory,
@@ -860,17 +861,17 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 	QString strCat;
 	if (m_TypeMode == TYPE_MODE_ITEM || m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
-		strCat = m_pMgr->GetSqlMgr()->GetCategoryName(m_nCategory);
+		strCat = UtilNovatron::GetCategoryName(m_nCategory);
 	}
 	else
 	{
-		strCat = m_pMgr->GetSqlMgr()->GetCategoryName(-1);
+		strCat = UtilNovatron::GetCategoryName(-1);
 	}
 
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(id);
 
-//	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
+	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
 	m_pMgr->RequestCoverArt(fullpath, index, mode);
 }
 
@@ -1822,6 +1823,7 @@ void MusicDBWindow::SetSortMenu(int category)
 	if (category == SQLManager::CATEGORY_TRACK)
 	{
 		title = STR_SORT_IMPORTED_DATE;
+
 		list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
 		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
 		list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
@@ -1830,22 +1832,44 @@ void MusicDBWindow::SetSortMenu(int category)
 		m_pInfoTracks->GetFormSort()->SetMenu(list);
 		m_pInfoTracks->GetFormSort()->SetMenuTitle(title);
 	}
-	else if (category == SQLManager::CATEGORY_YEAR)
-	{
-		title = STR_SORT_ALPHABET;
-		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
-
-		m_pInfoHome->GetFormSort()->ClearMenu();
-		m_pInfoHome->GetFormSort()->SetMenu(list);
-		m_pInfoHome->GetFormSort()->SetMenuTitle(title);
-	}
 	else
 	{
 		title = STR_SORT_IMPORTED_DATE;
-		list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
-		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
-		list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
-		list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
+
+		if (category == SQLManager::CATEGORY_ARTIST
+				|| category == SQLManager::CATEGORY_COMPOSER
+				|| category == SQLManager::CATEGORY_MOOD)
+		{
+			list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
+			list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+			list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
+			list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
+			list.insert(SQLManager::DISP_MODE_TRACK, STR_DISP_MODE_TRACK);
+			list.insert(SQLManager::DISP_MODE_ALBUM, STR_DISP_MODE_ALBUM);
+		}
+		else if (category == SQLManager::CATEGORY_GENRE)
+		{
+			list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
+			list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+			list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
+			list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
+			list.insert(SQLManager::DISP_MODE_TRACK, STR_DISP_MODE_TRACK);
+			list.insert(SQLManager::DISP_MODE_ALBUM, STR_DISP_MODE_ALBUM);
+			list.insert(SQLManager::DISP_MODE_ARTIST, STR_DISP_MODE_ARTIST);
+		}
+		else if (category == SQLManager::CATEGORY_YEAR)
+		{
+			title = STR_SORT_ALPHABET;
+			list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+
+		}
+		else
+		{
+			list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
+			list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+			list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
+			list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
+		}
 
 		m_pInfoHome->GetFormSort()->ClearMenu();
 		m_pInfoHome->GetFormSort()->SetMenu(list);

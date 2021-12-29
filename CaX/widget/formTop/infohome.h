@@ -23,7 +23,8 @@ public:
 	explicit InfoHome(QWidget *parent = nullptr);
 	~InfoHome();
 
-	void SetTitle(const int nCategory);
+	QString GetTitle() const;
+	void SetTitle(const QString title);
 	void SetAlbumCnt(const QString count);
 	void SetAlbumArtistCnt(const QString count);
 	void SetArtistCnt(const QString count);

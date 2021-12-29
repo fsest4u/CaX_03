@@ -4,16 +4,17 @@
 #include "infohome.h"
 #include "ui_infohome.h"
 
+#include "manager/sqlmanager.h"
+
+#include "util/caxkeyvalue.h"
+#include "util/log.h"
+#include "util/utilnovatron.h"
+
 #include "widget/form/formtitle.h"
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
 #include "widget/form/formclassify.h"
 
-
-#include "manager/sqlmanager.h"
-
-#include "util/caxkeyvalue.h"
-#include "util/log.h"
 
 InfoHome::InfoHome(QWidget *parent)	:
 	QWidget(parent),
@@ -67,44 +68,16 @@ InfoHome::~InfoHome()
 	delete ui;
 }
 
-void InfoHome::SetTitle(const int nCategory)
+QString InfoHome::GetTitle() const
 {
-	QString title = KEY_ALBUM;
-	switch (nCategory)
-	{
-	case SQLManager::CATEGORY_ALBUM:
-		title = KEY_ALBUM;
-		break;
-	case SQLManager::CATEGORY_ALBUM_ARTIST:
-		title = KEY_ALBUM_ARTIST;
-		break;
-	case SQLManager::CATEGORY_ARTIST:
-		title = KEY_ARTIST;
-		break;
-	case SQLManager::CATEGORY_GENRE:
-		title = KEY_GENRE;
-		break;
-	case SQLManager::CATEGORY_COMPOSER:
-		title = KEY_COMPOSER;
-		break;
-	case SQLManager::CATEGORY_MOOD:
-		title = KEY_MOOD;
-		break;
-	case SQLManager::CATEGORY_FOLDER:
-		title = KEY_FOLDER;
-		break;
-	case SQLManager::CATEGORY_YEAR:
-		title = KEY_YEAR;
-		break;
-	case SQLManager::CATEGORY_TRACK:
-		title = KEY_TRACK;
-		break;
-	}
+	return ui->labelTitle->text();
+}
 
+void InfoHome::SetTitle(QString title)
+{
 //	m_pFormTitle->SetTitleFont(FONT_SIZE_INFO_TITLE);
 //	m_pFormTitle->SetTitle(title);
 	ui->labelTitle->setText(title);
-
 }
 
 void InfoHome::SetAlbumCnt(const QString count)

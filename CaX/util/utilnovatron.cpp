@@ -7,7 +7,10 @@
 
 #include "utilnovatron.h"
 
+#include "manager/sqlmanager.h"
+
 #include "util/caxconstants.h"
+#include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
 
@@ -423,6 +426,79 @@ QString UtilNovatron::ConvertURLToFilename(QString fullpath)
 	filename = fileInfo.completeBaseName() + ".jpg";
 
 	return filename;
+}
+
+QString UtilNovatron::GetCategoryName(int category)
+{
+	QString title;
+
+	switch(category)
+	{
+	case SQLManager::CATEGORY_ALBUM:
+		title = KEY_ALBUM;
+		break;
+	case SQLManager::CATEGORY_ARTIST:
+		title = KEY_ARTIST;
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		title = KEY_GENRE;
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		title = KEY_COMPOSER;
+		break;
+	case SQLManager::CATEGORY_MOOD:
+		title = KEY_MOOD;
+		break;
+	case SQLManager::CATEGORY_FOLDER:
+		title = KEY_FOLDER;
+		break;
+	case SQLManager::CATEGORY_YEAR:
+		title = KEY_YEAR;
+		break;
+	default:
+		title = KEY_SONG;
+		break;
+	}
+
+	return title;
+}
+
+QString UtilNovatron::GetCategoryTitleName(int category)
+{
+	QString title = KEY_ALBUM;
+	switch (category)
+	{
+	case SQLManager::CATEGORY_ALBUM:
+		title = KEY_ALBUM;
+		break;
+	case SQLManager::CATEGORY_ALBUM_ARTIST:
+		title = KEY_ALBUM_ARTIST;
+		break;
+	case SQLManager::CATEGORY_ARTIST:
+		title = KEY_ARTIST;
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		title = KEY_GENRE;
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		title = KEY_COMPOSER;
+		break;
+	case SQLManager::CATEGORY_MOOD:
+		title = KEY_MOOD;
+		break;
+	case SQLManager::CATEGORY_FOLDER:
+		title = KEY_FOLDER;
+		break;
+	case SQLManager::CATEGORY_YEAR:
+		title = KEY_YEAR;
+		break;
+	case SQLManager::CATEGORY_TRACK:
+		title = KEY_TRACK;
+		break;
+	}
+
+	return title;
+
 }
 
 void UtilNovatron::DebugTypeForBrowser(QString title, int type)

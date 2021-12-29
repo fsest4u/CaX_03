@@ -1,6 +1,6 @@
 #include "musicdbmanager.h"
 
-
+#include "util/utilnovatron.h"
 
 MusicDBManager::MusicDBManager(QObject *parent)
 	: m_pSql(new SQLManager)
@@ -104,7 +104,7 @@ void MusicDBManager::RequestManageCategory(QString cmd1,
 										   int nCategory,
 										   int eventID)
 {
-	QString strCat = m_pSql->GetCategoryName(nCategory);
+	QString strCat = UtilNovatron::GetCategoryName(nCategory);
 
 	CJsonNode node(JSON_OBJECT);
 
@@ -399,7 +399,7 @@ void MusicDBManager::RequestSetCategoryInfo(int id, int eventID, CJsonNode node)
 
 void MusicDBManager::RequestRenameCategory(int id, QString name, int nCategory, int eventID)
 {
-	QString strCat = m_pSql->GetCategoryName(nCategory);
+	QString strCat = UtilNovatron::GetCategoryName(nCategory);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_MUSIC_DB);
@@ -451,7 +451,7 @@ void MusicDBManager::RequestRenameTrack(int id, QString name, int eventID)
 
 void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category)
 {
-	QString strCat = m_pSql->GetCategoryName(category);
+	QString strCat = UtilNovatron::GetCategoryName(category);
 
 	CJsonNode idArr(JSON_ARRAY);
 	QMap<int, bool>::iterator i;
@@ -486,7 +486,7 @@ void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap, int cat
 
 void MusicDBManager::RequestSetCoverArt(int id, int category, int eventID, QString image, QString thumb)
 {
-	QString strCat = m_pSql->GetCategoryName(category);
+	QString strCat = UtilNovatron::GetCategoryName(category);
 
 	CJsonNode coverArt(JSON_OBJECT);
 	coverArt.Add(KEY_IMAGE_URL, image);

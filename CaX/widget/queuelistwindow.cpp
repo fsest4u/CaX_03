@@ -5,9 +5,10 @@
 
 #include "manager/queuelistmanager.h"
 
+#include "util/utilnovatron.h"
+
 #include "widget/form/formcoverart.h"
 #include "widget/form/formtitle.h"
-
 #include "widget/formQueue/queuetrack.h"
 #include "widget/formQueue/queuetrackdelegate.h"
 #include "widget/formQueue/queuelyrics.h"
@@ -195,11 +196,11 @@ void QueuelistWindow::RequestCoverArt(int id, int index)
 	QString strCat;
 	if (index == 0)
 	{
-		strCat = m_pMgr->GetSqlMgr()->GetCategoryName(SQLManager::CATEGORY_ALBUM);
+		strCat = UtilNovatron::GetCategoryName(SQLManager::CATEGORY_ALBUM);
 	}
 	else
 	{
-		strCat = m_pMgr->GetSqlMgr()->GetCategoryName(SQLManager::CATEGORY_ARTIST);
+		strCat = UtilNovatron::GetCategoryName(SQLManager::CATEGORY_ARTIST);
 	}
 
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");

@@ -1,6 +1,7 @@
 #include "playlistmanager.h"
 #include "sqlmanager.h"
 
+#include "util/utilnovatron.h"
 
 PlaylistManager::PlaylistManager() :
 	m_pSql(new SQLManager)
@@ -140,7 +141,7 @@ void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
 void PlaylistManager::RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idMap, int category)
 {
 
-	QString strCat = m_pSql->GetCategoryName(category);
+	QString strCat = UtilNovatron::GetCategoryName(category);
 
 	CJsonNode idArr(JSON_ARRAY);
 	QMap<int, bool>::iterator i;

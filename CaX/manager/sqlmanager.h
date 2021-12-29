@@ -60,7 +60,6 @@ public:
 	QString GetQueryClassifyArtist(int nCategory);
 	QString GetQueryCategoryList(int nCategory);
 
-	QString GetCategoryName(int nCategory);
 	QString GetColumnName(int nSort);
 	QString GetIncrease(bool bIncrease);
 

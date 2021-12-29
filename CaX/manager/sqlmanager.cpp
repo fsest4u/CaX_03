@@ -3,6 +3,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/sqlconstatns.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 SQLManager::SQLManager(QObject *parent)
 	: QObject(parent)
@@ -28,7 +29,7 @@ QString SQLManager::GetQueryMusicDBCategoryList(int nCategory,
 {
 
 	QString query;
-	QString category = GetCategoryName(nCategory);
+	QString category = UtilNovatron::GetCategoryName(nCategory);
 	QString column = GetColumnName(nSort);
 	QString increase = GetIncrease(bIncrease);
 
@@ -369,41 +370,6 @@ QString SQLManager::GetQueryCategoryList(int nCategory)
 	return query;
 }
 
-QString SQLManager::GetCategoryName(int nCategory)
-{
-	QString strCat;
-
-	switch(nCategory)
-	{
-	case SQLManager::CATEGORY_ALBUM:
-		strCat = KEY_ALBUM;
-		break;
-	case SQLManager::CATEGORY_ARTIST:
-		strCat = KEY_ARTIST;
-		break;
-	case SQLManager::CATEGORY_GENRE:
-		strCat = KEY_GENRE;
-		break;
-	case SQLManager::CATEGORY_COMPOSER:
-		strCat = KEY_COMPOSER;
-		break;
-	case SQLManager::CATEGORY_MOOD:
-		strCat = KEY_MOOD;
-		break;
-	case SQLManager::CATEGORY_FOLDER:
-		strCat = KEY_FOLDER;
-		break;
-	case SQLManager::CATEGORY_YEAR:
-		strCat = KEY_YEAR;
-		break;
-	default:	// Song
-		strCat = KEY_SONG;
-		break;
-	}
-
-	return strCat;
-}
-
 QString SQLManager::GetColumnName(int nSort)
 {
 	QString sort;
@@ -552,7 +518,7 @@ QString SQLManager::GetQueryUpdateCategory(int id, int category, int updateCateg
 {
 	QString query;
 
-	QString categoryName = GetCategoryName(category);
+	QString categoryName = UtilNovatron::GetCategoryName(category);
 
 
 	switch (updateCategory)

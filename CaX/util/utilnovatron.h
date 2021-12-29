@@ -18,6 +18,8 @@ public:
 	static QString GetTempDirectory();
 	static void	RemoveTempDirectory();
 	static QString ConvertURLToFilename(QString fullpath);
+	static QString GetCategoryName(int category);
+	static QString GetCategoryTitleName(int category);
 
 	static void DebugTypeForBrowser(QString title, int type);
 	static void DebugTypeForIService(QString title, int type);

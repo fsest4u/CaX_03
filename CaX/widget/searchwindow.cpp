@@ -6,6 +6,8 @@
 #include "manager/searchmanager.h"
 #include "manager/sqlmanager.h"
 
+#include "util/utilnovatron.h"
+
 #include "widget/musicdbwindow.h"
 #include "widget/formSearch/searchtrack.h"
 #include "widget/formSearch/searchtrackdelegate.h"
@@ -90,7 +92,7 @@ void SearchWindow::SlotRespAlbumList(QList<CJsonNode> list)
 {
 	ui->gridLayoutAlbum->addWidget(m_Album);
 
-	m_Album->SetTitle(m_pMgr->GetSqlMgr()->GetCategoryName(SQLManager::CATEGORY_ALBUM));
+	m_Album->SetTitle(UtilNovatron::GetCategoryName(SQLManager::CATEGORY_ALBUM));
 	m_Album->ClearNodeList();
 	m_Album->SetNodeList(list, SQLManager::CATEGORY_ALBUM);
 }
@@ -99,7 +101,7 @@ void SearchWindow::SlotRespArtistList(QList<CJsonNode> list)
 {
 	ui->gridLayoutArtist->addWidget(m_Artist);
 
-	m_Artist->SetTitle(m_pMgr->GetSqlMgr()->GetCategoryName(SQLManager::CATEGORY_ARTIST));
+	m_Artist->SetTitle(UtilNovatron::GetCategoryName(SQLManager::CATEGORY_ARTIST));
 	m_Artist->ClearNodeList();
 	m_Artist->SetNodeList(list, SQLManager::CATEGORY_ARTIST);
 }
@@ -117,7 +119,7 @@ void SearchWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 void SearchWindow::SlotReqCoverArt(int id, int index, int category)
 {
-	QString strCat = m_pMgr->GetSqlMgr()->GetCategoryName(category);
+	QString strCat = UtilNovatron::GetCategoryName(category);
 
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(id);
