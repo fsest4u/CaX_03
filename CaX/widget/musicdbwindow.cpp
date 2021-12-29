@@ -282,7 +282,6 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pIconTracks->ClearNodeList();
 	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
 	ThreadStartIcon();
@@ -329,12 +328,10 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-//	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 //	m_pIconTracks->ClearNodeList();
 //	m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
 //	ThreadStartIcon();
 
-	m_pListTracks->SetBackgroundTask(m_pListThread);
 	m_pListTracks->ClearNodeList();
 	m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
 	ThreadStartList();
@@ -479,7 +476,6 @@ void MusicDBWindow::SlotResize(int resize)
 			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
-				m_pIconTracks->SetBackgroundTask(m_pIconThread);
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, IconTracks::ICON_TRACKS_MUSIC_DB);
 				ThreadStartIcon();
@@ -494,7 +490,6 @@ void MusicDBWindow::SlotResize(int resize)
 			LogDebug("list~~~~~~~~", m_pListTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
-				m_pListTracks->SetBackgroundTask(m_pListThread);
 				m_pListTracks->ClearNodeList();
 				m_pListTracks->SetNodeList(m_RespList, ListTracks::LIST_TRACKS_MUSIC_DB);
 				ThreadStartList();
@@ -1230,6 +1225,8 @@ void MusicDBWindow::Initialize()
 
 	m_pListTracks->SetLineEditReadOnly(true);
 
+	m_pIconTracks->SetBackgroundTask(m_pIconThread);
+	m_pListTracks->SetBackgroundTask(m_pListThread);
 }
 
 void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)

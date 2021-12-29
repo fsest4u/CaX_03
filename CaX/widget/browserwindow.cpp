@@ -484,7 +484,6 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		m_pInfoBrowser->SetCoverArt(list[0].GetString(KEY_COVER_ART));
 		m_pInfoBrowser->SetTitle(m_Root);
 
-		m_pListBrowser->SetBackgroundTask(m_pListThread);
 		m_pListBrowser->ClearNodeList();
 		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
 		ThreadStartList();
@@ -742,6 +741,9 @@ void BrowserWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+
+	m_pListBrowser->SetBackgroundTask(m_pListThread);
+
 }
 
 void BrowserWindow::SetCategoryList(QList<CJsonNode> list)
