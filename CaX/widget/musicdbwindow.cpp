@@ -44,8 +44,8 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pListThread(new QThread),
 	m_EventID(eventID),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
-	m_nSortCategory(SQLManager::SORT_NAME),
-	m_nSortTrack(SQLManager::SORT_NAME),
+	m_nSortCategory(SQLManager::SORT_IMPORTED_DATE),
+	m_nSortTrack(SQLManager::SORT_IMPORTED_DATE),
 	m_bIncreaseCategory(true),
 	m_bIncreaseTrack(true),
 	m_nFavorite(0),
@@ -119,11 +119,15 @@ MusicDBWindow::~MusicDBWindow()
 
 }
 
-void MusicDBWindow::AddWidgetItem(int typeMode)
+void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 {
-	AddSortMusicDBHome();
-	m_ListMode = VIEW_MODE_ICON;
+//	AddSortMusicDBHome();
+	SetSortMenu(category);
+
 	m_TypeMode = typeMode;
+	m_nCategory = category;
+
+	m_ListMode = VIEW_MODE_ICON;
 	m_pIconTracks->GetDelegate()->SetTypeMode(m_TypeMode);
 
 	ui->gridLayoutTop->addWidget(m_pInfoHome);
@@ -145,11 +149,15 @@ void MusicDBWindow::AddWidgetItem(int typeMode)
 	}
 }
 
-void MusicDBWindow::AddWidgetTrack(int typeMode)
+void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 {
-	AddSortCategoryHome();
-	m_ListMode = VIEW_MODE_LIST;
+//	AddSortCategoryHome();
+	SetSortMenu(SQLManager::CATEGORY_TRACK);
+
 	m_TypeMode = typeMode;
+	m_nCategory = category;
+
+	m_ListMode = VIEW_MODE_LIST;
 	m_pIconTracks->GetDelegate()->SetTypeMode(m_TypeMode);
 
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
@@ -192,16 +200,16 @@ void MusicDBWindow::RequestCategoryList()
 								m_LimitCount);
 }
 
-void MusicDBWindow::RequestTrackList(int nID, int nCategory, int nSort, bool bIncrease)
+void MusicDBWindow::RequestTrackList(int nID, int nSort, bool bIncrease)
 {
 	m_nID = nID;
-	m_nCategory = nCategory;
+//	m_nCategory = nCategory;
 	m_nSortTrack = nSort;
 	m_bIncreaseTrack = bIncrease;
 
-	if (nCategory == SQLManager::CATEGORY_TRACK)
+	if (m_nCategory == SQLManager::CATEGORY_TRACK)
 	{
-		m_pInfoHome->SetTitle(m_nCategory);
+		m_pInfoTracks->SetTitle(KEY_TRACK);
 		m_pMgr->RequestMusicDBOverView();
 	}
 	else
@@ -217,15 +225,15 @@ void MusicDBWindow::RequestTrackList(int nID, int nCategory, int nSort, bool bIn
 								   m_LimitCount);
 }
 
-int MusicDBWindow::GetCategory() const
-{
-	return m_nCategory;
-}
+//int MusicDBWindow::GetCategory() const
+//{
+//	return m_nCategory;
+//}
 
-void MusicDBWindow::SetCategory(int nCategory)
-{
-	m_nCategory = nCategory;
-}
+//void MusicDBWindow::SetCategory(int nCategory)
+//{
+//	m_nCategory = nCategory;
+//}
 
 void MusicDBWindow::SlotAddWidget(QWidget *widget, QString title)
 {
@@ -254,24 +262,28 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 	QString strArtistCnt = node.GetString(KEY_ARTIST);
 	QString strGenreCnt = node.GetString(KEY_GENRE);
 
-	if (strAlbumCnt.toInt() > 0)
+
+	if (m_nCategory != SQLManager::CATEGORY_TRACK)
 	{
-		m_pInfoHome->SetAlbumCnt(strAlbumCnt);
-	}
-	if (strAlbumArtistCnt.toInt() > 0)
-	{
-		m_pInfoHome->SetAlbumArtistCnt(node.GetString(KEY_ALBUM_ARTIST));
-		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_COMPOSER);
-	}
-	if (strArtistCnt.toInt() > 0)
-	{
-		m_pInfoHome->SetArtistCnt(node.GetString(KEY_ARTIST));
-		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_ARTIST);
-	}
-	if (strGenreCnt.toInt() > 0)
-	{
-		m_pInfoHome->SetGenreCnt(node.GetString(KEY_GENRE));
-		m_pMgr->RequestClassifyList(SQLManager::CATEGORY_GENRE);
+		if (strAlbumCnt.toInt() > 0)
+		{
+			m_pInfoHome->SetAlbumCnt(strAlbumCnt);
+		}
+		if (strAlbumArtistCnt.toInt() > 0)
+		{
+			m_pInfoHome->SetAlbumArtistCnt(node.GetString(KEY_ALBUM_ARTIST));
+			m_pMgr->RequestClassifyList(SQLManager::CATEGORY_COMPOSER);
+		}
+		if (strArtistCnt.toInt() > 0)
+		{
+			m_pInfoHome->SetArtistCnt(node.GetString(KEY_ARTIST));
+			m_pMgr->RequestClassifyList(SQLManager::CATEGORY_ARTIST);
+		}
+		if (strGenreCnt.toInt() > 0)
+		{
+			m_pInfoHome->SetGenreCnt(node.GetString(KEY_GENRE));
+			m_pMgr->RequestClassifyList(SQLManager::CATEGORY_GENRE);
+		}
 	}
 }
 
@@ -526,10 +538,9 @@ void MusicDBWindow::SlotAlbumList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode);
+	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->SetCategory(SQLManager::CATEGORY_ALBUM);
 	widget->RequestCategoryList();
 }
 
@@ -539,10 +550,9 @@ void MusicDBWindow::SlotAlbumArtistList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode);
+	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_ALBUM_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->SetCategory(SQLManager::CATEGORY_ALBUM_ARTIST);
 	widget->RequestCategoryList();
 }
 
@@ -552,10 +562,9 @@ void MusicDBWindow::SlotArtistList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode);
+	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->SetCategory(SQLManager::CATEGORY_ARTIST);
 	widget->RequestCategoryList();
 }
 
@@ -565,10 +574,9 @@ void MusicDBWindow::SlotGenreList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode);
+	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_GENRE);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->SetCategory(SQLManager::CATEGORY_GENRE);
 	widget->RequestCategoryList();
 }
 
@@ -593,19 +601,18 @@ void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 	if (nCategory == SQLManager::CATEGORY_TRACK)
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-		widget->AddWidgetTrack();
+		widget->AddWidgetTrack(TYPE_MODE_TRACK, nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(-1, SQLManager::CATEGORY_TRACK);
+		widget->RequestTrackList(-1);
 		widget->SetCoverArt("");
 	}
 	else
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-		widget->AddWidgetItem(m_TypeMode);
+		widget->AddWidgetItem(m_TypeMode, nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->SetCategory(nCategory);
 		widget->RequestCategoryList();
 	}
 }
@@ -698,12 +705,12 @@ void MusicDBWindow::SlotItemRating(int nRating)
 
 void MusicDBWindow::SlotItemSortMenu(int sort)
 {
-	RequestTrackList(m_nID, m_nCategory, sort, m_bIncreaseTrack);
+	RequestTrackList(m_nID, sort, m_bIncreaseTrack);
 }
 
 void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 {
-	RequestTrackList(m_nID, m_nCategory, m_nSortCategory, bIncrease);
+	RequestTrackList(m_nID, m_nSortTrack, bIncrease);
 }
 
 void MusicDBWindow::SlotSelectPlay(int nID, int where)
@@ -775,10 +782,10 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 			ThreadTerminateList();
 
 			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-			widget->AddWidgetTrack();
+			widget->AddWidgetTrack(TYPE_MODE_TRACK, m_nCategory);
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-			widget->RequestTrackList(nID, m_nCategory);
+			widget->RequestTrackList(nID);
 			widget->SetCoverArt(coverArt);
 		}
 
@@ -789,10 +796,10 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		ThreadTerminateList();
 
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-		widget->AddWidgetTrack(TYPE_MODE_TRACK_ADD);
+		widget->AddWidgetTrack(TYPE_MODE_TRACK_ADD, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(nID, m_nCategory);
+		widget->RequestTrackList(nID);
 		widget->SetCoverArt(coverArt);
 
 		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
@@ -1018,7 +1025,7 @@ void MusicDBWindow::SlotRespUpdateCategory(int updateId)
 	{
 		m_nID = updateId;
 	}
-	RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+	RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack);
 }
 
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
@@ -1374,7 +1381,7 @@ void MusicDBWindow::DoTopMenuReload()
 
 	if (m_nCategory == SQLManager::CATEGORY_TRACK)
 	{
-		RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+		RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack);
 	}
 	else
 	{
@@ -1725,7 +1732,7 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 								   resultDialog.GetThumb());
 
 		// refresh
-		RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+		RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack);
 	}
 }
 
@@ -1743,7 +1750,7 @@ void MusicDBWindow::DoOptionMenuRename(int nID)
 		else if (m_TypeMode == TYPE_MODE_TRACK)
 		{
 			m_pMgr->RequestRenameTrack(nID, name, m_EventID);
-			RequestTrackList(m_nID, m_nCategory, m_nSortTrack, m_bIncreaseTrack);
+			RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack);
 		}
 	}
 
@@ -1773,46 +1780,78 @@ void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 	}
 }
 
-
 void MusicDBWindow::SetCoverArt(QString coverArt)
 {
 	m_pInfoTracks->SetCoverArt(coverArt);
 }
 
-void MusicDBWindow::AddSortMusicDBHome()
+void MusicDBWindow::SetSortMenu(int category)
 {
+	QString title;
 	QMap<int, QString> list;
-	list.insert(SQLManager::SORT_NAME, STR_SORT_NAME);
-	list.insert(SQLManager::SORT_ALBUM, STR_SORT_ALBUM);
-	list.insert(SQLManager::SORT_ALBUM_ARTIST, STR_SORT_ALBUM_ARTIST);
-	list.insert(SQLManager::SORT_ARTIST, STR_SORT_ARTIST);
-	list.insert(SQLManager::SORT_GENRE, STR_SORT_GENRE);
-	list.insert(SQLManager::SORT_COMPOSER, STR_SORT_COMPOSER);
-	list.insert(SQLManager::SORT_MOOD, STR_SORT_MOOD);
-	list.insert(SQLManager::SORT_FOLDER, STR_SORT_FOLDER);
-	list.insert(SQLManager::SORT_YEAR, STR_SORT_YEAR);
+	if (category == SQLManager::CATEGORY_TRACK)
+	{
+		title = STR_SORT_IMPORTED_DATE;
+		list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
+		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+		list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
 
-	m_pInfoHome->GetFormSort()->SetMenu(list);
-	m_pInfoHome->GetFormSort()->SetMenuTitle(STR_SORT_NAME);
+		m_pInfoTracks->GetFormSort()->ClearMenu();
+		m_pInfoTracks->GetFormSort()->SetMenu(list);
+		m_pInfoTracks->GetFormSort()->SetMenuTitle(title);
+	}
+	else if (category == SQLManager::CATEGORY_YEAR)
+	{
+		title = STR_SORT_ALPHABET;
+		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+
+		m_pInfoHome->GetFormSort()->ClearMenu();
+		m_pInfoHome->GetFormSort()->SetMenu(list);
+		m_pInfoHome->GetFormSort()->SetMenuTitle(title);
+	}
+	else
+	{
+		title = STR_SORT_IMPORTED_DATE;
+		list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
+		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+		list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
+		list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
+
+		m_pInfoHome->GetFormSort()->ClearMenu();
+		m_pInfoHome->GetFormSort()->SetMenu(list);
+		m_pInfoHome->GetFormSort()->SetMenuTitle(title);
+	}
 }
 
-void MusicDBWindow::AddSortCategoryHome()
-{
-	QMap<int, QString> list;
-	list.insert(SQLManager::SORT_NAME, STR_SORT_NAME);
-	list.insert(SQLManager::SORT_ALBUM, STR_SORT_ALBUM);
-	list.insert(SQLManager::SORT_ALBUM_ARTIST, STR_SORT_ALBUM_ARTIST);
-	list.insert(SQLManager::SORT_ARTIST, STR_SORT_ARTIST);
-	list.insert(SQLManager::SORT_GENRE, STR_SORT_GENRE);
-	list.insert(SQLManager::SORT_COMPOSER, STR_SORT_COMPOSER);
-	list.insert(SQLManager::SORT_MOOD, STR_SORT_MOOD);
-	list.insert(SQLManager::SORT_FOLDER, STR_SORT_FOLDER);
-	list.insert(SQLManager::SORT_YEAR, STR_SORT_YEAR);
+//void MusicDBWindow::AddSortMusicDBHome()
+//{
+//	QMap<int, QString> list;
+//	list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
+//	list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
+//	list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
+//	list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
 
-	m_pInfoTracks->GetFormSort()->SetMenu(list);
-	m_pInfoTracks->GetFormSort()->SetMenuTitle(STR_SORT_NAME);
+//	m_pInfoHome->GetFormSort()->SetMenu(list);
+//	m_pInfoHome->GetFormSort()->SetMenuTitle(STR_SORT_IMPORTED_DATE);
+//}
 
-}
+//void MusicDBWindow::AddSortCategoryHome()
+//{
+////	QMap<int, QString> list;
+////	list.insert(SQLManager::SORT_NAME, STR_SORT_NAME);
+////	list.insert(SQLManager::SORT_ALBUM, STR_SORT_ALBUM);
+////	list.insert(SQLManager::SORT_ALBUM_ARTIST, STR_SORT_ALBUM_ARTIST);
+////	list.insert(SQLManager::SORT_ARTIST, STR_SORT_ARTIST);
+////	list.insert(SQLManager::SORT_GENRE, STR_SORT_GENRE);
+////	list.insert(SQLManager::SORT_COMPOSER, STR_SORT_COMPOSER);
+////	list.insert(SQLManager::SORT_MOOD, STR_SORT_MOOD);
+////	list.insert(SQLManager::SORT_FOLDER, STR_SORT_FOLDER);
+////	list.insert(SQLManager::SORT_YEAR, STR_SORT_YEAR);
+
+////	m_pInfoTracks->GetFormSort()->SetMenu(list);
+////	m_pInfoTracks->GetFormSort()->SetMenuTitle(STR_SORT_NAME);
+
+//}
 
 void MusicDBWindow::ClearClassifyMenu()
 {

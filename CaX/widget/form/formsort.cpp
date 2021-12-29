@@ -79,6 +79,11 @@ void FormSort::ShowResize(bool show)
 	}
 }
 
+void FormSort::ClearMenu()
+{
+	m_Menu->clear();
+}
+
 void FormSort::SetMenu(QMap<int, QString> list)
 {
 	QMap<int, QString>::iterator i;

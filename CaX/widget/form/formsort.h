@@ -21,6 +21,7 @@ public:
 	void ShowIncDec(bool show = true);
 	void ShowResize(bool show = true);
 
+	void ClearMenu();
 	void SetMenu(QMap<int, QString> list);
 	void SetMenuTitle(QString title);
 

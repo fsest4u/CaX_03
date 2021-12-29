@@ -137,15 +137,17 @@
 // sort menu
 //////////////////////////////////////////////////
 
-#define STR_SORT_NAME				TR("Sorted by Name")
-#define STR_SORT_ALBUM				TR("Sorted by Album")
-#define STR_SORT_ALBUM_ARTIST		TR("Sorted by Album Artist")
-#define STR_SORT_ARTIST				TR("Sorted by Artist")
-#define STR_SORT_COMPOSER			TR("Sorted by Composer")
-#define STR_SORT_GENRE				TR("Sorted by genre")
-#define STR_SORT_MOOD				TR("Sorted by mood")
-#define STR_SORT_FOLDER				TR("Sorted by folder")
-#define STR_SORT_YEAR				TR("Sorted by year")
+// default sort (category, track)
+#define STR_SORT_IMPORTED_DATE		TR("Sorted by imported date")
+#define STR_SORT_ALPHABET			TR("Sorted by alphabet")
+#define STR_SORT_FAVORITE			TR("Sorted by favorite")
+// only category
+#define STR_SORT_RATING				TR("Sorted by rating")
+
+// by category
+#define STR_DISP_MODE_TRACK			TR("Track")
+#define STR_DISP_MODE_ALBUM			TR("Album")
+#define STR_DISP_MODE_ARTIST		TR("Artist")
 
 
 //////////////////////////////////////////////////

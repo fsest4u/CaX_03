@@ -57,24 +57,6 @@ private slots:
 
 private:
 
-	enum {
-		CATEGORY_GENRE = 0,
-		CATEGORY_MOOD,
-		CATEGORY_FOLDER,
-		CATEGORY_YEAR,
-		CATEGORY_MAX
-	};
-
-	enum {
-		SORT_GENRE = 0,
-		SORT_MOOD,
-		SORT_FOLDER,
-		SORT_YEAR,
-		SORT_RATING,
-		SORT_SAMPLE_RATE,
-		SORT_MAX
-	};
-
 	void ConnectSigToSlot();
 	void Initialize();
 

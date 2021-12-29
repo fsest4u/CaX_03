@@ -35,8 +35,8 @@ from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Album.IsDel = 0	%1 %2 %3 %4 %5 \
-group by Song.AlbumID	\
-order by Song.%6 %7	\
+group by Album.rowid	\
+order by Album.%6 %7	\
 limit %8, %9"
 
 #define SQL_ALBUM_ARTIST_LIST	"	\
@@ -49,8 +49,8 @@ select	\
 from Song	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 where AlbumArtist.IsDel = 0	%1 %2 %3 %4 %5 \
-group by Song.AlbumArtistID	\
-order by Song.%6 %7	\
+group by AlbumArtist.rowid	\
+order by AlbumArtist.%6 %7	\
 limit %8, %9"
 
 #define SQL_ARTIST_LIST	"	\
@@ -63,8 +63,8 @@ select	\
 from Song	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Artist.IsDel = 0	%1 %2 %3 %4 %5 \
-group by Song.ArtistID	\
-order by Song.%6 %7	\
+group by Artist.rowid	\
+order by Artist.%6 %7	\
 limit %8, %9"
 
 
@@ -78,8 +78,8 @@ select	\
 from Song	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 where Composer.IsDel = 0	%1 %2 %3 %4 %5 \
-group by Song.ComposerID	\
-order by Song.%6 %7	\
+group by Composer.rowid	\
+order by Composer.%6 %7	\
 limit %8, %9"
 
 #define SQL_GENRE_LIST	"	\
@@ -92,8 +92,8 @@ select	\
 from Song	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where Genre.IsDel = 0	%1 %2 %3 %4 %5 \
-group by Song.GenreID	\
-order by Song.%6 %7	\
+group by Genre.rowid	\
+order by Genre.%6 %7	\
 limit %8, %9"
 
 #define SQL_MOOD_LIST	"	\
@@ -106,8 +106,8 @@ select	\
 from Song	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Mood.IsDel = 0	%1 %2 %3 %4 %5 \
-group by Song.MoodID	\
-order by Song.%6 %7	\
+group by Mood.rowid	\
+order by Mood.%6 %7	\
 limit %8, %9"
 
 #define SQL_FOLDER_LIST	"	\
@@ -120,8 +120,8 @@ select	\
 from Song	\
 inner join Folder on Song.FolderID = Folder.ROWID	\
 where Folder.IsDel = 0	%1 %2 %3 %4 %5 \
-group by Song.FolderID	\
-order by Song.%6 %7	\
+group by Folder.rowid	\
+order by Folder.%6 %7	\
 limit %8, %9"
 
 #define SQL_YEAR_LIST	"	\

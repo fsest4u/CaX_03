@@ -84,6 +84,7 @@ QString SQLManager::GetQueryMusicDBCategoryList(int nCategory,
 		break;
 	case CATEGORY_YEAR:
 		query = QString(SQL_YEAR_LIST);
+		column = KEY_YEAR;
 		break;
 	}
 
@@ -223,7 +224,7 @@ QString SQLManager::GetQueryMusicDBTrackList(int nID,
 				.arg(column)
 				.arg(increase)
 				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(10);
 		break;
 	}
 
@@ -409,32 +410,17 @@ QString SQLManager::GetColumnName(int nSort)
 
 	switch (nSort)
 	{
-	case SORT_NAME:
-		sort = "Name";
+	case SORT_IMPORTED_DATE:
+		sort = "rowid";
 		break;
-	case SORT_ALBUM:
-		sort = "AlbumID";
+	case SORT_ALPHABET:
+		sort = "name";
 		break;
-	case SORT_ALBUM_ARTIST:
-		sort = "AlbumArtistID";
+	case SORT_FAVORITE:
+		sort = "favorite";
 		break;
-	case SORT_ARTIST:
-		sort = "ArtistID";
-		break;
-	case SORT_GENRE:
-		sort = "GenreID";
-		break;
-	case SORT_COMPOSER:
-		sort = "ComposerID";
-		break;
-	case SORT_MOOD:
-		sort = "MoodID";
-		break;
-	case SORT_FOLDER:
-		sort = "FolderID";
-		break;
-	case SORT_YEAR:
-		sort = "Year";
+	case SORT_RATING:
+		sort = "rating";
 		break;
 	}
 

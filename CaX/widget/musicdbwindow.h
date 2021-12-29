@@ -26,17 +26,17 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~MusicDBWindow();
 
-	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM);
-	void AddWidgetTrack(int typeMode = TYPE_MODE_TRACK);
+	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM, int category = SQLManager::CATEGORY_ALBUM);
+	void AddWidgetTrack(int typeMode = TYPE_MODE_TRACK, int category = SQLManager::CATEGORY_ALBUM);
 
 	void RequestCategoryList();
 	void RequestTrackList(int nID,
-							 int nCategory,
-							 int nSort = SQLManager::SORT_NAME,
+//							 int nCategory,
+							 int nSort = SQLManager::SORT_IMPORTED_DATE,
 							 bool bIncrease = true);
 
-	int GetCategory() const;
-	void SetCategory(int nCategory);
+//	int GetCategory() const;
+//	void SetCategory(int nCategory);
 
 	void SetCoverArt(QString coverArt);
 
@@ -161,8 +161,10 @@ private:
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
 
-	void AddSortMusicDBHome();
-	void AddSortCategoryHome();
+	void SetSortMenu(int category);
+
+//	void AddSortMusicDBHome();
+//	void AddSortCategoryHome();
 
 	void ClearClassifyMenu();
 

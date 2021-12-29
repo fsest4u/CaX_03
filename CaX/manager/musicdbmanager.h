@@ -22,7 +22,7 @@ public:
 
 	void RequestMusicDBOverView();
 	void RequestCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM,
-							 int nSort = SQLManager::SORT_NAME,
+							 int nSort = SQLManager::SORT_IMPORTED_DATE,
 							 bool bIncrease = true,
 							 QString artistID = "",
 							 QString genreID = "",
@@ -34,7 +34,7 @@ public:
 	void RequestCategoryOverview(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestTrackList(int nID,
 								int nCategory = SQLManager::CATEGORY_ALBUM,
-								int nSort = SQLManager::SORT_NAME,
+								int nSort = SQLManager::SORT_IMPORTED_DATE,
 								bool bIncrease = true,
 								int nStartIndex = 0,
 								int nLimitCount = 100);

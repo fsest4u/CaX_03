@@ -17,27 +17,22 @@ public:
 		CATEGORY_GENRE,
 		CATEGORY_MOOD,
 		CATEGORY_FOLDER,
-		CATEGORY_TRACK,
 		CATEGORY_YEAR,
+		CATEGORY_TRACK,
 		CATEGORY_MAX
 	};
 
 	enum {
-		SORT_NAME = 0,
-		SORT_ALBUM,
-		SORT_ALBUM_ARTIST,
-		SORT_ARTIST,
-		SORT_GENRE,
-		SORT_COMPOSER,
-		SORT_MOOD,
-		SORT_FOLDER,
-		SORT_YEAR,
+		SORT_IMPORTED_DATE = 0,
+		SORT_ALPHABET,
+		SORT_FAVORITE,
+		SORT_RATING,
 		SORT_MAX
 	};
 
 	QString GetQueryMusicDBOverview();
 	QString GetQueryMusicDBCategoryList(int nCategory = CATEGORY_ALBUM,
-								 int nSort = SORT_NAME,
+								 int nSort = SORT_IMPORTED_DATE,
 								 bool bIncrease = true,
 								 QString artistID = "",
 								 QString genreID = "",
@@ -49,7 +44,7 @@ public:
 	QString GetQueryMusicDBCategoryOverview(int nID, int nCategory = CATEGORY_ALBUM);
 	QString GetQueryMusicDBTrackList(int nID,
 									int nCategory = CATEGORY_ALBUM,
-									int nSort = SORT_NAME,
+									int nSort = SORT_IMPORTED_DATE,
 									bool bIncrease = true,
 									int nStartIndex = 0,
 									int nLimitCount = 100);
