@@ -163,9 +163,6 @@ private:
 
 	void SetSortMenu(int category);
 
-//	void AddSortMusicDBHome();
-//	void AddSortCategoryHome();
-
 	void ClearClassifyMenu();
 
 	void ThreadStartIcon();

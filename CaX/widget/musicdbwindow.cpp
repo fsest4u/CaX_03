@@ -174,9 +174,9 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 	{
 		m_pInfoTracks->GetFormPlay()->ShowPlayAll(false);
 		m_pInfoTracks->GetFormPlay()->ShowPlayRandom(false);
-		m_pInfoTracks->GetFormPlay()->ShowFavorite(false);
 	}
-	m_pInfoTracks->GetFormPlay()->ShowRating(false);
+//	m_pInfoTracks->GetFormPlay()->ShowFavorite(false);
+//	m_pInfoTracks->GetFormPlay()->ShowRating(false);
 
 	m_pListTracks->SetLineEditReadOnly(false);
 
@@ -1239,8 +1239,8 @@ void MusicDBWindow::Initialize()
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
-	m_pInfoTracks->GetFormPlay()->ShowFavorite();
-	m_pInfoTracks->GetFormPlay()->ShowRating();
+//	m_pInfoTracks->GetFormPlay()->ShowFavorite();
+//	m_pInfoTracks->GetFormPlay()->ShowRating();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 
 	m_pInfoTracks->GetFormSort()->ShowMenu();
