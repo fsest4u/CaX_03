@@ -219,7 +219,7 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
 {
 	QString strCat;
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		strCat = KEY_PLS;
 	}
@@ -252,7 +252,7 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 
 void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		ThreadTerminateIcon();
 		ThreadTerminateList();
@@ -641,7 +641,7 @@ void PlaylistWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 		m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
@@ -664,7 +664,7 @@ void PlaylistWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -851,7 +851,7 @@ void PlaylistWindow::DoTopMenuItemDeleteToPlaylist()
 void PlaylistWindow::SetOptionMenu()
 {
 	m_OptionMenuMap.clear();
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -875,7 +875,7 @@ void PlaylistWindow::SetOptionMenu()
 
 void PlaylistWindow::DoOptionMenuPlay(int nID, int where)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
@@ -889,7 +889,7 @@ void PlaylistWindow::DoOptionMenuPlay(int nID, int where)
 
 void PlaylistWindow::DoOptionMenuRename(int nID)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		InputNameDialog dialog;
 		if (dialog.exec() == QDialog::Accepted)
@@ -912,7 +912,7 @@ void PlaylistWindow::DoOptionMenuDelete(int nID)
 	QMap<int, bool> map;
 	map.insert(nID, true);
 
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		m_pMgr->RequestDeletePlaylist(map);
 
@@ -932,7 +932,7 @@ void PlaylistWindow::DoOptionMenuDelete(int nID)
 void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 {
 	m_ID = nID;
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		ThreadTerminateIcon();
 		ThreadTerminateList();

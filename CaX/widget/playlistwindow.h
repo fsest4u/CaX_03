@@ -24,7 +24,7 @@ public:
 	explicit PlaylistWindow(QWidget *parent = nullptr, const QString &addr = "");
 	~PlaylistWindow();
 
-	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM);
+	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM_TRACK);
 	void AddWidgetTrack();
 
 	void RequestPlaylist();

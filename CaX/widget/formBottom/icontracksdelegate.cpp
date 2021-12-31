@@ -81,7 +81,7 @@ void IconTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->SetID(qvariant_cast<int>(index.data(ICON_TRACKS_ID)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_TRACKS_COVER)));
 	widget->GetFormCoverArt()->SetCount(qvariant_cast<int>(index.data(ICON_TRACKS_COUNT)));
-	if (m_TypeMode == TYPE_MODE_ITEM || m_TypeMode == TYPE_MODE_TRACK)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK || m_TypeMode == TYPE_MODE_TRACK)
 	{
 		widget->GetFormCoverArt()->SetFavorite(qvariant_cast<int>(index.data(ICON_TRACKS_FAVORITE)));
 		widget->GetFormCoverArt()->SetRating(qvariant_cast<int>(index.data(ICON_TRACKS_RATING)));
@@ -101,7 +101,7 @@ void IconTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 	model->setData(index, widget->GetID(), ICON_TRACKS_ID);
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_TRACKS_COVER);
 	model->setData(index, widget->GetFormCoverArt()->GetCount(), ICON_TRACKS_COUNT);
-	if (m_TypeMode == TYPE_MODE_ITEM || m_TypeMode == TYPE_MODE_TRACK)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK || m_TypeMode == TYPE_MODE_TRACK)
 	{
 		model->setData(index, widget->GetFormCoverArt()->GetFavorite(), ICON_TRACKS_FAVORITE);
 		model->setData(index, widget->GetFormCoverArt()->GetRating(), ICON_TRACKS_RATING);

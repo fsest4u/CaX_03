@@ -182,26 +182,81 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 
 }
 
-void MusicDBWindow::RequestCategoryList()
+void MusicDBWindow::RequestCategoryList(int catID, int artistID)
 {
-	QString title = UtilNovatron::GetCategoryTitleName(m_nCategory);
+	LogDebug("m_TypeMode [%d]", m_TypeMode);
+	m_nCatID = catID;
+
+	QString title;
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
+	{
+		title = UtilNovatron::GetCategoryTitleName(m_nCategory);
+		m_pMgr->RequestCategoryList(m_nCategory,
+									m_nSortCategory,
+									m_bIncreaseCategory,
+									m_ArtistID,
+									m_GenreID,
+									m_ComposerID,
+									m_nFavorite,
+									m_nRating,
+									m_LimitCount * m_CurPage,
+									m_LimitCount);
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM)
+	{
+		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
+		m_pMgr->RequestAlbumOfCategoryList(m_nCategory,
+										   m_nSortCategory,
+										   m_bIncreaseCategory,
+										   m_ArtistID,
+										   m_GenreID,
+										   m_ComposerID,
+										   m_nFavorite,
+										   m_nRating,
+										   m_LimitCount * m_CurPage,
+										   m_LimitCount,
+										   QString("%1").arg(catID));
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
+	{
+		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
+		m_pMgr->RequestArtistOfCategoryList(m_nCategory,
+										   m_nSortCategory,
+										   m_bIncreaseCategory,
+										   m_ArtistID,
+										   m_GenreID,
+										   m_ComposerID,
+										   m_nFavorite,
+										   m_nRating,
+										   m_LimitCount * m_CurPage,
+										   m_LimitCount,
+										   QString("%1").arg(catID));
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+	{
+		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST + " / " + KEY_ALBUM;
+		m_pMgr->RequestAlbumOfArtistOfCategoryList(m_nCategory,
+									m_nSortCategory,
+									m_bIncreaseCategory,
+									m_ArtistID,
+									m_GenreID,
+									m_ComposerID,
+									m_nFavorite,
+									m_nRating,
+									m_LimitCount * m_CurPage,
+									m_LimitCount);
+	}
+
 	m_pInfoHome->SetTitle(title);
 	m_pMgr->RequestMusicDBOverView();
-	m_pMgr->RequestCategoryList(m_nCategory,
-								m_nSortCategory,
-								m_bIncreaseCategory,
-								m_ArtistID,
-								m_GenreID,
-								m_ComposerID,
-								m_nFavorite,
-								m_nRating,
-								m_LimitCount * m_CurPage,
-								m_LimitCount);
 }
 
-void MusicDBWindow::RequestTrackList(int nID, int nSort, bool bIncrease)
+void MusicDBWindow::RequestTrackList(int nID, int nSort, bool bIncrease, int catID)
 {
+	LogDebug("m_TypeMode [%d]", m_TypeMode);
+
 	m_nID = nID;
+
 //	m_nCategory = nCategory;
 	m_nSortTrack = nSort;
 	m_bIncreaseTrack = bIncrease;
@@ -216,12 +271,29 @@ void MusicDBWindow::RequestTrackList(int nID, int nSort, bool bIncrease)
 		m_pMgr->RequestCategoryOverview(m_nID, m_nCategory);
 	}
 
-	m_pMgr->RequestTrackList(m_nID,
-								   m_nCategory,
-								   m_nSortTrack,
-								   m_bIncreaseTrack,
-								   m_LimitCount * m_CurPage,
-								   m_LimitCount);
+	if (m_TypeMode == TYPE_MODE_TRACK_ALBUM)
+	{
+		m_pMgr->RequestTrackListOfAlbum(m_nID,
+										m_nCategory,
+										m_nSortTrack,
+										m_bIncreaseTrack,
+										m_LimitCount * m_CurPage,
+										m_LimitCount,
+										QString("%1").arg(catID));
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+	{
+
+	}
+	else
+	{
+		m_pMgr->RequestTrackList(m_nID,
+								 m_nCategory,
+								 m_nSortTrack,
+								 m_bIncreaseTrack,
+								 m_LimitCount * m_CurPage,
+								 m_LimitCount);
+	}
 }
 
 //int MusicDBWindow::GetCategory() const
@@ -468,9 +540,32 @@ void MusicDBWindow::SlotTopMenuAction(int menuID)
 
 void MusicDBWindow::SlotSortMenu(int menuID)
 {
-	m_nSortCategory = menuID;
-	RequestCategoryList();
-
+	if (SQLManager::SORT_IMPORTED_DATE == menuID
+			|| SQLManager::SORT_ALPHABET == menuID
+			|| SQLManager::SORT_FAVORITE == menuID
+			|| SQLManager::SORT_RATING == menuID
+			|| SQLManager::DISP_MODE_TRACK == menuID)
+	{
+		m_DispMode = menuID;
+		m_nSortCategory = menuID;
+		RequestCategoryList();
+	}
+	else if (SQLManager::DISP_MODE_ALBUM == menuID)
+	{
+		m_DispMode = menuID;
+//		m_nSortCategory = SQLManager::SORT_IMPORTED_DATE;
+//		RequestCategoryList();
+		QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
+		m_pInfoHome->SetTitle(title);
+	}
+	else if (SQLManager::DISP_MODE_ARTIST == menuID)
+	{
+		m_DispMode = menuID;
+//		m_nSortCategory = SQLManager::SORT_IMPORTED_DATE;
+//		RequestCategoryList();
+		QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
+		m_pInfoHome->SetTitle(title);
+	}
 }
 
 void MusicDBWindow::SlotIncDec(bool bIncrease)
@@ -538,11 +633,16 @@ void MusicDBWindow::SlotResize(int resize)
 				ThreadStartList();
 			}
 
-			if (m_TypeMode == TYPE_MODE_ITEM)
+			if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+					|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 			{
 				m_pListTracks->SetHeaderTitle(STR_NAME);
 			}
-			else if (m_TypeMode == TYPE_MODE_TRACK)
+			else if (m_TypeMode == TYPE_MODE_TRACK
+					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 			{
 				m_pListTracks->SetHeaderTitle(STR_TITLE);
 			}
@@ -569,7 +669,7 @@ void MusicDBWindow::SlotAlbumList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_ALBUM);
+	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->RequestCategoryList();
@@ -581,7 +681,7 @@ void MusicDBWindow::SlotAlbumArtistList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_ALBUM_ARTIST);
+	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_ALBUM_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->RequestCategoryList();
@@ -593,7 +693,7 @@ void MusicDBWindow::SlotArtistList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_ARTIST);
+	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->RequestCategoryList();
@@ -605,7 +705,7 @@ void MusicDBWindow::SlotGenreList()
 	ThreadTerminateList();
 
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->AddWidgetItem(m_TypeMode, SQLManager::CATEGORY_GENRE);
+	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_GENRE);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 	widget->RequestCategoryList();
@@ -641,7 +741,7 @@ void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 	else
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-		widget->AddWidgetItem(m_TypeMode, nCategory);
+		widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
 		widget->RequestCategoryList();
@@ -746,11 +846,16 @@ void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 
 void MusicDBWindow::SlotSelectPlay(int nID, int where)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		SlotSelectCategoryPlay(nID, where);
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		SlotSelectTrackPlay(nID, where);
 	}
@@ -801,14 +906,29 @@ void MusicDBWindow::SlotSelectPlay(int nID, int where)
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
 	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		if (m_nCategory == SQLManager::CATEGORY_TRACK)
+		if (m_DispMode == SQLManager::DISP_MODE_ALBUM)
 		{
-			SlotSelectTrackPlay(nID, PLAY_CLEAR);
+			LogDebug("### Album mode");
+			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+			widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, m_nCategory);
+			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+			widget->RequestCategoryList(nID);
+		}
+		else if (m_DispMode == SQLManager::DISP_MODE_ARTIST)
+		{
+			LogDebug("### Artist mode");
+			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+			widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST, m_nCategory);
+			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+			widget->RequestCategoryList(nID);
 		}
 		else
 		{
+			LogDebug("### Track mode");
 			ThreadTerminateIcon();
 			ThreadTerminateList();
 
@@ -819,7 +939,41 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 			widget->RequestTrackList(nID);
 			widget->SetCoverArt(coverArt);
 		}
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM)
+	{
+		LogDebug("### Track mode");
+		ThreadTerminateIcon();
+		ThreadTerminateList();
 
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM, m_nCategory);
+		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+		widget->RequestTrackList(nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID);
+		widget->SetCoverArt(coverArt);
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
+	{
+		LogDebug("### Album mode");
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST_ALBUM, m_nCategory);
+		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+		widget->RequestCategoryList(nID);
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+	{
+		LogDebug("### Track mode");
+		ThreadTerminateIcon();
+		ThreadTerminateList();
+
+		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM_ARTIST, m_nCategory);
+		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+		widget->RequestTrackList(nID);
+		widget->SetCoverArt(coverArt);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -835,6 +989,12 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 
 		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
 
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+	{
+		SlotSelectTrackPlay(nID, PLAY_CLEAR);
 	}
 
 }
@@ -859,9 +1019,19 @@ void MusicDBWindow::SlotSelectRating(int nID, int nRating)
 void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 {
 	QString strCat;
-	if (m_TypeMode == TYPE_MODE_ITEM || m_TypeMode == TYPE_MODE_ITEM_ADD)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		strCat = UtilNovatron::GetCategoryName(m_nCategory);
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			 || m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+	{
+		strCat = KEY_ALBUM;
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
+	{
+		strCat = KEY_ARTIST;
 	}
 	else
 	{
@@ -970,7 +1140,12 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 		m_ArtistID = "";
 	}
 
-	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
+//	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
+	m_nFavorite = 0;
+	m_nRating = 0;
+	m_CurPage = 0;
+	RequestCategoryList();
+
 }
 
 void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
@@ -985,7 +1160,11 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 		m_GenreID = "";
 	}
 
-	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
+//	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
+	m_nFavorite = 0;
+	m_nRating = 0;
+	m_CurPage = 0;
+	RequestCategoryList();
 }
 
 void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
@@ -1000,7 +1179,11 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 		m_ComposerID = "";
 	}
 
-	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
+//	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
+	m_nFavorite = 0;
+	m_nRating = 0;
+	m_CurPage = 0;
+	RequestCategoryList();
 }
 
 void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
@@ -1099,12 +1282,17 @@ void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 
 void MusicDBWindow::SlotTopMenuAddToPlaylist(int id)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		m_pMgr->RequestAddToPlaylist(id, m_SelectMap, m_nCategory);
 
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		m_pMgr->RequestAddToPlaylist(id, m_SelectMap, -1);
 
@@ -1116,11 +1304,16 @@ void MusicDBWindow::SlotOptionMenuAddToPlaylist(int id)
 	QMap<int, bool> map;
 	map.insert(m_nOptionID, true);
 
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		m_pMgr->RequestAddToPlaylist(id, map, m_nCategory);
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		m_pMgr->RequestAddToPlaylist(id, map, -1);
 	}
@@ -1261,10 +1454,17 @@ void MusicDBWindow::Initialize()
 	m_ComposerList.clear();
 	m_MoodList.clear();
 
+	m_ListMode = VIEW_MODE_ICON;
+	m_TypeMode = TYPE_MODE_ITEM_TRACK;
+	m_DispMode = SQLManager::DISP_MODE_TRACK;
+
 	m_pListTracks->SetLineEditReadOnly(true);
 
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pListTracks->SetBackgroundTask(m_pListThread);
+
+	m_nID = -1;
+	m_nCatID = -1;
 }
 
 void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)
@@ -1323,7 +1523,10 @@ void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)
 void MusicDBWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1333,7 +1536,9 @@ void MusicDBWindow::SetSelectOffTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1360,7 +1565,10 @@ void MusicDBWindow::SetSelectOffTopMenu()
 void MusicDBWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1371,7 +1579,9 @@ void MusicDBWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1475,7 +1685,12 @@ void MusicDBWindow::DoTopMenuGainClear()
 
 void MusicDBWindow::DoTopMenuAddToPlaylist()
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_TRACK
+			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		ThreadTerminateIcon();
 		ThreadTerminateList();
@@ -1615,7 +1830,10 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 void MusicDBWindow::SetOptionMenu()
 {
 	m_OptionMenuMap.clear();
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1628,7 +1846,9 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
@@ -1663,7 +1883,10 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 {
 	m_nOptionID = nID;
 
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		ThreadTerminateIcon();
 		ThreadTerminateList();
@@ -1675,7 +1898,9 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		ThreadTerminateIcon();
 		ThreadTerminateList();
@@ -1709,7 +1934,10 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 {
 	m_nOptionID = nID;
 
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
@@ -1720,7 +1948,9 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 
 		m_pMgr->RequestCategoryInfo(nID);
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
@@ -1773,12 +2003,17 @@ void MusicDBWindow::DoOptionMenuRename(int nID)
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		QString name = dialog.GetName();
-		if (m_TypeMode == TYPE_MODE_ITEM)
+		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 		{
 			m_pMgr->RequestRenameCategory(nID, name, m_nCategory, m_EventID);
 			RequestCategoryList();
 		}
-		else if (m_TypeMode == TYPE_MODE_TRACK)
+		else if (m_TypeMode == TYPE_MODE_TRACK
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 		{
 			m_pMgr->RequestRenameTrack(nID, name, m_EventID);
 			RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack);
@@ -1789,7 +2024,10 @@ void MusicDBWindow::DoOptionMenuRename(int nID)
 
 void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
@@ -1799,7 +2037,9 @@ void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 									  m_nCategory,
 									  m_EventID);
 	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		QMap<int, bool> map;
 		map.insert(nID, true);
@@ -1838,7 +2078,8 @@ void MusicDBWindow::SetSortMenu(int category)
 
 		if (category == SQLManager::CATEGORY_ARTIST
 				|| category == SQLManager::CATEGORY_COMPOSER
-				|| category == SQLManager::CATEGORY_MOOD)
+				|| category == SQLManager::CATEGORY_MOOD
+				|| category == SQLManager::CATEGORY_GENRE)
 		{
 			list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
 			list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
@@ -1846,16 +2087,11 @@ void MusicDBWindow::SetSortMenu(int category)
 			list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
 			list.insert(SQLManager::DISP_MODE_TRACK, STR_DISP_MODE_TRACK);
 			list.insert(SQLManager::DISP_MODE_ALBUM, STR_DISP_MODE_ALBUM);
-		}
-		else if (category == SQLManager::CATEGORY_GENRE)
-		{
-			list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
-			list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
-			list.insert(SQLManager::SORT_FAVORITE, STR_SORT_FAVORITE);
-			list.insert(SQLManager::SORT_RATING, STR_SORT_RATING);
-			list.insert(SQLManager::DISP_MODE_TRACK, STR_DISP_MODE_TRACK);
-			list.insert(SQLManager::DISP_MODE_ALBUM, STR_DISP_MODE_ALBUM);
-			list.insert(SQLManager::DISP_MODE_ARTIST, STR_DISP_MODE_ARTIST);
+
+			if (category == SQLManager::CATEGORY_GENRE)
+			{
+				list.insert(SQLManager::DISP_MODE_ARTIST, STR_DISP_MODE_ARTIST);
+			}
 		}
 		else if (category == SQLManager::CATEGORY_YEAR)
 		{

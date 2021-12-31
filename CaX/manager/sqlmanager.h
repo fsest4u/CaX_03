@@ -27,27 +27,73 @@ public:
 		SORT_ALPHABET,
 		SORT_FAVORITE,
 		SORT_RATING,
+		DISP_MODE_TRACK,
+		DISP_MODE_ALBUM,
+		DISP_MODE_ARTIST,
+		DISP_MODE_ARTIST_ALBUM,
 		SORT_MAX
 	};
 
 	QString GetQueryMusicDBOverview();
-	QString GetQueryMusicDBCategoryList(int nCategory = CATEGORY_ALBUM,
-								 int nSort = SORT_IMPORTED_DATE,
-								 bool bIncrease = true,
-								 QString artistID = "",
-								 QString genreID = "",
-								 QString composerID = "",
-								 int nFavorite = 0,
-								 int nRating = 0,
-								 int nStartIndex = 0,
-								 int nLimitCount = 100);
-	QString GetQueryMusicDBCategoryOverview(int nID, int nCategory = CATEGORY_ALBUM);
-	QString GetQueryMusicDBTrackList(int nID,
-									int nCategory = CATEGORY_ALBUM,
-									int nSort = SORT_IMPORTED_DATE,
-									bool bIncrease = true,
-									int nStartIndex = 0,
-									int nLimitCount = 100);
+	QString GetQueryCategoryListFromSong(int nCategory = CATEGORY_ALBUM,
+										 int nSort = SORT_IMPORTED_DATE,
+										 bool bIncrease = true,
+										 QString artistID = "",
+										 QString genreID = "",
+										 QString composerID = "",
+										 int nFavorite = 0,
+										 int nRating = 0,
+										 int nStartIndex = 0,
+										 int nLimitCount = 100);
+	QString GetQueryAlbumOfCategoryListFromSong(int nCategory = CATEGORY_ALBUM,
+												int nSort = SORT_IMPORTED_DATE,
+												bool bIncrease = true,
+												QString artistID = "",
+												QString genreID = "",
+												QString composerID = "",
+												int nFavorite = 0,
+												int nRating = 0,
+												int nStartIndex = 0,
+												int nLimitCount = 100,
+												QString catID = "");		// album id
+	QString GetQueryArtistOfCategoryListFromSong(int nCategory = CATEGORY_ALBUM,
+												 int nSort = SORT_IMPORTED_DATE,
+												 bool bIncrease = true,
+												 QString artistID = "",
+												 QString genreID = "",
+												 QString composerID = "",
+												 int nFavorite = 0,
+												 int nRating = 0,
+												 int nStartIndex = 0,
+												 int nLimitCount = 100,
+												 QString catID = "");		// artist id
+	QString GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory = CATEGORY_ALBUM,
+														int nSort = SORT_IMPORTED_DATE,
+														bool bIncrease = true,
+														QString artistID = "",
+														QString genreID = "",
+														QString composerID = "",
+														int nFavorite = 0,
+														int nRating = 0,
+														int nStartIndex = 0,
+														int nLimitCount = 100,
+														QString catID = "",		// genre id
+														QString catID2 = "");	// artist id
+
+	QString GetQueryCategoryOverview(int nID, int nCategory = CATEGORY_ALBUM);
+	QString GetQueryTrackList(int nID,
+							  int nCategory = CATEGORY_ALBUM,
+							  int nSort = SORT_IMPORTED_DATE,
+							  bool bIncrease = true,
+							  int nStartIndex = 0,
+							  int nLimitCount = 100);
+	QString GetQueryTrackListOfAlbum(int nID,
+									 int nCategory = CATEGORY_ALBUM,
+									 int nSort = SORT_IMPORTED_DATE,
+									 bool bIncrease = true,
+									 int nStartIndex = 0,
+									 int nLimitCount = 100,
+									 QString catID = "");
 
 	QString GetQueryPlaylist();
 	QString GetQueryPlaylistInfo(int nID);

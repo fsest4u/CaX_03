@@ -26,14 +26,15 @@ public:
 	explicit MusicDBWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~MusicDBWindow();
 
-	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM, int category = SQLManager::CATEGORY_ALBUM);
+	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM_TRACK, int category = SQLManager::CATEGORY_ALBUM);
 	void AddWidgetTrack(int typeMode = TYPE_MODE_TRACK, int category = SQLManager::CATEGORY_ALBUM);
 
-	void RequestCategoryList();
+	void RequestCategoryList(int catID = -1, int artistID = -1);
 	void RequestTrackList(int nID,
-//							 int nCategory,
-							 int nSort = SQLManager::SORT_IMPORTED_DATE,
-							 bool bIncrease = true);
+//						  int nCategory,
+						  int nSort = SQLManager::SORT_IMPORTED_DATE,
+						  bool bIncrease = true,
+						  int catID = -1);
 
 //	int GetCategory() const;
 //	void SetCategory(int nCategory);
@@ -199,6 +200,7 @@ private:
 
 	int					m_ListMode;
 	int					m_TypeMode;
+	int					m_DispMode;
 
 	int					m_EventID;
 
@@ -220,6 +222,8 @@ private:
 	int					m_CurPage;
 
 	int					m_nID;
+	int					m_nCatID;
+
 	int					m_nOptionID;
 
 

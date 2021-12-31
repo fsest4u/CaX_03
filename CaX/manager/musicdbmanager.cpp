@@ -44,16 +44,112 @@ void MusicDBManager::RequestCategoryList(int nCategory,
 										 int nStartIndex,
 										 int nLimitCount)
 {
-	QString query = m_pSql->GetQueryMusicDBCategoryList(nCategory,
-												 nSort,
-												 bIncrease,
-												 artistID,
-												 genreID,
-												 composerID,
-												 nFavorite,
-												 nRating,
-												 nStartIndex,
-												 nLimitCount);
+	QString query = m_pSql->GetQueryCategoryListFromSong(nCategory,
+														 nSort,
+														 bIncrease,
+														 artistID,
+														 genreID,
+														 composerID,
+														 nFavorite,
+														 nRating,
+														 nStartIndex,
+														 nLimitCount);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, query);
+	RequestCommand(node, MUSICDB_CATEGORY_LIST);
+}
+
+void MusicDBManager::RequestAlbumOfCategoryList(int nCategory,
+												int nSort,
+												bool bIncrease,
+												QString artistID,
+												QString genreID,
+												QString composerID,
+												int nFavorite,
+												int nRating,
+												int nStartIndex,
+												int nLimitCount,
+												QString catID)
+{
+	QString query = m_pSql->GetQueryAlbumOfCategoryListFromSong(nCategory,
+																nSort,
+																bIncrease,
+																artistID,
+																genreID,
+																composerID,
+																nFavorite,
+																nRating,
+																nStartIndex,
+																nLimitCount,
+																catID);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, query);
+	RequestCommand(node, MUSICDB_CATEGORY_LIST);
+}
+
+void MusicDBManager::RequestArtistOfCategoryList(int nCategory,
+												 int nSort,
+												 bool bIncrease,
+												 QString artistID,
+												 QString genreID,
+												 QString composerID,
+												 int nFavorite,
+												 int nRating,
+												 int nStartIndex,
+												 int nLimitCount,
+												 QString catID)
+{
+	QString query = m_pSql->GetQueryArtistOfCategoryListFromSong(nCategory,
+																 nSort,
+																 bIncrease,
+																 artistID,
+																 genreID,
+																 composerID,
+																 nFavorite,
+																 nRating,
+																 nStartIndex,
+																 nLimitCount,
+																 catID);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, query);
+	RequestCommand(node, MUSICDB_CATEGORY_LIST);
+}
+
+void MusicDBManager::RequestAlbumOfArtistOfCategoryList(int nCategory, int nSort,
+														bool bIncrease,
+														QString artistID,
+														QString genreID,
+														QString composerID,
+														int nFavorite,
+														int nRating,
+														int nStartIndex,
+														int nLimitCount)
+{
+	QString query = m_pSql->GetQueryAlbumOfArtistOfCategoryListFromSong(nCategory,
+														 nSort,
+														 bIncrease,
+														 artistID,
+														 genreID,
+														 composerID,
+														 nFavorite,
+														 nRating,
+														 nStartIndex,
+														 nLimitCount);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -71,23 +167,48 @@ void MusicDBManager::RequestCategoryOverview(int nID, int nCategory)
 	node.Add(KEY_CMD1, VAL_SONG);
 	node.Add(KEY_AS, true);
 	node.Add(KEY_AL, false);
-	node.Add(KEY_SQL, m_pSql->GetQueryMusicDBCategoryOverview(nID, nCategory));
+	node.Add(KEY_SQL, m_pSql->GetQueryCategoryOverview(nID, nCategory));
 	RequestCommand(node, MUSICDB_CATEGORY_OVERVIEW);
 }
 
 void MusicDBManager::RequestTrackList(int nID,
-											int nCategory,
-											int nSort,
-											bool bIncrease,
-											int nStartIndex,
-											int nLimitCount)
+									int nCategory,
+									int nSort,
+									bool bIncrease,
+									int nStartIndex,
+									int nLimitCount)
 {
-	QString query = m_pSql->GetQueryMusicDBTrackList(nID,
-													nCategory,
-													nSort,
-													bIncrease,
-													nStartIndex,
-													nLimitCount);
+	QString query = m_pSql->GetQueryTrackList(nID,
+											nCategory,
+											nSort,
+											bIncrease,
+											nStartIndex,
+											nLimitCount);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, query);
+	RequestCommand(node, MUSICDB_TRACK_LIST);
+}
+
+void MusicDBManager::RequestTrackListOfAlbum(int nID,
+											 int nCategory,
+											 int nSort,
+											 bool bIncrease,
+											 int nStartIndex,
+											 int nLimitCount,
+											 QString catID)
+{
+	QString query = m_pSql->GetQueryTrackListOfAlbum(nID,
+													 nCategory,
+													 nSort,
+													 bIncrease,
+													 nStartIndex,
+													 nLimitCount,
+													 catID);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);

@@ -84,9 +84,14 @@ enum
 
 enum
 {
-	TYPE_MODE_ITEM = 0,
+	TYPE_MODE_ITEM_TRACK = 0,			// category -> track
+	TYPE_MODE_ITEM_ALBUM,				// category -> album
+	TYPE_MODE_ITEM_ARTIST,				// genre -> artist
+	TYPE_MODE_ITEM_ARTIST_ALBUM,		// genre -> artist -> album
 	TYPE_MODE_ITEM_ADD,
 	TYPE_MODE_TRACK,
+	TYPE_MODE_TRACK_ALBUM,				// category -> album -> track
+	TYPE_MODE_TRACK_ALBUM_ARTIST,		// genre -> artist -> album -> track
 	TYPE_MODE_TRACK_ADD,
 	TYPE_MODE_MAX
 

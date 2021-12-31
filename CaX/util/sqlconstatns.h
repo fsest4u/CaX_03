@@ -23,7 +23,7 @@ limit 1;"
 
 // 카테고리별 목록 가져오기 --------------------------------------------------------------------------
 
-#define SQL_ALBUM_LIST	"	\
+#define SQL_ALBUM_LIST_FROM_SONG	"	\
 select	\
 	Album.ROWID as id	\
 	, Album.Name as title	\
@@ -39,7 +39,7 @@ group by Album.rowid	\
 order by Album.%6 %7	\
 limit %8, %9"
 
-#define SQL_ALBUM_ARTIST_LIST	"	\
+#define SQL_ALBUM_ARTIST_LIST_FROM_SONG	"	\
 select	\
 	AlbumArtist.ROWID as id	\
 	, AlbumArtist.Name as title	\
@@ -53,7 +53,7 @@ group by AlbumArtist.rowid	\
 order by AlbumArtist.%6 %7	\
 limit %8, %9"
 
-#define SQL_ARTIST_LIST	"	\
+#define SQL_ARTIST_LIST_FROM_SONG	"	\
 select	\
 	Artist.ROWID as id	\
 	, Artist.Name as title	\
@@ -67,8 +67,7 @@ group by Artist.rowid	\
 order by Artist.%6 %7	\
 limit %8, %9"
 
-
-#define SQL_COMPOSER_LIST	"	\
+#define SQL_COMPOSER_LIST_FROM_SONG	"	\
 select	\
 	Composer.ROWID as id	\
 	, Composer.Name as title	\
@@ -82,7 +81,7 @@ group by Composer.rowid	\
 order by Composer.%6 %7	\
 limit %8, %9"
 
-#define SQL_GENRE_LIST	"	\
+#define SQL_GENRE_LIST_FROM_SONG	"	\
 select	\
 	Genre.ROWID as id	\
 	, Genre.Name as title	\
@@ -96,7 +95,7 @@ group by Genre.rowid	\
 order by Genre.%6 %7	\
 limit %8, %9"
 
-#define SQL_MOOD_LIST	"	\
+#define SQL_MOOD_LIST_FROM_SONG	"	\
 select	\
 	Mood.ROWID as id	\
 	, Mood.Name as title	\
@@ -110,7 +109,7 @@ group by Mood.rowid	\
 order by Mood.%6 %7	\
 limit %8, %9"
 
-#define SQL_FOLDER_LIST	"	\
+#define SQL_FOLDER_LIST_FROM_SONG	"	\
 select	\
 	Folder.ROWID as id	\
 	, Folder.Name as title	\
@@ -124,7 +123,7 @@ group by Folder.rowid	\
 order by Folder.%6 %7	\
 limit %8, %9"
 
-#define SQL_YEAR_LIST	"	\
+#define SQL_YEAR_LIST_FROM_SONG	"	\
 select	\
 	Song.Year as id	\
 	, Song.Year as title	\
@@ -442,6 +441,65 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 where Song.IsDel = 0 \
 order by Song.%1 %2	\
 limit %3, %4"
+
+// --------------------------------------------------------------------------
+// 카테고리별 앨범 목록 가져오기 ------------------------------------------------
+// --------------------------------------------------------------------------
+
+#define SQL_ALBUM_OF_CAT_LIST_FROM_SONG	"	\
+select	\
+	Album.ROWID as id	\
+	, Album.Name as title	\
+	, Artist.Name as subtitle	\
+	, Album.favorite as favorite	\
+	, Album.rating as rating	\
+	, count(Album.ROWID) as count	\
+from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+where Album.IsDel = 0	%1 %2 %3 %4 %5 %10	\
+group by Album.rowid	\
+order by Album.%6 %7	\
+limit %8, %9"
+
+#define SQL_ARTIST_OF_CAT_LIST_FROM_SONG	"	\
+select	\
+	Artist.ROWID as id	\
+	, Artist.Name as title	\
+	, Artist.favorite as favorite	\
+	, Artist.rating as rating	\
+	, count(Artist.ROWID) as count	\
+from Song	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+where Artist.IsDel = 0	%1 %2 %3 %4 %5 %10	\
+group by Artist.rowid	\
+order by Artist.%6 %7	\
+limit %8, %9"
+
+// --------------------------------------------------------------------------
+// 카테고리별 앨범의 트랙 목록 가져오기 ------------------------------------------------
+// --------------------------------------------------------------------------
+
+#define SQL_TRACK_LIST_OF_ALBUM_OF_CAT_LIST	"	\
+select	\
+	Song.ROWID as id	\
+	, Song.Name as title	\
+	, Song.nov_time as time	\
+	, Artist.Name as Artist	\
+	, Album.Name as Album	\
+	, Genre.Name as Genre	\
+	, Song.favorite as favorite	\
+from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
+where Song.IsDel = 0 and Song.AlbumID = %1 %6	\
+order by Song.%2 %3	\
+limit %4, %5"
+
+// --------------------------------------------------------------------------
+// Favorite & Rating ------------------------------------------------
+// --------------------------------------------------------------------------
 
 #define SQL_UPDATE_FAVORITE_OF_ALBUM		"update Album set Favorite=%1 where Album.ROWID=%2"
 #define SQL_UPDATE_FAVORITE_OF_ALBUM_ARTIST	"update AlbumArtist set Favorite=%1 where AlbumArtist.ROWID=%2"
