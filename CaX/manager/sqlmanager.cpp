@@ -149,7 +149,7 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 	{
 		whereFavorite = QString(" and %1.Rating = %2").arg(category).arg(nRating);
 	}
-	if (!catID.isEmpty())
+	if (!catID.isEmpty() && catID.compare("-1"))
 	{
 		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
 	}
@@ -217,7 +217,7 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 	{
 		whereFavorite = QString(" and %1.Rating = %2").arg(category).arg(nRating);
 	}
-	if (!catID.isEmpty())
+	if (!catID.isEmpty() && catID.compare("-1"))
 	{
 		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
 	}
@@ -254,7 +254,69 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 																QString catID,
 																QString catID2)
 {
-	return "";
+	QString query;
+	QString category = UtilNovatron::GetCategoryName(nCategory);
+	QString column = GetColumnName(nSort);
+	QString increase = GetIncrease(bIncrease);
+
+	QString whereArtist = "";
+	QString whereGenre = "";
+	QString whereComposer = "";
+	QString whereFavorite = "";
+	QString whereRating = "";
+	QString whereCategory = "";
+	QString whereCategory2 = "";
+
+	if (!artistID.isEmpty())
+	{
+		whereArtist = " and Song.ArtistID = " + artistID;
+	}
+	if (!genreID.isEmpty())
+	{
+		whereGenre = " and Song.GenreID = " + genreID;
+	}
+	if (!composerID.isEmpty())
+	{
+		whereComposer = " and Song.ComposerID = " + composerID;
+	}
+	if (nFavorite > 0)
+	{
+		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
+	}
+	if (nRating > 0)
+	{
+		whereFavorite = QString(" and %1.Rating = %2").arg(category).arg(nRating);
+	}
+	// genre id
+	if (!catID.isEmpty() && catID.compare("-1"))
+	{
+		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
+	}
+	// artist id
+	if (!catID2.isEmpty() && catID2.compare("-1"))
+	{
+		whereCategory2 = QString (" and Song.ArtistID = %1").arg(catID2);
+	}
+
+	query = QString(SQL_ALBUM_OF_ARTIST_CAT_LIST_FROM_SONG);
+
+	query = query
+			.arg(whereArtist)
+			.arg(whereGenre)
+			.arg(whereComposer)
+			.arg(whereFavorite)
+			.arg(whereRating)
+			.arg(column)
+			.arg(increase)
+			.arg(nStartIndex)
+			.arg(nLimitCount)
+			.arg(whereCategory)
+			.arg(whereCategory2)
+			;
+
+	LogDebug("query [%s]", query.toUtf8().data());
+
+	return query;
 }
 
 QString SQLManager::GetQueryCategoryOverview(int nID, int nCategory)
@@ -400,7 +462,7 @@ QString SQLManager::GetQueryTrackListOfAlbum(int nID,
 	QString increase = GetIncrease(bIncrease);
 	QString whereCategory = "";
 
-	if (!catID.isEmpty() || catID.compare("-1"))
+	if (!catID.isEmpty() && catID.compare("-1"))
 	{
 		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
 	}
@@ -414,6 +476,48 @@ QString SQLManager::GetQueryTrackListOfAlbum(int nID,
 			.arg(nStartIndex)
 			.arg(nLimitCount)
 			.arg(whereCategory);
+
+	LogDebug("query [%s]", query.toUtf8().data());
+
+	return query;
+}
+
+QString SQLManager::GetQueryTrackListOfAlbumOfArtist(int nID,
+													 int nCategory,
+													 int nSort,
+													 bool bIncrease,
+													 int nStartIndex,
+													 int nLimitCount,
+													 QString catID,
+													 QString catID2)
+{
+	QString query;
+	QString category = UtilNovatron::GetCategoryName(nCategory);
+	QString column = GetColumnName(nSort);
+	QString increase = GetIncrease(bIncrease);
+	QString whereCategory = "";
+	QString whereCategory2 = "";
+
+	if (!catID.isEmpty() && catID.compare("-1"))
+	{
+		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
+	}
+	if (!catID2.isEmpty() && catID2.compare("-1"))
+	{
+//		whereCategory2 = QString (" and Song.%1ID = %2").arg(category).arg(catID2);
+		whereCategory2 = QString (" and Song.ArtistID = %1").arg(catID2);
+	}
+
+	query = QString(SQL_TRACK_LIST_OF_ALBUM_OF_ARTIST_OF_CAT_LIST);
+
+	query = query
+			.arg(nID)
+			.arg(column)
+			.arg(increase)
+			.arg(nStartIndex)
+			.arg(nLimitCount)
+			.arg(whereCategory)
+			.arg(whereCategory2);
 
 	LogDebug("query [%s]", query.toUtf8().data());
 

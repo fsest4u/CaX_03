@@ -29,12 +29,12 @@ public:
 	void AddWidgetItem(int typeMode = TYPE_MODE_ITEM_TRACK, int category = SQLManager::CATEGORY_ALBUM);
 	void AddWidgetTrack(int typeMode = TYPE_MODE_TRACK, int category = SQLManager::CATEGORY_ALBUM);
 
-	void RequestCategoryList(int catID = -1, int artistID = -1);
+	void RequestCategoryList(int catID = -1, int catID2 = -1);
 	void RequestTrackList(int nID,
 //						  int nCategory,
 						  int nSort = SQLManager::SORT_IMPORTED_DATE,
 						  bool bIncrease = true,
-						  int catID = -1);
+						  int catID = -1, int catID2 = -1);
 
 //	int GetCategory() const;
 //	void SetCategory(int nCategory);
@@ -223,6 +223,7 @@ private:
 
 	int					m_nID;
 	int					m_nCatID;
+	int					m_nCatID2;
 
 	int					m_nOptionID;
 

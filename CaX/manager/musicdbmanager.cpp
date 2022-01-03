@@ -138,18 +138,22 @@ void MusicDBManager::RequestAlbumOfArtistOfCategoryList(int nCategory, int nSort
 														int nFavorite,
 														int nRating,
 														int nStartIndex,
-														int nLimitCount)
+														int nLimitCount,
+														QString catID,
+														QString catID2)
 {
 	QString query = m_pSql->GetQueryAlbumOfArtistOfCategoryListFromSong(nCategory,
-														 nSort,
-														 bIncrease,
-														 artistID,
-														 genreID,
-														 composerID,
-														 nFavorite,
-														 nRating,
-														 nStartIndex,
-														 nLimitCount);
+																		nSort,
+																		bIncrease,
+																		artistID,
+																		genreID,
+																		composerID,
+																		nFavorite,
+																		nRating,
+																		nStartIndex,
+																		nLimitCount,
+																		catID,
+																		catID2);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -209,6 +213,33 @@ void MusicDBManager::RequestTrackListOfAlbum(int nID,
 													 nStartIndex,
 													 nLimitCount,
 													 catID);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, query);
+	RequestCommand(node, MUSICDB_TRACK_LIST);
+}
+
+void MusicDBManager::RequestTrackListOfAlbumOfArtist(int nID,
+													 int nCategory,
+													 int nSort,
+													 bool bIncrease,
+													 int nStartIndex,
+													 int nLimitCount,
+													 QString catID,
+													 QString catID2)
+{
+	QString query = m_pSql->GetQueryTrackListOfAlbumOfArtist(nID,
+															 nCategory,
+															 nSort,
+															 bIncrease,
+															 nStartIndex,
+															 nLimitCount,
+															 catID,
+															 catID2);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -711,7 +742,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
+//	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);

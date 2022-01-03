@@ -87,14 +87,21 @@ public:
 							  bool bIncrease = true,
 							  int nStartIndex = 0,
 							  int nLimitCount = 100);
-	QString GetQueryTrackListOfAlbum(int nID,
+	QString GetQueryTrackListOfAlbum(int nID,							// album id
 									 int nCategory = CATEGORY_ALBUM,
 									 int nSort = SORT_IMPORTED_DATE,
 									 bool bIncrease = true,
 									 int nStartIndex = 0,
 									 int nLimitCount = 100,
-									 QString catID = "");
-
+									 QString catID = "");				// category id (ex. artist, composer, mood, genre id)
+	QString GetQueryTrackListOfAlbumOfArtist(int nID,					// album id
+											 int nCategory = CATEGORY_ALBUM,
+											 int nSort = SORT_IMPORTED_DATE,
+											 bool bIncrease = true,
+											 int nStartIndex = 0,
+											 int nLimitCount = 100,
+											 QString catID = "",		// category id (ex. genre id)
+											 QString catID2 = "");		// artist id
 	QString GetQueryPlaylist();
 	QString GetQueryPlaylistInfo(int nID);
 	QString GetQueryPlaylistTrackList(int nID);

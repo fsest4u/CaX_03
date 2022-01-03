@@ -54,15 +54,17 @@ public:
 									 int nLimitCount = 100,
 									 QString catID = "");
 	void RequestAlbumOfArtistOfCategoryList(int nCategory = SQLManager::CATEGORY_ALBUM,
-							 int nSort = SQLManager::SORT_IMPORTED_DATE,
-							 bool bIncrease = true,
-							 QString artistID = "",
-							 QString genreID = "",
-							 QString composerID = "",
-							 int nFavorite = 0,
-							 int nRating = 0,
-							 int nStartIndex = 0,
-							 int nLimitCount = 100);
+											int nSort = SQLManager::SORT_IMPORTED_DATE,
+											bool bIncrease = true,
+											QString artistID = "",
+											QString genreID = "",
+											QString composerID = "",
+											int nFavorite = 0,
+											int nRating = 0,
+											int nStartIndex = 0,
+											int nLimitCount = 100,
+											QString catID = "",
+											QString catID2 = "");
 
 	void RequestCategoryOverview(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestTrackList(int nID,
@@ -78,6 +80,14 @@ public:
 								 int nStartIndex = 0,
 								 int nLimitCount = 100,
 								 QString catID = "");
+	void RequestTrackListOfAlbumOfArtist(int nID,
+										 int nCategory = SQLManager::CATEGORY_ALBUM,
+										 int nSort = SQLManager::SORT_IMPORTED_DATE,
+										 bool bIncrease = true,
+										 int nStartIndex = 0,
+										 int nLimitCount = 100,
+										 QString catID = "",
+										 QString catID2 = "");
 
 	void RequestManageCategory(QString cmd1,
 							   QMap<int, bool> idMap,

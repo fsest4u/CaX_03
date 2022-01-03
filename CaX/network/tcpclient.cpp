@@ -124,7 +124,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 		{
 			if (image.save(filename, suffix.toLatin1().data()))
 			{
-				LogDebug("file saves [%s]", filename.toUtf8().data());
+//				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename, nIndex, nMode);
 			}
 		}
