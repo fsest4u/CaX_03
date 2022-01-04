@@ -66,6 +66,7 @@
 #define		KEY_EXTENSION		"extension"
 
 #define		KEY_FAVORITE		"favorite"
+#define		KEY_FAVORITE_CAP		"Favorite"
 #define		KEY_FILES			"Files"
 #define		KEY_FILTERS			"Filters"
 #define		KEY_FM_RADIO		"FmRadio"

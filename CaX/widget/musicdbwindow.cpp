@@ -5,6 +5,7 @@
 #include "ui_musicdbwindow.h"
 
 #include "dialog/commondialog.h"
+#include "dialog/edittagdialog.h"
 #include "dialog/inputnamedialog.h"
 #include "dialog/limitcountdialog.h"
 #include "dialog/searchcoverartdialog.h"
@@ -457,6 +458,17 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 	m_pListTracks->SetNodeList(m_RespList, service);
 	ThreadStartList();
 
+}
+
+void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
+{
+	EditTagDialog dialog;
+	dialog.SetNodeList(list);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		LogDebug("good~");
+
+	}
 }
 
 void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
@@ -1410,24 +1422,21 @@ void MusicDBWindow::SlotContextMenuPlayNow()
 void MusicDBWindow::SlotContextMenuPlayLast()
 {
 	DoOptionMenuPlay(m_nID, PLAY_LAST);
-
 }
 
 void MusicDBWindow::SlotContextMenuPlayNext()
 {
 	DoOptionMenuPlay(m_nID, PLAY_NEXT);
-
 }
 
 void MusicDBWindow::SlotContextMenuPlayClear()
 {
 	DoOptionMenuPlay(m_nID, PLAY_CLEAR);
-
 }
 
 void MusicDBWindow::SlotContextMenuTagEdit()
 {
-	LogDebug("good~");
+	m_pMgr->RequestTrackListForEditTag(m_nID, m_nCategory);
 }
 
 //void MusicDBWindow::SlotEditAllArtist(QString value)
@@ -1459,6 +1468,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryOverview(CJsonNode)), this, SLOT(SlotRespCategoryOverview(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespTrackList(QList<CJsonNode>)), this, SLOT(SlotRespTrackList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespTrackListForEditTag(QList<CJsonNode>)), this, SLOT(SlotRespTrackListForEditTag(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyArtist(QList<CJsonNode>)), this, SLOT(SlotRespClassifyArtist(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyGenre(QList<CJsonNode>)), this, SLOT(SlotRespClassifyGenre(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespClassifyComposer(QList<CJsonNode>)), this, SLOT(SlotRespClassifyComposer(QList<CJsonNode>)));

@@ -73,6 +73,12 @@ public:
 								bool bIncrease = true,
 								int nStartIndex = 0,
 								int nLimitCount = 100);
+	void RequestTrackListForEditTag(int nID,
+									int nCategory = SQLManager::CATEGORY_ALBUM,
+									int nSort = SQLManager::SORT_IMPORTED_DATE,
+									bool bIncrease = true,
+									int nStartIndex = 0,
+									int nLimitCount = 10000);
 	void RequestTrackListOfAlbum(int nID,
 								 int nCategory = SQLManager::CATEGORY_ALBUM,
 								 int nSort = SQLManager::SORT_IMPORTED_DATE,
@@ -140,9 +146,10 @@ signals:
 
 	void SigRespError(QString errMsg);
 	void SigRespMusicOverview(CJsonNode node);
-	void SigRespCategoryList(QList<CJsonNode> nodeList);
+	void SigRespCategoryList(QList<CJsonNode> list);
 	void SigRespCategoryOverview(CJsonNode node);
-	void SigRespTrackList(QList<CJsonNode> nodeList);
+	void SigRespTrackList(QList<CJsonNode> list);
+	void SigRespTrackListForEditTag(QList<CJsonNode> list);
 	void SigRespClassifyArtist(QList<CJsonNode> list);
 	void SigRespClassifyGenre(QList<CJsonNode> list);
 	void SigRespClassifyComposer(QList<CJsonNode> list);
@@ -166,6 +173,7 @@ private:
 		MUSICDB_CATEGORY_LIST,
 		MUSICDB_CATEGORY_OVERVIEW,
 		MUSICDB_TRACK_LIST,
+		MUSICDB_TRACK_LIST_FOR_EDIT_TAG,
 		MUSICDB_MANAGE_CATEGORY,
 		MUSICDB_UPDATE_CATEGORY_FAVORITE,
 		MUSICDB_UPDATE_CATEGORY_RATING,
@@ -195,6 +203,7 @@ private:
 	void ParseCategoryList(CJsonNode result);
 	void ParseCategoryOverview(CJsonNode result);
 	void ParseTrackList(CJsonNode result);
+	void ParseTrackListForEditTag(CJsonNode result);
 	void ParseClassifyArtist(CJsonNode result);
 	void ParseClassifyGenre(CJsonNode result);
 	void ParseClassifyComposer(CJsonNode result);

@@ -60,6 +60,7 @@ private slots:
 	void SlotRespCategoryList(QList<CJsonNode> list);
 	void SlotRespCategoryOverview(CJsonNode node);
 	void SlotRespTrackList(QList<CJsonNode> list);
+	void SlotRespTrackListForEditTag(QList<CJsonNode> list);
 	void SlotRespClassifyArtist(QList<CJsonNode> list);
 	void SlotRespClassifyGenre(QList<CJsonNode> list);
 	void SlotRespClassifyComposer(QList<CJsonNode> list);

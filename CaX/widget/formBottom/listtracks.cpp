@@ -131,7 +131,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			int seconds = node.GetInt(KEY_TIME);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 

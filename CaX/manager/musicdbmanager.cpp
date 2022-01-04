@@ -198,6 +198,24 @@ void MusicDBManager::RequestTrackList(int nID,
 	RequestCommand(node, MUSICDB_TRACK_LIST);
 }
 
+void MusicDBManager::RequestTrackListForEditTag(int nID, int nCategory, int nSort, bool bIncrease, int nStartIndex, int nLimitCount)
+{
+	QString query = m_pSql->GetQueryTrackList(nID,
+											nCategory,
+											nSort,
+											bIncrease,
+											nStartIndex,
+											nLimitCount);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, query);
+	RequestCommand(node, MUSICDB_TRACK_LIST_FOR_EDIT_TAG);
+}
+
 void MusicDBManager::RequestTrackListOfAlbum(int nID,
 											 int nCategory,
 											 int nSort,
@@ -815,6 +833,9 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_TRACK_LIST:
 		ParseTrackList(result);
 		break;
+	case MUSICDB_TRACK_LIST_FOR_EDIT_TAG:
+		ParseTrackListForEditTag(result);
+		break;
 	case MUSICDB_CLASSIFY_ARTIST:
 		ParseClassifyArtist(result);
 		break;
@@ -894,6 +915,12 @@ void MusicDBManager::ParseTrackList(CJsonNode result)
 {
 	QList<CJsonNode> list = ParseResultNode(result);
 	emit SigRespTrackList(list);
+}
+
+void MusicDBManager::ParseTrackListForEditTag(CJsonNode result)
+{
+	QList<CJsonNode> list = ParseResultNode(result);
+	emit SigRespTrackListForEditTag(list);
 }
 
 void MusicDBManager::ParseClassifyArtist(CJsonNode result)
