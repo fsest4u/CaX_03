@@ -179,82 +179,22 @@ QLineEdit
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEditHeaderArtist">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="inputMask">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>32767</number>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="placeholderText">
+       <widget class="QLabel" name="labelHeaderArtist">
+        <property name="text">
          <string>Artist</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEditHeaderAlbum">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="inputMask">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>32767</number>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="placeholderText">
+       <widget class="QLabel" name="labelHeaderAlbum">
+        <property name="text">
          <string>Album</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEditHeaderGenre">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="inputMask">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="placeholderText">
+       <widget class="QLabel" name="labelHeaderGenre">
+        <property name="text">
          <string>Genre</string>
         </property>
        </widget>

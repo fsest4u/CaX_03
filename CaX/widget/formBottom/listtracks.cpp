@@ -275,32 +275,32 @@ void ListTracks::SetBackgroundTask(QThread *thread)
 
 void ListTracks::SetLineEditReadOnly(bool readOnly)
 {
-	if (readOnly)
-	{
-		ui->labelHeaderTime->setText("");
-		ui->lineEditHeaderArtist->setText("");
-		ui->lineEditHeaderAlbum->setText("");
-		ui->lineEditHeaderGenre->setText("");
+//	if (readOnly)
+//	{
+//		ui->labelHeaderTime->setText("");
+//		ui->lineEditHeaderArtist->setText("");
+//		ui->lineEditHeaderAlbum->setText("");
+//		ui->lineEditHeaderGenre->setText("");
 
-		ui->lineEditHeaderArtist->setPlaceholderText("");
-		ui->lineEditHeaderAlbum->setPlaceholderText("");
-		ui->lineEditHeaderGenre->setPlaceholderText("");
-	}
-	else
-	{
-		ui->labelHeaderTime->setText(KEY_TIME_CAP);
-		ui->lineEditHeaderArtist->setText("");
-		ui->lineEditHeaderAlbum->setText("");
-		ui->lineEditHeaderGenre->setText("");
+//		ui->lineEditHeaderArtist->setPlaceholderText("");
+//		ui->lineEditHeaderAlbum->setPlaceholderText("");
+//		ui->lineEditHeaderGenre->setPlaceholderText("");
+//	}
+//	else
+//	{
+//		ui->labelHeaderTime->setText(KEY_TIME_CAP);
+//		ui->lineEditHeaderArtist->setText("");
+//		ui->lineEditHeaderAlbum->setText("");
+//		ui->lineEditHeaderGenre->setText("");
 
-		ui->lineEditHeaderArtist->setPlaceholderText(STR_ARTIST);
-		ui->lineEditHeaderAlbum->setPlaceholderText(STR_ALBUM);
-		ui->lineEditHeaderGenre->setPlaceholderText(STR_GENRE);
-	}
+//		ui->lineEditHeaderArtist->setPlaceholderText(STR_ARTIST);
+//		ui->lineEditHeaderAlbum->setPlaceholderText(STR_ALBUM);
+//		ui->lineEditHeaderGenre->setPlaceholderText(STR_GENRE);
+//	}
 
-	ui->lineEditHeaderArtist->setReadOnly(readOnly);
-	ui->lineEditHeaderAlbum->setReadOnly(readOnly);
-	ui->lineEditHeaderGenre->setReadOnly(readOnly);
+//	ui->lineEditHeaderArtist->setReadOnly(readOnly);
+//	ui->lineEditHeaderAlbum->setReadOnly(readOnly);
+//	ui->lineEditHeaderGenre->setReadOnly(readOnly);
 }
 
 void ListTracks::SetHeaderTitle(QString title)
@@ -348,11 +348,11 @@ void ListTracks::ShowHeaderSampleRating(bool show)
 {
 	if (show)
 	{
-		ui->labelHeaderRating->show();
+		ui->labelHeaderSampleRate->show();
 	}
 	else
 	{
-		ui->labelHeaderRating->hide();
+		ui->labelHeaderSampleRate->hide();
 	}
 }
 
@@ -428,29 +428,29 @@ void ListTracks::SlotSelectCoverArt(int index)
 	}
 }
 
-void ListTracks::SlotEditAllArtist()
-{
-	emit SigEditAllArtist(ui->lineEditHeaderArtist->text());
-	ui->lineEditHeaderArtist->setText("");
-}
+//void ListTracks::SlotEditAllArtist()
+//{
+//	emit SigEditAllArtist(ui->lineEditHeaderArtist->text());
+//	ui->lineEditHeaderArtist->setText("");
+//}
 
-void ListTracks::SlotEditAllAlbum()
-{
-	emit SigEditAllAlbum(ui->lineEditHeaderAlbum->text());
-	ui->lineEditHeaderAlbum->setText("");
-}
+//void ListTracks::SlotEditAllAlbum()
+//{
+//	emit SigEditAllAlbum(ui->lineEditHeaderAlbum->text());
+//	ui->lineEditHeaderAlbum->setText("");
+//}
 
-void ListTracks::SlotEditAllGenre()
-{
-	emit SigEditAllGenre(ui->lineEditHeaderGenre->text());
-	ui->lineEditHeaderGenre->setText("");
-}
+//void ListTracks::SlotEditAllGenre()
+//{
+//	emit SigEditAllGenre(ui->lineEditHeaderGenre->text());
+//	ui->lineEditHeaderGenre->setText("");
+//}
 
 void ListTracks::ConnectSigToSlot()
 {
-	connect(ui->lineEditHeaderArtist, SIGNAL(returnPressed()), this, SLOT(SlotEditAllArtist()));
-	connect(ui->lineEditHeaderAlbum, SIGNAL(returnPressed()), this, SLOT(SlotEditAllAlbum()));
-	connect(ui->lineEditHeaderGenre, SIGNAL(returnPressed()), this, SLOT(SlotEditAllGenre()));
+//	connect(ui->lineEditHeaderArtist, SIGNAL(returnPressed()), this, SLOT(SlotEditAllArtist()));
+//	connect(ui->lineEditHeaderAlbum, SIGNAL(returnPressed()), this, SLOT(SlotEditAllAlbum()));
+//	connect(ui->lineEditHeaderGenre, SIGNAL(returnPressed()), this, SLOT(SlotEditAllGenre()));
 }
 
 void ListTracks::Initialize()

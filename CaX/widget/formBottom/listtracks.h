@@ -62,9 +62,9 @@ signals:
 	void SigReqCoverArt(int id, int index, int mode);
 	void SigAppendList();
 
-	void SigEditAllArtist(QString value);
-	void SigEditAllAlbum(QString value);
-	void SigEditAllGenre(QString value);
+//	void SigEditAllArtist(QString value);
+//	void SigEditAllAlbum(QString value);
+//	void SigEditAllGenre(QString value);
 
 private slots:
 
@@ -73,9 +73,9 @@ private slots:
 	void SlotScrollValueChanged(int value);
 	void SlotSelectCoverArt(int index);
 
-	void SlotEditAllArtist();
-	void SlotEditAllAlbum();
-	void SlotEditAllGenre();
+//	void SlotEditAllArtist();
+//	void SlotEditAllAlbum();
+//	void SlotEditAllGenre();
 
 private:
 

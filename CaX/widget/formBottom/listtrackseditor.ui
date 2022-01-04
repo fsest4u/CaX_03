@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1468</width>
+    <width>1693</width>
     <height>78</height>
    </rect>
   </property>
@@ -245,7 +245,7 @@ QLabel:hover
       <string>time</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
