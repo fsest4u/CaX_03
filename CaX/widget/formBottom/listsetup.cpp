@@ -81,8 +81,8 @@ void ListSetup::SetEditor(int index)
 	QModelIndex modelIndex = m_Model->index(index, 0);
 
 	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
-	QString title = qvariant_cast<QString>(item->data(ListSetupDelegate::LIST_SETUP_TITLE));
-	item->setData(title.trimmed() + " ", ListSetupDelegate::LIST_SETUP_TITLE);
+	QString nothing = qvariant_cast<QString>(item->data(ListSetupDelegate::LIST_SETUP_MAX));
+	item->setData(nothing + " ", ListSetupDelegate::LIST_SETUP_MAX);
 
 	m_ListView->openPersistentEditor(modelIndex);
 }

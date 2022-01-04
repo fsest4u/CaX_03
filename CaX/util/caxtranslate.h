@@ -127,6 +127,7 @@
 #define STR_SEARCH_ALL				TR("Search all")
 #define STR_SEARCH_COVERART   		TR("Search coverart")
 #define STR_SELECT_ALL				TR("Select all")
+#define STR_SHOW_COLUMNS			TR("Show columns")
 #define STR_TAG_EDIT           		TR("Tag edit")
 #define STR_TITLE           		TR("Title")
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1316</width>
+    <width>1695</width>
     <height>298</height>
    </rect>
   </property>
@@ -119,7 +119,7 @@ QLineEdit
        <widget class="QLabel" name="labelHeaderTitle">
         <property name="minimumSize">
          <size>
-          <width>344</width>
+          <width>200</width>
           <height>0</height>
          </size>
         </property>
@@ -130,7 +130,7 @@ QLineEdit
          </size>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>Title</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -151,24 +151,27 @@ QLineEdit
           <height>16777215</height>
          </size>
         </property>
+        <property name="text">
+         <string>Favorite</string>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="labelHeaderTime">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>0</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="text">
-         <string>-</string>
+         <string>Time</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -179,13 +182,13 @@ QLineEdit
        <widget class="QLineEdit" name="lineEditHeaderArtist">
         <property name="minimumSize">
          <size>
-          <width>210</width>
+          <width>0</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>210</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
@@ -207,13 +210,13 @@ QLineEdit
        <widget class="QLineEdit" name="lineEditHeaderAlbum">
         <property name="minimumSize">
          <size>
-          <width>210</width>
+          <width>0</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>210</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
@@ -235,13 +238,13 @@ QLineEdit
        <widget class="QLineEdit" name="lineEditHeaderGenre">
         <property name="minimumSize">
          <size>
-          <width>64</width>
+          <width>0</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>64</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
@@ -253,6 +256,69 @@ QLineEdit
         </property>
         <property name="placeholderText">
          <string>Genre</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderAlbumArtist">
+        <property name="text">
+         <string>Album artist</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderComposer">
+        <property name="text">
+         <string>Composer</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderYear">
+        <property name="text">
+         <string>Year</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderMood">
+        <property name="text">
+         <string>Mood</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderTempo">
+        <property name="text">
+         <string>Tempo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderFormat">
+        <property name="text">
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderSampleRate">
+        <property name="text">
+         <string>Sample rate</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderBitDepth">
+        <property name="text">
+         <string>Bit depth</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHeaderRating">
+        <property name="text">
+         <string>Rating</string>
         </property>
        </widget>
       </item>

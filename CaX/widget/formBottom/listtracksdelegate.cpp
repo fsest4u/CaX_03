@@ -13,6 +13,12 @@
 
 ListTracksDelegate::ListTracksDelegate()
 {
+	m_ShowMood = false;
+	m_ShowTempo = false;
+	m_ShowFormat = false;
+	m_ShowSampleRate = false;
+	m_ShowBitDepth = false;
+	m_ShowRating = false;
 }
 
 void ListTracksDelegate::SlotClickCoverArt(int index)
@@ -35,29 +41,29 @@ void ListTracksDelegate::SlotClickFavorite(int nID, int nFavorite)
 	emit SigSelectFavorite(nID, nFavorite);
 }
 
-void ListTracksDelegate::SlotClickTime(int nID)
-{
-	Q_UNUSED(nID);
-	LogDebug("click time");
-}
+//void ListTracksDelegate::SlotClickTime(int nID)
+//{
+//	Q_UNUSED(nID);
+//	LogDebug("click time");
+//}
 
-void ListTracksDelegate::SlotClickArtist(int nID)
-{
-	Q_UNUSED(nID);
-	LogDebug("click artist");
-}
+//void ListTracksDelegate::SlotClickArtist(int nID)
+//{
+//	Q_UNUSED(nID);
+//	LogDebug("click artist");
+//}
 
-void ListTracksDelegate::SlotClickAlbum(int nID)
-{
-	Q_UNUSED(nID);
-	LogDebug("click album");
-}
+//void ListTracksDelegate::SlotClickAlbum(int nID)
+//{
+//	Q_UNUSED(nID);
+//	LogDebug("click album");
+//}
 
-void ListTracksDelegate::SlotClickGenre(int nID)
-{
-	Q_UNUSED(nID);
-	LogDebug("click genre");
-}
+//void ListTracksDelegate::SlotClickGenre(int nID)
+//{
+//	Q_UNUSED(nID);
+//	LogDebug("click genre");
+//}
 
 void ListTracksDelegate::SlotMenuAction(int nID, int menuID)
 {
@@ -144,10 +150,10 @@ QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
 	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
 	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
-	connect(editor, SIGNAL(SigClickTime(int)), this, SLOT(SlotClickTime(int)));
-	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));
-	connect(editor, SIGNAL(SigClickAlbum(int)), this, SLOT(SlotClickAlbum(int)));
-	connect(editor, SIGNAL(SigClickGenre(int)), this, SLOT(SlotClickGenre(int)));
+//	connect(editor, SIGNAL(SigClickTime(int)), this, SLOT(SlotClickTime(int)));
+//	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));
+//	connect(editor, SIGNAL(SigClickAlbum(int)), this, SLOT(SlotClickAlbum(int)));
+//	connect(editor, SIGNAL(SigClickGenre(int)), this, SLOT(SlotClickGenre(int)));
 	connect(editor, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotMenuAction(int, int)));
 
 	editor->ClearMenu();
@@ -165,10 +171,28 @@ void ListTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->GetFormCoverArt()->SetIndex(qvariant_cast<int>(index.data(LIST_TRACKS_INDEX)));
 	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_TRACKS_SELECT)));
 	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_TRACKS_TITLE)));
+	widget->SetFavorite(qvariant_cast<int>(index.data(LIST_TRACKS_FAVORITE)));
 	widget->SetTime(qvariant_cast<QString>(index.data(LIST_TRACKS_TIME)));
 	widget->SetArtist(qvariant_cast<QString>(index.data(LIST_TRACKS_ARTIST)));
 	widget->SetAlbum(qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM)));
 	widget->SetGenre(qvariant_cast<QString>(index.data(LIST_TRACKS_GENRE)));
+	widget->SetAlbumArtist(qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM_ARTIST)));
+	widget->SetComposer(qvariant_cast<QString>(index.data(LIST_TRACKS_COMPOSER)));
+	widget->SetYear(qvariant_cast<QString>(index.data(LIST_TRACKS_YEAR)));
+	widget->SetMood(qvariant_cast<QString>(index.data(LIST_TRACKS_MOOD)));
+	widget->SetTempo(qvariant_cast<QString>(index.data(LIST_TRACKS_TEMPO)));
+	widget->SetFormat(qvariant_cast<QString>(index.data(LIST_TRACKS_FORMAT)));
+	widget->SetSampleRate(qvariant_cast<QString>(index.data(LIST_TRACKS_SAMPLE_RATE)));
+	widget->SetBitDepth(qvariant_cast<QString>(index.data(LIST_TRACKS_BIT_DEPTH)));
+	widget->SetRating(qvariant_cast<int>(index.data(LIST_TRACKS_RATING)));
+
+	widget->ShowMood(m_ShowMood);
+	widget->ShowTempo(m_ShowTempo);
+	widget->ShowFormat(m_ShowFormat);
+	widget->ShowSampleRate(m_ShowSampleRate);
+	widget->ShowBitDepth(m_ShowBitDepth);
+	widget->ShowRating(m_ShowRating);
+
 	widget->blockSignals(false);
 }
 
@@ -180,10 +204,20 @@ void ListTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 	model->setData(index, widget->GetFormCoverArt()->GetIndex(), LIST_TRACKS_INDEX);
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_TRACKS_SELECT);
 	model->setData(index, widget->GetTitle(), LIST_TRACKS_TITLE);
+	model->setData(index, widget->GetFavorite(), LIST_TRACKS_FAVORITE);
 	model->setData(index, widget->GetTime(), LIST_TRACKS_TIME);
 	model->setData(index, widget->GetArtist(), LIST_TRACKS_ARTIST);
 	model->setData(index, widget->GetAlbum(), LIST_TRACKS_ALBUM);
 	model->setData(index, widget->GetGenre(), LIST_TRACKS_GENRE);
+	model->setData(index, widget->GetAlbumArtist(), LIST_TRACKS_ALBUM_ARTIST);
+	model->setData(index, widget->GetComposer(), LIST_TRACKS_COMPOSER);
+	model->setData(index, widget->GetYear(), LIST_TRACKS_YEAR);
+	model->setData(index, widget->GetMood(), LIST_TRACKS_MOOD);
+	model->setData(index, widget->GetTempo(), LIST_TRACKS_TEMPO);
+	model->setData(index, widget->GetFormat(), LIST_TRACKS_FORMAT);
+	model->setData(index, widget->GetSampleRate(), LIST_TRACKS_SAMPLE_RATE);
+	model->setData(index, widget->GetBitDepth(), LIST_TRACKS_BIT_DEPTH);
+	model->setData(index, widget->GetRating(), LIST_TRACKS_RATING);
 }
 
 void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -218,3 +252,63 @@ void ListTracksDelegate::SetResize(int Resize)
 	m_Resize = Resize;
 }
 
+
+bool ListTracksDelegate::GetShowRating() const
+{
+	return m_ShowRating;
+}
+
+void ListTracksDelegate::SetShowRating(bool ShowRating)
+{
+	m_ShowRating = ShowRating;
+}
+
+bool ListTracksDelegate::GetShowBitDepth() const
+{
+	return m_ShowBitDepth;
+}
+
+void ListTracksDelegate::SetShowBitDepth(bool ShowBitDepth)
+{
+	m_ShowBitDepth = ShowBitDepth;
+}
+
+bool ListTracksDelegate::GetShowSampleRate() const
+{
+	return m_ShowSampleRate;
+}
+
+void ListTracksDelegate::SetShowSampleRate(bool ShowSampleRate)
+{
+	m_ShowSampleRate = ShowSampleRate;
+}
+
+bool ListTracksDelegate::GetShowFormat() const
+{
+	return m_ShowFormat;
+}
+
+void ListTracksDelegate::SetShowFormat(bool ShowFormat)
+{
+	m_ShowFormat = ShowFormat;
+}
+
+bool ListTracksDelegate::GetShowTempo() const
+{
+	return m_ShowTempo;
+}
+
+void ListTracksDelegate::SetShowTempo(bool ShowTempo)
+{
+	m_ShowTempo = ShowTempo;
+}
+
+bool ListTracksDelegate::GetShowMood() const
+{
+	return m_ShowMood;
+}
+
+void ListTracksDelegate::SetShowMood(bool ShowMood)
+{
+	m_ShowMood = ShowMood;
+}

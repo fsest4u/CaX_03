@@ -152,6 +152,7 @@ private:
 	void DoTopMenuItemGainClear();
 	void DoTopMenuItemAddToPlaylist();
 	void DoTopMenuItemAddFromPlaylist();
+	void DoTopMenuItemShowColumns();
 
 	void SetOptionMenu();
 

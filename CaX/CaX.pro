@@ -28,6 +28,7 @@ SOURCES += \
     dialog/searchdialog.cpp \
     dialog/selectformatdialog.cpp \
     dialog/selectnetworkinterfacedialog.cpp \
+    dialog/setcolumndialog.cpp \
     dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
@@ -149,6 +150,7 @@ HEADERS += \
     dialog/searchdialog.h \
     dialog/selectformatdialog.h \
     dialog/selectnetworkinterfacedialog.h \
+    dialog/setcolumndialog.h \
     dialog/trackinfo.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
@@ -279,6 +281,7 @@ FORMS += \
     dialog/searchdialog.ui \
     dialog/selectformatdialog.ui \
     dialog/selectnetworkinterfacedialog.ui \
+    dialog/setcolumndialog.ui \
     dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \

@@ -95,7 +95,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			index++;
 		}
 	}
-	else
+	else if (SIDEMENU_PLAYLIST == service)
 	{
 		foreach (CJsonNode node, list)
 		{
@@ -111,6 +111,43 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
+			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
+			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
+
+			m_Model->appendRow(item);
+			QModelIndex modelIndex = m_Model->indexFromItem(item);
+			m_ListView->openPersistentEditor(modelIndex);
+
+//			emit SigReqCoverArt(nID, index, QListView::ListMode);
+			index++;
+		}
+	}
+	else	// for music db
+	{
+		foreach (CJsonNode node, list)
+		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			int seconds = node.GetInt(KEY_TIME);
+			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
+
+			QStandardItem *item = new QStandardItem;
+			int nID = node.GetString(KEY_ID_LOWER).toInt();
+			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
+			item->setData(node.GetString(KEY_TITLE), ListTracksDelegate::LIST_TRACKS_TITLE);
+			item->setData(node.GetString(KEY_FAVORITE).toInt(), ListTracksDelegate::LIST_TRACKS_FAVORITE);
+			item->setData(hhmmss, ListTracksDelegate::LIST_TRACKS_TIME);
+			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
+			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
+			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
+			item->setData(node.GetString(KEY_ALBUM_ARTIST), ListTracksDelegate::LIST_TRACKS_ALBUM_ARTIST);
+			item->setData(node.GetString(KEY_COMPOSER), ListTracksDelegate::LIST_TRACKS_COMPOSER);
+			item->setData(node.GetString(KEY_YEAR), ListTracksDelegate::LIST_TRACKS_YEAR);
+			item->setData(node.GetString(KEY_MOOD), ListTracksDelegate::LIST_TRACKS_MOOD);
+			item->setData(node.GetString(KEY_TEMPO), ListTracksDelegate::LIST_TRACKS_TEMPO);
+			item->setData(node.GetString(KEY_FORMAT), ListTracksDelegate::LIST_TRACKS_FORMAT);
+			item->setData(node.GetString(KEY_SAMPLERATE_CAP), ListTracksDelegate::LIST_TRACKS_SAMPLE_RATE);
+			item->setData(node.GetString(KEY_BITRATE), ListTracksDelegate::LIST_TRACKS_BIT_DEPTH);
+			item->setData(node.GetString(KEY_RATING_CAP).toInt(), ListTracksDelegate::LIST_TRACKS_RATING);
 			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
@@ -206,7 +243,18 @@ void ListTracks::SetResize(int resize)
 		QModelIndex index = m_Model->index(i, 0);
 		m_ListView->openPersistentEditor(index);
 	}
-//	m_pLoading->Stop();
+	//	m_pLoading->Stop();
+}
+
+void ListTracks::SetEditor(int index)
+{
+	QModelIndex modelIndex = m_Model->index(index, 0);
+
+	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
+	QString nothing = qvariant_cast<QString>(item->data(ListTracksDelegate::LIST_TRACKS_MAX));
+	item->setData(nothing + " ", ListTracksDelegate::LIST_TRACKS_MAX);
+
+	m_ListView->openPersistentEditor(modelIndex);
 }
 
 QStandardItemModel *ListTracks::GetModel()
@@ -258,6 +306,78 @@ void ListTracks::SetLineEditReadOnly(bool readOnly)
 void ListTracks::SetHeaderTitle(QString title)
 {
 	ui->labelHeaderTitle->setText(title);
+}
+
+void ListTracks::ShowHeaderMood(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderMood->show();
+	}
+	else
+	{
+		ui->labelHeaderMood->hide();
+	}
+}
+
+void ListTracks::ShowHeaderTempo(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderTempo->show();
+	}
+	else
+	{
+		ui->labelHeaderTempo->hide();
+	}
+}
+
+void ListTracks::ShowHeaderFormat(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderFormat->show();
+	}
+	else
+	{
+		ui->labelHeaderFormat->hide();
+	}
+}
+
+void ListTracks::ShowHeaderSampleRating(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderRating->show();
+	}
+	else
+	{
+		ui->labelHeaderRating->hide();
+	}
+}
+
+void ListTracks::ShowHeaderBitDepth(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderBitDepth->show();
+	}
+	else
+	{
+		ui->labelHeaderBitDepth->hide();
+	}
+}
+
+void ListTracks::ShowHeaderRating(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderRating->show();
+	}
+	else
+	{
+		ui->labelHeaderRating->hide();
+	}
 }
 
 void ListTracks::SlotReqCoverArt()
@@ -348,6 +468,13 @@ void ListTracks::Initialize()
 
 	ui->labelHeaderTitle->setText(STR_TITLE);
 	ui->labelHeaderMenu->setText(STR_MENU);
+
+	ui->labelHeaderMood->hide();
+	ui->labelHeaderTempo->hide();
+	ui->labelHeaderFormat->hide();
+	ui->labelHeaderSampleRate->hide();
+	ui->labelHeaderBitDepth->hide();
+	ui->labelHeaderRating->hide();
 
 	SetLineEditReadOnly(true);
 

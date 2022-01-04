@@ -19,6 +19,11 @@
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;
 }
+QCheckBox
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
 QPushButton
 {
 	color: rgb(84, 84, 84);
@@ -101,6 +106,9 @@ color: rgb(255, 255, 255)
          <font>
           <family>Segoe UI</family>
           <pointsize>14</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">

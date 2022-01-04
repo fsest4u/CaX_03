@@ -9,6 +9,7 @@
 #include "dialog/limitcountdialog.h"
 #include "dialog/searchcoverartdialog.h"
 #include "dialog/searchcoverartresultdialog.h"
+#include "dialog/setcolumndialog.h"
 #include "dialog/trackinfodialog.h"
 #include "dialog/trackinfo.h"
 
@@ -845,6 +846,9 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 	case TOP_MENU_ADD_TO_PLAYLIST:
 		DoTopMenuItemAddToPlaylist();
 		break;
+	case TOP_MENU_SHOW_COLUMNS:
+		DoTopMenuItemShowColumns();
+		break;
 	}
 
 }
@@ -1570,6 +1574,7 @@ void MusicDBWindow::SetSelectOffTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_SHOW_COLUMNS, STR_SHOW_COLUMNS);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -1849,6 +1854,42 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 		emit SigRemoveWidget(this);
 	}
 
+}
+
+void MusicDBWindow::DoTopMenuItemShowColumns()
+{
+	SetColumnDialog dialog;
+	dialog.SetCBMood(m_pListTracks->GetDelegate()->GetShowMood());
+	dialog.SetCBTempo(m_pListTracks->GetDelegate()->GetShowTempo());
+	dialog.SetCBFormat(m_pListTracks->GetDelegate()->GetShowFormat());
+	dialog.SetCBSampleRate(m_pListTracks->GetDelegate()->GetShowSampleRate());
+	dialog.SetCBBitDepth(m_pListTracks->GetDelegate()->GetShowBitDepth());
+	dialog.SetCBRating(m_pListTracks->GetDelegate()->GetShowRating());
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		m_pListTracks->ShowHeaderMood(dialog.GetCBMood());
+		m_pListTracks->ShowHeaderTempo(dialog.GetCBTempo());
+		m_pListTracks->ShowHeaderFormat(dialog.GetCBFormat());
+		m_pListTracks->ShowHeaderSampleRating(dialog.GetCBSampleRate());
+		m_pListTracks->ShowHeaderBitDepth(dialog.GetCBBitDepth());
+		m_pListTracks->ShowHeaderRating(dialog.GetCBRating());
+
+		m_pListTracks->GetDelegate()->SetShowMood(dialog.GetCBMood());
+		m_pListTracks->GetDelegate()->SetShowTempo(dialog.GetCBTempo());
+		m_pListTracks->GetDelegate()->SetShowFormat(dialog.GetCBFormat());
+		m_pListTracks->GetDelegate()->SetShowSampleRate(dialog.GetCBSampleRate());
+		m_pListTracks->GetDelegate()->SetShowBitDepth(dialog.GetCBBitDepth());
+		m_pListTracks->GetDelegate()->SetShowRating(dialog.GetCBRating());
+
+		// change value
+		{
+			int count = m_pListTracks->GetModel()->rowCount();
+			for (int i = 0; i < count; i++)
+			{
+				m_pListTracks->SetEditor(i);
+			}
+		}
+	}
 }
 
 

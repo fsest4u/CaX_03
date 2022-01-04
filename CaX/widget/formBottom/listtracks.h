@@ -40,6 +40,8 @@ public:
 
 	void SetResize(int resize);
 
+	void SetEditor(int index);
+
 	QStandardItemModel	*GetModel();
 	ListTracksDelegate	*GetDelegate();
 
@@ -47,6 +49,13 @@ public:
 	void SetLineEditReadOnly(bool readOnly);
 
 	void SetHeaderTitle(QString title);
+
+	void ShowHeaderMood(bool show);
+	void ShowHeaderTempo(bool show);
+	void ShowHeaderFormat(bool show);
+	void ShowHeaderSampleRating(bool show);
+	void ShowHeaderBitDepth(bool show);
+	void ShowHeaderRating(bool show);
 
 signals:
 

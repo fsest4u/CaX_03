@@ -66,10 +66,10 @@ int ListTracksEditor::GetFavorite() const
 	return m_Favorite;
 }
 
-void ListTracksEditor::SetFavorite(int Favorite)
+void ListTracksEditor::SetFavorite(int value)
 {
-	ui->labelFavorite->show();
-	m_Favorite = Favorite;
+//	ui->labelFavorite->show();
+	m_Favorite = value;
 
 	QString style;
 
@@ -105,9 +105,9 @@ QString ListTracksEditor::GetTime()
 	return ui->labelTime->text();
 }
 
-void ListTracksEditor::SetTime(const QString &time)
+void ListTracksEditor::SetTime(const QString &title)
 {
-	ui->labelTime->setText(time);
+	ui->labelTime->setText(title);
 }
 
 QString ListTracksEditor::GetArtist()
@@ -115,9 +115,9 @@ QString ListTracksEditor::GetArtist()
 	return ui->labelArtist->text();
 }
 
-void ListTracksEditor::SetArtist(const QString &artist)
+void ListTracksEditor::SetArtist(const QString &title)
 {
-	ui->labelArtist->setText(artist);
+	ui->labelArtist->setText(title);
 }
 
 QString ListTracksEditor::GetAlbum()
@@ -125,9 +125,9 @@ QString ListTracksEditor::GetAlbum()
 	return ui->labelAlbum->text();
 }
 
-void ListTracksEditor::SetAlbum(const QString &album)
+void ListTracksEditor::SetAlbum(const QString &title)
 {
-	ui->labelAlbum->setText(album);
+	ui->labelAlbum->setText(title);
 }
 
 QString ListTracksEditor::GetGenre()
@@ -135,9 +135,175 @@ QString ListTracksEditor::GetGenre()
 	return ui->labelGenre->text();
 }
 
-void ListTracksEditor::SetGenre(const QString &genre)
+void ListTracksEditor::SetGenre(const QString &title)
 {
-	ui->labelGenre->setText(genre);
+	ui->labelGenre->setText(title);
+}
+
+QString ListTracksEditor::GetAlbumArtist()
+{
+	return ui->labelAlbumArtist->text();
+}
+
+void ListTracksEditor::SetAlbumArtist(const QString &title)
+{
+	ui->labelAlbumArtist->setText(title);
+}
+
+QString ListTracksEditor::GetComposer()
+{
+	return ui->labelComposer->text();
+}
+
+void ListTracksEditor::SetComposer(const QString &title)
+{
+	ui->labelComposer->setText(title);
+}
+
+QString ListTracksEditor::GetYear()
+{
+	return ui->labelYear->text();
+}
+
+void ListTracksEditor::SetYear(const QString &title)
+{
+	ui->labelYear->setText(title);
+}
+
+QString ListTracksEditor::GetMood()
+{
+	return ui->labelMood->text();
+}
+
+void ListTracksEditor::SetMood(const QString &title)
+{
+	ui->labelMood->setText(title);
+}
+
+void ListTracksEditor::ShowMood(bool show)
+{
+	if (show)
+	{
+		ui->labelMood->show();
+	}
+	else
+	{
+		ui->labelMood->hide();
+	}
+}
+
+QString ListTracksEditor::GetTempo()
+{
+	return ui->labelTempo->text();
+}
+
+void ListTracksEditor::SetTempo(const QString &title)
+{
+	ui->labelTempo->setText(title);
+}
+
+void ListTracksEditor::ShowTempo(bool show)
+{
+	if (show)
+	{
+		ui->labelTempo->show();
+	}
+	else
+	{
+		ui->labelTempo->hide();
+	}
+}
+
+QString ListTracksEditor::GetFormat()
+{
+	return ui->labelFormat->text();
+}
+
+void ListTracksEditor::SetFormat(const QString &title)
+{
+	ui->labelFormat->setText(title);
+}
+
+void ListTracksEditor::ShowFormat(bool show)
+{
+	if (show)
+	{
+		ui->labelFormat->show();
+	}
+	else
+	{
+		ui->labelFormat->hide();
+	}
+}
+
+QString ListTracksEditor::GetSampleRate()
+{
+	return ui->labelSampleRate->text();
+}
+
+void ListTracksEditor::SetSampleRate(const QString &title)
+{
+	ui->labelSampleRate->setText(title);
+}
+
+void ListTracksEditor::ShowSampleRate(bool show)
+{
+	if (show)
+	{
+		ui->labelSampleRate->show();
+	}
+	else
+	{
+		ui->labelSampleRate->hide();
+	}
+}
+
+QString ListTracksEditor::GetBitDepth()
+{
+	return ui->labelBitDepth->text();
+}
+
+void ListTracksEditor::SetBitDepth(const QString &title)
+{
+	ui->labelBitDepth->setText(title);
+}
+
+void ListTracksEditor::ShowBitDepth(bool show)
+{
+	if (show)
+	{
+		ui->labelBitDepth->show();
+	}
+	else
+	{
+		ui->labelBitDepth->hide();
+	}
+}
+
+int ListTracksEditor::GetRating() const
+{
+	return m_Rating;
+}
+
+void ListTracksEditor::SetRating(int value)
+{
+	m_Rating = value;
+
+	// temp_code
+	ui->labelRating->setText(QString("%1").arg(value));
+
+}
+
+void ListTracksEditor::ShowRating(bool show)
+{
+	if (show)
+	{
+		ui->labelRating->show();
+	}
+	else
+	{
+		ui->labelRating->hide();
+	}
 }
 
 void ListTracksEditor::ClearMenu()
@@ -187,22 +353,22 @@ bool ListTracksEditor::eventFilter(QObject *object, QEvent *event)
 			}
 			emit SigClickFavorite(m_ID, m_Favorite);
 		}
-		else if (object == ui->labelTime)
-		{
-			emit SigClickTime(m_ID);
-		}
-		else if (object == ui->labelArtist)
-		{
-			emit SigClickArtist(m_ID);
-		}
-		else if (object == ui->labelAlbum)
-		{
-			emit SigClickAlbum(m_ID);
-		}
-		else if (object == ui->labelGenre)
-		{
-			emit SigClickGenre(m_ID);
-		}
+//		else if (object == ui->labelTime)
+//		{
+//			emit SigClickTime(m_ID);
+//		}
+//		else if (object == ui->labelArtist)
+//		{
+//			emit SigClickArtist(m_ID);
+//		}
+//		else if (object == ui->labelAlbum)
+//		{
+//			emit SigClickAlbum(m_ID);
+//		}
+//		else if (object == ui->labelGenre)
+//		{
+//			emit SigClickGenre(m_ID);
+//		}
 
 	}
 
@@ -251,15 +417,20 @@ void ListTracksEditor::Initialize()
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
 
-	ui->labelFavorite->hide();
+	ui->labelMood->hide();
+	ui->labelTempo->hide();
+	ui->labelFormat->hide();
+	ui->labelSampleRate->hide();
+	ui->labelBitDepth->hide();
+	ui->labelRating->hide();
 
 	ui->labelPlay->installEventFilter(this);
 	ui->labelTitle->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
-	ui->labelTime->installEventFilter(this);
-	ui->labelArtist->installEventFilter(this);
-	ui->labelAlbum->installEventFilter(this);
-	ui->labelGenre->installEventFilter(this);
+//	ui->labelTime->installEventFilter(this);
+//	ui->labelArtist->installEventFilter(this);
+//	ui->labelAlbum->installEventFilter(this);
+//	ui->labelGenre->installEventFilter(this);
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 

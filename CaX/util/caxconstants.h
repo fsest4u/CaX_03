@@ -233,6 +233,7 @@ enum
 	// common - bottom
 //	TOP_MENU_EDIT_TAG, -> move to option menu
 	TOP_MENU_SEARCH_COVER_ART,
+	TOP_MENU_SHOW_COLUMNS,
 
 	TOP_MENU_MAX
 };

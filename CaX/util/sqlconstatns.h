@@ -158,15 +158,27 @@ where Song.IsDel = 0 and Song.AlbumID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -193,15 +205,27 @@ where Song.IsDel = 0 and Song.AlbumArtistID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumArtistID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -227,15 +251,27 @@ where Song.IsDel = 0 and Song.ArtistID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.ArtistID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -262,15 +298,27 @@ where Song.IsDel = 0 and Song.ComposerID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.ComposerID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -297,15 +345,27 @@ where Song.IsDel = 0 and Song.GenreID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.GenreID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -332,15 +392,27 @@ where Song.IsDel = 0 and Song.MoodID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.MoodID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -367,15 +439,27 @@ where Song.IsDel = 0 and Song.FolderID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.FolderID = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -399,15 +483,27 @@ where Song.IsDel = 0 and Song.Year = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.Year = %1	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -429,15 +525,27 @@ where Song.IsDel = 0	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 \
 order by Song.%1 %2	\
 limit %3, %4"
@@ -500,15 +608,27 @@ limit %8, %9"
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1 %6	\
 order by Song.%2 %3	\
 limit %4, %5"
@@ -517,15 +637,27 @@ limit %4, %5"
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
+	, Song.Favorite as Favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
-	, Song.favorite as favorite	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Composer.Name as Composer	\
+	, Song.Year as Year	\
+	, Mood.Name as Mood	\
+	, Song.Tempo as Tempo	\
+	, Song.FileName as Format	\
+	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Bitrate as BitRate	\
+	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Composer on Song.ComposerID = Composer.ROWID	\
+inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1 %6 %7	\
 order by Song.%2 %3	\
 limit %4, %5"

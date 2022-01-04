@@ -144,6 +144,7 @@
 #define		KEY_QOBUZ_MENU		"QobuzMenu"
 
 #define		KEY_RATING			"rating"
+#define		KEY_RATING_CAP		"Rating"
 #define		KEY_RECORD			"Record"
 #define		KEY_RECORDABLE		"Recordable"
 #define		KEY_REPEAT			"Repeat"
