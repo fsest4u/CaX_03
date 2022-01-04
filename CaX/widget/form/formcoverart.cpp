@@ -265,7 +265,12 @@ bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
 //		}
 		else if (object == ui->frameCoverArt)
 		{
-			emit SigCoverArt(m_Index);
+			if (((QMouseEvent*)event)->button() == Qt::LeftButton)
+			{
+				emit SigCoverArt(m_Index);
+				return true;
+			}
+
 			return true;
 		}
 

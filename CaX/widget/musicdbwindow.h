@@ -122,9 +122,16 @@ private slots:
 
 	void SlotAddTrackFromPlaylist(QMap<int, bool> idMap);
 
-	void SlotEditAllArtist(QString value);
-	void SlotEditAllAlbum(QString value);
-	void SlotEditAllGenre(QString value);
+	void SlotContextMenu(QPoint point);
+	void SlotContextMenuPlayNow();
+	void SlotContextMenuPlayLast();
+	void SlotContextMenuPlayNext();
+	void SlotContextMenuPlayClear();
+	void SlotContextMenuTagEdit();
+
+//	void SlotEditAllArtist(QString value);
+//	void SlotEditAllAlbum(QString value);
+//	void SlotEditAllGenre(QString value);
 
 private:
 

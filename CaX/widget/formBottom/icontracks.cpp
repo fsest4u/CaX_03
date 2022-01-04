@@ -219,6 +219,11 @@ void IconTracks::SetResize(int resize)
 //	m_pLoading->Stop();
 }
 
+QListView *IconTracks::GetListView()
+{
+	return m_ListView;
+}
+
 QStandardItemModel *IconTracks::GetModel()
 {
 	return m_Model;
@@ -291,6 +296,7 @@ void IconTracks::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 //	m_ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	m_ListView->setViewMode(QListView::IconMode);
+	m_ListView->setContextMenuPolicy(Qt::CustomContextMenu);
 	SetResize(ICON_HEIGHT_MAX);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();

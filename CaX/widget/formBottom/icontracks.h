@@ -40,6 +40,7 @@ public:
 
 	void SetResize(int resize);
 
+	QListView			*GetListView();
 	QStandardItemModel	*GetModel();
 	IconTracksDelegate	*GetDelegate();
 

@@ -1290,7 +1290,7 @@ void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 	case OPTION_MENU_ADD_TO_PLAYLIST:
 		DoOptionMenuAddToPlaylist(nID);
 		break;
-	case OPTION_MENU_INFO:
+	case OPTION_MENU_TAG_EDIT:
 		DoOptionMenuInfo(nID);
 		break;
 	case OPTION_MENU_SEARCH_COVER_ART:
@@ -1354,23 +1354,99 @@ void MusicDBWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
 	emit SigRemoveWidget(this);
 }
 
-void MusicDBWindow::SlotEditAllArtist(QString value)
+void MusicDBWindow::SlotContextMenu(QPoint point)
 {
-	LogDebug("edit artist [%s]", value.toUtf8().data());
-	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_ARTIST, value);
+	QModelIndex modelIndex = m_pIconTracks->GetListView()->indexAt(point);
+	QStandardItem *item = m_pIconTracks->GetModel()->itemFromIndex(modelIndex);
+	m_nID = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
+	int index = modelIndex.row();
+
+	LogDebug("index [%d] id [%d]", index, m_nID);
+
+	QAction *actionPlayNow = new QAction(STR_PLAY_NOW, this);
+	QAction *actionPlayLast = new QAction(STR_PLAY_LAST, this);
+	QAction *actionPlayNext = new QAction(STR_PLAY_NEXT, this);
+	QAction *actionPlayClear = new QAction(STR_PLAY_CLEAR, this);
+	QAction *actionTagEdit = new QAction(STR_TAG_EDIT, this);
+
+	connect(actionPlayNow, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayNow()));
+	connect(actionPlayLast, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayLast()));
+	connect(actionPlayNext, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayNext()));
+	connect(actionPlayClear, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayClear()));
+	connect(actionTagEdit, SIGNAL(triggered()), this, SLOT(SlotContextMenuTagEdit()));
+
+	QMenu *menu=new QMenu(this);
+	menu->addAction(actionPlayNow);
+	menu->addAction(actionPlayLast);
+	menu->addAction(actionPlayNext);
+	menu->addAction(actionPlayClear);
+	menu->addAction(actionTagEdit);
+
+	menu->popup(m_pIconTracks->GetListView()->viewport()->mapToGlobal(point));
+
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	menu->setStyleSheet(style);
+
 }
 
-void MusicDBWindow::SlotEditAllAlbum(QString value)
+void MusicDBWindow::SlotContextMenuPlayNow()
 {
-	LogDebug("edit album [%s]", value.toUtf8().data());
-	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_ALBUM, value);
+	DoOptionMenuPlay(m_nID, PLAY_NOW);
 }
 
-void MusicDBWindow::SlotEditAllGenre(QString value)
+void MusicDBWindow::SlotContextMenuPlayLast()
 {
-	LogDebug("edit genre [%s]", value.toUtf8().data());
-	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_GENRE, value);
+	DoOptionMenuPlay(m_nID, PLAY_LAST);
+
 }
+
+void MusicDBWindow::SlotContextMenuPlayNext()
+{
+	DoOptionMenuPlay(m_nID, PLAY_NEXT);
+
+}
+
+void MusicDBWindow::SlotContextMenuPlayClear()
+{
+	DoOptionMenuPlay(m_nID, PLAY_CLEAR);
+
+}
+
+void MusicDBWindow::SlotContextMenuTagEdit()
+{
+	LogDebug("good~");
+}
+
+//void MusicDBWindow::SlotEditAllArtist(QString value)
+//{
+//	LogDebug("edit artist [%s]", value.toUtf8().data());
+//	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_ARTIST, value);
+//}
+
+//void MusicDBWindow::SlotEditAllAlbum(QString value)
+//{
+//	LogDebug("edit album [%s]", value.toUtf8().data());
+//	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_ALBUM, value);
+//}
+
+//void MusicDBWindow::SlotEditAllGenre(QString value)
+//{
+//	LogDebug("edit genre [%s]", value.toUtf8().data());
+//	m_pMgr->RequestCheckCategory(m_nID, m_nCategory, SQLManager::CATEGORY_GENRE, value);
+//}
 
 void MusicDBWindow::ConnectSigToSlot()
 {
@@ -1433,17 +1509,19 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pIconTracks->GetListView(), SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(SlotContextMenu(QPoint)));
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
-	connect(m_pListTracks, SIGNAL(SigEditAllArtist(QString)), this, SLOT(SlotEditAllArtist(QString)));
-	connect(m_pListTracks, SIGNAL(SigEditAllAlbum(QString)), this, SLOT(SlotEditAllAlbum(QString)));
-	connect(m_pListTracks, SIGNAL(SigEditAllGenre(QString)), this, SLOT(SlotEditAllGenre(QString)));
+//	connect(m_pListTracks, SIGNAL(SigEditAllArtist(QString)), this, SLOT(SlotEditAllArtist(QString)));
+//	connect(m_pListTracks, SIGNAL(SigEditAllAlbum(QString)), this, SLOT(SlotEditAllAlbum(QString)));
+//	connect(m_pListTracks, SIGNAL(SigEditAllGenre(QString)), this, SLOT(SlotEditAllGenre(QString)));
 
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
+
 
 
 }
@@ -1911,7 +1989,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_TAG_EDIT);
+		m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
@@ -1926,7 +2004,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_INFO, STR_TAG_EDIT);
+		m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
