@@ -39,6 +39,18 @@ public:
 	int GetResize() const;
 	void SetResize(int Resize);
 
+	bool GetShowFavorite() const;
+	void SetShowFavorite(bool ShowFavorite);
+
+	bool GetShowAlbumArtist() const;
+	void SetShowAlbumArtist(bool ShowAlbumArtist);
+
+	bool GetShowComposer() const;
+	void SetShowComposer(bool ShowComposer);
+
+	bool GetShowYear() const;
+	void SetShowYear(bool ShowYear);
+
 	bool GetShowMood() const;
 	void SetShowMood(bool ShowMood);
 
@@ -90,6 +102,11 @@ private:
 	QMap<int, QString> m_OptionMenuMap;
 
 	int					m_Resize;
+
+	bool m_ShowFavorite;
+	bool m_ShowAlbumArtist;
+	bool m_ShowComposer;
+	bool m_ShowYear;
 
 	bool m_ShowMood;
 	bool m_ShowTempo;

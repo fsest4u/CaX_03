@@ -1492,6 +1492,11 @@ void MusicDBWindow::Initialize()
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pListTracks->SetBackgroundTask(m_pListThread);
 
+	m_pListTracks->GetDelegate()->SetShowFavorite(true);
+	m_pListTracks->GetDelegate()->SetShowAlbumArtist(true);
+	m_pListTracks->GetDelegate()->SetShowComposer(true);
+	m_pListTracks->GetDelegate()->SetShowYear(true);
+
 	m_nID = -1;
 	m_nCatID = -1;
 }

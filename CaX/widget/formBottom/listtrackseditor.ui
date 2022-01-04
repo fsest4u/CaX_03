@@ -115,7 +115,7 @@ QLabel:hover
      </property>
      <property name="maximumSize">
       <size>
-       <width>344</width>
+       <width>200</width>
        <height>16777215</height>
       </size>
      </property>

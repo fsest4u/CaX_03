@@ -124,6 +124,11 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 	}
 	else	// for music db
 	{
+		ui->frameFavorite->show();
+		ui->labelHeaderAlbumArtist->show();
+		ui->labelHeaderComposer->show();
+		ui->labelHeaderYear->show();
+
 		foreach (CJsonNode node, list)
 		{
 			LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -469,6 +474,13 @@ void ListTracks::Initialize()
 	ui->labelHeaderTitle->setText(STR_TITLE);
 	ui->labelHeaderMenu->setText(STR_MENU);
 
+	// only music db
+	ui->frameFavorite->hide();
+	ui->labelHeaderAlbumArtist->hide();
+	ui->labelHeaderComposer->hide();
+	ui->labelHeaderYear->hide();
+
+	// option
 	ui->labelHeaderMood->hide();
 	ui->labelHeaderTempo->hide();
 	ui->labelHeaderFormat->hide();

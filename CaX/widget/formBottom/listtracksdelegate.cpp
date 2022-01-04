@@ -13,6 +13,11 @@
 
 ListTracksDelegate::ListTracksDelegate()
 {
+	m_ShowFavorite = false;
+	m_ShowAlbumArtist = false;
+	m_ShowComposer = false;
+	m_ShowYear = false;
+
 	m_ShowMood = false;
 	m_ShowTempo = false;
 	m_ShowFormat = false;
@@ -186,6 +191,11 @@ void ListTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->SetBitDepth(qvariant_cast<QString>(index.data(LIST_TRACKS_BIT_DEPTH)));
 	widget->SetRating(qvariant_cast<int>(index.data(LIST_TRACKS_RATING)));
 
+	widget->ShowFavorite(m_ShowFavorite);
+	widget->ShowAlbumArtist(m_ShowAlbumArtist);
+	widget->ShowComposer(m_ShowComposer);
+	widget->ShowYear(m_ShowYear);
+
 	widget->ShowMood(m_ShowMood);
 	widget->ShowTempo(m_ShowTempo);
 	widget->ShowFormat(m_ShowFormat);
@@ -230,6 +240,46 @@ void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptio
 
 	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
 	widget->setGeometry(rect);
+}
+
+bool ListTracksDelegate::GetShowFavorite() const
+{
+	return m_ShowFavorite;
+}
+
+void ListTracksDelegate::SetShowFavorite(bool ShowFavorite)
+{
+	m_ShowFavorite = ShowFavorite;
+}
+
+bool ListTracksDelegate::GetShowYear() const
+{
+	return m_ShowYear;
+}
+
+void ListTracksDelegate::SetShowYear(bool ShowYear)
+{
+	m_ShowYear = ShowYear;
+}
+
+bool ListTracksDelegate::GetShowComposer() const
+{
+	return m_ShowComposer;
+}
+
+void ListTracksDelegate::SetShowComposer(bool ShowComposer)
+{
+	m_ShowComposer = ShowComposer;
+}
+
+bool ListTracksDelegate::GetShowAlbumArtist() const
+{
+	return m_ShowAlbumArtist;
+}
+
+void ListTracksDelegate::SetShowAlbumArtist(bool ShowAlbumArtist)
+{
+	m_ShowAlbumArtist = ShowAlbumArtist;
 }
 
 QMap<int, QString> ListTracksDelegate::GetOptionMenuMap() const

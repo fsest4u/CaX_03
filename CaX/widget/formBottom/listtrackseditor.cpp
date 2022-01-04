@@ -68,7 +68,6 @@ int ListTracksEditor::GetFavorite() const
 
 void ListTracksEditor::SetFavorite(int value)
 {
-//	ui->labelFavorite->show();
 	m_Favorite = value;
 
 	QString style;
@@ -98,6 +97,18 @@ void ListTracksEditor::SetFavorite(int value)
 
 	}
 	ui->labelFavorite->setStyleSheet(style);
+}
+
+void ListTracksEditor::ShowFavorite(bool show)
+{
+	if (show)
+	{
+		ui->frameFavorite->show();
+	}
+	else
+	{
+		ui->frameFavorite->hide();
+	}
 }
 
 QString ListTracksEditor::GetTime()
@@ -150,6 +161,18 @@ void ListTracksEditor::SetAlbumArtist(const QString &title)
 	ui->labelAlbumArtist->setText(title);
 }
 
+void ListTracksEditor::ShowAlbumArtist(bool show)
+{
+	if (show)
+	{
+		ui->labelAlbumArtist->show();
+	}
+	else
+	{
+		ui->labelAlbumArtist->hide();
+	}
+}
+
 QString ListTracksEditor::GetComposer()
 {
 	return ui->labelComposer->text();
@@ -160,6 +183,18 @@ void ListTracksEditor::SetComposer(const QString &title)
 	ui->labelComposer->setText(title);
 }
 
+void ListTracksEditor::ShowComposer(bool show)
+{
+	if (show)
+	{
+		ui->labelComposer->show();
+	}
+	else
+	{
+		ui->labelComposer->hide();
+	}
+}
+
 QString ListTracksEditor::GetYear()
 {
 	return ui->labelYear->text();
@@ -168,6 +203,18 @@ QString ListTracksEditor::GetYear()
 void ListTracksEditor::SetYear(const QString &title)
 {
 	ui->labelYear->setText(title);
+}
+
+void ListTracksEditor::ShowYear(bool show)
+{
+	if (show)
+	{
+		ui->labelYear->show();
+	}
+	else
+	{
+		ui->labelYear->hide();
+	}
 }
 
 QString ListTracksEditor::GetMood()
@@ -221,7 +268,9 @@ QString ListTracksEditor::GetFormat()
 
 void ListTracksEditor::SetFormat(const QString &title)
 {
-	ui->labelFormat->setText(title);
+	int index = title.length() - title.lastIndexOf('.') - 1;
+	QString extension = title.right(index);
+	ui->labelFormat->setText(extension);
 }
 
 void ListTracksEditor::ShowFormat(bool show)
@@ -417,6 +466,13 @@ void ListTracksEditor::Initialize()
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
 
+	// only music db
+	ui->frameFavorite->hide();
+	ui->labelAlbumArtist->hide();
+	ui->labelComposer->hide();
+	ui->labelYear->hide();
+
+	// option
 	ui->labelMood->hide();
 	ui->labelTempo->hide();
 	ui->labelFormat->hide();

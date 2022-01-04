@@ -26,6 +26,7 @@ public:
 
 	int GetFavorite() const;
 	void SetFavorite(int value);
+	void ShowFavorite(bool show);
 
 	QString GetTime();
 	void SetTime(const QString &title);
@@ -39,17 +40,20 @@ public:
 	QString GetGenre();
 	void SetGenre(const QString &title);
 
+	// only music db
 	QString GetAlbumArtist();
 	void SetAlbumArtist(const QString &title);
+	void ShowAlbumArtist(bool show);
 
 	QString GetComposer();
 	void SetComposer(const QString &title);
+	void ShowComposer(bool show);
 
 	QString GetYear();
 	void SetYear(const QString &title);
+	void ShowYear(bool show);
 
 	// option
-
 	QString GetMood();
 	void SetMood(const QString &title);
 	void ShowMood(bool show);
