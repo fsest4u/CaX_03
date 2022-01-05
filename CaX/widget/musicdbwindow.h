@@ -2,6 +2,7 @@
 #define MUSICDBWINDOW_H
 
 #include <QWidget>
+#include <QStandardItemModel>
 
 #include "manager/sqlmanager.h"
 
@@ -68,6 +69,7 @@ private slots:
 	void SlotRespCategoryInfo(CJsonNode node);
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespUpdateCategory(int updateId);
+	void SlotRespInsertReplaceCategoryAll();
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 	void SlotPlayAll();
@@ -171,6 +173,8 @@ private:
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
 
+	void DoInsertReplaceCategoryAll();
+
 	void SetSortMenu(int category);
 
 	void ClearClassifyMenu();
@@ -199,6 +203,9 @@ private:
 	QMap<int, QString>	m_CategoryMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<int, bool>		m_SelectMap;
+
+	QStandardItemModel	*m_UpdateModel;
+	QMap<QStringList, QString> m_UpdateMap;
 
 	QStringList			m_AlbumList;
 	QStringList			m_AlbumArtistList;

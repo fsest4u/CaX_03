@@ -466,8 +466,15 @@ void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
 	dialog.SetNodeList(list);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		LogDebug("good~");
+		m_UpdateModel = dialog.GetModel();
+		m_UpdateMap = dialog.GetUpdateCell();
 
+		DoInsertReplaceCategoryAll();
+	}
+	else
+	{
+//		m_UpdateModel->clear();
+//		m_UpdateMap.clear();
 	}
 }
 
@@ -1283,6 +1290,11 @@ void MusicDBWindow::SlotRespUpdateCategory(int updateId)
 	RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID, m_nCatID2);
 }
 
+void MusicDBWindow::SlotRespInsertReplaceCategoryAll()
+{
+	m_pMgr->RequestUpdateCategoryAll(m_UpdateMap, m_UpdateModel);
+}
+
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 {
 
@@ -1476,6 +1488,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfoList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryInfoList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
+	connect(m_pMgr, SIGNAL(SigRespInsertReplaceCategoryAll()), this, SLOT(SlotRespInsertReplaceCategoryAll()));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
@@ -2208,6 +2221,11 @@ void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 									  SQLManager::CATEGORY_TRACK,
 									  m_EventID);
 	}
+}
+
+void MusicDBWindow::DoInsertReplaceCategoryAll()
+{
+	m_pMgr->RequestInsertReplaceCategoryAll(m_UpdateMap);
 }
 
 void MusicDBWindow::SetCoverArt(QString coverArt)

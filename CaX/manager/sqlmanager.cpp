@@ -842,3 +842,59 @@ QString SQLManager::GetQueryUpdateCategory(int id, int category, int updateCateg
 
 	return query;
 }
+
+QString SQLManager::GetQueryInsertReplaceCategoryAll(int updateCategory, QString updateName)
+{
+	QString query;
+
+	switch (updateCategory)
+	{
+	case CATEGORY_ALBUM:
+		query = QString(SQL_INSERT_OR_REPLACE_ALBUM).arg(updateName);
+		break;
+	case CATEGORY_ALBUM_ARTIST:
+		query = QString(SQL_INSERT_OR_REPLACE_ALBUM_ARTIST).arg(updateName);
+		break;
+	case CATEGORY_ARTIST:
+		query = QString(SQL_INSERT_OR_REPLACE_ARTIST).arg(updateName);
+		break;
+	case CATEGORY_GENRE:
+		query = QString(SQL_INSERT_OR_REPLACE_GENRE).arg(updateName);
+		break;
+	case CATEGORY_COMPOSER:
+		query = QString(SQL_INSERT_OR_REPLACE_COMPOSER).arg(updateName);
+		break;
+	case CATEGORY_MOOD:
+		query = QString(SQL_INSERT_OR_REPLACE_MOOD).arg(updateName);
+		break;
+	}
+
+	return query;
+}
+
+QString SQLManager::GetQueryUpdateCategoryAll(QString id,
+											  QString name,
+											  QString artist,
+											  QString album,
+											  QString genre,
+											  QString albumArtist,
+											  QString composer,
+											  QString year,
+											  QString mood)
+{
+	QString query;
+
+	query = QString(SQL_UPDATE_ALL)
+			.arg(id)
+			.arg(name)
+			.arg(artist)
+			.arg(album)
+			.arg(genre)
+			.arg(albumArtist)
+			.arg(composer)
+			.arg(year)
+			.arg(mood);
+
+
+	return query;
+}

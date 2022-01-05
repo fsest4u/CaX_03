@@ -10,6 +10,12 @@
     <height>800</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1280</width>
+    <height>800</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -25,6 +31,11 @@ QPushButton
 	font: 14pt &quot;Segoe UI&quot;;
 }
 QTableView
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QHeaderView
 {
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;

@@ -5,8 +5,6 @@
 
 #include "searchcategorydelegate.h"
 
-#include "manager/sqlmanager.h"
-
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"

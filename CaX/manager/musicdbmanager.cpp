@@ -1,5 +1,7 @@
 #include "musicdbmanager.h"
 
+#include "dialog/edittagdialog.h"
+
 #include "util/utilnovatron.h"
 
 MusicDBManager::MusicDBManager(QObject *parent)
@@ -727,6 +729,108 @@ void MusicDBManager::RequestUpdateCategory(int id, int category, int updateCateg
 	RequestCommand(node, MUSICDB_UPDATE_CATEGORY);
 }
 
+void MusicDBManager::RequestInsertReplaceCategoryAll(QMap<QStringList, QString> updateMap)
+{
+	QStringList insertQuery;
+	QMap<QStringList, QString>::iterator i;
+	for (i = updateMap.begin(); i != updateMap.end(); i++)
+	{
+		int updateCategory = -1;
+		QString updateName = i.value();
+
+		int col = i.key().at(1).toInt();
+		LogDebug("col [%d] value [%s]", col, updateName.toUtf8().data());
+		switch (col)
+		{
+		case EditTagDialog::EDIT_TAG_TITLE:
+			break;
+//		case EditTagDialog::EDIT_TAG_FAVORITE:
+//			break;
+		case EditTagDialog::EDIT_TAG_ARTIST:
+			updateCategory = SQLManager::CATEGORY_ARTIST;
+			break;
+		case EditTagDialog::EDIT_TAG_ALBUM:
+			updateCategory = SQLManager::CATEGORY_ALBUM;
+			break;
+		case EditTagDialog::EDIT_TAG_GENRE:
+			updateCategory = SQLManager::CATEGORY_GENRE;
+			break;
+		case EditTagDialog::EDIT_TAG_ALBUM_ARTIST:
+			updateCategory = SQLManager::CATEGORY_ALBUM_ARTIST;
+			break;
+		case EditTagDialog::EDIT_TAG_COMPOSER:
+			updateCategory = SQLManager::CATEGORY_COMPOSER;
+			break;
+		case EditTagDialog::EDIT_TAG_YEAR:
+			break;
+		case EditTagDialog::EDIT_TAG_MOOD:
+			updateCategory = SQLManager::CATEGORY_MOOD;
+			break;
+//		case EditTagDialog::EDIT_TAG_RATING:
+//			break;
+		}
+		QString query = m_pSql->GetQueryInsertReplaceCategoryAll(updateCategory, updateName);
+		insertQuery.append(query);
+	}
+
+	// dummy
+	insertQuery.append("SELECT ROWID AS id FROM Album ORDER BY ROWID DESC LIMIT 1;");
+	LogDebug("query [%s]", insertQuery.join(";").toUtf8().data());
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add(KEY_AS, false);
+	node.Add(KEY_AL, false);
+	node.Add	(KEY_SQL,		insertQuery.join(""));
+
+	RequestCommand(node, MUSICDB_INSERT_REPLACE_CATEGORY_ALL);
+}
+
+void MusicDBManager::RequestUpdateCategoryAll(QMap<QStringList, QString> updateMap, QStandardItemModel *updateModel)
+{
+	QStringList updateQuery;
+
+	QMap<QStringList, QString>::iterator i;
+	for (i = updateMap.begin(); i != updateMap.end(); i++)
+	{
+		QStringList valueList;
+		int row = i.key().at(0).toInt();
+		int colCount = updateModel->columnCount();
+		for (int col = 0; col < colCount; col++)
+		{
+			QModelIndex index = updateModel->index(row, col);
+			QStandardItem *item = updateModel->itemFromIndex(index);
+			valueList.append(qvariant_cast<QString>(item->data(Qt::DisplayRole)));
+			LogDebug("row [%d] col [%d] value [%s]", row, col, valueList.at(col).toUtf8().data());
+		}
+
+		QString query = m_pSql->GetQueryUpdateCategoryAll(valueList.at(EditTagDialog::EDIT_TAG_ID),
+														  valueList.at(EditTagDialog::EDIT_TAG_TITLE),
+														  valueList.at(EditTagDialog::EDIT_TAG_ARTIST),
+														  valueList.at(EditTagDialog::EDIT_TAG_ALBUM),
+														  valueList.at(EditTagDialog::EDIT_TAG_GENRE),
+														  valueList.at(EditTagDialog::EDIT_TAG_ALBUM_ARTIST),
+														  valueList.at(EditTagDialog::EDIT_TAG_COMPOSER),
+														  valueList.at(EditTagDialog::EDIT_TAG_YEAR),
+														  valueList.at(EditTagDialog::EDIT_TAG_MOOD));
+		updateQuery.append(query);
+	}
+
+	// dummy
+	updateQuery.append("SELECT ROWID AS id FROM Album ORDER BY ROWID DESC LIMIT 1;");
+	LogDebug("query [%s]", updateQuery.join(";").toUtf8().data());
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add(KEY_AS, false);
+	node.Add(KEY_AL, false);
+	node.Add	(KEY_SQL,		updateQuery.join(""));
+
+	RequestCommand(node, MUSICDB_UPDATE_CATEGORY_ALL);
+}
+
 void MusicDBManager::RequestRandom()
 {
 	CJsonNode node(JSON_OBJECT);
@@ -760,7 +864,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-//	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
+	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);
@@ -807,6 +911,11 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_UPDATE_CATEGORY:
 		ParseUpdateCategory(node);
 		return;
+	case MUSICDB_INSERT_REPLACE_CATEGORY_ALL:
+		ParseInsertReplaceCategoryAll(node);
+		break;
+	case MUSICDB_UPDATE_CATEGORY_ALL:
+		break;
 	case MUSICDB_MAX:
 		emit SigRespError(STR_INVALID_ID);
 		return;
@@ -1010,6 +1119,13 @@ void MusicDBManager::ParseUpdateCategory(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	emit SigRespUpdateCategory(m_ID);
+}
+
+void MusicDBManager::ParseInsertReplaceCategoryAll(CJsonNode node)
+{
+	Q_UNUSED(node)
+
+	emit SigRespInsertReplaceCategoryAll();
 }
 
 QList<CJsonNode> MusicDBManager::ParseResultNode(CJsonNode result)

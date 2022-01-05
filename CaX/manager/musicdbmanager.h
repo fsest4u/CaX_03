@@ -2,6 +2,7 @@
 #define MUSICDBMANAGER_H
 
 #include <QObject>
+#include <QStandardItemModel>
 
 #include "basemanager.h"
 #include "sqlmanager.h"
@@ -68,11 +69,11 @@ public:
 
 	void RequestCategoryOverview(int nID, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestTrackList(int nID,
-								int nCategory = SQLManager::CATEGORY_ALBUM,
-								int nSort = SQLManager::SORT_IMPORTED_DATE,
-								bool bIncrease = true,
-								int nStartIndex = 0,
-								int nLimitCount = 100);
+						  int nCategory = SQLManager::CATEGORY_ALBUM,
+						  int nSort = SQLManager::SORT_IMPORTED_DATE,
+						  bool bIncrease = true,
+						  int nStartIndex = 0,
+						  int nLimitCount = 100);
 	void RequestTrackListForEditTag(int nID,
 									int nCategory = SQLManager::CATEGORY_ALBUM,
 									int nSort = SQLManager::SORT_IMPORTED_DATE,
@@ -128,6 +129,9 @@ public:
 	void RequestInsertCategory(int updateCategory, QString updateName);
 	void RequestUpdateCategory(int id, int category, int updateCategory, int updateId);
 
+	void RequestInsertReplaceCategoryAll(QMap<QStringList, QString> updateMap);
+	void RequestUpdateCategoryAll(QMap<QStringList, QString> updateMap, QStandardItemModel *updateModel);
+
 	void RequestRandom();
 
 //	int GetCntAlbum() const { return m_CntAlbum; }
@@ -158,6 +162,7 @@ signals:
 	void SigRespTrackInfo(CJsonNode node);
 	void SigRespSearchCoverArt(CJsonNode node);
 	void SigRespUpdateCategory(int updateId);
+	void SigRespInsertReplaceCategoryAll();
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
 
@@ -193,6 +198,8 @@ private:
 		MUSICDB_CHECK_CATEGORY,
 		MUSICDB_INSERT_CATEGORY,
 		MUSICDB_UPDATE_CATEGORY,
+		MUSICDB_INSERT_REPLACE_CATEGORY_ALL,
+		MUSICDB_UPDATE_CATEGORY_ALL,
 		MUSICDB_RANDOM,
 		MUSICDB_MAX
 	};
@@ -214,6 +221,7 @@ private:
 	void ParseCheckCategory(CJsonNode node);
 	void ParseInsertCategory(CJsonNode node);
 	void ParseUpdateCategory(CJsonNode node);
+	void ParseInsertReplaceCategoryAll(CJsonNode node);
 
 	QList<CJsonNode> ParseResultNode(CJsonNode result);
 

@@ -867,42 +867,42 @@ WHERE Song.IsDel = 0 and Song.ROWID = %1	\
 SELECT	\
 	ROWID AS id	\
 FROM Album	\
-WHERE Album.IsDel = 0 AND Album.Name = '%1'	\
+WHERE Album.IsDel = 0 AND Album.Name = \"%1\"	\
 "
 
 #define SQL_CHECK_ALBUM_ARTIST	"	\
 SELECT	\
 	ROWID AS id	\
 FROM AlbumArtist	\
-WHERE AlbumArtist.IsDel = 0 AND AlbumArtist.Name = '%1'	\
+WHERE AlbumArtist.IsDel = 0 AND AlbumArtist.Name = \"%1\"	\
 "
 
 #define SQL_CHECK_ARTIST	"	\
 SELECT	\
 	ROWID AS id	\
 FROM Artist	\
-WHERE Artist.IsDel = 0 AND Artist.Name = '%1'	\
+WHERE Artist.IsDel = 0 AND Artist.Name = \"%1\"	\
 "
 
 #define SQL_CHECK_GENRE	"	\
 SELECT	\
 	ROWID AS id	\
 FROM Genre	\
-WHERE Genre.IsDel = 0 AND Genre.Name = '%1'	\
+WHERE Genre.IsDel = 0 AND Genre.Name = \"%1\"	\
 "
 
 #define SQL_CHECK_COMPOSER	"	\
 SELECT	\
 	ROWID AS id	\
 FROM Composer	\
-WHERE Composer.IsDel = 0 AND Composer.Name = '%1'	\
+WHERE Composer.IsDel = 0 AND Composer.Name = \"%1\"	\
 "
 
 #define SQL_CHECK_MOOD	"	\
 SELECT	\
 	ROWID AS id	\
 FROM Mood	\
-WHERE Mood.IsDel = 0 AND Mood.Name = '%1'	\
+WHERE Mood.IsDel = 0 AND Mood.Name = \"%1\"	\
 "
 
 ////////////////////////////////////////////
@@ -912,7 +912,7 @@ WHERE Mood.IsDel = 0 AND Mood.Name = '%1'	\
 #define SQL_INSERT_ALBUM		"	\
 INSERT INTO	\
 	Album (Name)	\
-VALUES ('%1');		\
+VALUES (\"%1\");		\
 SELECT	\
 	ROWID AS id	\
 FROM Album	\
@@ -923,7 +923,7 @@ LIMIT 1;	\
 #define SQL_INSERT_ALBUM_ARTIST		"	\
 INSERT INTO	\
 	AlbumArtist (Name)	\
-VALUES ('%1');		\
+VALUES (\"%1\");		\
 SELECT	\
 	ROWID AS id	\
 FROM AlbumArtist	\
@@ -934,7 +934,7 @@ LIMIT 1;	\
 #define SQL_INSERT_ARTIST		"	\
 INSERT INTO	\
 	Artist (Name)	\
-VALUES ('%1');		\
+VALUES (\"%1\");		\
 SELECT	\
 	ROWID AS id	\
 FROM Artist	\
@@ -945,7 +945,7 @@ LIMIT 1;	\
 #define SQL_INSERT_GENRE		"	\
 INSERT INTO	\
 	Genre (Name)	\
-VALUES ('%1');		\
+VALUES (\"%1\");		\
 SELECT	\
 	ROWID AS id	\
 FROM Genre	\
@@ -957,7 +957,7 @@ LIMIT 1;	\
 #define SQL_INSERT_COMPOSER		"	\
 INSERT INTO	\
 	Composer (Name)	\
-VALUES ('%1');		\
+VALUES (\"%1\");		\
 SELECT	\
 	ROWID AS id	\
 FROM Composer	\
@@ -969,7 +969,7 @@ LIMIT 1;	\
 #define SQL_INSERT_MOOD		"	\
 INSERT INTO	\
 	Mood (Name)	\
-VALUES ('%1');		\
+VALUES (\"%1\");		\
 SELECT	\
 	ROWID AS id	\
 FROM Mood	\
@@ -982,7 +982,6 @@ LIMIT 1;	\
 /// Update category
 ////////////////////////////////////////////
 
-
 #define SQL_UPDATE_ALBUM		"UPDATE Song SET AlbumID = %1 WHERE Song.%2ID = %3"
 #define SQL_UPDATE_ALBUM_ARTIST	"UPDATE Song SET AlbumArtistID =%1 WHERE Song.%2ID = %3"
 #define SQL_UPDATE_ARTIST		"UPDATE Song SET ArtistID = %1 WHERE Song.%2ID = %3"
@@ -991,7 +990,36 @@ LIMIT 1;	\
 #define SQL_UPDATE_MOOD			"UPDATE Song SET MoodID = %1 WHERE Song.%2ID = %3"
 
 
+////////////////////////////////////////////
+/// Insert or Replace category all
+////////////////////////////////////////////
 
+#define SQL_INSERT_OR_REPLACE_ALBUM			"INSERT or replace INTO Album (Name) VALUES (\"%1\");"
+#define SQL_INSERT_OR_REPLACE_ALBUM_ARTIST	"INSERT or replace INTO AlbumArtist (Name) VALUES (\"%1\");"
+#define SQL_INSERT_OR_REPLACE_ARTIST		"INSERT or replace INTO Artist (Name) VALUES (\"%1\");"
+#define SQL_INSERT_OR_REPLACE_GENRE			"INSERT or replace INTO Genre (Name) VALUES (\"%1\");"
+#define SQL_INSERT_OR_REPLACE_COMPOSER		"INSERT or replace INTO Composer (Name) VALUES (\"%1\");"
+#define SQL_INSERT_OR_REPLACE_MOOD			"INSERT or replace INTO Mood (Name) VALUES (\"%1\");"
+
+////////////////////////////////////////////
+/// Update category all
+////////////////////////////////////////////
+
+#define SQL_UPDATE_ALL		"	\
+UPDATE	\
+	Song	\
+SET	\
+	Name = \"%2\",	\
+	ArtistID = (SELECT ROWID FROM Artist WHERE Artist.Name = \"%3\"),	\
+	AlbumID = (SELECT ROWID FROM Album WHERE Album.Name = \"%4\"),	\
+	GenreID = (SELECT ROWID FROM Genre WHERE Genre.Name = \"%5\"),	\
+	AlbumArtistID = (SELECT ROWID FROM AlbumArtist WHERE AlbumArtist.Name = \"%6\"),	\
+	ComposerID = (SELECT ROWID FROM Composer WHERE Composer.Name = \"%7\"),	\
+	Year = \"%8\",	\
+	MoodID = (SELECT ROWID FROM Mood WHERE Mood.Name = \"%9\")	\
+WHERE	\
+	Song.ROWID = \"%1\";	\
+"
 
 #endif // SQLCONSTATNS_H
 
