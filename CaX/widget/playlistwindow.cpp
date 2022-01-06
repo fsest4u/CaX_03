@@ -365,7 +365,7 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 void PlaylistWindow::SlotResize(int resize)
 {
 	int listMode = VIEW_MODE_ICON;
-	if (resize > 130)
+	if (resize > ICON_HEIGHT_MID)
 	{
 		listMode = VIEW_MODE_ICON;
 	}
@@ -484,7 +484,7 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 //{
 //	LogDebug("click resize [%d]", resize);
 //	int listMode = VIEW_MODE_ICON;
-//	if (resize > 130)
+//	if (resize > ICON_HEIGHT_MID)
 //	{
 //		listMode = VIEW_MODE_ICON;
 //	}

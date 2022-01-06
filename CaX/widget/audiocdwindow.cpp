@@ -265,7 +265,7 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 void AudioCDWindow::SlotResize(int resize)
 {
 	int listMode = VIEW_MODE_ICON;
-	if (resize > 130)
+	if (resize > ICON_HEIGHT_MID)
 	{
 		listMode = VIEW_MODE_ICON;
 	}
@@ -358,7 +358,7 @@ void AudioCDWindow::Initialize()
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
-//	m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+//	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();

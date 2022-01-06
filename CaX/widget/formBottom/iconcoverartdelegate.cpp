@@ -30,7 +30,6 @@ QSize IconCoverArtDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
 	Q_UNUSED(index)
 
 	return QSize(ICON_ITEM_WIDTH - 35, ICON_ITEM_HEIGHT - 20);
-//	return QSize(ICON_HEIGHT_MIN - 35, ICON_HEIGHT_MIN - 20);
 }
 
 QWidget *IconCoverArtDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const

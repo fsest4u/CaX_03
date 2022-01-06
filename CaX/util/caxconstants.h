@@ -57,10 +57,11 @@
 #define SEARCH_ITEM_WIDTH			570
 #define SEARCH_ITEM_HEIGHT			120
 
-#define ICON_HEIGHT_MIN				130
+//#define ICON_HEIGHT_MIN				130
 #define ICON_HEIGHT_MAX				160
-#define LIST_HEIGHT_MIN				70
-#define LIST_HEIGHT_MAx				100
+#define ICON_HEIGHT_MID				105
+#define LIST_HEIGHT_MIN				52
+//#define LIST_HEIGHT_MAx				100
 
 #define LIST_BROWSER_INDENT_0		5
 #define LIST_BROWSER_INDENT_1		45

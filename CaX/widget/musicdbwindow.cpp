@@ -622,7 +622,7 @@ void MusicDBWindow::SlotIncDec(bool bIncrease)
 void MusicDBWindow::SlotResize(int resize)
 {
 	int listMode = VIEW_MODE_ICON;
-	if (resize > 130)
+	if (resize > ICON_HEIGHT_MID)
 	{
 		listMode = VIEW_MODE_ICON;
 	}
@@ -912,7 +912,7 @@ void MusicDBWindow::SlotSelectPlay(int nID, int where)
 //void MusicDBWindow::SlotItemResize(int resize)
 //{
 //	int listMode = VIEW_MODE_ICON;
-//	if (resize > 130)
+//	if (resize > ICON_HEIGHT_MID)
 //	{
 //		listMode = VIEW_MODE_ICON;
 //	}
