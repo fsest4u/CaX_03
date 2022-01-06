@@ -1295,6 +1295,12 @@ void MusicDBWindow::SlotRespInsertReplaceCategoryAll()
 	m_pMgr->RequestUpdateCategoryAll(m_UpdateMap, m_UpdateModel);
 }
 
+void MusicDBWindow::SlotRespUpdateCategoryAll()
+{
+	// refresh
+	DoTopMenuReload();
+}
+
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 {
 
@@ -1489,6 +1495,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
 	connect(m_pMgr, SIGNAL(SigRespInsertReplaceCategoryAll()), this, SLOT(SlotRespInsertReplaceCategoryAll()));
+	connect(m_pMgr, SIGNAL(SigRespUpdateCategoryAll()), this, SLOT(SlotRespUpdateCategoryAll()));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));

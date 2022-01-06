@@ -915,6 +915,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		ParseInsertReplaceCategoryAll(node);
 		break;
 	case MUSICDB_UPDATE_CATEGORY_ALL:
+		ParseUpdateCategoryAll(node);
 		break;
 	case MUSICDB_MAX:
 		emit SigRespError(STR_INVALID_ID);
@@ -1126,6 +1127,13 @@ void MusicDBManager::ParseInsertReplaceCategoryAll(CJsonNode node)
 	Q_UNUSED(node)
 
 	emit SigRespInsertReplaceCategoryAll();
+}
+
+void MusicDBManager::ParseUpdateCategoryAll(CJsonNode node)
+{
+	Q_UNUSED(node)
+
+	emit SigRespUpdateCategoryAll();
 }
 
 QList<CJsonNode> MusicDBManager::ParseResultNode(CJsonNode result)

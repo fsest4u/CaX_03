@@ -70,6 +70,7 @@ private slots:
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespUpdateCategory(int updateId);
 	void SlotRespInsertReplaceCategoryAll();
+	void SlotRespUpdateCategoryAll();
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
 	void SlotPlayAll();

@@ -163,6 +163,7 @@ signals:
 	void SigRespSearchCoverArt(CJsonNode node);
 	void SigRespUpdateCategory(int updateId);
 	void SigRespInsertReplaceCategoryAll();
+	void SigRespUpdateCategoryAll();
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
 
@@ -222,6 +223,7 @@ private:
 	void ParseInsertCategory(CJsonNode node);
 	void ParseUpdateCategory(CJsonNode node);
 	void ParseInsertReplaceCategoryAll(CJsonNode node);
+	void ParseUpdateCategoryAll(CJsonNode node);
 
 	QList<CJsonNode> ParseResultNode(CJsonNode result);
 
