@@ -351,7 +351,7 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 
 void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	int totalCount = GetTotalCount(node);
 	CalculatePage(totalCount);
 
@@ -409,7 +409,7 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	QString title = node.GetString(KEY_TITLE);
 	QString artist = node.GetString(KEY_ARTIST);
 	QString favorite = node.GetString(KEY_FAVORITE);
@@ -2404,7 +2404,7 @@ void MusicDBWindow::CalculatePage(int totalCount)
 
 	m_TotalPage = totalCount / m_LimitCount;
 	m_CurPage = 0;
-	LogDebug("limit [%d] total [%d] current [%d]", m_LimitCount, m_TotalPage, m_CurPage);
+//	LogDebug("limit [%d] total [%d] current [%d]", m_LimitCount, m_TotalPage, m_CurPage);
 }
 
 

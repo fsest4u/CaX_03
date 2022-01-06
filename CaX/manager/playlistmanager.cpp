@@ -59,7 +59,7 @@ void PlaylistManager::RequestPlayTrack(QMap<int, bool> idMap, int nWhere)
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -81,7 +81,7 @@ void PlaylistManager::RequestPlayPlaylist(QMap<int, bool> idMap, int nWhere)
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -124,7 +124,7 @@ void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -173,7 +173,7 @@ void PlaylistManager::RequestAddTrackFromPlaylist(int id, QMap<int, bool> idMap)
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -195,7 +195,7 @@ void PlaylistManager::RequestDelTrack(int id, QMap<int, bool> idMap)
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 
@@ -289,7 +289,7 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 		for (int i = 0; i < result.ArraySize(); i++)
 		{
 			m_Node = result.GetArrayAt(i);
-	//		LogDebug("node : [%s]", m_Node.ToCompactByteArray().data());
+//			LogDebug("node : [%s]", m_Node.ToCompactByteArray().data());
 		}
 
 		emit SigRespPlaylistInfo(m_Node);

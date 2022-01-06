@@ -117,7 +117,7 @@ void QobuzManager::RequestPlay(QMap<int, CJsonNode> nodeMap, int nWhere)
 	QMap<int, CJsonNode>::iterator i;
 	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
 		nodeArr.AppendArray(i.value());
 	}
 
@@ -137,7 +137,7 @@ void QobuzManager::RequestAddToFavorite(int nType, QMap<int, CJsonNode> nodeMap)
 	QMap<int, CJsonNode>::iterator i;
 	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
 		nodeArr.AppendArray(i.value().GetString(KEY_ID_UPPER));
 	}
 
@@ -158,7 +158,7 @@ void QobuzManager::RequestDeleteToFavorite(int nType, QMap<int, CJsonNode> nodeM
 	QMap<int, CJsonNode>::iterator i;
 	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
 		nodeArr.AppendArray(i.value().GetString(KEY_ID_UPPER));
 	}
 
@@ -203,7 +203,7 @@ void QobuzManager::RequestDeleteTrack(QString playlistID, QMap<int, CJsonNode> n
 	QMap<int, CJsonNode>::iterator i;
 	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
 		nodeArr.AppendArray(i.value().GetString(KEY_ID_UPPER));
 	}
 

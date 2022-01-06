@@ -60,7 +60,7 @@ void SearchManager::RequestPlayTrack(QMap<int, bool> idMap, int nWhere)
 	QMap<int, bool>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		idArr.AppendArray((int64_t)i.key());
 	}
 

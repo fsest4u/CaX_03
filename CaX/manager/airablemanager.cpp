@@ -88,7 +88,7 @@ void AirableManager::RequestPlay(int nServiceType, QMap<int, CJsonNode> nodeMap,
 	QMap<int, CJsonNode>::iterator i;
 	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
 		art = i.value().GetString(KEY_ART);
 		nType = i.value().GetInt(KEY_TYPE);
 

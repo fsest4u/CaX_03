@@ -739,7 +739,7 @@ void MusicDBManager::RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> u
 		QString updateName = i.value();
 
 		int col = i.key().at(1).toInt();
-		LogDebug("col [%d] value [%s]", col, updateName.toUtf8().data());
+//		LogDebug("col [%d] value [%s]", col, updateName.toUtf8().data());
 		switch (col)
 		{
 		case EditTagDialog::EDIT_TAG_TITLE:
@@ -775,7 +775,7 @@ void MusicDBManager::RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> u
 
 	// dummy
 	insertQuery.append("SELECT ROWID AS id FROM Album ORDER BY ROWID DESC LIMIT 1;");
-	LogDebug("query [%s]", insertQuery.join(";").toUtf8().data());
+//	LogDebug("query [%s]", insertQuery.join(";").toUtf8().data());
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_QUERY);
@@ -802,7 +802,7 @@ void MusicDBManager::RequestUpdateCategoryAll(QMap<QStringList, QString> updateM
 			QModelIndex index = updateModel->index(row, col);
 			QStandardItem *item = updateModel->itemFromIndex(index);
 			valueList.append(qvariant_cast<QString>(item->data(Qt::DisplayRole)));
-			LogDebug("row [%d] col [%d] value [%s]", row, col, valueList.at(col).toUtf8().data());
+//			LogDebug("row [%d] col [%d] value [%s]", row, col, valueList.at(col).toUtf8().data());
 		}
 
 		QString query = m_pSql->GetQueryUpdateCategoryAll(valueList.at(EditTagDialog::EDIT_TAG_ID),
@@ -819,7 +819,7 @@ void MusicDBManager::RequestUpdateCategoryAll(QMap<QStringList, QString> updateM
 
 	// dummy
 	updateQuery.append("SELECT ROWID AS id FROM Album ORDER BY ROWID DESC LIMIT 1;");
-	LogDebug("query [%s]", updateQuery.join(";").toUtf8().data());
+//	LogDebug("query [%s]", updateQuery.join(";").toUtf8().data());
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_QUERY);
@@ -1014,7 +1014,7 @@ void MusicDBManager::ParseCategoryOverview(CJsonNode result)
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
 		m_Node = result.GetArrayAt(i);
-		LogDebug("node : [%s]", m_Node.ToCompactByteArray().data());
+//		LogDebug("node : [%s]", m_Node.ToCompactByteArray().data());
 
 	}
 
@@ -1077,7 +1077,7 @@ void MusicDBManager::ParseCheckCategory(CJsonNode node)
 	CJsonNode result = node.GetArray(VAL_RESULT);
 	if (result.ArraySize() <= 0)
 	{
-		LogDebug("insert updateCategory[%d], updateName[%s]", m_UpdateCategory, m_UpdateName.toUtf8().data());
+//		LogDebug("insert updateCategory[%d], updateName[%s]", m_UpdateCategory, m_UpdateName.toUtf8().data());
 		RequestInsertCategory(m_UpdateCategory, m_UpdateName);
 	}
 	else
@@ -1089,7 +1089,7 @@ void MusicDBManager::ParseCheckCategory(CJsonNode node)
 			updateId = node.GetString(KEY_ID_LOWER).toInt();
 		}
 
-		LogDebug("exist & update id[%d] category[%d], updateId[%d]", m_ID, m_Category, updateId);
+//		LogDebug("exist & update id[%d] category[%d], updateId[%d]", m_ID, m_Category, updateId);
 		RequestUpdateCategory(m_ID, m_Category, m_UpdateCategory, updateId);
 	}
 }
@@ -1111,14 +1111,14 @@ void MusicDBManager::ParseInsertCategory(CJsonNode node)
 			updateId = node.GetString(KEY_ID_LOWER).toInt();
 		}
 
-		LogDebug("update category id[%d] category[%d], updateId[%d]", m_ID, m_Category, updateId);
+//		LogDebug("update category id[%d] category[%d], updateId[%d]", m_ID, m_Category, updateId);
 		RequestUpdateCategory(m_ID, m_Category, m_UpdateCategory, updateId);
 	}
 }
 
 void MusicDBManager::ParseUpdateCategory(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	emit SigRespUpdateCategory(m_ID);
 }
 

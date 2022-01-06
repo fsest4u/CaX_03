@@ -180,10 +180,10 @@ void GroupPlayManager::ParseGroupPlayList(CJsonNode node)
 		m_NodeList.append(nodeClientList.GetArrayAt(i));
 	}
 
-	foreach (CJsonNode node, m_NodeList)
-	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
-	}
+//	foreach (CJsonNode node, m_NodeList)
+//	{
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	}
 
 	emit SigRespGroupPlayList(m_NodeList);
 }
