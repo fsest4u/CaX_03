@@ -45,6 +45,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	QString appPath = QCoreApplication::applicationDirPath();
+	QFile file(appPath + "/log.txt");
+	if (file.exists())
+	{
+		file.remove();
+	}
+
 	ConnectSigToSlot();
 	Initialize();
 	SlotMenu();
@@ -860,13 +867,6 @@ void MainWindow::Initialize()
 
 	m_bCBSearch = false;
 	m_pQueueWin = nullptr;
-
-	QString appPath = QCoreApplication::applicationDirPath();
-	QFile file(appPath + "/log.txt");
-	if (file.exists())
-	{
-		file.remove();
-	}
 }
 
 void MainWindow::ConnectSigToSlot()

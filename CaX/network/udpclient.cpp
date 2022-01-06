@@ -73,7 +73,6 @@ bool UDPClient::BindSocketSSDP()
 	QMap<QString, QNetworkInterface>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
-		LogDebug("addr [%s]", i.key().toUtf8().data());
 		addr = i.key();
 		interface = i.value();
 
@@ -83,22 +82,24 @@ bool UDPClient::BindSocketSSDP()
 		connect(socket, SIGNAL(readyRead()), this, SLOT(SlotSSDPReadData()));
 		socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
 
+		LogDebug("Bind IP [%s]", addr.toUtf8().data());
 		if( !socket->bind(QHostAddress(addr), SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 		{
-			LogCritical("bind error [%s]", socket->errorString().toUtf8().data());
+			LogCritical("Bind error [%s]", socket->errorString().toUtf8().data());
 			CloseSocketSSDP();
 			return false;
 		}
 
 		if( !socket->joinMulticastGroup(m_HostAddress, interface) )
 		{
-			LogCritical("join error [%s]", socket->errorString().toUtf8().data());
+			LogCritical("Join error [%s]", socket->errorString().toUtf8().data());
 			CloseSocketSSDP();
 			return false;
 		}
 
 	}
 
+	LogDebug("Bind Finish !!!");
 	return true;
 }
 
@@ -178,7 +179,7 @@ void UDPClient::SlotSSDPReadData()
 	{
 		if (socket)
 		{
-//			LogDebug("####### socket ip addr [%s]", socket->localAddress().toString().toUtf8().data());
+			LogDebug("Read IP [%s]", socket->localAddress().toString().toUtf8().data());
 			while( socket->hasPendingDatagrams() )
 			{
 				ssdpData.resize(socket->pendingDatagramSize());
@@ -187,7 +188,7 @@ void UDPClient::SlotSSDPReadData()
 
 			if (!ssdpData.isEmpty())
 			{
-//				LogDebug("####### ssdpData [%s]", ssdpData.data());
+				LogDebug("Read Data [%s]", ssdpData.data());
 				emit SigRespDeviceItem(QString(ssdpData));
 			}
 		}
@@ -331,7 +332,6 @@ QMap<QString, QNetworkInterface> UDPClient::GetInterface()
 //		qDebug()<<"SA multicast socket unable to bind...."<<saMC->errorString();
 //	}
 
-	// Windows is weird
 	QMap<QString, QNetworkInterface> map;
 	QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
 
@@ -339,7 +339,7 @@ QMap<QString, QNetworkInterface> UDPClient::GetInterface()
 	{
 		//qDebug()<<"interface:"<<interface.isValid()<<interface.flags();
 		QNetworkInterface::InterfaceFlags iflags = interface.flags();
-//		UtilNovatron::DebugTypeForUDP("Check Interface flag", iflags);
+		UtilNovatron::DebugTypeForUDP("Interface Flag", iflags);
 
 		if(interface.isValid()
 				&& !iflags.testFlag(QNetworkInterface::IsLoopBack)
@@ -350,12 +350,12 @@ QMap<QString, QNetworkInterface> UDPClient::GetInterface()
 			for (int i = 0; i < addressEntries.length(); i++)
 			{
 				QNetworkAddressEntry ae = addressEntries.at(i);
-//				LogDebug("ipAddress :[%s] ", ae.ip().toString().toUtf8().data());
+				LogDebug("IP [%s] ", ae.ip().toString().toUtf8().data());
 				if (ae.ip().protocol() == QAbstractSocket::IPv4Protocol
 						&& ae.ip() != QHostAddress::LocalHost
 						&& ae.ip().toIPv4Address())
 				{
-					LogDebug("ipAddress append :[%s] ", ae.ip().toString().toUtf8().data());
+					LogDebug("IP Insert !!!");
 					map.insert(ae.ip().toString(), interface);
 				}
 			}

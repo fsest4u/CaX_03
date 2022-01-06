@@ -26,8 +26,8 @@ void SSDPManager::RequestDeviceList()
 	ResetUdpClient();
 
 	QString strSearch = MakeStringMSearch();
-	m_pUdpClient->BindSocketSSDP();
 	m_pUdpClient->SendSocketMSearch(strSearch);
+	m_pUdpClient->BindSocketSSDP();
 }
 
 void SSDPManager::RequestDevicePowerOn(QString strWolAddr, QString strMac)
