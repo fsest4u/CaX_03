@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>244</width>
-    <height>272</height>
+    <height>276</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,16 +91,18 @@ QWidget
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
-width: 110px;
-color: rgb(84, 84, 84)
+	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
+	width: 110px;
+	height: 30px;
+	color: rgb(84, 84, 84)
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
-width: 110px;
-color: rgb(255, 255, 255)
+ 	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
+	width: 110px;
+	height: 30px;	
+	color: rgb(255, 255, 255)
 }</string>
      </property>
      <property name="orientation">
