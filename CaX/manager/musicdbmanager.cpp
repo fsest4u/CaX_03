@@ -729,7 +729,7 @@ void MusicDBManager::RequestUpdateCategory(int id, int category, int updateCateg
 	RequestCommand(node, MUSICDB_UPDATE_CATEGORY);
 }
 
-void MusicDBManager::RequestInsertReplaceCategoryAll(QMap<QStringList, QString> updateMap)
+void MusicDBManager::RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> updateMap)
 {
 	QStringList insertQuery;
 	QMap<QStringList, QString>::iterator i;
@@ -769,7 +769,7 @@ void MusicDBManager::RequestInsertReplaceCategoryAll(QMap<QStringList, QString> 
 //		case EditTagDialog::EDIT_TAG_RATING:
 //			break;
 		}
-		QString query = m_pSql->GetQueryInsertReplaceCategoryAll(updateCategory, updateName);
+		QString query = m_pSql->GetQueryInsertIgnoreCategoryAll(updateCategory, updateName);
 		insertQuery.append(query);
 	}
 

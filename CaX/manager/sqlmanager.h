@@ -123,7 +123,7 @@ public:
 	QString GetQueryInsertCategory(int updateCategory, QString updateName);
 	QString GetQueryUpdateCategory(int id, int category, int updateCategory, int updateId);
 
-	QString GetQueryInsertReplaceCategoryAll(int updateCategory, QString updateName);
+	QString GetQueryInsertIgnoreCategoryAll(int updateCategory, QString updateName);
 	QString GetQueryUpdateCategoryAll(QString id,
 									  QString name,
 									  QString artist,

@@ -469,7 +469,7 @@ void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
 		m_UpdateModel = dialog.GetModel();
 		m_UpdateMap = dialog.GetUpdateCell();
 
-		DoInsertReplaceCategoryAll();
+		DoInsertIgnoreCategoryAll();
 	}
 	else
 	{
@@ -2230,9 +2230,9 @@ void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 	}
 }
 
-void MusicDBWindow::DoInsertReplaceCategoryAll()
+void MusicDBWindow::DoInsertIgnoreCategoryAll()
 {
-	m_pMgr->RequestInsertReplaceCategoryAll(m_UpdateMap);
+	m_pMgr->RequestInsertIgnoreCategoryAll(m_UpdateMap);
 }
 
 void MusicDBWindow::SetCoverArt(QString coverArt)

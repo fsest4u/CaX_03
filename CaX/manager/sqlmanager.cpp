@@ -843,29 +843,29 @@ QString SQLManager::GetQueryUpdateCategory(int id, int category, int updateCateg
 	return query;
 }
 
-QString SQLManager::GetQueryInsertReplaceCategoryAll(int updateCategory, QString updateName)
+QString SQLManager::GetQueryInsertIgnoreCategoryAll(int updateCategory, QString updateName)
 {
 	QString query;
 
 	switch (updateCategory)
 	{
 	case CATEGORY_ALBUM:
-		query = QString(SQL_INSERT_OR_REPLACE_ALBUM).arg(updateName);
+		query = QString(SQL_INSERT_OR_IGNORE_ALBUM).arg(updateName);
 		break;
 	case CATEGORY_ALBUM_ARTIST:
-		query = QString(SQL_INSERT_OR_REPLACE_ALBUM_ARTIST).arg(updateName);
+		query = QString(SQL_INSERT_OR_IGNORE_ALBUM_ARTIST).arg(updateName);
 		break;
 	case CATEGORY_ARTIST:
-		query = QString(SQL_INSERT_OR_REPLACE_ARTIST).arg(updateName);
+		query = QString(SQL_INSERT_OR_IGNORE_ARTIST).arg(updateName);
 		break;
 	case CATEGORY_GENRE:
-		query = QString(SQL_INSERT_OR_REPLACE_GENRE).arg(updateName);
+		query = QString(SQL_INSERT_OR_IGNORE_GENRE).arg(updateName);
 		break;
 	case CATEGORY_COMPOSER:
-		query = QString(SQL_INSERT_OR_REPLACE_COMPOSER).arg(updateName);
+		query = QString(SQL_INSERT_OR_IGNORE_COMPOSER).arg(updateName);
 		break;
 	case CATEGORY_MOOD:
-		query = QString(SQL_INSERT_OR_REPLACE_MOOD).arg(updateName);
+		query = QString(SQL_INSERT_OR_IGNORE_MOOD).arg(updateName);
 		break;
 	}
 

@@ -129,7 +129,7 @@ public:
 	void RequestInsertCategory(int updateCategory, QString updateName);
 	void RequestUpdateCategory(int id, int category, int updateCategory, int updateId);
 
-	void RequestInsertReplaceCategoryAll(QMap<QStringList, QString> updateMap);
+	void RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> updateMap);
 	void RequestUpdateCategoryAll(QMap<QStringList, QString> updateMap, QStandardItemModel *updateModel);
 
 	void RequestRandom();

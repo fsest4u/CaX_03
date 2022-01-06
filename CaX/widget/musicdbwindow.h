@@ -174,7 +174,7 @@ private:
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
 
-	void DoInsertReplaceCategoryAll();
+	void DoInsertIgnoreCategoryAll();
 
 	void SetSortMenu(int category);
 
