@@ -57,7 +57,7 @@ void ObserverClient::Connect(QString strAddr, QByteArray jsonData)
 	{
 		LogCritical("%s", m_Socket->errorString().toUtf8().data());
 	}
-	LogDebug("ObserverClient Data : [%s]", jsonData.data());
+//	LogDebug("ObserverClient Data : [%s]", jsonData.data());
 }
 
 void ObserverClient::Disconnect()
@@ -98,7 +98,7 @@ void ObserverClient::SlotRead()
 	if (true) //(m_Socket->error() < QAbstractSocket::SocketError::ConnectionRefusedError)
 	{
 		QString contents = QString::fromUtf8(m_Socket->readAll());
-		LogDebug("network success : [%s]", contents.toUtf8().data());
+//		LogDebug("network success : [%s]", contents.toUtf8().data());
 		QStringList resList = contents.split("HTTP/");
 		QStringList jsonValueList;
 
