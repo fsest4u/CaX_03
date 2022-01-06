@@ -126,7 +126,7 @@ void SearchTrack::SlotReqCoverArt()
 
 void SearchTrack::SlotFinishThread()
 {
-	LogDebug("thread finish good");
+//	LogDebug("thread finish good");
 }
 
 void SearchTrack::Initialize()

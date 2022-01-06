@@ -414,7 +414,7 @@ void ListBrowser::SlotReqCoverArt()
 
 void ListBrowser::SlotFinishThread()
 {
-	LogDebug("thread finish good");
+//	LogDebug("thread finish good");
 }
 
 void ListBrowser::SlotSelectCoverArt(int index)

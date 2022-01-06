@@ -90,7 +90,7 @@ void ObserverClient::SlotDisconnect()
 
 void ObserverClient::SlotWrite(qint64 bytes)
 {
-	LogDebug("SlotWrite [size: %d]", bytes);
+//	LogDebug("SlotWrite [size: %d]", bytes);
 }
 
 void ObserverClient::SlotRead()
