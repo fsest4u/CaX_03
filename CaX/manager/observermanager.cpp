@@ -60,11 +60,11 @@ void ObserverManager::SlotRespObserverInfo(QStringList jsonValueList)
 		QString strCmd0;
 		if (!node.GetString(KEY_CMD0, strCmd0) || strCmd0.isEmpty()) { continue; }
 
-		LogDebug("*****************************************");
-		LogDebug("command [%s]", strCmd0.toUtf8().data());
-		LogDebug("*****************************************");
-		LogDebug("info    [%s]", node.ToTabedByteArray().data());
-		LogDebug("*****************************************");
+//		LogDebug("*****************************************");
+//		LogDebug("command [%s]", strCmd0.toUtf8().data());
+//		LogDebug("*****************************************");
+//		LogDebug("info    [%s]", node.ToTabedByteArray().data());
+//		LogDebug("*****************************************");
 
 		if (strCmd0.contains(KEY_DEV))
 		{

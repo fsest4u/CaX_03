@@ -26,7 +26,7 @@ TCPClient::~TCPClient()
 
 void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 {
-	LogDebug("RequestCmd : [%s]", jsonData.data());
+//	LogDebug("RequestCmd : [%s]", jsonData.data());
 
 	if (m_Addr.isEmpty())
 	{

@@ -95,7 +95,7 @@ void SearchManager::SlotRespInfo(QString json, int cmdID)
 		return;
 	}
 
-	LogDebug("cmdID [%d] node [%s]", cmdID, node.ToTabedByteArray().data());
+//	LogDebug("cmdID [%d] node [%s]", cmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);

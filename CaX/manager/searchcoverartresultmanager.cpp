@@ -48,7 +48,7 @@ void SearchCoverArtResultManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
+//	LogDebug("cmdID [%d] node [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);

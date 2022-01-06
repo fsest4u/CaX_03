@@ -150,7 +150,7 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+//	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString strMsg;
 	bool	bSuccess = false;

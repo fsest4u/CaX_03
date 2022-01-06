@@ -90,7 +90,7 @@ void AppManager::SlotRespInfo(QString json, int cmdID)
 		return;
 	}
 
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool success = node.GetBool(VAL_SUCCESS);
