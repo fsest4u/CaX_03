@@ -134,6 +134,15 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 //			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			int seconds = node.GetInt(KEY_TIME);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
+			QString artist;
+			if (!node.GetString(KEY_ARTIST).isEmpty())
+			{
+				artist = node.GetString(KEY_ARTIST);
+			}
+			else if (!node.GetString(KEY_SUBTITLE).isEmpty())
+			{
+				artist = node.GetString(KEY_SUBTITLE);
+			}
 
 			QStandardItem *item = new QStandardItem;
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
@@ -141,7 +150,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			item->setData(node.GetString(KEY_TITLE), ListTracksDelegate::LIST_TRACKS_TITLE);
 			item->setData(node.GetString(KEY_FAVORITE).toInt(), ListTracksDelegate::LIST_TRACKS_FAVORITE);
 			item->setData(hhmmss, ListTracksDelegate::LIST_TRACKS_TIME);
-			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
+			item->setData(artist, ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
 			item->setData(node.GetString(KEY_ALBUM_ARTIST), ListTracksDelegate::LIST_TRACKS_ALBUM_ARTIST);
