@@ -636,6 +636,8 @@ void MusicDBWindow::SlotResize(int resize)
 		m_ListMode = listMode;
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
+			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
+
 			int service = SIDEMENU_MUSIC_DB;
 			if (m_nCategory == SQLManager::CATEGORY_YEAR)
 			{
@@ -656,10 +658,11 @@ void MusicDBWindow::SlotResize(int resize)
 
 			m_pListTracks->hide();
 			m_pIconTracks->show();
-			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
 		}
 		else
 		{
+			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
+
 			int service = SIDEMENU_MUSIC_DB;
 			if (m_nCategory == SQLManager::CATEGORY_YEAR)
 			{
@@ -694,7 +697,6 @@ void MusicDBWindow::SlotResize(int resize)
 
 			m_pIconTracks->hide();
 			m_pListTracks->show();
-			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
 		}
 	}
 
