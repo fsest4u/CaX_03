@@ -874,6 +874,7 @@ QString SQLManager::GetQueryInsertIgnoreCategoryAll(int updateCategory, QString 
 
 QString SQLManager::GetQueryUpdateCategoryAll(QString id,
 											  QString name,
+											  QString favorite,
 											  QString artist,
 											  QString album,
 											  QString genre,
@@ -887,6 +888,7 @@ QString SQLManager::GetQueryUpdateCategoryAll(QString id,
 	query = QString(SQL_UPDATE_ALL)
 			.arg(id)
 			.arg(name)
+			.arg(favorite)
 			.arg(artist)
 			.arg(album)
 			.arg(genre)

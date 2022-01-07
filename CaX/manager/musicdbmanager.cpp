@@ -744,8 +744,8 @@ void MusicDBManager::RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> u
 		{
 		case EditTagDialog::EDIT_TAG_TITLE:
 			break;
-//		case EditTagDialog::EDIT_TAG_FAVORITE:
-//			break;
+		case EditTagDialog::EDIT_TAG_FAVORITE:
+			break;
 		case EditTagDialog::EDIT_TAG_ARTIST:
 			updateCategory = SQLManager::CATEGORY_ARTIST;
 			break;
@@ -807,6 +807,7 @@ void MusicDBManager::RequestUpdateCategoryAll(QMap<QStringList, QString> updateM
 
 		QString query = m_pSql->GetQueryUpdateCategoryAll(valueList.at(EditTagDialog::EDIT_TAG_ID),
 														  valueList.at(EditTagDialog::EDIT_TAG_TITLE),
+														  valueList.at(EditTagDialog::EDIT_TAG_FAVORITE),
 														  valueList.at(EditTagDialog::EDIT_TAG_ARTIST),
 														  valueList.at(EditTagDialog::EDIT_TAG_ALBUM),
 														  valueList.at(EditTagDialog::EDIT_TAG_GENRE),

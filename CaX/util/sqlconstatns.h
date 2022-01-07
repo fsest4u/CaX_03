@@ -1010,13 +1010,14 @@ UPDATE	\
 	Song	\
 SET	\
 	Name = \"%2\",	\
-	ArtistID = (SELECT Artist.ROWID FROM Artist WHERE Artist.Name = \"%3\"),	\
-	AlbumID = (SELECT Album.ROWID FROM Album WHERE Album.Name = \"%4\"),	\
-	GenreID = (SELECT Genre.ROWID FROM Genre WHERE Genre.Name = \"%5\"),	\
-	AlbumArtistID = (SELECT AlbumArtist.ROWID FROM AlbumArtist WHERE AlbumArtist.Name = \"%6\"),	\
-	ComposerID = (SELECT Composer.ROWID FROM Composer WHERE Composer.Name = \"%7\"),	\
-	Year = \"%8\",	\
-	MoodID = (SELECT Mood.ROWID FROM Mood WHERE Mood.Name = \"%9\")	\
+	Favorite = \"%3\",	\
+	ArtistID = (SELECT Artist.ROWID FROM Artist WHERE Artist.Name = \"%4\"),	\
+	AlbumID = (SELECT Album.ROWID FROM Album WHERE Album.Name = \"%5\"),	\
+	GenreID = (SELECT Genre.ROWID FROM Genre WHERE Genre.Name = \"%6\"),	\
+	AlbumArtistID = (SELECT AlbumArtist.ROWID FROM AlbumArtist WHERE AlbumArtist.Name = \"%7\"),	\
+	ComposerID = (SELECT Composer.ROWID FROM Composer WHERE Composer.Name = \"%8\"),	\
+	Year = \"%9\",	\
+	MoodID = (SELECT Mood.ROWID FROM Mood WHERE Mood.Name = \"%10\")	\
 WHERE	\
 	Song.ROWID = \"%1\";	\
 "

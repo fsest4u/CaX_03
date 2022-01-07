@@ -126,6 +126,7 @@ public:
 	QString GetQueryInsertIgnoreCategoryAll(int updateCategory, QString updateName);
 	QString GetQueryUpdateCategoryAll(QString id,
 									  QString name,
+									  QString favorite,
 									  QString artist,
 									  QString album,
 									  QString genre,

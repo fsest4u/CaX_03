@@ -6,6 +6,8 @@
 
 #include "util/CJsonNode.h"
 
+class EditTagDelegate;
+
 namespace Ui {
 class EditTagDialog;
 }
@@ -21,7 +23,7 @@ public:
 	enum {
 		EDIT_TAG_ID = 0,
 		EDIT_TAG_TITLE,
-//		EDIT_TAG_FAVORITE,
+		EDIT_TAG_FAVORITE,
 		EDIT_TAG_ARTIST,
 		EDIT_TAG_ALBUM,
 		EDIT_TAG_GENRE,
@@ -42,10 +44,16 @@ private slots:
 
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void SlotSectionClicked(int logicalIndex);
+	void SlotChangeFavorite(const QModelIndex &index);
 
 private:
 
+	void ConnectSigToSlot();
+	void Initialize();
+
+	EditTagDelegate			*m_Delegate;
 	QStandardItemModel		*m_Model;
+
 	QMap<QStringList, QString> m_MapUpdateCell;
 
 	bool					m_EnableChange;

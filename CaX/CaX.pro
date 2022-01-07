@@ -15,9 +15,11 @@ SOURCES += \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
     dialog/commondialog.cpp \
+    dialog/edittagdelegate.cpp \
     dialog/edittagdialog.cpp \
     dialog/formdialog.cpp \
     dialog/groupplaydialog.cpp \
+    dialog/inputfavoritedialog.cpp \
     dialog/inputnamedialog.cpp \
     dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
@@ -137,9 +139,11 @@ HEADERS += \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
     dialog/commondialog.h \
+    dialog/edittagdelegate.h \
     dialog/edittagdialog.h \
     dialog/formdialog.h \
     dialog/groupplaydialog.h \
+    dialog/inputfavoritedialog.h \
     dialog/inputnamedialog.h \
     dialog/limitcountdialog.h \
     dialog/logindialog.h \
@@ -273,6 +277,7 @@ FORMS += \
     dialog/edittagdialog.ui \
     dialog/formdialog.ui \
     dialog/groupplaydialog.ui \
+    dialog/inputfavoritedialog.ui \
     dialog/inputnamedialog.ui \
     dialog/limitcountdialog.ui \
     dialog/logindialog.ui \
