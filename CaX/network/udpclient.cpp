@@ -70,6 +70,55 @@ bool UDPClient::BindSocketSSDP()
 //	QNetworkInterface interface = CheckIP();
 	QMap<QString, QNetworkInterface> map = GetInterface();
 
+#if 1
+	if (map.count() <= 0)
+	{
+		return false;
+	}
+//	else if (map.count() == 1)
+//	{
+//		addr = map.firstKey();
+//		interface = map.first();
+//	}
+	else if (map.count() >= 1)
+	{
+		SelectNetworkInterfaceDialog dialog;
+		dialog.SetList(map);
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			addr = dialog.GetIP();
+			interface = dialog.GetInterface();
+		}
+	}
+
+	if (addr.isEmpty())
+	{
+		return false;
+	}
+
+	QUdpSocket *socket = new QUdpSocket(this);
+	m_SocketSSDPList.append(socket);
+
+	connect(socket, SIGNAL(readyRead()), this, SLOT(SlotSSDPReadData()));
+	socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+
+	LogDebug("Bind IP [%s]", addr.toUtf8().data());
+	if( !socket->bind(QHostAddress(addr), SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
+	{
+		LogCritical("Bind error [%s]", socket->errorString().toUtf8().data());
+		CloseSocketSSDP();
+		return false;
+	}
+
+	if( !socket->joinMulticastGroup(m_HostAddress, interface) )
+	{
+		LogCritical("Join error [%s]", socket->errorString().toUtf8().data());
+		CloseSocketSSDP();
+		return false;
+	}
+
+#else
+
 	QMap<QString, QNetworkInterface>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
@@ -98,6 +147,7 @@ bool UDPClient::BindSocketSSDP()
 		}
 
 	}
+#endif
 
 	LogDebug("Bind Finish !!!");
 	return true;
@@ -179,7 +229,7 @@ void UDPClient::SlotSSDPReadData()
 	{
 		if (socket)
 		{
-//			LogDebug("Read IP [%s]", socket->localAddress().toString().toUtf8().data());
+			LogDebug("Read IP [%s]", socket->localAddress().toString().toUtf8().data());
 			while( socket->hasPendingDatagrams() )
 			{
 				ssdpData.resize(socket->pendingDatagramSize());
@@ -188,7 +238,7 @@ void UDPClient::SlotSSDPReadData()
 
 			if (!ssdpData.isEmpty())
 			{
-//				LogDebug("Read Data [%s]", ssdpData.data());
+				LogDebug("Read Data [%s]", ssdpData.data());
 				emit SigRespDeviceItem(QString(ssdpData));
 			}
 		}
@@ -337,6 +387,7 @@ QMap<QString, QNetworkInterface> UDPClient::GetInterface()
 
 	foreach(QNetworkInterface interface, interfaces)
 	{
+
 		//qDebug()<<"interface:"<<interface.isValid()<<interface.flags();
 		QNetworkInterface::InterfaceFlags iflags = interface.flags();
 		UtilNovatron::DebugTypeForUDP("Interface Flag", iflags);
