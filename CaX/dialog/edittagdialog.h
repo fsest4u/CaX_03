@@ -46,11 +46,9 @@ private slots:
 private:
 
 	QStandardItemModel		*m_Model;
+	QMap<QStringList, QString> m_MapUpdateCell;
 
 	bool					m_EnableChange;
-	bool					m_UpdateAll;
-
-	QMap<QStringList, QString> m_MapUpdateCell;
 
 	Ui::EditTagDialog *ui;
 };

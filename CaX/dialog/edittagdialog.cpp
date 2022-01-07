@@ -33,7 +33,6 @@ EditTagDialog::EditTagDialog(QWidget *parent) :
 	ui->tableView->setColumnHidden(EDIT_TAG_ID, true);
 
 	m_EnableChange = false;
-	m_UpdateAll = false;
 	m_MapUpdateCell.clear();
 
 	connect(ui->tableView->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(SlotDataChanged(const QModelIndex&, const QModelIndex&)));
@@ -58,8 +57,8 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	int index = 0;
 	foreach (CJsonNode node, list)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
-		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE).toUtf8().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE).toUtf8().data());
 
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ID), node.GetString(KEY_ID_LOWER));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_TITLE), node.GetString(KEY_TITLE));
@@ -123,19 +122,6 @@ void EditTagDialog::SlotDataChanged(const QModelIndex &topLeft, const QModelInde
 //	QStandardItem *itemBottomRight = m_Model->itemFromIndex(indexBottomRight);
 //	LogDebug("bottom right row [%d] col [%d] value [%s]", rowBottomRight, colBottomRight, qvariant_cast<QString>(itemBottomRight->data(Qt::DisplayRole)).toUtf8().data());
 
-//	// for debug
-//	int rowCount = m_Model->rowCount();
-//	for (int row = 0; row < rowCount; row++)
-//	{
-//		int colCount = m_Model->columnCount();
-//		for (int col = 0; col < colCount; col++)
-//		{
-//			QModelIndex index = m_Model->index(row, col);
-//			QStandardItem *item = m_Model->itemFromIndex(index);
-//			LogDebug("row [%d] col [%d] value [%s]", row, col, qvariant_cast<QString>(item->data(Qt::DisplayRole)).toUtf8().data());
-//		}
-//	}
-
 	QStringList list;
 	list.append(QString("%1").arg(rowTopLeft));
 	list.append(QString("%1").arg(colTopLeft));
@@ -144,8 +130,6 @@ void EditTagDialog::SlotDataChanged(const QModelIndex &topLeft, const QModelInde
 
 void EditTagDialog::SlotSectionClicked(int logicalIndex)
 {
-	m_UpdateAll = true;
-
 	LogDebug("header index [%d]", logicalIndex);
 	InputNameDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)
