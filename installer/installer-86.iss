@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Music X Neo"
-#define MyAppVersion "1.2"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "NOVATRON, Inc."
 #define MyAppURL "https://www.cocktailaudio.com/home/"
 #define MyAppExeName "CaX.exe"
@@ -52,8 +52,10 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 [Files]
 Source: "D:\03-Project\CaX\installer\src-86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\03-Project\CaX\installer\src-86\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\libcrypto-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\03-Project\CaX\installer\src-86\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\03-Project\CaX\installer\src-86\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\03-Project\CaX\installer\src-86\libssl-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\03-Project\CaX\installer\src-86\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\03-Project\CaX\installer\src-86\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\03-Project\CaX\installer\src-86\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
