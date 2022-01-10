@@ -53,9 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	}
 
 	ConnectSigToSlot();
+	ReadSettings();
 	Initialize();
 	SlotMenu();
-	ReadSettings();
 
 	DoDeviceListHome();
 }
@@ -850,8 +850,8 @@ void MainWindow::Initialize()
 	m_InputList.clear();
 	m_SetupList.clear();
 
-	m_strCurrentMac = "",
-	m_strAddr = "",
+//	m_strCurrentMac = "",
+//	m_strAddr = "",
 	m_strVersion = "",
 	m_strWolAddr = "",
 	m_strUuid = "",
