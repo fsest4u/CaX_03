@@ -139,6 +139,9 @@ private slots:
 
 private:
 
+	void ReadSettings();
+	void WriteSettings();
+
 	void ConnectSigToSlot();
 	void Initialize();
 	void SetCategoryList(QList<CJsonNode> list);
@@ -188,6 +191,8 @@ private:
 
 	int GetTotalCount(CJsonNode node);
 	void CalculatePage(int totalCount);
+
+	void SetColumn(int typeMode);
 
 	MusicDBManager		*m_pMgr;
 	InfoHome			*m_pInfoHome;
@@ -244,6 +249,21 @@ private:
 
 	int					m_nOptionID;
 
+	bool				m_ShowFavorite;
+	bool				m_ShowTime;
+	bool				m_ShowArtist;
+	bool				m_ShowAlbum;
+	bool				m_ShowGenre;
+	bool				m_ShowAlbumArtist;
+	bool				m_ShowComposer;
+	bool				m_ShowYear;
+
+	bool				m_ShowMood;
+	bool				m_ShowTempo;
+	bool				m_ShowFormat;
+	bool				m_ShowSampleRate;
+	bool				m_ShowBitDepth;
+	bool				m_ShowRating;
 
 	Ui::MusicDBWindow *ui;
 };

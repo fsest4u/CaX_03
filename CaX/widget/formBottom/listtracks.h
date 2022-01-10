@@ -50,6 +50,15 @@ public:
 
 	void SetHeaderTitle(QString title);
 
+	void ShowHeaderFavorite(bool show);
+	void ShowHeaderTime(bool show);
+	void ShowHeaderArtist(bool show);
+	void ShowHeaderAlbum(bool show);
+	void ShowHeaderGenre(bool show);
+	void ShowHeaderAlbumArtist(bool show);
+	void ShowHeaderComposer(bool show);
+	void ShowHeaderYear(bool show);
+
 	void ShowHeaderMood(bool show);
 	void ShowHeaderTempo(bool show);
 	void ShowHeaderFormat(bool show);

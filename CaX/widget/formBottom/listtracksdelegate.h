@@ -42,6 +42,18 @@ public:
 	bool GetShowFavorite() const;
 	void SetShowFavorite(bool ShowFavorite);
 
+	bool GetShowTime() const;
+	void SetShowTime(bool ShowTime);
+
+	bool GetShowArtist() const;
+	void SetShowArtist(bool ShowArtist);
+
+	bool GetShowAlbum() const;
+	void SetShowAlbum(bool ShowAlbum);
+
+	bool GetShowGenre() const;
+	void SetShowGenre(bool ShowGenre);
+
 	bool GetShowAlbumArtist() const;
 	void SetShowAlbumArtist(bool ShowAlbumArtist);
 
@@ -68,6 +80,7 @@ public:
 
 	bool GetShowRating() const;
 	void SetShowRating(bool ShowRating);
+
 
 signals:
 
@@ -104,6 +117,10 @@ private:
 	int					m_Resize;
 
 	bool m_ShowFavorite;
+	bool m_ShowTime;
+	bool m_ShowArtist;
+	bool m_ShowAlbum;
+	bool m_ShowGenre;
 	bool m_ShowAlbumArtist;
 	bool m_ShowComposer;
 	bool m_ShowYear;

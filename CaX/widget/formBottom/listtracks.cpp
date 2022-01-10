@@ -124,10 +124,6 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 	}
 	else	// for music db
 	{
-		ui->frameFavorite->show();
-		ui->labelHeaderAlbumArtist->show();
-		ui->labelHeaderComposer->show();
-		ui->labelHeaderYear->show();
 
 		foreach (CJsonNode node, list)
 		{
@@ -322,6 +318,102 @@ void ListTracks::SetHeaderTitle(QString title)
 	ui->labelHeaderTitle->setText(title);
 }
 
+void ListTracks::ShowHeaderFavorite(bool show)
+{
+	if (show)
+	{
+		ui->frameFavorite->show();
+	}
+	else
+	{
+		ui->frameFavorite->hide();
+	}
+}
+
+void ListTracks::ShowHeaderTime(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderTime->show();
+	}
+	else
+	{
+		ui->labelHeaderTime->hide();
+	}
+}
+
+void ListTracks::ShowHeaderArtist(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderArtist->show();
+	}
+	else
+	{
+		ui->labelHeaderArtist->hide();
+	}
+}
+
+void ListTracks::ShowHeaderAlbum(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderAlbum->show();
+	}
+	else
+	{
+		ui->labelHeaderAlbum->hide();
+	}
+}
+
+void ListTracks::ShowHeaderGenre(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderGenre->show();
+	}
+	else
+	{
+		ui->labelHeaderGenre->hide();
+	}
+}
+
+void ListTracks::ShowHeaderAlbumArtist(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderAlbumArtist->show();
+	}
+	else
+	{
+		ui->labelHeaderAlbumArtist->hide();
+	}
+}
+
+void ListTracks::ShowHeaderComposer(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderComposer->show();
+	}
+	else
+	{
+		ui->labelHeaderComposer->hide();
+	}
+}
+
+void ListTracks::ShowHeaderYear(bool show)
+{
+	if (show)
+	{
+		ui->labelHeaderYear->show();
+	}
+	else
+	{
+		ui->labelHeaderYear->hide();
+	}
+}
+
 void ListTracks::ShowHeaderMood(bool show)
 {
 	if (show)
@@ -485,6 +577,10 @@ void ListTracks::Initialize()
 
 	// only music db
 	ui->frameFavorite->hide();
+	ui->labelHeaderTime->hide();
+	ui->labelHeaderArtist->hide();
+	ui->labelHeaderAlbum->hide();
+	ui->labelHeaderGenre->hide();
 	ui->labelHeaderAlbumArtist->hide();
 	ui->labelHeaderComposer->hide();
 	ui->labelHeaderYear->hide();

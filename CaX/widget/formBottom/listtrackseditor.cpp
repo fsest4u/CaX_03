@@ -121,6 +121,18 @@ void ListTracksEditor::SetTime(const QString &title)
 	ui->labelTime->setText(title);
 }
 
+void ListTracksEditor::ShowTime(bool show)
+{
+	if (show)
+	{
+		ui->labelTime->show();
+	}
+	else
+	{
+		ui->labelTime->hide();
+	}
+}
+
 QString ListTracksEditor::GetArtist()
 {
 	return ui->labelArtist->text();
@@ -129,6 +141,18 @@ QString ListTracksEditor::GetArtist()
 void ListTracksEditor::SetArtist(const QString &title)
 {
 	ui->labelArtist->setText(title);
+}
+
+void ListTracksEditor::ShowArtist(bool show)
+{
+	if (show)
+	{
+		ui->labelArtist->show();
+	}
+	else
+	{
+		ui->labelArtist->hide();
+	}
 }
 
 QString ListTracksEditor::GetAlbum()
@@ -141,6 +165,18 @@ void ListTracksEditor::SetAlbum(const QString &title)
 	ui->labelAlbum->setText(title);
 }
 
+void ListTracksEditor::ShowAlbum(bool show)
+{
+	if (show)
+	{
+		ui->labelAlbum->show();
+	}
+	else
+	{
+		ui->labelAlbum->hide();
+	}
+}
+
 QString ListTracksEditor::GetGenre()
 {
 	return ui->labelGenre->text();
@@ -149,6 +185,18 @@ QString ListTracksEditor::GetGenre()
 void ListTracksEditor::SetGenre(const QString &title)
 {
 	ui->labelGenre->setText(title);
+}
+
+void ListTracksEditor::ShowGenre(bool show)
+{
+	if (show)
+	{
+		ui->labelGenre->show();
+	}
+	else
+	{
+		ui->labelGenre->hide();
+	}
 }
 
 QString ListTracksEditor::GetAlbumArtist()
@@ -468,6 +516,10 @@ void ListTracksEditor::Initialize()
 
 	// only music db
 	ui->frameFavorite->hide();
+	ui->labelTime->hide();
+	ui->labelArtist->hide();
+	ui->labelAlbum->hide();
+	ui->labelGenre->hide();
 	ui->labelAlbumArtist->hide();
 	ui->labelComposer->hide();
 	ui->labelYear->hide();

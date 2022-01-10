@@ -30,15 +30,19 @@ public:
 
 	QString GetTime();
 	void SetTime(const QString &title);
+	void ShowTime(bool show);
 
 	QString GetArtist();
 	void SetArtist(const QString &title);
+	void ShowArtist(bool show);
 
 	QString GetAlbum();
 	void SetAlbum(const QString &title);
+	void ShowAlbum(bool show);
 
 	QString GetGenre();
 	void SetGenre(const QString &title);
+	void ShowGenre(bool show);
 
 	// only music db
 	QString GetAlbumArtist();

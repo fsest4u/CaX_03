@@ -14,6 +14,10 @@
 ListTracksDelegate::ListTracksDelegate()
 {
 	m_ShowFavorite = false;
+	m_ShowTime = false;
+	m_ShowArtist = false;
+	m_ShowAlbum = false;
+	m_ShowGenre = false;
 	m_ShowAlbumArtist = false;
 	m_ShowComposer = false;
 	m_ShowYear = false;
@@ -192,6 +196,10 @@ void ListTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 	widget->SetRating(qvariant_cast<int>(index.data(LIST_TRACKS_RATING)));
 
 	widget->ShowFavorite(m_ShowFavorite);
+	widget->ShowTime(m_ShowTime);
+	widget->ShowArtist(m_ShowArtist);
+	widget->ShowAlbum(m_ShowAlbum);
+	widget->ShowGenre(m_ShowGenre);
 	widget->ShowAlbumArtist(m_ShowAlbumArtist);
 	widget->ShowComposer(m_ShowComposer);
 	widget->ShowYear(m_ShowYear);
@@ -250,6 +258,46 @@ bool ListTracksDelegate::GetShowFavorite() const
 void ListTracksDelegate::SetShowFavorite(bool ShowFavorite)
 {
 	m_ShowFavorite = ShowFavorite;
+}
+
+bool ListTracksDelegate::GetShowGenre() const
+{
+	return m_ShowGenre;
+}
+
+void ListTracksDelegate::SetShowGenre(bool ShowGenre)
+{
+	m_ShowGenre = ShowGenre;
+}
+
+bool ListTracksDelegate::GetShowAlbum() const
+{
+	return m_ShowAlbum;
+}
+
+void ListTracksDelegate::SetShowAlbum(bool ShowAlbum)
+{
+	m_ShowAlbum = ShowAlbum;
+}
+
+bool ListTracksDelegate::GetShowArtist() const
+{
+	return m_ShowArtist;
+}
+
+void ListTracksDelegate::SetShowArtist(bool ShowArtist)
+{
+	m_ShowArtist = ShowArtist;
+}
+
+bool ListTracksDelegate::GetShowTime() const
+{
+	return m_ShowTime;
+}
+
+void ListTracksDelegate::SetShowTime(bool ShowTime)
+{
+	m_ShowTime = ShowTime;
 }
 
 bool ListTracksDelegate::GetShowYear() const

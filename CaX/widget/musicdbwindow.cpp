@@ -20,6 +20,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/settingio.h"
 #include "util/utilnovatron.h"
 
 #include "widget/form/formplay.h"
@@ -34,6 +35,8 @@
 #include "widget/formBottom/listtracksdelegate.h"
 
 #include "widget/playlistwindow.h"
+
+const QString SETTINGS_GROUP = "MusicDB";
 
 MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
@@ -67,12 +70,14 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+	ReadSettings();
 	Initialize();
-
 }
 
 MusicDBWindow::~MusicDBWindow()
 {
+	WriteSettings();
+
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -149,6 +154,8 @@ void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 		m_pInfoHome->GetFormPlay()->ShowPlayAll(false);
 		m_pInfoHome->GetFormPlay()->ShowPlayRandom(false);
 	}
+
+	SetColumn(typeMode);
 }
 
 void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
@@ -183,6 +190,7 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 
 	m_pListTracks->SetLineEditReadOnly(false);
 
+	SetColumn(typeMode);
 }
 
 void MusicDBWindow::RequestCategoryList(int catID, int catID2)
@@ -1459,6 +1467,54 @@ void MusicDBWindow::SlotContextMenuTagEdit()
 	m_pMgr->RequestTrackListForEditTag(m_nID, m_nCategory);
 }
 
+void MusicDBWindow::ReadSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	m_ShowFavorite = settings.value("show_favorite").toBool();
+	m_ShowTime = settings.value("show_time").toBool();
+	m_ShowArtist = settings.value("show_artist").toBool();
+	m_ShowAlbum = settings.value("show_album").toBool();
+	m_ShowGenre = settings.value("show_genre").toBool();
+	m_ShowAlbumArtist = settings.value("show_album_artist").toBool();
+	m_ShowComposer = settings.value("show_composer").toBool();
+	m_ShowYear = settings.value("show_year").toBool();
+
+	m_ShowMood = settings.value("show_mood").toBool();
+	m_ShowTempo = settings.value("show_tempo").toBool();
+	m_ShowFormat = settings.value("show_format").toBool();
+	m_ShowSampleRate = settings.value("show_sample_rate").toBool();
+	m_ShowBitDepth = settings.value("show_bit_depth").toBool();
+	m_ShowRating = settings.value("show_rating").toBool();
+
+	settings.endGroup();
+}
+
+void MusicDBWindow::WriteSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	settings.setValue("show_favorite", m_ShowFavorite);
+	settings.setValue("show_time", m_ShowTime);
+	settings.setValue("show_artist", m_ShowArtist);
+	settings.setValue("show_album", m_ShowAlbum);
+	settings.setValue("show_genre", m_ShowGenre);
+	settings.setValue("show_album_artist", m_ShowAlbumArtist);
+	settings.setValue("show_composer", m_ShowComposer);
+	settings.setValue("show_year", m_ShowYear);
+
+	settings.setValue("show_mood", m_ShowMood);
+	settings.setValue("show_tempo", m_ShowTempo);
+	settings.setValue("show_format", m_ShowFormat);
+	settings.setValue("show_sample_rate", m_ShowSampleRate);
+	settings.setValue("show_bit_depth", m_ShowBitDepth);
+	settings.setValue("show_rating", m_ShowRating);
+
+	settings.endGroup();
+}
+
 //void MusicDBWindow::SlotEditAllArtist(QString value)
 //{
 //	LogDebug("edit artist [%s]", value.toUtf8().data());
@@ -1601,11 +1657,6 @@ void MusicDBWindow::Initialize()
 
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pListTracks->SetBackgroundTask(m_pListThread);
-
-	m_pListTracks->GetDelegate()->SetShowFavorite(true);
-	m_pListTracks->GetDelegate()->SetShowAlbumArtist(true);
-	m_pListTracks->GetDelegate()->SetShowComposer(true);
-	m_pListTracks->GetDelegate()->SetShowYear(true);
 
 	m_nID = -1;
 	m_nCatID = -1;
@@ -1974,27 +2025,73 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 void MusicDBWindow::DoTopMenuItemShowColumns()
 {
 	SetColumnDialog dialog;
+	dialog.SetCBFavorite(m_pListTracks->GetDelegate()->GetShowFavorite());
+	dialog.SetCBTime(m_pListTracks->GetDelegate()->GetShowTime());
+	dialog.SetCBArtist(m_pListTracks->GetDelegate()->GetShowArtist());
+	dialog.SetCBAlbum(m_pListTracks->GetDelegate()->GetShowAlbum());
+	dialog.SetCBGenre(m_pListTracks->GetDelegate()->GetShowGenre());
+	dialog.SetCBAlbumArtist(m_pListTracks->GetDelegate()->GetShowAlbumArtist());
+	dialog.SetCBComposer(m_pListTracks->GetDelegate()->GetShowComposer());
+	dialog.SetCBYear(m_pListTracks->GetDelegate()->GetShowYear());
+
 	dialog.SetCBMood(m_pListTracks->GetDelegate()->GetShowMood());
 	dialog.SetCBTempo(m_pListTracks->GetDelegate()->GetShowTempo());
 	dialog.SetCBFormat(m_pListTracks->GetDelegate()->GetShowFormat());
 	dialog.SetCBSampleRate(m_pListTracks->GetDelegate()->GetShowSampleRate());
 	dialog.SetCBBitDepth(m_pListTracks->GetDelegate()->GetShowBitDepth());
 	dialog.SetCBRating(m_pListTracks->GetDelegate()->GetShowRating());
+
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		m_pListTracks->ShowHeaderMood(dialog.GetCBMood());
-		m_pListTracks->ShowHeaderTempo(dialog.GetCBTempo());
-		m_pListTracks->ShowHeaderFormat(dialog.GetCBFormat());
-		m_pListTracks->ShowHeaderSampleRating(dialog.GetCBSampleRate());
-		m_pListTracks->ShowHeaderBitDepth(dialog.GetCBBitDepth());
-		m_pListTracks->ShowHeaderRating(dialog.GetCBRating());
+		m_ShowFavorite = dialog.GetCBFavorite();
+		m_ShowTime = dialog.GetCBTime();
+		m_ShowArtist = dialog.GetCBArtist();
+		m_ShowAlbum = dialog.GetCBAlbum();
+		m_ShowGenre = dialog.GetCBGenre();
+		m_ShowAlbumArtist = dialog.GetCBAlbumArtist();
+		m_ShowComposer = dialog.GetCBComposer();
+		m_ShowYear = dialog.GetCBYear();
 
-		m_pListTracks->GetDelegate()->SetShowMood(dialog.GetCBMood());
-		m_pListTracks->GetDelegate()->SetShowTempo(dialog.GetCBTempo());
-		m_pListTracks->GetDelegate()->SetShowFormat(dialog.GetCBFormat());
-		m_pListTracks->GetDelegate()->SetShowSampleRate(dialog.GetCBSampleRate());
-		m_pListTracks->GetDelegate()->SetShowBitDepth(dialog.GetCBBitDepth());
-		m_pListTracks->GetDelegate()->SetShowRating(dialog.GetCBRating());
+		m_ShowMood = dialog.GetCBMood();
+		m_ShowTempo = dialog.GetCBTempo();
+		m_ShowFormat = dialog.GetCBFormat();
+		m_ShowSampleRate = dialog.GetCBSampleRate();
+		m_ShowBitDepth = dialog.GetCBBitDepth();
+		m_ShowRating = dialog.GetCBRating();
+
+		WriteSettings();
+
+		m_pListTracks->ShowHeaderFavorite(m_ShowFavorite);
+		m_pListTracks->ShowHeaderTime(m_ShowTime);
+		m_pListTracks->ShowHeaderArtist(m_ShowArtist);
+		m_pListTracks->ShowHeaderAlbum(m_ShowAlbum);
+		m_pListTracks->ShowHeaderGenre(m_ShowGenre);
+		m_pListTracks->ShowHeaderAlbumArtist(m_ShowAlbumArtist);
+		m_pListTracks->ShowHeaderComposer(m_ShowComposer);
+		m_pListTracks->ShowHeaderYear(m_ShowYear);
+
+		m_pListTracks->ShowHeaderMood(m_ShowMood);
+		m_pListTracks->ShowHeaderTempo(m_ShowTempo);
+		m_pListTracks->ShowHeaderFormat(m_ShowFormat);
+		m_pListTracks->ShowHeaderSampleRating(m_ShowSampleRate);
+		m_pListTracks->ShowHeaderBitDepth(m_ShowBitDepth);
+		m_pListTracks->ShowHeaderRating(m_ShowRating);
+
+		m_pListTracks->GetDelegate()->SetShowFavorite(m_ShowFavorite);
+		m_pListTracks->GetDelegate()->SetShowTime(m_ShowTime);
+		m_pListTracks->GetDelegate()->SetShowArtist(m_ShowArtist);
+		m_pListTracks->GetDelegate()->SetShowAlbum(m_ShowAlbum);
+		m_pListTracks->GetDelegate()->SetShowGenre(m_ShowGenre);
+		m_pListTracks->GetDelegate()->SetShowAlbumArtist(m_ShowAlbumArtist);
+		m_pListTracks->GetDelegate()->SetShowComposer(m_ShowComposer);
+		m_pListTracks->GetDelegate()->SetShowYear(m_ShowYear);
+
+		m_pListTracks->GetDelegate()->SetShowMood(m_ShowMood);
+		m_pListTracks->GetDelegate()->SetShowTempo(m_ShowTempo);
+		m_pListTracks->GetDelegate()->SetShowFormat(m_ShowFormat);
+		m_pListTracks->GetDelegate()->SetShowSampleRate(m_ShowSampleRate);
+		m_pListTracks->GetDelegate()->SetShowBitDepth(m_ShowBitDepth);
+		m_pListTracks->GetDelegate()->SetShowRating(m_ShowRating);
 
 		// change value
 		{
@@ -2406,7 +2503,59 @@ void MusicDBWindow::CalculatePage(int totalCount)
 
 	m_TotalPage = totalCount / m_LimitCount;
 	m_CurPage = 0;
-//	LogDebug("limit [%d] total [%d] current [%d]", m_LimitCount, m_TotalPage, m_CurPage);
+	//	LogDebug("limit [%d] total [%d] current [%d]", m_LimitCount, m_TotalPage, m_CurPage);
+}
+
+void MusicDBWindow::SetColumn(int typeMode)
+{
+	if (typeMode <= TYPE_MODE_ITEM_ADD)
+	{
+		m_pListTracks->ShowHeaderFavorite(true);
+//		m_pListTracks->ShowHeaderTime(true);
+		m_pListTracks->ShowHeaderArtist(true);
+//		m_pListTracks->ShowHeaderAlbum(true);
+//		m_pListTracks->ShowHeaderGenre(true);
+
+		m_pListTracks->GetDelegate()->SetShowFavorite(true);
+//		m_pListTracks->GetDelegate()->SetShowTime(true);
+		m_pListTracks->GetDelegate()->SetShowArtist(true);
+//		m_pListTracks->GetDelegate()->SetShowAlbum(true);
+//		m_pListTracks->GetDelegate()->SetShowGenre(true);
+	}
+	else
+	{
+		m_pListTracks->ShowHeaderFavorite(m_ShowFavorite);
+		m_pListTracks->ShowHeaderTime(m_ShowTime);
+		m_pListTracks->ShowHeaderArtist(m_ShowArtist);
+		m_pListTracks->ShowHeaderAlbum(m_ShowAlbum);
+		m_pListTracks->ShowHeaderGenre(m_ShowGenre);
+		m_pListTracks->ShowHeaderAlbumArtist(m_ShowAlbumArtist);
+		m_pListTracks->ShowHeaderComposer(m_ShowComposer);
+		m_pListTracks->ShowHeaderYear(m_ShowYear);
+
+		m_pListTracks->ShowHeaderMood(m_ShowMood);
+		m_pListTracks->ShowHeaderTempo(m_ShowTempo);
+		m_pListTracks->ShowHeaderFormat(m_ShowFormat);
+		m_pListTracks->ShowHeaderSampleRating(m_ShowSampleRate);
+		m_pListTracks->ShowHeaderBitDepth(m_ShowBitDepth);
+		m_pListTracks->ShowHeaderRating(m_ShowRating);
+
+		m_pListTracks->GetDelegate()->SetShowFavorite(m_ShowFavorite);
+		m_pListTracks->GetDelegate()->SetShowTime(m_ShowTime);
+		m_pListTracks->GetDelegate()->SetShowArtist(m_ShowArtist);
+		m_pListTracks->GetDelegate()->SetShowAlbum(m_ShowAlbum);
+		m_pListTracks->GetDelegate()->SetShowGenre(m_ShowGenre);
+		m_pListTracks->GetDelegate()->SetShowAlbumArtist(m_ShowAlbumArtist);
+		m_pListTracks->GetDelegate()->SetShowComposer(m_ShowComposer);
+		m_pListTracks->GetDelegate()->SetShowYear(m_ShowYear);
+
+		m_pListTracks->GetDelegate()->SetShowMood(m_ShowMood);
+		m_pListTracks->GetDelegate()->SetShowTempo(m_ShowTempo);
+		m_pListTracks->GetDelegate()->SetShowFormat(m_ShowFormat);
+		m_pListTracks->GetDelegate()->SetShowSampleRate(m_ShowSampleRate);
+		m_pListTracks->GetDelegate()->SetShowBitDepth(m_ShowBitDepth);
+		m_pListTracks->GetDelegate()->SetShowRating(m_ShowRating);
+	}
 }
 
 
