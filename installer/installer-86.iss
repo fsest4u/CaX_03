@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Music X Neo"
-#define MyAppVersion "1.3"
+#define MyAppVersion "1.4"
 #define MyAppPublisher "NOVATRON, Inc."
 #define MyAppURL "https://www.cocktailaudio.com/home/"
 #define MyAppExeName "CaX.exe"
@@ -18,7 +18,8 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={localappdata}\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
+DisableProgramGroupPage=yes
 ;LicenseFile=d:\03-Project\CaX\installer\doc\license.txt
 ;InfoBeforeFile=d:\03-Project\CaX\installer\doc\readme.txt
 ;InfoAfterFile=d:\03-Project\CaX\installer\doc\changelog.txt
