@@ -73,14 +73,15 @@ bool UDPClient::BindSocketSSDP()
 #if 1
 	if (map.count() <= 0)
 	{
+		LogCritical("interface is not found");
 		return false;
 	}
-//	else if (map.count() == 1)
-//	{
-//		addr = map.firstKey();
-//		interface = map.first();
-//	}
-	else if (map.count() >= 1)
+	else if (map.count() == 1)
+	{
+		addr = map.firstKey();
+		interface = map.first();
+	}
+	else if (map.count() > 1)
 	{
 		SelectNetworkInterfaceDialog dialog;
 		dialog.SetList(map);
@@ -93,6 +94,13 @@ bool UDPClient::BindSocketSSDP()
 
 	if (addr.isEmpty())
 	{
+		LogCritical("addr is empty");
+		return false;
+	}
+
+	if (!interface.isValid())
+	{
+		LogCritical("interface is not valid");
 		return false;
 	}
 
@@ -103,7 +111,7 @@ bool UDPClient::BindSocketSSDP()
 	socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
 
 	LogDebug("Bind IP [%s]", addr.toUtf8().data());
-	if( !socket->bind(QHostAddress(addr), SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
+	if( !socket->bind(QHostAddress::AnyIPv4, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 	{
 		LogCritical("Bind error [%s]", socket->errorString().toUtf8().data());
 		CloseSocketSSDP();
@@ -114,6 +122,12 @@ bool UDPClient::BindSocketSSDP()
 	{
 		LogCritical("Join error [%s]", socket->errorString().toUtf8().data());
 		CloseSocketSSDP();
+		return false;
+	}
+
+	if (!socket->isValid())
+	{
+		LogCritical("socket is not valid");
 		return false;
 	}
 

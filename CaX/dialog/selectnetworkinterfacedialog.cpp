@@ -21,6 +21,11 @@ SelectNetworkInterfaceDialog::~SelectNetworkInterfaceDialog()
 
 void SelectNetworkInterfaceDialog::SetList(QMap<QString, QNetworkInterface> map)
 {
+	if (map.count() <= 0)
+	{
+		return;
+	}
+
 	m_Map = map;
 	QMap<QString, QNetworkInterface>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
@@ -28,6 +33,8 @@ void SelectNetworkInterfaceDialog::SetList(QMap<QString, QNetworkInterface> map)
 		LogDebug("key [%s]", i.key().toUtf8().data());
 		ui->listWidget->addItem(i.key());
 	}
+
+	ui->listWidget->setCurrentRow(0);
 }
 
 QString SelectNetworkInterfaceDialog::GetIP()
@@ -44,7 +51,7 @@ QNetworkInterface SelectNetworkInterfaceDialog::GetInterface()
 	QListWidgetItem *item = ui->listWidget->currentItem();
 	m_IP = item->text().toUtf8();
 	m_Interface= m_Map.value(m_IP);
-	LogDebug("select interface [%s]", m_IP.toUtf8().data());
+	LogDebug("select interface [%s] ip [%s]", m_Interface.hardwareAddress().toUtf8().data(), m_IP.toUtf8().data());
 
 	return m_Interface;
 }
