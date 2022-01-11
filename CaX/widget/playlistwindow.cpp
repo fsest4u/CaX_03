@@ -13,6 +13,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/settingio.h"
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
@@ -23,6 +24,8 @@
 #include "widget/formBottom/listtracks.h"
 #include "widget/formBottom/listtracksdelegate.h"
 #include "widget/musicdbwindow.h"
+
+const QString SETTINGS_GROUP = "Playlist";
 
 PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
@@ -40,12 +43,15 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+	ReadSettings();
 	Initialize();
 
 }
 
 PlaylistWindow::~PlaylistWindow()
 {
+//	WriteSettings();
+
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -97,20 +103,20 @@ PlaylistWindow::~PlaylistWindow()
 void PlaylistWindow::AddWidgetItem(int typeMode)
 {
 	m_pInfoService->SetTitle(STR_PLAYLIST);
-	m_ListMode = VIEW_MODE_ICON;
+	m_ListMode = GetListModeFromResize(m_ResizeItem);
 	m_TypeMode = typeMode;
 
 	ui->gridLayoutTop->addWidget(m_pInfoService);
-//	if (m_ListMode == VIEW_MODE_ICON)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pInfoService->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+		m_pInfoService->GetFormSort()->SetResize(m_ResizeItem);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
 	}
-//	else
-//	{
-//		m_pInfoService->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
-//		ui->gridLayoutBottom->addWidget(m_pListTracks);
-//	}
+	else
+	{
+		m_pInfoService->GetFormSort()->SetResize(m_ResizeItem);
+		ui->gridLayoutBottom->addWidget(m_pListTracks);
+	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -122,18 +128,18 @@ void PlaylistWindow::AddWidgetItem(int typeMode)
 
 void PlaylistWindow::AddWidgetTrack()
 {
-	m_ListMode = VIEW_MODE_LIST;
+	m_ListMode = GetListModeFromResize(m_ResizeTrack);
 	m_TypeMode = TYPE_MODE_TRACK;
 
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-//	if (m_ListMode == VIEW_MODE_ICON)
-//	{
-//		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
-//		ui->gridLayoutBottom->addWidget(m_pIconTracks);
-//	}
-//	else
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	}
+	else
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
 		ui->gridLayoutBottom->addWidget(m_pListTracks);
 	}
 }
@@ -177,12 +183,18 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-	ThreadStartIcon();
-
-//	m_pListTracks->ClearNodeList();
-//	m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->ClearNodeList();
+		m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
+		ThreadStartIcon();
+	}
+	else
+	{
+		m_pListTracks->ClearNodeList();
+		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
+		ThreadStartList();
+	}
 }
 
 void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
@@ -208,12 +220,18 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-//	m_pIconTracks->ClearNodeList();
-//	m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-
-	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-	ThreadStartList();
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->ClearNodeList();
+		m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
+		ThreadStartIcon();
+	}
+	else
+	{
+		m_pListTracks->ClearNodeList();
+		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
+		ThreadStartList();
+	}
 }
 
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -364,16 +382,17 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 
 void PlaylistWindow::SlotResize(int resize)
 {
-	int listMode = VIEW_MODE_ICON;
-	if (resize > ICON_HEIGHT_MID)
+	if (m_TypeMode <= TYPE_MODE_ITEM_ADD)
 	{
-		listMode = VIEW_MODE_ICON;
+		m_ResizeItem = resize;
 	}
 	else
 	{
-		listMode = VIEW_MODE_LIST;
+		m_ResizeTrack = resize;
 	}
+	WriteSettings();
 
+	int listMode = GetListModeFromResize(resize);
 	if (listMode != m_ListMode)
 	{
 		m_ListMode = listMode;
@@ -480,49 +499,6 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 	}
 }
 
-//void PlaylistWindow::SlotItemResize(int resize)
-//{
-//	LogDebug("click resize [%d]", resize);
-//	int listMode = VIEW_MODE_ICON;
-//	if (resize > ICON_HEIGHT_MID)
-//	{
-//		listMode = VIEW_MODE_ICON;
-//	}
-//	else
-//	{
-//		listMode = VIEW_MODE_LIST;
-//	}
-
-//	if (listMode != m_ListMode)
-//	{
-//		m_ListMode = listMode;
-//		if (m_ListMode == VIEW_MODE_ICON)
-//		{
-//			LogDebug("icon~~~~~~~~");
-//			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
-//			m_pListTracks->hide();
-//			m_pIconTracks->show();
-
-//		}
-//		else
-//		{
-//			LogDebug("list~~~~~~~~");
-//			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
-//			m_pIconTracks->hide();
-//			m_pListTracks->show();
-//		}
-//	}
-
-//	if (m_ListMode == VIEW_MODE_ICON)
-//	{
-//		m_pIconTracks->SetResize(resize);
-//	}
-//	else
-//	{
-//		m_pListTracks->SetResize(resize);
-//	}
-//}
-
 void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 {
 	switch (menuID) {
@@ -575,6 +551,31 @@ void PlaylistWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
 	}
 }
 
+void PlaylistWindow::ReadSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	m_ResizeItem = settings.value("resize_item_value").toInt();
+	m_ResizeTrack = settings.value("resize_track_value").toInt();
+
+	settings.endGroup();
+
+//	LogDebug("read resize item [%d] resize track [%d]", m_ResizeItem, m_ResizeTrack);
+}
+
+void PlaylistWindow::WriteSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	settings.setValue("resize_item_value", m_ResizeItem);
+	settings.setValue("resize_track_value", m_ResizeTrack);
+
+	settings.endGroup();
+
+//	LogDebug("write resize item [%d] resize track [%d]", m_ResizeItem, m_ResizeTrack);
+}
 
 void PlaylistWindow::ConnectSigToSlot()
 {
@@ -620,21 +621,31 @@ void PlaylistWindow::Initialize()
 	m_pInfoService->GetFormPlay()->ShowPlayRandom();
 	m_pInfoService->GetFormPlay()->ShowMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
-//	m_pInfoService->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
-//	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
 
-	m_ListMode = VIEW_MODE_ICON;
+//	m_ListMode = GetListModeFromResize(m_Resize);
 
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pListTracks->SetBackgroundTask(m_pListThread);
+}
+
+int PlaylistWindow::GetListModeFromResize(int resize)
+{
+	if (resize > ICON_HEIGHT_MID)
+	{
+		return VIEW_MODE_ICON;
+	}
+	else
+	{
+		return VIEW_MODE_LIST;
+	}
 }
 
 void PlaylistWindow::SetSelectOffTopMenu()

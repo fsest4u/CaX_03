@@ -71,8 +71,13 @@ private slots:
 
 private:
 
+	void ReadSettings();
+	void WriteSettings();
+
 	void ConnectSigToSlot();
 	void Initialize();
+	int GetListModeFromResize(int resize);
+
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
 
@@ -121,6 +126,8 @@ private:
 	int					m_TypeMode;
 
 	int					m_ID;
+	int					m_ResizeItem;
+	int					m_ResizeTrack;
 
 
 	Ui::PlaylistWindow *ui;
