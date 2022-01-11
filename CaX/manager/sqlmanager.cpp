@@ -439,7 +439,7 @@ QString SQLManager::GetQueryTrackList(int nID,
 				.arg(column)
 				.arg(increase)
 				.arg(nStartIndex)
-				.arg(10);
+				.arg(nLimitCount);
 		break;
 	}
 
