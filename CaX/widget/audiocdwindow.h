@@ -102,7 +102,7 @@ private:
 	QStringList			m_ComposerList;
 	QStringList			m_MoodList;
 
-	int					m_Resize;
+	int					m_ResizeTrack;
 
 
 

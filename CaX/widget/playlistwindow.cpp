@@ -561,6 +561,14 @@ void PlaylistWindow::ReadSettings()
 
 	settings.endGroup();
 
+	if (m_ResizeItem <= 0)
+	{
+		m_ResizeItem = ICON_HEIGHT_MAX;
+	}
+	if (m_ResizeTrack <= 0)
+	{
+		m_ResizeTrack = LIST_HEIGHT_MIN;
+	}
 //	LogDebug("read resize item [%d] resize track [%d]", m_ResizeItem, m_ResizeTrack);
 }
 

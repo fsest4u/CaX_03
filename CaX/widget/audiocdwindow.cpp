@@ -81,15 +81,17 @@ AudioCDWindow::~AudioCDWindow()
 
 void AudioCDWindow::AddWidgetAudioCDHome()
 {
+	m_ListMode = GetListModeFromResize(m_ResizeTrack);
+
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pInfoTracks->GetFormSort()->SetResize(m_Resize);
+		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
 	}
 	else
 	{
-		m_pInfoTracks->GetFormSort()->SetResize(m_Resize);
+		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
 		ui->gridLayoutBottom->addWidget(m_pListTracks);
 	}
 }
@@ -276,11 +278,10 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 
 void AudioCDWindow::SlotResize(int resize)
 {
-	m_Resize = resize;
-
+	m_ResizeTrack = resize;
 	WriteSettings();
 
-	int listMode = GetListModeFromResize(m_Resize);
+	int listMode = GetListModeFromResize(resize);
 	if (listMode != m_ListMode)
 	{
 		m_ListMode = listMode;
@@ -314,11 +315,11 @@ void AudioCDWindow::SlotResize(int resize)
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pIconTracks->SetResize(m_Resize);
+		m_pIconTracks->SetResize(resize);
 	}
 	else
 	{
-		m_pListTracks->SetResize(m_Resize);
+		m_pListTracks->SetResize(resize);
 	}
 }
 
@@ -339,9 +340,14 @@ void AudioCDWindow::ReadSettings()
 	SettingIO settings;
 	settings.beginGroup(SETTINGS_GROUP);
 
-	m_Resize = settings.value("resize_value").toInt();
+	m_ResizeTrack = settings.value("resize_track_value").toInt();
 
 	settings.endGroup();
+
+	if (m_ResizeTrack <= 0)
+	{
+		m_ResizeTrack = LIST_HEIGHT_MIN;
+	}
 }
 
 void AudioCDWindow::WriteSettings()
@@ -349,7 +355,7 @@ void AudioCDWindow::WriteSettings()
 	SettingIO settings;
 	settings.beginGroup(SETTINGS_GROUP);
 
-	settings.setValue("resize_value", m_Resize);
+	settings.setValue("resize_track_value", m_ResizeTrack);
 
 	settings.endGroup();
 }
@@ -390,7 +396,7 @@ void AudioCDWindow::Initialize()
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
 
-	m_ListMode = GetListModeFromResize(m_Resize);
+//	m_ListMode = GetListModeFromResize(m_ResizeTrack);
 
 	m_AlbumList.clear();
 	m_AlbumArtistList.clear();
