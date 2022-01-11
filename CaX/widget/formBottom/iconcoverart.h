@@ -38,7 +38,7 @@ public:
 signals:
 
 	void SigSearchCoverArt(int index, QString url);
-	void SigAppendIconList();
+	void SigAppendList();
 
 
 private slots:

@@ -43,7 +43,7 @@ private slots:
 //	void SlotRespSearchCoverArt(QByteArray data, int index);
 	void SlotRespSearchCoverArt(QString filename, int index);
 	void SlotSearchCoverArt(int index, QString url);
-	void SlotAppendIconList();
+	void SlotAppendList();
 	void SlotSelectCoverArt(int index);
 
 private:

@@ -63,7 +63,6 @@ private slots:
 	void SlotItemPlayRandom();
 	void SlotItemTopMenu();
 	void SlotItemTopMenuAction(int menuID);
-//	void SlotItemResize(int resize);
 
 	void SlotOptionMenuAction(int nID, int menuID);
 	void SlotAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);

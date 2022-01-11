@@ -947,48 +947,6 @@ void MusicDBWindow::SlotSelectPlay(int nID, int where)
 	}
 }
 
-//void MusicDBWindow::SlotItemResize(int resize)
-//{
-//	int listMode = VIEW_MODE_ICON;
-//	if (resize > ICON_HEIGHT_MID)
-//	{
-//		listMode = VIEW_MODE_ICON;
-//	}
-//	else
-//	{
-//		listMode = VIEW_MODE_LIST;
-//	}
-
-//	if (listMode != m_ListMode)
-//	{
-//		m_ListMode = listMode;
-//		if (m_ListMode == VIEW_MODE_ICON)
-//		{
-//			LogDebug("icon~~~~~~~~");
-//			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
-//			m_pListTracks->hide();
-//			m_pIconTracks->show();
-
-//		}
-//		else
-//		{
-//			LogDebug("list~~~~~~~~");
-//			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
-//			m_pIconTracks->hide();
-//			m_pListTracks->show();
-//		}
-//	}
-
-//	if (m_ListMode == VIEW_MODE_ICON)
-//	{
-//		m_pIconTracks->SetResize(resize);
-//	}
-//	else
-//	{
-//		m_pListTracks->SetResize(resize);
-//	}
-//}
-
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
 	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
@@ -1131,39 +1089,24 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 	m_pMgr->RequestCoverArt(fullpath, index, mode);
 }
 
-void MusicDBWindow::SlotAppendIconList()
-{
-	m_CurPage++;
-	if (m_TotalPage > m_CurPage)
-	{
-		m_pMgr->RequestCategoryList(m_nCategory,
-									m_nSortCategory,
-									m_bIncreaseCategory,
-									m_ArtistID,
-									m_GenreID,
-									m_ComposerID,
-									m_nFavorite,
-									m_nRating,
-									m_LimitCount * m_CurPage,
-									m_LimitCount);
-	}
-	else
-	{
-		m_CurPage = m_TotalPage - 1;
-	}
-}
-
 void MusicDBWindow::SlotAppendList()
 {
 	m_CurPage++;
-	if (m_TotalPage > m_CurPage)
+	if (m_TotalPage >= m_CurPage)
 	{
-		m_pMgr->RequestTrackList(m_nID,
-									   m_nCategory,
-									   m_nSortTrack,
-									   m_bIncreaseTrack,
-									   m_LimitCount * m_CurPage,
-									   m_LimitCount);
+		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+		{
+			RequestCategoryList(m_nCatID, m_nCatID2);
+		}
+		else if (m_TypeMode == TYPE_MODE_TRACK
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+		{
+			RequestTrackList(m_nID, m_nCatID, m_nCatID2);
+		}
 	}
 	else
 	{
@@ -1646,7 +1589,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pIconTracks, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
+	connect(m_pIconTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
 

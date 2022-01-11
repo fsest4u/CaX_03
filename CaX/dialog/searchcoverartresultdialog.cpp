@@ -120,7 +120,7 @@ void SearchCoverArtResultDialog::SlotSearchCoverArt(int index, QString url)
 	m_pMgr->RequestSearchCoverArt(url, index);
 }
 
-void SearchCoverArtResultDialog::SlotAppendIconList()
+void SearchCoverArtResultDialog::SlotAppendList()
 {
 	if (!m_NextUrl.isEmpty())
 	{
@@ -149,7 +149,7 @@ void SearchCoverArtResultDialog::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespSearchCoverArt(QString, int)), this, SLOT(SlotRespSearchCoverArt(QString, int)));
 
 	connect(m_pIconCoverArt, SIGNAL(SigSearchCoverArt(int, QString)), this, SLOT(SlotSearchCoverArt(int, QString)));
-	connect(m_pIconCoverArt, SIGNAL(SigAppendIconList()), this, SLOT(SlotAppendIconList()));
+	connect(m_pIconCoverArt, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pIconCoverArt->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
 	connect(ui->btnMore, SIGNAL(clicked()), this, SLOT(SlotAppendIconList()));

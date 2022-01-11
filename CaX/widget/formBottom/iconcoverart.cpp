@@ -105,7 +105,7 @@ void IconCoverArt::SlotScrollValueChanged(int value)
 //	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
 	if (value >= max)
 	{
-		emit SigAppendIconList();
+		emit SigAppendList();
 	}
 }
 
