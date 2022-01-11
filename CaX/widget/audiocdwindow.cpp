@@ -12,6 +12,7 @@
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/settingio.h"
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
@@ -22,6 +23,7 @@
 #include "widget/formBottom/listtracks.h"
 #include "widget/formBottom/listtracksdelegate.h"
 
+const QString SETTINGS_GROUP = "AudioCD";
 
 AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
@@ -41,11 +43,14 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+	ReadSettings();
 	Initialize();
 }
 
 AudioCDWindow::~AudioCDWindow()
 {
+	WriteSettings();
+
 	if (m_pMgr)
 	{
 		delete m_pMgr;
@@ -77,14 +82,14 @@ AudioCDWindow::~AudioCDWindow()
 void AudioCDWindow::AddWidgetAudioCDHome()
 {
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-//	if (m_ListMode == VIEW_MODE_ICON)
-//	{
-//		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
-//		ui->gridLayoutBottom->addWidget(m_pIconTracks);
-//	}
-//	else
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		m_pInfoTracks->GetFormSort()->SetResize(m_Resize);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	}
+	else
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(m_Resize);
 		ui->gridLayoutBottom->addWidget(m_pListTracks);
 	}
 }
@@ -108,11 +113,18 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 	SetOptionMenu();
 
-//	m_pIconTracks->ClearNodeList();
-//	m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->ClearNodeList();
+		m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
 
-	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
+	}
+	else
+	{
+		m_pListTracks->ClearNodeList();
+		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
+	}
+
 
 //	m_TotalCount = QString("%1 songs").arg(m_RespList.count());
 //	m_pInfoTracks->SetInfo( MakeInfo() );
@@ -264,16 +276,11 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 
 void AudioCDWindow::SlotResize(int resize)
 {
-	int listMode = VIEW_MODE_ICON;
-	if (resize > ICON_HEIGHT_MID)
-	{
-		listMode = VIEW_MODE_ICON;
-	}
-	else
-	{
-		listMode = VIEW_MODE_LIST;
-	}
+	m_Resize = resize;
 
+	WriteSettings();
+
+	int listMode = GetListModeFromResize(m_Resize);
 	if (listMode != m_ListMode)
 	{
 		m_ListMode = listMode;
@@ -307,11 +314,11 @@ void AudioCDWindow::SlotResize(int resize)
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pIconTracks->SetResize(resize);
+		m_pIconTracks->SetResize(m_Resize);
 	}
 	else
 	{
-		m_pListTracks->SetResize(resize);
+		m_pListTracks->SetResize(m_Resize);
 	}
 }
 
@@ -325,6 +332,26 @@ void AudioCDWindow::SlotOptionMenuAction(int id, int menuID)
 		DoOptionMenuTrackInfo(id);
 		break;
 	}
+}
+
+void AudioCDWindow::ReadSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	m_Resize = settings.value("resize_value").toInt();
+
+	settings.endGroup();
+}
+
+void AudioCDWindow::WriteSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	settings.setValue("resize_value", m_Resize);
+
+	settings.endGroup();
 }
 
 void AudioCDWindow::ConnectSigToSlot()
@@ -363,7 +390,7 @@ void AudioCDWindow::Initialize()
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
 
-	m_ListMode = VIEW_MODE_LIST;
+	m_ListMode = GetListModeFromResize(m_Resize);
 
 	m_AlbumList.clear();
 	m_AlbumArtistList.clear();
@@ -371,7 +398,6 @@ void AudioCDWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
-
 }
 
 void AudioCDWindow::ResetSelectMap()
@@ -441,6 +467,18 @@ void AudioCDWindow::SetCategoryList(QList<CJsonNode> list)
 		{
 			m_MoodList.append(node.GetString(KEY_MOOD));
 		}
+	}
+}
+
+int AudioCDWindow::GetListModeFromResize(int resize)
+{
+	if (resize > ICON_HEIGHT_MID)
+	{
+		return VIEW_MODE_ICON;
+	}
+	else
+	{
+		return VIEW_MODE_LIST;
 	}
 }
 

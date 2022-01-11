@@ -52,10 +52,14 @@ private slots:
 
 private:
 
+	void ReadSettings();
+	void WriteSettings();
+
 	void ConnectSigToSlot();
 	void Initialize();
 	void ResetSelectMap();
 	void SetCategoryList(QList<CJsonNode> list);
+	int GetListModeFromResize(int resize);
 
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
@@ -97,6 +101,8 @@ private:
 	QStringList			m_GenreList;
 	QStringList			m_ComposerList;
 	QStringList			m_MoodList;
+
+	int					m_Resize;
 
 
 
