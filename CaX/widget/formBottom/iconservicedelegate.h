@@ -23,8 +23,8 @@ public:
 		ICON_SERVICE_MAX
 	};
 
-	int GetServiceType() const;
-	void SetServiceType(int nService);
+	int GetService() const;
+	void SetService(int nService);
 
 signals:
 
@@ -49,7 +49,7 @@ private:
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	int					m_nServiceType;
+	int					m_Service;
 
 };
 

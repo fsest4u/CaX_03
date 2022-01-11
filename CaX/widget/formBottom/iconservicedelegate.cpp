@@ -37,10 +37,10 @@ void IconServiceDelegate::SlotClickTitle(int nType, QString rawData)
 
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-	if (IconService::ICON_SERVICE_INPUT == m_nServiceType
-			|| IconService::ICON_SERVICE_FM_RADIO == m_nServiceType
-			|| IconService::ICON_SERVICE_DAB_RADIO == m_nServiceType
-			|| (IconService::ICON_SERVICE_ISERVICE == m_nServiceType && node.GetString(KEY_ITEM_TYPE).isEmpty()))
+	if (IconService::ICON_SERVICE_INPUT == m_Service
+			|| IconService::ICON_SERVICE_FM_RADIO == m_Service
+			|| IconService::ICON_SERVICE_DAB_RADIO == m_Service
+			|| (IconService::ICON_SERVICE_ISERVICE == m_Service && node.GetString(KEY_ITEM_TYPE).isEmpty()))
 	{
 		emit SigSelectTitle(nType);
 	}
@@ -89,8 +89,14 @@ void IconServiceDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
 	widget->SetRawData(qvariant_cast<QString>(index.data(ICON_SERVICE_RAW)));
 	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(ICON_SERVICE_COVER)));
 	widget->GetFormCoverArt()->SetIndex(qvariant_cast<int>(index.data(ICON_SERVICE_INDEX)));
-	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT)));
-	if (IconService::ICON_SERVICE_GROUP_PLAY == m_nServiceType)
+	if (IconService::ICON_SERVICE_DAB_RADIO == m_Service
+			|| IconService::ICON_SERVICE_FM_RADIO == m_Service
+			|| IconService::ICON_SERVICE_ISERVICE == m_Service
+			|| IconService::ICON_SERVICE_BROWSER == m_Service)
+	{
+		widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT)));
+	}
+	if (IconService::ICON_SERVICE_GROUP_PLAY == m_Service)
 	{
 		widget->GetFormCoverArt()->SetMute(qvariant_cast<bool>(index.data(ICON_SERVICE_MUTE)));
 	}
@@ -110,7 +116,7 @@ void IconServiceDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
 	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), ICON_SERVICE_COVER);
 	model->setData(index, widget->GetFormCoverArt()->GetIndex(), ICON_SERVICE_INDEX);
 	model->setData(index, widget->GetFormCoverArt()->GetSelect(), ICON_SERVICE_SELECT);
-	if (IconService::ICON_SERVICE_GROUP_PLAY == m_nServiceType)
+	if (IconService::ICON_SERVICE_GROUP_PLAY == m_Service)
 	{
 		model->setData(index, widget->GetFormCoverArt()->GetMute(), ICON_SERVICE_MUTE);
 	}
@@ -124,12 +130,12 @@ void IconServiceDelegate::updateEditorGeometry(QWidget *editor, const QStyleOpti
 	editor->setGeometry(option.rect);
 }
 
-int IconServiceDelegate::GetServiceType() const
+int IconServiceDelegate::GetService() const
 {
-	return m_nServiceType;
+	return m_Service;
 }
 
-void IconServiceDelegate::SetServiceType(int nService)
+void IconServiceDelegate::SetService(int Service)
 {
-	m_nServiceType = nService;
+	m_Service = Service;
 }

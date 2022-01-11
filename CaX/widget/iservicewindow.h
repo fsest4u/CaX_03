@@ -46,8 +46,8 @@ public:
 	InfoBrowser *GetInfoBrowser() const;
 	ListBrowser *GetListBrowser() const;
 
-	int GetServiceType() const;
-	void SetServiceType(int ServiceType);
+	int GetInternetType() const;
+	void SetInternetType(int internetType);
 
 	int GetType() const;
 	void SetType(int Type);
@@ -175,7 +175,7 @@ private:
 	QString				m_WebURL;
 	QString				m_PlaylistID;
 
-	int					m_ServiceType;
+	int					m_InternetType;
 	int					m_Type;
 
 	bool				m_bGenre;

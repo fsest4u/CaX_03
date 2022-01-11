@@ -62,7 +62,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 //	m_pLoading->Start();
 	m_Model->clear();
 	m_NodeList = list;
-	m_Delegate->SetServiceType(nService);
+	m_Delegate->SetService(nService);
 
 	int index = 0;
 
@@ -299,9 +299,9 @@ IconServiceDelegate *IconService::GetDelegate()
 void IconService::SlotSelectCoverArt(int index)
 {
 	if ((index < 0)
-			||  (m_Delegate->GetServiceType() == ICON_SERVICE_BROWSER
-				 || m_Delegate->GetServiceType() == ICON_SERVICE_ISERVICE
-				 || m_Delegate->GetServiceType() == ICON_SERVICE_INPUT
+			||  (m_Delegate->GetService() == ICON_SERVICE_BROWSER
+				 || m_Delegate->GetService() == ICON_SERVICE_ISERVICE
+				 || m_Delegate->GetService() == ICON_SERVICE_INPUT
 				 ))
 	{
 		return;
