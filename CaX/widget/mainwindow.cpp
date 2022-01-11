@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-	WriteSettings();
+//	WriteSettings();
 
 	if (m_pObsMgr)
 	{

@@ -479,7 +479,7 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		ui->gridLayoutBottom->addWidget(m_pListBrowser);
 
 		m_pInfoBrowser->GetFormPlay()->ShowMenu();
-	//	m_pInfoBrowser->GetFormSort()->ShowResize();
+//		m_pInfoBrowser->GetFormSort()->ShowResize();
 
 		m_pInfoBrowser->SetCoverArt(list[0].GetString(KEY_COVER_ART));
 		m_pInfoBrowser->SetTitle(m_Root);

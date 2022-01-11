@@ -76,7 +76,7 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 
 MusicDBWindow::~MusicDBWindow()
 {
-	WriteSettings();
+//	WriteSettings();
 
 	if (m_pMgr)
 	{

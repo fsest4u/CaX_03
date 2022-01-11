@@ -49,7 +49,7 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &ev
 
 AudioCDWindow::~AudioCDWindow()
 {
-	WriteSettings();
+//	WriteSettings();
 
 	if (m_pMgr)
 	{
