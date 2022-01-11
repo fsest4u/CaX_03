@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>836</width>
-    <height>192</height>
+    <height>200</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -18,13 +24,13 @@
     <number>60</number>
    </property>
    <property name="topMargin">
-    <number>30</number>
+    <number>20</number>
    </property>
    <property name="rightMargin">
     <number>60</number>
    </property>
    <property name="bottomMargin">
-    <number>10</number>
+    <number>20</number>
    </property>
    <property name="spacing">
     <number>0</number>
@@ -217,13 +223,13 @@ color: rgb(84, 84, 84);
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>20</height>
+       <height>30</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>20</height>
+       <height>30</height>
       </size>
      </property>
      <property name="frameShape">
@@ -259,7 +265,7 @@ color: rgb(84, 84, 84);
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>30</height>
+       <height>28</height>
       </size>
      </property>
     </spacer>

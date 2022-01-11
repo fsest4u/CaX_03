@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>16777215</height>
+    <height>200</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -30,13 +30,13 @@
     <number>60</number>
    </property>
    <property name="topMargin">
-    <number>30</number>
+    <number>20</number>
    </property>
    <property name="rightMargin">
     <number>60</number>
    </property>
    <property name="bottomMargin">
-    <number>10</number>
+    <number>20</number>
    </property>
    <property name="spacing">
     <number>0</number>
@@ -765,7 +765,7 @@ QPushButton::menu-indicator
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QFrame" name="frame_2">
      <property name="minimumSize">
       <size>
@@ -882,6 +882,22 @@ QPushButton::menu-indicator
       </item>
      </layout>
     </widget>
+   </item>
+   <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>37</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
