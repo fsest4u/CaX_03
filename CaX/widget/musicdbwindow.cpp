@@ -273,15 +273,11 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 	m_pMgr->RequestMusicDBOverView();
 }
 
-void MusicDBWindow::RequestTrackList(int nID, int nSort, bool bIncrease, int catID, int catID2)
+void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 {
 	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
 
 	m_nID = nID;
-
-//	m_nCategory = nCategory;
-	m_nSortTrack = nSort;
-	m_bIncreaseTrack = bIncrease;
 
 	if (m_nCategory == SQLManager::CATEGORY_TRACK)
 	{
@@ -618,7 +614,13 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 	{
 		m_DispMode = menuID;
 		m_nSortCategory = menuID;
+		if (SQLManager::DISP_MODE_TRACK != menuID)
+		{
+			WriteSettings();
+		}
+
 		RequestCategoryList(m_nCatID, m_nCatID2);
+
 	}
 	else if (SQLManager::DISP_MODE_ALBUM == menuID)
 	{
@@ -641,6 +643,8 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 void MusicDBWindow::SlotIncDec(bool bIncrease)
 {
 	m_bIncreaseCategory = bIncrease;
+	WriteSettings();
+
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -912,12 +916,18 @@ void MusicDBWindow::SlotItemRating(int nRating)
 
 void MusicDBWindow::SlotItemSortMenu(int sort)
 {
-	RequestTrackList(m_nID, sort, m_bIncreaseTrack, m_nCatID, m_nCatID2);
+	m_nSortTrack = sort;
+	WriteSettings();
+
+	RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 }
 
 void MusicDBWindow::SlotItemIncDec(bool bIncrease)
 {
-	RequestTrackList(m_nID, m_nSortTrack, bIncrease, m_nCatID, m_nCatID2);
+	m_bIncreaseTrack = bIncrease;
+	WriteSettings();
+
+	RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 }
 
 void MusicDBWindow::SlotSelectPlay(int nID, int where)
@@ -1026,7 +1036,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID);
+		widget->RequestTrackList(nID, m_nCatID);
 		widget->SetCoverArt(coverArt);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
@@ -1048,7 +1058,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM_ARTIST, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID, m_nCatID2);
+		widget->RequestTrackList(nID, m_nCatID, m_nCatID2);
 		widget->SetCoverArt(coverArt);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
@@ -1315,7 +1325,7 @@ void MusicDBWindow::SlotRespUpdateCategory(int updateId)
 	{
 		m_nID = updateId;
 	}
-	RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID, m_nCatID2);
+	RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 }
 
 void MusicDBWindow::SlotRespInsertReplaceCategoryAll()
@@ -1509,6 +1519,12 @@ void MusicDBWindow::ReadSettings()
 	m_ResizeItem = settings.value("resize_item_value").toInt();
 	m_ResizeTrack = settings.value("resize_track_value").toInt();
 
+	m_nSortCategory = settings.value("sort_item_value").toInt();
+	m_nSortTrack = settings.value("sort_track_value").toInt();
+
+	m_bIncreaseCategory = settings.value("increase_item").toBool();
+	m_bIncreaseTrack = settings.value("increase_track").toBool();
+
 	settings.endGroup();
 
 	if (m_ResizeItem <= 0)
@@ -1544,6 +1560,13 @@ void MusicDBWindow::WriteSettings()
 
 	settings.setValue("resize_item_value", m_ResizeItem);
 	settings.setValue("resize_track_value", m_ResizeTrack);
+
+	settings.setValue("sort_item_value", m_nSortCategory);
+	settings.setValue("sort_track_value", m_nSortTrack);
+
+	settings.setValue("increase_item", m_bIncreaseCategory);
+	settings.setValue("increase_track", m_bIncreaseTrack);
+
 
 	settings.endGroup();
 }
@@ -1654,8 +1677,8 @@ void MusicDBWindow::Initialize()
 	m_pInfoHome->GetFormPlay()->ShowMenu();
 
 	m_pInfoHome->GetFormSort()->ShowMenu();
-	m_pInfoHome->GetFormSort()->ShowIncDec();
 	m_pInfoHome->GetFormSort()->ShowResize();
+	m_pInfoHome->GetFormSort()->ShowIncDec();
 	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
@@ -1665,8 +1688,8 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 
 	m_pInfoTracks->GetFormSort()->ShowMenu();
-	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->ShowResize();
+	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 
 	m_TopMenuMap.clear();
@@ -1849,7 +1872,7 @@ void MusicDBWindow::DoTopMenuReload()
 
 	if (m_nCategory == SQLManager::CATEGORY_TRACK)
 	{
-		RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID, m_nCatID2);
+		RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 	}
 	else
 	{
@@ -2302,7 +2325,7 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 								   resultDialog.GetThumb());
 
 		// refresh
-		RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID, m_nCatID2);
+		RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 	}
 }
 
@@ -2325,7 +2348,7 @@ void MusicDBWindow::DoOptionMenuRename(int nID)
 				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 		{
 			m_pMgr->RequestRenameTrack(nID, name, m_EventID);
-			RequestTrackList(m_nID, m_nSortTrack, m_bIncreaseTrack, m_nCatID, m_nCatID2);
+			RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 		}
 	}
 
@@ -2376,7 +2399,7 @@ void MusicDBWindow::SetSortMenu(int category)
 	QMap<int, QString> list;
 	if (category == SQLManager::CATEGORY_TRACK)
 	{
-		title = STR_SORT_IMPORTED_DATE;
+		title = GetTitleSortMenu(m_nSortTrack);
 
 		list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
 		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
@@ -2391,7 +2414,7 @@ void MusicDBWindow::SetSortMenu(int category)
 			 || category == SQLManager::CATEGORY_MOOD
 			 || category == SQLManager::CATEGORY_GENRE)
 	{
-		title = STR_SORT_IMPORTED_DATE;
+		title = GetTitleSortMenu(m_nSortCategory);
 
 		list.insert(SQLManager::SORT_IMPORTED_DATE, STR_SORT_IMPORTED_DATE);
 		list.insert(SQLManager::SORT_ALPHABET, STR_SORT_ALPHABET);
@@ -2425,7 +2448,7 @@ void MusicDBWindow::SetSortMenu(int category)
 	}
 	else
 	{
-		title = STR_SORT_IMPORTED_DATE;
+		title = GetTitleSortMenu(m_nSortCategory);
 
 		if (category == SQLManager::CATEGORY_YEAR)
 		{
@@ -2599,6 +2622,41 @@ int MusicDBWindow::GetListModeFromResize(int resize)
 	{
 		return VIEW_MODE_LIST;
 	}
+}
+
+QString MusicDBWindow::GetTitleSortMenu(int sort)
+{
+	QString title;
+
+	switch (sort)
+	{
+	case SQLManager::SORT_IMPORTED_DATE:
+		title = STR_SORT_IMPORTED_DATE;
+		break;
+	case SQLManager::SORT_ALPHABET:
+		title = STR_SORT_ALPHABET;
+		break;
+	case SQLManager::SORT_FAVORITE:
+		title = STR_SORT_FAVORITE;
+		break;
+	case SQLManager::SORT_RATING:
+		title = STR_SORT_RATING;
+		break;
+//	case SQLManager::DISP_MODE_TRACK:
+//		title = STR_DISP_MODE_TRACK;
+//		break;
+//	case SQLManager::DISP_MODE_ALBUM:
+//		title = STR_DISP_MODE_ALBUM;
+//		break;
+//	case SQLManager::DISP_MODE_ARTIST:
+//		title = STR_DISP_MODE_ARTIST;
+//		break;
+//	case SQLManager::DISP_MODE_ARTIST_ALBUM:
+//		title = STR_DISP_MODE_ALBUM;
+//		break;
+	}
+
+	return title;
 }
 
 

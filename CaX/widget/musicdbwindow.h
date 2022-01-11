@@ -31,11 +31,7 @@ public:
 	void AddWidgetTrack(int typeMode = TYPE_MODE_TRACK, int category = SQLManager::CATEGORY_ALBUM);
 
 	void RequestCategoryList(int catID = -1, int catID2 = -1);
-	void RequestTrackList(int nID,
-//						  int nCategory,
-						  int nSort = SQLManager::SORT_IMPORTED_DATE,
-						  bool bIncrease = true,
-						  int catID = -1, int catID2 = -1);
+	void RequestTrackList(int nID, int catID = -1, int catID2 = -1);
 
 //	int GetCategory() const;
 //	void SetCategory(int nCategory);
@@ -194,6 +190,7 @@ private:
 
 	void SetColumn(int typeMode);
 	int GetListModeFromResize(int resize);
+	QString GetTitleSortMenu(int sort);
 
 	MusicDBManager		*m_pMgr;
 	InfoHome			*m_pInfoHome;
