@@ -264,7 +264,7 @@ void IconTracks::SlotScrollValueChanged(int value)
 //	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
 	if (value >= max)
 	{
-		emit SlotAppendList();
+		emit SigAppendList();
 	}
 }
 

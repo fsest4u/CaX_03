@@ -386,7 +386,7 @@ void ListTracksEditor::SetRating(int value)
 {
 	m_Rating = value;
 
-	// temp_code
+	// temp_code, dylee
 	ui->labelRating->setText(QString("%1").arg(value));
 
 }

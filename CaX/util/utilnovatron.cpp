@@ -504,6 +504,46 @@ QString UtilNovatron::GetCategoryTitleName(int category)
 
 }
 
+int UtilNovatron::GetCategoryCount(int category, CJsonNode node)
+{
+	int totalCount = 0;
+
+	switch (category)
+	{
+	case SQLManager::CATEGORY_ALBUM:
+		totalCount = node.GetString(KEY_ALBUM).toInt();
+		break;
+	case SQLManager::CATEGORY_ALBUM_ARTIST:
+		totalCount = node.GetString(KEY_ALBUM_ARTIST).toInt();
+		break;
+	case SQLManager::CATEGORY_ARTIST:
+		totalCount = node.GetString(KEY_ARTIST).toInt();
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		totalCount = node.GetString(KEY_COMPOSER).toInt();
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		totalCount = node.GetString(KEY_GENRE).toInt();
+		break;
+	case SQLManager::CATEGORY_MOOD:
+		totalCount = node.GetString(KEY_MOOD).toInt();
+		break;
+	case SQLManager::CATEGORY_FOLDER:
+		totalCount = node.GetString(KEY_FOLDER).toInt();
+		break;
+	case SQLManager::CATEGORY_YEAR:
+		totalCount = node.GetString(KEY_YEAR).toInt();
+		break;
+	case SQLManager::CATEGORY_TRACK:
+		totalCount = node.GetString(KEY_SONG).toInt();
+		break;
+	default:
+		break;
+	}
+
+	return totalCount;
+}
+
 void UtilNovatron::DebugTypeForBrowser(QString title, int type)
 {
 	if (type & iFolderType_Mask_Play_Top)

@@ -50,7 +50,7 @@ signals:
 
 	void SigReqCoverArt(int id, int index, int mode);
 //	void SigCalcTotalTime(int time);
-	void SlotAppendList();
+	void SigAppendList();
 
 private slots:
 

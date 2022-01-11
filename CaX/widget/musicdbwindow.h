@@ -183,7 +183,6 @@ private:
 	void ThreadTerminateIcon();
 	void ThreadTerminateList();
 
-	int GetTotalCount(CJsonNode node);
 	void CalculatePage(int totalCount);
 
 	void SetColumn(int typeMode);
@@ -240,7 +239,7 @@ private:
 
 	int					m_LimitCount;
 	int					m_TotalPage;
-	int					m_CurPage;
+	int					m_CurIndex;
 
 	int					m_nID;
 	int					m_nCatID;
