@@ -128,26 +128,25 @@ MusicDBWindow::~MusicDBWindow()
 
 void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 {
-
+	m_ListMode = GetListModeFromResize(m_ResizeItem);
 	m_TypeMode = typeMode;
 	m_nCategory = category;
 
 	SetSortMenu(category);
 
-	m_ListMode = VIEW_MODE_ICON;
 	m_pIconTracks->GetDelegate()->SetTypeMode(m_TypeMode);
 
 	ui->gridLayoutTop->addWidget(m_pInfoHome);
-//	if (m_ListMode == VIEW_MODE_ICON)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pInfoHome->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
+		m_pInfoHome->GetFormSort()->SetResize(m_ResizeItem);
 		ui->gridLayoutBottom->addWidget(m_pIconTracks);
 	}
-//	else
-//	{
-//		m_pInfoHome->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
-//		ui->gridLayoutBottom->addWidget(m_pListTracks);
-//	}
+	else
+	{
+		m_pInfoHome->GetFormSort()->SetResize(m_ResizeItem);
+		ui->gridLayoutBottom->addWidget(m_pListTracks);
+	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -160,23 +159,23 @@ void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 
 void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 {
+	m_ListMode = GetListModeFromResize(m_ResizeTrack);
 	m_TypeMode = typeMode;
 	m_nCategory = category;
 
 	SetSortMenu(SQLManager::CATEGORY_TRACK);
 
-	m_ListMode = VIEW_MODE_LIST;
 	m_pIconTracks->GetDelegate()->SetTypeMode(m_TypeMode);
 
 	ui->gridLayoutTop->addWidget(m_pInfoTracks);
-//	if (m_ListMode == VIEW_MODE_ICON)
-//	{
-//		m_pInfoTracks->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
-//		ui->gridLayoutBottom->addWidget(m_pIconTracks);
-//	}
-//	else
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
+		ui->gridLayoutBottom->addWidget(m_pIconTracks);
+	}
+	else
+	{
+		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
 		ui->gridLayoutBottom->addWidget(m_pListTracks);
 	}
 
@@ -410,9 +409,19 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 		service = IconTracks::ICON_TRACKS_MUSIC_DB_TRACK;
 	}
 
-	m_pIconTracks->ClearNodeList();
-	m_pIconTracks->SetNodeList(m_RespList, service);
-	ThreadStartIcon();
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->ClearNodeList();
+		m_pIconTracks->SetNodeList(m_RespList, service);
+		ThreadStartIcon();
+	}
+	else
+	{
+		m_pListTracks->ClearNodeList();
+		m_pListTracks->SetNodeList(m_RespList, service);
+		ThreadStartList();
+	}
+
 }
 
 void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
@@ -462,10 +471,18 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 		service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
 	}
 
-	m_pListTracks->ClearNodeList();
-	m_pListTracks->SetNodeList(m_RespList, service);
-	ThreadStartList();
-
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->ClearNodeList();
+		m_pIconTracks->SetNodeList(m_RespList, service);
+		ThreadStartIcon();
+	}
+	else
+	{
+		m_pListTracks->ClearNodeList();
+		m_pListTracks->SetNodeList(m_RespList, service);
+		ThreadStartList();
+	}
 }
 
 void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
@@ -629,16 +646,17 @@ void MusicDBWindow::SlotIncDec(bool bIncrease)
 
 void MusicDBWindow::SlotResize(int resize)
 {
-	int listMode = VIEW_MODE_ICON;
-	if (resize > ICON_HEIGHT_MID)
+	if (m_TypeMode <= TYPE_MODE_ITEM_ADD)
 	{
-		listMode = VIEW_MODE_ICON;
+		m_ResizeItem = resize;
 	}
 	else
 	{
-		listMode = VIEW_MODE_LIST;
+		m_ResizeTrack = resize;
 	}
+	WriteSettings();
 
+	int listMode = GetListModeFromResize(resize);
 	if (listMode != m_ListMode)
 	{
 		m_ListMode = listMode;
@@ -1488,7 +1506,19 @@ void MusicDBWindow::ReadSettings()
 	m_ShowBitDepth = settings.value("show_bit_depth").toBool();
 	m_ShowRating = settings.value("show_rating").toBool();
 
+	m_ResizeItem = settings.value("resize_item_value").toInt();
+	m_ResizeTrack = settings.value("resize_track_value").toInt();
+
 	settings.endGroup();
+
+	if (m_ResizeItem <= 0)
+	{
+		m_ResizeItem = ICON_HEIGHT_MAX;
+	}
+	if (m_ResizeTrack <= 0)
+	{
+		m_ResizeTrack = LIST_HEIGHT_MIN;
+	}
 }
 
 void MusicDBWindow::WriteSettings()
@@ -1511,6 +1541,9 @@ void MusicDBWindow::WriteSettings()
 	settings.setValue("show_sample_rate", m_ShowSampleRate);
 	settings.setValue("show_bit_depth", m_ShowBitDepth);
 	settings.setValue("show_rating", m_ShowRating);
+
+	settings.setValue("resize_item_value", m_ResizeItem);
+	settings.setValue("resize_track_value", m_ResizeTrack);
 
 	settings.endGroup();
 }
@@ -1623,7 +1656,6 @@ void MusicDBWindow::Initialize()
 	m_pInfoHome->GetFormSort()->ShowMenu();
 	m_pInfoHome->GetFormSort()->ShowIncDec();
 	m_pInfoHome->GetFormSort()->ShowResize();
-//	m_pInfoHome->GetFormSort()->SetResize(ICON_HEIGHT_MAX);
 	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
@@ -1635,7 +1667,6 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormSort()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->ShowResize();
-//	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 
 	m_TopMenuMap.clear();
@@ -1649,7 +1680,7 @@ void MusicDBWindow::Initialize()
 	m_ComposerList.clear();
 	m_MoodList.clear();
 
-	m_ListMode = VIEW_MODE_ICON;
+//	m_ListMode = VIEW_MODE_ICON;
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
 	m_DispMode = SQLManager::DISP_MODE_TRACK;
 
@@ -2555,6 +2586,18 @@ void MusicDBWindow::SetColumn(int typeMode)
 		m_pListTracks->GetDelegate()->SetShowSampleRate(m_ShowSampleRate);
 		m_pListTracks->GetDelegate()->SetShowBitDepth(m_ShowBitDepth);
 		m_pListTracks->GetDelegate()->SetShowRating(m_ShowRating);
+	}
+}
+
+int MusicDBWindow::GetListModeFromResize(int resize)
+{
+	if (resize > ICON_HEIGHT_MID)
+	{
+		return VIEW_MODE_ICON;
+	}
+	else
+	{
+		return VIEW_MODE_LIST;
 	}
 }
 

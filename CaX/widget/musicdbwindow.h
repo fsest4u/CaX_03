@@ -193,6 +193,7 @@ private:
 	void CalculatePage(int totalCount);
 
 	void SetColumn(int typeMode);
+	int GetListModeFromResize(int resize);
 
 	MusicDBManager		*m_pMgr;
 	InfoHome			*m_pInfoHome;
@@ -231,6 +232,9 @@ private:
 	int					m_nSortTrack;
 	bool				m_bIncreaseCategory;
 	bool				m_bIncreaseTrack;
+
+	int					m_ResizeItem;
+	int					m_ResizeTrack;
 
 	int					m_nFavorite;
 	int					m_nRating;
