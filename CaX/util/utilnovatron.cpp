@@ -437,14 +437,17 @@ QString UtilNovatron::GetCategoryName(int category)
 	case SQLManager::CATEGORY_ALBUM:
 		title = KEY_ALBUM;
 		break;
+	case SQLManager::CATEGORY_ALBUM_ARTIST:
+		title = KEY_ALBUM_ARTIST;
+		break;
 	case SQLManager::CATEGORY_ARTIST:
 		title = KEY_ARTIST;
 		break;
-	case SQLManager::CATEGORY_GENRE:
-		title = KEY_GENRE;
-		break;
 	case SQLManager::CATEGORY_COMPOSER:
 		title = KEY_COMPOSER;
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		title = KEY_GENRE;
 		break;
 	case SQLManager::CATEGORY_MOOD:
 		title = KEY_MOOD;
