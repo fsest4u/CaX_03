@@ -248,6 +248,8 @@ void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptio
 
 	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
 	widget->setGeometry(rect);
+	widget->SetFrameSizeFormCoverArt(m_Resize);
+//	LogDebug("resize [%d], height [%d]", m_Resize, rect.height());
 }
 
 bool ListTracksDelegate::GetShowFavorite() const
@@ -349,7 +351,6 @@ void ListTracksDelegate::SetResize(int Resize)
 {
 	m_Resize = Resize;
 }
-
 
 bool ListTracksDelegate::GetShowRating() const
 {

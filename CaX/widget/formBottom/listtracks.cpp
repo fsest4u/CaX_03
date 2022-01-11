@@ -253,7 +253,7 @@ void ListTracks::SetResize(int resize)
 		QModelIndex index = m_Model->index(i, 0);
 		m_ListView->openPersistentEditor(index);
 	}
-	//	m_pLoading->Stop();
+//	m_pLoading->Stop();
 }
 
 void ListTracks::SetEditor(int index)

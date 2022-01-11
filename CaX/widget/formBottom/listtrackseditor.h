@@ -87,6 +87,8 @@ public:
 
 	FormCoverArt *GetFormCoverArt() const;
 
+	void SetFrameSizeFormCoverArt(int size);
+
 signals:
 
 	void SigClickCoverArt(int index);

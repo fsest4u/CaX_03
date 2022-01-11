@@ -425,6 +425,12 @@ FormCoverArt *ListTracksEditor::GetFormCoverArt() const
 	return m_pFormCoverArt;
 }
 
+void ListTracksEditor::SetFrameSizeFormCoverArt(int size)
+{
+	ui->frameFormCoverArt->setMaximumWidth(size);
+	ui->frameFormCoverArt->setMaximumHeight(size);
+}
+
 bool ListTracksEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
