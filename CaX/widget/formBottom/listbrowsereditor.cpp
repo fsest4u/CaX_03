@@ -403,5 +403,10 @@ void ListBrowserEditor::Initialize()
 	ui->labelTitle->installEventFilter(this);
 
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
+
+	if (ui->frameFormCoverArt->width() <= 40)
+	{
+		m_pFormCoverArt->SetMinimumSizeCheck(15);
+	}
 }
 

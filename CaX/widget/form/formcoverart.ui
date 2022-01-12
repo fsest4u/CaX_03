@@ -308,8 +308,8 @@ QLabel:hover
           <widget class="QLabel" name="labelCheck">
            <property name="minimumSize">
             <size>
-             <width>30</width>
-             <height>30</height>
+             <width>10</width>
+             <height>10</height>
             </size>
            </property>
            <property name="maximumSize">

@@ -21,6 +21,10 @@ ListServiceEditor::ListServiceEditor(QWidget *parent) :
 
 	ConnectSigToSlot();
 
+	if (ui->frameFormCoverArt->width() <= 60)
+	{
+		m_pFormCoverArt->SetMinimumSizeCheck(20);
+	}
 }
 
 ListServiceEditor::~ListServiceEditor()

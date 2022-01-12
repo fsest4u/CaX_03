@@ -550,4 +550,9 @@ void ListTracksEditor::Initialize()
 
 	m_ID = -1;
 //	m_CoverArt.clear();
+
+	if (ui->frameFormCoverArt->width() <= 60)
+	{
+		m_pFormCoverArt->SetMinimumSizeCheck(20);
+	}
 }

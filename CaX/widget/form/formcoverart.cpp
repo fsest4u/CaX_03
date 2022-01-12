@@ -198,7 +198,7 @@ void FormCoverArt::SetSelect(bool Select)
 
 	style = QString("QLabel	\
 					{	\
-					  border-image: url(\":/resource/%1\");	\
+						border-image: url(\":/resource/%1\");	\
 					}").arg(style);
 
 	ui->labelCheck->setStyleSheet(style);
@@ -242,6 +242,12 @@ int FormCoverArt::GetIndex() const
 void FormCoverArt::SetIndex(int Index)
 {
 	m_Index = Index;
+}
+
+void FormCoverArt::SetMinimumSizeCheck(int size)
+{
+	ui->labelCheck->setMinimumWidth(size);
+	ui->labelCheck->setMinimumHeight(size);
 }
 
 bool FormCoverArt::eventFilter(QObject *object, QEvent *event)
@@ -332,5 +338,8 @@ void FormCoverArt::Initialize()
 	ui->labelCheck->installEventFilter(this);
 	ui->labelPlay->installEventFilter(this);
 	ui->frameCoverArt->installEventFilter(this);
+
+	ui->labelCheck->setMinimumWidth(30);
+	ui->labelCheck->setMinimumHeight(30);
 
 }

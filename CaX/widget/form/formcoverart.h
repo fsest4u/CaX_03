@@ -36,6 +36,8 @@ public:
 	int GetIndex() const;
 	void SetIndex(int Index);
 
+	void SetMinimumSizeCheck(int size);
+
 signals:
 
 	void SigCoverArt(int index);
