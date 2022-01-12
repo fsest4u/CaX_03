@@ -65,7 +65,7 @@ private slots:
 	void SlotRespCategoryInfo(CJsonNode node);
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespSetCoverArt(int id, int category);
-	void SlotRespUpdateCategory(int updateId);
+//	void SlotRespUpdateCategory(int updateId);
 	void SlotRespInsertReplaceCategoryAll();
 	void SlotRespRefresh();
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);

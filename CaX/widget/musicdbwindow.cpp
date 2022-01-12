@@ -1266,14 +1266,14 @@ void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 	LogDebug("id [%d] category [%d]", id, category);
 }
 
-void MusicDBWindow::SlotRespUpdateCategory(int updateId)
-{
-	if (updateId >= 0)
-	{
-		m_nID = updateId;
-	}
-	DoTopMenuReload();
-}
+//void MusicDBWindow::SlotRespUpdateCategory(int updateId)
+//{
+//	if (updateId >= 0)
+//	{
+//		m_nID = updateId;
+//	}
+//	DoTopMenuReload();
+//}
 
 void MusicDBWindow::SlotRespInsertReplaceCategoryAll()
 {
@@ -1554,7 +1554,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfoList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryInfoList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespSetCoverArt(int, int)), this, SLOT(SlotRespSetCoverArt(int, int)));
-	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
+//	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
 	connect(m_pMgr, SIGNAL(SigRespInsertReplaceCategoryAll()), this, SLOT(SlotRespInsertReplaceCategoryAll()));
 	connect(m_pMgr, SIGNAL(SigRespRefresh()), this, SLOT(SlotRespRefresh()));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));

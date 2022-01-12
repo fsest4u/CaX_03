@@ -126,9 +126,9 @@ public:
 	void RequestSetCategoryCoverArt(int id, int category, int eventID, QString image, QString thumb);
 	void RequestSetTrackCoverArt(int id, int category, int eventID, QString image, QString thumb);
 
-	void RequestCheckCategory(int id, int category, int updateCategory, QString updateName);
-	void RequestInsertCategory(int updateCategory, QString updateName);
-	void RequestUpdateCategory(int id, int category, int updateCategory, int updateId);
+//	void RequestCheckCategory(int id, int category, int updateCategory, QString updateName);
+//	void RequestInsertCategory(int updateCategory, QString updateName);
+//	void RequestUpdateCategory(int id, int category, int updateCategory, int updateId);
 
 	void RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> updateMap);
 	void RequestUpdateCategoryAll(QMap<QStringList, QString> updateMap, QStandardItemModel *updateModel);
@@ -163,7 +163,7 @@ signals:
 	void SigRespTrackInfo(CJsonNode node);
 	void SigRespSearchCoverArt(CJsonNode node);
 	void SigRespSetCoverArt(int id, int category);
-	void SigRespUpdateCategory(int updateId);
+//	void SigRespUpdateCategory(int updateId);
 	void SigRespInsertReplaceCategoryAll();
 	void SigRespRefresh();
 
@@ -199,9 +199,9 @@ private:
 		MUSICDB_ADD_TO_PLAYLIST,
 		MUSICDB_SET_CATEGORY_COVER_ART,
 		MUSICDB_SET_TRACK_COVER_ART,
-		MUSICDB_CHECK_CATEGORY,
-		MUSICDB_INSERT_CATEGORY,
-		MUSICDB_UPDATE_CATEGORY,
+//		MUSICDB_CHECK_CATEGORY,
+//		MUSICDB_INSERT_CATEGORY,
+//		MUSICDB_UPDATE_CATEGORY,
 		MUSICDB_INSERT_REPLACE_CATEGORY_ALL,
 		MUSICDB_UPDATE_CATEGORY_ALL,
 		MUSICDB_RANDOM,
@@ -223,9 +223,9 @@ private:
 	void ParseTrackInfo(CJsonNode node);
 	void ParseSearchCoverArt(CJsonNode node);
 	void ParseSetCoverArt();
-	void ParseCheckCategory(CJsonNode node);
-	void ParseInsertCategory(CJsonNode node);
-	void ParseUpdateCategory(CJsonNode node);
+//	void ParseCheckCategory(CJsonNode node);
+//	void ParseInsertCategory(CJsonNode node);
+//	void ParseUpdateCategory(CJsonNode node);
 	void ParseInsertReplaceCategoryAll(CJsonNode node);
 	void ParseRefresh();
 
