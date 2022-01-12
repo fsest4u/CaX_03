@@ -47,6 +47,8 @@ SearchCategory::~SearchCategory()
 void SearchCategory::ClearNodeList()
 {
 	m_Model->clear();
+	m_NodeList.clear();
+
 	ui->gridLayoutContent->removeWidget(m_ListView);
 }
 

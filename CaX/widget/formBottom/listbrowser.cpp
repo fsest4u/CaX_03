@@ -57,6 +57,8 @@ ListBrowser::~ListBrowser()
 void ListBrowser::ClearNodeList()
 {
 	m_Model->clear();
+	m_NodeList.clear();
+	m_SelectMap.clear();
 	ui->gridLayout->removeWidget(m_ListView);
 }
 

@@ -43,6 +43,8 @@ ListSetup::~ListSetup()
 void ListSetup::ClearNodeList()
 {
 	m_Model->clear();
+	m_NodeList.clear();
+
 	ui->gridLayout->removeWidget(m_ListView);
 }
 
