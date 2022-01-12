@@ -123,7 +123,8 @@ public:
 	void RequestRenameTrack(int id, QString name, int eventID);
 
 	void RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category);
-	void RequestSetCoverArt(int id, int category, int eventID, QString image, QString thumb);
+	void RequestSetCategoryCoverArt(int id, int category, int eventID, QString image, QString thumb);
+	void RequestSetTrackCoverArt(int id, int category, int eventID, QString image, QString thumb);
 
 	void RequestCheckCategory(int id, int category, int updateCategory, QString updateName);
 	void RequestInsertCategory(int updateCategory, QString updateName);
@@ -161,9 +162,10 @@ signals:
 	void SigRespCategoryInfoList(QList<CJsonNode> list);
 	void SigRespTrackInfo(CJsonNode node);
 	void SigRespSearchCoverArt(CJsonNode node);
+	void SigRespSetCoverArt(int id, int category);
 	void SigRespUpdateCategory(int updateId);
 	void SigRespInsertReplaceCategoryAll();
-	void SigRespUpdateCategoryAll();
+	void SigRespRefresh();
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
 
@@ -195,7 +197,8 @@ private:
 		MUSICDB_SET_TRACK_INFO,
 		MUSICDB_RENAME_TRACK,
 		MUSICDB_ADD_TO_PLAYLIST,
-		MUSICDB_SET_COVER_ART,
+		MUSICDB_SET_CATEGORY_COVER_ART,
+		MUSICDB_SET_TRACK_COVER_ART,
 		MUSICDB_CHECK_CATEGORY,
 		MUSICDB_INSERT_CATEGORY,
 		MUSICDB_UPDATE_CATEGORY,
@@ -219,11 +222,12 @@ private:
 	void ParseCategoryInfoList(CJsonNode result);
 	void ParseTrackInfo(CJsonNode node);
 	void ParseSearchCoverArt(CJsonNode node);
+	void ParseSetCoverArt();
 	void ParseCheckCategory(CJsonNode node);
 	void ParseInsertCategory(CJsonNode node);
 	void ParseUpdateCategory(CJsonNode node);
 	void ParseInsertReplaceCategoryAll(CJsonNode node);
-	void ParseUpdateCategoryAll(CJsonNode node);
+	void ParseRefresh();
 
 	QList<CJsonNode> ParseResultNode(CJsonNode result);
 

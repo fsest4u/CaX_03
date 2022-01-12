@@ -656,9 +656,33 @@ void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap, int cat
 	RequestCommand(node, MUSICDB_ADD_TO_PLAYLIST);
 }
 
-void MusicDBManager::RequestSetCoverArt(int id, int category, int eventID, QString image, QString thumb)
+void MusicDBManager::RequestSetCategoryCoverArt(int id, int category, int eventID, QString image, QString thumb)
 {
+	m_ID = id;
+	m_Category = category;
+
 	QString strCat = UtilNovatron::GetCategoryName(category);
+
+	CJsonNode coverArt(JSON_OBJECT);
+	coverArt.Add(KEY_IMAGE_URL, image);
+	coverArt.Add(KEY_THUMB_URL, thumb);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_MUSIC_DB);
+	node.Add(KEY_CMD1, VAL_SET_ART);
+	node.Add(KEY_CMD2, VAL_CATEGORY);
+	node.Add(KEY_CATEGORY, strCat);
+	node.AddInt(KEY_EVENT_ID, eventID);
+	node.Add(KEY_COVER_ART, coverArt);
+	node.AddInt(KEY_ID_UPPER, id);
+
+	RequestCommand(node, MUSICDB_SET_CATEGORY_COVER_ART);
+}
+
+void MusicDBManager::RequestSetTrackCoverArt(int id, int category, int eventID, QString image, QString thumb)
+{
+	m_ID = id;
+	m_Category = category;
 
 	CJsonNode coverArt(JSON_OBJECT);
 	coverArt.Add(KEY_IMAGE_URL, image);
@@ -675,8 +699,7 @@ void MusicDBManager::RequestSetCoverArt(int id, int category, int eventID, QStri
 	node.Add(KEY_COVER_ART, coverArt);
 	node.Add(KEY_IDS, idArr);
 
-	RequestCommand(node, MUSICDB_SET_COVER_ART);
-
+	RequestCommand(node, MUSICDB_SET_TRACK_COVER_ART);
 }
 
 void MusicDBManager::RequestCheckCategory(int id, int category, int updateCategory, QString updateName)
@@ -903,6 +926,10 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_TRACK_INFO:
 		ParseTrackInfo(node);
 		return;
+	case MUSICDB_SET_CATEGORY_COVER_ART:
+	case MUSICDB_SET_TRACK_COVER_ART:
+		ParseSetCoverArt();
+		break;
 	case MUSICDB_CHECK_CATEGORY:
 		ParseCheckCategory(node);
 		return;
@@ -916,7 +943,7 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 		ParseInsertReplaceCategoryAll(node);
 		break;
 	case MUSICDB_UPDATE_CATEGORY_ALL:
-		ParseUpdateCategoryAll(node);
+		ParseRefresh();
 		break;
 	case MUSICDB_MAX:
 		emit SigRespError(STR_INVALID_ID);
@@ -1073,6 +1100,11 @@ void MusicDBManager::ParseSearchCoverArt(CJsonNode node)
 	emit SigRespSearchCoverArt(node);
 }
 
+void MusicDBManager::ParseSetCoverArt()
+{
+	emit SigRespSetCoverArt(m_ID, m_Category);
+}
+
 void MusicDBManager::ParseCheckCategory(CJsonNode node)
 {
 	CJsonNode result = node.GetArray(VAL_RESULT);
@@ -1130,11 +1162,9 @@ void MusicDBManager::ParseInsertReplaceCategoryAll(CJsonNode node)
 	emit SigRespInsertReplaceCategoryAll();
 }
 
-void MusicDBManager::ParseUpdateCategoryAll(CJsonNode node)
+void MusicDBManager::ParseRefresh()
 {
-	Q_UNUSED(node)
-
-	emit SigRespUpdateCategoryAll();
+	emit SigRespRefresh();
 }
 
 QList<CJsonNode> MusicDBManager::ParseResultNode(CJsonNode result)

@@ -1260,6 +1260,12 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 	}
 }
 
+void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
+{
+	// temp_code, dylee
+	LogDebug("id [%d] category [%d]", id, category);
+}
+
 void MusicDBWindow::SlotRespUpdateCategory(int updateId)
 {
 	if (updateId >= 0)
@@ -1274,7 +1280,7 @@ void MusicDBWindow::SlotRespInsertReplaceCategoryAll()
 	m_pMgr->RequestUpdateCategoryAll(m_UpdateMap, m_UpdateModel);
 }
 
-void MusicDBWindow::SlotRespUpdateCategoryAll()
+void MusicDBWindow::SlotRespRefresh()
 {
 	DoTopMenuReload();
 }
@@ -1547,9 +1553,10 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfoList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryInfoList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespSetCoverArt(int, int)), this, SLOT(SlotRespSetCoverArt(int, int)));
 	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
 	connect(m_pMgr, SIGNAL(SigRespInsertReplaceCategoryAll()), this, SLOT(SlotRespInsertReplaceCategoryAll()));
-	connect(m_pMgr, SIGNAL(SigRespUpdateCategoryAll()), this, SLOT(SlotRespUpdateCategoryAll()));
+	connect(m_pMgr, SIGNAL(SigRespRefresh()), this, SLOT(SlotRespRefresh()));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pInfoHome->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
@@ -2277,13 +2284,30 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 	resultDialog.RequestCoverArtList(site, keyword, artist);
 	if (resultDialog.exec() == QDialog::Accepted)
 	{
-		m_pMgr->RequestSetCoverArt(nID,
-								   SQLManager::CATEGORY_TRACK,
-								   m_EventID,
-								   resultDialog.GetImage(),
-								   resultDialog.GetThumb());
-
-		DoTopMenuReload();
+		QString image = resultDialog.GetImage();
+		QString thumb = resultDialog.GetThumb();
+		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+		{
+			m_pMgr->RequestSetCategoryCoverArt(nID,
+									   m_nCategory,
+									   m_EventID,
+									   image,
+									   thumb);
+		}
+		else if (m_TypeMode == TYPE_MODE_TRACK
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+		{
+			m_pMgr->RequestSetTrackCoverArt(nID,
+									   SQLManager::CATEGORY_TRACK,
+									   m_EventID,
+									   image,
+									   thumb);
+		}
+//		DoTopMenuReload();
 	}
 }
 
@@ -2306,7 +2330,7 @@ void MusicDBWindow::DoOptionMenuRename(int nID)
 		{
 			m_pMgr->RequestRenameTrack(nID, name, m_EventID);
 		}
-		DoTopMenuReload();
+//		DoTopMenuReload();
 	}
 
 }
