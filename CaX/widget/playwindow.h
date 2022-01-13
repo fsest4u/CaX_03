@@ -38,7 +38,7 @@ signals:
 
 private slots:
 
-	void SlotClickCoverArt();
+	void SlotClickCoverArt(int index);
 	void SlotBtnInfo();
 	void SlotBtnPlayPrev();
 	void SlotBtnPlay();

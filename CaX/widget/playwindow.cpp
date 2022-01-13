@@ -84,10 +84,11 @@ void PlayWindow::SetAddr(const QString &addr)
 	m_pMgr->SetAddr(addr);
 }
 
-void PlayWindow::SlotClickCoverArt()
+void PlayWindow::SlotClickCoverArt(int index)
 {
-	LogDebug("click label cover art");
-//	m_pMgr->RequestQueueList(m_TimeStamp);
+	Q_UNUSED(index)
+
+	SlotBtnInfo();
 
 }
 
@@ -236,7 +237,7 @@ void PlayWindow::SlotQueueList(CJsonNode node)
 
 void PlayWindow::ConnectSigToSlot()
 {
-	connect(ui->btnInfo, SIGNAL(clicked()), this, SLOT(SlotBtnInfo()));
+//	connect(ui->btnInfo, SIGNAL(clicked()), this, SLOT(SlotBtnInfo()));
 	connect(ui->btnPrev, SIGNAL(clicked()), this, SLOT(SlotBtnPlayPrev()));
 	connect(ui->btnPlay, SIGNAL(clicked()), this, SLOT(SlotBtnPlay()));
 	connect(ui->btnStop, SIGNAL(clicked()), this, SLOT(SlotBtnStop()));
@@ -252,6 +253,10 @@ void PlayWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigTrackInfo(CJsonNode)), this, SLOT(SlotTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
 	connect(m_pMgr, SIGNAL(SigQueueList(CJsonNode)), this, SLOT(SlotQueueList(CJsonNode)));
+
+	connect(m_pFormCoverArt, SIGNAL(SigCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
+	connect(m_pFormTitle, SIGNAL(SigTitle()), this, SLOT(SlotBtnInfo()));
+	connect(m_pFormTitle, SIGNAL(SigSubtitle()), this, SLOT(SlotBtnInfo()));
 }
 
 void PlayWindow::Initialize()
@@ -270,6 +275,8 @@ void PlayWindow::Initialize()
 	InitPlayInfo();
 	InitPlayTimeSlider();
 	EnableUI(false);
+
+	ui->btnInfo->hide();
 }
 
 void PlayWindow::InitVariable()

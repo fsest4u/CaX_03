@@ -265,7 +265,7 @@ void TopWindow::Initialize()
 								  padding: 0px 20px 0px 20px;	\
 							  }	\
 							  QMenu::item:selected {	\
-								  background: rgbargb(238,238,238,255);	\
+								  background: rgba(238,238,238,255);	\
 							  }");
 
 	m_DeviceMenu->setStyleSheet(styleDevice);

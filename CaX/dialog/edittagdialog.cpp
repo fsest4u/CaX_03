@@ -89,7 +89,7 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 {
 	int width = event->size().width();
 	int height = event->size().height();
-	LogDebug("resize w [%d] h [%d]", width, height);
+//	LogDebug("resize w [%d] h [%d]", width, height);
 
 	int colCnt = ui->tableView->model()->columnCount();
 	int rowCnt = ui->tableView->model()->rowCount();
