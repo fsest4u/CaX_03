@@ -81,13 +81,13 @@ background-color: rgb(52, 174, 214);
        <widget class="QFrame" name="frame">
         <property name="minimumSize">
          <size>
-          <width>250</width>
+          <width>300</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>250</width>
+          <width>300</width>
           <height>16777215</height>
          </size>
         </property>
@@ -250,13 +250,13 @@ QPushButton:hover
           <widget class="QPushButton" name="btnDeviceMenu">
            <property name="minimumSize">
             <size>
-             <width>52</width>
+             <width>100</width>
              <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>52</width>
+             <width>100</width>
              <height>30</height>
             </size>
            </property>
@@ -269,13 +269,16 @@ QPushButton:hover
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-  color: rgb(255, 255, 255);
-  border-image: url(&quot;:/resource/btm-btn50-device-n.png&quot;);
+    color: rgb(255, 255, 255);
+	background-color: rgb(52, 174, 214);
+	border: 2px solid;
+	border-radius: 6px;
+	border-color: rgb(255, 255, 255);	
 }
 
 QPushButton:hover
 {
-  border-image: url(&quot;:/resource/btm-btn50-device-h.png&quot;);
+	border-color: rgb(84, 84, 84);
 }
 QPushButton::menu-indicator
 {
@@ -335,13 +338,13 @@ color: rgb(255, 255, 255);</string>
        <widget class="QFrame" name="frame_3">
         <property name="minimumSize">
          <size>
-          <width>250</width>
+          <width>300</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>250</width>
+          <width>300</width>
           <height>16777215</height>
          </size>
         </property>
