@@ -40,6 +40,10 @@ public:
 	QStandardItemModel *GetModel() const;
 	QMap<QStringList, QString> GetUpdateCell() const;
 
+protected:
+
+	void resizeEvent(QResizeEvent *);
+
 private slots:
 
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);

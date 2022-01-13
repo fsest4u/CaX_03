@@ -85,6 +85,24 @@ QMap<QStringList, QString> EditTagDialog::GetUpdateCell() const
 	return m_MapUpdateCell;
 }
 
+void EditTagDialog::resizeEvent(QResizeEvent *event)
+{
+	int width = event->size().width();
+	int height = event->size().height();
+	LogDebug("resize w [%d] h [%d]", width, height);
+
+	int colCnt = ui->tableView->model()->columnCount();
+	int rowCnt = ui->tableView->model()->rowCount();
+	for (int i = 0; i < colCnt; i++)
+	{
+		ui->tableView->setColumnWidth(i, width / colCnt);
+	}
+	for (int i = 0; i < rowCnt; i++)
+	{
+		ui->tableView->setRowHeight(i, height / rowCnt);
+	}
+}
+
 void EditTagDialog::SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
 {
 
@@ -164,8 +182,8 @@ void EditTagDialog::ConnectSigToSlot()
 
 void EditTagDialog::Initialize()
 {
-	ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+	ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 
 	m_Model = new QStandardItemModel(0, EDIT_TAG_MAX);
 
@@ -187,6 +205,13 @@ void EditTagDialog::Initialize()
 
 	m_EnableChange = false;
 	m_MapUpdateCell.clear();
+
+	Qt::WindowFlags flags = 0;
+	flags |= Qt::WindowMinimizeButtonHint;
+	flags |= Qt::WindowMaximizeButtonHint;
+	flags |= Qt::WindowCloseButtonHint;
+//	flags |= Qt::WindowContextHelpButtonHint;
+	setWindowFlags( flags );
 
 }
 

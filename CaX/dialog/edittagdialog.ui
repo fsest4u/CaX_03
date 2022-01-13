@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>800</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
-    <height>800</height>
+    <width>800</width>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -33,12 +33,12 @@ QPushButton
 QTableView
 {
 	color: rgb(84, 84, 84);
-	font: 14pt &quot;Segoe UI&quot;;
+	font: 10pt &quot;Segoe UI&quot;;
 }
 QHeaderView
 {
 	color: rgb(84, 84, 84);
-	font: 14pt &quot;Segoe UI&quot;;
+	font: 12pt &quot;Segoe UI&quot;;
 }
 QWidget
 {
@@ -47,7 +47,14 @@ QWidget
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QTableView" name="tableView"/>
+    <widget class="QTableView" name="tableView">
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
