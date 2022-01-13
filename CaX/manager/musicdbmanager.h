@@ -120,6 +120,7 @@ public:
 	void RequestRenameCategory(int id, QString name, int nCategory, int eventID);
 	void RequestTrackInfo(int id);
 	void RequestSetTrackInfo(int id, int eventID, CJsonNode node);
+	void RequestSetTrackInfoAll(QMap<QStringList, QString> updateMap, QStandardItemModel *updateModel, int eventID);
 	void RequestRenameTrack(int id, QString name, int eventID);
 
 	void RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category);
@@ -130,8 +131,8 @@ public:
 //	void RequestInsertCategory(int updateCategory, QString updateName);
 //	void RequestUpdateCategory(int id, int category, int updateCategory, int updateId);
 
-	void RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> updateMap);
-	void RequestUpdateCategoryAll(QMap<QStringList, QString> updateMap, QStandardItemModel *updateModel);
+//	void RequestInsertIgnoreCategoryAll(QMap<QStringList, QString> updateMap);
+//	void RequestUpdateCategoryAll(QMap<QStringList, QString> updateMap, QStandardItemModel *updateModel);
 
 	void RequestRandom();
 
@@ -164,7 +165,7 @@ signals:
 	void SigRespSearchCoverArt(CJsonNode node);
 	void SigRespSetCoverArt(int id, int category);
 //	void SigRespUpdateCategory(int updateId);
-	void SigRespInsertReplaceCategoryAll();
+//	void SigRespInsertReplaceCategoryAll();
 	void SigRespRefresh();
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
@@ -202,8 +203,8 @@ private:
 //		MUSICDB_CHECK_CATEGORY,
 //		MUSICDB_INSERT_CATEGORY,
 //		MUSICDB_UPDATE_CATEGORY,
-		MUSICDB_INSERT_REPLACE_CATEGORY_ALL,
-		MUSICDB_UPDATE_CATEGORY_ALL,
+//		MUSICDB_INSERT_REPLACE_CATEGORY_ALL,
+//		MUSICDB_UPDATE_CATEGORY_ALL,
 		MUSICDB_RANDOM,
 		MUSICDB_MAX
 	};
@@ -226,7 +227,7 @@ private:
 //	void ParseCheckCategory(CJsonNode node);
 //	void ParseInsertCategory(CJsonNode node);
 //	void ParseUpdateCategory(CJsonNode node);
-	void ParseInsertReplaceCategoryAll(CJsonNode node);
+//	void ParseInsertReplaceCategoryAll(CJsonNode node);
 	void ParseRefresh();
 
 	QList<CJsonNode> ParseResultNode(CJsonNode result);
