@@ -66,7 +66,7 @@ private slots:
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespSetCoverArt(int id, int category);
 //	void SlotRespUpdateCategory(int updateId);
-	void SlotRespInsertReplaceCategoryAll();
+//	void SlotRespInsertReplaceCategoryAll();
 	void SlotRespRefresh();
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
@@ -172,7 +172,7 @@ private:
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
 
-	void DoInsertIgnoreCategoryAll();
+//	void DoInsertIgnoreCategoryAll();
 
 	void SetSortMenu(int category);
 

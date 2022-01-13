@@ -859,168 +859,168 @@ WHERE Song.IsDel = 0 and Song.ROWID = %1	\
 "
 
 
-////////////////////////////////////////////
-/// Check category
-////////////////////////////////////////////
+//////////////////////////////////////////////
+///// Check category
+//////////////////////////////////////////////
 
-#define SQL_CHECK_ALBUM	"	\
-SELECT	\
-	ROWID AS id	\
-FROM Album	\
-WHERE Album.IsDel = 0 AND Album.Name = \"%1\"	\
-"
+//#define SQL_CHECK_ALBUM	"	\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Album	\
+//WHERE Album.IsDel = 0 AND Album.Name = \"%1\"	\
+//"
 
-#define SQL_CHECK_ALBUM_ARTIST	"	\
-SELECT	\
-	ROWID AS id	\
-FROM AlbumArtist	\
-WHERE AlbumArtist.IsDel = 0 AND AlbumArtist.Name = \"%1\"	\
-"
+//#define SQL_CHECK_ALBUM_ARTIST	"	\
+//SELECT	\
+//	ROWID AS id	\
+//FROM AlbumArtist	\
+//WHERE AlbumArtist.IsDel = 0 AND AlbumArtist.Name = \"%1\"	\
+//"
 
-#define SQL_CHECK_ARTIST	"	\
-SELECT	\
-	ROWID AS id	\
-FROM Artist	\
-WHERE Artist.IsDel = 0 AND Artist.Name = \"%1\"	\
-"
+//#define SQL_CHECK_ARTIST	"	\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Artist	\
+//WHERE Artist.IsDel = 0 AND Artist.Name = \"%1\"	\
+//"
 
-#define SQL_CHECK_GENRE	"	\
-SELECT	\
-	ROWID AS id	\
-FROM Genre	\
-WHERE Genre.IsDel = 0 AND Genre.Name = \"%1\"	\
-"
+//#define SQL_CHECK_GENRE	"	\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Genre	\
+//WHERE Genre.IsDel = 0 AND Genre.Name = \"%1\"	\
+//"
 
-#define SQL_CHECK_COMPOSER	"	\
-SELECT	\
-	ROWID AS id	\
-FROM Composer	\
-WHERE Composer.IsDel = 0 AND Composer.Name = \"%1\"	\
-"
+//#define SQL_CHECK_COMPOSER	"	\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Composer	\
+//WHERE Composer.IsDel = 0 AND Composer.Name = \"%1\"	\
+//"
 
-#define SQL_CHECK_MOOD	"	\
-SELECT	\
-	ROWID AS id	\
-FROM Mood	\
-WHERE Mood.IsDel = 0 AND Mood.Name = \"%1\"	\
-"
+//#define SQL_CHECK_MOOD	"	\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Mood	\
+//WHERE Mood.IsDel = 0 AND Mood.Name = \"%1\"	\
+//"
 
-////////////////////////////////////////////
-/// Insert category
-////////////////////////////////////////////
+//////////////////////////////////////////////
+///// Insert category
+//////////////////////////////////////////////
 
-#define SQL_INSERT_ALBUM		"	\
-INSERT INTO	\
-	Album (Name)	\
-VALUES (\"%1\");		\
-SELECT	\
-	ROWID AS id	\
-FROM Album	\
-ORDER BY ROWID DESC	\
-LIMIT 1;	\
-"
+//#define SQL_INSERT_ALBUM		"	\
+//INSERT INTO	\
+//	Album (Name)	\
+//VALUES (\"%1\");		\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Album	\
+//ORDER BY ROWID DESC	\
+//LIMIT 1;	\
+//"
 
-#define SQL_INSERT_ALBUM_ARTIST		"	\
-INSERT INTO	\
-	AlbumArtist (Name)	\
-VALUES (\"%1\");		\
-SELECT	\
-	ROWID AS id	\
-FROM AlbumArtist	\
-ORDER BY ROWID DESC	\
-LIMIT 1;	\
-"
+//#define SQL_INSERT_ALBUM_ARTIST		"	\
+//INSERT INTO	\
+//	AlbumArtist (Name)	\
+//VALUES (\"%1\");		\
+//SELECT	\
+//	ROWID AS id	\
+//FROM AlbumArtist	\
+//ORDER BY ROWID DESC	\
+//LIMIT 1;	\
+//"
 
-#define SQL_INSERT_ARTIST		"	\
-INSERT INTO	\
-	Artist (Name)	\
-VALUES (\"%1\");		\
-SELECT	\
-	ROWID AS id	\
-FROM Artist	\
-ORDER BY ROWID DESC	\
-LIMIT 1;	\
-"
+//#define SQL_INSERT_ARTIST		"	\
+//INSERT INTO	\
+//	Artist (Name)	\
+//VALUES (\"%1\");		\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Artist	\
+//ORDER BY ROWID DESC	\
+//LIMIT 1;	\
+//"
 
-#define SQL_INSERT_GENRE		"	\
-INSERT INTO	\
-	Genre (Name)	\
-VALUES (\"%1\");		\
-SELECT	\
-	ROWID AS id	\
-FROM Genre	\
-ORDER BY ROWID DESC	\
-LIMIT 1;	\
-"
-
-
-#define SQL_INSERT_COMPOSER		"	\
-INSERT INTO	\
-	Composer (Name)	\
-VALUES (\"%1\");		\
-SELECT	\
-	ROWID AS id	\
-FROM Composer	\
-ORDER BY ROWID DESC	\
-LIMIT 1;	\
-"
+//#define SQL_INSERT_GENRE		"	\
+//INSERT INTO	\
+//	Genre (Name)	\
+//VALUES (\"%1\");		\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Genre	\
+//ORDER BY ROWID DESC	\
+//LIMIT 1;	\
+//"
 
 
-#define SQL_INSERT_MOOD		"	\
-INSERT INTO	\
-	Mood (Name)	\
-VALUES (\"%1\");		\
-SELECT	\
-	ROWID AS id	\
-FROM Mood	\
-ORDER BY ROWID DESC	\
-LIMIT 1;	\
-"
+//#define SQL_INSERT_COMPOSER		"	\
+//INSERT INTO	\
+//	Composer (Name)	\
+//VALUES (\"%1\");		\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Composer	\
+//ORDER BY ROWID DESC	\
+//LIMIT 1;	\
+//"
 
 
-////////////////////////////////////////////
-/// Update category
-////////////////////////////////////////////
+//#define SQL_INSERT_MOOD		"	\
+//INSERT INTO	\
+//	Mood (Name)	\
+//VALUES (\"%1\");		\
+//SELECT	\
+//	ROWID AS id	\
+//FROM Mood	\
+//ORDER BY ROWID DESC	\
+//LIMIT 1;	\
+//"
 
-#define SQL_UPDATE_ALBUM		"UPDATE Song SET AlbumID = %1 WHERE Song.%2ID = %3"
-#define SQL_UPDATE_ALBUM_ARTIST	"UPDATE Song SET AlbumArtistID =%1 WHERE Song.%2ID = %3"
-#define SQL_UPDATE_ARTIST		"UPDATE Song SET ArtistID = %1 WHERE Song.%2ID = %3"
-#define SQL_UPDATE_GENRE		"UPDATE Song SET GenreID = %1 WHERE Song.%2ID = %3"
-#define SQL_UPDATE_COMPOSER		"UPDATE Song SET ComposerID = %1 WHERE Song.%2ID = %3"
-#define SQL_UPDATE_MOOD			"UPDATE Song SET MoodID = %1 WHERE Song.%2ID = %3"
+
+//////////////////////////////////////////////
+///// Update category
+//////////////////////////////////////////////
+
+//#define SQL_UPDATE_ALBUM		"UPDATE Song SET AlbumID = %1 WHERE Song.%2ID = %3"
+//#define SQL_UPDATE_ALBUM_ARTIST	"UPDATE Song SET AlbumArtistID =%1 WHERE Song.%2ID = %3"
+//#define SQL_UPDATE_ARTIST		"UPDATE Song SET ArtistID = %1 WHERE Song.%2ID = %3"
+//#define SQL_UPDATE_GENRE		"UPDATE Song SET GenreID = %1 WHERE Song.%2ID = %3"
+//#define SQL_UPDATE_COMPOSER		"UPDATE Song SET ComposerID = %1 WHERE Song.%2ID = %3"
+//#define SQL_UPDATE_MOOD			"UPDATE Song SET MoodID = %1 WHERE Song.%2ID = %3"
 
 
-////////////////////////////////////////////
-/// Insert or Ignore category all
-////////////////////////////////////////////
+//////////////////////////////////////////////
+///// Insert or Ignore category all
+//////////////////////////////////////////////
 
-#define SQL_INSERT_OR_IGNORE_ALBUM			"INSERT or IGNORE INTO Album (Name) VALUES (\"%1\");"
-#define SQL_INSERT_OR_IGNORE_ALBUM_ARTIST	"INSERT or IGNORE INTO AlbumArtist (Name) VALUES (\"%1\");"
-#define SQL_INSERT_OR_IGNORE_ARTIST			"INSERT or IGNORE INTO Artist (Name) VALUES (\"%1\");"
-#define SQL_INSERT_OR_IGNORE_GENRE			"INSERT or IGNORE INTO Genre (Name) VALUES (\"%1\");"
-#define SQL_INSERT_OR_IGNORE_COMPOSER		"INSERT or IGNORE INTO Composer (Name) VALUES (\"%1\");"
-#define SQL_INSERT_OR_IGNORE_MOOD			"INSERT or IGNORE INTO Mood (Name) VALUES (\"%1\");"
+//#define SQL_INSERT_OR_IGNORE_ALBUM			"INSERT or IGNORE INTO Album (Name, FsUuidID) VALUES (\"%1\", 1);"
+//#define SQL_INSERT_OR_IGNORE_ALBUM_ARTIST	"INSERT or IGNORE INTO AlbumArtist (Name, FsUuidID) VALUES (\"%1\", 1);"
+//#define SQL_INSERT_OR_IGNORE_ARTIST			"INSERT or IGNORE INTO Artist (Name, FsUuidID) VALUES (\"%1\", 1);"
+//#define SQL_INSERT_OR_IGNORE_GENRE			"INSERT or IGNORE INTO Genre (Name, FsUuidID) VALUES (\"%1\", 1);"
+//#define SQL_INSERT_OR_IGNORE_COMPOSER		"INSERT or IGNORE INTO Composer (Name, FsUuidID) VALUES (\"%1\", 1);"
+//#define SQL_INSERT_OR_IGNORE_MOOD			"INSERT or IGNORE INTO Mood (Name, FsUuidID) VALUES (\"%1\", 1);"
 
-////////////////////////////////////////////
-/// Update category all
-////////////////////////////////////////////
+//////////////////////////////////////////////
+///// Update category all
+//////////////////////////////////////////////
 
-#define SQL_UPDATE_ALL		"	\
-UPDATE	\
-	Song	\
-SET	\
-	Name = \"%2\",	\
-	Favorite = \"%3\",	\
-	ArtistID = (SELECT Artist.ROWID FROM Artist WHERE Artist.Name = \"%4\"),	\
-	AlbumID = (SELECT Album.ROWID FROM Album WHERE Album.Name = \"%5\"),	\
-	GenreID = (SELECT Genre.ROWID FROM Genre WHERE Genre.Name = \"%6\"),	\
-	AlbumArtistID = (SELECT AlbumArtist.ROWID FROM AlbumArtist WHERE AlbumArtist.Name = \"%7\"),	\
-	ComposerID = (SELECT Composer.ROWID FROM Composer WHERE Composer.Name = \"%8\"),	\
-	Year = \"%9\",	\
-	MoodID = (SELECT Mood.ROWID FROM Mood WHERE Mood.Name = \"%10\")	\
-WHERE	\
-	Song.ROWID = \"%1\";	\
-"
+//#define SQL_UPDATE_ALL		"	\
+//UPDATE	\
+//	Song	\
+//SET	\
+//	Name = \"%2\",	\
+//	Favorite = \"%3\",	\
+//	ArtistID = (SELECT Artist.ROWID FROM Artist WHERE Artist.Name = \"%4\"),	\
+//	AlbumID = (SELECT Album.ROWID FROM Album WHERE Album.Name = \"%5\"),	\
+//	GenreID = (SELECT Genre.ROWID FROM Genre WHERE Genre.Name = \"%6\"),	\
+//	AlbumArtistID = (SELECT AlbumArtist.ROWID FROM AlbumArtist WHERE AlbumArtist.Name = \"%7\"),	\
+//	ComposerID = (SELECT Composer.ROWID FROM Composer WHERE Composer.Name = \"%8\"),	\
+//	Year = \"%9\",	\
+//	MoodID = (SELECT Mood.ROWID FROM Mood WHERE Mood.Name = \"%10\")	\
+//WHERE	\
+//	Song.ROWID = \"%1\";	\
+//"
 
 #endif // SQLCONSTATNS_H
 

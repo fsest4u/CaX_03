@@ -799,7 +799,7 @@ void MainWindow::SlotDeviceAction(QString mac)
 void MainWindow::SlotDisconnectObserver()
 {
 	RemoveAllWidget();
-//	DoDeviceListHome();
+	DoDeviceListHome();
 
 	if (m_pDeviceMgr)
 	{

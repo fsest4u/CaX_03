@@ -119,21 +119,21 @@ public:
 	QString GetQuerySearchList(int nCategory, QString keyword);
 	QString GetQueryQueueCategoryInfo(int nID);
 
-	QString GetQueryCheckCategory(int updateCategory, QString updateName);
-	QString GetQueryInsertCategory(int updateCategory, QString updateName);
-	QString GetQueryUpdateCategory(int id, int category, int updateCategory, int updateId);
+//	QString GetQueryCheckCategory(int updateCategory, QString updateName);
+//	QString GetQueryInsertCategory(int updateCategory, QString updateName);
+//	QString GetQueryUpdateCategory(int id, int category, int updateCategory, int updateId);
 
-	QString GetQueryInsertIgnoreCategoryAll(int updateCategory, QString updateName);
-	QString GetQueryUpdateCategoryAll(QString id,
-									  QString name,
-									  QString favorite,
-									  QString artist,
-									  QString album,
-									  QString genre,
-									  QString albumArtist,
-									  QString composer,
-									  QString year,
-									  QString mood);
+//	QString GetQueryInsertIgnoreCategoryAll(int updateCategory, QString updateName);
+//	QString GetQueryUpdateCategoryAll(QString id,
+//									  QString name,
+//									  QString favorite,
+//									  QString artist,
+//									  QString album,
+//									  QString genre,
+//									  QString albumArtist,
+//									  QString composer,
+//									  QString year,
+//									  QString mood);
 
 
 signals:
