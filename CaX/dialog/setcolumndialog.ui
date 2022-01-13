@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>244</width>
-    <height>580</height>
+    <width>312</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,67 +34,130 @@ QWidget
 	background-color: rgb(255, 255, 255);
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <property name="verticalSpacing">
-    <number>6</number>
-   </property>
-   <item row="10" column="0">
-    <widget class="QCheckBox" name="cbFormat">
-     <property name="text">
-      <string>Format</string>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="cbFavorite">
+        <property name="text">
+         <string>Favorite</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="cbTime">
+        <property name="text">
+         <string>Time</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="cbArtist">
+        <property name="text">
+         <string>Artist</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cbAlbum">
+        <property name="text">
+         <string>Album</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="cbGenre">
+        <property name="text">
+         <string>Genre</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="cbAlbumArtist">
+        <property name="text">
+         <string>Album artist</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QCheckBox" name="cbComposer">
+        <property name="text">
+         <string>Composer</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="13" column="0">
-    <widget class="QCheckBox" name="cbRating">
-     <property name="text">
-      <string>Rating</string>
+   <item row="0" column="1">
+    <widget class="QFrame" name="frame_2">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="cbYear">
+        <property name="text">
+         <string>Year</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="cbMood">
+        <property name="text">
+         <string>Mood</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="cbTempo">
+        <property name="text">
+         <string>Tempo</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cbFormat">
+        <property name="text">
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="cbSampleRate">
+        <property name="text">
+         <string>Samplerate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="cbBitDepth">
+        <property name="text">
+         <string>Bit depth</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QCheckBox" name="cbRating">
+        <property name="text">
+         <string>Rating</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QCheckBox" name="cbGenre">
-     <property name="text">
-      <string>Genre</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="cbTime">
-     <property name="text">
-      <string>Time</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="cbAlbum">
-     <property name="text">
-      <string>Album</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QCheckBox" name="cbTempo">
-     <property name="text">
-      <string>Tempo</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QCheckBox" name="cbArtist">
-     <property name="text">
-      <string>Artist</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0">
-    <widget class="QCheckBox" name="cbBitDepth">
-     <property name="text">
-      <string>Bit depth</string>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="0">
+   <item row="1" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="minimumSize">
       <size>
@@ -125,47 +188,8 @@ QPushButton:hover
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="cbAlbumArtist">
-     <property name="text">
-      <string>Album artist</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0">
-    <widget class="QCheckBox" name="cbSampleRate">
-     <property name="text">
-      <string>Samplerate</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QCheckBox" name="cbFavorite">
-     <property name="text">
-      <string>Favorite</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QCheckBox" name="cbComposer">
-     <property name="text">
-      <string>Composer</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QCheckBox" name="cbMood">
-     <property name="text">
-      <string>Mood</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="cbYear">
-     <property name="text">
-      <string>Year</string>
+     <property name="centerButtons">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
