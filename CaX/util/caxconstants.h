@@ -58,7 +58,8 @@
 #define SEARCH_ITEM_HEIGHT			120
 
 //#define ICON_HEIGHT_MIN				130
-#define ICON_HEIGHT_MAX				160
+#define ICON_HEIGHT_MAX				220
+#define ICON_HEIGHT_INIT			160
 #define ICON_HEIGHT_MID				105
 #define LIST_HEIGHT_MIN				52
 //#define LIST_HEIGHT_MAx				100

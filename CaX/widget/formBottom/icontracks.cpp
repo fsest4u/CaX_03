@@ -297,7 +297,7 @@ void IconTracks::Initialize()
 //	m_ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	m_ListView->setViewMode(QListView::IconMode);
 	m_ListView->setContextMenuPolicy(Qt::CustomContextMenu);
-	SetResize(ICON_HEIGHT_MAX);
+	SetResize(ICON_HEIGHT_INIT);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
