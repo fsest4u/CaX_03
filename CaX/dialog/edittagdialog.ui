@@ -30,16 +30,6 @@ QPushButton
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;
 }
-QTableView
-{
-	color: rgb(84, 84, 84);
-	font: 10pt &quot;Segoe UI&quot;;
-}
-QHeaderView
-{
-	color: rgb(84, 84, 84);
-	font: 12pt &quot;Segoe UI&quot;;
-}
 QWidget
 {
 	background-color: rgb(255, 255, 255);
@@ -48,6 +38,19 @@ QWidget
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QTableView" name="tableView">
+     <property name="styleSheet">
+      <string notr="true">QTableView
+{
+	color: rgb(84, 84, 84);
+	font: 10pt &quot;Segoe UI&quot;;
+}
+QHeaderView::section
+{
+	color: rgb(84, 84, 84);
+	font: 12pt &quot;Segoe UI&quot;;
+	background-color: rgb(238, 238, 238);
+}</string>
+     </property>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
      </attribute>
