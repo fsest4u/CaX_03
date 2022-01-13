@@ -650,7 +650,7 @@ void MainWindow::SlotSelectDevice(QString mac, QString addr, QString val, QStrin
 	WriteSettings();
 
 	ui->widgetPlay->SetAddr(m_strAddr);
-	ui->widgetTop->SetDeviceName(dev);
+	ui->widgetTop->SetDeviceName(val);
 
 	m_pAppMgr->SetAddr(m_strAddr);
 	m_pAppMgr->RequestDeviceInfo();
@@ -777,7 +777,7 @@ void MainWindow::SlotDevice()
 	{
 		CJsonNode node = nodeList.GetArrayAt(i);
 		LogDebug("node [%s]", node.ToCompactByteArray().data());
-		m_DeviceMap.insert(node.GetString(KEY_MAC), node.GetString(KEY_DEV));
+		m_DeviceMap.insert(node.GetString(KEY_MAC), node.GetString(KEY_VAL));
 	}
 
 	ui->widgetTop->ClearDeviceMenu();
