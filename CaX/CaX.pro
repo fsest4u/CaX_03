@@ -21,6 +21,7 @@ SOURCES += \
     dialog/groupplaydialog.cpp \
     dialog/inputfavoritedialog.cpp \
     dialog/inputnamedialog.cpp \
+    dialog/inputtagdialog.cpp \
     dialog/limitcountdialog.cpp \
     dialog/logindialog.cpp \
     dialog/poweroffdialog.cpp \
@@ -145,6 +146,7 @@ HEADERS += \
     dialog/groupplaydialog.h \
     dialog/inputfavoritedialog.h \
     dialog/inputnamedialog.h \
+    dialog/inputtagdialog.h \
     dialog/limitcountdialog.h \
     dialog/logindialog.h \
     dialog/poweroffdialog.h \
@@ -279,6 +281,7 @@ FORMS += \
     dialog/groupplaydialog.ui \
     dialog/inputfavoritedialog.ui \
     dialog/inputnamedialog.ui \
+    dialog/inputtagdialog.ui \
     dialog/limitcountdialog.ui \
     dialog/logindialog.ui \
     dialog/poweroffdialog.ui \

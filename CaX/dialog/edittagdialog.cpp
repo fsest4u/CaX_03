@@ -3,7 +3,7 @@
 
 #include "dialog/edittagdelegate.h"
 #include "dialog/inputfavoritedialog.h"
-#include "dialog/inputnamedialog.h"
+#include "dialog/inputtagdialog.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -151,10 +151,13 @@ void EditTagDialog::SlotSectionClicked(int logicalIndex)
 	}
 	else
 	{
-		InputNameDialog dialog;
+		QStringList tagList = GetTagList(logicalIndex);
+
+		InputTagDialog dialog;
+		dialog.SetTagList(tagList);
 		if (dialog.exec() == QDialog::Accepted)
 		{
-			QString name = dialog.GetName();
+			QString name = dialog.GetTagName();
 //			LogDebug("name [%s]", name.toUtf8().data());
 			int rowCount = m_Model->rowCount();
 			for (int row = 0; row < rowCount; row++)
@@ -213,5 +216,101 @@ void EditTagDialog::Initialize()
 //	flags |= Qt::WindowContextHelpButtonHint;
 	setWindowFlags( flags );
 
+	m_AlbumList.clear();
+	m_AlbumArtistList.clear();
+	m_ArtistList.clear();
+	m_GenreList.clear();
+	m_ComposerList.clear();
+	m_MoodList.clear();
+
+}
+
+QStringList EditTagDialog::GetTagList(int index)
+{
+	QStringList tagList;
+
+	switch (index)
+	{
+	case EDIT_TAG_ARTIST:
+		tagList = m_ArtistList;
+		break;
+	case EDIT_TAG_ALBUM:
+		tagList = m_AlbumList;
+		break;
+	case EDIT_TAG_GENRE:
+		tagList = m_GenreList;
+		break;
+	case EDIT_TAG_ALBUM_ARTIST:
+		tagList = m_AlbumArtistList;
+		break;
+	case EDIT_TAG_COMPOSER:
+		tagList = m_ComposerList;
+		break;
+	case EDIT_TAG_MOOD:
+		tagList = m_MoodList;
+		break;
+	}
+
+	return tagList;
+}
+
+QStringList EditTagDialog::GetMoodList() const
+{
+	return m_MoodList;
+}
+
+void EditTagDialog::SetMoodList(const QStringList &MoodList)
+{
+	m_MoodList = MoodList;
+}
+
+QStringList EditTagDialog::GetComposerList() const
+{
+	return m_ComposerList;
+}
+
+void EditTagDialog::SetComposerList(const QStringList &ComposerList)
+{
+	m_ComposerList = ComposerList;
+}
+
+QStringList EditTagDialog::GetGenreList() const
+{
+	return m_GenreList;
+}
+
+void EditTagDialog::SetGenreList(const QStringList &GenreList)
+{
+	m_GenreList = GenreList;
+}
+
+QStringList EditTagDialog::GetArtistList() const
+{
+	return m_ArtistList;
+}
+
+void EditTagDialog::SetArtistList(const QStringList &ArtistList)
+{
+	m_ArtistList = ArtistList;
+}
+
+QStringList EditTagDialog::GetAlbumArtistList() const
+{
+	return m_AlbumArtistList;
+}
+
+void EditTagDialog::SetAlbumArtistList(const QStringList &AlbumArtistList)
+{
+	m_AlbumArtistList = AlbumArtistList;
+}
+
+QStringList EditTagDialog::GetAlbumList() const
+{
+	return m_AlbumList;
+}
+
+void EditTagDialog::SetAlbumList(const QStringList &AlbumList)
+{
+	m_AlbumList = AlbumList;
 }
 

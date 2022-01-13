@@ -482,6 +482,12 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
 {
 	EditTagDialog dialog;
+	dialog.SetAlbumList(m_AlbumList);
+	dialog.SetAlbumArtistList(m_AlbumArtistList);
+	dialog.SetArtistList(m_ArtistList);
+	dialog.SetGenreList(m_GenreList);
+	dialog.SetComposerList(m_ComposerList);
+	dialog.SetMoodList(m_MoodList);
 	dialog.SetNodeList(list);
 	if (dialog.exec() == QDialog::Accepted)
 	{
@@ -1372,6 +1378,10 @@ void MusicDBWindow::SlotContextMenu(QPoint point)
 {
 	QModelIndex modelIndex = m_pIconTracks->GetListView()->indexAt(point);
 	QStandardItem *item = m_pIconTracks->GetModel()->itemFromIndex(modelIndex);
+	if (!item)
+	{
+		return;
+	}
 	m_nID = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
 	int index = modelIndex.row();
 
@@ -1661,6 +1671,13 @@ void MusicDBWindow::Initialize()
 
 	m_nID = -1;
 	m_nCatID = -1;
+
+	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
+	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
+	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
+	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
+	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
+	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
 }
 
 void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)
@@ -2237,26 +2254,12 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
-
 		m_pMgr->RequestCategoryInfo(nID);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
-
 		m_pMgr->RequestTrackInfo(nID);
 	}
 }

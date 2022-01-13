@@ -40,6 +40,24 @@ public:
 	QStandardItemModel *GetModel() const;
 	QMap<QStringList, QString> GetUpdateCell() const;
 
+	QStringList GetAlbumList() const;
+	void SetAlbumList(const QStringList &AlbumList);
+
+	QStringList GetAlbumArtistList() const;
+	void SetAlbumArtistList(const QStringList &AlbumArtistList);
+
+	QStringList GetArtistList() const;
+	void SetArtistList(const QStringList &ArtistList);
+
+	QStringList GetGenreList() const;
+	void SetGenreList(const QStringList &GenreList);
+
+	QStringList GetComposerList() const;
+	void SetComposerList(const QStringList &ComposerList);
+
+	QStringList GetMoodList() const;
+	void SetMoodList(const QStringList &MoodList);
+
 protected:
 
 	void resizeEvent(QResizeEvent *);
@@ -55,10 +73,19 @@ private:
 	void ConnectSigToSlot();
 	void Initialize();
 
+	QStringList GetTagList(int index);
+
 	EditTagDelegate			*m_Delegate;
 	QStandardItemModel		*m_Model;
 
 	QMap<QStringList, QString> m_MapUpdateCell;
+
+	QStringList	m_AlbumList;
+	QStringList	m_AlbumArtistList;
+	QStringList	m_ArtistList;
+	QStringList	m_GenreList;
+	QStringList	m_ComposerList;
+	QStringList	m_MoodList;
 
 	bool					m_EnableChange;
 
