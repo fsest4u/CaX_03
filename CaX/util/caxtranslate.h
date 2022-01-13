@@ -84,6 +84,7 @@
 //////////////////////////////////////////////////
 
 #define STR_ADD						TR("Add")
+#define STR_ADD_COVERART			TR("Add coverart")
 #define STR_ADD_PLAYLIST			TR("Add playlist")
 #define STR_ADD_TO_FAVORITE			TR("Add to favorite")
 //#define STR_ADD_RADIO				TR("Add radio")
@@ -125,7 +126,6 @@
 #define STR_SCAN_OFF				TR("Scan off")
 #define STR_SEARCH_ALL_N_DELETE		TR("Delete and search all")
 #define STR_SEARCH_ALL				TR("Search all")
-#define STR_SEARCH_COVERART   		TR("Search coverart")
 #define STR_SELECT_ALL				TR("Select all")
 #define STR_SHOW_COLUMNS			TR("Show columns")
 #define STR_TAG_EDIT           		TR("Tag edit")

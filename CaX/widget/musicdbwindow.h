@@ -168,7 +168,7 @@ private:
 	void DoOptionMenuPlay(int nID, int where);
 	void DoOptionMenuAddToPlaylist(int nID);
 	void DoOptionMenuInfo(int nID);
-	void DoOptionMenuSearchCoverArt(int nID);
+	void DoOptionMenuAddCoverArt(int nID);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
 

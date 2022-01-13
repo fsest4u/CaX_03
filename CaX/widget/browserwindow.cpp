@@ -248,8 +248,8 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_GAIN_CLEAR:
 		DoTopMenuGain(VAL_CLEAR);
 		break;
-	case TOP_MENU_SEARCH_COVER_ART:
-		DoTopMenuSearchCoverArt();
+	case TOP_MENU_ADD_COVER_ART:
+		DoTopMenuAddCoverArt();
 		break;
 	case TOP_MENU_ADD:
 		DoTopMenuAdd();
@@ -341,8 +341,8 @@ void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 	case OPTION_MENU_EDIT_TAG:
 		DoOptionMenuEditTag(path, type);
 		break;
-	case OPTION_MENU_SEARCH_COVER_ART:
-		DoOptionMenuSearchCoverArt(path, type);
+	case OPTION_MENU_ADD_COVER_ART:
+		DoOptionMenuAddCoverArt(path, type);
 		break;
 	}
 }
@@ -867,7 +867,7 @@ void BrowserWindow::SetSelectOffTopMenu()
 			}
 			if (m_FolderType & iFolderType_Mask_Play_Select)
 			{
-				m_TopMenuMap.insert(TOP_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
+				m_TopMenuMap.insert(TOP_MENU_ADD_COVER_ART, STR_ADD_COVERART);
 			}
 			if (m_FolderType & iFolderType_Mask_FileMgr)
 			{
@@ -1095,7 +1095,7 @@ void BrowserWindow::DoTopMenuCopyHere(bool move)
 	emit SigRemoveWidget(this);
 }
 
-void BrowserWindow::DoTopMenuSearchCoverArt()
+void BrowserWindow::DoTopMenuAddCoverArt()
 {
 	QString site;
 	QString keyword;
@@ -1183,7 +1183,7 @@ void BrowserWindow::SetOptionMenu(int type)
 		if (type & iFolderType_Mask_Play_Select)
 		{
 			m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_EDIT_TAG);
-			m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
+			m_OptionMenuMap.insert(OPTION_MENU_ADD_COVER_ART, STR_ADD_COVERART);
 		}
 
 		if (type & iFolderType_Mask_Pls)
@@ -1353,7 +1353,7 @@ void BrowserWindow::DoOptionMenuEditTag(QString path, int type)
 	m_pMgr->RequestInfoTag(path);
 }
 
-void BrowserWindow::DoOptionMenuSearchCoverArt(QString path, int type)
+void BrowserWindow::DoOptionMenuAddCoverArt(QString path, int type)
 {
 	QString site;
 	QString keyword;

@@ -98,7 +98,7 @@ private:
 	void DoTopMenuDelete();
 	void DoTopMenuCopy(bool move);
 	void DoTopMenuCopyHere(bool move);
-	void DoTopMenuSearchCoverArt();
+	void DoTopMenuAddCoverArt();
 
 	void SetOptionMenu(int type);
 
@@ -113,7 +113,7 @@ private:
 	void DoOptionMenuCopy(QString path, int type, bool move);
 //	void DoOptionMenuCopyHere(QString path, bool move);
 	void DoOptionMenuEditTag(QString path, int type);
-	void DoOptionMenuSearchCoverArt(QString path, int type);
+	void DoOptionMenuAddCoverArt(QString path, int type);
 
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);

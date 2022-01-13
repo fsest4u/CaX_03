@@ -1314,8 +1314,8 @@ void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 	case OPTION_MENU_TAG_EDIT:
 		DoOptionMenuInfo(nID);
 		break;
-	case OPTION_MENU_SEARCH_COVER_ART:
-		DoOptionMenuSearchCoverArt(nID);
+	case OPTION_MENU_ADD_COVER_ART:
+		DoOptionMenuAddCoverArt(nID);
 		break;
 	case OPTION_MENU_RENAME:
 		DoOptionMenuRename(nID);
@@ -2157,7 +2157,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 		m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
-		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_COVER_ART, STR_ADD_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
@@ -2172,7 +2172,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 		m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
-		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVER_ART, STR_SEARCH_COVERART);
+		m_OptionMenuMap.insert(OPTION_MENU_ADD_COVER_ART, STR_ADD_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
@@ -2265,7 +2265,7 @@ void MusicDBWindow::DoOptionMenuInfo(int nID)
 	}
 }
 
-void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
+void MusicDBWindow::DoOptionMenuAddCoverArt(int nID)
 {
 	QString site;
 	QString keyword;

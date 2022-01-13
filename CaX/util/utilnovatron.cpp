@@ -134,17 +134,13 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	{
 		return QIcon("");
 	}
-	else if (value.contains(STR_SEARCH_COVERART))
+	else if (value.contains(STR_ADD_COVERART))
 	{
 		return QIcon(":/resource/play-popup-icon16-searchcoverart.png");
 	}
 	else if (value.contains(STR_SELECT_ALL))
 	{
 		return QIcon(":/resource/play-popup-icon16-selectall.png");
-	}
-	else if (value.contains(STR_SEARCH_COVERART))
-	{
-		return QIcon(":/resource/play-popup-icon16-searchcoverart.png");
 	}
 	// side menu
 	else if (value.contains(STR_MUSIC_DB))
