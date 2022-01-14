@@ -1,4 +1,5 @@
 #include <QThread>
+#include <QScrollBar>
 
 #include "listbrowser.h"
 #include "ui_listbrowser.h"
@@ -19,6 +20,7 @@ ListBrowser::ListBrowser(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListBrowserDelegate),
+	m_ScrollBar(nullptr),
 //	m_pLoading(new Loading(this)),
 	ui(new Ui::ListBrowser)
 {
@@ -29,6 +31,12 @@ ListBrowser::ListBrowser(QWidget *parent) :
 
 ListBrowser::~ListBrowser()
 {
+	if (m_ScrollBar)
+	{
+		delete m_ScrollBar;
+		m_ScrollBar = nullptr;
+	}
+
 	if (m_ListView)
 	{
 		delete m_ListView;
@@ -66,18 +74,17 @@ QList<CJsonNode> ListBrowser::GetNodeList() const
 	return m_NodeList;
 }
 
-int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
+int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 {
+	//	m_pLoading->Start();
+
 	int type = 0;
-	int index = 0;
+	int index = m_NodeList.count();
+	m_NodeList.append(list);
 
-//	m_pLoading->Start();
-	m_Model->clear();
-	m_NodeList = NodeList;
+	m_Delegate->SetService(service);
 
-	m_Delegate->SetService(nService);
-
-	if (SIDEMENU_BROWSER == nService)
+	if (SIDEMENU_BROWSER == service)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
@@ -120,7 +127,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 			index++;
 		}
 	}
-	else if (SIDEMENU_ISERVICE == nService)
+	else if (SIDEMENU_ISERVICE == service)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
@@ -414,7 +421,18 @@ void ListBrowser::SlotReqCoverArt()
 
 void ListBrowser::SlotFinishThread()
 {
-//	LogDebug("thread finish good");
+	//	LogDebug("thread finish good");
+}
+
+void ListBrowser::SlotScrollValueChanged(int value)
+{
+	int min = m_ScrollBar->minimum();
+	int max = m_ScrollBar->maximum();
+//	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
+	if (value >= max)
+	{
+		emit SigAppendList();
+	}
 }
 
 void ListBrowser::SlotSelectCoverArt(int index)
@@ -483,6 +501,8 @@ void ListBrowser::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
 
+	m_ScrollBar = m_ListView->verticalScrollBar();
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
 	ui->gridLayout->addWidget(m_ListView);

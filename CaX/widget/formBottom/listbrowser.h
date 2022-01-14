@@ -30,7 +30,7 @@ public:
 
 	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
-	int SetNodeList(const QList<CJsonNode> &NodeList, int nService);
+	int SetNodeList(const QList<CJsonNode> list, int service);
 
 	void SetNodeInfo(CJsonNode node);
 
@@ -54,11 +54,13 @@ signals:
 
 	void SigReqCoverArt(QString url, int nIndex);
 	void SigReqInfoBot(QString path, int index);
+	void SigAppendList();
 
 private slots:
 
 	void SlotReqCoverArt();
 	void SlotFinishThread();
+	void SlotScrollValueChanged(int value);
 	void SlotSelectCoverArt(int index);
 
 private:
@@ -68,6 +70,7 @@ private:
 	QListView				*m_ListView;
 	QStandardItemModel		*m_Model;
 	ListBrowserDelegate		*m_Delegate;
+	QScrollBar				*m_ScrollBar;
 
 //	Loading					*m_pLoading;
 

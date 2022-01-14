@@ -29,8 +29,8 @@ public:
 
 	void IServiceHome(QList<CJsonNode> list);
 
-	void RequestIServiceURL(int nServiceType, QString url = "");
-	void RequestIServicePlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int nWhere);
+	void RequestIServiceURL(QString url = "");
+	void RequestIServicePlay(QMap<int, CJsonNode> nodeMap, int nWhere);
 
 	void RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount);
 	void RequestQobuzGenre(QString strID = "");
@@ -62,6 +62,9 @@ public:
 	QString GetPlaylistID() const;
 	void SetPlaylistID(const QString &PlaylistID);
 
+	CJsonNode GetNode() const;
+	void SetNode(const CJsonNode &Node);
+
 signals:
 
 	//	void SigBtnPrev();
@@ -83,6 +86,7 @@ private slots:
 	void SlotSelectTitle(int nType, CJsonNode node);
 //	void SlotSelectURL(QString rawData);
 	void SlotReqCoverArt(QString url, int index);
+	void SlotAppendList();
 
 	void SlotRespQobuzLoginFail(CJsonNode node);
 	void SlotRespQobuzLoginSuccess();
@@ -180,6 +184,8 @@ private:
 
 	bool				m_bGenre;
 	bool				m_Refresh;
+
+	int					m_CurIndex;
 
 
 	Ui::IServiceWindow *ui;
