@@ -59,7 +59,6 @@ void ListBrowser::ClearNodeList()
 	m_Model->clear();
 	m_NodeList.clear();
 	m_SelectMap.clear();
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 QList<CJsonNode> ListBrowser::GetNodeList() const
@@ -194,7 +193,6 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 		}
 	}
 
-	ui->gridLayoutList->addWidget(m_ListView);
 //	m_pLoading->Stop();
 
 	return type;
@@ -486,6 +484,8 @@ void ListBrowser::Initialize()
 	m_ListView->setViewMode(QListView::ListMode);
 
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+
+	ui->gridLayout->addWidget(m_ListView);
 
 	ui->frameInfo->hide();
 

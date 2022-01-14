@@ -48,8 +48,6 @@ void SearchCategory::ClearNodeList()
 {
 	m_Model->clear();
 	m_NodeList.clear();
-
-	ui->gridLayoutContent->removeWidget(m_ListView);
 }
 
 QList<CJsonNode> SearchCategory::GetNodeList() const
@@ -83,7 +81,6 @@ void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		index++;
 	}
 
-	ui->gridLayoutContent->addWidget(m_ListView);
 }
 
 void SearchCategory::SetTitle(QString title)
@@ -131,5 +128,8 @@ void SearchCategory::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::IconMode);
+
+	ui->gridLayout->addWidget(m_ListView);
+
 }
 

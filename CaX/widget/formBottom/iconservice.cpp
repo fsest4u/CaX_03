@@ -217,7 +217,6 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 		}
 	}
 
-	ui->gridLayout->addWidget(m_ListView);
 //	m_pLoading->Stop();
 
 	return type;
@@ -229,7 +228,6 @@ void IconService::ClearNodeList()
 	m_Model->clear();
 	m_NodeList.clear();
 	m_SelectMap.clear();
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 void IconService::ClearSelectMap()
@@ -341,6 +339,8 @@ void IconService::Initialize()
 	m_ListView->setViewMode(QListView::IconMode);
 
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+
+	ui->gridLayout->addWidget(m_ListView);
 }
 
 QString IconService::GetGroupPlayStatus(int type)

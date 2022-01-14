@@ -52,7 +52,6 @@ void ListService::ClearNodeList()
 	m_Model->clear();
 	m_NodeList.clear();
 	m_SelectMap.clear();
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 QList<CJsonNode> ListService::GetNodeList() const
@@ -90,7 +89,6 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 		}
 	}
 
-	ui->gridLayout->addWidget(m_ListView);
 //	m_pLoading->Stop();
 
 }
@@ -192,5 +190,8 @@ void ListService::Initialize()
 	m_ListView->setViewMode(QListView::ListMode);
 
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+
+	ui->gridLayout->addWidget(m_ListView);
+
 }
 

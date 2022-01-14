@@ -72,8 +72,6 @@ void ListDevice::ClearNodeList()
 {
 	m_Model->clear();
 	m_NodeList.clear();
-
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 QList<CJsonNode> ListDevice::GetNodeList() const
@@ -100,7 +98,6 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 		m_ListView->openPersistentEditor(modelIndex);
 	}
 
-	ui->gridLayout->addWidget(m_ListView);
 //	m_pLoading->Stop();
 
 }
@@ -113,5 +110,6 @@ void ListDevice::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
 
+	ui->gridLayout->addWidget(m_ListView);
 
 }

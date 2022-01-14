@@ -133,7 +133,6 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 		}
 	}
 
-	ui->gridLayout->addWidget(m_ListView);
 //	m_pLoading->Stop();
 }
 
@@ -142,7 +141,6 @@ void IconTracks::ClearNodeList()
 	m_Model->clear();
 	m_NodeList.clear();
 	m_SelectMap.clear();
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 void IconTracks::ClearSelectMap()
@@ -302,4 +300,7 @@ void IconTracks::Initialize()
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+
+	ui->gridLayout->addWidget(m_ListView);
+
 }

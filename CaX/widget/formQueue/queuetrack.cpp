@@ -72,15 +72,12 @@ void QueueTrack::SetNodeList(QList<CJsonNode> list)
 		index++;
 	}
 
-	ui->gridLayout->addWidget(m_ListView);
-
 }
 
 void QueueTrack::ClearNodeList()
 {
 	m_Model->clear();
 	m_NodeList.clear();
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 QStandardItemModel *QueueTrack::GetModel()
@@ -100,4 +97,7 @@ void QueueTrack::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
+
+	ui->gridLayout->addWidget(m_ListView);
+
 }

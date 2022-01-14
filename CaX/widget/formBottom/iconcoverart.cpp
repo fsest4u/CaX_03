@@ -84,8 +84,6 @@ void IconCoverArt::ClearNodeList()
 {
 	m_Model->clear();
 	m_NodeList.clear();
-
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 QStandardItemModel *IconCoverArt::GetModel()

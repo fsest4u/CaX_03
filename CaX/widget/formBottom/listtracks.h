@@ -46,8 +46,6 @@ public:
 	ListTracksDelegate	*GetDelegate();
 
 	void SetBackgroundTask(QThread *thread);
-	void SetLineEditReadOnly(bool readOnly);
-
 	void SetHeaderTitle(QString title);
 
 	void ShowHeaderFavorite(bool show);

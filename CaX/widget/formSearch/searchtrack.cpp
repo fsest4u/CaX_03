@@ -48,8 +48,6 @@ void SearchTrack::ClearNodeList()
 {
 	m_Model->clear();
 	m_NodeList.clear();
-
-	ui->gridLayoutContent->removeWidget(m_ListView);
 }
 
 QList<CJsonNode> SearchTrack::GetNodeList() const
@@ -88,9 +86,6 @@ void SearchTrack::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		emit SigReqCoverArt(nID, index, category);
 		index++;
 	}
-
-	ui->gridLayoutContent->addWidget(m_ListView);
-
 }
 
 void SearchTrack::SetTitle(QString title)
@@ -138,4 +133,7 @@ void SearchTrack::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
+
+	ui->gridLayout->addWidget(m_ListView);
+
 }

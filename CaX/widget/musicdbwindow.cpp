@@ -187,8 +187,6 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 //	m_pInfoTracks->GetFormPlay()->ShowFavorite(false);
 //	m_pInfoTracks->GetFormPlay()->ShowRating(false);
 
-	m_pListTracks->SetLineEditReadOnly(false);
-
 	SetColumn(typeMode);
 }
 
@@ -1664,8 +1662,6 @@ void MusicDBWindow::Initialize()
 //	m_ListMode = VIEW_MODE_ICON;
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
 	m_DispMode = SQLManager::DISP_MODE_TRACK;
-
-	m_pListTracks->SetLineEditReadOnly(true);
 
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
 	m_pListTracks->SetBackgroundTask(m_pListThread);

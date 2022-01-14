@@ -30,6 +30,11 @@ ListTracks::ListTracks(QWidget *parent) :
 
 ListTracks::~ListTracks()
 {
+	if (m_ScrollBar)
+	{
+		delete m_ScrollBar;
+		m_ScrollBar = nullptr;
+	}
 
 	if (m_ListView)
 	{
@@ -170,7 +175,6 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 		}
 	}
 
-	ui->gridLayout->addWidget(m_ListView);
 //	m_pLoading->Stop();
 }
 
@@ -179,7 +183,6 @@ void ListTracks::ClearNodeList()
 	m_Model->clear();
 	m_NodeList.clear();
 	m_SelectMap.clear();
-	ui->gridLayout->removeWidget(m_ListView);
 }
 
 void ListTracks::ClearSelectMap()
@@ -281,36 +284,6 @@ void ListTracks::SetBackgroundTask(QThread *thread)
 {
 	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
 	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
-}
-
-void ListTracks::SetLineEditReadOnly(bool readOnly)
-{
-//	if (readOnly)
-//	{
-//		ui->labelHeaderTime->setText("");
-//		ui->lineEditHeaderArtist->setText("");
-//		ui->lineEditHeaderAlbum->setText("");
-//		ui->lineEditHeaderGenre->setText("");
-
-//		ui->lineEditHeaderArtist->setPlaceholderText("");
-//		ui->lineEditHeaderAlbum->setPlaceholderText("");
-//		ui->lineEditHeaderGenre->setPlaceholderText("");
-//	}
-//	else
-//	{
-//		ui->labelHeaderTime->setText(KEY_TIME_CAP);
-//		ui->lineEditHeaderArtist->setText("");
-//		ui->lineEditHeaderAlbum->setText("");
-//		ui->lineEditHeaderGenre->setText("");
-
-//		ui->lineEditHeaderArtist->setPlaceholderText(STR_ARTIST);
-//		ui->lineEditHeaderAlbum->setPlaceholderText(STR_ALBUM);
-//		ui->lineEditHeaderGenre->setPlaceholderText(STR_GENRE);
-//	}
-
-//	ui->lineEditHeaderArtist->setReadOnly(readOnly);
-//	ui->lineEditHeaderAlbum->setReadOnly(readOnly);
-//	ui->lineEditHeaderGenre->setReadOnly(readOnly);
 }
 
 void ListTracks::SetHeaderTitle(QString title)
@@ -572,6 +545,8 @@ void ListTracks::Initialize()
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
+	ui->gridLayout->addWidget(m_ListView);
+
 	ui->labelHeaderTitle->setText(STR_TITLE);
 	ui->labelHeaderMenu->setText(STR_MENU);
 
@@ -591,9 +566,7 @@ void ListTracks::Initialize()
 	ui->labelHeaderFormat->hide();
 	ui->labelHeaderSampleRate->hide();
 	ui->labelHeaderBitDepth->hide();
-	ui->labelHeaderRating->hide();
-
-	SetLineEditReadOnly(true);
+	ui->labelHeaderRating->hide();	
 
 }
 
