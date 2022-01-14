@@ -62,13 +62,6 @@ ListBrowser::~ListBrowser()
 	delete ui;
 }
 
-void ListBrowser::ClearNodeList()
-{
-	m_Model->clear();
-	m_NodeList.clear();
-	m_SelectMap.clear();
-}
-
 QList<CJsonNode> ListBrowser::GetNodeList() const
 {
 	return m_NodeList;
@@ -203,6 +196,13 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 //	m_pLoading->Stop();
 
 	return type;
+}
+
+void ListBrowser::ClearNodeList()
+{
+	m_Model->clear();
+	m_NodeList.clear();
+	m_SelectMap.clear();
 }
 
 void ListBrowser::SetNodeInfo(CJsonNode node)

@@ -44,12 +44,6 @@ SearchTrack::~SearchTrack()
 	delete ui;
 }
 
-void SearchTrack::ClearNodeList()
-{
-	m_Model->clear();
-	m_NodeList.clear();
-}
-
 QList<CJsonNode> SearchTrack::GetNodeList() const
 {
 	return m_NodeList;
@@ -86,6 +80,12 @@ void SearchTrack::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		emit SigReqCoverArt(nID, index, category);
 		index++;
 	}
+}
+
+void SearchTrack::ClearNodeList()
+{
+	m_Model->clear();
+	m_NodeList.clear();
 }
 
 void SearchTrack::SetTitle(QString title)

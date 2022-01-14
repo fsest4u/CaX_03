@@ -40,12 +40,6 @@ ListSetup::~ListSetup()
 	delete ui;
 }
 
-void ListSetup::ClearNodeList()
-{
-	m_Model->clear();
-	m_NodeList.clear();
-}
-
 QList<CJsonNode> ListSetup::GetNodeList() const
 {
 	return m_NodeList;
@@ -72,6 +66,12 @@ void ListSetup::SetNodeList(const QList<CJsonNode> &NodeList)
 		index++;
 	}
 
+}
+
+void ListSetup::ClearNodeList()
+{
+	m_Model->clear();
+	m_NodeList.clear();
 }
 
 void ListSetup::SetEditor(int index)

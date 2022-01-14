@@ -47,13 +47,6 @@ ListService::~ListService()
 	delete ui;
 }
 
-void ListService::ClearNodeList()
-{
-	m_Model->clear();
-	m_NodeList.clear();
-	m_SelectMap.clear();
-}
-
 QList<CJsonNode> ListService::GetNodeList() const
 {
 	return m_NodeList;
@@ -91,6 +84,13 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 
 //	m_pLoading->Stop();
 
+}
+
+void ListService::ClearNodeList()
+{
+	m_Model->clear();
+	m_NodeList.clear();
+	m_SelectMap.clear();
 }
 
 void ListService::ClearSelectMap()

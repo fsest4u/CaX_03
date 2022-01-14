@@ -21,9 +21,9 @@ public:
 	explicit SearchTrack(QWidget *parent = nullptr);
 	~SearchTrack();
 
-	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(const QList<CJsonNode> &NodeList, int category);
+	void ClearNodeList();
 
 	void SetTitle(QString title);
 

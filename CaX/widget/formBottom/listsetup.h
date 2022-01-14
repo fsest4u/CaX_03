@@ -21,9 +21,9 @@ public:
 	explicit ListSetup(QWidget *parent = nullptr);
 	~ListSetup();
 
-	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(const QList<CJsonNode> &NodeList);
+	void ClearNodeList();
 
 	void SetEditor(int index);
 

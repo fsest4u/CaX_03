@@ -68,12 +68,6 @@ void ListDevice::SetDelegate(ListDeviceDelegate *Delegate)
 	m_Delegate = Delegate;
 }
 
-void ListDevice::ClearNodeList()
-{
-	m_Model->clear();
-	m_NodeList.clear();
-}
-
 QList<CJsonNode> ListDevice::GetNodeList() const
 {
 	return m_NodeList;
@@ -100,6 +94,12 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 
 //	m_pLoading->Stop();
 
+}
+
+void ListDevice::ClearNodeList()
+{
+	m_Model->clear();
+	m_NodeList.clear();
 }
 
 void ListDevice::Initialize()

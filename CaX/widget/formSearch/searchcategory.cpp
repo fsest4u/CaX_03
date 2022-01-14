@@ -44,12 +44,6 @@ SearchCategory::~SearchCategory()
 	delete ui;
 }
 
-void SearchCategory::ClearNodeList()
-{
-	m_Model->clear();
-	m_NodeList.clear();
-}
-
 QList<CJsonNode> SearchCategory::GetNodeList() const
 {
 	return m_NodeList;
@@ -81,6 +75,12 @@ void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		index++;
 	}
 
+}
+
+void SearchCategory::ClearNodeList()
+{
+	m_Model->clear();
+	m_NodeList.clear();
 }
 
 void SearchCategory::SetTitle(QString title)

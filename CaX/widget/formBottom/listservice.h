@@ -35,9 +35,9 @@ public:
 		LIST_SERVICE_MAX
 	};
 
-	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(const QList<CJsonNode> &NodeList, int nService = LIST_SERVICE_SETUP);
+	void ClearNodeList();
 
 	void ClearSelectMap();
 	void SetAllSelectMap();

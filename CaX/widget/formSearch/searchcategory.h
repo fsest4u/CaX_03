@@ -22,9 +22,9 @@ public:
 	explicit SearchCategory(QWidget *parent = nullptr);
 	~SearchCategory();
 
-	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(const QList<CJsonNode> &NodeList, int category);
+	void ClearNodeList();
 
 	void SetTitle(QString title);
 

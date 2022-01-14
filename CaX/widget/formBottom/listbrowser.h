@@ -28,9 +28,9 @@ public:
 //		LIST_BROWSER_MAX
 //	};
 
-	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
 	int SetNodeList(const QList<CJsonNode> list, int service);
+	void ClearNodeList();
 
 	void SetNodeInfo(CJsonNode node);
 

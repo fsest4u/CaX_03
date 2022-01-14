@@ -28,9 +28,9 @@ public:
 	ListDeviceDelegate *GetDelegate() const;
 	void SetDelegate(ListDeviceDelegate *Delegate);
 
-	void ClearNodeList();
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(const QList<CJsonNode> &NodeList);
+	void ClearNodeList();
 
 private:
 
