@@ -31,8 +31,8 @@
 #include "widget/formTop/infotracks.h"
 #include "widget/formBottom/icontracks.h"
 #include "widget/formBottom/icontracksdelegate.h"
-#include "widget/formBottom/listtracks.h"
-#include "widget/formBottom/listtracksdelegate.h"
+#include "widget/formBottom/tabletracks.h"
+#include "widget/formBottom/tabletracksdelegate.h"
 
 #include "widget/playlistwindow.h"
 
@@ -44,7 +44,7 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoHome(new InfoHome(this)),
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
-	m_pListTracks(new ListTracks(this)),
+	m_pTableTracks(new TableTracks(this)),
 	m_pIconThread(new QThread),
 	m_pListThread(new QThread),
 	m_EventID(eventID),
@@ -102,10 +102,10 @@ MusicDBWindow::~MusicDBWindow()
 		m_pIconTracks = nullptr;
 	}
 
-	if (m_pListTracks)
+	if (m_pTableTracks)
 	{
-		delete m_pListTracks;
-		m_pListTracks = nullptr;
+		delete m_pTableTracks;
+		m_pTableTracks = nullptr;
 	}
 
 	if (m_pIconThread)
@@ -145,7 +145,7 @@ void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 	else
 	{
 		m_pInfoHome->GetFormSort()->SetResize(m_ResizeItem);
-		ui->gridLayoutBottom->addWidget(m_pListTracks);
+		ui->gridLayoutBottom->addWidget(m_pTableTracks);
 	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_ADD)
@@ -176,7 +176,7 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 	else
 	{
 		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
-		ui->gridLayoutBottom->addWidget(m_pListTracks);
+		ui->gridLayoutBottom->addWidget(m_pTableTracks);
 	}
 
 	if (m_TypeMode == TYPE_MODE_TRACK_ADD)
@@ -192,7 +192,7 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 
 void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 {
-	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
+//	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
 
 	QString title;
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
@@ -273,7 +273,7 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 
 void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 {
-	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
+//	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
 
 	m_nID = nID;
 
@@ -410,8 +410,8 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 	}
 	else
 	{
-//		m_pListTracks->ClearNodeList();
-		m_pListTracks->SetNodeList(list, service);
+//		m_pTableTracks->ClearNodeList();
+		m_pTableTracks->SetNodeList(list, service);
 		ThreadStartList();
 	}
 
@@ -454,14 +454,14 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 	SetOptionMenu();
 
 	int service = SIDEMENU_MUSIC_DB;
-	if (m_nCategory == SQLManager::CATEGORY_YEAR)
-	{
-		service = ListTracks::LIST_TRACKS_MUSIC_DB_YEAR;
-	}
-	else if (m_nCategory == SQLManager::CATEGORY_TRACK)
-	{
-		service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
-	}
+//	if (m_nCategory == SQLManager::CATEGORY_YEAR)
+//	{
+//		service = ListTracks::LIST_TRACKS_MUSIC_DB_YEAR;
+//	}
+//	else if (m_nCategory == SQLManager::CATEGORY_TRACK)
+//	{
+//		service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
+//	}
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
@@ -471,8 +471,8 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 	}
 	else
 	{
-//		m_pListTracks->ClearNodeList();
-		m_pListTracks->SetNodeList(list, service);
+//		m_pTableTracks->ClearNodeList();
+		m_pTableTracks->SetNodeList(list, service);
 		ThreadStartList();
 	}
 }
@@ -512,9 +512,8 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 	}
 	else
 	{
-		QStandardItem *itemList = m_pListTracks->GetModel()->item(nIndex);
-		itemList->setData(fileName, ListTracksDelegate::LIST_TRACKS_COVER);
-		m_pListTracks->GetModel()->setItem(nIndex, itemList);
+		QModelIndex modelIndex = m_pTableTracks->GetModel()->index(nIndex, TableTracks::TABLE_TRACKS_COVER);
+		m_pTableTracks->GetModel()->setData(modelIndex, fileName);
 	}
 }
 
@@ -526,7 +525,7 @@ void MusicDBWindow::SlotPlayAll()
 	}
 	else
 	{
-		m_SelectMap = m_pListTracks->GetSelectMap();
+		m_SelectMap = m_pTableTracks->GetSelectMap();
 	}
 
 	if (m_SelectMap.count() > 0)
@@ -553,7 +552,7 @@ void MusicDBWindow::SlotTopMenu()
 	}
 	else
 	{
-		m_SelectMap = m_pListTracks->GetSelectMap();
+		m_SelectMap = m_pTableTracks->GetSelectMap();
 	}
 
 	if (m_SelectMap.count() > 0)
@@ -669,7 +668,7 @@ void MusicDBWindow::SlotResize(int resize)
 		m_ListMode = listMode;
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
-			ui->gridLayoutBottom->replaceWidget(m_pListTracks, m_pIconTracks);
+			ui->gridLayoutBottom->replaceWidget(m_pTableTracks, m_pIconTracks);
 
 			int service = SIDEMENU_MUSIC_DB;
 			if (m_nCategory == SQLManager::CATEGORY_YEAR)
@@ -689,28 +688,28 @@ void MusicDBWindow::SlotResize(int resize)
 				ThreadStartIcon();
 			}
 
-			m_pListTracks->hide();
+			m_pTableTracks->hide();
 			m_pIconTracks->show();
 		}
 		else
 		{
-			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pListTracks);
+			ui->gridLayoutBottom->replaceWidget(m_pIconTracks, m_pTableTracks);
 
 			int service = SIDEMENU_MUSIC_DB;
-			if (m_nCategory == SQLManager::CATEGORY_YEAR)
-			{
-				service = ListTracks::LIST_TRACKS_MUSIC_DB_YEAR;
-			}
-			else if (m_nCategory == SQLManager::CATEGORY_TRACK)
-			{
-				service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
-			}
+//			if (m_nCategory == SQLManager::CATEGORY_YEAR)
+//			{
+//				service = ListTracks::LIST_TRACKS_MUSIC_DB_YEAR;
+//			}
+//			else if (m_nCategory == SQLManager::CATEGORY_TRACK)
+//			{
+//				service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
+//			}
 
-			LogDebug("list~~~~~~~~[%d][%d]", m_pListTracks->GetNodeList().count(), m_RespList.count());
-//			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
+			LogDebug("list~~~~~~~~[%d][%d]", m_pTableTracks->GetNodeList().count(), m_RespList.count());
+//			if (m_pTableTracks->GetNodeList().count() != m_RespList.count())
 			{
-				m_pListTracks->ClearNodeList();
-				m_pListTracks->SetNodeList(m_RespList, service);
+				m_pTableTracks->ClearNodeList();
+				m_pTableTracks->SetNodeList(m_RespList, service);
 				ThreadStartList();
 			}
 
@@ -719,17 +718,17 @@ void MusicDBWindow::SlotResize(int resize)
 					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
 					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 			{
-				m_pListTracks->SetHeaderTitle(STR_NAME);
+				m_pTableTracks->SetHeaderTitle(STR_NAME);
 			}
 			else if (m_TypeMode == TYPE_MODE_TRACK
 					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
 					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 			{
-				m_pListTracks->SetHeaderTitle(STR_TITLE);
+				m_pTableTracks->SetHeaderTitle(STR_TITLE);
 			}
 
 			m_pIconTracks->hide();
-			m_pListTracks->show();
+			m_pTableTracks->show();
 		}
 	}
 
@@ -739,7 +738,7 @@ void MusicDBWindow::SlotResize(int resize)
 	}
 	else
 	{
-		m_pListTracks->SetResize(resize);
+		m_pTableTracks->SetRowResize(resize);
 	}
 }
 
@@ -831,7 +830,7 @@ void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 void MusicDBWindow::SlotItemPlayAll()
 {
 //	m_pMgr->RequestPlayCategoryItem(m_nID, PLAY_CLEAR, m_nCategory);
-	m_SelectMap = m_pListTracks->GetSelectMap();
+	m_SelectMap = m_pTableTracks->GetSelectMap();
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestManageCategory(VAL_PLAY, m_SelectMap, PLAY_CLEAR, SQLManager::CATEGORY_TRACK);
@@ -857,7 +856,7 @@ void MusicDBWindow::SlotItemTopMenu()
 	}
 	else
 	{
-		m_SelectMap = m_pListTracks->GetSelectMap();
+		m_SelectMap = m_pTableTracks->GetSelectMap();
 	}
 
 	if (m_SelectMap.count() > 0)
@@ -952,12 +951,12 @@ void MusicDBWindow::SlotSelectPlay(int nID, int where)
 
 void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 {
-	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
+//	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		if (m_DispMode == SQLManager::DISP_MODE_ALBUM)
 		{
-			LogDebug("### Album mode");
+//			LogDebug("### Album mode");
 			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 			widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, m_nCategory);
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -966,7 +965,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		}
 		else if (m_DispMode == SQLManager::DISP_MODE_ARTIST)
 		{
-			LogDebug("### Artist mode");
+//			LogDebug("### Artist mode");
 			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 			widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST, m_nCategory);
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -975,7 +974,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		}
 		else
 		{
-			LogDebug("### Track mode");
+//			LogDebug("### Track mode");
 			ThreadTerminateIcon();
 			ThreadTerminateList();
 
@@ -989,7 +988,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM)
 	{
-		LogDebug("### Track mode");
+//		LogDebug("### Track mode");
 		ThreadTerminateIcon();
 		ThreadTerminateList();
 
@@ -1002,7 +1001,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
 	{
-		LogDebug("### Album mode");
+//		LogDebug("### Album mode");
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST_ALBUM, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -1011,7 +1010,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
-		LogDebug("### Track mode");
+//		LogDebug("### Track mode");
 		ThreadTerminateIcon();
 		ThreadTerminateList();
 
@@ -1162,7 +1161,7 @@ void MusicDBWindow::SlotClassifyRating(int nRating)
 
 void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 {
-	LogDebug("artist add [%d] id [%s]", bAdd, id.toUtf8().data());
+//	LogDebug("artist add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		m_ArtistID = id;
@@ -1182,7 +1181,7 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 
 void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 {
-	LogDebug("genre add [%d] id [%s]", bAdd, id.toUtf8().data());
+//	LogDebug("genre add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		m_GenreID = id;
@@ -1201,7 +1200,7 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 
 void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 {
-	LogDebug("composer add [%d] id [%s]", bAdd, id.toUtf8().data());
+//	LogDebug("composer add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		m_ComposerID = id;
@@ -1384,7 +1383,7 @@ void MusicDBWindow::SlotContextMenu(QPoint point)
 	m_nID = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
 	int index = modelIndex.row();
 
-	LogDebug("index [%d] id [%d]", index, m_nID);
+//	LogDebug("index [%d] id [%d]", index, m_nID);
 
 	QAction *actionPlayNow = new QAction(STR_PLAY_NOW, this);
 	QAction *actionPlayLast = new QAction(STR_PLAY_LAST, this);
@@ -1611,18 +1610,13 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetListView(), SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(SlotContextMenu(QPoint)));
 
-	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pListTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
-//	connect(m_pListTracks, SIGNAL(SigEditAllArtist(QString)), this, SLOT(SlotEditAllArtist(QString)));
-//	connect(m_pListTracks, SIGNAL(SigEditAllAlbum(QString)), this, SLOT(SlotEditAllAlbum(QString)));
-//	connect(m_pListTracks, SIGNAL(SigEditAllGenre(QString)), this, SLOT(SlotEditAllGenre(QString)));
+	connect(m_pTableTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	connect(m_pTableTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
-
-
+	connect(m_pTableTracks, SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pTableTracks, SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pTableTracks, SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
+	connect(m_pTableTracks, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 }
 
@@ -1664,7 +1658,7 @@ void MusicDBWindow::Initialize()
 	m_DispMode = SQLManager::DISP_MODE_TRACK;
 
 	m_pIconTracks->SetBackgroundTask(m_pIconThread);
-	m_pListTracks->SetBackgroundTask(m_pListThread);
+	m_pTableTracks->SetBackgroundTask(m_pListThread);
 
 	m_nID = -1;
 	m_nCatID = -1;
@@ -1832,7 +1826,7 @@ void MusicDBWindow::DoTopMenuReload()
 	UtilNovatron::CreateTempDirectory();
 
 	m_pIconTracks->ClearNodeList();
-	m_pListTracks->ClearNodeList();
+	m_pTableTracks->ClearNodeList();
 
 	m_CurIndex = 0;
 
@@ -1878,7 +1872,7 @@ void MusicDBWindow::DoTopMenuSelectAll()
 	}
 	else
 	{
-		m_pListTracks->SetAllSelectMap();
+		m_pTableTracks->SetAllSelectMap();
 	}
 }
 
@@ -1890,7 +1884,7 @@ void MusicDBWindow::DoTopMenuClearAll()
 	}
 	else
 	{
-		m_pListTracks->ClearSelectMap();
+		m_pTableTracks->ClearSelectMap();
 	}
 }
 
@@ -1974,7 +1968,7 @@ void MusicDBWindow::DoTopMenuItemSelectAll()
 	}
 	else
 	{
-		m_pListTracks->SetAllSelectMap();
+		m_pTableTracks->SetAllSelectMap();
 	}
 }
 
@@ -1986,7 +1980,7 @@ void MusicDBWindow::DoTopMenuItemClearAll()
 	}
 	else
 	{
-		m_pListTracks->ClearSelectMap();
+		m_pTableTracks->ClearSelectMap();
 	}
 }
 
@@ -2059,21 +2053,21 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 void MusicDBWindow::DoTopMenuItemShowColumns()
 {
 	SetColumnDialog dialog;
-	dialog.SetCBFavorite(m_pListTracks->GetDelegate()->GetShowFavorite());
-	dialog.SetCBTime(m_pListTracks->GetDelegate()->GetShowTime());
-	dialog.SetCBArtist(m_pListTracks->GetDelegate()->GetShowArtist());
-	dialog.SetCBAlbum(m_pListTracks->GetDelegate()->GetShowAlbum());
-	dialog.SetCBGenre(m_pListTracks->GetDelegate()->GetShowGenre());
-	dialog.SetCBAlbumArtist(m_pListTracks->GetDelegate()->GetShowAlbumArtist());
-	dialog.SetCBComposer(m_pListTracks->GetDelegate()->GetShowComposer());
-	dialog.SetCBYear(m_pListTracks->GetDelegate()->GetShowYear());
+	dialog.SetCBFavorite(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE));
+	dialog.SetCBTime(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_TIME));
+	dialog.SetCBArtist(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ARTIST));
+	dialog.SetCBAlbum(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ALBUM));
+	dialog.SetCBGenre(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_GENRE));
+	dialog.SetCBAlbumArtist(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST));
+	dialog.SetCBComposer(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_COMPOSER));
+	dialog.SetCBYear(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_YEAR));
 
-	dialog.SetCBMood(m_pListTracks->GetDelegate()->GetShowMood());
-	dialog.SetCBTempo(m_pListTracks->GetDelegate()->GetShowTempo());
-	dialog.SetCBFormat(m_pListTracks->GetDelegate()->GetShowFormat());
-	dialog.SetCBSampleRate(m_pListTracks->GetDelegate()->GetShowSampleRate());
-	dialog.SetCBBitDepth(m_pListTracks->GetDelegate()->GetShowBitDepth());
-	dialog.SetCBRating(m_pListTracks->GetDelegate()->GetShowRating());
+	dialog.SetCBMood(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_MOOD));
+	dialog.SetCBTempo(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_TEMPO));
+	dialog.SetCBFormat(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_FORMAT));
+	dialog.SetCBSampleRate(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE));
+	dialog.SetCBBitDepth(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_BIT_DEPTH));
+//	dialog.SetCBRating(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_RATING));
 
 	if (dialog.exec() == QDialog::Accepted)
 	{
@@ -2091,50 +2085,34 @@ void MusicDBWindow::DoTopMenuItemShowColumns()
 		m_ShowFormat = dialog.GetCBFormat();
 		m_ShowSampleRate = dialog.GetCBSampleRate();
 		m_ShowBitDepth = dialog.GetCBBitDepth();
-		m_ShowRating = dialog.GetCBRating();
+//		m_ShowRating = dialog.GetCBRating();
 
 		WriteSettings();
 
-		m_pListTracks->ShowHeaderFavorite(m_ShowFavorite);
-		m_pListTracks->ShowHeaderTime(m_ShowTime);
-		m_pListTracks->ShowHeaderArtist(m_ShowArtist);
-		m_pListTracks->ShowHeaderAlbum(m_ShowAlbum);
-		m_pListTracks->ShowHeaderGenre(m_ShowGenre);
-		m_pListTracks->ShowHeaderAlbumArtist(m_ShowAlbumArtist);
-		m_pListTracks->ShowHeaderComposer(m_ShowComposer);
-		m_pListTracks->ShowHeaderYear(m_ShowYear);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowFavorite);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTime);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowAlbum);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowGenre);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowAlbumArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_COMPOSER, m_ShowComposer);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_YEAR, m_ShowYear);
 
-		m_pListTracks->ShowHeaderMood(m_ShowMood);
-		m_pListTracks->ShowHeaderTempo(m_ShowTempo);
-		m_pListTracks->ShowHeaderFormat(m_ShowFormat);
-		m_pListTracks->ShowHeaderSampleRating(m_ShowSampleRate);
-		m_pListTracks->ShowHeaderBitDepth(m_ShowBitDepth);
-		m_pListTracks->ShowHeaderRating(m_ShowRating);
-
-		m_pListTracks->GetDelegate()->SetShowFavorite(m_ShowFavorite);
-		m_pListTracks->GetDelegate()->SetShowTime(m_ShowTime);
-		m_pListTracks->GetDelegate()->SetShowArtist(m_ShowArtist);
-		m_pListTracks->GetDelegate()->SetShowAlbum(m_ShowAlbum);
-		m_pListTracks->GetDelegate()->SetShowGenre(m_ShowGenre);
-		m_pListTracks->GetDelegate()->SetShowAlbumArtist(m_ShowAlbumArtist);
-		m_pListTracks->GetDelegate()->SetShowComposer(m_ShowComposer);
-		m_pListTracks->GetDelegate()->SetShowYear(m_ShowYear);
-
-		m_pListTracks->GetDelegate()->SetShowMood(m_ShowMood);
-		m_pListTracks->GetDelegate()->SetShowTempo(m_ShowTempo);
-		m_pListTracks->GetDelegate()->SetShowFormat(m_ShowFormat);
-		m_pListTracks->GetDelegate()->SetShowSampleRate(m_ShowSampleRate);
-		m_pListTracks->GetDelegate()->SetShowBitDepth(m_ShowBitDepth);
-		m_pListTracks->GetDelegate()->SetShowRating(m_ShowRating);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_MOOD, m_ShowMood);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTempo);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowFormat);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowSampleRate);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BIT_DEPTH, m_ShowBitDepth);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowRating);
 
 		// change value
-		{
-			int count = m_pListTracks->GetModel()->rowCount();
-			for (int i = 0; i < count; i++)
-			{
-				m_pListTracks->SetEditor(i);
-			}
-		}
+//		{
+//			int count = m_pListTracks->GetModel()->rowCount();
+//			for (int i = 0; i < count; i++)
+//			{
+//				m_pListTracks->SetEditor(i);
+//			}
+//		}
 	}
 }
 
@@ -2182,7 +2160,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 	}
 
-	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
+	m_pTableTracks->SetOptionMenuMap(m_OptionMenuMap);
 
 }
 
@@ -2505,52 +2483,32 @@ void MusicDBWindow::SetColumn(int typeMode)
 {
 	if (typeMode <= TYPE_MODE_ITEM_ADD)
 	{
-		m_pListTracks->ShowHeaderFavorite(true);
-//		m_pListTracks->ShowHeaderTime(true);
-		m_pListTracks->ShowHeaderArtist(true);
-//		m_pListTracks->ShowHeaderAlbum(true);
-//		m_pListTracks->ShowHeaderGenre(true);
-
-		m_pListTracks->GetDelegate()->SetShowFavorite(true);
-//		m_pListTracks->GetDelegate()->SetShowTime(true);
-		m_pListTracks->GetDelegate()->SetShowArtist(true);
-//		m_pListTracks->GetDelegate()->SetShowAlbum(true);
-//		m_pListTracks->GetDelegate()->SetShowGenre(true);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowFavorite);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTime);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowArtist);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowAlbum);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowGenre);
 	}
 	else
 	{
-		m_pListTracks->ShowHeaderFavorite(m_ShowFavorite);
-		m_pListTracks->ShowHeaderTime(m_ShowTime);
-		m_pListTracks->ShowHeaderArtist(m_ShowArtist);
-		m_pListTracks->ShowHeaderAlbum(m_ShowAlbum);
-		m_pListTracks->ShowHeaderGenre(m_ShowGenre);
-		m_pListTracks->ShowHeaderAlbumArtist(m_ShowAlbumArtist);
-		m_pListTracks->ShowHeaderComposer(m_ShowComposer);
-		m_pListTracks->ShowHeaderYear(m_ShowYear);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowFavorite);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTime);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowAlbum);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowGenre);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowAlbumArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_COMPOSER, m_ShowComposer);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_YEAR, m_ShowYear);
 
-		m_pListTracks->ShowHeaderMood(m_ShowMood);
-		m_pListTracks->ShowHeaderTempo(m_ShowTempo);
-		m_pListTracks->ShowHeaderFormat(m_ShowFormat);
-		m_pListTracks->ShowHeaderSampleRating(m_ShowSampleRate);
-		m_pListTracks->ShowHeaderBitDepth(m_ShowBitDepth);
-		m_pListTracks->ShowHeaderRating(m_ShowRating);
-
-		m_pListTracks->GetDelegate()->SetShowFavorite(m_ShowFavorite);
-		m_pListTracks->GetDelegate()->SetShowTime(m_ShowTime);
-		m_pListTracks->GetDelegate()->SetShowArtist(m_ShowArtist);
-		m_pListTracks->GetDelegate()->SetShowAlbum(m_ShowAlbum);
-		m_pListTracks->GetDelegate()->SetShowGenre(m_ShowGenre);
-		m_pListTracks->GetDelegate()->SetShowAlbumArtist(m_ShowAlbumArtist);
-		m_pListTracks->GetDelegate()->SetShowComposer(m_ShowComposer);
-		m_pListTracks->GetDelegate()->SetShowYear(m_ShowYear);
-
-		m_pListTracks->GetDelegate()->SetShowMood(m_ShowMood);
-		m_pListTracks->GetDelegate()->SetShowTempo(m_ShowTempo);
-		m_pListTracks->GetDelegate()->SetShowFormat(m_ShowFormat);
-		m_pListTracks->GetDelegate()->SetShowSampleRate(m_ShowSampleRate);
-		m_pListTracks->GetDelegate()->SetShowBitDepth(m_ShowBitDepth);
-		m_pListTracks->GetDelegate()->SetShowRating(m_ShowRating);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_MOOD, m_ShowMood);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTempo);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowFormat);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowSampleRate);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BIT_DEPTH, m_ShowBitDepth);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowRating);
 	}
+
+	m_pTableTracks->SetColResize(0);
 }
 
 int MusicDBWindow::GetListModeFromResize(int resize)

@@ -13,7 +13,7 @@ class MusicDBManager;
 class InfoHome;
 class InfoTracks;
 class IconTracks;
-class ListTracks;
+class TableTracks;
 
 namespace Ui {
 class MusicDBWindow;
@@ -194,7 +194,7 @@ private:
 	InfoHome			*m_pInfoHome;
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
-	ListTracks			*m_pListTracks;
+	TableTracks			*m_pTableTracks;
 
 	QThread				*m_pIconThread;
 	QThread				*m_pListThread;

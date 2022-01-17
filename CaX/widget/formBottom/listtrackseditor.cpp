@@ -316,8 +316,7 @@ QString ListTracksEditor::GetFormat()
 
 void ListTracksEditor::SetFormat(const QString &title)
 {
-	int index = title.length() - title.lastIndexOf('.') - 1;
-	QString extension = title.right(index);
+	QString extension = UtilNovatron::GetSuffix(title);
 	ui->labelFormat->setText(extension);
 }
 

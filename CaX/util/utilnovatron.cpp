@@ -540,6 +540,12 @@ int UtilNovatron::GetCategoryCount(int category, CJsonNode node)
 	return totalCount;
 }
 
+QString UtilNovatron::GetSuffix(QString filename)
+{
+	int index = filename.length() - filename.lastIndexOf('.') - 1;
+	return filename.right(index);
+}
+
 void UtilNovatron::DebugTypeForBrowser(QString title, int type)
 {
 	if (type & iFolderType_Mask_Play_Top)

@@ -106,6 +106,8 @@ SOURCES += \
     widget/formBottom/listtracks.cpp \
     widget/formBottom/listtracksdelegate.cpp \
     widget/formBottom/listtrackseditor.cpp \
+    widget/formBottom/tabletracks.cpp \
+    widget/formBottom/tabletracksdelegate.cpp \
     widget/formQueue/queueartist.cpp \
     widget/formQueue/queuelyrics.cpp \
     widget/formQueue/queuetrack.cpp \
@@ -240,6 +242,8 @@ HEADERS += \
     widget/formBottom/listtracks.h \
     widget/formBottom/listtracksdelegate.h \
     widget/formBottom/listtrackseditor.h \
+    widget/formBottom/tabletracks.h \
+    widget/formBottom/tabletracksdelegate.h \
     widget/formQueue/queueartist.h \
     widget/formQueue/queuelyrics.h \
     widget/formQueue/queuetrack.h \
@@ -324,6 +328,7 @@ FORMS += \
     widget/formBottom/listsetupeditor.ui \
     widget/formBottom/listtracks.ui \
     widget/formBottom/listtrackseditor.ui \
+    widget/formBottom/tabletracks.ui \
     widget/formQueue/queueartist.ui \
     widget/formQueue/queuelyrics.ui \
     widget/formQueue/queuetrack.ui \

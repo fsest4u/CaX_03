@@ -23,6 +23,7 @@ public:
 	static QString GetCategoryName(int category);
 	static QString GetCategoryTitleName(int category);
 	static int GetCategoryCount(int category, CJsonNode node);
+	static QString GetSuffix(QString filename);
 
 	static void DebugTypeForBrowser(QString title, int type);
 	static void DebugTypeForIService(QString title, int type);

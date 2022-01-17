@@ -45,7 +45,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	foreach (CJsonNode node, list)
 	{
 //		LogDebug("node [%s]", node.ToCompactByteArray().data());
-//		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE).toUtf8().data());
+//		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE_CAP).toUtf8().data());
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString("%1").arg(index+1)));
 
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ID), node.GetString(KEY_ID_LOWER));

@@ -6,6 +6,8 @@ SetColumnDialog::SetColumnDialog(QWidget *parent) :
 	ui(new Ui::SetColumnDialog)
 {
 	ui->setupUi(this);
+
+	ui->cbRating->hide();
 }
 
 SetColumnDialog::~SetColumnDialog()
