@@ -22,11 +22,11 @@ public:
 	explicit ListTracks(QWidget *parent = nullptr);
 	~ListTracks();
 
-	enum {
-		LIST_TRACKS_MUSIC_DB_YEAR = 0,
-		LIST_TRACKS_MUSIC_DB_TRACK,
-		LIST_TRACKS_MAX
-	};
+//	enum {
+//		LIST_TRACKS_MUSIC_DB_YEAR = 0,
+//		LIST_TRACKS_MUSIC_DB_TRACK,
+//		LIST_TRACKS_MAX
+//	};
 
 	QList<CJsonNode> GetNodeList() const;
 	void SetNodeList(QList<CJsonNode> list, int service);

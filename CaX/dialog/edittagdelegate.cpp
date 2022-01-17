@@ -61,7 +61,7 @@ bool EditTagDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, cons
 	{
 		if (index.column() == EditTagDialog::EDIT_TAG_FAVORITE)
 		{
-			emit SigChangeFavorite(index);
+			emit SigClickFavorite(index);
 		}
 	}
 

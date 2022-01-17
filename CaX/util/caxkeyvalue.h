@@ -23,7 +23,7 @@
 #define		KEY_AUTO_JOIN		"Autojoin"
 #define		KEY_AUTO_JOIN_ENABLED		"autoJoinEnabled"
 
-
+#define		KEY_BIT_DEPTH		"BitDepth"
 #define		KEY_BITRATE			"BitRate"
 #define		KEY_BPS				"bps"
 #define		KEY_BOT				"Bot"
@@ -111,6 +111,7 @@
 
 #define		KEY_MAC				"Mac"
 #define		KEY_MAC_ADDR		"macAddr"
+#define		KEY_MENU			"Menu"
 #define		KEY_MENU_DEPTH		"MenuDepth"
 #define		KEY_MOOD			"Mood"
 #define		KEY_MOVE			"Move"

@@ -14,7 +14,7 @@ public:
 
 signals:
 
-	void SigChangeFavorite(const QModelIndex &index);
+	void SigClickFavorite(const QModelIndex &index);
 
 private:
 

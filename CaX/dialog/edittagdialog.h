@@ -60,13 +60,13 @@ public:
 
 protected:
 
-	void resizeEvent(QResizeEvent *);
+	void resizeEvent(QResizeEvent *event);
 
 private slots:
 
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void SlotSectionClicked(int logicalIndex);
-	void SlotChangeFavorite(const QModelIndex &index);
+	void SlotClickFavorite(const QModelIndex &index);
 
 private:
 
@@ -75,8 +75,8 @@ private:
 
 	QStringList GetTagList(int index);
 
-	EditTagDelegate			*m_Delegate;
 	QStandardItemModel		*m_Model;
+	EditTagDelegate			*m_Delegate;
 
 	QMap<QStringList, QString> m_MapUpdateCell;
 
