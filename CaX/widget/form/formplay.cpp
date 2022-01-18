@@ -132,10 +132,6 @@ void FormPlay::SetRating(int Rating)
 	style = QString("QFrame	\
 					{	\
 					  border-image: url(\":/resource/%1\");	\
-					}	\
-					QFrame:hover	\
-					{	\
-					  border-image: url(\":/resource/play-btn52-rank-sel0.png\");	\
 					}").arg(style);
 
 	ui->frameRating->setStyleSheet(style);
@@ -174,10 +170,6 @@ void FormPlay::SetFavorite(int Favorite)
 		style = QString("QLabel	\
 						{	\
 						  border-image: url(\":/resource/play-btn52-like-n.png\");	\
-						}	\
-						QLabel:hover	\
-						{	\
-						  border-image: url(\":/resource/play-btn52-like-h.png\");	\
 						}");
 
 	}
@@ -186,10 +178,6 @@ void FormPlay::SetFavorite(int Favorite)
 		style = QString("QLabel	\
 						{	\
 						  border-image: url(\":/resource/play-btn52-like-h.png\");	\
-						}	\
-						QLabel:hover	\
-						{	\
-						  border-image: url(\":/resource/play-btn52-like-n.png\");	\
 						}");
 
 	}
@@ -203,10 +191,12 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 		if (object == ui->labelPlayAll)
 		{
 			emit SigPlayAll();
+			return true;
 		}
 		else if (object == ui->labelPlayRandom)
 		{
 			emit SigPlayRandom();
+			return true;
 		}
 		else if (object == ui->labelFavorite)
 		{
@@ -219,6 +209,7 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 				SetFavorite(0);
 			}
 			emit SigFavorite(m_Favorite);
+			return true;
 		}
 
 	}
