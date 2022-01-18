@@ -891,6 +891,12 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 	case TOP_MENU_PLAY_CLEAR:
 		DoTopMenuItemPlay(PLAY_CLEAR);
 		break;
+	case TOP_MENU_RELOAD:
+		DoTopMenuReload();
+		break;
+	case TOP_MENU_LOAD_COUNT:
+		DoTopMenuSetLimitCount(m_LimitCount);
+		break;
 	case TOP_MENU_SELECT_ALL:
 		DoTopMenuItemSelectAll();
 		break;
@@ -1776,6 +1782,15 @@ void MusicDBWindow::SetSelectOffTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+		if (m_LimitCount <= 0)
+		{
+			m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg("All"));
+		}
+		else
+		{
+			m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
+		}
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 		m_TopMenuMap.insert(TOP_MENU_SHOW_COLUMNS, STR_SHOW_COLUMNS);
 	}

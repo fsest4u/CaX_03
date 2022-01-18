@@ -106,7 +106,7 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 			.arg(increase)
 			.arg(limit);
 
-	LogDebug("query [%s]", query.toUtf8().data());
+//	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -180,7 +180,7 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 			.arg(increase)
 			.arg(limit);
 
-	LogDebug("query [%s]", query.toUtf8().data());
+//	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -254,7 +254,7 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 			.arg(increase)
 			.arg(limit);
 
-	LogDebug("query [%s]", query.toUtf8().data());
+//	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -337,7 +337,7 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 			.arg(increase)
 			.arg(limit);
 
-	LogDebug("query [%s]", query.toUtf8().data());
+//	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -464,7 +464,7 @@ QString SQLManager::GetQueryTrackList(int nID,
 		break;
 	}
 
-	LogDebug("query [%s]", query.toUtf8().data());
+//	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -504,7 +504,7 @@ QString SQLManager::GetQueryTrackListOfAlbum(int nID,
 			.arg(increase)
 			.arg(limit);
 
-	LogDebug("query [%s]", query.toUtf8().data());
+//	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -552,7 +552,7 @@ QString SQLManager::GetQueryTrackListOfAlbumOfArtist(int nID,
 			.arg(increase)
 			.arg(limit);
 
-	LogDebug("query [%s]", query.toUtf8().data());
+//	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
