@@ -121,10 +121,6 @@ void FormClassify::SetFavorite(int Favorite)
 		style = QString("QLabel	\
 						{	\
 						  border-image: url(\":/resource/top-btn22-classify-like-n.png\");	\
-						}	\
-						QLabel:hover	\
-						{	\
-						  border-image: url(\":/resource/top-btn22-classify-like-h.png\");	\
 						}");
 
 	}
@@ -133,10 +129,6 @@ void FormClassify::SetFavorite(int Favorite)
 		style = QString("QLabel	\
 						{	\
 						  border-image: url(\":/resource/top-btn22-classify-like-h.png\");	\
-						}	\
-						QLabel:hover	\
-						{	\
-						  border-image: url(\":/resource/top-btn22-classify-like-n.png\");	\
 						}");
 
 	}
@@ -183,10 +175,6 @@ void FormClassify::SetRating(int Rating)
 	style = QString("QFrame	\
 					{	\
 					  border-image: url(\":/resource/%1\");	\
-					}	\
-					QFrame:hover	\
-					{	\
-					  border-image: url(\":/resource/play-btn28-rank-sel0.png\");	\
 					}").arg(style);
 
 	ui->frameRating->setStyleSheet(style);
