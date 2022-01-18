@@ -27,6 +27,14 @@ int LimitCountDialog::GetLimitCount()
 
 void LimitCountDialog::SetLimitCount(int count)
 {
-	QString strCnt = QString("%1").arg(count);
+	QString strCnt = "";
+	if (count <= 0)
+	{
+		strCnt = "All";
+	}
+	else
+	{
+		strCnt = QString("%1").arg(count);
+	}
 	ui->comboBox->setCurrentText(strCnt);
 }

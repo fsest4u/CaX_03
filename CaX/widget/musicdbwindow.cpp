@@ -1510,6 +1510,8 @@ void MusicDBWindow::ReadSettings()
 	m_bIncreaseCategory = settings.value("increase_item").toBool();
 	m_bIncreaseTrack = settings.value("increase_track").toBool();
 
+	m_LimitCount = settings.value("limit_count").toInt();
+
 	settings.endGroup();
 
 	if (m_ResizeItem <= 0)
@@ -1552,6 +1554,7 @@ void MusicDBWindow::WriteSettings()
 	settings.setValue("increase_item", m_bIncreaseCategory);
 	settings.setValue("increase_track", m_bIncreaseTrack);
 
+	settings.setValue("limit_count", m_LimitCount);
 
 	settings.endGroup();
 }
@@ -1903,6 +1906,7 @@ void MusicDBWindow::DoTopMenuSetLimitCount(int count)
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		m_LimitCount = dialog.GetLimitCount();
+		WriteSettings();
 	}
 }
 
