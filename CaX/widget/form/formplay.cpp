@@ -211,11 +211,21 @@ bool FormPlay::eventFilter(QObject *object, QEvent *event)
 			emit SigFavorite(m_Favorite);
 			return true;
 		}
-
+		else if (object == ui->frameRating)
+		{
+			SlotBtnRating0();
+			return true;
+		}
 	}
 
 	return QObject::eventFilter(object, event);
 
+}
+
+void FormPlay::SlotBtnRating0()
+{
+	SetRating(0);
+	emit SigRating(m_Rating);
 }
 
 void FormPlay::SlotBtnRating1()
@@ -300,6 +310,6 @@ void FormPlay::Initialize()
 	ui->labelPlayAll->installEventFilter(this);
 	ui->labelPlayRandom->installEventFilter(this);
 	ui->labelFavorite->installEventFilter(this);
-
+	ui->frameRating->installEventFilter(this);
 }
 

@@ -47,6 +47,7 @@ protected:
 
 private slots:
 
+	void SlotBtnRating0();
 	void SlotBtnRating1();
 	void SlotBtnRating2();
 	void SlotBtnRating3();

@@ -50,6 +50,7 @@ private slots:
 	void SlotGenreMenu(QAction* action);
 	void SlotComposerMenu(QAction* action);
 
+	void SlotBtnRating0();
 	void SlotBtnRating1();
 	void SlotBtnRating2();
 	void SlotBtnRating3();

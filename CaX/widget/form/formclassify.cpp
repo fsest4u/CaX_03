@@ -197,21 +197,30 @@ bool FormClassify::eventFilter(QObject *object, QEvent *event)
 				SetFavorite(0);
 			}
 			emit SigClassifyFavorite(m_Favorite);
+			return true;
 		}
 		else if (object == ui->labelArtist)
 		{
 			ui->labelArtist->hide();
 			emit SigClassifyArtist(false, "");
+			return true;
 		}
 		else if (object == ui->labelGenre)
 		{
 			ui->labelGenre->hide();
 			emit SigClassifyGenre(false, "");
+			return true;
 		}
 		else if (object == ui->labelComposer)
 		{
 			ui->labelComposer->hide();
 			emit SigClassifyComposer(false, "");
+			return true;
+		}
+		else if (object == ui->frameRating)
+		{
+			SlotBtnRating0();
+			return true;
 		}
 
 	}
@@ -241,6 +250,12 @@ void FormClassify::SlotComposerMenu(QAction *action)
 	ui->labelComposer->setText(action->text());
 	ui->labelComposer->show();
 	emit SigClassifyComposer(true, action->data().toString());
+}
+
+void FormClassify::SlotBtnRating0()
+{
+	SetRating(0);
+	emit SigClassifyRating(m_Rating);
 }
 
 void FormClassify::SlotBtnRating1()
@@ -330,6 +345,7 @@ void FormClassify::Initialize()
 	ui->labelArtist->installEventFilter(this);
 	ui->labelGenre->installEventFilter(this);
 	ui->labelComposer->installEventFilter(this);
+	ui->frameRating->installEventFilter(this);
 
 }
 
