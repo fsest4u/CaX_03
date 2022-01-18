@@ -229,7 +229,6 @@ void IServiceWindow::AddWidgetItem(bool playAll, bool playRandom, bool menu)
 	ui->gridLayoutBottom->addWidget(m_pListBrowser);
 
 	m_pInfoBrowser->GetFormPlay()->ShowPlayAll(playAll);
-	m_pInfoBrowser->GetFormPlay()->ShowPlayRandom(playRandom);
 	m_pInfoBrowser->GetFormPlay()->ShowMenu(menu);
 
 	m_pInfoBrowser->SetCoverArt(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, m_InternetType));

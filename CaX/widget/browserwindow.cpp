@@ -1405,7 +1405,6 @@ void BrowserWindow::AnalyzeNode(CJsonNode node)
 void BrowserWindow::ShowFormPlay(bool show)
 {
 	m_pInfoBrowser->GetFormPlay()->ShowPlayAll(show);
-	m_pInfoBrowser->GetFormPlay()->ShowPlayRandom(show);
 }
 
 void BrowserWindow::SetDirFile()

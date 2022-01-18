@@ -388,7 +388,6 @@ void AudioCDWindow::Initialize()
 {
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
-	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
 //	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);

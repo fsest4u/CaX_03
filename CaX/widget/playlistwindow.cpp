@@ -121,7 +121,6 @@ void PlaylistWindow::AddWidgetItem(int typeMode)
 	if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_pInfoService->GetFormPlay()->ShowPlayAll(false);
-		m_pInfoService->GetFormPlay()->ShowPlayRandom(false);
 		m_pInfoService->GetFormSort()->ShowResize(false);
 	}
 }
@@ -626,12 +625,10 @@ void PlaylistWindow::Initialize()
 	m_ID = -1;
 
 	m_pInfoService->GetFormPlay()->ShowPlayAll();
-	m_pInfoService->GetFormPlay()->ShowPlayRandom();
 	m_pInfoService->GetFormPlay()->ShowMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
-	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
 

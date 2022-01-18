@@ -151,7 +151,6 @@ void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 	if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_pInfoHome->GetFormPlay()->ShowPlayAll(false);
-		m_pInfoHome->GetFormPlay()->ShowPlayRandom(false);
 	}
 
 	SetColumn(typeMode);
@@ -182,7 +181,6 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 	if (m_TypeMode == TYPE_MODE_TRACK_ADD)
 	{
 		m_pInfoTracks->GetFormPlay()->ShowPlayAll(false);
-		m_pInfoTracks->GetFormPlay()->ShowPlayRandom(false);
 	}
 	m_pInfoTracks->GetFormPlay()->ShowFavorite(true);
 	m_pInfoTracks->GetFormPlay()->ShowRating(true);
@@ -1624,7 +1622,6 @@ void MusicDBWindow::ConnectSigToSlot()
 void MusicDBWindow::Initialize()
 {
 	m_pInfoHome->GetFormPlay()->ShowPlayAll();
-	m_pInfoHome->GetFormPlay()->ShowPlayRandom();
 	m_pInfoHome->GetFormPlay()->ShowMenu();
 
 	m_pInfoHome->GetFormSort()->ShowMenu();
@@ -1633,9 +1630,6 @@ void MusicDBWindow::Initialize()
 	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
-	m_pInfoTracks->GetFormPlay()->ShowPlayRandom();
-//	m_pInfoTracks->GetFormPlay()->ShowFavorite();
-//	m_pInfoTracks->GetFormPlay()->ShowRating();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 
 	m_pInfoTracks->GetFormSort()->ShowMenu();
