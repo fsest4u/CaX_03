@@ -738,6 +738,7 @@ void MusicDBWindow::SlotResize(int resize)
 	}
 	else
 	{
+		m_pTableTracks->SetColResize(0);
 		m_pTableTracks->SetRowResize(resize);
 	}
 }
@@ -2113,6 +2114,9 @@ void MusicDBWindow::DoTopMenuItemShowColumns()
 //				m_pListTracks->SetEditor(i);
 //			}
 //		}
+
+		m_pTableTracks->SetColResize(0);
+
 	}
 }
 

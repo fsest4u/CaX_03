@@ -99,6 +99,10 @@ signals:
 	void SigSelectFavorite(int id, int favorite);
 	void SigMenuAction(int, int);
 
+protected:
+
+	void resizeEvent(QResizeEvent *event);
+
 
 private slots:
 

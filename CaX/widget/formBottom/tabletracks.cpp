@@ -166,37 +166,26 @@ void TableTracks::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
 
 void TableTracks::SetColResize(int resize)
 {
-//	ui->tableView->horizontalHeader()->setDefaultSectionSize(resize);
 	resize = 60;
 
 	int colCnt = m_Model->columnCount();
+	if (colCnt <= 0 )
+	{
+		return;
+	}
+
 	int showColCnt = GetCntColumnShow();
 
 	int coverWidth = resize * 2;
 	int titleWidth = resize * (colCnt - showColCnt);
 
-	ui->tableView->setColumnWidth(TABLE_TRACKS_ID, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_SELECT, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_COVER, coverWidth);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_PLAY, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_TITLE, titleWidth);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_FAVORITE, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_TIME, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_ARTIST, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_ALBUM, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_GENRE, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_ALBUM_ARTIST, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_COMPOSER, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_YEAR, resize);
+	for (int i = 0; i < colCnt; i++)
+	{
+		ui->tableView->setColumnWidth(i, resize);
+	}
 
-	ui->tableView->setColumnWidth(TABLE_TRACKS_MOOD, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_TEMPO, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_FORMAT, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_SAMPLE_RATE, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_BIT_DEPTH, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_RATING, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_INDEX, resize);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_MENU, resize);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_COVER, coverWidth);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_TITLE, titleWidth);
 
 }
 
@@ -250,6 +239,11 @@ bool TableTracks::GetColumnShow(int column)
 void TableTracks::SetColumnShow(int column, bool show)
 {
 	ui->tableView->setColumnHidden(column, !show);
+}
+
+void TableTracks::resizeEvent(QResizeEvent *event)
+{
+	SetColResize(0);
 }
 
 void TableTracks::SlotReqCoverArt()
