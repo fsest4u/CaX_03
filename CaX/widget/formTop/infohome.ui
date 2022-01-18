@@ -126,6 +126,8 @@
             <font>
              <family>Segoe UI</family>
              <pointsize>20</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="styleSheet">
@@ -302,30 +304,32 @@ border-left : 1px solid #b9b8ba;
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="labelAlbumCnt">
+             <widget class="QLabel" name="labelAlbum">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>20</pointsize>
+                <pointsize>16</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string>Album</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelAlbum">
+             <widget class="QLabel" name="labelAlbumCnt">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
                 <pointsize>14</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
                </font>
               </property>
               <property name="text">
-               <string>Album</string>
+               <string>-</string>
               </property>
              </widget>
             </item>
@@ -436,30 +440,32 @@ border-left : 1px solid #b9b8ba;
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="labelAlbumArtistCnt">
+             <widget class="QLabel" name="labelAlbumArtist">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>20</pointsize>
+                <pointsize>16</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string>Album Artist</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelAlbumArtist">
+             <widget class="QLabel" name="labelAlbumArtistCnt">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
                 <pointsize>14</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
                </font>
               </property>
               <property name="text">
-               <string>Album Artist</string>
+               <string>-</string>
               </property>
              </widget>
             </item>
@@ -570,30 +576,32 @@ border-left : 1px solid #b9b8ba;
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="labelArtistCnt">
+             <widget class="QLabel" name="labelArtist">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>20</pointsize>
+                <pointsize>16</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string>Artist</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelArtist">
+             <widget class="QLabel" name="labelArtistCnt">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
                 <pointsize>14</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
                </font>
               </property>
               <property name="text">
-               <string>Artist</string>
+               <string>-</string>
               </property>
              </widget>
             </item>
@@ -707,30 +715,32 @@ border-left : 1px solid #b9b8ba;
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="labelGenreCnt">
+             <widget class="QLabel" name="labelGenre">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>20</pointsize>
+                <pointsize>16</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string>Genre</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelGenre">
+             <widget class="QLabel" name="labelGenreCnt">
               <property name="font">
                <font>
                 <family>Segoe UI</family>
                 <pointsize>14</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
                </font>
               </property>
               <property name="text">
-               <string>Genre</string>
+               <string>-</string>
               </property>
              </widget>
             </item>
