@@ -2,7 +2,7 @@
 #define SQLCONSTATNS_H
 
 ////////////////////////////////////////////
-/// My Music
+/// Music DB
 ////////////////////////////////////////////
 
 // 카테고리별 개수 가져오기 --------------------------------------------------------------------------
@@ -704,9 +704,8 @@ ORDER BY cnt DESC LIMIT 0, 20\
 select	\
 	Pls.ROWID as id	\
 	, Pls.Name as title	\
-	, count(Pls.ROWID) as count	\
-from PlsSong	\
-inner join Pls on Pls.ROWID = PlsSong.PlsID	\
+	, (select count(*) from PlsSong inner join Pls on Pls.ROWID = PlsSong.PlsID) as count	\
+from Pls	\
 where Pls.IsDel = 0	\
 group by Pls.ROWID	\
 order by Pls.Name	\
