@@ -178,6 +178,7 @@ private:
 	void SetSortMenu(int category);
 
 	void ClearClassifyMenu();
+	void ClearList();
 
 	void ThreadStartIcon();
 	void ThreadStartList();

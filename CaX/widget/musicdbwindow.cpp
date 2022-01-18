@@ -1148,19 +1148,25 @@ void MusicDBWindow::SlotRespClassifyComposer(QList<CJsonNode> list)
 
 void MusicDBWindow::SlotClassifyFavorite(int nFavorite)
 {
+	ClearList();
+
 	m_nFavorite = nFavorite;
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
 void MusicDBWindow::SlotClassifyRating(int nRating)
 {
+	ClearList();
+
 	m_nRating = nRating;
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
 void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 {
-//	LogDebug("artist add [%d] id [%s]", bAdd, id.toUtf8().data());
+	ClearList();
+
+	//	LogDebug("artist add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		m_ArtistID = id;
@@ -1180,7 +1186,9 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 
 void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 {
-//	LogDebug("genre add [%d] id [%s]", bAdd, id.toUtf8().data());
+	ClearList();
+
+	//	LogDebug("genre add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		m_GenreID = id;
@@ -1199,7 +1207,9 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 
 void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 {
-//	LogDebug("composer add [%d] id [%s]", bAdd, id.toUtf8().data());
+	ClearList();
+
+	//	LogDebug("composer add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		m_ComposerID = id;
@@ -1828,8 +1838,7 @@ void MusicDBWindow::DoTopMenuReload()
 	UtilNovatron::RemoveTempDirectory();
 	UtilNovatron::CreateTempDirectory();
 
-	m_pIconTracks->ClearNodeList();
-	m_pTableTracks->ClearNodeList();
+	ClearList();
 
 	m_CurIndex = 0;
 
@@ -2440,6 +2449,13 @@ void MusicDBWindow::ClearClassifyMenu()
 	m_pInfoHome->GetFormClassify()->ClearClassifyArtistMenu();
 	m_pInfoHome->GetFormClassify()->ClearClassifyGenreMenu();
 	m_pInfoHome->GetFormClassify()->ClearClassifyComposerMenu();
+}
+
+void MusicDBWindow::ClearList()
+{
+	m_RespList.clear();
+	m_pIconTracks->ClearNodeList();
+	m_pTableTracks->ClearNodeList();
 }
 
 void MusicDBWindow::ThreadStartIcon()
