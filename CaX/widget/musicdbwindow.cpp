@@ -184,8 +184,8 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 		m_pInfoTracks->GetFormPlay()->ShowPlayAll(false);
 		m_pInfoTracks->GetFormPlay()->ShowPlayRandom(false);
 	}
-//	m_pInfoTracks->GetFormPlay()->ShowFavorite(false);
-//	m_pInfoTracks->GetFormPlay()->ShowRating(false);
+	m_pInfoTracks->GetFormPlay()->ShowFavorite(true);
+	m_pInfoTracks->GetFormPlay()->ShowRating(true);
 
 	SetColumn(typeMode);
 }
