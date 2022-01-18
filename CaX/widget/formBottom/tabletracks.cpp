@@ -63,6 +63,8 @@ QList<CJsonNode> TableTracks::GetNodeList() const
 
 void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 {
+	Q_UNUSED(service)
+
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
@@ -115,7 +117,8 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 
 void TableTracks::ClearNodeList()
 {
-	m_Model->clear();
+	int rowCnt = m_Model->rowCount();
+	m_Model->removeRows(0, rowCnt);
 	m_NodeList.clear();
 	m_SelectMap.clear();
 }
