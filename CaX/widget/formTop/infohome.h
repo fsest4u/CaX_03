@@ -25,6 +25,9 @@ public:
 
 	QString GetTitle() const;
 	void SetTitle(const QString title);
+	QString GetCategoryCnt() const;
+	void SetCategoryCnt(const QString count);
+
 	void SetAlbumCnt(const QString count);
 	void SetAlbumArtistCnt(const QString count);
 	void SetArtistCnt(const QString count);

@@ -80,6 +80,16 @@ void InfoHome::SetTitle(QString title)
 	ui->labelTitle->setText(title);
 }
 
+QString InfoHome::GetCategoryCnt() const
+{
+	return ui->labelCnt->text();
+}
+
+void InfoHome::SetCategoryCnt(const QString count)
+{
+	ui->labelCnt->setText(count);
+}
+
 void InfoHome::SetAlbumCnt(const QString count)
 {
 	ui->labelAlbumCnt->setText(count);

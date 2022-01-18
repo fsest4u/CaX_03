@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1046</width>
+    <width>1176</width>
     <height>200</height>
    </rect>
   </property>
@@ -104,7 +104,10 @@
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QGridLayout" name="gridLayoutFormTitle">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -117,23 +120,29 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
+         <item>
           <widget class="WidgetMarqueeLabel" name="labelTitle">
            <property name="font">
             <font>
              <family>Segoe UI</family>
-             <pointsize>36</pointsize>
+             <pointsize>20</pointsize>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">QLabel
-{
-color: rgb(84, 84, 84);
-}
-</string>
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelCnt">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
            </property>
            <property name="text">
             <string>-</string>
@@ -197,6 +206,18 @@ color: rgb(84, 84, 84);
       </item>
       <item>
        <widget class="QFrame" name="frameAlbum">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">QFrame#frameAlbum
 {
@@ -217,7 +238,7 @@ border-left : 1px solid #b9b8ba;
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>40</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -248,8 +269,8 @@ border-left : 1px solid #b9b8ba;
           <widget class="QFrame" name="frame_19">
            <property name="minimumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -285,7 +306,7 @@ border-left : 1px solid #b9b8ba;
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>26</pointsize>
+                <pointsize>20</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -316,6 +337,18 @@ border-left : 1px solid #b9b8ba;
       </item>
       <item>
        <widget class="QFrame" name="frameAlbumArtist">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">QFrame#frameAlbumArtist
 {
@@ -339,7 +372,7 @@ border-left : 1px solid #b9b8ba;
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>40</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -370,8 +403,8 @@ border-left : 1px solid #b9b8ba;
           <widget class="QFrame" name="frame_17">
            <property name="minimumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -407,7 +440,7 @@ border-left : 1px solid #b9b8ba;
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>26</pointsize>
+                <pointsize>20</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -438,6 +471,18 @@ border-left : 1px solid #b9b8ba;
       </item>
       <item>
        <widget class="QFrame" name="frameArtist">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">QFrame#frameArtist
 {
@@ -461,7 +506,7 @@ border-left : 1px solid #b9b8ba;
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>40</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -492,8 +537,8 @@ border-left : 1px solid #b9b8ba;
           <widget class="QFrame" name="frame_20">
            <property name="minimumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -529,7 +574,7 @@ border-left : 1px solid #b9b8ba;
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>26</pointsize>
+                <pointsize>20</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -560,6 +605,18 @@ border-left : 1px solid #b9b8ba;
       </item>
       <item>
        <widget class="QFrame" name="frameGenre">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">QFrame#frameGenre
 {
@@ -583,7 +640,7 @@ border-left : 1px solid #b9b8ba;
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>40</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -617,8 +674,8 @@ border-left : 1px solid #b9b8ba;
           <widget class="QFrame" name="frame_23">
            <property name="minimumSize">
             <size>
-             <width>46</width>
-             <height>54</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -654,7 +711,7 @@ border-left : 1px solid #b9b8ba;
               <property name="font">
                <font>
                 <family>Segoe UI</family>
-                <pointsize>26</pointsize>
+                <pointsize>20</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>

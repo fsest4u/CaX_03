@@ -358,7 +358,7 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 
 void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 {
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	int totalCount = UtilNovatron::GetCategoryCount(m_nCategory, node);
 	CalculatePage(totalCount);
 
@@ -366,6 +366,12 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 	QString strAlbumArtistCnt = node.GetString(KEY_ALBUM_ARTIST);
 	QString strArtistCnt = node.GetString(KEY_ARTIST);
 	QString strGenreCnt = node.GetString(KEY_GENRE);
+
+	QString strComposerCnt = node.GetString(KEY_COMPOSER);
+	QString strMoodCnt = node.GetString(KEY_MOOD);
+	QString strFolderCnt = node.GetString(KEY_FOLDER);
+	QString strYearCnt = node.GetString(KEY_YEAR);
+	QString strTrackCnt = node.GetString(KEY_SONG);
 
 	if (m_nCategory != SQLManager::CATEGORY_TRACK)
 	{
@@ -389,6 +395,37 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 			m_pMgr->RequestClassifyList(SQLManager::CATEGORY_GENRE);
 		}
 	}
+
+	QString strCnt = "";
+	switch (m_nCategory)
+	{
+	case SQLManager::CATEGORY_ALBUM:
+		strCnt = strAlbumCnt;
+		break;
+	case SQLManager::CATEGORY_ALBUM_ARTIST:
+		strCnt = strAlbumArtistCnt;
+		break;
+	case SQLManager::CATEGORY_ARTIST:
+		strCnt = strArtistCnt;
+		break;
+	case SQLManager::CATEGORY_COMPOSER:
+		strCnt = strComposerCnt;
+		break;
+	case SQLManager::CATEGORY_GENRE:
+		strCnt = strGenreCnt;
+		break;
+	case SQLManager::CATEGORY_MOOD:
+		strCnt = strMoodCnt;
+		break;
+	case SQLManager::CATEGORY_FOLDER:
+		strCnt = strFolderCnt;
+		break;
+	case SQLManager::CATEGORY_YEAR:
+		strCnt = strYearCnt;
+		break;
+	}
+
+	m_pInfoHome->SetCategoryCnt(strCnt);
 }
 
 void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
