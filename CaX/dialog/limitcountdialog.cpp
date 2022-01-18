@@ -11,6 +11,7 @@ LimitCountDialog::LimitCountDialog(QWidget *parent) :
 	ui->comboBox->addItem("300", 300);
 	ui->comboBox->addItem("500", 500);
 	ui->comboBox->addItem("1000", 1000);
+	ui->comboBox->addItem("All", 0);
 
 }
 

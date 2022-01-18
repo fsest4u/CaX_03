@@ -37,7 +37,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Album.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Album.rowid	\
 order by Album.%6 %7	\
-limit %8, %9"
+%8"
 
 #define SQL_ALBUM_ARTIST_LIST_FROM_SONG	"	\
 select	\
@@ -51,7 +51,7 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 where AlbumArtist.IsDel = 0	%1 %2 %3 %4 %5 \
 group by AlbumArtist.rowid	\
 order by AlbumArtist.%6 %7	\
-limit %8, %9"
+%8"
 
 #define SQL_ARTIST_LIST_FROM_SONG	"	\
 select	\
@@ -65,7 +65,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Artist.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Artist.rowid	\
 order by Artist.%6 %7	\
-limit %8, %9"
+%8"
 
 #define SQL_COMPOSER_LIST_FROM_SONG	"	\
 select	\
@@ -79,7 +79,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 where Composer.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Composer.rowid	\
 order by Composer.%6 %7	\
-limit %8, %9"
+%8"
 
 #define SQL_GENRE_LIST_FROM_SONG	"	\
 select	\
@@ -93,7 +93,7 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 where Genre.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Genre.rowid	\
 order by Genre.%6 %7	\
-limit %8, %9"
+%8"
 
 #define SQL_MOOD_LIST_FROM_SONG	"	\
 select	\
@@ -107,7 +107,7 @@ inner join Mood on Song.MoodID = Mood.ROWID	\
 where Mood.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Mood.rowid	\
 order by Mood.%6 %7	\
-limit %8, %9"
+%8"
 
 #define SQL_FOLDER_LIST_FROM_SONG	"	\
 select	\
@@ -121,7 +121,7 @@ inner join Folder on Song.FolderID = Folder.ROWID	\
 where Folder.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Folder.rowid	\
 order by Folder.%6 %7	\
-limit %8, %9"
+%8"
 
 #define SQL_YEAR_LIST_FROM_SONG	"	\
 select	\
@@ -132,7 +132,7 @@ from Song	\
 where Song.IsDel = 0	%1 %2 %3 %4 %5 \
 group by Song.Year	\
 order by Song.%6 %7	\
-limit %8, %9"
+%8"
 
 
 // 카테고리별 하위 목록 가져오기 --------------------------------------------------------------------------
@@ -181,7 +181,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_ALBUM_ARTIST_OVERVIEW	"	\
 select	\
@@ -228,7 +228,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumArtistID = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_ARTIST_OVERVIEW	"	\
 select	\
@@ -274,7 +274,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.ArtistID = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_COMPOSER_OVERVIEW	"	\
 select	\
@@ -321,7 +321,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.ComposerID = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_GENRE_OVERVIEW	"	\
 select	\
@@ -368,7 +368,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.GenreID = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_MOOD_OVERVIEW	"	\
 select	\
@@ -415,7 +415,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.MoodID = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_FOLDER_OVERVIEW	"	\
 select	\
@@ -462,7 +462,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.FolderID = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_YEAR_OVERVIEW	"	\
 select	\
@@ -506,7 +506,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.Year = %1	\
 order by Song.%2 %3	\
-limit %4, %5"
+%4"
 
 #define SQL_TRACK_OVERVIEW	"	\
 select	\
@@ -548,7 +548,7 @@ inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 \
 order by Song.%1 %2	\
-limit %3, %4"
+%3"
 
 // --------------------------------------------------------------------------
 // 카테고리별 앨범 목록 가져오기 ------------------------------------------------
@@ -565,10 +565,10 @@ select	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
-where Album.IsDel = 0	%1 %2 %3 %4 %5 %10	\
+where Album.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Album.rowid	\
-order by Album.%6 %7	\
-limit %8, %9"
+order by Album.%7 %8	\
+%9"
 
 #define SQL_ARTIST_OF_CAT_LIST_FROM_SONG	"	\
 select	\
@@ -579,10 +579,10 @@ select	\
 	, count(Artist.ROWID) as count	\
 from Song	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
-where Artist.IsDel = 0	%1 %2 %3 %4 %5 %10	\
+where Artist.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Artist.rowid	\
-order by Artist.%6 %7	\
-limit %8, %9"
+order by Artist.%7 %8	\
+%9"
 
 #define SQL_ALBUM_OF_ARTIST_CAT_LIST_FROM_SONG	"	\
 select	\
@@ -595,10 +595,10 @@ select	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
-where Album.IsDel = 0	%1 %2 %3 %4 %5 %10 %11	\
+where Album.IsDel = 0	%1 %2 %3 %4 %5 %6 %7	\
 group by Album.rowid	\
-order by Album.%6 %7	\
-limit %8, %9"
+order by Album.%8 %9	\
+%10"
 
 // --------------------------------------------------------------------------
 // 카테고리별 앨범의 트랙 목록 가져오기 ------------------------------------------------
@@ -629,9 +629,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.AlbumID = %1 %6	\
-order by Song.%2 %3	\
-limit %4, %5"
+where Song.IsDel = 0 and Song.AlbumID = %1 %2	\
+order by Song.%3 %4	\
+%5"
 
 #define SQL_TRACK_LIST_OF_ALBUM_OF_ARTIST_OF_CAT_LIST	"	\
 select	\
@@ -658,9 +658,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.AlbumID = %1 %6 %7	\
-order by Song.%2 %3	\
-limit %4, %5"
+where Song.IsDel = 0 and Song.AlbumID = %1 %2 %3	\
+order by Song.%4 %5	\
+%6"
 
 // --------------------------------------------------------------------------
 // Favorite & Rating ------------------------------------------------

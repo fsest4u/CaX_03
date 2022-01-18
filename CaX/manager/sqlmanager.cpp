@@ -60,6 +60,13 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 		whereRating = QString(" and %1.Rating >= %2").arg(category).arg(nRating);
 	}
 
+	QString limit = "";
+
+	if (nLimitCount > 0)
+	{
+		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
@@ -97,10 +104,9 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 			.arg(whereRating)
 			.arg(column)
 			.arg(increase)
-			.arg(nStartIndex)
-			.arg(nLimitCount);
+			.arg(limit);
 
-//	LogDebug("query [%s]", query.toUtf8().data());
+	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -154,6 +160,13 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
 	}
 
+	QString limit = "";
+
+	if (nLimitCount > 0)
+	{
+		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
 	query = QString(SQL_ALBUM_OF_CAT_LIST_FROM_SONG);
 
 	query = query
@@ -162,13 +175,12 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 			.arg(whereComposer)
 			.arg(whereFavorite)
 			.arg(whereRating)
+			.arg(whereCategory)
 			.arg(column)
 			.arg(increase)
-			.arg(nStartIndex)
-			.arg(nLimitCount)
-			.arg(whereCategory);
+			.arg(limit);
 
-//	LogDebug("query [%s]", query.toUtf8().data());
+	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -222,6 +234,13 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
 	}
 
+	QString limit = "";
+
+	if (nLimitCount > 0)
+	{
+		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
 	query = QString(SQL_ARTIST_OF_CAT_LIST_FROM_SONG);
 
 	query = query
@@ -230,13 +249,12 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 			.arg(whereComposer)
 			.arg(whereFavorite)
 			.arg(whereRating)
+			.arg(whereCategory)
 			.arg(column)
 			.arg(increase)
-			.arg(nStartIndex)
-			.arg(nLimitCount)
-			.arg(whereCategory);
+			.arg(limit);
 
-//	LogDebug("query [%s]", query.toUtf8().data());
+	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -298,6 +316,13 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 		whereCategory2 = QString (" and Song.ArtistID = %1").arg(catID2);
 	}
 
+	QString limit = "";
+
+	if (nLimitCount > 0)
+	{
+		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
 	query = QString(SQL_ALBUM_OF_ARTIST_CAT_LIST_FROM_SONG);
 
 	query = query
@@ -306,15 +331,13 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 			.arg(whereComposer)
 			.arg(whereFavorite)
 			.arg(whereRating)
-			.arg(column)
-			.arg(increase)
-			.arg(nStartIndex)
-			.arg(nLimitCount)
 			.arg(whereCategory)
 			.arg(whereCategory2)
-			;
+			.arg(column)
+			.arg(increase)
+			.arg(limit);
 
-//	LogDebug("query [%s]", query.toUtf8().data());
+	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -368,6 +391,13 @@ QString SQLManager::GetQueryTrackList(int nID,
 	QString column = GetColumnName(nSort);
 	QString increase = GetIncrease(bIncrease);
 
+	QString limit = "";
+
+	if (nLimitCount > 0)
+	{
+		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
@@ -375,75 +405,66 @@ QString SQLManager::GetQueryTrackList(int nID,
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_ALBUM_ARTIST:
 		query = QString(SQL_ALBUM_ARTIST_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_ARTIST:
 		query = QString(SQL_ARTIST_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_COMPOSER:
 		query = QString(SQL_COMPOSER_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_GENRE:
 		query = QString(SQL_GENRE_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_MOOD:
 		query = QString(SQL_MOOD_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_FOLDER:
 		query = QString(SQL_FOLDER_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_YEAR:
 		query = QString(SQL_YEAR_TRACK_LIST)
 				.arg(nID)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	case CATEGORY_TRACK:
 		query = QString(SQL_TRACK_LIST)
 				.arg(column)
 				.arg(increase)
-				.arg(nStartIndex)
-				.arg(nLimitCount);
+				.arg(limit);
 		break;
 	}
 
-//	LogDebug("query [%s]", query.toUtf8().data());
+	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -467,17 +488,23 @@ QString SQLManager::GetQueryTrackListOfAlbum(int nID,
 		whereCategory = QString (" and Song.%1ID = %2").arg(category).arg(catID);
 	}
 
+	QString limit = "";
+
+	if (nLimitCount > 0)
+	{
+		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
 	query = QString(SQL_TRACK_LIST_OF_ALBUM_OF_CAT_LIST);
 
 	query = query
 			.arg(nID)
+			.arg(whereCategory)
 			.arg(column)
 			.arg(increase)
-			.arg(nStartIndex)
-			.arg(nLimitCount)
-			.arg(whereCategory);
+			.arg(limit);
 
-//	LogDebug("query [%s]", query.toUtf8().data());
+	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }
@@ -508,18 +535,24 @@ QString SQLManager::GetQueryTrackListOfAlbumOfArtist(int nID,
 		whereCategory2 = QString (" and Song.ArtistID = %1").arg(catID2);
 	}
 
+	QString limit = "";
+
+	if (nLimitCount > 0)
+	{
+		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
 	query = QString(SQL_TRACK_LIST_OF_ALBUM_OF_ARTIST_OF_CAT_LIST);
 
 	query = query
 			.arg(nID)
+			.arg(whereCategory)
+			.arg(whereCategory2)
 			.arg(column)
 			.arg(increase)
-			.arg(nStartIndex)
-			.arg(nLimitCount)
-			.arg(whereCategory)
-			.arg(whereCategory2);
+			.arg(limit);
 
-//	LogDebug("query [%s]", query.toUtf8().data());
+	LogDebug("query [%s]", query.toUtf8().data());
 
 	return query;
 }

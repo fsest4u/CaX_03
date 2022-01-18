@@ -1758,7 +1758,14 @@ void MusicDBWindow::SetSelectOffTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
-		m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
+		if (m_LimitCount <= 0)
+		{
+			m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg("All"));
+		}
+		else
+		{
+			m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
+		}
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
@@ -2504,7 +2511,14 @@ void MusicDBWindow::CalculatePage(int totalCount)
 		return;
 	}
 
-	m_TotalPage = ceil((float) totalCount / m_LimitCount);
+	if (m_LimitCount <= 0)
+	{
+		m_TotalPage = 1;
+	}
+	else
+	{
+		m_TotalPage = ceil((float) totalCount / m_LimitCount);
+	}
 
 //	LogDebug("limit [%d] total [%d] current [%d]", m_LimitCount, m_TotalPage, m_CurIndex);
 }
