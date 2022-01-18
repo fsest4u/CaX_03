@@ -1388,12 +1388,14 @@ void MusicDBWindow::SlotContextMenu(QPoint point)
 	QAction *actionPlayLast = new QAction(STR_PLAY_LAST, this);
 	QAction *actionPlayNext = new QAction(STR_PLAY_NEXT, this);
 	QAction *actionPlayClear = new QAction(STR_PLAY_CLEAR, this);
+	QAction *actionAddCoverArt = new QAction(STR_ADD_COVERART, this);
 	QAction *actionTagEdit = new QAction(STR_TAG_EDIT, this);
 
 	connect(actionPlayNow, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayNow()));
 	connect(actionPlayLast, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayLast()));
 	connect(actionPlayNext, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayNext()));
 	connect(actionPlayClear, SIGNAL(triggered()), this, SLOT(SlotContextMenuPlayClear()));
+	connect(actionAddCoverArt, SIGNAL(triggered()), this, SLOT(SlotContextMenuAddCoverArt()));
 	connect(actionTagEdit, SIGNAL(triggered()), this, SLOT(SlotContextMenuTagEdit()));
 
 	QMenu *menu=new QMenu(this);
@@ -1401,6 +1403,7 @@ void MusicDBWindow::SlotContextMenu(QPoint point)
 	menu->addAction(actionPlayLast);
 	menu->addAction(actionPlayNext);
 	menu->addAction(actionPlayClear);
+	menu->addAction(actionAddCoverArt);
 	menu->addAction(actionTagEdit);
 
 	menu->popup(m_pIconTracks->GetListView()->viewport()->mapToGlobal(point));
@@ -1441,6 +1444,11 @@ void MusicDBWindow::SlotContextMenuPlayNext()
 void MusicDBWindow::SlotContextMenuPlayClear()
 {
 	DoOptionMenuPlay(m_nID, PLAY_CLEAR);
+}
+
+void MusicDBWindow::SlotContextMenuAddCoverArt()
+{
+	DoOptionMenuAddCoverArt(m_nID);
 }
 
 void MusicDBWindow::SlotContextMenuTagEdit()

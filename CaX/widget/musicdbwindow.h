@@ -126,6 +126,7 @@ private slots:
 	void SlotContextMenuPlayLast();
 	void SlotContextMenuPlayNext();
 	void SlotContextMenuPlayClear();
+	void SlotContextMenuAddCoverArt();
 	void SlotContextMenuTagEdit();
 
 //	void SlotEditAllArtist(QString value);
