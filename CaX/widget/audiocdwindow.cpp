@@ -108,9 +108,9 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 	CJsonNode track = m_RespList.at(0);
 //	LogDebug("track [%s]", track.ToCompactByteArray().data());
 
-	m_pInfoTracks->SetCoverArt(track.GetString(KEY_COVER_ART));
-	m_pInfoTracks->SetTitle(track.GetString(KEY_ALBUM));
-	m_pInfoTracks->SetSubtitle(track.GetString(KEY_ALBUM_ARTIST));
+	m_pInfoTracks->SetCoverArt(track.GetString(KEY_ART));
+	m_pInfoTracks->SetTitle(track.GetString(KEY_TOP));
+	m_pInfoTracks->SetSubtitle(track.GetString(KEY_BOT));
 //	m_pInfoTracks->SetInfo(MakeInfo());
 
 	SetOptionMenu();
