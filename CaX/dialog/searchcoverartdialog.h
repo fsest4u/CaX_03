@@ -18,8 +18,11 @@ public:
 	QString GetSite() const;
 	void SetSite(QString site);
 
-	QString GetKeyword();
-	QString GetArtist();
+	QString GetKeyword() const;
+	void SetKeyWord(QString value);
+
+	QString GetArtist() const;
+	void SetArtist(QString value);
 
 private slots:
 

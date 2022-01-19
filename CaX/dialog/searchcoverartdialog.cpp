@@ -37,14 +37,24 @@ void SearchCoverArtDialog::SetSite(QString Site)
 	m_Site = Site;
 }
 
-QString SearchCoverArtDialog::GetKeyword()
+QString SearchCoverArtDialog::GetKeyword() const
 {
 	return ui->lineEditKeyword->text();
 }
 
-QString SearchCoverArtDialog::GetArtist()
+void SearchCoverArtDialog::SetKeyWord(QString value)
+{
+	ui->lineEditKeyword->setText(value);
+}
+
+QString SearchCoverArtDialog::GetArtist() const
 {
 	return ui->lineEditArtist->text();
+}
+
+void SearchCoverArtDialog::SetArtist(QString value)
+{
+	ui->lineEditArtist->setText(value);
 }
 
 void SearchCoverArtDialog::SlotClickSearchEngine()

@@ -1102,6 +1102,8 @@ void BrowserWindow::DoTopMenuAddCoverArt()
 	QString artist;
 
 	SearchCoverArtDialog searchDialog;
+	searchDialog.SetKeyWord(keyword);
+	searchDialog.SetArtist(artist);
 	if (searchDialog.exec() == QDialog::Accepted)
 	{
 		site = searchDialog.GetSite();
@@ -1359,7 +1361,23 @@ void BrowserWindow::DoOptionMenuAddCoverArt(QString path, int type)
 	QString keyword;
 	QString artist;
 
+	int count = m_pListBrowser->GetModel()->rowCount();
+	for (int i = 0; i < count; i++)
+	{
+		QModelIndex index = m_pListBrowser->GetModel()->index(i, 0);
+		QStandardItem *item = m_pListBrowser->GetModel()->itemFromIndex(index);
+		QString title = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+		if (!path.compare(title))
+		{
+			keyword = title;
+			artist = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
+			break;
+		}
+	}
+
 	SearchCoverArtDialog searchDialog;
+	searchDialog.SetKeyWord(keyword);
+	searchDialog.SetArtist(artist);
 	if (searchDialog.exec() == QDialog::Accepted)
 	{
 		site = searchDialog.GetSite();

@@ -2333,7 +2333,21 @@ void MusicDBWindow::DoOptionMenuAddCoverArt(int nID)
 	QString keyword;
 	QString artist;
 
+	int count = m_pTableTracks->GetModel()->rowCount();
+	for (int i = 0; i < count; i++)
+	{
+		int id = qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ID)));
+		if (id == nID)
+		{
+			keyword = qvariant_cast<QString>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_TITLE)));;
+			artist = qvariant_cast<QString>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ARTIST)));;
+			break;
+		}
+	}
+
 	SearchCoverArtDialog searchDialog;
+	searchDialog.SetKeyWord(keyword);
+	searchDialog.SetArtist(artist);
 	if (searchDialog.exec() == QDialog::Accepted)
 	{
 		site = searchDialog.GetSite();

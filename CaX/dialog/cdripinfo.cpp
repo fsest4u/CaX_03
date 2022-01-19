@@ -100,6 +100,8 @@ void CDRipInfo::SlotClickCoverArt()
 	QString artist;
 
 	SearchCoverArtDialog searchDialog;
+	searchDialog.SetKeyWord(ui->cbAlbum->currentText());
+	searchDialog.SetArtist(ui->cbAlbumArtist->currentText());
 	if (searchDialog.exec() == QDialog::Accepted)
 	{
 		site = searchDialog.GetSite();
