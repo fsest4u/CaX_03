@@ -297,6 +297,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_TRACK_PLAY:
 	case BROWSER_PLAYLIST_PLAY:
 	case BROWSER_REPLAYGAIN:
+	case BROWSER_SET_ART:
 		break;
 	case BROWSER_CONVERT_FORMAT:
 	case BROWSER_CREATE:
@@ -306,7 +307,6 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_MOVE:
 	case BROWSER_SCAN_DB:
 	case BROWSER_REMOVE_DB:
-	case BROWSER_SET_ART:
 		emit SigListUpdate();
 		break;
 	case BROWSER_SET_TAG:
