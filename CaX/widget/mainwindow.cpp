@@ -484,7 +484,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 //	bool    bSigma = false;
 	bool    bScanDB = false;
 	bool    bIsDelDB = false;
-	int     eventID = false;
+	int     eventID = -1;
 
 	if (!node.GetBool(KEY_AUDIO_CD, bAudioCD))
 	{
@@ -505,7 +505,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	}
 	if (!node.GetInt(KEY_EVENT_ID, eventID))
 	{
-		eventID = -1;
+//		eventID = -1;
 	}
 	if (!node.GetArray(KEY_SETUP, nodeSetup))
 	{
@@ -524,7 +524,10 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	m_bScanDB = bScanDB;
 	m_bIsDel = bIsDelDB;
 
-	m_EventID = eventID;
+	if (eventID >= 0)
+	{
+		m_EventID = eventID;
+	}
 	m_bAudioCD = bAudioCD;
 
 	SlotMenu();
