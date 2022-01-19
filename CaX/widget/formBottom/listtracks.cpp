@@ -461,13 +461,16 @@ void ListTracks::ShowHeaderRating(bool show)
 
 void ListTracks::SlotReqCoverArt()
 {
-	int index = 0;
-	foreach (CJsonNode node, m_NodeList)
+	int count = m_Model->rowCount();
+	for (int i = 0; i < count; i++)
 	{
-		int nID = node.GetString(KEY_ID_LOWER).toInt();
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		QStandardItem *item = m_Model->itemFromIndex(modelIndex);
+		int id = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_ID));
+		int index = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_INDEX));
+
 		QThread::msleep(5);
-		emit SigReqCoverArt(nID, index, QListView::ListMode);
-		index++;
+		emit SigReqCoverArt(id, index, QListView::ListMode);
 	}
 }
 

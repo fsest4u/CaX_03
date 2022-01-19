@@ -61,8 +61,9 @@
 #define ICON_HEIGHT_MAX				220
 #define ICON_HEIGHT_INIT			160
 #define ICON_HEIGHT_MID				105
-#define LIST_HEIGHT_MIN				30
-//#define LIST_HEIGHT_MAx				100
+#define LIST_HEIGHT_MIN				52
+#define TABLE_HEIGHT_MIN				30
+//#define LIST_HEIGHT_MAX				100
 
 #define LIST_BROWSER_INDENT_0		5
 #define LIST_BROWSER_INDENT_1		45

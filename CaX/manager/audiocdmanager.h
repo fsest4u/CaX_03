@@ -29,10 +29,14 @@ signals:
 	void SigRespTrackInfo(CJsonNode node);
 	void SigRespCDRipInfo(CJsonNode node);
 	void SigRespCategoryList(QList<CJsonNode> list);
+	void SigCoverArtUpdate(QString filename, int nIndex, int mode);
+	void SigCoverArtUpdate(QString filename);
 
 private slots:
 
 	void SlotRespInfo(QString json, int cmdID);
+	void SlotRespCoverArt(QString filename, int nIndex, int mode);
+	void SlotRespCoverArt(QString filename);
 
 private:
 

@@ -33,6 +33,7 @@
 #define		KEY_CANCEL			"Cancel"
 #define		KEY_CAT_ORDER		"CatOrder"
 #define		KEY_CATEGORY		"Cat"
+#define		KEY_CD				"Cd"
 #define		KEY_CDNUMBER		"CdNumber"
 #define		KEY_CDTOTAL			"CdTotal"
 #define		KEY_CDYEAR			"CdYear"

@@ -78,7 +78,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 			item->setData(node.GetString(KEY_TRACK), IconTracksDelegate::ICON_TRACKS_ID);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_AUDIO_CD), IconTracksDelegate::ICON_TRACKS_COVER);
 			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
-			item->setData(node.GetString(KEY_SUBTITLE), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
+			item->setData(node.GetString(KEY_BOT), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
 			item->setData(node.GetString(KEY_COUNT), IconTracksDelegate::ICON_TRACKS_COUNT);
 			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
 			item->setData(index, IconTracksDelegate::ICON_TRACKS_INDEX);
@@ -240,13 +240,16 @@ void IconTracks::SetBackgroundTask(QThread *thread)
 
 void IconTracks::SlotReqCoverArt()
 {
-	int index = 0;
-	foreach (CJsonNode node, m_NodeList)
+	int count = m_Model->rowCount();
+	for (int i = 0; i < count; i++)
 	{
-		int nID = node.GetString(KEY_ID_LOWER).toInt();
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		QStandardItem *item = m_Model->itemFromIndex(modelIndex);
+		int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
+		int index = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_INDEX));
+
 		QThread::msleep(5);
-		emit SigReqCoverArt(nID, index, QListView::IconMode);
-		index++;
+		emit SigReqCoverArt(id, index, QListView::IconMode);
 	}
 }
 
@@ -302,5 +305,4 @@ void IconTracks::Initialize()
 	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
 	ui->gridLayout->addWidget(m_ListView);
-
 }

@@ -26,6 +26,7 @@ public:
 	void SetMenuTitle(QString title);
 
 	void SetResize(int resize);
+	void SetSliderMinimum(int value);
 
 	bool GetIncrease() const;
 	void SetIncrease(bool bIncrease);

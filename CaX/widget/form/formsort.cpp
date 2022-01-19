@@ -105,6 +105,11 @@ void FormSort::SetResize(int resize)
 	m_Slider->setValue(resize);
 }
 
+void FormSort::SetSliderMinimum(int value)
+{
+	m_Slider->setMinimum(value);
+}
+
 bool FormSort::GetIncrease() const
 {
 	return m_bIncrease;

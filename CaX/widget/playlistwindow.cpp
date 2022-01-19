@@ -627,10 +627,12 @@ void PlaylistWindow::Initialize()
 	m_pInfoService->GetFormPlay()->ShowPlayAll();
 	m_pInfoService->GetFormPlay()->ShowMenu();
 	m_pInfoService->GetFormSort()->ShowResize();
+	m_pInfoService->GetFormSort()->SetSliderMinimum(LIST_HEIGHT_MIN);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
+	m_pInfoTracks->GetFormSort()->SetSliderMinimum(LIST_HEIGHT_MIN);
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();

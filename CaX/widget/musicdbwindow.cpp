@@ -1557,7 +1557,7 @@ void MusicDBWindow::ReadSettings()
 	}
 	if (m_ResizeTrack <= 0)
 	{
-		m_ResizeTrack = LIST_HEIGHT_MIN;
+		m_ResizeTrack = TABLE_HEIGHT_MIN;
 	}
 }
 
@@ -1700,6 +1700,7 @@ void MusicDBWindow::Initialize()
 	m_pInfoHome->GetFormSort()->ShowResize();
 	m_pInfoHome->GetFormSort()->ShowIncDec();
 	m_pInfoHome->GetFormSort()->SetIncrease(m_bIncreaseCategory);
+	m_pInfoHome->GetFormSort()->SetSliderMinimum(TABLE_HEIGHT_MIN);
 
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
@@ -1708,6 +1709,7 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormSort()->ShowResize();
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
+	m_pInfoTracks->GetFormSort()->SetSliderMinimum(TABLE_HEIGHT_MIN);
 
 	m_TopMenuMap.clear();
 	m_CategoryMenuMap.clear();

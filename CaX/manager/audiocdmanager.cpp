@@ -4,6 +4,8 @@ AudioCDManager::AudioCDManager() :
 	m_pSql(new SQLManager)
 {
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespCoverArt(QString, int, int)), this, SLOT(SlotRespCoverArt(QString, int, int)));
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespCoverArt(QString)), this, SLOT(SlotRespCoverArt(QString)));
 
 }
 
@@ -186,6 +188,16 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 		emit SigRespError(STR_INVALID_ID);
 		break;
 	}
+}
+
+void AudioCDManager::SlotRespCoverArt(QString filename, int nIndex, int mode)
+{
+	emit SigCoverArtUpdate(filename, nIndex, mode);
+}
+
+void AudioCDManager::SlotRespCoverArt(QString filename)
+{
+	emit SigCoverArtUpdate(filename);
 }
 
 void AudioCDManager::ParseTrackList(CJsonNode result)

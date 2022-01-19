@@ -423,7 +423,7 @@ void TableTracks::Initialize()
 	ui->tableView->setItemDelegateForColumn(TABLE_TRACKS_MENU, m_Delegate);
 
 	SetColResize(0);
-	SetRowResize(LIST_HEIGHT_MIN);
+	SetRowResize(TABLE_HEIGHT_MIN);
 
 	m_ScrollBar = ui->tableView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));

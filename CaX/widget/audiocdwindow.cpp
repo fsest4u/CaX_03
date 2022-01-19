@@ -1,3 +1,5 @@
+#include <QThread>
+
 #include "audiocdwindow.h"
 #include "ui_audiocdwindow.h"
 
@@ -31,6 +33,8 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
+	m_pIconThread(new QThread),
+	m_pListThread(new QThread),
 	m_EventID(eventID),
 	m_TotalCount(""),
 	m_TotalTime(""),
@@ -75,6 +79,20 @@ AudioCDWindow::~AudioCDWindow()
 		m_pListTracks = nullptr;
 	}
 
+	if (m_pIconThread)
+	{
+		ThreadTerminateIcon();
+		delete m_pIconThread;
+		m_pIconThread = nullptr;
+	}
+
+	if (m_pListThread)
+	{
+		ThreadTerminateList();
+		delete m_pListThread;
+		m_pListThread = nullptr;
+	}
+
 	delete ui;
 
 }
@@ -108,7 +126,15 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 	CJsonNode track = m_RespList.at(0);
 //	LogDebug("track [%s]", track.ToCompactByteArray().data());
 
-	m_pInfoTracks->SetCoverArt(track.GetString(KEY_ART));
+	QString art = track.GetString(KEY_ART);
+	if (art.isEmpty())
+	{
+		m_pInfoTracks->SetCoverArt(art);
+	}
+	else
+	{
+		m_pMgr->RequestCoverArt(art);
+	}
 	m_pInfoTracks->SetTitle(track.GetString(KEY_TOP));
 	m_pInfoTracks->SetSubtitle(track.GetString(KEY_BOT));
 //	m_pInfoTracks->SetInfo(MakeInfo());
@@ -119,14 +145,14 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 	{
 		m_pIconTracks->ClearNodeList();
 		m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
-
+		ThreadStartIcon();
 	}
 	else
 	{
 		m_pListTracks->ClearNodeList();
 		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
+		ThreadStartList();
 	}
-
 
 //	m_TotalCount = QString("%1 songs").arg(m_RespList.count());
 //	m_pInfoTracks->SetInfo( MakeInfo() );
@@ -186,6 +212,27 @@ void AudioCDWindow::SlotRespCategoryList(QList<CJsonNode> list)
 	SetCategoryList(list);
 }
 
+void AudioCDWindow::SlotCoverArtUpdate(QString filename)
+{
+	m_pInfoTracks->SetCoverArt(filename);
+}
+
+void AudioCDWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
+{
+	if (QListView::IconMode == mode)
+	{
+		QStandardItem *item = m_pIconTracks->GetModel()->item(index);
+		item->setData(coverArt, IconTracksDelegate::ICON_TRACKS_COVER);
+		m_pIconTracks->GetModel()->setItem(index, item);
+	}
+	else
+	{
+		QStandardItem *item = m_pListTracks->GetModel()->item(index);
+		item->setData(coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
+		m_pListTracks->GetModel()->setItem(index, item);
+	}
+}
+
 void AudioCDWindow::SlotRespError(QString errMsg)
 {
 	CommonDialog dialog(this, STR_WARNING, errMsg);
@@ -211,6 +258,14 @@ void AudioCDWindow::SlotSelectPlay(int id, int playType)
 
 	m_pMgr->RequestTrackPlay(id);
 
+}
+
+void AudioCDWindow::SlotReqCoverArt(int id, int index, int mode)
+{
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(KEY_CD).arg(id);
+
+	m_pMgr->RequestCoverArt(fullpath, index, mode);
 }
 
 void AudioCDWindow::SlotPlayAll()
@@ -292,6 +347,7 @@ void AudioCDWindow::SlotResize(int resize)
 			{
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
+				ThreadStartIcon();
 			}
 
 			m_pListTracks->hide();
@@ -305,6 +361,7 @@ void AudioCDWindow::SlotResize(int resize)
 			{
 				m_pListTracks->ClearNodeList();
 				m_pListTracks->SetNodeList(m_RespList, SIDEMENU_AUDIO_CD);
+				ThreadStartList();
 			}
 
 			m_pIconTracks->hide();
@@ -369,6 +426,8 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCDRipInfo(CJsonNode)), this, SLOT(SlotRespCDRipInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
 
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
@@ -377,8 +436,10 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
 //	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
+	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 
+	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
@@ -390,7 +451,7 @@ void AudioCDWindow::Initialize()
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
-//	m_pInfoTracks->GetFormSort()->SetResize(LIST_HEIGHT_MIN);
+	m_pInfoTracks->GetFormSort()->SetSliderMinimum(LIST_HEIGHT_MIN);
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
@@ -403,6 +464,9 @@ void AudioCDWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+
+	m_pIconTracks->SetBackgroundTask(m_pIconThread);
+	m_pListTracks->SetBackgroundTask(m_pListThread);
 }
 
 void AudioCDWindow::ResetSelectMap()
@@ -592,6 +656,36 @@ void AudioCDWindow::DoOptionMenuCDRipping(int id)
 void AudioCDWindow::DoOptionMenuTrackInfo(int id)
 {
 	m_pMgr->RequestTrackInfo(id);
+}
+
+void AudioCDWindow::ThreadStartIcon()
+{
+	ThreadTerminateIcon();
+
+	m_pIconThread->start();
+}
+
+void AudioCDWindow::ThreadStartList()
+{
+	ThreadTerminateList();
+
+	m_pListThread->start();
+}
+
+void AudioCDWindow::ThreadTerminateIcon()
+{
+	if (m_pIconThread->isRunning())
+	{
+		m_pIconThread->terminate();
+	}
+}
+
+void AudioCDWindow::ThreadTerminateList()
+{
+	if (m_pListThread->isRunning())
+	{
+		m_pListThread->terminate();
+	}
 }
 
 QString AudioCDWindow::MakeInfo()
