@@ -40,20 +40,23 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 		LogCritical("url is invalid");
 		return;
 	}
-	QNetworkRequest request(url);
+	QNetworkRequest request;
+	QEventLoop loop;
+
+	request.setUrl(url);
 	request.setHeader(QNetworkRequest::ContentTypeHeader, CONTENT_TYPE);
 
 	m_pReply = m_pManager->post(request, jsonData);
-
-	QEventLoop loop;
 	connect(m_pReply, SIGNAL(finished()), &loop, SLOT(quit()));
+//	connect(m_pManager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
+
 	loop.exec();
 
 	if (m_pReply->error() == QNetworkReply::NoError)
 	{
 
 		QString jsonValue = QString::fromUtf8(m_pReply->readAll());
-		//LoggingDebug("Network Success : [%s]", jsonValue.toUtf8().data());
+		LogDebug("Network Success : [%s]", jsonValue.toUtf8().data());
 		if (nIndex < 0)
 		{
 			emit SigRespInfo(jsonValue, nCmdID);
@@ -69,8 +72,12 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 		LogCritical("Network Error : [%s]", err.toUtf8().data());
 
 	}
-	m_pReply->deleteLater();
-
+//	m_pReply->deleteLater();
+	if (m_pReply)
+	{
+		delete m_pReply;
+		m_pReply = nullptr;
+	}
 }
 
 void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
@@ -81,7 +88,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 
 	if (filename.isEmpty())
 	{
-		LogDebug("fileName is empty");
+		LogCritical("fileName is empty");
 		return;
 	}
 
@@ -106,15 +113,18 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 //	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
-	QNetworkRequest request(url);
+	QNetworkRequest request;
+	QEventLoop loop;
 
+	request.setUrl(url);
 	int count = m_ListReply.size();
 
 	QNetworkReply *reply = m_pManager->get(request);
 	m_ListReply.insert(count, reply);
 
-	QEventLoop loop;
 	connect(m_ListReply[count], SIGNAL(finished()), &loop, SLOT(quit()));
+//	connect(m_pManager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
+
 	loop.exec();
 
 	if (m_ListReply[count]->error() == QNetworkReply::NoError)
@@ -124,7 +134,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 		{
 			if (image.save(filename, suffix.toLatin1().data()))
 			{
-//				LogDebug("file saves [%s]", filename.toUtf8().data());
+				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename, nIndex, nMode);
 			}
 		}
@@ -137,7 +147,12 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 					, fullpath.toUtf8().data()
 					, filename.toUtf8().data());
 	}
-	m_ListReply[count]->deleteLater();
+//	m_ListReply[count]->deleteLater();
+	if (m_ListReply[count])
+	{
+		delete m_ListReply[count];
+		m_ListReply[count] = nullptr;
+	}
 
 //	connect(m_ListReply[count], &QNetworkReply::finished, [=]() {
 
@@ -172,7 +187,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 
 	if (filename.isEmpty())
 	{
-		LogDebug("fileName is empty");
+		LogCritical("fileName is empty");
 		return;
 	}
 
@@ -197,15 +212,18 @@ void TCPClient::RequestCoverArt(QString fullpath)
 //	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
-	QNetworkRequest request(url);
+	QNetworkRequest request;
+	QEventLoop loop;
 
+	request.setUrl(url);
 	int count = m_ListReply.size();
 
 	QNetworkReply *reply = m_pManager->get(request);
 	m_ListReply.insert(count, reply);
 
-	QEventLoop loop;
 	connect(m_ListReply[count], SIGNAL(finished()), &loop, SLOT(quit()));
+//	connect(m_pManager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
+
 	loop.exec();
 
 	if (m_ListReply[count]->error() == QNetworkReply::NoError)
@@ -237,7 +255,12 @@ void TCPClient::RequestCoverArt(QString fullpath)
 					, fullpath.toUtf8().data()
 					, filename.toUtf8().data());
 	}
-	m_ListReply[count]->deleteLater();
+//	m_ListReply[count]->deleteLater();
+	if (m_ListReply[count])
+	{
+		delete m_ListReply[count];
+		m_ListReply[count] = nullptr;
+	}
 #endif
 }
 
@@ -249,7 +272,7 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 
 	if (strUrl.isEmpty())
 	{
-		LogDebug("strUrl is empty");
+		LogCritical("strUrl is empty");
 		return;
 	}
 
@@ -267,15 +290,18 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 #endif
 
 	const QUrl url = QUrl::fromUserInput(strUrl);
-	QNetworkRequest request(url);
+	QNetworkRequest request;
+	QEventLoop loop;
 
+	request.setUrl(url);
 	int count = m_ListReply.size();
 
 	QNetworkReply *reply = m_pManager->get(request);
 	m_ListReply.insert(count, reply);
 
-	QEventLoop loop;
 	connect(m_ListReply[count], SIGNAL(finished()), &loop, SLOT(quit()));
+//	connect(m_pManager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
+
 	loop.exec();
 
 	if (m_ListReply[count]->error() == QNetworkReply::NoError)
@@ -303,7 +329,12 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 					, strUrl.toUtf8().data()
 					, strUrl.toUtf8().data());
 	}
-	m_ListReply[count]->deleteLater();
+//	m_ListReply[count]->deleteLater();
+	if (m_ListReply[count])
+	{
+		delete m_ListReply[count];
+		m_ListReply[count] = nullptr;
+	}
 
 }
 
