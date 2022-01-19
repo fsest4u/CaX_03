@@ -118,9 +118,9 @@ void CDRipInfo::SlotClickCoverArt()
 	resultDialog.RequestCoverArtList(site, keyword, artist);
 	if (resultDialog.exec() == QDialog::Accepted)
 	{
-#if 1
+#if 0
 		QString style;
-		style = QString("QPushButton	\
+		style = QString("QLabel	\
 						{	\
 						  border-image: url(\'\');	\
 						}");
@@ -134,11 +134,11 @@ void CDRipInfo::SlotClickCoverArt()
 
 #else
 		QString style;
-		style = QString("QPushButton	\
+		style = QString("QLabel	\
 						{	\
 						  border-image: url(\'%1\');	\
 						}").arg(resultDialog.GetImagePath());
-		ui->btnCoverArt->setStyleSheet(style);
+		ui->labelCoverArt->setStyleSheet(style);
 #endif
 
 		emit SigChangeCoverArt(resultDialog.GetImage(), resultDialog.GetThumb());
@@ -163,6 +163,21 @@ QString CDRipInfo::GetThumb() const
 void CDRipInfo::SetThumb(const QString &Thumb)
 {
 	m_Thumb = Thumb;
+}
+
+QString CDRipInfo::GetCoverArt() const
+{
+	return "";
+}
+
+void CDRipInfo::SetCoverArt(const QString &CoverArt)
+{
+	QString style;
+	style = QString("QLabel	\
+					{	\
+					  border-image: url(\'%1\');	\
+					}").arg(CoverArt);
+	ui->labelCoverArt->setStyleSheet(style);
 }
 
 bool CDRipInfo::eventFilter(QObject *object, QEvent *event)

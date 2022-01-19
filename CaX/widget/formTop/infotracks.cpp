@@ -56,6 +56,11 @@ InfoTracks::~InfoTracks()
 
 }
 
+QString InfoTracks::GetCoverArt() const
+{
+	return m_pFormCoverArt->GetCoverArt();
+}
+
 void InfoTracks::SetTitle(QString title)
 {
 	if (title.isEmpty())

@@ -31,11 +31,11 @@ public:
 	QString GetThumb() const;
 	void SetThumb(const QString &Thumb);
 
-	QByteArray GetImageData() const;
-	void SetImageData(const QByteArray &ImageData);
+//	QByteArray GetImageData() const;
+//	void SetImageData(const QByteArray &ImageData);
 
-//	QString GetImagePath() const;
-//	void SetImagePath(const QString &ImagePath);
+	QString GetImagePath() const;
+	void SetImagePath(const QString &ImagePath);
 
 private slots:
 
@@ -63,8 +63,8 @@ private:
 
 	QString m_Image;
 	QString m_Thumb;
-	QByteArray m_ImageData;
-//	QString m_ImagePath;
+//	QByteArray m_ImageData;
+	QString m_ImagePath;
 
 	Ui::SearchCoverArtResultDialog *ui;
 };

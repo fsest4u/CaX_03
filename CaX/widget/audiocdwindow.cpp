@@ -181,6 +181,7 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 	dialog.SetComposerList(m_ComposerList);
 	dialog.SetMoodList(m_MoodList);
 	dialog.SetInfoData(node);
+	dialog.SetCoverArt(m_pInfoTracks->GetCoverArt());
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		node.Clear();

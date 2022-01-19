@@ -35,6 +35,9 @@ public:
 	QString GetThumb() const;
 	void SetThumb(const QString &Thumb);
 
+	QString GetCoverArt() const;
+	void SetCoverArt(const QString &CoverArt);
+
 signals:
 
 	void SigChangeFormat(int index);

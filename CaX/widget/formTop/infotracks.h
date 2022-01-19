@@ -20,6 +20,7 @@ public:
 	explicit InfoTracks(QWidget *parent = nullptr);
 	~InfoTracks();
 
+	QString GetCoverArt() const;
 	void SetCoverArt(QString coverArt);
 	void SetTitle(QString title);
 	void SetSubtitle(QString title);

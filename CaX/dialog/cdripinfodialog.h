@@ -43,6 +43,10 @@ public:
 	QString GetAddr() const;
 	void SetAddr(const QString &Addr);
 
+	QString GetCoverArt() const;
+	void SetCoverArt(const QString &CoverArt);
+
+
 private slots:
 
 	void SlotBtnPrev();

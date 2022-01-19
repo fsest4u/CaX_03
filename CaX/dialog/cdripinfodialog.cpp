@@ -43,6 +43,7 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 {
 	m_InfoData = node;
 	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
+
 	m_WidgetCD->SetAddr(m_Addr);
 	m_WidgetCD->SetAlbumList(m_AlbumList);
 	m_WidgetCD->SetAlbumArtistList(m_AlbumArtistList);
@@ -266,6 +267,16 @@ QString CDRipInfoDialog::GetAddr() const
 void CDRipInfoDialog::SetAddr(const QString &Addr)
 {
 	m_Addr = Addr;
+}
+
+QString CDRipInfoDialog::GetCoverArt() const
+{
+	return m_WidgetCD->GetCoverArt();
+}
+
+void CDRipInfoDialog::SetCoverArt(const QString &CoverArt)
+{
+	m_WidgetCD->SetCoverArt(CoverArt);
 }
 
 QStringList CDRipInfoDialog::GetMoodList() const

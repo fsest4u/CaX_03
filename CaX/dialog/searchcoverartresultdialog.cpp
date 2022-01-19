@@ -136,8 +136,8 @@ void SearchCoverArtResultDialog::SlotSelectCoverArt(int index)
 	SetThumb(node.GetString(VAL_THUMB));
 
 	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
-	SetImageData(qvariant_cast<QByteArray>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
-//	SetImagePath(qvariant_cast<QString>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
+//	SetImageData(qvariant_cast<QByteArray>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
+	SetImagePath(qvariant_cast<QString>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
 
 	done(QDialog::Accepted);
 }
@@ -152,7 +152,7 @@ void SearchCoverArtResultDialog::ConnectSigToSlot()
 	connect(m_pIconCoverArt, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pIconCoverArt->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 
-	connect(ui->btnMore, SIGNAL(clicked()), this, SLOT(SlotAppendIconList()));
+	connect(ui->btnMore, SIGNAL(clicked()), this, SLOT(SlotAppendList()));
 }
 
 void SearchCoverArtResultDialog::Initialize()
@@ -164,22 +164,22 @@ void SearchCoverArtResultDialog::Initialize()
 
 }
 
-QByteArray SearchCoverArtResultDialog::GetImageData() const
-{
-	return m_ImageData;
-}
-
-void SearchCoverArtResultDialog::SetImageData(const QByteArray &ImageData)
-{
-	m_ImageData = ImageData;
-}
-
-//QString SearchCoverArtResultDialog::GetImagePath() const
+//QByteArray SearchCoverArtResultDialog::GetImageData() const
 //{
-//	return m_ImagePath;
+//	return m_ImageData;
 //}
 
-//void SearchCoverArtResultDialog::SetImagePath(const QString &ImagePath)
+//void SearchCoverArtResultDialog::SetImageData(const QByteArray &ImageData)
 //{
-//	m_ImagePath = ImagePath;
+//	m_ImageData = ImageData;
 //}
+
+QString SearchCoverArtResultDialog::GetImagePath() const
+{
+	return m_ImagePath;
+}
+
+void SearchCoverArtResultDialog::SetImagePath(const QString &ImagePath)
+{
+	m_ImagePath = ImagePath;
+}
