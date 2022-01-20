@@ -8,6 +8,8 @@ void LogCax(int nLevel, const char *filename, const char *funcname, const int li
 {
 	Q_UNUSED(filename)
 
+	QString curtime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
+
 	va_list args;
 	va_start(args, fmt);
 
@@ -17,16 +19,16 @@ void LogCax(int nLevel, const char *filename, const char *funcname, const int li
 	switch (nLevel)
 	{
 	case DEBUG:
-		qDebug()	<< "DEB [" << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
+		qDebug()	<< "DEB [" << curtime << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
 		break;
 	case INFO:
-		qInfo()		<< "INF [" << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
+		qInfo()		<< "INF [" << curtime << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
 		break;
 	case WARNING:
-		qWarning()	<< "WAR [" << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
+		qWarning()	<< "WAR [" << curtime << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
 		break;
 	case CRITICAL:
-		qCritical()	<< "CRI [" << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
+		qCritical()	<< "CRI [" << curtime << funcname << "]\t[" <<  linenum << "]\t" << strMsg << "\n";
 		break;
 	default:
 		qDebug()	<< strMsg << "\n";
@@ -41,7 +43,6 @@ void LogCax(int nLevel, const char *filename, const char *funcname, const int li
 		return;
 	}
 
-	QString curtime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
 
 	QTextStream out(&file);
 
