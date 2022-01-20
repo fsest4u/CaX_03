@@ -243,7 +243,7 @@ void UDPClient::SlotSSDPReadData()
 	{
 		if (socket)
 		{
-//			LogDebug("Read IP [%s]", socket->localAddress().toString().toUtf8().data());
+			LogDebug("Read IP [%s]", socket->localAddress().toString().toUtf8().data());
 			while( socket->hasPendingDatagrams() )
 			{
 				ssdpData.resize(socket->pendingDatagramSize());
@@ -252,7 +252,7 @@ void UDPClient::SlotSSDPReadData()
 
 			if (!ssdpData.isEmpty())
 			{
-//				LogDebug("Read Data [%s]", ssdpData.data());
+				LogDebug("Read Data [%s]", ssdpData.data());
 				emit SigRespDeviceItem(QString(ssdpData));
 			}
 		}

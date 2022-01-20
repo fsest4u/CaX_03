@@ -47,6 +47,11 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 	request.setHeader(QNetworkRequest::ContentTypeHeader, CONTENT_TYPE);
 
 	m_pReply = m_pManager->post(request, jsonData);
+	if (m_pReply == nullptr)
+	{
+		return;
+	}
+
 	connect(m_pReply, SIGNAL(finished()), &loop, SLOT(quit()));
 //	connect(m_pManager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
 
@@ -120,6 +125,11 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 	int count = m_ListReply.size();
 
 	QNetworkReply *reply = m_pManager->get(request);
+	if (reply == nullptr)
+	{
+		return;
+	}
+
 	m_ListReply.insert(count, reply);
 
 	connect(m_ListReply[count], SIGNAL(finished()), &loop, SLOT(quit()));
@@ -219,6 +229,11 @@ void TCPClient::RequestCoverArt(QString fullpath)
 	int count = m_ListReply.size();
 
 	QNetworkReply *reply = m_pManager->get(request);
+	if (reply == nullptr)
+	{
+		return;
+	}
+
 	m_ListReply.insert(count, reply);
 
 	connect(m_ListReply[count], SIGNAL(finished()), &loop, SLOT(quit()));
@@ -297,6 +312,11 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 	int count = m_ListReply.size();
 
 	QNetworkReply *reply = m_pManager->get(request);
+	if (reply == nullptr)
+	{
+		return;
+	}
+
 	m_ListReply.insert(count, reply);
 
 	connect(m_ListReply[count], SIGNAL(finished()), &loop, SLOT(quit()));
