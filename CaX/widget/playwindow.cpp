@@ -388,9 +388,9 @@ void PlayWindow::DebugVariable()
 
 void PlayWindow::InitPlayInfo()
 {
-	m_pFormTitle->SetTitle("-");
-	m_pFormTitle->SetSubtitle("-");
-	m_pFormCoverArt->SetCoverArt("");
+	m_pFormTitle->SetTitle("");
+	m_pFormTitle->SetSubtitle("");
+	m_pFormCoverArt->SetCoverArt(" ");
 }
 
 void PlayWindow::InitPlayTimeSlider()
