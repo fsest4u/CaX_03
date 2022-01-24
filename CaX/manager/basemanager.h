@@ -30,7 +30,7 @@ public:
 
 private:
 
-	TCPClient *m_pTcpClient;
+	TCPClient	*m_pTcpClient;
 
 };
 

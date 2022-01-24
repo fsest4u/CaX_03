@@ -1144,8 +1144,10 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 void MusicDBWindow::SlotAppendList()
 {
 	m_CurIndex++;
+	LogDebug("total [%d] curIndex [%d]", m_TotalPage, m_CurIndex);
 	if (m_TotalPage > m_CurIndex)
 	{
+		LogDebug("execute append ~~!!");
 		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
 				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
@@ -1163,6 +1165,11 @@ void MusicDBWindow::SlotAppendList()
 	else
 	{
 		m_CurIndex = m_TotalPage - 1;
+		LogDebug("last page ~~!! total [%d] curIndex [%d]", m_TotalPage, m_CurIndex);
+		if (m_CurIndex < 0)
+		{
+			m_CurIndex = 0;
+		}
 	}
 }
 
