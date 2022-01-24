@@ -63,6 +63,8 @@ public:
 	void ShowHeaderBitDepth(bool show);
 	void ShowHeaderRating(bool show);
 
+	void UpdateItem(QStandardItem* item);
+
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);

@@ -448,6 +448,12 @@ void ListTracks::ShowHeaderRating(bool show)
 	}
 }
 
+void ListTracks::UpdateItem(QStandardItem *item)
+{
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
+}
+
 void ListTracks::SlotScrollValueChanged(int value)
 {
 //	LogDebug("value [%d] min [%d] max [%d]", value, m_ScrollBar->minimum(), m_ScrollBar->maximum());
