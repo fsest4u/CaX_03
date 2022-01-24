@@ -66,7 +66,6 @@ public:
 	QStandardItemModel	*GetModel();
 	TableTracksDelegate	*GetDelegate();
 
-	void SetBackgroundTask(QThread *thread);
 	void SetHeaderTitle(QString title);
 
 //	void ShowColumnFavorite(bool show);
@@ -103,11 +102,8 @@ protected:
 
 	void resizeEvent(QResizeEvent *event);
 
-
 private slots:
 
-	void SlotReqCoverArt();
-	void SlotFinishThread();
 	void SlotScrollValueChanged(int value);
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 

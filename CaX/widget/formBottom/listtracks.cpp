@@ -82,7 +82,8 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
 			QStandardItem *item = new QStandardItem;
-			item->setData(node.GetString(KEY_TRACK), ListTracksDelegate::LIST_TRACKS_ID);
+			int nID = node.GetString(KEY_TRACK).toInt();
+			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_AUDIO_CD), ListTracksDelegate::LIST_TRACKS_COVER);
 			item->setData(node.GetString(KEY_TOP), ListTracksDelegate::LIST_TRACKS_TITLE);
 			item->setData(hhmmss, ListTracksDelegate::LIST_TRACKS_TIME);
@@ -93,10 +94,8 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
-//			emit SigReqCoverArt(nID, index, QListView::ListMode);
+			emit SigReqCoverArt(nID, index, QListView::ListMode);
 			index++;
 		}
 	}
@@ -120,10 +119,8 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
-//			emit SigReqCoverArt(nID, index, QListView::ListMode);
+			emit SigReqCoverArt(nID, index, QListView::ListMode);
 			index++;
 		}
 	}
@@ -167,10 +164,8 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
-//			emit SigReqCoverArt(nID, index, QListView::ListMode);
+			emit SigReqCoverArt(nID, index, QListView::ListMode);
 			index++;
 		}
 	}
@@ -278,12 +273,6 @@ QStandardItemModel *ListTracks::GetModel()
 ListTracksDelegate *ListTracks::GetDelegate()
 {
 	return m_Delegate;
-}
-
-void ListTracks::SetBackgroundTask(QThread *thread)
-{
-	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
-	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
 }
 
 void ListTracks::SetHeaderTitle(QString title)
@@ -457,26 +446,6 @@ void ListTracks::ShowHeaderRating(bool show)
 	{
 		ui->labelHeaderRating->hide();
 	}
-}
-
-void ListTracks::SlotReqCoverArt()
-{
-	int count = m_Model->rowCount();
-	for (int i = 0; i < count; i++)
-	{
-		QModelIndex modelIndex = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(modelIndex);
-		int id = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_ID));
-		int index = qvariant_cast<int>(item->data(ListTracksDelegate::LIST_TRACKS_INDEX));
-
-		QThread::msleep(5);
-		emit SigReqCoverArt(id, index, QListView::ListMode);
-	}
-}
-
-void ListTracks::SlotFinishThread()
-{
-//	LogDebug("thread finish good");
 }
 
 void ListTracks::SlotScrollValueChanged(int value)

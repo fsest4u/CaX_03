@@ -86,7 +86,6 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 				artist = node.GetString(KEY_SUBTITLE);
 			}
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
-
 			QString extension = UtilNovatron::GetSuffix(node.GetString(KEY_FORMAT));
 
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ID), nID, Qt::DisplayRole);
@@ -109,6 +108,7 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_INDEX), index);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_MENU), false);
 
+			emit SigReqCoverArt(nID, index, 0);	// 0 is QListView::ListMode
 			index++;
 		}
 	}
@@ -208,12 +208,6 @@ TableTracksDelegate *TableTracks::GetDelegate()
 	return m_Delegate;
 }
 
-void TableTracks::SetBackgroundTask(QThread *thread)
-{
-	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
-	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
-}
-
 void TableTracks::SetHeaderTitle(QString title)
 {
 	m_Model->setHeaderData(TABLE_TRACKS_TITLE, Qt::Horizontal, title);
@@ -247,23 +241,6 @@ void TableTracks::SetColumnShow(int column, bool show)
 void TableTracks::resizeEvent(QResizeEvent *event)
 {
 	SetColResize(0);
-}
-
-void TableTracks::SlotReqCoverArt()
-{
-	int index = 0;
-	foreach (CJsonNode node, m_NodeList)
-	{
-		int nID = node.GetString(KEY_ID_LOWER).toInt();
-		QThread::msleep(5);
-		emit SigReqCoverArt(nID, index, 0);	// 0 is QListView::ListMode
-		index++;
-	}
-}
-
-void TableTracks::SlotFinishThread()
-{
-//	LogDebug("thread finish good");
 }
 
 void TableTracks::SlotScrollValueChanged(int value)

@@ -180,12 +180,6 @@ private:
 	void ClearClassifyMenu();
 	void ClearList();
 
-	void ThreadStartIcon();
-	void ThreadStartList();
-
-	void ThreadTerminateIcon();
-	void ThreadTerminateList();
-
 	void CalculatePage(int totalCount);
 
 	void SetColumn(int typeMode);
@@ -198,8 +192,6 @@ private:
 	IconTracks			*m_pIconTracks;
 	TableTracks			*m_pTableTracks;
 
-	QThread				*m_pIconThread;
-	QThread				*m_pListThread;
 	QList<CJsonNode>	m_RespList;
 
 

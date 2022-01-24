@@ -45,8 +45,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pTableTracks(new TableTracks(this)),
-	m_pIconThread(new QThread),
-	m_pListThread(new QThread),
 	m_EventID(eventID),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
 	m_nSortCategory(SQLManager::SORT_IMPORTED_DATE),
@@ -106,20 +104,6 @@ MusicDBWindow::~MusicDBWindow()
 	{
 		delete m_pTableTracks;
 		m_pTableTracks = nullptr;
-	}
-
-	if (m_pIconThread)
-	{
-		ThreadTerminateIcon();
-		delete m_pIconThread;
-		m_pIconThread = nullptr;
-	}
-
-	if (m_pListThread)
-	{
-		ThreadTerminateList();
-		delete m_pListThread;
-		m_pListThread = nullptr;
 	}
 
 	delete ui;
@@ -449,13 +433,11 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 	{
 //		m_pIconTracks->ClearNodeList();
 		m_pIconTracks->SetNodeList(list, service);
-		ThreadStartIcon();
 	}
 	else
 	{
 //		m_pTableTracks->ClearNodeList();
 		m_pTableTracks->SetNodeList(list, service);
-		ThreadStartList();
 	}
 
 }
@@ -510,13 +492,11 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 	{
 //		m_pIconTracks->ClearNodeList();
 		m_pIconTracks->SetNodeList(list, service);
-		ThreadStartIcon();
 	}
 	else
 	{
 //		m_pTableTracks->ClearNodeList();
 		m_pTableTracks->SetNodeList(list, service);
-		ThreadStartList();
 	}
 }
 
@@ -549,9 +529,10 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	if (QListView::IconMode == mode)
 	{
-		QStandardItem *itemIcon = m_pIconTracks->GetModel()->item(nIndex);
-		itemIcon->setData(fileName, IconTracksDelegate::ICON_TRACKS_COVER);
-		m_pIconTracks->GetModel()->setItem(nIndex, itemIcon);
+		QStandardItem *item = m_pIconTracks->GetModel()->item(nIndex);
+		item->setData(fileName, IconTracksDelegate::ICON_TRACKS_COVER);
+		m_pIconTracks->GetModel()->setItem(nIndex, item);
+		m_pIconTracks->UpdateItem(item);
 	}
 	else
 	{
@@ -724,11 +705,10 @@ void MusicDBWindow::SlotResize(int resize)
 			}
 
 			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
-//			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
+			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, service);
-				ThreadStartIcon();
 			}
 
 			m_pTableTracks->hide();
@@ -749,11 +729,10 @@ void MusicDBWindow::SlotResize(int resize)
 //			}
 
 			LogDebug("list~~~~~~~~[%d][%d]", m_pTableTracks->GetNodeList().count(), m_RespList.count());
-//			if (m_pTableTracks->GetNodeList().count() != m_RespList.count())
+			if (m_pTableTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pTableTracks->ClearNodeList();
 				m_pTableTracks->SetNodeList(m_RespList, service);
-				ThreadStartList();
 			}
 
 			if (m_TypeMode == TYPE_MODE_ITEM_TRACK
@@ -788,9 +767,6 @@ void MusicDBWindow::SlotResize(int resize)
 
 void MusicDBWindow::SlotAlbumList()
 {
-	ThreadTerminateIcon();
-	ThreadTerminateList();
-
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -800,9 +776,6 @@ void MusicDBWindow::SlotAlbumList()
 
 void MusicDBWindow::SlotAlbumArtistList()
 {
-	ThreadTerminateIcon();
-	ThreadTerminateList();
-
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_ALBUM_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -812,9 +785,6 @@ void MusicDBWindow::SlotAlbumArtistList()
 
 void MusicDBWindow::SlotArtistList()
 {
-	ThreadTerminateIcon();
-	ThreadTerminateList();
-
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -824,9 +794,6 @@ void MusicDBWindow::SlotArtistList()
 
 void MusicDBWindow::SlotGenreList()
 {
-	ThreadTerminateIcon();
-	ThreadTerminateList();
-
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->AddWidgetItem(TYPE_MODE_ITEM_TRACK, SQLManager::CATEGORY_GENRE);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -849,9 +816,6 @@ void MusicDBWindow::SlotCategoryMenu()
 
 void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 {
-	ThreadTerminateIcon();
-	ThreadTerminateList();
-
 	if (nCategory == SQLManager::CATEGORY_TRACK)
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
@@ -1025,9 +989,6 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		else
 		{
 //			LogDebug("### Track mode");
-			ThreadTerminateIcon();
-			ThreadTerminateList();
-
 			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 			widget->AddWidgetTrack(TYPE_MODE_TRACK, m_nCategory);
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -1039,9 +1000,6 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM)
 	{
 //		LogDebug("### Track mode");
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -1061,9 +1019,6 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
 //		LogDebug("### Track mode");
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM_ARTIST, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -1073,9 +1028,6 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ADD, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -1733,9 +1685,6 @@ void MusicDBWindow::Initialize()
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
 	m_DispMode = SQLManager::DISP_MODE_TRACK;
 
-	m_pIconTracks->SetBackgroundTask(m_pIconThread);
-	m_pTableTracks->SetBackgroundTask(m_pListThread);
-
 	m_nID = -1;
 	m_nCatID = -1;
 
@@ -2008,9 +1957,6 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
@@ -2124,9 +2070,6 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 {
 	if (m_TypeMode == TYPE_MODE_TRACK)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
@@ -2273,9 +2216,6 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
@@ -2287,9 +2227,6 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
@@ -2551,37 +2488,6 @@ void MusicDBWindow::ClearList()
 	m_pIconTracks->ClearNodeList();
 	m_pTableTracks->ClearNodeList();
 }
-
-void MusicDBWindow::ThreadStartIcon()
-{
-	ThreadTerminateIcon();
-
-	m_pIconThread->start();
-}
-
-void MusicDBWindow::ThreadStartList()
-{
-	ThreadTerminateList();
-
-	m_pListThread->start();
-}
-
-void MusicDBWindow::ThreadTerminateIcon()
-{
-	if (m_pIconThread->isRunning())
-	{
-		m_pIconThread->terminate();
-	}
-}
-
-void MusicDBWindow::ThreadTerminateList()
-{
-	if (m_pListThread->isRunning())
-	{
-		m_pListThread->terminate();
-	}
-}
-
 
 void MusicDBWindow::CalculatePage(int totalCount)
 {

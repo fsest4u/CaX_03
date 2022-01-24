@@ -1,4 +1,3 @@
-#include <QThread>
 #include <QScrollBar>
 
 #include "icontracks.h"
@@ -62,6 +61,7 @@ QList<CJsonNode> IconTracks::GetNodeList() const
 void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 {
 //	m_pLoading->Start();
+
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
@@ -75,7 +75,8 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 //			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
 			QStandardItem *item = new QStandardItem;
-			item->setData(node.GetString(KEY_TRACK), IconTracksDelegate::ICON_TRACKS_ID);
+			int nID = node.GetString(KEY_TRACK).toInt();
+			item->setData(nID, IconTracksDelegate::ICON_TRACKS_ID);
 			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_AUDIO_CD), IconTracksDelegate::ICON_TRACKS_COVER);
 			item->setData(node.GetString(KEY_TOP), IconTracksDelegate::ICON_TRACKS_TITLE);
 			item->setData(node.GetString(KEY_BOT), IconTracksDelegate::ICON_TRACKS_SUBTITLE);
@@ -86,10 +87,9 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 			item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 //			totalTime += seconds;
+			emit SigReqCoverArt(nID, index, QListView::IconMode);
 			index++;
 		}
 //		emit SigCalcTotalTime(totalTime);
@@ -125,10 +125,8 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 			}
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
-//			emit SigReqCoverArt(nID, index, QListView::IconMode);
+			emit SigReqCoverArt(nID, index, QListView::IconMode);
 			index++;
 		}
 	}
@@ -232,30 +230,10 @@ IconTracksDelegate *IconTracks::GetDelegate()
 	return m_Delegate;
 }
 
-void IconTracks::SetBackgroundTask(QThread *thread)
+void IconTracks::UpdateItem(QStandardItem *item)
 {
-	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
-	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
-}
-
-void IconTracks::SlotReqCoverArt()
-{
-	int count = m_Model->rowCount();
-	for (int i = 0; i < count; i++)
-	{
-		QModelIndex modelIndex = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(modelIndex);
-		int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
-		int index = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_INDEX));
-
-		QThread::msleep(5);
-		emit SigReqCoverArt(id, index, QListView::IconMode);
-	}
-}
-
-void IconTracks::SlotFinishThread()
-{
-//	LogDebug("thread finish good");
+	QModelIndex modelIndex = m_Model->indexFromItem(item);
+	m_ListView->openPersistentEditor(modelIndex);
 }
 
 void IconTracks::SlotScrollValueChanged(int value)

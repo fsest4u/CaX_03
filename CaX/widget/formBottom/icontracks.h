@@ -44,7 +44,7 @@ public:
 	QStandardItemModel	*GetModel();
 	IconTracksDelegate	*GetDelegate();
 
-	void SetBackgroundTask(QThread *thread);
+	void UpdateItem(QStandardItem* item);
 
 signals:
 
@@ -54,8 +54,6 @@ signals:
 
 private slots:
 
-	void SlotReqCoverArt();
-	void SlotFinishThread();
 	void SlotScrollValueChanged(int value);
 	void SlotSelectCoverArt(int index);
 

@@ -1,5 +1,3 @@
-#include <QThread>
-
 #include "playlistwindow.h"
 #include "ui_playlistwindow.h"
 
@@ -34,8 +32,6 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
-	m_pIconThread(new QThread),
-	m_pListThread(new QThread),
 	ui(new Ui::PlaylistWindow)
 {
 	ui->setupUi(this);
@@ -80,20 +76,6 @@ PlaylistWindow::~PlaylistWindow()
 	{
 		delete m_pListTracks;
 		m_pListTracks = nullptr;
-	}
-
-	if (m_pIconThread)
-	{
-		ThreadTerminateIcon();
-		delete m_pIconThread;
-		m_pIconThread = nullptr;
-	}
-
-	if (m_pListThread)
-	{
-		ThreadTerminateList();
-		delete m_pListThread;
-		m_pListThread = nullptr;
 	}
 
 	delete ui;
@@ -186,13 +168,11 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 	{
 		m_pIconTracks->ClearNodeList();
 		m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-		ThreadStartIcon();
 	}
 	else
 	{
 		m_pListTracks->ClearNodeList();
 		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-		ThreadStartList();
 	}
 }
 
@@ -223,13 +203,11 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 	{
 		m_pIconTracks->ClearNodeList();
 		m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-		ThreadStartIcon();
 	}
 	else
 	{
 		m_pListTracks->ClearNodeList();
 		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-		ThreadStartList();
 	}
 }
 
@@ -258,6 +236,7 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 		QStandardItem *item = m_pIconTracks->GetModel()->item(index);
 		item->setData(coverArt, IconTracksDelegate::ICON_TRACKS_COVER);
 		m_pIconTracks->GetModel()->setItem(index, item);
+		m_pIconTracks->UpdateItem(item);
 	}
 	else
 	{
@@ -271,9 +250,6 @@ void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 {
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetTrack();
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
@@ -402,7 +378,6 @@ void PlaylistWindow::SlotResize(int resize)
 			{
 				m_pIconTracks->ClearNodeList();
 				m_pIconTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-				ThreadStartIcon();
 			}
 
 			m_pListTracks->hide();
@@ -416,7 +391,6 @@ void PlaylistWindow::SlotResize(int resize)
 			{
 				m_pListTracks->ClearNodeList();
 				m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
-				ThreadStartList();
 			}
 
 			m_pIconTracks->hide();
@@ -639,8 +613,6 @@ void PlaylistWindow::Initialize()
 
 //	m_ListMode = GetListModeFromResize(m_Resize);
 
-	m_pIconTracks->SetBackgroundTask(m_pIconThread);
-	m_pListTracks->SetBackgroundTask(m_pListThread);
 }
 
 int PlaylistWindow::GetListModeFromResize(int resize)
@@ -842,9 +814,6 @@ void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 {
 	if (m_TypeMode == TYPE_MODE_TRACK)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -952,9 +921,6 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 	m_ID = nID;
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		ThreadTerminateIcon();
-		ThreadTerminateList();
-
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -965,32 +931,3 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 	}
 }
 
-void PlaylistWindow::ThreadStartIcon()
-{
-	ThreadTerminateIcon();
-
-	m_pIconThread->start();
-}
-
-void PlaylistWindow::ThreadStartList()
-{
-	ThreadTerminateList();
-
-	m_pListThread->start();
-}
-
-void PlaylistWindow::ThreadTerminateIcon()
-{
-	if (m_pIconThread->isRunning())
-	{
-		m_pIconThread->terminate();
-	}
-}
-
-void PlaylistWindow::ThreadTerminateList()
-{
-	if (m_pListThread->isRunning())
-	{
-		m_pListThread->terminate();
-	}
-}

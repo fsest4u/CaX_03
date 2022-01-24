@@ -45,7 +45,6 @@ public:
 	QStandardItemModel	*GetModel();
 	ListTracksDelegate	*GetDelegate();
 
-	void SetBackgroundTask(QThread *thread);
 	void SetHeaderTitle(QString title);
 
 	void ShowHeaderFavorite(bool show);
@@ -75,8 +74,6 @@ signals:
 
 private slots:
 
-	void SlotReqCoverArt();
-	void SlotFinishThread();
 	void SlotScrollValueChanged(int value);
 	void SlotSelectCoverArt(int index);
 

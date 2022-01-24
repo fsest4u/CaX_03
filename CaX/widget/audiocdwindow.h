@@ -77,12 +77,6 @@ private:
 	void DoOptionMenuCDRipping(int id);
 	void DoOptionMenuTrackInfo(int id);
 
-	void ThreadStartIcon();
-	void ThreadStartList();
-
-	void ThreadTerminateIcon();
-	void ThreadTerminateList();
-
 	QString MakeInfo();
 
 	AudioCDManager		*m_pMgr;
@@ -90,8 +84,6 @@ private:
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
-	QThread				*m_pIconThread;
-	QThread				*m_pListThread;
 	QList<CJsonNode>	m_RespList;
 
 	QMap<int, QString>	m_TopMenuMap;

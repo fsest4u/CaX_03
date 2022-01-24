@@ -16,6 +16,12 @@
   <property name="windowOpacity">
    <double>0.000000000000000</double>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget
+{
+	background-color: rgb(255, 255, 255);
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
@@ -79,7 +85,7 @@
      <property name="styleSheet">
       <string notr="true">QFrame
 {
-border: 0px;
+	border: 0px;
 }</string>
      </property>
      <property name="frameShape">

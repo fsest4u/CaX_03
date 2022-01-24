@@ -100,21 +100,12 @@ private:
 	void DoOptionMenuDelete(int nID);
 	void DoOptionMenuAddToPlaylist(int nID);
 
-	void ThreadStartIcon();
-	void ThreadStartList();
-
-	void ThreadTerminateIcon();
-	void ThreadTerminateList();
-
-
 	PlaylistManager		*m_pMgr;
 	InfoService			*m_pInfoService;
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
 
-	QThread				*m_pIconThread;
-	QThread				*m_pListThread;
 	QList<CJsonNode>	m_RespList;
 
 	QMap<int, QString>	m_TopMenuMap;
