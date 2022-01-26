@@ -17,7 +17,7 @@ IconTracks::IconTracks(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconTracksDelegate),
 	m_ScrollBar(nullptr),
-//	m_pLoading(new Loading(this)),
+	m_pLoading(new Loading(this)),
 	ui(new Ui::IconTracks)
 {
 	ui->setupUi(this);
@@ -43,11 +43,11 @@ IconTracks::~IconTracks()
 		m_Delegate = nullptr;
 	}
 
-//	if (m_pLoading)
-//	{
-//		delete m_pLoading;
-//		m_pLoading = nullptr;
-//	}
+	if (m_pLoading)
+	{
+		delete m_pLoading;
+		m_pLoading = nullptr;
+	}
 
 	delete ui;
 
@@ -70,7 +70,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 //		int totalTime = 0;
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 //			int seconds = node.GetInt(KEY_TIME_CAP);
 //			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
@@ -143,50 +143,28 @@ void IconTracks::ClearNodeList()
 
 void IconTracks::ClearSelectMap()
 {
-//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
-//		bool bSelect = qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
-//		if (bSelect)
-		{
-			item->setData(false, IconTracksDelegate::ICON_TRACKS_SELECT);
-
-//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
-
-			int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
-			m_SelectMap.remove(id);
-		}
+		int id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
+		m_Model->setData(index, false, IconTracksDelegate::ICON_TRACKS_SELECT);
+		m_SelectMap.remove(id);
 	}
-//	m_pLoading->Stop();
 }
 
 void IconTracks::SetAllSelectMap()
 {
-//	m_pLoading->Start();
 	int count = m_Model->rowCount();
 
 	for (int i = 0; i < count; i++)
 	{
 		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
-		bool bSelect = qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
-		if (!bSelect)
-		{
-			item->setData(true, IconTracksDelegate::ICON_TRACKS_SELECT);
-
-//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
-
-			int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
-			m_SelectMap.insert(id, true);
-		}
+		int id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
+		m_Model->setData(index, true, IconTracksDelegate::ICON_TRACKS_SELECT);
+		m_SelectMap.insert(id, true);
 	}
-//	m_pLoading->Stop();
 }
 
 QMap<int, bool> IconTracks::GetSelectMap() const
@@ -201,18 +179,8 @@ void IconTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
 
 void IconTracks::SetResize(int resize)
 {
-	m_Delegate->SetResize(resize);
-	m_ListView->setGridSize(QSize(resize * 1.25, resize * 1.375));
-
-//	m_pLoading->Start();
-	int count = m_Model->rowCount();
-
-	for (int i = 0; i < count; i++)
-	{
-		QModelIndex index = m_Model->index(i, 0);
-		m_ListView->openPersistentEditor(index);
-	}
-//	m_pLoading->Stop();
+//	m_Delegate->SetResize(resize);
+	m_ListView->setGridSize(QSize(resize, resize + 30));
 }
 
 QListView *IconTracks::GetListView()
@@ -230,33 +198,24 @@ IconTracksDelegate *IconTracks::GetDelegate()
 	return m_Delegate;
 }
 
-void IconTracks::UpdateItem(QStandardItem *item)
-{
-	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(modelIndex);
-}
-
 void IconTracks::SlotScrollValueChanged(int value)
 {
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
-//	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
-	if (value >= max)
+	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
+	if (value > max)
 	{
 		emit SigAppendList();
 	}
 }
 
-void IconTracks::SlotSelectCoverArt(int index)
+void IconTracks::SlotSelectCheck(const QModelIndex &modelIndex)
 {
-	QStandardItem *item = m_Model->item(index);
+	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
+	int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
 	bool bSelect = !qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
 	item->setData(bSelect, IconTracksDelegate::ICON_TRACKS_SELECT);
 
-	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(modelIndex);
-
-	int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
 	if (bSelect)
 	{
 		m_SelectMap.insert(id, bSelect);
@@ -276,11 +235,13 @@ void IconTracks::Initialize()
 //	m_ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	m_ListView->setViewMode(QListView::IconMode);
 	m_ListView->setContextMenuPolicy(Qt::CustomContextMenu);
+	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
+	m_ListView->setMouseTracking(true);
 	SetResize(ICON_HEIGHT_INIT);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
-	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_Delegate, SIGNAL(SigSelectCheck(const QModelIndex&)), this, SLOT(SlotSelectCheck(const QModelIndex&)));
 
 	ui->gridLayout->addWidget(m_ListView);
 }

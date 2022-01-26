@@ -45,8 +45,8 @@
 // ui
 //////////////////////////////////////////////////
 
-#define ICON_ITEM_WIDTH				195
-#define ICON_ITEM_HEIGHT			220
+#define ICON_ITEM_WIDTH				160
+#define ICON_ITEM_HEIGHT			ICON_ITEM_WIDTH + 30
 
 #define LIST_ITEM_WIDTH				100
 #define LIST_BROWSER_HEIGHT			50
@@ -58,7 +58,7 @@
 #define SEARCH_ITEM_HEIGHT			120
 
 //#define ICON_HEIGHT_MIN				130
-#define ICON_HEIGHT_MAX				220
+#define ICON_HEIGHT_MAX				300
 #define ICON_HEIGHT_INIT			160
 #define ICON_HEIGHT_MID				105
 #define LIST_HEIGHT_MIN				52
@@ -333,8 +333,9 @@ enum
 #define FONT_SIZE_QUEUE_TITLE			26
 
 
-#define FONT_COLOR_NORMAL		"545454"
-#define FONT_COLOR_WHITE		"ffffff"
+#define FONT_COLOR_NORMAL		"545454"	// <<- HEX / RGB ->> 84, 84, 84
+#define FONT_COLOR_WHITE		"ffffff"	// <<- HEX / RGB ->> 255, 255, 255
+#define FONT_COLOR_BLUE			"34aed6"	// <<- HEX / RGB ->> 52, 174, 214
 
 #define FONT_WEIGHT_NORMAL		"normal"
 #define FONT_WEIGHT_BOLD		"bold"

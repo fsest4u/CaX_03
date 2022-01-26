@@ -44,8 +44,6 @@ public:
 	QStandardItemModel	*GetModel();
 	IconTracksDelegate	*GetDelegate();
 
-	void UpdateItem(QStandardItem* item);
-
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);
@@ -55,7 +53,7 @@ signals:
 private slots:
 
 	void SlotScrollValueChanged(int value);
-	void SlotSelectCoverArt(int index);
+	void SlotSelectCheck(const QModelIndex &modelIndex);
 
 private:
 
@@ -66,7 +64,7 @@ private:
 	IconTracksDelegate		*m_Delegate;
 	QScrollBar				*m_ScrollBar;
 
-//	Loading					*m_pLoading;
+	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;

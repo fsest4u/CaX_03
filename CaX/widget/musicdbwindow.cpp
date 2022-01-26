@@ -183,6 +183,7 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 {
 //	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
+	m_pMgr->RequestMusicDBOverView();
 
 	QString title;
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
@@ -258,7 +259,6 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 	}
 
 	m_pInfoHome->SetTitle(title);
-	m_pMgr->RequestMusicDBOverView();
 }
 
 void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
@@ -532,7 +532,6 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 		QStandardItem *item = m_pIconTracks->GetModel()->item(nIndex);
 		item->setData(fileName, IconTracksDelegate::ICON_TRACKS_COVER);
 		m_pIconTracks->GetModel()->setItem(nIndex, item);
-		m_pIconTracks->UpdateItem(item);
 	}
 	else
 	{

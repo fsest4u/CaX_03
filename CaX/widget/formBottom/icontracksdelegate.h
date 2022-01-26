@@ -28,29 +28,33 @@ public:
 		ICON_TRACKS_MAX
 	};
 
-	int GetResize() const;
-	void SetResize(int Resize);
+//	int GetResize() const;
+//	void SetResize(int Resize);
 
 	int GetTypeMode() const;
 	void SetTypeMode(int TypeMode);
 
 signals:
 
-	void SigSelectCoverArt(int index);
+	void SigSelectCheck(QModelIndex modelIndex);
 	void SigSelectPlay(int nID, int playType);
-	void SigSelectFavorite(int nID, int nFavorite);
-	void SigSelectRating(int nID, int nRating);
+//	void SigSelectFavorite(int nID, int nFavorite);
+//	void SigSelectRating(int nID, int nRating);
 	void SigSelectTitle(int nID, QString coverArt);
 	void SigSelectSubtitle(int nID, QString coverArt);
 
+protected:
+
+
+
 private slots:
 
-	void SlotClickCoverArt(int index);
-	void SlotClickPlay(int nID);
-	void SlotClickFavorite(int nID, int nFavorite);
-	void SlotClickRating(int nID, int nRating);
-	void SlotClickTitle(int nID, QString coverArt);
-	void SlotClickSubtitle(int nID, QString coverArt);
+//	void SlotClickCheck(int index);
+//	void SlotClickPlay(int nID);
+//	void SlotClickFavorite(int nID, int nFavorite);
+//	void SlotClickRating(int nID, int nRating);
+//	void SlotClickTitle(int nID, QString coverArt);
+//	void SlotClickSubtitle(int nID, QString coverArt);
 
 private:
 
@@ -58,13 +62,16 @@ private:
 	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
-	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+//	void destroyEditor(QWidget *editor, const QModelIndex &index) const override;
+	bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+//	bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index);
+//	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+//	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+//	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	int					m_TypeMode;
 
-	int					m_Resize;
+//	int					m_Resize;
 
 };
 

@@ -236,7 +236,6 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 		QStandardItem *item = m_pIconTracks->GetModel()->item(index);
 		item->setData(coverArt, IconTracksDelegate::ICON_TRACKS_COVER);
 		m_pIconTracks->GetModel()->setItem(index, item);
-		m_pIconTracks->UpdateItem(item);
 	}
 	else
 	{
