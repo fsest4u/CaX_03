@@ -74,9 +74,12 @@ bool IconCoverArtDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (rectCover.contains(curPoint))
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			emit SigSelectCoverArt(index);
+			if (rectCover.contains(curPoint))
+			{
+				emit SigSelectCoverArt(index);
+			}
 		}
 	}
 

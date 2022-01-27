@@ -146,21 +146,24 @@ bool InfoHome::eventFilter(QObject *object, QEvent *event)
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->frameAlbum)
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			emit SigAlbumList();
-		}
-		else if (object == ui->frameAlbumArtist)
-		{
-			emit SigAlbumArtistList();
-		}
-		else if (object == ui->frameArtist)
-		{
-			emit SigArtistList();
-		}
-		else if (object == ui->frameGenre)
-		{
-			emit SigGenreList();
+			if (object == ui->frameAlbum)
+			{
+				emit SigAlbumList();
+			}
+			else if (object == ui->frameAlbumArtist)
+			{
+				emit SigAlbumArtistList();
+			}
+			else if (object == ui->frameArtist)
+			{
+				emit SigArtistList();
+			}
+			else if (object == ui->frameGenre)
+			{
+				emit SigGenreList();
+			}
 		}
 	}
 	else if (event->type() == QMouseEvent::Enter)

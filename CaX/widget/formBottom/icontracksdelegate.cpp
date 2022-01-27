@@ -243,32 +243,27 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (rectCheck.contains(curPoint))
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			emit SigSelectCheck(index);
-		}
-		else if (rectPlay.contains(curPoint))
-		{
-			emit SigSelectPlay(id, PLAY_CLEAR);
-		}
-		else if (rectRating.contains(curPoint))
-		{
-		}
-		else if (rectFavorite.contains(curPoint))
-		{
-		}
-		else if (rectCover.contains(curPoint))
-		{
-			if (((QMouseEvent*)event)->button() == Qt::LeftButton)
+			if (rectCheck.contains(curPoint))
+			{
+				emit SigSelectCheck(index);
+			}
+			else if (rectPlay.contains(curPoint))
+			{
+				emit SigSelectPlay(id, PLAY_CLEAR);
+			}
+			else if (rectRating.contains(curPoint))
+			{
+			}
+			else if (rectFavorite.contains(curPoint))
+			{
+			}
+			else if (rectCover.contains(curPoint))
 			{
 				emit SigSelectTitle(id, cover);
 			}
-			else
-			{
-
-			}
 		}
-
 	}
 	else if (event->type() == QMouseEvent::MouseMove)
 	{

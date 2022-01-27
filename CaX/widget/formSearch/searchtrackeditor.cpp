@@ -139,12 +139,13 @@ bool SearchTrackEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-
-		if (object == ui->labelPlay)
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			emit SigClickPlay(m_ID);
+			if (object == ui->labelPlay)
+			{
+				emit SigClickPlay(m_ID);
+			}
 		}
-
 	}
 
 	return QObject::eventFilter(object, event);

@@ -187,6 +187,10 @@ bool TableTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
+		{
+
+		}
 	}
 
 	return QItemDelegate::editorEvent(event, model, option, index);

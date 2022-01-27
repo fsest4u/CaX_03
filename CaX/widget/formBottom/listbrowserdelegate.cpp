@@ -93,8 +93,8 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QRect rectSubtitle = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
 	QRect rectDuration = QRect(rectSubtitle.x() + rectSubtitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
 	QRect rectFileSize = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 200, fmTitle.height());
-	QRect rectMenu = QRect(rectFileSize.x() + rectFileSize.width() + gap, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
-//	QRect rectMenu = QRect(rectBase.width() - 60 - 28, rectBase.y() + (rectBase.height() - 28) / 2, 28, 28);
+//	QRect rectMenu = QRect(rectFileSize.x() + rectFileSize.width() + gap, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
+	QRect rectMenu = QRect(rectBase.width() - 60 - 29, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 //	painter->drawRect(rectOrig);
@@ -111,6 +111,7 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	{
 		painter->drawPixmap(rectCover, pixCover);
 	}
+
 	QPixmap pixCheck;
 	QString resCheck;
 	if (select)
@@ -125,12 +126,14 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	{
 		painter->drawPixmap(rectCheck, pixCheck);
 	}
+
 	QPixmap pixPlay;
 	QString resPlay = QString(":/resource/browser-icon16-playnow@2x.png");
 	if (pixPlay.load(resPlay))
 	{
 		painter->drawPixmap(rectPlay, pixPlay);
 	}
+
 	QPixmap pixMenu;
 	QString resMenu = QString(":/resource/play-btn28-popupmenu-n@2x.png");
 	if (pixMenu.load(resMenu))
@@ -159,6 +162,7 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 		painter->setFont(fontTitle);
 		painter->drawText(rectFileSize, filesize);
 	}
+
 	painter->restore();
 }
 
@@ -216,50 +220,52 @@ bool ListBrowserDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		CJsonNode node;
-		if (!node.SetContent(rawData))
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			return false;
-		}
-		node.AddInt(KEY_ID_LOWER, id);
-		node.AddString(KEY_ART, cover);
+			CJsonNode node;
+			if (!node.SetContent(rawData))
+			{
+				return false;
+			}
+			node.AddInt(KEY_ID_LOWER, id);
+			node.AddString(KEY_ART, cover);
 
-		if (rectCover.contains(curPoint))
-		{
-			LogDebug("rectCover press ~");
-			emit SigSelectCheck(index);
+			if (rectCover.contains(curPoint))
+			{
+				LogDebug("rectCover press ~");
+				emit SigSelectCheck(index);
+			}
+			else if (rectPlay.contains(curPoint))
+			{
+				LogDebug("rectPlay press ~");
+				emit SigSelectPlay(type, node);
+			}
+			else if (rectTitle.contains(curPoint))
+			{
+				LogDebug("rectTitle press ~");
+				emit SigSelectTitle(type, node);
+			}
+			else if (rectSubtitle.contains(curPoint))
+			{
+				LogDebug("rectSubtitle press ~");
+				emit SigSelectTitle(type, node);
+			}
+			else if (rectDuration.contains(curPoint))
+			{
+				LogDebug("rectDuration press ~");
+				emit SigSelectTitle(type, node);
+			}
+			else if (rectFileSize.contains(curPoint))
+			{
+				LogDebug("rectFileSize press ~");
+				emit SigSelectTitle(type, node);
+			}
+			else if (rectMenu.contains(curPoint))
+			{
+				LogDebug("rectMenu press ~");
+				emit SigMenu(nIndex, type);
+			}
 		}
-		else if (rectPlay.contains(curPoint))
-		{
-			LogDebug("rectPlay press ~");
-			emit SigSelectPlay(type, node);
-		}
-		else if (rectTitle.contains(curPoint))
-		{
-			LogDebug("rectTitle press ~");
-			emit SigSelectTitle(type, node);
-		}
-		else if (rectSubtitle.contains(curPoint))
-		{
-			LogDebug("rectSubtitle press ~");
-			emit SigSelectTitle(type, node);
-		}
-		else if (rectDuration.contains(curPoint))
-		{
-			LogDebug("rectDuration press ~");
-			emit SigSelectTitle(type, node);
-		}
-		else if (rectFileSize.contains(curPoint))
-		{
-			LogDebug("rectFileSize press ~");
-			emit SigSelectTitle(type, node);
-		}
-		else if (rectMenu.contains(curPoint))
-		{
-			LogDebug("rectMenu press ~");
-			emit SigMenu(nIndex, type);
-		}
-
 	}
 
 	return QStyledItemDelegate::editorEvent(event, model, option, index);

@@ -184,9 +184,12 @@ bool CDRipInfo::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (object == ui->labelCoverArt)
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			SlotClickCoverArt();
+			if (object == ui->labelCoverArt)
+			{
+				SlotClickCoverArt();
+			}
 		}
 	}
 

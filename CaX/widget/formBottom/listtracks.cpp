@@ -367,12 +367,12 @@ void ListTracks::Initialize()
 //	ui->labelHeaderTitle->setText(STR_TITLE);
 //	ui->labelHeaderMenu->setText(STR_MENU);
 
-//	ui->labelHeaderTitle->hide();
-//	ui->labelHeaderTime->hide();
-//	ui->labelHeaderArtist->hide();
-//	ui->labelHeaderAlbum->hide();
-//	ui->labelHeaderGenre->hide();
-//	ui->labelHeaderMenu->hide();
+	ui->labelHeaderTitle->hide();
+	ui->labelHeaderTime->hide();
+	ui->labelHeaderArtist->hide();
+	ui->labelHeaderAlbum->hide();
+	ui->labelHeaderGenre->hide();
+	ui->labelHeaderMenu->hide();
 
 }
 

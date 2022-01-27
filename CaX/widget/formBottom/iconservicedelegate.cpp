@@ -182,32 +182,35 @@ bool IconServiceDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (rectCheck.contains(curPoint))
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			emit SigSelectCheck(index);
-		}
-		else if (rectPlay.contains(curPoint))
-		{
-			emit SigSelectPlay(id, mute);
-		}
-		else if (rectCover.contains(curPoint))
-		{
-			CJsonNode node(JSON_OBJECT);
-			if (!node.SetContent(rawData))
+			if (rectCheck.contains(curPoint))
 			{
-				return false;
+				emit SigSelectCheck(index);
 			}
+			else if (rectPlay.contains(curPoint))
+			{
+				emit SigSelectPlay(id, mute);
+			}
+			else if (rectCover.contains(curPoint))
+			{
+				CJsonNode node(JSON_OBJECT);
+				if (!node.SetContent(rawData))
+				{
+					return false;
+				}
 
-			if (IconService::ICON_SERVICE_INPUT == m_Service
-					|| IconService::ICON_SERVICE_FM_RADIO == m_Service
-					|| IconService::ICON_SERVICE_DAB_RADIO == m_Service
-					|| (IconService::ICON_SERVICE_ISERVICE == m_Service && node.GetString(KEY_ITEM_TYPE).isEmpty()))
-			{
-				emit SigSelectTitle(type);
-			}
-			else
-			{
-				emit SigSelectTitle(type, rawData);
+				if (IconService::ICON_SERVICE_INPUT == m_Service
+						|| IconService::ICON_SERVICE_FM_RADIO == m_Service
+						|| IconService::ICON_SERVICE_DAB_RADIO == m_Service
+						|| (IconService::ICON_SERVICE_ISERVICE == m_Service && node.GetString(KEY_ITEM_TYPE).isEmpty()))
+				{
+					emit SigSelectTitle(type);
+				}
+				else
+				{
+					emit SigSelectTitle(type, rawData);
+				}
 			}
 		}
 	}

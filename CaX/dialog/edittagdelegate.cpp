@@ -59,9 +59,12 @@ bool EditTagDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, cons
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-		if (index.column() == EditTagDialog::EDIT_TAG_FAVORITE)
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			emit SigClickFavorite(index);
+			if (index.column() == EditTagDialog::EDIT_TAG_FAVORITE)
+			{
+				emit SigClickFavorite(index);
+			}
 		}
 	}
 

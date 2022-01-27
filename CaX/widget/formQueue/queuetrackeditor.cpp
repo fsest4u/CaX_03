@@ -72,24 +72,25 @@ bool QueueTrackEditor::eventFilter(QObject *object, QEvent *event)
 {
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
-
-		if (object == ui->labelPlay)
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			emit SigClickPlay(m_Index);
+			if (object == ui->labelPlay)
+			{
+				emit SigClickPlay(m_Index);
+			}
+			else if (object == ui->labelTitle)
+			{
+				emit SigClickTitle(m_Index);
+			}
+			else if (object == ui->labelTime)
+			{
+				emit SigClickTime(m_Index);
+			}
+			else if (object == ui->labelArtist)
+			{
+				emit SigClickArtist(m_Index);
+			}
 		}
-		else if (object == ui->labelTitle)
-		{
-			emit SigClickTitle(m_Index);
-		}
-		else if (object == ui->labelTime)
-		{
-			emit SigClickTime(m_Index);
-		}
-		else if (object == ui->labelArtist)
-		{
-			emit SigClickArtist(m_Index);
-		}
-
 	}
 
 	return QObject::eventFilter(object, event);
