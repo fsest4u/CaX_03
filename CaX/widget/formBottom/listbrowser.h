@@ -48,8 +48,6 @@ public:
 	QStandardItemModel	*GetModel();
 	ListBrowserDelegate	*GetDelegate();
 
-	void SetBackgroundTask(QThread *thread);
-
 signals:
 
 	void SigReqCoverArt(QString url, int nIndex);
@@ -58,10 +56,8 @@ signals:
 
 private slots:
 
-	void SlotReqCoverArt();
-	void SlotFinishThread();
 	void SlotScrollValueChanged(int value);
-	void SlotSelectCoverArt(int index);
+	void SlotSelectCheck(const QModelIndex &modelIndex);
 
 private:
 

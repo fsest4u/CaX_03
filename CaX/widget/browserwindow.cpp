@@ -1,5 +1,3 @@
-#include <QThread>
-
 #include "browserwindow.h"
 #include "ui_browserwindow.h"
 
@@ -43,7 +41,6 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoBrowser(new InfoBrowser(this)),
 	m_pIconService(new IconService(this)),
 	m_pListBrowser(new ListBrowser(this)),
-	m_pListThread(new QThread),
 	m_Root(root),
 	m_EventID(eventID),
 	ui(new Ui::BrowserWindow)
@@ -88,13 +85,6 @@ BrowserWindow::~BrowserWindow()
 	{
 		delete m_pListBrowser;
 		m_pListBrowser = nullptr;
-	}
-
-	if (m_pListThread)
-	{
-		ThreadTerminateList();
-		delete m_pListThread;
-		m_pListThread = nullptr;
 	}
 
 	delete ui;
@@ -365,8 +355,6 @@ void BrowserWindow::SlotIconSelectTitle(int nType, QString rawData)
 
 	if (iFolderType_Mask_Sub & nType)
 	{
-		ThreadTerminateList();
-
 		QString path = node.GetString(KEY_PATH);
 		if (!m_Root.isEmpty())
 			path = m_Root + "/" + path;
@@ -416,8 +404,6 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 
 	if (iFolderType_Mask_Sub & nType)
 	{
-		ThreadTerminateList();
-
 		QString path = node.GetString(KEY_PATH);
 		if (!m_Root.isEmpty())
 			path = m_Root + "/" + path;
@@ -486,7 +472,6 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 
 		m_pListBrowser->ClearNodeList();
 		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
-		ThreadStartList();
 	}
 
 	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);
@@ -741,9 +726,6 @@ void BrowserWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
-
-	m_pListBrowser->SetBackgroundTask(m_pListThread);
-
 }
 
 void BrowserWindow::SetCategoryList(QList<CJsonNode> list)
@@ -1057,8 +1039,6 @@ void BrowserWindow::DoTopMenuDelete()
 
 void BrowserWindow::DoTopMenuCopy(bool move)
 {
-	ThreadTerminateList();
-
 	int mode = BROWSER_MODE_MAX;
 	QString title;
 	if (move)
@@ -1308,8 +1288,6 @@ void BrowserWindow::DoOptionMenuDelete(QString path, int type)
 
 void BrowserWindow::DoOptionMenuCopy(QString path, int type, bool move)
 {
-	ThreadTerminateList();
-
 	int mode = BROWSER_MODE_MAX;
 	QString title;
 	if (move)
@@ -1364,13 +1342,12 @@ void BrowserWindow::DoOptionMenuAddCoverArt(QString path, int type)
 	int count = m_pListBrowser->GetModel()->rowCount();
 	for (int i = 0; i < count; i++)
 	{
-		QModelIndex index = m_pListBrowser->GetModel()->index(i, 0);
-		QStandardItem *item = m_pListBrowser->GetModel()->itemFromIndex(index);
-		QString title = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+		QModelIndex modelIndex = m_pListBrowser->GetModel()->index(i, 0);
+		QString title = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TITLE));
 		if (!path.compare(title))
 		{
 			keyword = title;
-			artist = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
+			artist = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
 			break;
 		}
 	}
@@ -1509,21 +1486,6 @@ void BrowserWindow::SetOptionPaths(QString path, int type, QStringList &paths)
 	for (int i = 0; i < files.count(); i++)
 	{
 		paths.append(files.at(i));
-	}
-}
-
-void BrowserWindow::ThreadStartList()
-{
-	ThreadTerminateList();
-
-	m_pListThread->start();
-}
-
-void BrowserWindow::ThreadTerminateList()
-{
-	if (m_pListThread->isRunning())
-	{
-		m_pListThread->terminate();
 	}
 }
 

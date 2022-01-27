@@ -43,7 +43,6 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	m_pIconService(new IconService(this)),
 	m_pListBrowser(new ListBrowser(this)),
 //	m_pListService(new ListService(this)),
-	m_pListThread(new QThread),
 	m_WebURL(""),
 	m_InternetType(-1),
 	m_Type(-1),
@@ -104,13 +103,6 @@ IServiceWindow::~IServiceWindow()
 //		delete m_pListService;
 //		m_pListService = nullptr;
 //	}
-
-	if (m_pListThread)
-	{
-		ThreadTerminateList();
-		delete m_pListThread;
-		m_pListThread = nullptr;
-	}
 
 	delete ui;
 
@@ -216,11 +208,6 @@ int IServiceWindow::GetType() const
 void IServiceWindow::SetType(int Type)
 {
 	m_Type = Type;
-}
-
-QThread *IServiceWindow::GetListThread() const
-{
-	return m_pListThread;
 }
 
 void IServiceWindow::AddWidgetItem(bool playAll, bool playRandom, bool menu)
@@ -516,12 +503,10 @@ void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNod
 
 	widget->GetInfoBrowser()->SetTitle(title);
 	widget->GetListBrowser()->SetNodeInfo(m_Node);
-	widget->GetListBrowser()->SetBackgroundTask(widget->GetListThread());
 //	widget->GetListBrowser()->ClearNodeList();
 	nType = widget->GetListBrowser()->SetNodeList(list, SIDEMENU_ISERVICE);
 	widget->SetType(nType);
 	widget->SetNode(m_Node);
-	widget->ThreadStartList();
 }
 
 void IServiceWindow::SlotRespForm(int nServiceType, CJsonNode node)
@@ -1600,19 +1585,4 @@ void IServiceWindow::SetRecommendGenre(QList<CJsonNode> &list, QString strID)
 	list.append(nodePressAward);
 	list.append(nodeEditorPicks);
 	list.append(nodeMostFeatured);
-}
-
-void IServiceWindow::ThreadStartList()
-{
-	ThreadTerminateList();
-
-	m_pListThread->start();
-}
-
-void IServiceWindow::ThreadTerminateList()
-{
-	if (m_pListThread->isRunning())
-	{
-		m_pListThread->terminate();
-	}
 }

@@ -52,8 +52,6 @@ public:
 	int GetType() const;
 	void SetType(int Type);
 
-	QThread *GetListThread() const;
-
 	void AddWidgetItem(bool playAll = false, bool playRandom = false, bool menu = false);
 
 	bool GetGenre() const;
@@ -156,9 +154,6 @@ private:
 	void SetRecommendPlaylist(QList<CJsonNode> &list);
 	void SetRecommendGenre(QList<CJsonNode> &list, QString strID);
 
-	void ThreadStartList();
-	void ThreadTerminateList();
-
 	AirableManager		*m_pAirableMgr;
 	QobuzManager		*m_pQobuzMgr;
 	InfoService			*m_pInfoService;
@@ -167,8 +162,6 @@ private:
 	IconService			*m_pIconService;
 	ListBrowser			*m_pListBrowser;
 //	ListService			*m_pListService;
-
-	QThread				*m_pListThread;
 
 	QMap<int, QString>		m_TopMenuMap;
 	QMap<int, QString>		m_OptionMenuMap;

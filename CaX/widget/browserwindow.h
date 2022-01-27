@@ -125,17 +125,11 @@ private:
 	void SetOptionDirFile(QString path, int type, QStringList &dirs, QStringList & files);
 	void SetOptionPaths(QString path, int type, QStringList &paths);
 
-	void ThreadStartList();
-	void ThreadTerminateList();
-
-
 	BrowserManager		*m_pMgr;
 	InfoService			*m_pInfoService;
 	InfoBrowser			*m_pInfoBrowser;
 	IconService			*m_pIconService;
 	ListBrowser			*m_pListBrowser;
-
-	QThread				*m_pListThread;
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;

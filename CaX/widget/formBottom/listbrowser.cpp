@@ -69,7 +69,7 @@ QList<CJsonNode> ListBrowser::GetNodeList() const
 
 int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 {
-	//	m_pLoading->Start();
+//	m_pLoading->Start();
 
 	int type = 0;
 	int index = m_NodeList.count();
@@ -108,14 +108,16 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 //			SetBrowserOptionMenu(nodeType);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
-//			if (nodeType & iFolderType_Mask_Play_Select)
-//			{
-//				emit SigReqInfoBot(title, index);
-//				emit SigReqCoverArt(title, index);
-//			}
+			QString path = node.GetString(KEY_PATH);
+			if (nodeType & iFolderType_Mask_Play_Select)
+			{
+				if (!(nodeType & iFolderType_Mask_Pls))
+				{
+					emit SigReqInfoBot(path, index);
+				}
+				emit SigReqCoverArt(path, index);
+			}
 
 			index++;
 		}
@@ -145,14 +147,12 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
-//			QString coverArt = node.GetString(KEY_ART);
-//			if (!coverArt.isEmpty())
-//			{
-//				emit SigReqCoverArt(coverArt, index);
-//			}
+			QString coverArt = node.GetString(KEY_ART);
+			if (!coverArt.isEmpty())
+			{
+				emit SigReqCoverArt(coverArt, index);
+			}
 			index++;
 		}
 	}
@@ -181,8 +181,6 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 			QString coverArt = node.GetString(KEY_ART);
 			if (!coverArt.isEmpty())
@@ -203,135 +201,87 @@ void ListBrowser::ClearNodeList()
 	m_Model->clear();
 	m_NodeList.clear();
 	m_SelectMap.clear();
+	m_SelectMapIService.clear();
+
 }
 
 void ListBrowser::SetNodeInfo(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-	if (node.IsNull())
-	{
-		return;
-	}
+//	if (node.IsNull())
+//	{
+//		return;
+//	}
 
-	ui->frameInfo->show();
-	QString style;
-	style = QString("QLabel	\
-					{	\
-					  border-image: url(\'%1\');	\
-					}").arg(node.GetString(KEY_ART));
-	ui->labelCoverArt->setStyleSheet(style);
-	ui->labelTitle->setText(node.GetString(KEY_TOP));
-	ui->labelSubtitle->setText(node.GetString(KEY_BOT1));
+//	ui->frameInfo->show();
+//	QString style;
+//	style = QString("QLabel	\
+//					{	\
+//					  border-image: url(\'%1\');	\
+//					}").arg(node.GetString(KEY_ART));
+//	ui->labelCoverArt->setStyleSheet(style);
+//	ui->labelTitle->setText(node.GetString(KEY_TOP));
+//	ui->labelSubtitle->setText(node.GetString(KEY_BOT1));
 }
 
 void ListBrowser::ClearSelectMap()
 {
-//	m_pLoading->Start();
 	int count = m_Model->rowCount();
-
 	int serviceType = m_Delegate->GetService();
 	if (SIDEMENU_BROWSER == serviceType)
 	{
 		for (int i = 0; i < count; i++)
 		{
-			QModelIndex index = m_Model->index(i, 0);
-			QStandardItem *item = m_Model->itemFromIndex(index);
-	//		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-	//		if (bSelect)
-			{
-				item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
-
-	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-				m_ListView->openPersistentEditor(index);
-
-				QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
-				m_SelectMap.remove(path);
-			}
+			QModelIndex modelIndex = m_Model->index(i, 0);
+			m_Model->setData(modelIndex, false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+			QString path = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+			m_SelectMap.remove(path);
 		}
 	}
 	else
 	{
 		for (int i = 0; i < count; i++)
 		{
-			QModelIndex index = m_Model->index(i, 0);
-			QStandardItem *item = m_Model->itemFromIndex(index);
-	//		bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-	//		if (bSelect)
-			{
-				item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
-
-	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-				m_ListView->openPersistentEditor(index);
-
-				int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
-				m_SelectMapIService.remove(index);
-			}
+			QModelIndex modelIndex = m_Model->index(i, 0);
+			m_Model->setData(modelIndex, false, ListBrowserDelegate::LIST_BROWSER_SELECT);
+			int index = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+			m_SelectMapIService.remove(index);
 		}
 	}
-
-//	m_pLoading->Stop();
-
 }
 
 void ListBrowser::SetAllSelectMap()
 {
-//	m_pLoading->Start();
 	int count = m_Model->rowCount();
-
 	int serviceType = m_Delegate->GetService();
 	if (SIDEMENU_BROWSER == serviceType)
 	{
 		for (int i = 0; i < count; i++)
 		{
-			QModelIndex index = m_Model->index(i, 0);
-			QStandardItem *item = m_Model->itemFromIndex(index);
-			bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-			if (!bSelect)
-			{
-	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-				m_ListView->openPersistentEditor(index);
-
-				QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
-				int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
-				m_SelectMap.insert(path, type);
-				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
-			}
+			QModelIndex modelIndex = m_Model->index(i, 0);
+			m_Model->setData(modelIndex, true, ListBrowserDelegate::LIST_BROWSER_SELECT);
+			QString path = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+			int type = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+			m_SelectMap.insert(path, type);
 		}
 	}
 	else
 	{
 		for (int i = 0; i < count; i++)
 		{
-			QModelIndex index = m_Model->index(i, 0);
-			QStandardItem *item = m_Model->itemFromIndex(index);
-			bool bSelect = qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
-			if (!bSelect)
+			QModelIndex modelIndex = m_Model->index(i, 0);
+			m_Model->setData(modelIndex, true, ListBrowserDelegate::LIST_BROWSER_SELECT);
+			int index = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+			QString rawData = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_RAW));
+			CJsonNode node;
+			if (!node.SetContent(rawData))
 			{
-	//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-				m_ListView->openPersistentEditor(index);
-
-				int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
-				QString rawData = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_RAW));
-
-				CJsonNode node;
-				if (!node.SetContent(rawData))
-				{
-					continue;
-				}
-//				QString icon = node.GetString(KEY_ICON);
-//				if (icon.isEmpty() || icon.compare("feed"))
-//				{
-//					continue;;
-//				}
-				m_SelectMapIService.insert(index, node);
-				item->setData(true, ListBrowserDelegate::LIST_BROWSER_SELECT);
+				continue;
 			}
+			m_SelectMapIService.insert(index, node);
 		}
 	}
-
-//	m_pLoading->Stop();
-
 }
 
 QMap<QString, int> ListBrowser::GetSelectMap() const
@@ -375,79 +325,27 @@ ListBrowserDelegate *ListBrowser::GetDelegate()
 	return m_Delegate;
 }
 
-void ListBrowser::SetBackgroundTask(QThread *thread)
-{
-	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
-	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
-}
-
-void ListBrowser::SlotReqCoverArt()
-{
-	int index = 0;
-	if (SIDEMENU_BROWSER == m_Delegate->GetService())
-	{
-		foreach (CJsonNode node, m_NodeList)
-		{
-			QThread::msleep(5);
-			QString path = node.GetString(KEY_PATH);
-			int nodeType = node.GetInt(KEY_TYPE);
-			if (nodeType & iFolderType_Mask_Play_Select)
-			{
-				if (!(nodeType & iFolderType_Mask_Pls))
-				{
-					emit SigReqInfoBot(path, index);
-				}
-				emit SigReqCoverArt(path, index);
-			}
-
-			index++;
-		}
-	}
-	else
-	{
-		foreach (CJsonNode node, m_NodeList)
-		{
-			QThread::msleep(5);
-			QString coverArt = node.GetString(KEY_ART);
-			if (!coverArt.isEmpty())
-			{
-				emit SigReqCoverArt(coverArt, index);
-			}
-			index++;
-		}
-	}
-
-}
-
-void ListBrowser::SlotFinishThread()
-{
-	//	LogDebug("thread finish good");
-}
-
 void ListBrowser::SlotScrollValueChanged(int value)
 {
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
 //	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
-	if (value >= max)
+	if (value > max)
 	{
 		emit SigAppendList();
 	}
 }
 
-void ListBrowser::SlotSelectCoverArt(int index)
+void ListBrowser::SlotSelectCheck(const QModelIndex &modelIndex)
 {
 	int serviceType = m_Delegate->GetService();
 	if (SIDEMENU_BROWSER == serviceType)
 	{
-		QStandardItem *item = m_Model->item(index);
-		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+		QString path = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+		int type = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+		bool bSelect = !qvariant_cast<bool>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+		m_Model->setData(modelIndex, bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
-
-		QString path = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_TITLE));
-		int type = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_TYPE));
 		if (bSelect)
 		{
 			m_SelectMap.insert(path, type);
@@ -456,19 +354,15 @@ void ListBrowser::SlotSelectCoverArt(int index)
 		{
 			m_SelectMap.remove(path);
 		}
-		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 	}
 	else
 	{
-		QStandardItem *item = m_Model->item(index);
-		bool bSelect = !qvariant_cast<bool>(item->data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+		int index = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+		QString rawData = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_RAW));
+		bool bSelect = !qvariant_cast<bool>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_SELECT));
+		m_Model->setData(modelIndex, bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
-
-		int index = qvariant_cast<int>(item->data(ListBrowserDelegate::LIST_BROWSER_INDEX));
-		QString rawData = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_RAW));
 		if (bSelect)
 		{
 			CJsonNode node;
@@ -488,7 +382,6 @@ void ListBrowser::SlotSelectCoverArt(int index)
 		{
 			m_SelectMapIService.remove(index);
 		}
-		item->setData(bSelect, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
 	}
 }
@@ -500,16 +393,18 @@ void ListBrowser::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
+	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, LIST_HEIGHT_MIN));
+	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
+	m_ListView->setMouseTracking(true);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
-	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
-
-	ui->gridLayout->addWidget(m_ListView);
-
-	ui->frameInfo->hide();
+//	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_Delegate, SIGNAL(SigSelectCheck(const QModelIndex&)), this, SLOT(SlotSelectCheck(const QModelIndex&)));
 
 	m_SelectMap.clear();
 	m_SelectMapIService.clear();
 
+	ui->gridLayout->addWidget(m_ListView);
+	ui->frameInfo->hide();
 }
