@@ -193,8 +193,8 @@ void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 QSize ListTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	Q_UNUSED(option);
 	Q_UNUSED(index);
+//	LogDebug("sizeHint ~ w[%d] h[%d] ", option.rect.width(), option.rect.height());
 
 	return QSize(ICON_ITEM_WIDTH, LIST_HEIGHT_MIN);
 }
@@ -225,7 +225,6 @@ bool ListTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 {
 	int id = qvariant_cast<int>(index.data(LIST_TRACKS_ID));
 	QString cover = qvariant_cast<QString>(index.data(LIST_TRACKS_COVER));
-
 
 	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
 	QFontMetrics fmTitle(fontTitle);

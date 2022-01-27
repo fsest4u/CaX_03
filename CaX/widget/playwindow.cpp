@@ -95,8 +95,12 @@ void PlayWindow::SlotClickCoverArt(int index)
 void PlayWindow::SlotBtnInfo()
 {
 //	m_pMgr->RequestSongInfo(m_ID);
-
-	m_pMgr->RequestQueueList(m_TimeStamp);
+	if (!m_Src.compare(SRC_MUSIC_DB)
+			|| !m_Src.compare(SRC_BROWSER)
+			|| !m_Src.compare(SRC_AUDIO_CD) )
+	{
+		m_pMgr->RequestQueueList(m_TimeStamp);
+	}
 }
 
 void PlayWindow::SlotBtnPlayPrev()
@@ -213,6 +217,8 @@ void PlayWindow::SlotEventNowPlay(CJsonNode node)
 			SlotSetVolumeSlider(vol);
 			SlotSetDial(vol);
 		}
+
+		emit SigRemoveQueueList();
 	}
 	else
 	{
@@ -232,7 +238,7 @@ void PlayWindow::SlotCoverArtUpdate(QString fileName)
 
 void PlayWindow::SlotQueueList(CJsonNode node)
 {
-	emit SigSetQueueList(node);
+	emit SigAddQueueList(node, m_Src);
 }
 
 void PlayWindow::ConnectSigToSlot()
@@ -353,7 +359,6 @@ void PlayWindow::SetVariable(CJsonNode node)
 		SetRepeatMode(m_Repeat);
 	}
 
-
 	DebugVariable();
 }
 
@@ -388,8 +393,8 @@ void PlayWindow::DebugVariable()
 
 void PlayWindow::InitPlayInfo()
 {
-	m_pFormTitle->SetTitle("");
-	m_pFormTitle->SetSubtitle("");
+	m_pFormTitle->SetTitle(" ");
+	m_pFormTitle->SetSubtitle(" ");
 	m_pFormCoverArt->SetCoverArt(" ");
 }
 

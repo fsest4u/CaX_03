@@ -40,7 +40,7 @@ public slots:
 
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget *widget);
-	void SlotRemoveQueueWidget(QWidget *widget);
+	void SlotRemoveQueueWidget();
 
 	void SlotRespError(QString errMsg);
 	void SlotRespTaskList(CJsonNode node);
@@ -68,7 +68,7 @@ public slots:
 	void SlotDisconnectObserver();
 	void SlotRespAirableLogout();
 
-	void SlotSetQueueList(CJsonNode node);
+	void SlotAddQueueList(CJsonNode node, QString src);
 
 private:
 

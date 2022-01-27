@@ -24,11 +24,11 @@ public:
 	explicit QueuelistWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~QueuelistWindow();
 
-	void RequestQueuelist(QList<CJsonNode> list);
+	void RequestQueuelist(QList<CJsonNode> list, QString src);
 
 signals:
 
-	void SigRemoveQueueWidget(QWidget* widget);
+	void SigRemoveQueueWidget();
 
 private slots:
 
@@ -47,7 +47,9 @@ private:
 	void ConnectSigToSlot();
 	void Initialize();
 
-	void RequestCoverArt(int id, int index);
+	void RequestCoverArtMusicDB(int id, int index);
+	void RequestCoverArtBrowser(QString path);
+	void RequestCoverArtAudioCD(QString fullpath);
 
 	QueuelistManager	*m_pMgr;
 	QueueTrack			*m_Track;
@@ -61,8 +63,10 @@ private:
 
 	QString				m_AlbumName;
 	QString				m_AlbumCoverArt;
-	QString				m_ArtistName;
-	QString				m_ArtistCoverArt;
+//	QString				m_ArtistName;
+//	QString				m_ArtistCoverArt;
+
+	QString				m_Src;
 
 	Ui::QueuelistWindow *ui;
 };

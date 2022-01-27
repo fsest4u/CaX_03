@@ -75,11 +75,32 @@ QueuelistWindow::~QueuelistWindow()
 	delete ui;
 }
 
-void QueuelistWindow::RequestQueuelist(QList<CJsonNode> list)
+void QueuelistWindow::RequestQueuelist(QList<CJsonNode> list, QString src)
 {
+	LogWarning("====================================");
+	LogWarning("RequestQueuelist [%s]", src.toUtf8().data());
+	LogWarning("====================================");
+
+	m_Src = src;
+
 	CJsonNode track = list.at(0);
-	int id = track.GetString(KEY_SONG).toInt();
-	m_pMgr->RequestCategoryInfo(id);
+	LogDebug("track [%s]", track.ToTabedByteArray().data());
+
+	if (!m_Src.compare(SRC_MUSIC_DB))
+	{
+		int id = track.GetString(KEY_SONG).toInt();
+		m_pMgr->RequestCategoryInfo(id);
+	}
+	else if (!m_Src.compare(SRC_BROWSER))
+	{
+		m_AlbumName = track.GetString(KEY_TOP);
+		RequestCoverArtBrowser(track.GetString(KEY_FILE));
+	}
+	else if (!m_Src.compare(SRC_AUDIO_CD))
+	{
+		m_AlbumName = track.GetString(KEY_TOP);
+		RequestCoverArtAudioCD(track.GetString(KEY_COVER_ART));
+	}
 
 	m_Track->ClearNodeList();
 	m_Track->SetNodeList(list);
@@ -103,15 +124,15 @@ void QueuelistWindow::SlotClickBtnLyrics()
 
 void QueuelistWindow::SlotClickBtnArtist()
 {
-	m_pFormCoverArt->SetCoverArt(m_ArtistCoverArt);
-	m_pFormTitle->SetTitle(m_ArtistName);
+//	m_pFormCoverArt->SetCoverArt(m_ArtistCoverArt);
+//	m_pFormTitle->SetTitle(m_ArtistName);
 
-	ui->stackedQueue->setCurrentWidget(m_Artist);
+//	ui->stackedQueue->setCurrentWidget(m_Artist);
 }
 
 void QueuelistWindow::SlotClickBtnClose()
 {
-	emit SigRemoveQueueWidget(this);
+	emit SigRemoveQueueWidget();
 }
 
 void QueuelistWindow::SlotRespError(QString errMsg)
@@ -125,10 +146,10 @@ void QueuelistWindow::SlotRespCategoryInfo(CJsonNode node)
 	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	m_AlbumName = node.GetString(KEY_ALBUM);
-	m_ArtistName = node.GetString(KEY_ARTIST);
+//	m_ArtistName = node.GetString(KEY_ARTIST);
 
-	RequestCoverArt(node.GetInt(KEY_ALBUM_ID), 0);
-	RequestCoverArt(node.GetInt(KEY_ARTIST_ID), 1);
+	RequestCoverArtMusicDB(node.GetInt(KEY_ALBUM_ID), 0);
+//	RequestCoverArtMusicDB(node.GetInt(KEY_ARTIST_ID), 1);
 }
 
 void QueuelistWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
@@ -136,13 +157,24 @@ void QueuelistWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 	Q_UNUSED(mode)
 
 	LogDebug("filename [%s]", fileName.toUtf8().data());
-	if (nIndex == 0)
+	if (!m_Src.compare(SRC_MUSIC_DB))
+	{
+	//	if (nIndex == 0)
+		{
+			m_AlbumCoverArt = fileName;
+		}
+	//	else
+	//	{
+	//		m_ArtistCoverArt = fileName;
+	//	}
+	}
+	else if (!m_Src.compare(SRC_BROWSER))
 	{
 		m_AlbumCoverArt = fileName;
 	}
-	else
+	else if (!m_Src.compare(SRC_AUDIO_CD))
 	{
-		m_ArtistCoverArt = fileName;
+		m_AlbumCoverArt = fileName;
 	}
 
 	m_pFormCoverArt->SetCoverArt(m_AlbumCoverArt);
@@ -159,7 +191,7 @@ void QueuelistWindow::SlotSelectPlay(int index, int playType)
 
 void QueuelistWindow::ConnectSigToSlot()
 {
-	connect(this, SIGNAL(SigRemoveQueueWidget(QWidget*)), parent(), SLOT(SlotRemoveQueueWidget(QWidget*)));
+	connect(this, SIGNAL(SigRemoveQueueWidget()), parent(), SLOT(SlotRemoveQueueWidget()));
 
 	connect(ui->btnTrack, SIGNAL(clicked()), this, SLOT(SlotClickBtnTrack()));
 	connect(ui->btnLyrics, SIGNAL(clicked()), this, SLOT(SlotClickBtnLyrics()));
@@ -189,9 +221,11 @@ void QueuelistWindow::Initialize()
 
 	m_pFormTitle->SetTitleFont(FONT_SIZE_QUEUE_TITLE, FONT_COLOR_WHITE, FONT_WEIGHT_NORMAL);
 
+	m_Src = "";
+
 }
 
-void QueuelistWindow::RequestCoverArt(int id, int index)
+void QueuelistWindow::RequestCoverArtMusicDB(int id, int index)
 {
 	QString strCat;
 	if (index == 0)
@@ -208,5 +242,19 @@ void QueuelistWindow::RequestCoverArt(int id, int index)
 
 //	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
 	m_pMgr->RequestCoverArt(fullpath, index, -1);
+}
+
+void QueuelistWindow::RequestCoverArtBrowser(QString path)
+{
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
+
+	m_pMgr->RequestCoverArt(fullpath, -1, -1);
+}
+
+void QueuelistWindow::RequestCoverArtAudioCD(QString fullpath)
+{
+	m_pMgr->RequestCoverArt(fullpath, -1, -1);
+
 }
 

@@ -819,7 +819,7 @@ void MainWindow::SlotRespAirableLogout()
 	DoIServiceHome();
 }
 
-void MainWindow::SlotSetQueueList(CJsonNode node)
+void MainWindow::SlotAddQueueList(CJsonNode node, QString src)
 {
 	if (m_pQueueWin)
 	{
@@ -840,7 +840,7 @@ void MainWindow::SlotSetQueueList(CJsonNode node)
 
 		m_pQueueWin = new QueuelistWindow(this, m_strAddr, m_EventID);
 		SlotAddWidget(m_pQueueWin, STR_NOW_PLAY);
-		m_pQueueWin->RequestQueuelist(list);
+		m_pQueueWin->RequestQueuelist(list, src);
 	}
 }
 
@@ -891,7 +891,8 @@ void MainWindow::ConnectForUI()
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(ui->widgetPlay, SIGNAL(SigSetQueueList(CJsonNode)), this, SLOT(SlotSetQueueList(CJsonNode)));
+	connect(ui->widgetPlay, SIGNAL(SigAddQueueList(CJsonNode, QString)), this, SLOT(SlotAddQueueList(CJsonNode, QString)));
+	connect(ui->widgetPlay, SIGNAL(SigRemoveQueueList()), this, SLOT(SlotRemoveQueueWidget()));
 
 }
 
@@ -1133,10 +1134,8 @@ void MainWindow::SlotRemoveWidget(QWidget *widget)
 	UpdateStackState();
 }
 
-void MainWindow::SlotRemoveQueueWidget(QWidget *widget)
+void MainWindow::SlotRemoveQueueWidget()
 {
-	Q_UNUSED(widget)
-
 	if (m_pQueueWin)
 	{
 		SlotRemoveWidget(m_pQueueWin);
@@ -1144,7 +1143,6 @@ void MainWindow::SlotRemoveQueueWidget(QWidget *widget)
 		delete m_pQueueWin;
 		m_pQueueWin = nullptr;
 	}
-
 }
 
 void MainWindow::RemoveAllWidget()

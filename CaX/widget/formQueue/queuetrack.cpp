@@ -3,6 +3,7 @@
 
 #include "queuetrackdelegate.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
@@ -66,8 +67,6 @@ void QueueTrack::SetNodeList(QList<CJsonNode> list)
 		item->setData(index, QueueTrackDelegate::QUEUE_TRACKS_INDEX);
 
 		m_Model->appendRow(item);
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
 
 		index++;
 	}
@@ -97,6 +96,9 @@ void QueueTrack::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
+	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, LIST_HEIGHT_MIN));
+	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
+	m_ListView->setMouseTracking(true);
 
 	ui->gridLayout->addWidget(m_ListView);
 

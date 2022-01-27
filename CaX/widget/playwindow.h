@@ -34,7 +34,8 @@ signals:
 	void SigSetVolumeSlider(int volume);
 	void SigSetDial(int volume);
 
-	void SigSetQueueList(CJsonNode node);
+	void SigAddQueueList(CJsonNode node, QString src);
+	void SigRemoveQueueList();
 
 private slots:
 
