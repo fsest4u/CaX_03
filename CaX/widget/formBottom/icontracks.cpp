@@ -17,7 +17,7 @@ IconTracks::IconTracks(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconTracksDelegate),
 	m_ScrollBar(nullptr),
-	m_pLoading(new Loading(this)),
+//	m_pLoading(new Loading(this)),
 	ui(new Ui::IconTracks)
 {
 	ui->setupUi(this);
@@ -27,6 +27,12 @@ IconTracks::IconTracks(QWidget *parent) :
 
 IconTracks::~IconTracks()
 {
+	if (m_ScrollBar)
+	{
+		delete m_ScrollBar;
+		m_ScrollBar = nullptr;
+	}
+
 	if (m_ListView)
 	{
 		delete m_ListView;
@@ -43,11 +49,11 @@ IconTracks::~IconTracks()
 		m_Delegate = nullptr;
 	}
 
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
-	}
+//	if (m_pLoading)
+//	{
+//		delete m_pLoading;
+//		m_pLoading = nullptr;
+//	}
 
 	delete ui;
 
@@ -147,9 +153,9 @@ void IconTracks::ClearSelectMap()
 
 	for (int i = 0; i < count; i++)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		int id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
-		m_Model->setData(index, false, IconTracksDelegate::ICON_TRACKS_SELECT);
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		m_Model->setData(modelIndex, false, IconTracksDelegate::ICON_TRACKS_SELECT);
+		int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
 		m_SelectMap.remove(id);
 	}
 }
@@ -160,9 +166,9 @@ void IconTracks::SetAllSelectMap()
 
 	for (int i = 0; i < count; i++)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		int id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
-		m_Model->setData(index, true, IconTracksDelegate::ICON_TRACKS_SELECT);
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		m_Model->setData(modelIndex, true, IconTracksDelegate::ICON_TRACKS_SELECT);
+		int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
 		m_SelectMap.insert(id, true);
 	}
 }
@@ -211,10 +217,9 @@ void IconTracks::SlotScrollValueChanged(int value)
 
 void IconTracks::SlotSelectCheck(const QModelIndex &modelIndex)
 {
-	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
-	int id = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
-	bool bSelect = !qvariant_cast<bool>(item->data(IconTracksDelegate::ICON_TRACKS_SELECT));
-	item->setData(bSelect, IconTracksDelegate::ICON_TRACKS_SELECT);
+	int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+	bool bSelect = !qvariant_cast<bool>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_SELECT));
+	m_Model->setData(modelIndex, bSelect, IconTracksDelegate::ICON_TRACKS_SELECT);
 
 	if (bSelect)
 	{
@@ -232,7 +237,6 @@ void IconTracks::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-//	m_ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	m_ListView->setViewMode(QListView::IconMode);
 	m_ListView->setContextMenuPolicy(Qt::CustomContextMenu);
 	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
@@ -242,6 +246,8 @@ void IconTracks::Initialize()
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_Delegate, SIGNAL(SigSelectCheck(const QModelIndex&)), this, SLOT(SlotSelectCheck(const QModelIndex&)));
+
+	m_SelectMap.clear();
 
 	ui->gridLayout->addWidget(m_ListView);
 }

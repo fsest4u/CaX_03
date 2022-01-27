@@ -92,8 +92,6 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 			index++;
 		}
@@ -114,8 +112,6 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 			index++;
 		}
@@ -134,8 +130,6 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 			index++;
 		}
@@ -155,8 +149,6 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 			index++;
 		}
@@ -176,8 +168,6 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 			index++;
 		}
@@ -205,8 +195,6 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
 
 			m_Model->appendRow(item);
-			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(modelIndex);
 
 			int coverID = GetCoverID(node.GetString(KEY_ART_URL));
 			if (coverID >= 0)

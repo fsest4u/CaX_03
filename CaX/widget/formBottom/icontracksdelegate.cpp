@@ -2,13 +2,13 @@
 #include <QMouseEvent>
 
 #include "icontracksdelegate.h"
-#include "icontrackseditor.h"
+//#include "icontrackseditor.h"
 
 #include "util/caxconstants.h"
 #include "util/log.h"
 
-#include "widget/form/formcoverart.h"
-#include "widget/form/formtitle.h"
+//#include "widget/form/formcoverart.h"
+//#include "widget/form/formtitle.h"
 
 IconTracksDelegate::IconTracksDelegate()
 {
@@ -87,7 +87,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QFontMetrics fmSubtitle(fontSubtitle);
 
 	QRect rectOrig = option.rect;
-	QRect rectBase = QRect(option.rect.x(), option.rect.y(), option.rect.width(), option.rect.height());
+	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 	QRect rectCover = QRect(rectBase.x(), rectBase.y(), rectBase.width() * 0.9, rectBase.width() * 0.9);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 30 - 2, rectCover.y() + 2, 30, 30);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() - 30 -2, rectCover.y() + rectCover.height() - 30 - 2, 30, 30);
@@ -97,22 +97,25 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QRect rectTitle = QRect(rectBase.x(), rectBase.y() + rectCover.height(), rectCover.width(), fmTitle.height());
 	QRect rectSubtitle = QRect(rectBase.x(), rectTitle.y() + fmTitle.height(), rectCover.width(), fmSubtitle.height());
 
-	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", option.rect.x(), option.rect.y(), option.rect.width(), option.rect.height(), index.row());
-	LogDebug("base x [%d] y [%d] w[%d] h[%d]", rectBase.x(), rectBase.y(), rectBase.width(), rectBase.height());
-
+//	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
+//	LogDebug("base x [%d] y [%d] w[%d] h[%d]", rectBase.x(), rectBase.y(), rectBase.width(), rectBase.height());
 //	painter->drawRect(rectOrig);
+//	painter->drawRect(rectCheck);
+//	painter->drawRect(rectPlay);
+//	painter->drawRect(rectRating);
+//	painter->drawRect(rectFavorite);
 
 	QPixmap pixCover;
 	if (!cover.isEmpty() && pixCover.load(cover))
 	{
 		painter->drawPixmap(rectCover, pixCover);
 	}
+
 	QPixmap pixCheck;
 	QString resCheck;
-//	painter->drawRect(rectCheck);
 	if (select)
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-h.png");
+		resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
 	}
 	else
 	{
@@ -125,7 +128,6 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 	QPixmap pixPlay;
 	QString resPlay = QString(":/resource/mid-icon30-play-n@2x.png");
-//	painter->drawRect(rectPlay);
 	if (pixPlay.load(resPlay))
 	{
 		painter->drawPixmap(rectPlay, pixPlay);
@@ -153,7 +155,6 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		resRating = QString(":/resource/mid-icon16-rankon-h5@2x.png");
 		break;
 	}
-//	painter->drawRect(rectRating);
 	if (pixRating.load(resRating))
 	{
 		painter->drawPixmap(rectRating, pixRating);
@@ -161,7 +162,6 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 	QPixmap pixFavorite;
 	QString resFavorite;
-//	painter->drawRect(rectFavorite);
 	if (favorite == 0)
 	{
 		resFavorite = QString(":/resource/mid-icon16-likeoff@2x.png");
@@ -200,7 +200,6 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 QSize IconTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	Q_UNUSED(option)
 	Q_UNUSED(index)
 
 //	LogDebug("sizeHint ~");
@@ -209,10 +208,11 @@ QSize IconTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 
 QWidget *IconTracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+	Q_UNUSED(parent)
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	LogDebug("createEditor ~");
+//	LogDebug("createEditor ~");
 
 //	IconTracksEditor *editor = new IconTracksEditor(parent);
 //	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
@@ -225,19 +225,13 @@ QWidget *IconTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	return nullptr;
 }
 
-//void IconTracksDelegate::destroyEditor(QWidget *editor, const QModelIndex &index) const
-//{
-//	LogDebug("destroyEditor ~");
-//	QStyledItemDelegate::destroyEditor(editor, index);
-//}
-
 bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-//	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", option.rect.x(), option.rect.y(), option.rect.width(), option.rect.height(), index.row());
-	int id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
-	QString cover = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_COVER));
+	int id = qvariant_cast<int>(index.data(ICON_TRACKS_ID));
+	QString cover = qvariant_cast<QString>(index.data(ICON_TRACKS_COVER));
 
-	QRect rectBase = QRect(option.rect.x(), option.rect.y(), option.rect.width(), option.rect.height());
+	QRect rectOrig = option.rect;
+	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 	QRect rectCover = QRect(rectBase.x(), rectBase.y(), rectBase.width() * 0.9, rectBase.width() * 0.9);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 30 - 2, rectCover.y() + 2, 30, 30);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() - 30 -2, rectCover.y() + rectCover.height() - 30 - 2, 30, 30);
@@ -245,6 +239,7 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 	QRect rectFavorite = QRect(rectCover.x() + 2, rectCover.y() + rectCover.height() - 16 - 2, 16, 16);
 
 	QPoint curPoint(((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
+//	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
@@ -264,7 +259,14 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 		}
 		else if (rectCover.contains(curPoint))
 		{
-			emit SigSelectTitle(id, cover);
+			if (((QMouseEvent*)event)->button() == Qt::LeftButton)
+			{
+				emit SigSelectTitle(id, cover);
+			}
+			else
+			{
+
+			}
 		}
 
 	}
@@ -273,7 +275,7 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 //		LogDebug("mouse move ~ x [%d] y [%d]", ((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
 		if (rectPlay.contains(curPoint))
 		{
-			LogDebug("rectPlay move ~ x [%d] y [%d]", ((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
+//			LogDebug("rectPlay move ~ x [%d] y [%d]", ((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
 //			m_HoverPlay = true;
 		}
 		else
@@ -284,6 +286,12 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 
 	return QStyledItemDelegate::editorEvent(event, model, option, index);
 }
+
+//void IconTracksDelegate::destroyEditor(QWidget *editor, const QModelIndex &index) const
+//{
+//	LogDebug("destroyEditor ~");
+//	QStyledItemDelegate::destroyEditor(editor, index);
+//}
 
 //bool IconTracksDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index)
 //{
@@ -346,3 +354,4 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 //	IconTracksEditor *widget = static_cast<IconTracksEditor*>(editor);
 //	widget->setGeometry(rect);
 //}
+
