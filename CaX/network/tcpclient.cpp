@@ -56,6 +56,10 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 //	connect(m_pManager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
 
 	loop.exec();
+	if (m_pReply == nullptr)
+	{
+		return;
+	}
 
 	if (m_pReply->error() == QNetworkReply::NoError)
 	{

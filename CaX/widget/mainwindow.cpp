@@ -146,10 +146,10 @@ void MainWindow::SlotMenu()
 			m_SideMenuMap.insert(SIDEMENU_DAB_RADIO, STR_DAB_RADIO);
 		}
 
-		if (m_bGroupPlay)
-		{
-			m_SideMenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
-		}
+//		if (m_bGroupPlay)
+//		{
+//			m_SideMenuMap.insert(SIDEMENU_GROUP_PLAY, STR_GROUP_PLAY);
+//		}
 	}
 	else
 	{
@@ -200,9 +200,9 @@ void MainWindow::SlotMenuAction(int menuID)
 	case SIDEMENU_DAB_RADIO:
 		DoDabRadioHome();
 		break;
-	case SIDEMENU_GROUP_PLAY:
-		DoGroupPlayHome();
-		break;
+//	case SIDEMENU_GROUP_PLAY:
+//		DoGroupPlayHome();
+//		break;
 	case SIDEMENU_SETUP:
 		DoSetupHome();
 		break;
