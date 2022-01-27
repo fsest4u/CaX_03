@@ -69,10 +69,8 @@ void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 //		item->setData(node.GetString(KEY_IMAGE), IconCoverArtDelegate::ICON_COVER_ART_COVER);
 
 		m_Model->appendRow(item);
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
 
-		LogDebug("url [%s]", node.GetString(KEY_IMAGE).toUtf8().data());
+//		LogDebug("url [%s]", node.GetString(KEY_IMAGE).toUtf8().data());
 		emit SigSearchCoverArt(index, node.GetString(KEY_IMAGE));
 		index++;
 	}
@@ -101,7 +99,7 @@ void IconCoverArt::SlotScrollValueChanged(int value)
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
 //	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
-	if (value >= max)
+	if (value > max)
 	{
 		emit SigAppendList();
 	}
@@ -113,7 +111,10 @@ void IconCoverArt::Initialize()
 	m_ListView->setModel(m_Model);
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	m_ListView->setViewMode(QListView::IconMode);
+	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
+	m_ListView->setMouseTracking(true);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));

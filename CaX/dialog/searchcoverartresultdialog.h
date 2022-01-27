@@ -44,7 +44,7 @@ private slots:
 	void SlotRespSearchCoverArt(QString filename, int index);
 	void SlotSearchCoverArt(int index, QString url);
 	void SlotAppendList();
-	void SlotSelectCoverArt(int index);
+	void SlotSelectCoverArt(const QModelIndex &modelIndex);
 
 private:
 

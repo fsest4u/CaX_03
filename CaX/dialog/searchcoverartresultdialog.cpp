@@ -129,15 +129,16 @@ void SearchCoverArtResultDialog::SlotAppendList()
 	}
 }
 
-void SearchCoverArtResultDialog::SlotSelectCoverArt(int index)
+void SearchCoverArtResultDialog::SlotSelectCoverArt(const QModelIndex &modelIndex)
 {
-	CJsonNode node = m_NodeList.at(index);
+	int id = qvariant_cast<int>(modelIndex.data(IconCoverArtDelegate::ICON_COVER_ART_ID));
+
+	CJsonNode node = m_NodeList.at(id);
 	SetImage(node.GetString(VAL_IMAGE));
 	SetThumb(node.GetString(VAL_THUMB));
 
-	QStandardItem *itemIcon = m_pIconCoverArt->GetModel()->item(index);
-//	SetImageData(qvariant_cast<QByteArray>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
-	SetImagePath(qvariant_cast<QString>(itemIcon->data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
+//	SetImageData(qvariant_cast<QByteArray>(modelIndex.data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
+	SetImagePath(qvariant_cast<QString>(modelIndex.data(IconCoverArtDelegate::ICON_COVER_ART_COVER)));
 
 	done(QDialog::Accepted);
 }
@@ -150,7 +151,7 @@ void SearchCoverArtResultDialog::ConnectSigToSlot()
 
 	connect(m_pIconCoverArt, SIGNAL(SigSearchCoverArt(int, QString)), this, SLOT(SlotSearchCoverArt(int, QString)));
 	connect(m_pIconCoverArt, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
-	connect(m_pIconCoverArt->GetDelegate(), SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_pIconCoverArt->GetDelegate(), SIGNAL(SigSelectCoverArt(const QModelIndex&)), this, SLOT(SlotSelectCoverArt(const QModelIndex&)));
 
 	connect(ui->btnMore, SIGNAL(clicked()), this, SLOT(SlotAppendList()));
 }
@@ -158,6 +159,8 @@ void SearchCoverArtResultDialog::ConnectSigToSlot()
 void SearchCoverArtResultDialog::Initialize()
 {
 	ui->gridLayoutCoverArt->addWidget(m_pIconCoverArt);
+
+	ui->btnMore->hide();
 
 	m_pIconCoverArt->ClearNodeList();
 	m_NodeList.clear();
