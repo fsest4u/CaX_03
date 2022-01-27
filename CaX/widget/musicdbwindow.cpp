@@ -1392,14 +1392,9 @@ void MusicDBWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
 void MusicDBWindow::SlotContextMenu(QPoint point)
 {
 	QModelIndex modelIndex = m_pIconTracks->GetListView()->indexAt(point);
-	QStandardItem *item = m_pIconTracks->GetModel()->itemFromIndex(modelIndex);
-	if (!item)
-	{
-		return;
-	}
-	m_nID = qvariant_cast<int>(item->data(IconTracksDelegate::ICON_TRACKS_ID));
-	int index = modelIndex.row();
+	m_nID = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
 
+//	int index = modelIndex.row();
 //	LogDebug("index [%d] id [%d]", index, m_nID);
 
 	QAction *actionPlayNow = new QAction(STR_PLAY_NOW, this);

@@ -61,7 +61,7 @@
 #define ICON_HEIGHT_MAX				300
 #define ICON_HEIGHT_INIT			ICON_ITEM_WIDTH
 #define ICON_HEIGHT_MID				105
-#define LIST_HEIGHT_MIN				52
+#define LIST_HEIGHT_MIN				50
 #define TABLE_HEIGHT_MIN				30
 //#define LIST_HEIGHT_MAX				100
 

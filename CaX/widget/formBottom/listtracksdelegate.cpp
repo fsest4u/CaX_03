@@ -1,7 +1,6 @@
 #include <QApplication>
-//#include <QPainter>
-//#include <QFile>
-//#include <QLabel>
+#include <QPainter>
+#include <QMouseEvent>
 
 #include "listtracksdelegate.h"
 #include "listtrackseditor.h"
@@ -13,42 +12,48 @@
 
 ListTracksDelegate::ListTracksDelegate()
 {
-	m_ShowFavorite = false;
-	m_ShowTime = false;
-	m_ShowArtist = false;
-	m_ShowAlbum = false;
-	m_ShowGenre = false;
-	m_ShowAlbumArtist = false;
-	m_ShowComposer = false;
-	m_ShowYear = false;
 
-	m_ShowMood = false;
-	m_ShowTempo = false;
-	m_ShowFormat = false;
-	m_ShowSampleRate = false;
-	m_ShowBitDepth = false;
-	m_ShowRating = false;
 }
 
-void ListTracksDelegate::SlotClickCoverArt(int index)
+QMap<int, QString> ListTracksDelegate::GetOptionMenuMap() const
 {
-	emit SigSelectCoverArt(index);
+	return m_OptionMenuMap;
 }
 
-void ListTracksDelegate::SlotClickPlay(int nID)
+void ListTracksDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
 {
-	emit SigSelectPlay(nID, PLAY_CLEAR);
+	m_OptionMenuMap = OptionMenuMap;
 }
 
-void ListTracksDelegate::SlotClickTitle(int nID, QString coverArt)
+int ListTracksDelegate::GetResize() const
 {
-	emit SigSelectTitle(nID, coverArt);
+	return m_Resize;
 }
 
-void ListTracksDelegate::SlotClickFavorite(int nID, int nFavorite)
+void ListTracksDelegate::SetResize(int Resize)
 {
-	emit SigSelectFavorite(nID, nFavorite);
+	m_Resize = Resize;
 }
+
+//void ListTracksDelegate::SlotClickCoverArt(int index)
+//{
+//	emit SigSelectCoverArt(index);
+//}
+
+//void ListTracksDelegate::SlotClickPlay(int nID)
+//{
+//	emit SigSelectPlay(nID, PLAY_CLEAR);
+//}
+
+//void ListTracksDelegate::SlotClickTitle(int nID, QString coverArt)
+//{
+//	emit SigSelectTitle(nID, coverArt);
+//}
+
+//void ListTracksDelegate::SlotClickFavorite(int nID, int nFavorite)
+//{
+//	emit SigSelectFavorite(nID, nFavorite);
+//}
 
 //void ListTracksDelegate::SlotClickTime(int nID)
 //{
@@ -74,71 +79,116 @@ void ListTracksDelegate::SlotClickFavorite(int nID, int nFavorite)
 //	LogDebug("click genre");
 //}
 
-void ListTracksDelegate::SlotMenuAction(int nID, int menuID)
-{
-	emit SigMenuAction(nID, menuID);
-}
+//void ListTracksDelegate::SlotMenuAction(int nID, int menuID)
+//{
+//	emit SigMenuAction(nID, menuID);
+//}
 
 void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	Q_UNUSED(painter);
-	Q_UNUSED(option);
-	Q_UNUSED(index);
+	QStyledItemDelegate::paint(painter, option, index);
+	painter->save();
 
-//	QStyledItemDelegate::paint(painter, option, index);
-//	painter->save();
+	QString cover = qvariant_cast<QString>(index.data(LIST_TRACKS_COVER));
+	QString title = qvariant_cast<QString>(index.data(LIST_TRACKS_TITLE));
+	QString duration = qvariant_cast<QString>(index.data(LIST_TRACKS_TIME));
+	QString artist = qvariant_cast<QString>(index.data(LIST_TRACKS_ARTIST));
+	QString album = qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM));
+	QString genre = qvariant_cast<QString>(index.data(LIST_TRACKS_GENRE));
+	bool select = qvariant_cast<bool>(index.data(LIST_TRACKS_SELECT));
 
-//	int nID = qvariant_cast<int>(index.data(LIST_TRACKS_ID));
-//	QString cover = qvariant_cast<QString>(index.data(LIST_TRACKS_COVER));
-//	QString title = qvariant_cast<QString>(index.data(LIST_TRACKS_TITLE));
-//	bool favorite = qvariant_cast<bool>(index.data(LIST_TRACKS_FAVORITE));
-//	QString time = qvariant_cast<QString>(index.data(LIST_TRACKS_TIME));
-//	QString artist = qvariant_cast<QString>(index.data(LIST_TRACKS_ARTIST));
-//	QString album = qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM));
-//	QString genre = qvariant_cast<QString>(index.data(LIST_TRACKS_GENRE));
+	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
+	QFontMetrics fmTitle(fontTitle);
 
-//	//LogDebug("rect [%d] - [%d][%d][%d][%d]", nID, option.rect.top(), option.rect.bottom(), option.rect.left(), option.rect.right());
+	QRect rectOrig = option.rect;
+	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
+	int gap = ( rectBase.width() - (60 + 40 + 20 + 200 + 200 + 200 + 200 + 200 + 30 + 60) ) / 6;
+	QRect rectCover = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
+	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
+	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + gap, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
+	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
+	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectArtist = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectAlbum = QRect(rectArtist.x() + rectArtist.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectGenre = QRect(rectAlbum.x() + rectAlbum.width() + gap, rectTitle.y(), 200, fmTitle.height());
+//	QRect rectMenu = QRect(rectGenre.x() + rectGenre.width() + gap, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
+	QRect rectMenu = QRect(rectBase.width() - 60 - 29, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 
-//	QRect coverRect = option.rect;
-//	QRect titleRect = option.rect;
-//	QRect favoriteRect = option.rect;
-//	QRect timeRect = option.rect;
-//	QRect artistRect = option.rect;
-//	QRect albumRect = option.rect;
-//	QRect genreRect = option.rect;
+//	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
+//	painter->drawRect(rectOrig);
+//	painter->drawRect(rectCover);
+//	painter->drawRect(rectCheck);
+//	painter->drawRect(rectPlay);
+//	painter->drawRect(rectTitle);
+//	painter->drawRect(rectDuration);
+//	painter->drawRect(rectArtist);
+//	painter->drawRect(rectAlbum);
+//	painter->drawRect(rectGenre);
+//	painter->drawRect(rectMenu);
 
-//	if (m_ViewMode == QListView::ViewMode::ListMode)
-//	{
-//		coverRect.setWidth(coverRect.height());
-//	}
+	QPixmap pixCover;
+	if (!cover.isEmpty() && pixCover.load(cover))
+	{
+		painter->drawPixmap(rectCover, pixCover);
+	}
 
-//	bool bFoundImage = false;
-//	if (!cover.isEmpty() || QFile::exists(cover))
-//	{
-//		QImage image;
-//		if (image.load(cover))
-//		{
-//			painter->drawImage(coverRect, image);
-//			bFoundImage = true;
-//		}
-//	}
+	QPixmap pixCheck;
+	QString resCheck;
+	if (select)
+	{
+		resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
+	}
+	else
+	{
+		resCheck = QString(":/resource/playlist-btn30-selecton-n@2x.png");
+	}
+	if (pixCheck.load(resCheck))
+	{
+		painter->drawPixmap(rectCheck, pixCheck);
+	}
 
-//	if (!bFoundImage)
-//	{
-//		painter->drawImage(coverRect, m_Image);
-//	}
+	QPixmap pixPlay;
+	QString resPlay = QString(":/resource/browser-icon16-playnow@2x.png");
+	if (pixPlay.load(resPlay))
+	{
+		painter->drawPixmap(rectPlay, pixPlay);
+	}
 
-//	QFont font = QApplication::font();
+	QPixmap pixMenu;
+	QString resMenu = QString(":/resource/play-btn28-popupmenu-n@2x.png");
+	if (pixMenu.load(resMenu))
+	{
+		painter->drawPixmap(rectMenu, pixMenu);
+	}
 
-//	painter->setFont(font);
-//	painter->drawText(titleRect, title);
-////	painter->drawText(favoriteRect, favorite);
-//	painter->drawText(timeRect, time);
-//	painter->drawText(artistRect, artist);
-//	painter->drawText(albumRect, album);
-//	painter->drawText(genreRect, genre);
+	painter->setPen(QColor(84, 84, 84));
+	if (!title.isEmpty())
+	{
+		painter->setFont(fontTitle);
+		painter->drawText(rectTitle, title);
+	}
+	if (!duration.isEmpty())
+	{
+		painter->setFont(fontTitle);
+		painter->drawText(rectDuration, duration);
+	}
+	if (!artist.isEmpty())
+	{
+		painter->setFont(fontTitle);
+		painter->drawText(rectArtist, artist);
+	}
+	if (!album.isEmpty())
+	{
+		painter->setFont(fontTitle);
+		painter->drawText(rectAlbum, album);
+	}
+	if (!genre.isEmpty())
+	{
+		painter->setFont(fontTitle);
+		painter->drawText(rectGenre, genre);
+	}
 
-//	painter->restore();
+	painter->restore();
 }
 
 QSize ListTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -146,7 +196,7 @@ QSize ListTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 	Q_UNUSED(option);
 	Q_UNUSED(index);
 
-	return QSize(LIST_ITEM_WIDTH, LIST_TRACKS_HEIGHT);
+	return QSize(ICON_ITEM_WIDTH, LIST_HEIGHT_MIN);
 }
 
 QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -154,260 +204,171 @@ QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	ListTracksEditor *editor = new ListTracksEditor(parent);
-	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
-	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
-	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
-	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
-//	connect(editor, SIGNAL(SigClickTime(int)), this, SLOT(SlotClickTime(int)));
-//	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));
-//	connect(editor, SIGNAL(SigClickAlbum(int)), this, SLOT(SlotClickAlbum(int)));
-//	connect(editor, SIGNAL(SigClickGenre(int)), this, SLOT(SlotClickGenre(int)));
-	connect(editor, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotMenuAction(int, int)));
+//	ListTracksEditor *editor = new ListTracksEditor(parent);
+//	connect(editor, SIGNAL(SigClickCoverArt(int)), this, SLOT(SlotClickCoverArt(int)));
+//	connect(editor, SIGNAL(SigClickPlay(int)), this, SLOT(SlotClickPlay(int)));
+//	connect(editor, SIGNAL(SigClickTitle(int, QString)), this, SLOT(SlotClickTitle(int, QString)));
+//	connect(editor, SIGNAL(SigClickFavorite(int, int)), this, SLOT(SlotClickFavorite(int, int)));
+////	connect(editor, SIGNAL(SigClickTime(int)), this, SLOT(SlotClickTime(int)));
+////	connect(editor, SIGNAL(SigClickArtist(int)), this, SLOT(SlotClickArtist(int)));
+////	connect(editor, SIGNAL(SigClickAlbum(int)), this, SLOT(SlotClickAlbum(int)));
+////	connect(editor, SIGNAL(SigClickGenre(int)), this, SLOT(SlotClickGenre(int)));
+//	connect(editor, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotMenuAction(int, int)));
 
-	editor->ClearMenu();
-	editor->SetMenu(m_OptionMenuMap);
+//	editor->ClearMenu();
+//	editor->SetMenu(m_OptionMenuMap);
 
-	return editor;
+	return nullptr;
 }
 
-void ListTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+bool ListTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
-	widget->blockSignals(true);
-	widget->SetID(qvariant_cast<int>(index.data(LIST_TRACKS_ID)));
-	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_TRACKS_COVER)));
-	widget->GetFormCoverArt()->SetIndex(qvariant_cast<int>(index.data(LIST_TRACKS_INDEX)));
-	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_TRACKS_SELECT)));
-	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_TRACKS_TITLE)));
-	widget->SetFavorite(qvariant_cast<int>(index.data(LIST_TRACKS_FAVORITE)));
-	widget->SetTime(qvariant_cast<QString>(index.data(LIST_TRACKS_TIME)));
-	widget->SetArtist(qvariant_cast<QString>(index.data(LIST_TRACKS_ARTIST)));
-	widget->SetAlbum(qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM)));
-	widget->SetGenre(qvariant_cast<QString>(index.data(LIST_TRACKS_GENRE)));
-	widget->SetAlbumArtist(qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM_ARTIST)));
-	widget->SetComposer(qvariant_cast<QString>(index.data(LIST_TRACKS_COMPOSER)));
-	widget->SetYear(qvariant_cast<QString>(index.data(LIST_TRACKS_YEAR)));
-	widget->SetMood(qvariant_cast<QString>(index.data(LIST_TRACKS_MOOD)));
-	widget->SetTempo(qvariant_cast<QString>(index.data(LIST_TRACKS_TEMPO)));
-	widget->SetFormat(qvariant_cast<QString>(index.data(LIST_TRACKS_FORMAT)));
-	widget->SetSampleRate(qvariant_cast<QString>(index.data(LIST_TRACKS_SAMPLE_RATE)));
-	widget->SetBitDepth(qvariant_cast<QString>(index.data(LIST_TRACKS_BIT_DEPTH)));
-	widget->SetRating(qvariant_cast<int>(index.data(LIST_TRACKS_RATING)));
+	int id = qvariant_cast<int>(index.data(LIST_TRACKS_ID));
+	QString cover = qvariant_cast<QString>(index.data(LIST_TRACKS_COVER));
 
-	widget->ShowFavorite(m_ShowFavorite);
-	widget->ShowTime(m_ShowTime);
-	widget->ShowArtist(m_ShowArtist);
-	widget->ShowAlbum(m_ShowAlbum);
-	widget->ShowGenre(m_ShowGenre);
-	widget->ShowAlbumArtist(m_ShowAlbumArtist);
-	widget->ShowComposer(m_ShowComposer);
-	widget->ShowYear(m_ShowYear);
 
-	widget->ShowMood(m_ShowMood);
-	widget->ShowTempo(m_ShowTempo);
-	widget->ShowFormat(m_ShowFormat);
-	widget->ShowSampleRate(m_ShowSampleRate);
-	widget->ShowBitDepth(m_ShowBitDepth);
-	widget->ShowRating(m_ShowRating);
+	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
+	QFontMetrics fmTitle(fontTitle);
 
-	widget->blockSignals(false);
+	QRect rectOrig = option.rect;
+	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
+	int gap = ( rectBase.width() - (60 + 40 + 20 + 200 + 200 + 200 + 200 + 200 + 30 + 60) ) / 6;
+	QRect rectCover = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
+	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
+	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + gap, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
+	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
+	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectArtist = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectAlbum = QRect(rectArtist.x() + rectArtist.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectGenre = QRect(rectAlbum.x() + rectAlbum.width() + gap, rectTitle.y(), 200, fmTitle.height());
+//	QRect rectMenu = QRect(rectGenre.x() + rectGenre.width() + gap, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
+	QRect rectMenu = QRect(rectBase.width() - 60 - 29, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
+
+	QPoint curPoint(((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
+//	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
+
+	if (event->type() == QMouseEvent::MouseButtonPress)
+	{
+		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
+		{
+			if (rectCheck.contains(curPoint))
+			{
+				emit SigSelectCheck(index);
+			}
+			else if (rectPlay.contains(curPoint))
+			{
+				emit SigSelectPlay(id, PLAY_CLEAR);
+			}
+			else if (rectTitle.contains(curPoint))
+			{
+				emit SigSelectTitle(id, cover);
+			}
+			else if (rectDuration.contains(curPoint))
+			{
+				emit SigSelectTitle(id, cover);
+			}
+			else if (rectArtist.contains(curPoint))
+			{
+				emit SigSelectTitle(id, cover);
+			}
+			else if (rectAlbum.contains(curPoint))
+			{
+				emit SigSelectTitle(id, cover);
+			}
+			else if (rectGenre.contains(curPoint))
+			{
+				emit SigSelectTitle(id, cover);
+			}
+			else if (rectMenu.contains(curPoint))
+			{
+			}
+			else if (rectCover.contains(curPoint))
+			{
+				emit SigSelectCheck(index);
+			}
+		}
+	}
+
+	return QStyledItemDelegate::editorEvent(event, model, option, index);
 }
 
-void ListTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-{
-	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
-	model->setData(index, widget->GetID(), LIST_TRACKS_ID);
-	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), LIST_TRACKS_COVER);
-	model->setData(index, widget->GetFormCoverArt()->GetIndex(), LIST_TRACKS_INDEX);
-	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_TRACKS_SELECT);
-	model->setData(index, widget->GetTitle(), LIST_TRACKS_TITLE);
-	model->setData(index, widget->GetFavorite(), LIST_TRACKS_FAVORITE);
-	model->setData(index, widget->GetTime(), LIST_TRACKS_TIME);
-	model->setData(index, widget->GetArtist(), LIST_TRACKS_ARTIST);
-	model->setData(index, widget->GetAlbum(), LIST_TRACKS_ALBUM);
-	model->setData(index, widget->GetGenre(), LIST_TRACKS_GENRE);
-	model->setData(index, widget->GetAlbumArtist(), LIST_TRACKS_ALBUM_ARTIST);
-	model->setData(index, widget->GetComposer(), LIST_TRACKS_COMPOSER);
-	model->setData(index, widget->GetYear(), LIST_TRACKS_YEAR);
-	model->setData(index, widget->GetMood(), LIST_TRACKS_MOOD);
-	model->setData(index, widget->GetTempo(), LIST_TRACKS_TEMPO);
-	model->setData(index, widget->GetFormat(), LIST_TRACKS_FORMAT);
-	model->setData(index, widget->GetSampleRate(), LIST_TRACKS_SAMPLE_RATE);
-	model->setData(index, widget->GetBitDepth(), LIST_TRACKS_BIT_DEPTH);
-	model->setData(index, widget->GetRating(), LIST_TRACKS_RATING);
-}
+//void ListTracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+//{
+//	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
+//	widget->blockSignals(true);
+//	widget->SetID(qvariant_cast<int>(index.data(LIST_TRACKS_ID)));
+//	widget->GetFormCoverArt()->SetCoverArt(qvariant_cast<QString>(index.data(LIST_TRACKS_COVER)));
+//	widget->GetFormCoverArt()->SetIndex(qvariant_cast<int>(index.data(LIST_TRACKS_INDEX)));
+//	widget->GetFormCoverArt()->SetSelect(qvariant_cast<bool>(index.data(LIST_TRACKS_SELECT)));
+//	widget->SetTitle(qvariant_cast<QString>(index.data(LIST_TRACKS_TITLE)));
+//	widget->SetFavorite(qvariant_cast<int>(index.data(LIST_TRACKS_FAVORITE)));
+//	widget->SetTime(qvariant_cast<QString>(index.data(LIST_TRACKS_TIME)));
+//	widget->SetArtist(qvariant_cast<QString>(index.data(LIST_TRACKS_ARTIST)));
+//	widget->SetAlbum(qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM)));
+//	widget->SetGenre(qvariant_cast<QString>(index.data(LIST_TRACKS_GENRE)));
+//	widget->SetAlbumArtist(qvariant_cast<QString>(index.data(LIST_TRACKS_ALBUM_ARTIST)));
+//	widget->SetComposer(qvariant_cast<QString>(index.data(LIST_TRACKS_COMPOSER)));
+//	widget->SetYear(qvariant_cast<QString>(index.data(LIST_TRACKS_YEAR)));
+//	widget->SetMood(qvariant_cast<QString>(index.data(LIST_TRACKS_MOOD)));
+//	widget->SetTempo(qvariant_cast<QString>(index.data(LIST_TRACKS_TEMPO)));
+//	widget->SetFormat(qvariant_cast<QString>(index.data(LIST_TRACKS_FORMAT)));
+//	widget->SetSampleRate(qvariant_cast<QString>(index.data(LIST_TRACKS_SAMPLE_RATE)));
+//	widget->SetBitDepth(qvariant_cast<QString>(index.data(LIST_TRACKS_BIT_DEPTH)));
+//	widget->SetRating(qvariant_cast<int>(index.data(LIST_TRACKS_RATING)));
 
-void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-	Q_UNUSED(index)
+//	widget->ShowFavorite(m_ShowFavorite);
+//	widget->ShowTime(m_ShowTime);
+//	widget->ShowArtist(m_ShowArtist);
+//	widget->ShowAlbum(m_ShowAlbum);
+//	widget->ShowGenre(m_ShowGenre);
+//	widget->ShowAlbumArtist(m_ShowAlbumArtist);
+//	widget->ShowComposer(m_ShowComposer);
+//	widget->ShowYear(m_ShowYear);
 
-	QRect rect = option.rect;
-//	rect.setWidth(m_Resize);
-	rect.setHeight(m_Resize * 1.25);
+//	widget->ShowMood(m_ShowMood);
+//	widget->ShowTempo(m_ShowTempo);
+//	widget->ShowFormat(m_ShowFormat);
+//	widget->ShowSampleRate(m_ShowSampleRate);
+//	widget->ShowBitDepth(m_ShowBitDepth);
+//	widget->ShowRating(m_ShowRating);
 
-	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
-	widget->setGeometry(rect);
-	widget->SetFrameSizeFormCoverArt(m_Resize);
-//	LogDebug("resize [%d], height [%d]", m_Resize, rect.height());
-}
+//	widget->blockSignals(false);
+//}
 
-bool ListTracksDelegate::GetShowFavorite() const
-{
-	return m_ShowFavorite;
-}
+//void ListTracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+//{
+//	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
+//	model->setData(index, widget->GetID(), LIST_TRACKS_ID);
+//	model->setData(index, widget->GetFormCoverArt()->GetCoverArt(), LIST_TRACKS_COVER);
+//	model->setData(index, widget->GetFormCoverArt()->GetIndex(), LIST_TRACKS_INDEX);
+//	model->setData(index, widget->GetFormCoverArt()->GetSelect(), LIST_TRACKS_SELECT);
+//	model->setData(index, widget->GetTitle(), LIST_TRACKS_TITLE);
+//	model->setData(index, widget->GetFavorite(), LIST_TRACKS_FAVORITE);
+//	model->setData(index, widget->GetTime(), LIST_TRACKS_TIME);
+//	model->setData(index, widget->GetArtist(), LIST_TRACKS_ARTIST);
+//	model->setData(index, widget->GetAlbum(), LIST_TRACKS_ALBUM);
+//	model->setData(index, widget->GetGenre(), LIST_TRACKS_GENRE);
+//	model->setData(index, widget->GetAlbumArtist(), LIST_TRACKS_ALBUM_ARTIST);
+//	model->setData(index, widget->GetComposer(), LIST_TRACKS_COMPOSER);
+//	model->setData(index, widget->GetYear(), LIST_TRACKS_YEAR);
+//	model->setData(index, widget->GetMood(), LIST_TRACKS_MOOD);
+//	model->setData(index, widget->GetTempo(), LIST_TRACKS_TEMPO);
+//	model->setData(index, widget->GetFormat(), LIST_TRACKS_FORMAT);
+//	model->setData(index, widget->GetSampleRate(), LIST_TRACKS_SAMPLE_RATE);
+//	model->setData(index, widget->GetBitDepth(), LIST_TRACKS_BIT_DEPTH);
+//	model->setData(index, widget->GetRating(), LIST_TRACKS_RATING);
+//}
 
-void ListTracksDelegate::SetShowFavorite(bool ShowFavorite)
-{
-	m_ShowFavorite = ShowFavorite;
-}
+//void ListTracksDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+//{
+//	Q_UNUSED(index)
 
-bool ListTracksDelegate::GetShowGenre() const
-{
-	return m_ShowGenre;
-}
+//	QRect rect = option.rect;
+////	rect.setWidth(m_Resize);
+//	rect.setHeight(m_Resize * 1.2);
 
-void ListTracksDelegate::SetShowGenre(bool ShowGenre)
-{
-	m_ShowGenre = ShowGenre;
-}
-
-bool ListTracksDelegate::GetShowAlbum() const
-{
-	return m_ShowAlbum;
-}
-
-void ListTracksDelegate::SetShowAlbum(bool ShowAlbum)
-{
-	m_ShowAlbum = ShowAlbum;
-}
-
-bool ListTracksDelegate::GetShowArtist() const
-{
-	return m_ShowArtist;
-}
-
-void ListTracksDelegate::SetShowArtist(bool ShowArtist)
-{
-	m_ShowArtist = ShowArtist;
-}
-
-bool ListTracksDelegate::GetShowTime() const
-{
-	return m_ShowTime;
-}
-
-void ListTracksDelegate::SetShowTime(bool ShowTime)
-{
-	m_ShowTime = ShowTime;
-}
-
-bool ListTracksDelegate::GetShowYear() const
-{
-	return m_ShowYear;
-}
-
-void ListTracksDelegate::SetShowYear(bool ShowYear)
-{
-	m_ShowYear = ShowYear;
-}
-
-bool ListTracksDelegate::GetShowComposer() const
-{
-	return m_ShowComposer;
-}
-
-void ListTracksDelegate::SetShowComposer(bool ShowComposer)
-{
-	m_ShowComposer = ShowComposer;
-}
-
-bool ListTracksDelegate::GetShowAlbumArtist() const
-{
-	return m_ShowAlbumArtist;
-}
-
-void ListTracksDelegate::SetShowAlbumArtist(bool ShowAlbumArtist)
-{
-	m_ShowAlbumArtist = ShowAlbumArtist;
-}
-
-QMap<int, QString> ListTracksDelegate::GetOptionMenuMap() const
-{
-	return m_OptionMenuMap;
-}
-
-void ListTracksDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
-{
-	m_OptionMenuMap = OptionMenuMap;
-}
-
-int ListTracksDelegate::GetResize() const
-{
-	return m_Resize;
-}
-
-void ListTracksDelegate::SetResize(int Resize)
-{
-	m_Resize = Resize;
-}
-
-bool ListTracksDelegate::GetShowRating() const
-{
-	return m_ShowRating;
-}
-
-void ListTracksDelegate::SetShowRating(bool ShowRating)
-{
-	m_ShowRating = ShowRating;
-}
-
-bool ListTracksDelegate::GetShowBitDepth() const
-{
-	return m_ShowBitDepth;
-}
-
-void ListTracksDelegate::SetShowBitDepth(bool ShowBitDepth)
-{
-	m_ShowBitDepth = ShowBitDepth;
-}
-
-bool ListTracksDelegate::GetShowSampleRate() const
-{
-	return m_ShowSampleRate;
-}
-
-void ListTracksDelegate::SetShowSampleRate(bool ShowSampleRate)
-{
-	m_ShowSampleRate = ShowSampleRate;
-}
-
-bool ListTracksDelegate::GetShowFormat() const
-{
-	return m_ShowFormat;
-}
-
-void ListTracksDelegate::SetShowFormat(bool ShowFormat)
-{
-	m_ShowFormat = ShowFormat;
-}
-
-bool ListTracksDelegate::GetShowTempo() const
-{
-	return m_ShowTempo;
-}
-
-void ListTracksDelegate::SetShowTempo(bool ShowTempo)
-{
-	m_ShowTempo = ShowTempo;
-}
-
-bool ListTracksDelegate::GetShowMood() const
-{
-	return m_ShowMood;
-}
-
-void ListTracksDelegate::SetShowMood(bool ShowMood)
-{
-	m_ShowMood = ShowMood;
-}
+//	ListTracksEditor *widget = static_cast<ListTracksEditor*>(editor);
+//	widget->setGeometry(rect);
+//	widget->SetFrameSizeFormCoverArt(m_Resize);
+////	LogDebug("resize [%d], height [%d]", m_Resize, rect.height());
+//}

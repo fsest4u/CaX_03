@@ -211,7 +211,6 @@ void AudioCDWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 		QStandardItem *item = m_pListTracks->GetModel()->item(index);
 		item->setData(coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
 		m_pListTracks->GetModel()->setItem(index, item);
-		m_pListTracks->UpdateItem(item);
 	}
 }
 

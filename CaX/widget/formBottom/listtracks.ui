@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1800</width>
+    <width>973</width>
     <height>300</height>
    </rect>
   </property>
@@ -164,64 +164,6 @@ QLineEdit
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frameFavorite">
-        <property name="minimumSize">
-         <size>
-          <width>34</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>34</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="horizontalSpacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="labelHeaderFavorite">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="labelHeaderTime">
         <property name="minimumSize">
          <size>
@@ -261,69 +203,6 @@ QLineEdit
        <widget class="QLabel" name="labelHeaderGenre">
         <property name="text">
          <string>Genre</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderAlbumArtist">
-        <property name="text">
-         <string>Album artist</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderComposer">
-        <property name="text">
-         <string>Composer</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderYear">
-        <property name="text">
-         <string>Year</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderMood">
-        <property name="text">
-         <string>Mood</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderTempo">
-        <property name="text">
-         <string>Tempo</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderFormat">
-        <property name="text">
-         <string>Format</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderSampleRate">
-        <property name="text">
-         <string>Sample rate</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderBitDepth">
-        <property name="text">
-         <string>Bit depth</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelHeaderRating">
-        <property name="text">
-         <string>Rating</string>
         </property>
        </widget>
       </item>

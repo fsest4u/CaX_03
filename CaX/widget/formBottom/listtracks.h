@@ -47,23 +47,10 @@ public:
 
 	void SetHeaderTitle(QString title);
 
-	void ShowHeaderFavorite(bool show);
 	void ShowHeaderTime(bool show);
 	void ShowHeaderArtist(bool show);
 	void ShowHeaderAlbum(bool show);
 	void ShowHeaderGenre(bool show);
-	void ShowHeaderAlbumArtist(bool show);
-	void ShowHeaderComposer(bool show);
-	void ShowHeaderYear(bool show);
-
-	void ShowHeaderMood(bool show);
-	void ShowHeaderTempo(bool show);
-	void ShowHeaderFormat(bool show);
-	void ShowHeaderSampleRating(bool show);
-	void ShowHeaderBitDepth(bool show);
-	void ShowHeaderRating(bool show);
-
-	void UpdateItem(QStandardItem* item);
 
 signals:
 
@@ -77,7 +64,7 @@ signals:
 private slots:
 
 	void SlotScrollValueChanged(int value);
-	void SlotSelectCoverArt(int index);
+	void SlotSelectCheck(const QModelIndex &modelIndex);
 
 //	void SlotEditAllArtist();
 //	void SlotEditAllAlbum();
