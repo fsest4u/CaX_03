@@ -28,16 +28,16 @@ public:
 
 signals:
 
-	void SigSelectCoverArt(int index);
+	void SigSelectCheck(const QModelIndex &index);
 	void SigSelectPlay(int index, bool muted);
 	void SigSelectTitle(int nType);
 	void SigSelectTitle(int nType, QString rawData);
 
 private slots:
 
-	void SlotClickCoverArt(int index);
-	void SlotClickPlay(int index, bool muted);
-	void SlotClickTitle(int nType, QString rawData);
+//	void SlotClickCoverArt(int index);
+//	void SlotClickPlay(int index, bool muted);
+//	void SlotClickTitle(int nType, QString rawData);
 
 private:
 
@@ -45,9 +45,10 @@ private:
 	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
-	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+	bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+//	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+//	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+//	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	int					m_Service;
 

@@ -232,48 +232,28 @@ void IconService::ClearNodeList()
 
 void IconService::ClearSelectMap()
 {
-//	m_pLoading->Start();
 	int count = m_Model->rowCount();
+
 	for (int i = 0; i < count; i++)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
-//		bool bSelect = qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
-//		if (bSelect)
-		{
-			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
-
-//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
-
-			int id = qvariant_cast<int>(item->data(IconServiceDelegate::ICON_SERVICE_ID));
-			m_SelectMap.remove(id);
-		}
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		m_Model->setData(modelIndex, false, IconServiceDelegate::ICON_SERVICE_SELECT);
+		int id = qvariant_cast<int>(modelIndex.data(IconServiceDelegate::ICON_SERVICE_ID));
+		m_SelectMap.remove(id);
 	}
-//	m_pLoading->Stop();
 }
 
 void IconService::SetAllSelectMap()
 {
-//	m_pLoading->Start();
 	int count = m_Model->rowCount();
+
 	for (int i = 0; i < count; i++)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
-		bool bSelect = qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
-		if (!bSelect)
-		{
-			item->setData(true, IconServiceDelegate::ICON_SERVICE_SELECT);
-
-//			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
-
-			int id = qvariant_cast<int>(item->data(IconServiceDelegate::ICON_SERVICE_ID));
-			m_SelectMap.insert(id, true);
-		}
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		m_Model->setData(modelIndex, true, IconServiceDelegate::ICON_SERVICE_SELECT);
+		int id = qvariant_cast<int>(modelIndex.data(IconServiceDelegate::ICON_SERVICE_ID));
+		m_SelectMap.insert(id, true);
 	}
-//	m_pLoading->Stop();
 }
 
 QMap<int, bool> IconService::GetSelectMap() const
@@ -296,9 +276,9 @@ IconServiceDelegate *IconService::GetDelegate()
 	return m_Delegate;
 }
 
-void IconService::SlotSelectCoverArt(int index)
+void IconService::SlotSelectCheck(const QModelIndex &modelIndex)
 {
-	if ((index < 0)
+	if ((modelIndex.row() < 0)
 			||  (m_Delegate->GetService() == ICON_SERVICE_BROWSER
 				 || m_Delegate->GetService() == ICON_SERVICE_ISERVICE
 				 || m_Delegate->GetService() == ICON_SERVICE_INPUT
@@ -307,18 +287,10 @@ void IconService::SlotSelectCoverArt(int index)
 		return;
 	}
 
-	QStandardItem *item = m_Model->item(index);
-	if (item == nullptr)
-	{
-		return;
-	}
-	bool bSelect = !qvariant_cast<bool>(item->data(IconServiceDelegate::ICON_SERVICE_SELECT));
-	item->setData(bSelect, IconServiceDelegate::ICON_SERVICE_SELECT);
+	int id = qvariant_cast<int>(modelIndex.data(IconServiceDelegate::ICON_SERVICE_ID));
+	bool bSelect = !qvariant_cast<bool>(modelIndex.data(IconServiceDelegate::ICON_SERVICE_SELECT));
+	m_Model->setData(modelIndex, bSelect, IconServiceDelegate::ICON_SERVICE_SELECT);
 
-	QModelIndex modelIndex = m_Model->indexFromItem(item);
-	m_ListView->openPersistentEditor(modelIndex);
-
-	int id = qvariant_cast<int>(item->data(IconServiceDelegate::ICON_SERVICE_ID));
 	if (bSelect)
 	{
 		m_SelectMap.insert(id, bSelect);
@@ -337,8 +309,10 @@ void IconService::Initialize()
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setGridSize(QSize(ICON_ITEM_WIDTH, ICON_ITEM_HEIGHT));
 	m_ListView->setViewMode(QListView::IconMode);
+	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
+	m_ListView->setMouseTracking(true);
 
-	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
+	connect(m_Delegate, SIGNAL(SigSelectCheck(const QModelIndex&)), this, SLOT(SlotSelectCheck(const QModelIndex&)));
 
 	ui->gridLayout->addWidget(m_ListView);
 }

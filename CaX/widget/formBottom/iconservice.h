@@ -53,7 +53,7 @@ signals:
 
 private slots:
 
-	void SlotSelectCoverArt(int index);
+	void SlotSelectCheck(const QModelIndex &modelIndex);
 
 private:
 

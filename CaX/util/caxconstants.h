@@ -45,7 +45,7 @@
 // ui
 //////////////////////////////////////////////////
 
-#define ICON_ITEM_WIDTH				160
+#define ICON_ITEM_WIDTH				170
 #define ICON_ITEM_HEIGHT			ICON_ITEM_WIDTH + 30
 
 #define LIST_ITEM_WIDTH				100
@@ -59,7 +59,7 @@
 
 //#define ICON_HEIGHT_MIN				130
 #define ICON_HEIGHT_MAX				300
-#define ICON_HEIGHT_INIT			160
+#define ICON_HEIGHT_INIT			ICON_ITEM_WIDTH
 #define ICON_HEIGHT_MID				105
 #define LIST_HEIGHT_MIN				52
 #define TABLE_HEIGHT_MIN				30
