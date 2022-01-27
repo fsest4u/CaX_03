@@ -13,6 +13,7 @@
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/settingio.h"
+#include "util/utilnovatron.h"
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
@@ -31,6 +32,7 @@ AudioCDWindow::AudioCDWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
+	m_Menu(new QMenu(this)),
 	m_EventID(eventID),
 	m_TotalCount(""),
 	m_TotalTime(""),
@@ -73,6 +75,13 @@ AudioCDWindow::~AudioCDWindow()
 	{
 		delete m_pListTracks;
 		m_pListTracks = nullptr;
+	}
+
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	delete ui;
@@ -239,6 +248,30 @@ void AudioCDWindow::SlotSelectPlay(int id, int playType)
 
 	m_pMgr->RequestTrackPlay(id);
 
+}
+
+void AudioCDWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
+{
+	m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
+
+	m_Menu->clear();
+
+	QMap<int, QString>::iterator i;
+	for (i = m_OptionMenuMap.begin(); i != m_OptionMenuMap.end(); i++)
+	{
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+
+	m_Menu->popup(m_pListTracks->GetListView()->viewport()->mapToGlobal(point));
+}
+
+void AudioCDWindow::SlotMenuAction(QAction *action)
+{
+	SlotOptionMenuAction(m_ID, action->data().toInt());
 }
 
 void AudioCDWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -420,13 +453,14 @@ void AudioCDWindow::ConnectSigToSlot()
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 }
 
 void AudioCDWindow::Initialize()
 {
-
 	m_pInfoTracks->GetFormPlay()->ShowPlayAll();
 	m_pInfoTracks->GetFormPlay()->ShowMenu();
 	m_pInfoTracks->GetFormSort()->ShowResize();
@@ -443,6 +477,24 @@ void AudioCDWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+
+	m_ID = -1;
+
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
 }
 
 void AudioCDWindow::ResetSelectMap()
@@ -608,7 +660,6 @@ void AudioCDWindow::SetOptionMenu()
 	m_OptionMenuMap.insert(OPTION_MENU_CD_RIPPING, STR_CD_RIPPING);
 	m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
 
-	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }
 
 void AudioCDWindow::DoOptionMenuCDRipping(int id)
@@ -653,5 +704,4 @@ QString AudioCDWindow::MakeInfo()
 
 	return info;
 }
-
 

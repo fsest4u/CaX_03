@@ -15,15 +15,15 @@ ListTracksDelegate::ListTracksDelegate()
 
 }
 
-QMap<int, QString> ListTracksDelegate::GetOptionMenuMap() const
-{
-	return m_OptionMenuMap;
-}
+//QMap<int, QString> ListTracksDelegate::GetOptionMenuMap() const
+//{
+//	return m_OptionMenuMap;
+//}
 
-void ListTracksDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
-{
-	m_OptionMenuMap = OptionMenuMap;
-}
+//void ListTracksDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
+//{
+//	m_OptionMenuMap = OptionMenuMap;
+//}
 
 int ListTracksDelegate::GetResize() const
 {
@@ -280,6 +280,7 @@ bool ListTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 			}
 			else if (rectMenu.contains(curPoint))
 			{
+				emit SigSelectMenu(index, curPoint);
 			}
 			else if (rectCover.contains(curPoint))
 			{

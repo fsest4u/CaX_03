@@ -2,6 +2,7 @@
 #define AUDIOCDWINDOW_H
 
 #include <QWidget>
+#include <QMenu>
 
 #include "util/CJsonNode.h"
 
@@ -43,6 +44,8 @@ private slots:
 	void SlotSelectTitle(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
 	void SlotSelectPlay(int id, int playType);
+	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
+	void SlotMenuAction(QAction *action);
 	void SlotReqCoverArt(int id, int index, int mode);
 
 	void SlotPlayAll();
@@ -90,6 +93,8 @@ private:
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<int, bool>		m_SelectMap;
 
+	QMenu				*m_Menu;
+
 	int					m_ListMode;
 	int					m_EventID;
 
@@ -106,6 +111,8 @@ private:
 	QStringList			m_MoodList;
 
 	int					m_ResizeTrack;
+
+	int					m_ID;
 
 
 

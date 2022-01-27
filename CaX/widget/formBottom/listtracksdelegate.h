@@ -23,8 +23,8 @@ public:
 		LIST_TRACKS_MAX
 	};
 
-	QMap<int, QString> GetOptionMenuMap() const;
-	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
+//	QMap<int, QString> GetOptionMenuMap() const;
+//	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
 
 	int GetResize() const;
 	void SetResize(int Resize);
@@ -35,7 +35,8 @@ signals:
 	void SigSelectCheck(const QModelIndex &index);
 	void SigSelectPlay(int nID, int playType);
 	void SigSelectTitle(int nID, QString coverArt);
-	void SigMenuAction(int nID, int menuID);
+	void SigSelectMenu(const QModelIndex &index, QPoint point);
+//	void SigMenuAction(int nID, int menuID);
 
 private slots:
 
@@ -60,7 +61,7 @@ private:
 //	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 //	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QMap<int, QString> m_OptionMenuMap;
+//	QMap<int, QString> m_OptionMenuMap;
 
 	int					m_Resize;
 

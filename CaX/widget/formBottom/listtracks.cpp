@@ -232,6 +232,11 @@ void ListTracks::SetEditor(int index)
 	m_ListView->openPersistentEditor(modelIndex);
 }
 
+QListView *ListTracks::GetListView()
+{
+	return m_ListView;
+}
+
 QStandardItemModel *ListTracks::GetModel()
 {
 	return m_Model;

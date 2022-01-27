@@ -2,6 +2,7 @@
 #define PLAYLISTWINDOW_H
 
 #include <QWidget>
+#include <QMenu>
 
 #include "util/caxconstants.h"
 #include "util/CJsonNode.h"
@@ -46,6 +47,8 @@ private slots:
 	void SlotRespPlaylist(QList<CJsonNode> list);
 	void SlotRespPlaylistInfo(CJsonNode node);
 	void SlotRespTrackList(QList<CJsonNode> list);
+	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
+	void SlotMenuAction(QAction *action);
 	void SlotReqCoverArt(int id, int index, int mode);
 	void SlotCoverArtUpdate(QString coverArt, int index, int mode);
 
@@ -111,6 +114,8 @@ private:
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<int, bool>		m_SelectMap;
+
+	QMenu				*m_Menu;
 
 	int					m_ListMode;
 	int					m_TypeMode;

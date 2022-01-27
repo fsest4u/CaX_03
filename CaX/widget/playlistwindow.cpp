@@ -12,6 +12,7 @@
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/settingio.h"
+#include "util/utilnovatron.h"
 
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
@@ -32,6 +33,7 @@ PlaylistWindow::PlaylistWindow(QWidget *parent, const QString &addr) :
 	m_pInfoTracks(new InfoTracks(this)),
 	m_pIconTracks(new IconTracks(this)),
 	m_pListTracks(new ListTracks(this)),
+	m_Menu(new QMenu(this)),
 	ui(new Ui::PlaylistWindow)
 {
 	ui->setupUi(this);
@@ -76,6 +78,13 @@ PlaylistWindow::~PlaylistWindow()
 	{
 		delete m_pListTracks;
 		m_pListTracks = nullptr;
+	}
+
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	delete ui;
@@ -209,6 +218,30 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 		m_pListTracks->ClearNodeList();
 		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
 	}
+}
+
+void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
+{
+	m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
+
+	m_Menu->clear();
+
+	QMap<int, QString>::iterator i;
+	for (i = m_OptionMenuMap.begin(); i != m_OptionMenuMap.end(); i++)
+	{
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+
+	m_Menu->popup(m_pListTracks->GetListView()->viewport()->mapToGlobal(point));
+}
+
+void PlaylistWindow::SlotMenuAction(QAction *action)
+{
+	SlotOptionMenuAction(m_ID, action->data().toInt());
 }
 
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -569,16 +602,6 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackList(QList<CJsonNode>)), this, SLOT(SlotRespTrackList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
-	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-
-	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
-
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
@@ -591,11 +614,24 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotItemTopMenuAction(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
+	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+
+	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
+
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+
 }
 
 void PlaylistWindow::Initialize()
 {
-	m_ID = -1;
+
 
 	m_pInfoService->GetFormPlay()->ShowPlayAll();
 	m_pInfoService->GetFormPlay()->ShowMenu();
@@ -612,6 +648,23 @@ void PlaylistWindow::Initialize()
 
 //	m_ListMode = GetListModeFromResize(m_Resize);
 
+	m_ID = -1;
+
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
 }
 
 int PlaylistWindow::GetListModeFromResize(int resize)
@@ -856,7 +909,6 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TO_PLAYLIST);
 	}
 
-	m_pListTracks->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }
 
 void PlaylistWindow::DoOptionMenuPlay(int nID, int where)
