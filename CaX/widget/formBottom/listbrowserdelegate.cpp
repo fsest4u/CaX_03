@@ -120,7 +120,11 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 //	painter->drawRect(rectMenu);
 
 	QPixmap pixCover;
-	if (!cover.isEmpty() && pixCover.load(cover))
+	if (cover.isEmpty())
+	{
+		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+	}
+	if (pixCover.load(cover))
 	{
 		painter->drawPixmap(rectCover, pixCover);
 	}

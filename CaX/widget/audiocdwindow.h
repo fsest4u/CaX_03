@@ -114,8 +114,6 @@ private:
 
 	int					m_ID;
 
-
-
 	Ui::AudioCDWindow *ui;
 };
 

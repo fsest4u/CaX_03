@@ -49,7 +49,7 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	int gap = ( rectBase.width() - (20 + 200 + 200 + 200) ) / 4;
+	int gap = ( rectBase.width() - (20 + 200 + 200 + 200) ) / 3;
 	QRect rectPlay = QRect(rectBase.x(), rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
 	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
 	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
@@ -121,7 +121,7 @@ bool QueueTrackDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	int gap = ( rectBase.width() - (20 + 200 + 200 + 200) ) / 4;
+	int gap = ( rectBase.width() - (20 + 200 + 200 + 200) ) / 3;
 	QRect rectPlay = QRect(rectBase.x(), rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
 	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
 	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());

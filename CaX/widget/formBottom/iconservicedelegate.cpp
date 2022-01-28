@@ -102,11 +102,14 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 //	painter->drawRect(rectSubtitle);
 
 	QPixmap pixCover;
-	if (!cover.isEmpty() && pixCover.load(cover))
+	if (cover.isEmpty())
+	{
+		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+	}
+	if (pixCover.load(cover))
 	{
 		painter->drawPixmap(rectCover, pixCover);
 	}
-
 
 	if (IconService::ICON_SERVICE_FM_RADIO == m_Service
 			|| IconService::ICON_SERVICE_DAB_RADIO == m_Service
