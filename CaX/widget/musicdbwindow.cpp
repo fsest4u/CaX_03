@@ -184,10 +184,9 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 //	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
 	m_pMgr->RequestMusicDBOverView();
 
-	QString title;
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		title = UtilNovatron::GetCategoryTitleName(m_nCategory);
+		m_pInfoHome->SetTitle(UtilNovatron::GetCategoryTitleName(m_nCategory));
 		m_pMgr->RequestCategoryList(m_nCategory,
 									m_nSortCategory,
 									m_bIncreaseCategory,
@@ -204,7 +203,7 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 		m_nCatID = catID;
 		QString strCatID = (m_nCatID < 0) ? "" : QString::number(m_nCatID);
 
-		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
+		m_pInfoHome->SetTitle(UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM);
 		m_pMgr->RequestAlbumOfCategoryList(m_nCategory,
 										   m_nSortCategory,
 										   m_bIncreaseCategory,
@@ -222,7 +221,7 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 		m_nCatID = catID;
 		QString strCatID = (m_nCatID < 0) ? "" : QString::number(m_nCatID);
 
-		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
+		m_pInfoHome->SetTitle(UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST);
 		m_pMgr->RequestArtistOfCategoryList(m_nCategory,
 										   m_nSortCategory,
 										   m_bIncreaseCategory,
@@ -242,7 +241,7 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 		QString strCatID = (catID < 0) ? "" : QString::number(catID);
 		QString strCatID2 = (catID2 < 0) ? "" : QString::number(catID2);
 
-		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST + " / " + KEY_ALBUM;
+		m_pInfoHome->SetTitle(UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST + " / " + KEY_ALBUM);
 		m_pMgr->RequestAlbumOfArtistOfCategoryList(m_nCategory,
 												   m_nSortCategory,
 												   m_bIncreaseCategory,
@@ -257,7 +256,6 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 												   strCatID2);
 	}
 
-	m_pInfoHome->SetTitle(title);
 }
 
 void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
@@ -454,7 +452,7 @@ void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 	QString samplerate = node.GetString(KEY_SAMPLERATE);
 	QString bps = node.GetString(KEY_BPS);
 
-	QString info = count + " | " + total + " | " + extension + " | " + samplerate + " | " + bps;
+//	QString info = count + " | " + total + " | " + extension + " | " + samplerate + " | " + bps;
 
 	if (title.isEmpty())
 	{
