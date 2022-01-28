@@ -75,6 +75,7 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QString title = qvariant_cast<QString>(index.data(ICON_SERVICE_TITLE));
 	QString subtitle = qvariant_cast<QString>(index.data(ICON_SERVICE_SUBTITLE));
 	bool select = qvariant_cast<bool>(index.data(ICON_SERVICE_SELECT));
+	bool mute = qvariant_cast<bool>(index.data(ICON_SERVICE_MUTE));
 
 	QFont fontCount("Segoe UI", 12, QFont::Normal, false);
 	QFont fontTitle("Segoe UI", 14, QFont::Bold, false);
@@ -106,26 +107,43 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 		painter->drawPixmap(rectCover, pixCover);
 	}
 
-	QPixmap pixCheck;
-	QString resCheck;
-	if (select)
+
+	if (IconService::ICON_SERVICE_FM_RADIO == m_Service
+			|| IconService::ICON_SERVICE_DAB_RADIO == m_Service
+			|| IconService::ICON_SERVICE_GROUP_PLAY == m_Service)
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
-	}
-	else
-	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-n@2x.png");
-	}
-	if (pixCheck.load(resCheck))
-	{
-		painter->drawPixmap(rectCheck, pixCheck);
+		QPixmap pixCheck;
+		QString resCheck;
+		if (select)
+		{
+			resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
+		}
+		else
+		{
+			resCheck = QString(":/resource/playlist-btn30-selecton-n@2x.png");
+		}
+		if (pixCheck.load(resCheck))
+		{
+			painter->drawPixmap(rectCheck, pixCheck);
+		}
 	}
 
-	QPixmap pixPlay;
-	QString resPlay = QString(":/resource/mid-icon30-play-n@2x.png");
-	if (pixPlay.load(resPlay))
+	if (IconService::ICON_SERVICE_GROUP_PLAY == m_Service)
 	{
-		painter->drawPixmap(rectPlay, pixPlay);
+		QPixmap pixPlay;
+		QString resPlay;
+		if (mute)
+		{
+			resPlay = QString(":/resource/groupp-icon30-volume-mute@2x.png");
+		}
+		else
+		{
+			resPlay = QString(":/resource/groupp-icon30-volume@2x.png");
+		}
+		if (pixPlay.load(resPlay))
+		{
+			painter->drawPixmap(rectPlay, pixPlay);
+		}
 	}
 
 	painter->setPen(QColor(84, 84, 84));
@@ -147,7 +165,7 @@ QSize IconServiceDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
 {
 	Q_UNUSED(index)
 
-	LogDebug("sizeHint ~");
+//	LogDebug("sizeHint ~");
 	return QSize(option.rect.width(), option.rect.height());
 }
 
@@ -178,7 +196,7 @@ bool IconServiceDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() - 30 -2, rectCover.y() + rectCover.height() - 30 - 2, 30, 30);
 
 	QPoint curPoint(((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
-	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
+//	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{

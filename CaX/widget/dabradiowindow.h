@@ -48,6 +48,7 @@ private slots:
 private:
 
 	void ConnectSigToSlot();
+	void Initialize();
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
 
