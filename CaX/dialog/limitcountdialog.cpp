@@ -34,7 +34,7 @@ void LimitCountDialog::SetLimitCount(int count)
 	}
 	else
 	{
-		strCnt = QString("%1").arg(count);
+		strCnt = QString::number(count);
 	}
 	ui->comboBox->setCurrentText(strCnt);
 }

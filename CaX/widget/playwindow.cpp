@@ -147,37 +147,37 @@ void PlayWindow::SlotBtnRandom()
 
 void PlayWindow::SlotDialValueChanged(int value)
 {
-	ui->labelDial->setText(QString("%1").arg(value));
+	ui->labelDial->setText(QString::number(value));
 }
 
 void PlayWindow::SlotDialReleased()
 {
 	int value = ui->dial->value();
-	ui->labelDial->setText(QString("%1").arg(value));
+	ui->labelDial->setText(QString::number(value));
 	m_pMgr->RequestVolume(value);
 }
 
 void PlayWindow::SlotSetDial(int volume)
 {
-	ui->labelDial->setText(QString("%1").arg(volume));
+	ui->labelDial->setText(QString::number(volume));
 	ui->dial->setValue(volume);
 }
 
 void PlayWindow::SlotVolumeSliderValueChanged(int value)
 {
-	ui->labelVolume->setText(QString("%1").arg(value));
+	ui->labelVolume->setText(QString::number(value));
 }
 
 void PlayWindow::SlotVolumeSliderReleased()
 {
 	int value = m_Slider->value();
-	ui->labelVolume->setText(QString("%1").arg(value));
+	ui->labelVolume->setText(QString::number(value));
 	m_pMgr->RequestVolume(value);
 }
 
 void PlayWindow::SlotSetVolumeSlider(int volume)
 {
-	ui->labelVolume->setText(QString("%1").arg(volume));
+	ui->labelVolume->setText(QString::number(volume));
 	m_Slider->setValue(volume);
 }
 

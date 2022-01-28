@@ -46,7 +46,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	{
 //		LogDebug("node [%s]", node.ToCompactByteArray().data());
 //		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE_CAP).toUtf8().data());
-		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString("%1").arg(index+1)));
+		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ID), node.GetString(KEY_ID_LOWER));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_TITLE), node.GetString(KEY_TITLE));
@@ -145,8 +145,8 @@ void EditTagDialog::SlotDataChanged(const QModelIndex &topLeft, const QModelInde
 //	LogDebug("bottom right row [%d] col [%d] value [%s]", rowBottomRight, colBottomRight, qvariant_cast<QString>(itemBottomRight->data(Qt::DisplayRole)).toUtf8().data());
 
 	QStringList list;
-	list.append(QString("%1").arg(rowTopLeft));
-	list.append(QString("%1").arg(colTopLeft));
+	list.append(QString::number(rowTopLeft));
+	list.append(QString::number(colTopLeft));
 	m_MapUpdateCell.insert(list, qvariant_cast<QString>(itemTopLeft->data(Qt::DisplayRole)));
 }
 
@@ -163,7 +163,7 @@ void EditTagDialog::SlotSectionClicked(int logicalIndex)
 			int rowCount = m_Model->rowCount();
 			for (int row = 0; row < rowCount; row++)
 			{
-				m_Model->setData(m_Model->index(row, logicalIndex), QString("%1").arg(favorite));
+				m_Model->setData(m_Model->index(row, logicalIndex), QString::number(favorite));
 			}
 		}
 	}

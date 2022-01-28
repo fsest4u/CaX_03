@@ -202,7 +202,7 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM)
 	{
 		m_nCatID = catID;
-		QString strCatID = (m_nCatID < 0) ? "" : QString("%1").arg(m_nCatID);
+		QString strCatID = (m_nCatID < 0) ? "" : QString::number(m_nCatID);
 
 		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
 		m_pMgr->RequestAlbumOfCategoryList(m_nCategory,
@@ -220,7 +220,7 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
 	{
 		m_nCatID = catID;
-		QString strCatID = (m_nCatID < 0) ? "" : QString("%1").arg(m_nCatID);
+		QString strCatID = (m_nCatID < 0) ? "" : QString::number(m_nCatID);
 
 		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
 		m_pMgr->RequestArtistOfCategoryList(m_nCategory,
@@ -239,8 +239,8 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 	{
 		m_nCatID = catID;
 		m_nCatID2 = catID2;
-		QString strCatID = (catID < 0) ? "" : QString("%1").arg(catID);
-		QString strCatID2 = (catID2 < 0) ? "" : QString("%1").arg(catID2);
+		QString strCatID = (catID < 0) ? "" : QString::number(catID);
+		QString strCatID2 = (catID2 < 0) ? "" : QString::number(catID2);
 
 		title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST + " / " + KEY_ALBUM;
 		m_pMgr->RequestAlbumOfArtistOfCategoryList(m_nCategory,
@@ -278,7 +278,7 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 
 	if (m_TypeMode == TYPE_MODE_TRACK_ALBUM)
 	{
-		QString strCatID = (catID < 0) ? "" : QString("%1").arg(catID);
+		QString strCatID = (catID < 0) ? "" : QString::number(catID);
 
 		m_pMgr->RequestTrackListOfAlbum(m_nID,
 										m_nCategory,
@@ -290,8 +290,8 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
-		QString strCatID = (catID < 0) ? "" : QString("%1").arg(catID);
-		QString strCatID2 = (catID2 < 0) ? "" : QString("%1").arg(catID2);
+		QString strCatID = (catID < 0) ? "" : QString::number(catID);
+		QString strCatID2 = (catID2 < 0) ? "" : QString::number(catID2);
 
 		m_pMgr->RequestTrackListOfAlbumOfArtist(m_nID,
 												m_nCategory,

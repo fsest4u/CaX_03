@@ -238,7 +238,7 @@ void AudioCDWindow::SlotSelectTitle(int id, QString coverArt)
 
 void AudioCDWindow::SlotCalcTotalTime(int time)
 {
-	m_TotalTime = QString("%1").arg(time);
+	m_TotalTime = QString::number(time);
 	//	m_pInfoTracks->SetInfo( MakeInfo() );
 }
 

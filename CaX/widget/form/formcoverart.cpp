@@ -62,7 +62,7 @@ void FormCoverArt::SetCount(int Count)
 	{
 		ui->labelPlay->show();
 		m_Count = Count;
-		ui->labelPlay->setText(QString("%1").arg(m_Count));
+		ui->labelPlay->setText(QString::number(m_Count));
 	}
 }
 

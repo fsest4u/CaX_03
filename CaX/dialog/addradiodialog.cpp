@@ -35,8 +35,8 @@ void AddRadioDialog::SetFrequency(double freq)
 
 void AddRadioDialog::SetRange(double min, double max, double step)
 {
-	ui->labelMin->setText(QString("%1").arg(min));
-	ui->labelMax->setText(QString("%1").arg(max));
+	ui->labelMin->setText(QString::number(min));
+	ui->labelMax->setText(QString::number(max));
 	ui->doubleSpinBox->setSingleStep(step);
 	ui->doubleSpinBox->setRange(min, max);
 }
