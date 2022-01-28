@@ -1,5 +1,3 @@
-#include <QThread>
-
 #include "searchcategory.h"
 #include "ui_searchcategory.h"
 
@@ -68,8 +66,6 @@ void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		item->setData(node.GetString(KEY_SUBTITLE), SearchCategoryDelegate::SEARCH_CATEGORY_SUBTITLE);
 
 		m_Model->appendRow(item);
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
 
 		emit SigReqCoverArt(id, index, category);
 		index++;
@@ -98,29 +94,6 @@ QStyledItemDelegate *SearchCategory::GetDelegate()
 	return m_Delegate;
 }
 
-void SearchCategory::SetBackgroundTask(QThread *thread)
-{
-	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
-	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
-}
-
-void SearchCategory::SlotReqCoverArt()
-{
-//	int index = 0;
-//	foreach (CJsonNode node, m_NodeList)
-//	{
-//		QThread::msleep(5);
-//		int id = node.GetInt(KEY_ID_LOWER);
-//		emit SigReqCoverArt(id, index);
-//		index++;
-//	}
-}
-
-void SearchCategory::SlotFinishThread()
-{
-//	LogDebug("thread finish good");
-}
-
 void SearchCategory::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -128,6 +101,9 @@ void SearchCategory::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::IconMode);
+	m_ListView->setGridSize(QSize(SEARCH_ITEM_WIDTH, SEARCH_ITEM_HEIGHT));
+	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
+	m_ListView->setMouseTracking(true);
 
 	ui->gridLayout->addWidget(m_ListView);
 

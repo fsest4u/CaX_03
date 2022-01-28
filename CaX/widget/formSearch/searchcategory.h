@@ -31,16 +31,12 @@ public:
 	QStandardItemModel	*GetModel();
 	QStyledItemDelegate	*GetDelegate();
 
-	void SetBackgroundTask(QThread *thread);
-
 signals:
 
 	void SigReqCoverArt(int id, int nIndex, int category);
 
 private slots:
 
-	void SlotReqCoverArt();
-	void SlotFinishThread();
 
 private:
 
