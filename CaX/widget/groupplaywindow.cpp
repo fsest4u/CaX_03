@@ -111,15 +111,13 @@ void GroupPlayWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 {
 	if (QListView::IconMode == mode)
 	{
-		QStandardItem *item = m_pIconService->GetModel()->item(index);
-		item->setData(coverArt, IconServiceDelegate::ICON_SERVICE_COVER);
-		m_pIconService->GetModel()->setItem(index, item);
+		QModelIndex modelIndex = m_pIconService->GetModel()->index(index, 0);
+		m_pIconService->GetModel()->setData(modelIndex, coverArt, IconServiceDelegate::ICON_SERVICE_COVER);
 	}
 //	else
 //	{
-//		QStandardItem *item = m_pListTracks->GetModel()->item(index);
-//		item->setData(coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
-//		m_pListTracks->GetModel()->setItem(index, item);
+//		QModelIndex modelIndex = m_pListTracks->GetModel()->index(index, 0);
+//		m_pListTracks->GetModel()->setData(modelIndex, coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
 //	}
 }
 
@@ -133,11 +131,8 @@ void GroupPlayWindow::SlotSelectPlay(int index, bool muted)
 	m_pMgr->SetAddr(addr);
 	m_pMgr->RequestMute(muted, m_EventID);
 
-	QStandardItem *item = m_pIconService->GetModel()->item(index);
-	item->setData(muted, IconServiceDelegate::ICON_SERVICE_MUTE);
-	m_pIconService->GetModel()->setItem(index, item);
-
-
+	QModelIndex modelIndex = m_pIconService->GetModel()->index(index, 0);
+	m_pIconService->GetModel()->setData(modelIndex, muted, IconServiceDelegate::ICON_SERVICE_MUTE);
 }
 
 void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)

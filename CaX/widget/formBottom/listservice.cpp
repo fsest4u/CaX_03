@@ -100,17 +100,16 @@ void ListService::ClearSelectMap()
 
 	for (int i = 0; i < count; i++)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
+		QModelIndex modelIndex = m_Model->index(i, 0);
 //		bool bSelect = qvariant_cast<bool>(item->data(ListServiceDelegate::LIST_SERVICE_SELECT));
 //		if (bSelect)
 		{
-			item->setData(false, ListServiceDelegate::LIST_SERVICE_SELECT);
+			m_Model->setData(modelIndex, false, ListServiceDelegate::LIST_SERVICE_SELECT);
 
 //			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
+			m_ListView->openPersistentEditor(modelIndex);
 
-			int id = qvariant_cast<int>(item->data(ListServiceDelegate::LIST_SERVICE_ID));
+			int id = qvariant_cast<int>(modelIndex.data(ListServiceDelegate::LIST_SERVICE_ID));
 			m_SelectMap.remove(id);
 		}
 	}
@@ -124,17 +123,16 @@ void ListService::SetAllSelectMap()
 
 	for (int i = 0; i < count; i++)
 	{
-		QModelIndex index = m_Model->index(i, 0);
-		QStandardItem *item = m_Model->itemFromIndex(index);
-		bool bSelect = qvariant_cast<bool>(item->data(ListServiceDelegate::LIST_SERVICE_SELECT));
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		bool bSelect = qvariant_cast<bool>(modelIndex.data(ListServiceDelegate::LIST_SERVICE_SELECT));
 		if (!bSelect)
 		{
-			item->setData(true, ListServiceDelegate::LIST_SERVICE_SELECT);
+			m_Model->setData(modelIndex, true, ListServiceDelegate::LIST_SERVICE_SELECT);
 
 //			QModelIndex modelIndex = m_Model->indexFromItem(item);
-			m_ListView->openPersistentEditor(index);
+			m_ListView->openPersistentEditor(modelIndex);
 
-			int id = qvariant_cast<int>(item->data(ListServiceDelegate::LIST_SERVICE_ID));
+			int id = qvariant_cast<int>(modelIndex.data(ListServiceDelegate::LIST_SERVICE_ID));
 			m_SelectMap.insert(id, true);
 		}
 	}
@@ -163,14 +161,13 @@ ListServiceDelegate *ListService::GetDelegate()
 
 void ListService::SlotSelectCoverArt(int index)
 {
-	QStandardItem *item = m_Model->item(index);
-	bool bSelect = !qvariant_cast<bool>(item->data(ListServiceDelegate::LIST_SERVICE_SELECT));
-	item->setData(bSelect, ListServiceDelegate::LIST_SERVICE_SELECT);
+	QModelIndex modelIndex = m_Model->index(index, 0);
+	bool bSelect = !qvariant_cast<bool>(modelIndex.data(ListServiceDelegate::LIST_SERVICE_SELECT));
+	m_Model->setData(modelIndex, bSelect, ListServiceDelegate::LIST_SERVICE_SELECT);
 
-	QModelIndex modelIndex = m_Model->indexFromItem(item);
 	m_ListView->openPersistentEditor(modelIndex);
 
-	int id = qvariant_cast<int>(item->data(ListServiceDelegate::LIST_SERVICE_ID));
+	int id = qvariant_cast<int>(modelIndex.data(ListServiceDelegate::LIST_SERVICE_ID));
 	if (bSelect)
 	{
 		m_SelectMap.insert(id, bSelect);

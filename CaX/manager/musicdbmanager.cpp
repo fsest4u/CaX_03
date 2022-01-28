@@ -619,9 +619,8 @@ void MusicDBManager::RequestSetTrackInfoAll(QMap<QStringList, QString> updateMap
 		int colCount = updateModel->columnCount();
 		for (int col = 0; col < colCount; col++)
 		{
-			QModelIndex index = updateModel->index(row, col);
-			QStandardItem *item = updateModel->itemFromIndex(index);
-			valueList.append(qvariant_cast<QString>(item->data(Qt::DisplayRole)));
+			QModelIndex modelIndex = updateModel->index(row, col);
+			valueList.append(qvariant_cast<QString>(modelIndex.data(Qt::DisplayRole)));
 //			LogDebug("row [%d] col [%d] value [%s]", row, col, valueList.at(col).toUtf8().data());
 		}
 
@@ -857,9 +856,8 @@ void MusicDBManager::RequestSetTrackCoverArt(int id, int category, int eventID, 
 //		int colCount = updateModel->columnCount();
 //		for (int col = 0; col < colCount; col++)
 //		{
-//			QModelIndex index = updateModel->index(row, col);
-//			QStandardItem *item = updateModel->itemFromIndex(index);
-//			valueList.append(qvariant_cast<QString>(item->data(Qt::DisplayRole)));
+//			QModelIndex modelIndex = updateModel->index(row, col);
+//			valueList.append(qvariant_cast<QString>(modelIndex.data(Qt::DisplayRole)));
 ////			LogDebug("row [%d] col [%d] value [%s]", row, col, valueList.at(col).toUtf8().data());
 //		}
 

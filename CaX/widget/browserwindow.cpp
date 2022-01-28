@@ -597,10 +597,9 @@ void BrowserWindow::SlotInfoBotUpdate(CJsonNode node, int nIndex)
 	int seconds = node.GetInt(KEY_DURATION);
 	QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
-	QStandardItem *item = m_pListBrowser->GetModel()->item(nIndex);
-	item->setData(node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
-	item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
-	m_pListBrowser->GetModel()->setItem(nIndex, item);
+	QModelIndex modelIndex = m_pListBrowser->GetModel()->index(nIndex, 0);
+	m_pListBrowser->GetModel()->setData(modelIndex, node.GetString(KEY_BOT), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
+	m_pListBrowser->GetModel()->setData(modelIndex, hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
 }
 
 void BrowserWindow::SlotInfoTagUpdate(CJsonNode node)

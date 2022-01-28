@@ -211,15 +211,13 @@ void AudioCDWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 {
 	if (QListView::IconMode == mode)
 	{
-		QStandardItem *item = m_pIconTracks->GetModel()->item(index);
-		item->setData(coverArt, IconTracksDelegate::ICON_TRACKS_COVER);
-		m_pIconTracks->GetModel()->setItem(index, item);
+		QModelIndex modelIndex = m_pIconTracks->GetModel()->index(index, 0);
+		m_pIconTracks->GetModel()->setData(modelIndex, coverArt, IconTracksDelegate::ICON_TRACKS_COVER);
 	}
 	else
 	{
-		QStandardItem *item = m_pListTracks->GetModel()->item(index);
-		item->setData(coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
-		m_pListTracks->GetModel()->setItem(index, item);
+		QModelIndex modelIndex = m_pListTracks->GetModel()->index(index, 0);
+		m_pListTracks->GetModel()->setData(modelIndex, coverArt, ListTracksDelegate::LIST_TRACKS_COVER);
 	}
 }
 

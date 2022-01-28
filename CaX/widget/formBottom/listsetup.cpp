@@ -77,10 +77,8 @@ void ListSetup::ClearNodeList()
 void ListSetup::SetEditor(int index)
 {
 	QModelIndex modelIndex = m_Model->index(index, 0);
-
-	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
-	QString nothing = qvariant_cast<QString>(item->data(ListSetupDelegate::LIST_SETUP_MAX));
-	item->setData(nothing + " ", ListSetupDelegate::LIST_SETUP_MAX);
+	QString nothing = qvariant_cast<QString>(modelIndex.data(ListSetupDelegate::LIST_SETUP_MAX));
+	m_Model->setData(modelIndex, nothing + " ", ListSetupDelegate::LIST_SETUP_MAX);
 
 	m_ListView->openPersistentEditor(modelIndex);
 }

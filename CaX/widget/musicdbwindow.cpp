@@ -527,9 +527,8 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	if (QListView::IconMode == mode)
 	{
-		QStandardItem *item = m_pIconTracks->GetModel()->item(nIndex);
-		item->setData(fileName, IconTracksDelegate::ICON_TRACKS_COVER);
-		m_pIconTracks->GetModel()->setItem(nIndex, item);
+		QModelIndex modelIndex = m_pIconTracks->GetModel()->index(nIndex, 0);
+		m_pIconTracks->GetModel()->setData(modelIndex, fileName, IconTracksDelegate::ICON_TRACKS_COVER);
 	}
 	else
 	{

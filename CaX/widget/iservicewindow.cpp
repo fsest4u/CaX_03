@@ -624,10 +624,8 @@ void IServiceWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	Q_UNUSED(mode);
 
-	QStandardItem *item = m_pListBrowser->GetModel()->item(nIndex);
-	item->setData(fileName, ListBrowserDelegate::LIST_BROWSER_COVER);
-	m_pListBrowser->GetModel()->setItem(nIndex, item);
-
+	QModelIndex modelIndex = m_pListBrowser->GetModel()->index(nIndex, 0);
+	m_pListBrowser->GetModel()->setData(modelIndex, fileName, ListBrowserDelegate::LIST_BROWSER_COVER);
 }
 
 void IServiceWindow::SlotPlayAll(int where)
