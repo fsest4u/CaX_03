@@ -72,7 +72,7 @@ private slots:
 	void SlotTopMenuAction(int menuID);
 //	void SlotResize();
 
-	void SlotOptionMenu(int id, int type);
+//	void SlotOptionMenu(int id, int type);
 	void SlotOptionMenuAction(CJsonNode node, int type, int menuID);
 
 	void SlotCopyHere(bool move, QString dstPath, QString path, int type);

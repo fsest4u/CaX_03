@@ -304,16 +304,16 @@ void ListBrowser::SetSelectMapIService(const QMap<int, CJsonNode> &SelectMap)
 	m_SelectMapIService = SelectMap;
 }
 
-void ListBrowser::SetEditor(int index)
-{
-	QModelIndex modelIndex = m_Model->index(index, 0);
+//void ListBrowser::SetEditor(int index)
+//{
+//	QModelIndex modelIndex = m_Model->index(index, 0);
 
-	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
-	QString nothing = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_MAX));
-	item->setData(nothing + " ", ListBrowserDelegate::LIST_BROWSER_MAX);
+//	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
+//	QString nothing = qvariant_cast<QString>(item->data(ListBrowserDelegate::LIST_BROWSER_MAX));
+//	item->setData(nothing + " ", ListBrowserDelegate::LIST_BROWSER_MAX);
 
-	m_ListView->openPersistentEditor(modelIndex);
-}
+//	m_ListView->openPersistentEditor(modelIndex);
+//}
 
 QListView *ListBrowser::GetListView()
 {

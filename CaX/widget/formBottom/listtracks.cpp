@@ -221,16 +221,16 @@ void ListTracks::SetResize(int resize)
 	m_ListView->setGridSize(QSize(resize, resize));
 }
 
-void ListTracks::SetEditor(int index)
-{
-	QModelIndex modelIndex = m_Model->index(index, 0);
+//void ListTracks::SetEditor(int index)
+//{
+//	QModelIndex modelIndex = m_Model->index(index, 0);
 
-	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
-	QString nothing = qvariant_cast<QString>(item->data(ListTracksDelegate::LIST_TRACKS_MAX));
-	item->setData(nothing + " ", ListTracksDelegate::LIST_TRACKS_MAX);
+//	QStandardItem *item = m_Model->itemFromIndex(modelIndex);
+//	QString nothing = qvariant_cast<QString>(item->data(ListTracksDelegate::LIST_TRACKS_MAX));
+//	item->setData(nothing + " ", ListTracksDelegate::LIST_TRACKS_MAX);
 
-	m_ListView->openPersistentEditor(modelIndex);
-}
+//	m_ListView->openPersistentEditor(modelIndex);
+//}
 
 QListView *ListTracks::GetListView()
 {
@@ -247,58 +247,58 @@ ListTracksDelegate *ListTracks::GetDelegate()
 	return m_Delegate;
 }
 
-void ListTracks::SetHeaderTitle(QString title)
-{
-	ui->labelHeaderTitle->setText(title);
-}
+//void ListTracks::SetHeaderTitle(QString title)
+//{
+//	ui->labelHeaderTitle->setText(title);
+//}
 
-void ListTracks::ShowHeaderTime(bool show)
-{
-	if (show)
-	{
-		ui->labelHeaderTime->show();
-	}
-	else
-	{
-		ui->labelHeaderTime->hide();
-	}
-}
+//void ListTracks::ShowHeaderTime(bool show)
+//{
+//	if (show)
+//	{
+//		ui->labelHeaderTime->show();
+//	}
+//	else
+//	{
+//		ui->labelHeaderTime->hide();
+//	}
+//}
 
-void ListTracks::ShowHeaderArtist(bool show)
-{
-	if (show)
-	{
-		ui->labelHeaderArtist->show();
-	}
-	else
-	{
-		ui->labelHeaderArtist->hide();
-	}
-}
+//void ListTracks::ShowHeaderArtist(bool show)
+//{
+//	if (show)
+//	{
+//		ui->labelHeaderArtist->show();
+//	}
+//	else
+//	{
+//		ui->labelHeaderArtist->hide();
+//	}
+//}
 
-void ListTracks::ShowHeaderAlbum(bool show)
-{
-	if (show)
-	{
-		ui->labelHeaderAlbum->show();
-	}
-	else
-	{
-		ui->labelHeaderAlbum->hide();
-	}
-}
+//void ListTracks::ShowHeaderAlbum(bool show)
+//{
+//	if (show)
+//	{
+//		ui->labelHeaderAlbum->show();
+//	}
+//	else
+//	{
+//		ui->labelHeaderAlbum->hide();
+//	}
+//}
 
-void ListTracks::ShowHeaderGenre(bool show)
-{
-	if (show)
-	{
-		ui->labelHeaderGenre->show();
-	}
-	else
-	{
-		ui->labelHeaderGenre->hide();
-	}
-}
+//void ListTracks::ShowHeaderGenre(bool show)
+//{
+//	if (show)
+//	{
+//		ui->labelHeaderGenre->show();
+//	}
+//	else
+//	{
+//		ui->labelHeaderGenre->hide();
+//	}
+//}
 
 void ListTracks::SlotScrollValueChanged(int value)
 {

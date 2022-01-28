@@ -273,12 +273,12 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 	}
 }
 
-void BrowserWindow::SlotOptionMenu(int index, int type)
-{
-	SetOptionMenu(type);
+//void BrowserWindow::SlotOptionMenu(int index, int type)
+//{
+//	SetOptionMenu(type);
 
-	m_pListBrowser->SetEditor(index);
-}
+//	m_pListBrowser->SetEditor(index);
+//}
 
 void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 {

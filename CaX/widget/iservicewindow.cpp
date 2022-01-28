@@ -726,21 +726,21 @@ void IServiceWindow::SlotTopMenuAction(int menuID)
 	}
 }
 
-void IServiceWindow::SlotOptionMenu(int index, int type)
-{
-	// qobuz
-	SetOptionMenu(type);
+//void IServiceWindow::SlotOptionMenu(int index, int type)
+//{
+//	// qobuz
+//	SetOptionMenu(type);
 
-	m_pListBrowser->SetEditor(index);
+//	m_pListBrowser->SetEditor(index);
 
-}
+//}
 
-void IServiceWindow::SlotOptionMenu(int index, int type, QString menuName)
-{
-	SetOptionMenu(type, menuName);
+//void IServiceWindow::SlotOptionMenu(int index, int type, QString menuName)
+//{
+//	SetOptionMenu(type, menuName);
 
-	m_pListBrowser->SetEditor(index);
-}
+//	m_pListBrowser->SetEditor(index);
+//}
 
 void IServiceWindow::SlotOptionMenuAction(QString url, int type, int menuID)
 {

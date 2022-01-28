@@ -40,18 +40,17 @@ public:
 
 	void SetResize(int resize);
 
-	void SetEditor(int index);
+//	void SetEditor(int index);
 
 	QListView			*GetListView();
 	QStandardItemModel	*GetModel();
 	ListTracksDelegate	*GetDelegate();
 
-	void SetHeaderTitle(QString title);
-
-	void ShowHeaderTime(bool show);
-	void ShowHeaderArtist(bool show);
-	void ShowHeaderAlbum(bool show);
-	void ShowHeaderGenre(bool show);
+//	void SetHeaderTitle(QString title);
+//	void ShowHeaderTime(bool show);
+//	void ShowHeaderArtist(bool show);
+//	void ShowHeaderAlbum(bool show);
+//	void ShowHeaderGenre(bool show);
 
 signals:
 

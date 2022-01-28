@@ -43,7 +43,7 @@ public:
 	QMap<int, CJsonNode> GetSelectMapIService() const;
 	void SetSelectMapIService(const QMap<int, CJsonNode> &SelectMap);
 
-	void SetEditor(int index);
+//	void SetEditor(int index);
 
 	QListView			*GetListView();
 	QStandardItemModel	*GetModel();

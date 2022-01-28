@@ -108,8 +108,8 @@ private slots:
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
 
-	void SlotOptionMenu(int id, int type);
-	void SlotOptionMenu(int id, int type, QString menuName);
+//	void SlotOptionMenu(int id, int type);
+//	void SlotOptionMenu(int id, int type, QString menuName);
 	void SlotOptionMenuAction(QString url, int type, int menuID);
 
 private:
