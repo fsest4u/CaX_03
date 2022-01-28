@@ -165,6 +165,7 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 	{
 		m_pInfoTracks->GetFormPlay()->ShowPlayAll(false);
 	}
+
 	if (m_nCategory == SQLManager::CATEGORY_TRACK || m_nCategory == SQLManager::CATEGORY_YEAR)
 	{
 		m_pInfoTracks->GetFormPlay()->ShowFavorite(false);

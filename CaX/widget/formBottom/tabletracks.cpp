@@ -245,9 +245,10 @@ void TableTracks::resizeEvent(QResizeEvent *event)
 
 void TableTracks::SlotScrollValueChanged(int value)
 {
-//	LogDebug("value [%d] min [%d] max [%d]", value, m_ScrollBar->minimum(), m_ScrollBar->maximum());
-
-	if (value >= m_ScrollBar->maximum())
+	int min = m_ScrollBar->minimum();
+	int max = m_ScrollBar->maximum();
+//	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
+	if (value >= max)
 	{
 		emit SigAppendList();
 	}
