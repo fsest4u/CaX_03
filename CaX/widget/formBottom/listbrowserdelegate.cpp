@@ -7,6 +7,10 @@
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
+#include "widget/airable.h"
+#include "widget/browser.h"
+#include "widget/qobuz.h"
+
 //#include "widget/form/formcoverart.h"
 
 ListBrowserDelegate::ListBrowserDelegate()
@@ -73,6 +77,7 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QStyledItemDelegate::paint(painter, option, index);
 	painter->save();
 
+	int type = qvariant_cast<int>(index.data(LIST_BROWSER_TYPE));
 	QString cover = qvariant_cast<QString>(index.data(LIST_BROWSER_COVER));
 	QString title = qvariant_cast<QString>(index.data(LIST_BROWSER_TITLE));
 	QString subtitle = qvariant_cast<QString>(index.data(LIST_BROWSER_SUBTITLE));
@@ -86,7 +91,15 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 	int gap = ( rectBase.width() - (60 + 40 + 20 + 200 + 200 + 200 + 200 + 30 + 60) ) / 6;
-	QRect rectCover = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
+	int indent = 0;
+	if (SIDEMENU_ISERVICE == m_Service)
+	{
+		if (iAirableType_Mask_Sub & type)
+		{
+			indent = 40;
+		}
+	}
+	QRect rectCover = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + gap, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
 	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
@@ -129,17 +142,71 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
 	QPixmap pixPlay;
 	QString resPlay = QString(":/resource/browser-icon16-playnow@2x.png");
-	if (pixPlay.load(resPlay))
+	if (SIDEMENU_BROWSER == m_Service)
 	{
-		painter->drawPixmap(rectPlay, pixPlay);
+		if (iFolderType_Mask_Play_Select & type)
+		{
+			if (pixPlay.load(resPlay))
+			{
+				painter->drawPixmap(rectPlay, pixPlay);
+			}
+		}
+	}
+	else if (SIDEMENU_ISERVICE == m_Service)
+	{
+		if (iAirableType_Mask_Track & type
+				|| iAirableType_Mask_Program & type
+				|| iAirableType_Mask_Radio & type
+				|| iAirableType_Mask_Feed & type
+				|| iAirableType_Mask_Play & type)
+		{
+			if (pixPlay.load(resPlay))
+			{
+				painter->drawPixmap(rectPlay, pixPlay);
+			}
+		}
+	}
+	else
+	{
+		if (iQobuzType_Mask_Track & type)
+		{
+			if (pixPlay.load(resPlay))
+			{
+				painter->drawPixmap(rectPlay, pixPlay);
+			}
+		}
 	}
 
 	QPixmap pixMenu;
 	QString resMenu = QString(":/resource/play-btn28-popupmenu-n@2x.png");
-	if (pixMenu.load(resMenu))
+	if (SIDEMENU_BROWSER == m_Service)
 	{
-		painter->drawPixmap(rectMenu, pixMenu);
+		if (pixMenu.load(resMenu))
+		{
+			painter->drawPixmap(rectMenu, pixMenu);
+		}
 	}
+	else if (SIDEMENU_ISERVICE == m_Service)
+	{
+		if (iAirableType_Mask_Art & type)
+		{
+			if (pixMenu.load(resMenu))
+			{
+				painter->drawPixmap(rectMenu, pixMenu);
+			}
+		}
+	}
+	else
+	{
+		if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == type)
+		{
+			if (pixMenu.load(resMenu))
+			{
+				painter->drawPixmap(rectMenu, pixMenu);
+			}
+		}
+	}
+
 
 	painter->setPen(QColor(84, 84, 84));
 	if (!title.isEmpty())
@@ -206,7 +273,15 @@ bool ListBrowserDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 	int gap = ( rectBase.width() - (60 + 40 + 20 + 200 + 200 + 200 + 200 + 30 + 60) ) / 6;
-	QRect rectCover = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
+	int indent = 0;
+	if (SIDEMENU_ISERVICE == m_Service)
+	{
+		if (iAirableType_Mask_Sub & type)
+		{
+			indent = 40;
+		}
+	}
+	QRect rectCover = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + gap, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
 	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
