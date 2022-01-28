@@ -115,12 +115,12 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 #endif
 
 	QEventLoop loop;
-//	if (QFileInfo::exists(filename))
-//	{
-//		LogDebug("file exists [%s]", filename.toUtf8().data());
-//		emit SigRespCoverArt(filename, nIndex, nMode);
-//		return;
-//	}
+	if (QFileInfo::exists(filename))
+	{
+		LogDebug("file exists [%s]", filename.toUtf8().data());
+		emit SigRespCoverArt(filename, nIndex, nMode);
+		return;
+	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request;
@@ -219,12 +219,12 @@ void TCPClient::RequestCoverArt(QString fullpath)
 #endif
 
 	QEventLoop loop;
-//	if (QFileInfo::exists(filename))
-//	{
-//		LogDebug("file exists [%s]", filename.toUtf8().data());
-//		emit SigRespCoverArt(filename);
-//		return;
-//	}
+	if (QFileInfo::exists(filename))
+	{
+		LogDebug("file exists [%s]", filename.toUtf8().data());
+		emit SigRespCoverArt(filename);
+		return;
+	}
 
 	const QUrl url = QUrl::fromUserInput(fullpath);
 	QNetworkRequest request;
