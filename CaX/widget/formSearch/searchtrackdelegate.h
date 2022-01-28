@@ -22,18 +22,19 @@ public:
 		SEARCH_TRACKS_MAX
 	};
 
-	QMap<int, QString> GetOptionMenuMap() const;
-	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
+//	QMap<int, QString> GetOptionMenuMap() const;
+//	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
 
 signals:
 
 	void SigSelectPlay(int nID, int playType);
-	void SigMenuAction(int nID, int menuID, QString coverArt);
+	void SigSelectMenu(const QModelIndex &modelIndex, QPoint point);
+//	void SigMenuAction(int nID, int menuID, QString coverArt);
 
 private slots:
 
-	void SlotClickPlay(int nID);
-	void SlotMenuAction(int nID, int menuID, QString coverArt);
+//	void SlotClickPlay(int nID);
+//	void SlotMenuAction(int nID, int menuID, QString coverArt);
 
 private:
 
@@ -41,11 +42,12 @@ private:
 	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
-	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+	bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+//	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+//	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+//	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QMap<int, QString> m_OptionMenuMap;
+//	QMap<int, QString> m_OptionMenuMap;
 
 };
 

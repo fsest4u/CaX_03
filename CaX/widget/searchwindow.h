@@ -2,6 +2,8 @@
 #define SEARCHWINDOW_H
 
 #include <QWidget>
+#include <QMenu>
+#include <QModelIndex>
 
 #include "util/CJsonNode.h"
 
@@ -43,6 +45,8 @@ private slots:
 	void SlotSelectAlbum(int id, QString coverArt);
 	void SlotSelectArtist(int id, QString coverArt);
 	void SlotSelectPlay(int id, int playType);
+	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
+	void SlotMenuAction(QAction *action);
 
 	void SlotOptionMenuAction(int id, int menuID, QString coverArt = "");
 
@@ -61,6 +65,10 @@ private:
 	SearchTrack			*m_Track;
 
 	QMap<int, QString>	m_OptionMenuMap;
+
+	QMenu				*m_Menu;
+
+	QModelIndex			m_ModelIndex;
 
 	Ui::SearchWindow *ui;
 };

@@ -20,6 +20,7 @@ SearchWindow::SearchWindow(QWidget *parent, const QString &addr) :
 	m_Album(new SearchCategory(this)),
 	m_Artist(new SearchCategory(this)),
 	m_Track(new SearchTrack(this)),
+	m_Menu(new QMenu(this)),
 	ui(new Ui::SearchWindow)
 {
 	ui->setupUi(this);
@@ -54,6 +55,13 @@ SearchWindow::~SearchWindow()
 	{
 		delete m_Track;
 		m_Track = nullptr;
+	}
+
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	delete ui;
@@ -177,6 +185,33 @@ void SearchWindow::SlotSelectPlay(int id, int playType)
 	m_pMgr->RequestPlayTrack(map, playType);
 }
 
+void SearchWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
+{
+	m_ModelIndex = modelIndex;
+	LogDebug(" x [%d] y [%d]", point.x(), point.y());
+
+	m_Menu->clear();
+
+	QMap<int, QString>::iterator i;
+	for (i = m_OptionMenuMap.begin(); i != m_OptionMenuMap.end(); i++)
+	{
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+
+	m_Menu->popup(m_Track->GetListView()->viewport()->mapToGlobal(point));
+}
+
+void SearchWindow::SlotMenuAction(QAction *action)
+{
+	int id = qvariant_cast<int>(m_ModelIndex.data(SearchTrackDelegate::SEARCH_TRACKS_ID));
+	QString cover = qvariant_cast<QString>(m_ModelIndex.data(SearchTrackDelegate::SEARCH_TRACKS_COVER));
+
+	SlotOptionMenuAction(id, action->data().toInt(), cover);
+}
+
 void SearchWindow::SlotOptionMenuAction(int id, int menuID, QString coverArt)
 {
 	switch (menuID) {
@@ -206,13 +241,30 @@ void SearchWindow::ConnectSigToSlot()
 	connect(m_Track, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_Track->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 //	connect(m_Track->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_Track->GetDelegate(), SIGNAL(SigMenuAction(int, int, QString)), this, SLOT(SlotOptionMenuAction(int, int, QString)));
+//	connect(m_Track->GetDelegate(), SIGNAL(SigMenuAction(int, int, QString)), this, SLOT(SlotOptionMenuAction(int, int, QString)));
+	connect(m_Track->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 }
 
 void SearchWindow::Initialize()
 {
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
 
+	m_Menu->setStyleSheet(style);
 }
 
 void SearchWindow::SetOptionMenu()
@@ -220,7 +272,7 @@ void SearchWindow::SetOptionMenu()
 	m_OptionMenuMap.clear();
 	m_OptionMenuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
 
-	m_Track->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
+//	m_Track->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 }
 
 void SearchWindow::DoOptionMenuGoToAlbum(int id, QString coverArt)

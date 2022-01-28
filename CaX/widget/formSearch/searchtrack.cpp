@@ -1,5 +1,3 @@
-#include <QThread>
-
 #include "searchtrack.h"
 #include "ui_searchtrack.h"
 
@@ -74,8 +72,6 @@ void SearchTrack::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 //		item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 		m_Model->appendRow(item);
-		QModelIndex modelIndex = m_Model->indexFromItem(item);
-		m_ListView->openPersistentEditor(modelIndex);
 
 		emit SigReqCoverArt(nID, index, category);
 		index++;
@@ -93,6 +89,11 @@ void SearchTrack::SetTitle(QString title)
 	ui->labelTitle->setText(title);
 }
 
+QListView *SearchTrack::GetListView()
+{
+	return m_ListView;
+}
+
 QStandardItemModel *SearchTrack::GetModel()
 {
 	return m_Model;
@@ -103,29 +104,6 @@ SearchTrackDelegate *SearchTrack::GetDelegate()
 	return m_Delegate;
 }
 
-void SearchTrack::SetBackgroundTask(QThread *thread)
-{
-	connect(thread, SIGNAL(started()), this, SLOT(SlotReqCoverArt()));
-	connect(thread, SIGNAL(finished()), this, SLOT(SlotFinishThread()));
-}
-
-void SearchTrack::SlotReqCoverArt()
-{
-//	int index = 0;
-//	foreach (CJsonNode node, m_NodeList)
-//	{
-//		int nID = node.GetString(KEY_ID_LOWER).toInt();
-//		QThread::msleep(5);
-//		emit SigReqCoverArt(nID, index, QListView::ListMode);
-//		index++;
-//	}
-}
-
-void SearchTrack::SlotFinishThread()
-{
-//	LogDebug("thread finish good");
-}
-
 void SearchTrack::Initialize()
 {
 	m_ListView->setItemDelegate(m_Delegate);
@@ -133,6 +111,9 @@ void SearchTrack::Initialize()
 	m_ListView->setResizeMode(QListView::Adjust);
 	m_ListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListView->setViewMode(QListView::ListMode);
+	m_ListView->setGridSize(QSize(LIST_ITEM_WIDTH, LIST_TRACKS_HEIGHT));
+	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
+	m_ListView->setMouseTracking(true);
 
 	ui->gridLayout->addWidget(m_ListView);
 

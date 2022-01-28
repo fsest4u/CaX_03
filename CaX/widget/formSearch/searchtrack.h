@@ -27,10 +27,9 @@ public:
 
 	void SetTitle(QString title);
 
+	QListView			*GetListView();
 	QStandardItemModel	*GetModel();
 	SearchTrackDelegate	*GetDelegate();
-
-	void SetBackgroundTask(QThread *thread);
 
 signals:
 
@@ -38,8 +37,6 @@ signals:
 
 private slots:
 
-	void SlotReqCoverArt();
-	void SlotFinishThread();
 
 private:
 
