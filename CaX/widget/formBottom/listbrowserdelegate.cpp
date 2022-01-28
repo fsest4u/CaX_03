@@ -23,15 +23,15 @@ void ListBrowserDelegate::SetService(int Service)
 	m_Service = Service;
 }
 
-QMap<int, QString> ListBrowserDelegate::GetOptionMenuMap() const
-{
-	return m_OptionMenuMap;
-}
+//QMap<int, QString> ListBrowserDelegate::GetOptionMenuMap() const
+//{
+//	return m_OptionMenuMap;
+//}
 
-void ListBrowserDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
-{
-	m_OptionMenuMap = OptionMenuMap;
-}
+//void ListBrowserDelegate::SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap)
+//{
+//	m_OptionMenuMap = OptionMenuMap;
+//}
 
 //void ListBrowserDelegate::SlotClickCoverArt(int index)
 //{
@@ -232,38 +232,31 @@ bool ListBrowserDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 
 			if (rectCover.contains(curPoint))
 			{
-				LogDebug("rectCover press ~");
 				emit SigSelectCheck(index);
 			}
 			else if (rectPlay.contains(curPoint))
 			{
-				LogDebug("rectPlay press ~");
 				emit SigSelectPlay(type, node);
 			}
 			else if (rectTitle.contains(curPoint))
 			{
-				LogDebug("rectTitle press ~");
 				emit SigSelectTitle(type, node);
 			}
 			else if (rectSubtitle.contains(curPoint))
 			{
-				LogDebug("rectSubtitle press ~");
 				emit SigSelectTitle(type, node);
 			}
 			else if (rectDuration.contains(curPoint))
 			{
-				LogDebug("rectDuration press ~");
 				emit SigSelectTitle(type, node);
 			}
 			else if (rectFileSize.contains(curPoint))
 			{
-				LogDebug("rectFileSize press ~");
 				emit SigSelectTitle(type, node);
 			}
 			else if (rectMenu.contains(curPoint))
 			{
-				LogDebug("rectMenu press ~");
-				emit SigMenu(nIndex, type);
+				emit SigSelectMenu(index, curPoint);
 			}
 		}
 	}

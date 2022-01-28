@@ -2,6 +2,8 @@
 #define ISERVICEWINDOW_H
 
 #include <QWidget>
+#include <QMenu>
+#include <QModelIndex>
 
 #include "util/CJsonNode.h"
 #include "util/caxconstants.h"
@@ -83,6 +85,8 @@ private slots:
 	void SlotSelectIconTitle(int nType);
 	void SlotSelectTitle(int nType, CJsonNode node);
 //	void SlotSelectURL(QString rawData);
+	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
+	void SlotMenuAction(QAction *action);
 	void SlotReqCoverArt(QString url, int index);
 	void SlotAppendList();
 
@@ -167,6 +171,8 @@ private:
 	QMap<int, QString>		m_OptionMenuMap;
 	QMap<int, CJsonNode>	m_SelectMap;
 
+	QMenu				*m_Menu;
+
 	CJsonNode			m_Node;
 
 	QString				m_WebURL;
@@ -180,6 +186,7 @@ private:
 
 	int					m_CurIndex;
 
+	QModelIndex			m_ModelIndex;
 
 	Ui::IServiceWindow *ui;
 };

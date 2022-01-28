@@ -45,6 +45,7 @@ public:
 
 	void SetEditor(int index);
 
+	QListView			*GetListView();
 	QStandardItemModel	*GetModel();
 	ListBrowserDelegate	*GetDelegate();
 

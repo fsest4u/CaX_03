@@ -43,6 +43,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	m_pIconService(new IconService(this)),
 	m_pListBrowser(new ListBrowser(this)),
 //	m_pListService(new ListService(this)),
+	m_Menu(new QMenu(this)),
 	m_WebURL(""),
 	m_InternetType(-1),
 	m_Type(-1),
@@ -103,6 +104,13 @@ IServiceWindow::~IServiceWindow()
 //		delete m_pListService;
 //		m_pListService = nullptr;
 //	}
+
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
+	}
 
 	delete ui;
 
@@ -312,6 +320,94 @@ void IServiceWindow::SlotSelectTitle(int nType, CJsonNode node)
 	{
 		SelectTitleForAirable(nType, node);
 	}
+}
+
+void IServiceWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
+{
+	m_ModelIndex = modelIndex;
+	int type = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+	LogDebug("type [%d] x [%d] y [%d]", type, point.x(), point.y());
+
+	if (iIServiceType_Qobuz == m_InternetType)
+	{
+		SetOptionMenu(type);
+	}
+	else
+	{
+		QString rawData = qvariant_cast<QString>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_RAW));
+		CJsonNode node;
+		if (!node.SetContent(rawData))
+		{
+			LogCritical("invalid json");
+			return;
+		}
+		CJsonNode acts = node.GetArray(KEY_ACTS);
+		if (acts.ArraySize() <= 0)
+		{
+			LogCritical("array node is empty");
+			return;
+		}
+		CJsonNode act = acts.GetArrayAt(0);
+		QString name = act.GetString(KEY_NAME_CAP);
+		if (name.isEmpty())
+		{
+			LogCritical("name is empty");
+			return;
+		}
+		SetOptionMenu(type, name);
+	}
+
+	m_Menu->clear();
+
+	QMap<int, QString>::iterator i;
+	for (i = m_OptionMenuMap.begin(); i != m_OptionMenuMap.end(); i++)
+	{
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+
+	m_Menu->popup(m_pListBrowser->GetListView()->viewport()->mapToGlobal(point));
+}
+
+void IServiceWindow::SlotMenuAction(QAction *action)
+{
+	int type = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+
+	if (iIServiceType_Qobuz == m_InternetType)
+	{
+		int id = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_ID));
+		SlotOptionMenuAction(QString::number(id), type, action->data().toInt());
+	}
+	else
+	{
+		QString rawData = qvariant_cast<QString>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_RAW));
+		CJsonNode node;
+		if (!node.SetContent(rawData))
+		{
+			LogCritical("invalid json");
+			return;
+		}
+		CJsonNode acts = node.GetArray(KEY_ACTS);
+		if (acts.ArraySize() <= 0)
+		{
+			LogCritical("array node is empty");
+			return;
+		}
+
+		CJsonNode act = acts.GetArrayAt(0);
+		QString url = act.GetString(KEY_URL);
+		if (url.isEmpty())
+		{
+			LogCritical("url is empty");
+			return;
+		}
+
+		SlotOptionMenuAction(url, type, action->data().toInt());
+	}
+
+
 }
 
 void IServiceWindow::SlotReqCoverArt(QString url, int index)
@@ -663,25 +759,7 @@ void IServiceWindow::SlotOptionMenuAction(QString url, int type, int menuID)
 void IServiceWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
-
 	connect(this, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
-
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
-	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
-
-//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
-	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectIconTitle(int)));
-//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int)), this, SLOT(SlotOptionMenu(int, int)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int, QString)), this, SLOT(SlotOptionMenu(int, int, QString)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotOptionMenuAction(QString, int, int)));
-	connect(m_pListBrowser, SIGNAL(SigReqCoverArt(QString, int)), this, SLOT(SlotReqCoverArt(QString, int)));
-	connect(m_pListBrowser, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
@@ -698,8 +776,28 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pAirableMgr, SIGNAL(SigRespForm(int, CJsonNode)), this, SLOT(SlotRespForm(int, CJsonNode)));
 	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayAll()), this, SLOT(SlotPlayAll()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigPlayRandom()), this, SLOT(SlotPlayRandom()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
+	connect(m_pInfoBrowser->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
+
 //	connect(m_pInfoService->GetFormSort(), SIGNAL(SigResize()), this, SLOT(SlotResize()));
 
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectIconTitle(int)));
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+
+	connect(m_pListBrowser, SIGNAL(SigReqCoverArt(QString, int)), this, SLOT(SlotReqCoverArt(QString, int)));
+	connect(m_pListBrowser, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
+//	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int)), this, SLOT(SlotOptionMenu(int, int)));
+//	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int, QString)), this, SLOT(SlotOptionMenu(int, int, QString)));
+//	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(QString, int, int)), this, SLOT(SlotOptionMenuAction(QString, int, int)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 }
 
 void IServiceWindow::Initialize()
@@ -714,6 +812,22 @@ void IServiceWindow::Initialize()
 	m_Refresh = false;
 
 	m_CurIndex = 0;
+
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
 }
 
 void IServiceWindow::SetSelectOffTopMenu()
@@ -1153,10 +1267,10 @@ void IServiceWindow::SetOptionMenu(int type, QString menuName)
 		}
 	}
 
-	if (m_OptionMenuMap.count() > 0)
-	{
-		m_pListBrowser->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
-	}
+//	if (m_OptionMenuMap.count() > 0)
+//	{
+//		m_pListBrowser->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
+//	}
 
 }
 

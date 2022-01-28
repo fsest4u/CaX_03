@@ -315,6 +315,11 @@ void ListBrowser::SetEditor(int index)
 	m_ListView->openPersistentEditor(modelIndex);
 }
 
+QListView *ListBrowser::GetListView()
+{
+	return m_ListView;
+}
+
 QStandardItemModel *ListBrowser::GetModel()
 {
 	return m_Model;

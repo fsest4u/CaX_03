@@ -2,6 +2,8 @@
 #define BROWSERWINDOW_H
 
 #include <QWidget>
+#include <QMenu>
+#include <QModelIndex>
 
 #include "util/CJsonNode.h"
 #include "util/caxconstants.h"
@@ -51,6 +53,8 @@ private slots:
 	void SlotSelectTrackPlay(int nType, CJsonNode node);
 	void SlotSelectTitle(int nType, CJsonNode node);
 //	void SlotSelectURL(QString rawData);
+	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
+	void SlotMenuAction(QAction *action);
 	void SlotReqCoverArt(QString path, int index);
 	void SlotReqInfoBot(QString path, int nIndex);
 
@@ -135,6 +139,8 @@ private:
 	QMap<int, QString>	m_OptionMenuMap;
 	QMap<QString, int>	m_SelectMap;
 
+	QMenu				*m_Menu;
+
 	QString				m_Root;
 	QStringList			m_Paths;
 	QStringList			m_Dirs;
@@ -153,6 +159,8 @@ private:
 	QStringList			m_GenreList;
 	QStringList			m_ComposerList;
 	QStringList			m_MoodList;
+
+	QModelIndex			m_ModelIndex;
 
 	Ui::BrowserWindow *ui;
 };

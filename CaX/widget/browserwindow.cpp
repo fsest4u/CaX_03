@@ -41,6 +41,7 @@ BrowserWindow::BrowserWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pInfoBrowser(new InfoBrowser(this)),
 	m_pIconService(new IconService(this)),
 	m_pListBrowser(new ListBrowser(this)),
+	m_Menu(new QMenu(this)),
 	m_Root(root),
 	m_EventID(eventID),
 	ui(new Ui::BrowserWindow)
@@ -85,6 +86,13 @@ BrowserWindow::~BrowserWindow()
 	{
 		delete m_pListBrowser;
 		m_pListBrowser = nullptr;
+	}
+
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
 	}
 
 	delete ui;
@@ -423,7 +431,45 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 //	else
 //	{
 //		SlotSelectTrackPlay(nType, rawData);
-//	}
+	//	}
+}
+
+void BrowserWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
+{
+	m_ModelIndex = modelIndex;
+	int type = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+	LogDebug("type [%d] x [%d] y [%d]", type, point.x(), point.y());
+
+	SetOptionMenu(type);
+
+	m_Menu->clear();
+
+	QMap<int, QString>::iterator i;
+	for (i = m_OptionMenuMap.begin(); i != m_OptionMenuMap.end(); i++)
+	{
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+
+	m_Menu->popup(m_pListBrowser->GetListView()->viewport()->mapToGlobal(point));
+}
+
+void BrowserWindow::SlotMenuAction(QAction *action)
+{
+	int id = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_ID));
+	int type = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+	QString rawData = qvariant_cast<QString>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_RAW));
+
+	CJsonNode node;
+	if (!node.SetContent(rawData))
+	{
+		return;
+	}
+	node.AddInt(KEY_ID_LOWER, id);
+
+	SlotOptionMenuAction(node, type, action->data().toInt());
 }
 
 //void BrowserWindow::SlotSelectURL(QString rawData)
@@ -674,6 +720,16 @@ void BrowserWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
 	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
+	connect(this, SIGNAL(SigCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotCopyHere(bool, QString, QString, int)));
+//	connect(this, SIGNAL(SigOptionCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotOptionCopyHere(bool, QString, QString, int)));
+
+	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
+	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+	connect(m_pMgr, SIGNAL(SigInfoBotUpdate(CJsonNode, int)), this, SLOT(SlotInfoBotUpdate(CJsonNode, int)));
+	connect(m_pMgr, SIGNAL(SigInfoTagUpdate(CJsonNode)), this, SLOT(SlotInfoTagUpdate(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigListUpdate()), this, SLOT(SlotListUpdate()));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
@@ -688,23 +744,15 @@ void BrowserWindow::ConnectSigToSlot()
 //	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
 	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotIconSelectTitle(int, QString)));
 
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, CJsonNode)), this, SLOT(SlotSelectTrackPlay(int, CJsonNode)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int)), this, SLOT(SlotOptionMenu(int, int)));
-	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(CJsonNode, int, int)), this, SLOT(SlotOptionMenuAction(CJsonNode, int, int)));
 	connect(m_pListBrowser, SIGNAL(SigReqCoverArt(QString, int)), this, SLOT(SlotReqCoverArt(QString, int)));
 	connect(m_pListBrowser, SIGNAL(SigReqInfoBot(QString, int)), this, SLOT(SlotReqInfoBot(QString, int)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectPlay(int, CJsonNode)), this, SLOT(SlotSelectTrackPlay(int, CJsonNode)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectTitle(int, CJsonNode)), this, SLOT(SlotSelectTitle(int, CJsonNode)));
+//	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenu(int, int)), this, SLOT(SlotOptionMenu(int, int)));
+//	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigMenuAction(CJsonNode, int, int)), this, SLOT(SlotOptionMenuAction(CJsonNode, int, int)));
+	connect(m_pListBrowser->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
 
-	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
-	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
-	connect(m_pMgr, SIGNAL(SigInfoBotUpdate(CJsonNode, int)), this, SLOT(SlotInfoBotUpdate(CJsonNode, int)));
-	connect(m_pMgr, SIGNAL(SigInfoTagUpdate(CJsonNode)), this, SLOT(SlotInfoTagUpdate(CJsonNode)));
-	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
-	connect(m_pMgr, SIGNAL(SigListUpdate()), this, SLOT(SlotListUpdate()));
-
-	connect(this, SIGNAL(SigCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotCopyHere(bool, QString, QString, int)));
-//	connect(this, SIGNAL(SigOptionCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotOptionCopyHere(bool, QString, QString, int)));
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
 }
 
@@ -726,6 +774,22 @@ void BrowserWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(90, 91, 94);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(201,237,248,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
 }
 
 void BrowserWindow::SetCategoryList(QList<CJsonNode> list)
@@ -1181,7 +1245,7 @@ void BrowserWindow::SetOptionMenu(int type)
 		}
 	}
 
-	m_pListBrowser->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
+//	m_pListBrowser->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 
 }
 

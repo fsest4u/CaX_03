@@ -25,8 +25,8 @@ public:
 		LIST_BROWSER_MAX
 	};
 
-	QMap<int, QString> GetOptionMenuMap() const;
-	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
+//	QMap<int, QString> GetOptionMenuMap() const;
+//	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
 
 	int GetService() const;
 	void SetService(int Service);
@@ -36,10 +36,11 @@ signals:
 	void SigSelectCheck(const QModelIndex &modelIndex);
 	void SigSelectPlay(int type, CJsonNode node);
 	void SigSelectTitle(int type, CJsonNode node);
-	void SigMenu(int index, int type);
-	void SigMenu(int index, int type, QString menuName);
-	void SigMenuAction(QString path, int type, int menuID);
-	void SigMenuAction(CJsonNode node, int type, int menuID);
+	void SigSelectMenu(const QModelIndex &modelIndex, QPoint point);
+//	void SigMenu(int index, int type);
+//	void SigMenu(int index, int type, QString menuName);
+//	void SigMenuAction(QString path, int type, int menuID);
+//	void SigMenuAction(CJsonNode node, int type, int menuID);
 
 private slots:
 
@@ -62,7 +63,7 @@ private:
 //	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 //	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QMap<int, QString> m_OptionMenuMap;
+//	QMap<int, QString> m_OptionMenuMap;
 	int m_Service;
 
 };
