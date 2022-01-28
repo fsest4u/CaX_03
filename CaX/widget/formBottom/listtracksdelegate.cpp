@@ -103,7 +103,8 @@ void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 	int gap = ( rectBase.width() - (60 + 40 + 20 + 200 + 200 + 200 + 200 + 200 + 30 + 60) ) / 6;
-	QRect rectCover = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
+	int coverSize = rectBase.height() * 0.9;
+	QRect rectCover = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - coverSize) / 2, coverSize, coverSize);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + gap, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
 	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
@@ -196,7 +197,7 @@ QSize ListTracksDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 	Q_UNUSED(index);
 //	LogDebug("sizeHint ~ w[%d] h[%d] ", option.rect.width(), option.rect.height());
 
-	return QSize(ICON_ITEM_WIDTH, LIST_HEIGHT_MIN);
+	return QSize(option.rect.width(), m_Resize);
 }
 
 QWidget *ListTracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
