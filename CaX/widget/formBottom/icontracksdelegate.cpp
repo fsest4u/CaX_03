@@ -106,7 +106,11 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 //	painter->drawRect(rectFavorite);
 
 	QPixmap pixCover;
-	if (!cover.isEmpty() && pixCover.load(cover))
+	if (cover.isEmpty())
+	{
+		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+	}
+	if (pixCover.load(cover))
 	{
 		painter->drawPixmap(rectCover, pixCover);
 	}
@@ -128,7 +132,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 	QPixmap pixPlay;
 	QString resPlay = QString(":/resource/mid-icon30-play-n@2x.png");
-	if (pixPlay.load(resPlay))
+	if (pixPlay.load(resPlay) && count.toInt() > 0)
 	{
 		painter->drawPixmap(rectPlay, pixPlay);
 	}
@@ -166,7 +170,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	{
 		resFavorite = QString(":/resource/mid-icon16-likeoff@2x.png");
 	}
-	else
+	else if (favorite == 1)
 	{
 		resFavorite = QString(":/resource/mid-icon16-likeon@2x.png");
 	}
@@ -176,7 +180,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	}
 
 	painter->setPen(QColor(52, 174, 214));
-	if (!count.isEmpty())
+	if (!count.isEmpty() && count.toInt() > 0)
 	{
 		painter->setFont(fontCount);
 		painter->drawText(rectCount, count);
