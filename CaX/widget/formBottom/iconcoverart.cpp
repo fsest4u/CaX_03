@@ -99,7 +99,7 @@ void IconCoverArt::SlotScrollValueChanged(int value)
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
 //	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
-	if (value >= max)
+	if (value >= max && max != 0)
 	{
 		emit SigAppendList();
 	}
