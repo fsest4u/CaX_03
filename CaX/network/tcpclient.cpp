@@ -92,7 +92,7 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 {
 #if 1
-	QString filename = UtilNovatron::ConvertURLToFilename(fullpath);
+	QString filename = UtilNovatron::ConvertURLToFilenameWithExtension(fullpath);
 	filename = UtilNovatron::GetTempDirectory() + "/" + filename;
 
 	if (filename.isEmpty())
@@ -196,7 +196,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 void TCPClient::RequestCoverArt(QString fullpath)
 {
 #if 1
-	QString filename = UtilNovatron::ConvertURLToFilename(fullpath);
+	QString filename = UtilNovatron::ConvertURLToFilenameWithExtension(fullpath);
 	filename = UtilNovatron::GetTempDirectory() + "/" + filename;
 
 	if (filename.isEmpty())
