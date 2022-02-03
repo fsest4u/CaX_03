@@ -178,18 +178,29 @@ void MusicDBManager::RequestCategoryOverview(int nID, int nCategory)
 }
 
 void MusicDBManager::RequestTrackList(int nID,
-									int nCategory,
-									int nSort,
-									bool bIncrease,
-									int nStartIndex,
-									int nLimitCount)
+									  int nCategory,
+									  int nSort,
+									  bool bIncrease,
+									  QString artistID,
+									  QString genreID,
+									  QString composerID,
+									  int nFavorite,
+									  int nRating,
+									  int nStartIndex,
+									  int nLimitCount)
 {
+	nRating = -1;	// not support for track
 	QString query = m_pSql->GetQueryTrackList(nID,
-											nCategory,
-											nSort,
-											bIncrease,
-											nStartIndex,
-											nLimitCount);
+											  nCategory,
+											  nSort,
+											  bIncrease,
+											  artistID,
+											  genreID,
+											  composerID,
+											  nFavorite,
+											  nRating,
+											  nStartIndex,
+											  nLimitCount);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -203,11 +214,16 @@ void MusicDBManager::RequestTrackList(int nID,
 void MusicDBManager::RequestTrackListForEditTag(int nID, int nCategory, int nSort, bool bIncrease, int nStartIndex, int nLimitCount)
 {
 	QString query = m_pSql->GetQueryTrackList(nID,
-											nCategory,
-											nSort,
-											bIncrease,
-											nStartIndex,
-											nLimitCount);
+											  nCategory,
+											  nSort,
+											  bIncrease,
+											  "",
+											  "",
+											  "",
+											  -1,
+											  -1,
+											  nStartIndex,
+											  nLimitCount);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);

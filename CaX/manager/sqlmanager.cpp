@@ -51,11 +51,11 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
 	}
-	if (nFavorite > 0)
+	if (nFavorite >= 0)
 	{
 		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
 	}
-	if (nRating > 0)
+	if (nRating >= 0)
 	{
 		whereRating = QString(" and %1.Rating >= %2").arg(category).arg(nRating);
 	}
@@ -147,11 +147,11 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
 	}
-	if (nFavorite > 0)
+	if (nFavorite >= 0)
 	{
 		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
 	}
-	if (nRating > 0)
+	if (nRating >= 0)
 	{
 		whereFavorite = QString(" and %1.Rating = %2").arg(category).arg(nRating);
 	}
@@ -221,11 +221,11 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
 	}
-	if (nFavorite > 0)
+	if (nFavorite >= 0)
 	{
 		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
 	}
-	if (nRating > 0)
+	if (nRating >= 0)
 	{
 		whereFavorite = QString(" and %1.Rating = %2").arg(category).arg(nRating);
 	}
@@ -297,11 +297,11 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
 	}
-	if (nFavorite > 0)
+	if (nFavorite >= 0)
 	{
 		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
 	}
-	if (nRating > 0)
+	if (nRating >= 0)
 	{
 		whereFavorite = QString(" and %1.Rating = %2").arg(category).arg(nRating);
 	}
@@ -381,15 +381,48 @@ QString SQLManager::GetQueryCategoryOverview(int nID, int nCategory)
 }
 
 QString SQLManager::GetQueryTrackList(int nID,
-										int nCategory,
-										int nSort,
-										bool bIncrease,
-										int nStartIndex,
-										int nLimitCount)
+									  int nCategory,
+									  int nSort,
+									  bool bIncrease,
+									  QString artistID,
+									  QString genreID,
+									  QString composerID,
+									  int nFavorite,
+									  int nRating,
+									  int nStartIndex,
+									  int nLimitCount)
 {
 	QString query;
+	QString category = UtilNovatron::GetCategoryName(nCategory);
 	QString column = GetColumnName(nSort);
 	QString increase = GetIncrease(bIncrease);
+
+	QString whereArtist = "";
+	QString whereGenre = "";
+	QString whereComposer = "";
+	QString whereFavorite = "";
+	QString whereRating = "";
+
+	if (!artistID.isEmpty())
+	{
+		whereArtist = " and Song.ArtistID = " + artistID;
+	}
+	if (!genreID.isEmpty())
+	{
+		whereGenre = " and Song.GenreID = " + genreID;
+	}
+	if (!composerID.isEmpty())
+	{
+		whereComposer = " and Song.ComposerID = " + composerID;
+	}
+	if (nFavorite >= 0)
+	{
+		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
+	}
+	if (nRating >= 0)
+	{
+		whereRating = QString(" and %1.Rating >= %2").arg(category).arg(nRating);
+	}
 
 	QString limit = "";
 
@@ -401,67 +434,58 @@ QString SQLManager::GetQueryTrackList(int nID,
 	switch (nCategory)
 	{
 	case CATEGORY_ALBUM:
-		query = QString(SQL_ALBUM_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_ALBUM_TRACK_LIST);
 		break;
 	case CATEGORY_ALBUM_ARTIST:
-		query = QString(SQL_ALBUM_ARTIST_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_ALBUM_ARTIST_TRACK_LIST);
 		break;
 	case CATEGORY_ARTIST:
-		query = QString(SQL_ARTIST_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_ARTIST_TRACK_LIST);
 		break;
 	case CATEGORY_COMPOSER:
-		query = QString(SQL_COMPOSER_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_COMPOSER_TRACK_LIST);
 		break;
 	case CATEGORY_GENRE:
-		query = QString(SQL_GENRE_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_GENRE_TRACK_LIST);
 		break;
 	case CATEGORY_MOOD:
-		query = QString(SQL_MOOD_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_MOOD_TRACK_LIST);
 		break;
 	case CATEGORY_FOLDER:
-		query = QString(SQL_FOLDER_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_FOLDER_TRACK_LIST);
 		break;
 	case CATEGORY_YEAR:
-		query = QString(SQL_YEAR_TRACK_LIST)
-				.arg(nID)
-				.arg(column)
-				.arg(increase)
-				.arg(limit);
+		query = QString(SQL_YEAR_TRACK_LIST);
 		break;
 	case CATEGORY_TRACK:
-		query = QString(SQL_TRACK_LIST)
+		query = QString(SQL_TRACK_LIST);
+		break;
+	}
+
+	if (nCategory == CATEGORY_TRACK)
+	{
+		query = query
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(whereFavorite)
+				.arg(whereRating)
 				.arg(column)
 				.arg(increase)
 				.arg(limit);
-		break;
+	}
+	else
+	{
+		query = query
+				.arg(nID)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(whereFavorite)
+				.arg(whereRating)
+				.arg(column)
+				.arg(increase)
+				.arg(limit);
 	}
 
 //	LogDebug("query [%s]", query.toUtf8().data());

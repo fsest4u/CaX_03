@@ -41,8 +41,8 @@ public:
 										 QString artistID = "",
 										 QString genreID = "",
 										 QString composerID = "",
-										 int nFavorite = 0,
-										 int nRating = 0,
+										 int nFavorite = -1,
+										 int nRating = -1,
 										 int nStartIndex = 0,
 										 int nLimitCount = 100);
 	QString GetQueryAlbumOfCategoryListFromSong(int nCategory = CATEGORY_ALBUM,
@@ -51,8 +51,8 @@ public:
 												QString artistID = "",
 												QString genreID = "",
 												QString composerID = "",
-												int nFavorite = 0,
-												int nRating = 0,
+												int nFavorite = -1,
+												int nRating = -1,
 												int nStartIndex = 0,
 												int nLimitCount = 100,
 												QString catID = "");		// album id
@@ -62,8 +62,8 @@ public:
 												 QString artistID = "",
 												 QString genreID = "",
 												 QString composerID = "",
-												 int nFavorite = 0,
-												 int nRating = 0,
+												 int nFavorite = -1,
+												 int nRating = -1,
 												 int nStartIndex = 0,
 												 int nLimitCount = 100,
 												 QString catID = "");		// artist id
@@ -73,8 +73,8 @@ public:
 														QString artistID = "",
 														QString genreID = "",
 														QString composerID = "",
-														int nFavorite = 0,
-														int nRating = 0,
+														int nFavorite = -1,
+														int nRating = -1,
 														int nStartIndex = 0,
 														int nLimitCount = 100,
 														QString catID = "",		// genre id
@@ -85,6 +85,11 @@ public:
 							  int nCategory = CATEGORY_ALBUM,
 							  int nSort = SORT_IMPORTED_DATE,
 							  bool bIncrease = true,
+							  QString artistID = "",
+							  QString genreID = "",
+							  QString composerID = "",
+							  int nFavorite = -1,
+							  int nRating = -1,
 							  int nStartIndex = 0,
 							  int nLimitCount = 100);
 	QString GetQueryTrackListOfAlbum(int nID,							// album id

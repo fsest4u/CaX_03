@@ -179,9 +179,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.AlbumID = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.AlbumID = %1 %2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_ALBUM_ARTIST_OVERVIEW	"	\
 select	\
@@ -226,9 +226,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.AlbumArtistID = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.AlbumArtistID = %1 %2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_ARTIST_OVERVIEW	"	\
 select	\
@@ -272,9 +272,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.ArtistID = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.ArtistID = %1	%2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_COMPOSER_OVERVIEW	"	\
 select	\
@@ -319,9 +319,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.ComposerID = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.ComposerID = %1 %2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_GENRE_OVERVIEW	"	\
 select	\
@@ -366,9 +366,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.GenreID = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.GenreID = %1 %2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_MOOD_OVERVIEW	"	\
 select	\
@@ -413,9 +413,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.MoodID = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.MoodID = %1 %2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_FOLDER_OVERVIEW	"	\
 select	\
@@ -460,9 +460,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.FolderID = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.FolderID = %1 %2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_YEAR_OVERVIEW	"	\
 select	\
@@ -504,9 +504,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.Year = %1	\
-order by Song.%2 %3	\
-%4"
+where Song.IsDel = 0 and Song.Year = %1 %2 %3 %4 %5 %6	\
+order by Song.%7 %8	\
+%9"
 
 #define SQL_TRACK_OVERVIEW	"	\
 select	\
@@ -546,9 +546,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 \
-order by Song.%1 %2	\
-%3"
+where Song.IsDel = 0 %1 %2 %3 %4 %5\
+order by Song.%6 %7	\
+%8"
 
 // --------------------------------------------------------------------------
 // 카테고리별 앨범 목록 가져오기 ------------------------------------------------

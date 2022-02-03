@@ -195,6 +195,11 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 									 m_nCategory,
 									 m_nSortTrack,
 									 m_bIncreaseTrack,
+									 m_ArtistID,
+									 m_GenreID,
+									 m_ComposerID,
+									 m_nFavorite,
+									 m_nRating,
 									 m_LimitCount * m_CurIndex,
 									 m_LimitCount);
 		}
@@ -320,6 +325,11 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 								 m_nCategory,
 								 m_nSortTrack,
 								 m_bIncreaseTrack,
+								 "",
+								 "",
+								 "",
+								 0,
+								 0,
 								 m_LimitCount * m_CurIndex,
 								 m_LimitCount);
 	}
@@ -377,17 +387,20 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 		if (strAlbumArtistCnt.toInt() > 0)
 		{
 			m_pInfoHome->SetAlbumArtistCnt(node.GetString(KEY_ALBUM_ARTIST));
-			m_pMgr->RequestClassifyList(SQLManager::CATEGORY_COMPOSER);
 		}
 		if (strArtistCnt.toInt() > 0)
 		{
 			m_pInfoHome->SetArtistCnt(node.GetString(KEY_ARTIST));
-			m_pMgr->RequestClassifyList(SQLManager::CATEGORY_ARTIST);
+			m_pMgr->RequestClassifyList(SQLManager::CLASSIFY_ARTIST);
 		}
 		if (strGenreCnt.toInt() > 0)
 		{
 			m_pInfoHome->SetGenreCnt(node.GetString(KEY_GENRE));
-			m_pMgr->RequestClassifyList(SQLManager::CATEGORY_GENRE);
+			m_pMgr->RequestClassifyList(SQLManager::CLASSIFY_GENRE);
+		}
+		if (strComposerCnt.toInt() > 0)
+		{
+			m_pMgr->RequestClassifyList(SQLManager::CLASSIFY_COMPOSER);
 		}
 	}
 
@@ -417,6 +430,9 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 		break;
 	case SQLManager::CATEGORY_YEAR:
 		strCnt = strYearCnt;
+		break;
+	case SQLManager::CATEGORY_TRACK:
+		strCnt = strTrackCnt;
 		break;
 	}
 
