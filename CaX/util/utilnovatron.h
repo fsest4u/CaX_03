@@ -16,9 +16,12 @@ public:
 
 	static QString CalcSecondToHMS(int seconds);
 
-	static void CreateTempDirectory();
 	static QString GetTempDirectory();
+	static void	CreateTempDirectory();
 	static void	RemoveTempDirectory();
+	static void	RemoveFilesInTempDirectory(QString prefix);
+	static void	RemoveContainFilesInTempDirectory(QString part);
+	static QString ConvertURLToFilenameWithExtension(QString fullpath);
 	static QString ConvertURLToFilename(QString fullpath);
 	static QString GetCategoryName(int category);
 	static QString GetCategoryTitleName(int category);

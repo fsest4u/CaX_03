@@ -1848,8 +1848,27 @@ void MusicDBWindow::DoTopMenuPlay(int nWhere)
 
 void MusicDBWindow::DoTopMenuReload()
 {
-	UtilNovatron::RemoveTempDirectory();
-	UtilNovatron::CreateTempDirectory();
+	QString strCat;
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ADD)
+	{
+		strCat = UtilNovatron::GetCategoryName(m_nCategory);
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			 || m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+	{
+		strCat = KEY_ALBUM;
+	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
+	{
+		strCat = KEY_ARTIST;
+	}
+	else
+	{
+		strCat = UtilNovatron::GetCategoryName(-1);
+	}
+
+	UtilNovatron::RemoveFilesInTempDirectory(strCat);
 
 	ClearList();
 

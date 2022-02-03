@@ -1029,8 +1029,8 @@ void BrowserWindow::DoTopMenuReload()
 	}
 	else
 	{
-		UtilNovatron::RemoveTempDirectory();
-		UtilNovatron::CreateTempDirectory();
+		QString prefix = UtilNovatron::ConvertURLToFilename(m_Root);
+		UtilNovatron::RemoveContainFilesInTempDirectory(prefix);
 
 		RequestFolder(m_Root);
 	}

@@ -376,6 +376,14 @@ QString UtilNovatron::CalcSecondToHMS(int seconds)
 	return time;
 }
 
+QString UtilNovatron::GetTempDirectory()
+{
+	QString dirTemp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+	QString organName = QCoreApplication::organizationName();
+
+	return dirTemp + "/" + organName;
+}
+
 void UtilNovatron::CreateTempDirectory()
 {
 	QString dirTmep = GetTempDirectory();
@@ -390,14 +398,6 @@ void UtilNovatron::CreateTempDirectory()
 	}
 }
 
-QString UtilNovatron::GetTempDirectory()
-{
-	QString dirTemp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-	QString organName = QCoreApplication::organizationName();
-
-	return dirTemp + "/" + organName;
-}
-
 void UtilNovatron::RemoveTempDirectory()
 {
 	QString dirTmep = GetTempDirectory();
@@ -409,7 +409,33 @@ void UtilNovatron::RemoveTempDirectory()
 	}
 }
 
-QString UtilNovatron::ConvertURLToFilename(QString fullpath)
+void UtilNovatron::RemoveFilesInTempDirectory(QString prefix)
+{
+	QString dirTmep = GetTempDirectory();
+	QDir dir(dirTmep, prefix + "*");
+	for(const QString & filename: dir.entryList())
+	{
+//		LogDebug("filename [%s]", filename.toUtf8().data());
+		dir.remove(filename);
+	}
+}
+
+
+void UtilNovatron::RemoveContainFilesInTempDirectory(QString part)
+{
+	QString dirTmep = GetTempDirectory();
+	QDir dir(dirTmep);
+	for(const QString & filename: dir.entryList())
+	{
+		if (filename.contains(part))
+		{
+//			LogDebug("filename [%s]", filename.toUtf8().data());
+			dir.remove(filename);
+		}
+	}
+}
+
+QString UtilNovatron::ConvertURLToFilenameWithExtension(QString fullpath)
 {
 	QString filename = fullpath;
 	int colon = filename.length() - filename.lastIndexOf(":") - 1;
@@ -420,6 +446,18 @@ QString UtilNovatron::ConvertURLToFilename(QString fullpath)
 
 	QFileInfo fileInfo(filename);
 	filename = fileInfo.completeBaseName() + ".jpg";
+
+	return filename;
+}
+
+QString UtilNovatron::ConvertURLToFilename(QString fullpath)
+{
+	QString filename = fullpath;
+	int colon = filename.length() - filename.lastIndexOf(":") - 1;
+	filename = filename.right(colon);
+	colon = filename.length() - filename.indexOf("/") - 1;
+	filename = filename.right(colon);
+	filename.replace("/", "_");
 
 	return filename;
 }
