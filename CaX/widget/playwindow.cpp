@@ -148,6 +148,7 @@ void PlayWindow::SlotBtnRandom()
 void PlayWindow::SlotDialValueChanged(int value)
 {
 	ui->labelDial->setText(QString::number(value));
+	m_pMgr->RequestVolume(value);
 }
 
 void PlayWindow::SlotDialReleased()
@@ -630,7 +631,7 @@ void PlayWindow::SetDialMenu()
 	ui->frameVolume->hide();
 
 	connect(ui->dial, SIGNAL(valueChanged(int)), this, SLOT(SlotDialValueChanged(int)));
-	connect(ui->dial, SIGNAL(sliderReleased()), this, SLOT(SlotDialReleased()));
+//	connect(ui->dial, SIGNAL(sliderReleased()), this, SLOT(SlotDialReleased()));
 
 }
 
