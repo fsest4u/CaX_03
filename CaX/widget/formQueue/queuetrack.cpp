@@ -46,11 +46,12 @@ QList<CJsonNode> QueueTrack::GetNodeList() const
 	return m_NodeList;
 }
 
-void QueueTrack::SetNodeList(QList<CJsonNode> list)
+int QueueTrack::SetNodeList(QList<CJsonNode> list)
 {
 	m_NodeList = list;
 
 	int index = 0;
+	int totalTime = 0;
 
 	foreach (CJsonNode node, list)
 	{
@@ -68,9 +69,11 @@ void QueueTrack::SetNodeList(QList<CJsonNode> list)
 
 		m_Model->appendRow(item);
 
+		totalTime += seconds;
 		index++;
 	}
 
+	return totalTime;
 }
 
 void QueueTrack::ClearNodeList()

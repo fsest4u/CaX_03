@@ -22,7 +22,7 @@ public:
 	~QueueTrack();
 
 	QList<CJsonNode> GetNodeList() const;
-	void SetNodeList(QList<CJsonNode> list);
+	int SetNodeList(QList<CJsonNode> list);
 	void ClearNodeList();
 
 	QStandardItemModel	*GetModel();

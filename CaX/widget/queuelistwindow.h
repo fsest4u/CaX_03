@@ -24,7 +24,14 @@ public:
 	explicit QueuelistWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~QueuelistWindow();
 
-	void RequestQueuelist(QList<CJsonNode> list, QString src);
+	void SetNodeInfo(CJsonNode node);
+	void SetPlayInfo(CJsonNode node);
+
+	int GetFavorite() const;
+	void SetFavorite(int Favorite);
+
+	int GetRating() const;
+	void SetRating(int Rating);
 
 signals:
 
@@ -38,7 +45,7 @@ private slots:
 	void SlotClickBtnClose();
 
 	void SlotRespError(QString errMsg);
-	void SlotRespCategoryInfo(CJsonNode node);
+//	void SlotRespCategoryInfo(CJsonNode node);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 	void SlotSelectPlay(int index, int playType);
 
@@ -50,6 +57,11 @@ private:
 	void RequestCoverArtMusicDB(int id, int index);
 	void RequestCoverArtBrowser(QString path);
 	void RequestCoverArtAudioCD(QString fullpath);
+
+	void SetMqa(QString value);
+	void SetFormat(QString value);
+	void SetPlayIndex(int total, int currPlay);
+	void SetTotalTime(int time);
 
 	QueuelistManager	*m_pMgr;
 	QueueTrack			*m_Track;
@@ -67,6 +79,9 @@ private:
 //	QString				m_ArtistCoverArt;
 
 	QString				m_Src;
+	int					m_TotalTime;
+	int					m_Favorite;
+	int					m_Rating;
 
 	Ui::QueuelistWindow *ui;
 };

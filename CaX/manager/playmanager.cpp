@@ -173,13 +173,13 @@ void PlayManager::ParseTrackInfo(CJsonNode node)
 
 void PlayManager::ParseQueueList(CJsonNode node)
 {
-	CJsonNode result;
-	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
-	{
-		emit SigRespError(STR_NO_RESULT);
-		return;
-	}
-	emit SigQueueList(result);
+//	CJsonNode result;
+//	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+//	{
+//		emit SigRespError(STR_NO_RESULT);
+//		return;
+//	}
+	emit SigQueueList(node);
 }
 
 QString PlayManager::GetPlayMode(int mode)

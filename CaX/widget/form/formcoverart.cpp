@@ -47,7 +47,7 @@ void FormCoverArt::SetCoverArt(QString coverArt)
 //												   , Qt::KeepAspectRatio));
 //	}
 
-	QString style = QString("QFrame { border-image: url('%1'); }").arg(m_CoverArt);
+	QString style = QString("QFrame { border-image: url(\"%1\"); }").arg(m_CoverArt);
 	setStyleSheet(style);
 }
 

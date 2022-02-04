@@ -239,7 +239,9 @@ void PlayWindow::SlotCoverArtUpdate(QString fileName)
 
 void PlayWindow::SlotQueueList(CJsonNode node)
 {
-	emit SigAddQueueList(node, m_Src);
+	emit SigAddQueueList(node);
+
+	emit SigSetPlayInfo(m_PlayInfo);
 }
 
 void PlayWindow::ConnectSigToSlot()
@@ -315,10 +317,13 @@ void PlayWindow::InitVariable()
 	m_Repeat = "";
 	m_Src = "";
 	m_Top= "";
+	m_Mqa = "";
 }
 
 void PlayWindow::SetVariable(CJsonNode node)
 {
+	m_PlayInfo = node;
+
 	m_Info = node.GetBool(KEY_INFO);
 	m_List = node.GetBool(KEY_LIST);
 	m_Mute = node.GetBool(KEY_MUTE_CAP);
@@ -353,12 +358,15 @@ void PlayWindow::SetVariable(CJsonNode node)
 	m_PlayState = node.GetString(KEY_PLAY_STATE);
 	m_Src = node.GetString(KEY_SRC);
 	m_Top = node.GetString(KEY_TOP);
+	m_Mqa = node.GetString(KEY_MQA);
 
 	m_Repeat = node.GetString(KEY_REPEAT);
 	if (!m_Repeat.isEmpty())
 	{
 		SetRepeatMode(m_Repeat);
 	}
+
+	emit SigSetPlayInfo(node);
 
 	DebugVariable();
 }
@@ -390,6 +398,7 @@ void PlayWindow::DebugVariable()
 	LogDebug("m_Repeat [%s]", m_Repeat.toUtf8().data());
 	LogDebug("m_Src [%s]", m_Src.toUtf8().data());
 	LogDebug("m_Top [%s]", m_Top.toUtf8().data());
+	LogDebug("m_Mqa [%s]", m_Mqa.toUtf8().data());
 }
 
 void PlayWindow::InitPlayInfo()
@@ -642,6 +651,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 
 	emit SigSetVolumeSlider(m_Volume);
 	emit SigSetDial(m_Volume);
+
 	if (m_PlayState.compare(KEY_PLAY))
 	{
 		m_bPause = true;

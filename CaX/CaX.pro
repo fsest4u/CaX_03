@@ -23,6 +23,7 @@ SOURCES += \
     dialog/inputnamedialog.cpp \
     dialog/inputtagdialog.cpp \
     dialog/limitcountdialog.cpp \
+    dialog/loadingdialog.cpp \
     dialog/logindialog.cpp \
     dialog/poweroffdialog.cpp \
     dialog/progressdialog.cpp \
@@ -150,6 +151,7 @@ HEADERS += \
     dialog/inputnamedialog.h \
     dialog/inputtagdialog.h \
     dialog/limitcountdialog.h \
+    dialog/loadingdialog.h \
     dialog/logindialog.h \
     dialog/poweroffdialog.h \
     dialog/progressdialog.h \
@@ -287,6 +289,7 @@ FORMS += \
     dialog/inputnamedialog.ui \
     dialog/inputtagdialog.ui \
     dialog/limitcountdialog.ui \
+    dialog/loadingdialog.ui \
     dialog/logindialog.ui \
     dialog/poweroffdialog.ui \
     dialog/progressdialog.ui \

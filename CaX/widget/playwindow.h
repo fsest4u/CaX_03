@@ -34,7 +34,8 @@ signals:
 	void SigSetVolumeSlider(int volume);
 	void SigSetDial(int volume);
 
-	void SigAddQueueList(CJsonNode node, QString src);
+	void SigAddQueueList(CJsonNode node);
+	void SigSetPlayInfo(CJsonNode node);
 	void SigRemoveQueueList();
 
 private slots:
@@ -109,6 +110,8 @@ private:
 	QSlider				*m_Slider;
 	QTimer				*m_Timer;
 
+	CJsonNode			m_PlayInfo;
+
 
 //----------------------------------------------
 	bool	m_Info;
@@ -138,6 +141,7 @@ private:
 	QString m_Repeat;
 	QString m_Src;
 	QString m_Top;
+	QString m_Mqa;
 
 	bool				m_bPause;
 	int					m_nRepeatMode;

@@ -47,6 +47,7 @@
 #define		KEY_COMPOSER		"Composer"
 #define		KEY_COUNT			"count"
 #define		KEY_COVER_ART		"CoverArt"
+#define		KEY_CURR_PLAY		"CurrPlay"
 
 #define		KEY_DAB				"Dab"
 #define		KEY_DESC			"Desc"
@@ -117,6 +118,7 @@
 #define		KEY_MENU_DEPTH		"MenuDepth"
 #define		KEY_MOOD			"Mood"
 #define		KEY_MOVE			"Move"
+#define		KEY_MQA				"MQA"
 #define		KEY_MUTE_CAP		"Mute"
 #define		KEY_MUTED			"muted"
 
@@ -196,6 +198,7 @@
 #define		KEY_TRACKS			"Tracks"
 #define		KEY_TOP				"Top"
 #define		KEY_TOTAL			"total"
+#define		KEY_TOTAL_UPPER		"Total"
 #define		KEY_TYPE			"Type"
 
 #define		KEY_URL				"Url"

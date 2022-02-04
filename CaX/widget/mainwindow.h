@@ -68,7 +68,8 @@ public slots:
 	void SlotDisconnectObserver();
 	void SlotRespAirableLogout();
 
-	void SlotAddQueueList(CJsonNode node, QString src);
+	void SlotAddQueueList(CJsonNode node);
+	void SlotSetPlayInfo(CJsonNode node);
 
 private:
 

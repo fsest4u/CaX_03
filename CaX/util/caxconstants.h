@@ -328,6 +328,9 @@ enum
 #define FONT_WEIGHT_NORMAL		"normal"
 #define FONT_WEIGHT_BOLD		"bold"
 
+#define MQA_BLUE				"Blue"
+#define MQA_GREEN				"Green"
+
 
 
 #endif // CAXCONSTANTS_H

@@ -819,7 +819,7 @@ void MainWindow::SlotRespAirableLogout()
 	DoIServiceHome();
 }
 
-void MainWindow::SlotAddQueueList(CJsonNode node, QString src)
+void MainWindow::SlotAddQueueList(CJsonNode node)
 {
 	if (m_pQueueWin)
 	{
@@ -829,18 +829,16 @@ void MainWindow::SlotAddQueueList(CJsonNode node, QString src)
 		m_pQueueWin = nullptr;
 	}
 
-	{
-		QList<CJsonNode> list;
-		list.clear();
-		for (int i = 0; i < node.ArraySize(); i++)
-		{
-			list.append(node.GetArrayAt(i));
-	//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
-		}
+	m_pQueueWin = new QueuelistWindow(this, m_strAddr, m_EventID);
+	SlotAddWidget(m_pQueueWin, STR_NOW_PLAY);
+	m_pQueueWin->SetNodeInfo(node);
+}
 
-		m_pQueueWin = new QueuelistWindow(this, m_strAddr, m_EventID);
-		SlotAddWidget(m_pQueueWin, STR_NOW_PLAY);
-		m_pQueueWin->RequestQueuelist(list, src);
+void MainWindow::SlotSetPlayInfo(CJsonNode node)
+{
+	if (m_pQueueWin)
+	{
+		m_pQueueWin->SetPlayInfo(node);
 	}
 }
 
@@ -891,7 +889,8 @@ void MainWindow::ConnectForUI()
 	connect(ui->widgetTop->GetBtnSearch(), SIGNAL(clicked()), this, SLOT(SlotBtnSearch()));
 
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(ui->widgetPlay, SIGNAL(SigAddQueueList(CJsonNode, QString)), this, SLOT(SlotAddQueueList(CJsonNode, QString)));
+	connect(ui->widgetPlay, SIGNAL(SigAddQueueList(CJsonNode)), this, SLOT(SlotAddQueueList(CJsonNode)));
+	connect(ui->widgetPlay, SIGNAL(SigSetPlayInfo(CJsonNode)), this, SLOT(SlotSetPlayInfo(CJsonNode)));
 	connect(ui->widgetPlay, SIGNAL(SigRemoveQueueList()), this, SLOT(SlotRemoveQueueWidget()));
 
 }
