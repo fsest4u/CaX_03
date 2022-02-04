@@ -306,18 +306,6 @@ enum
 #define SEARCH_AMAZON			"Amazon"
 #define SEARCH_GRACENOTE		"Gracenote"
 
-//////////////////////////////////////////////////
-// convert format
-//////////////////////////////////////////////////
-
-#define FORMAT_CAF				"caf"
-#define FORMAT_WAV				"wav"
-#define FORMAT_AIFF				"aiff"
-#define FORMAT_FLAC				"flac"
-#define FORMAT_M4A				"m4a"
-#define FORMAT_MP3				"mp3"
-#define FORMAT_OGG				"ogg"
-#define FORMAT_WMA				"wma"
 
 //////////////////////////////////////////////////
 // font (point unit)

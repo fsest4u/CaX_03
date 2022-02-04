@@ -113,6 +113,8 @@ private slots:
 	void SlotClassifyArtist(bool bAdd, QString id);
 	void SlotClassifyGenre(bool bAdd, QString id);
 	void SlotClassifyComposer(bool bAdd, QString id);
+	void SlotClassifyFormat(bool bAdd, QString id);
+	void SlotClassifyMostPlayed(bool bAdd, QString id);
 
 	void SlotOptionMenuAction(int nID, int menuID);
 
@@ -177,8 +179,11 @@ private:
 
 	void SetSortMenu(int category);
 
-	void ClearClassifyMenu();
 	void ClearList();
+	void ClearClassifyMenu();
+
+	void SetClassifyFormat();
+	void SetClassifyMostPlayed();
 
 	void CalculatePage(int totalCount);
 
@@ -231,10 +236,12 @@ private:
 	QString				m_ArtistID;
 	QString				m_GenreID;
 	QString				m_ComposerID;
+	QString				m_Format;
+	int					m_MostPlayed;
 
 	int					m_LimitCount;
 	int					m_TotalPage;
-	int					m_CurIndex;
+	int					m_CurPage;
 
 	int					m_nID;
 	int					m_nCatID;

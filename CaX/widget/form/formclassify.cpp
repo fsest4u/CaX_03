@@ -14,6 +14,8 @@ FormClassify::FormClassify(QWidget *parent) :
 	m_GenreMenu(new QMenu(STR_GENRE, this)),
 	m_ArtistMenu(new QMenu(STR_ARTIST, this)),
 	m_ComposerMenu(new QMenu(STR_COMPOSER, this)),
+	m_FormatMenu(new QMenu(STR_AUDIO_FORMAT, this)),
+	m_MostPlayedMenu(new QMenu(STR_MOST_PLAYED, this)),
 	m_Favorite(0),
 	m_Rating(0),
 	ui(new Ui::FormClassify)
@@ -30,6 +32,8 @@ FormClassify::~FormClassify()
 	disconnect(m_ArtistMenu, SIGNAL(triggered(QAction*)));
 	disconnect(m_GenreMenu, SIGNAL(triggered(QAction*)));
 	disconnect(m_ComposerMenu, SIGNAL(triggered(QAction*)));
+	disconnect(m_FormatMenu, SIGNAL(triggered(QAction*)));
+	disconnect(m_MostPlayedMenu, SIGNAL(triggered(QAction*)));
 
 	if (m_Menu)
 	{
@@ -55,6 +59,17 @@ FormClassify::~FormClassify()
 		m_ComposerMenu = nullptr;
 	}
 
+	if (m_FormatMenu)
+	{
+		delete m_FormatMenu;
+		m_FormatMenu = nullptr;
+	}
+
+	if (m_MostPlayedMenu)
+	{
+		delete m_MostPlayedMenu;
+		m_MostPlayedMenu = nullptr;
+	}
 	delete ui;
 }
 
@@ -63,30 +78,9 @@ void FormClassify::ClearClassifyArtistMenu()
 	m_ArtistMenu->clear();
 }
 
-void FormClassify::SetClassifyArtistMenu(QList<CJsonNode> list)
-{
-	foreach (CJsonNode node, list)
-	{
-		QAction *action = new QAction(node.GetString(KEY_NAME), this);
-		action->setData(node.GetString(KEY_ID_LOWER));
-		m_ArtistMenu->addAction(action);
-	}
-}
-
 void FormClassify::ClearClassifyGenreMenu()
 {
 	m_GenreMenu->clear();
-}
-
-void FormClassify::SetClassifyGenreMenu(QList<CJsonNode> list)
-{
-	foreach (CJsonNode node, list)
-	{
-		QAction *action = new QAction(node.GetString(KEY_NAME), this);
-		action->setData(node.GetString(KEY_ID_LOWER));
-		m_GenreMenu->addAction(action);
-	}
-
 }
 
 void FormClassify::ClearClassifyComposerMenu()
@@ -94,15 +88,74 @@ void FormClassify::ClearClassifyComposerMenu()
 	m_ComposerMenu->clear();
 }
 
+void FormClassify::ClearClassifyFormatMenu()
+{
+	m_FormatMenu->clear();
+}
+
+void FormClassify::ClearClassifyMostPlayedMenu()
+{
+	m_MostPlayedMenu->clear();
+}
+
+void FormClassify::SetClassifyArtistMenu(QList<CJsonNode> list)
+{
+	foreach (CJsonNode node, list)
+	{
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+		QAction *action = new QAction(node.GetString(KEY_NAME), this);
+		action->setData(node.GetString(KEY_ID_LOWER));
+		m_ArtistMenu->addAction(action);
+	}
+}
+
+void FormClassify::SetClassifyGenreMenu(QList<CJsonNode> list)
+{
+	foreach (CJsonNode node, list)
+	{
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+		QAction *action = new QAction(node.GetString(KEY_NAME), this);
+		action->setData(node.GetString(KEY_ID_LOWER));
+		m_GenreMenu->addAction(action);
+	}
+}
+
 void FormClassify::SetClassifyComposerMenu(QList<CJsonNode> list)
 {
 	foreach (CJsonNode node, list)
 	{
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+
 		QAction *action = new QAction(node.GetString(KEY_NAME), this);
 		action->setData(node.GetString(KEY_ID_LOWER));
 		m_ComposerMenu->addAction(action);
 	}
+}
 
+void FormClassify::SetClassifyFormatMenu(QList<CJsonNode> list)
+{
+	foreach (CJsonNode node, list)
+	{
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+		QAction *action = new QAction(node.GetString(KEY_NAME), this);
+		action->setData(node.GetString(KEY_ID_LOWER));
+		m_FormatMenu->addAction(action);
+	}
+}
+
+void FormClassify::SetClassifyMostPlayedMenu(QList<CJsonNode> list)
+{
+	foreach (CJsonNode node, list)
+	{
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+		QAction *action = new QAction(node.GetString(KEY_NAME), this);
+		action->setData(node.GetString(KEY_ID_LOWER));
+		m_MostPlayedMenu->addAction(action);
+	}
 }
 
 int FormClassify::GetFavorite() const
@@ -217,6 +270,18 @@ bool FormClassify::eventFilter(QObject *object, QEvent *event)
 			emit SigClassifyComposer(false, "");
 			return true;
 		}
+		else if (object == ui->labelFormat)
+		{
+			ui->labelFormat->hide();
+			emit SigClassifyFormat(false, "");
+			return true;
+		}
+		else if (object == ui->labelMostPlayed)
+		{
+			ui->labelMostPlayed->hide();
+			emit SigClassifyMostPlayed(false, "");
+			return true;
+		}
 		else if (object == ui->frameRating)
 		{
 			SlotBtnRating0();
@@ -250,6 +315,22 @@ void FormClassify::SlotComposerMenu(QAction *action)
 	ui->labelComposer->setText(action->text());
 	ui->labelComposer->show();
 	emit SigClassifyComposer(true, action->data().toString());
+}
+
+void FormClassify::SlotFormatMenu(QAction *action)
+{
+	LogDebug("Format id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+	ui->labelFormat->setText(action->text());
+	ui->labelFormat->show();
+	emit SigClassifyFormat(true, action->data().toString());
+}
+
+void FormClassify::SlotMostPlayedMenu(QAction *action)
+{
+	LogDebug("Most play id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+	ui->labelMostPlayed->setText(action->text());
+	ui->labelMostPlayed->show();
+	emit SigClassifyMostPlayed(true, action->data().toString());
 }
 
 void FormClassify::SlotBtnRating0()
@@ -303,6 +384,8 @@ void FormClassify::Initialize()
 	m_Menu->addAction(m_Menu->addMenu(m_ArtistMenu));
 	m_Menu->addAction(m_Menu->addMenu(m_GenreMenu));
 	m_Menu->addAction(m_Menu->addMenu(m_ComposerMenu));
+	m_Menu->addAction(m_Menu->addMenu(m_FormatMenu));
+	m_Menu->addAction(m_Menu->addMenu(m_MostPlayedMenu));
 
 	QString styleCat = QString("QMenu::item {	\
 									width: 200px;	\
@@ -328,23 +411,29 @@ void FormClassify::Initialize()
 	m_ArtistMenu->setStyleSheet(styleCat);
 	m_GenreMenu->setStyleSheet(styleCat);
 	m_ComposerMenu->setStyleSheet(styleCat);
+	m_FormatMenu->setStyleSheet(styleCat);
+	m_MostPlayedMenu->setStyleSheet(styleCat);
 	m_Menu->setStyleSheet(style);
 	ui->btnClassify->setMenu(m_Menu);
 
 	connect(m_ArtistMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotArtistMenu(QAction*)));
 	connect(m_GenreMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotGenreMenu(QAction*)));
 	connect(m_ComposerMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotComposerMenu(QAction*)));
+	connect(m_FormatMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotFormatMenu(QAction*)));
+	connect(m_MostPlayedMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMostPlayedMenu(QAction*)));
 
 	ui->labelArtist->hide();
 	ui->labelGenre->hide();
 	ui->labelComposer->hide();
-	ui->labelTemp->hide();
-	ui->labelTemp_2->hide();
+	ui->labelFormat->hide();
+	ui->labelMostPlayed->hide();
 
 	ui->labelFavorite->installEventFilter(this);
 	ui->labelArtist->installEventFilter(this);
 	ui->labelGenre->installEventFilter(this);
 	ui->labelComposer->installEventFilter(this);
+	ui->labelFormat->installEventFilter(this);
+	ui->labelMostPlayed->installEventFilter(this);
 	ui->frameRating->installEventFilter(this);
 
 }

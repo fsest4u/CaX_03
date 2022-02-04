@@ -9,6 +9,7 @@
 #include "dialog/limitcountdialog.h"
 #include "dialog/searchcoverartdialog.h"
 #include "dialog/searchcoverartresultdialog.h"
+#include "dialog/selectformatdialog.h"
 #include "dialog/setcolumndialog.h"
 #include "dialog/trackinfodialog.h"
 #include "dialog/trackinfo.h"
@@ -46,19 +47,18 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_pTableTracks(new TableTracks(this)),
 	m_EventID(eventID),
 	m_nCategory(SQLManager::CATEGORY_ALBUM),
-	m_nSortCategory(SQLManager::SORT_IMPORTED_DATE),
-	m_nSortTrack(SQLManager::SORT_IMPORTED_DATE),
-	m_bIncreaseCategory(true),
-	m_bIncreaseTrack(true),
-	m_nFavorite(0),
-	m_nRating(0),
+	m_nFavorite(-1),
+	m_nRating(-1),
 	m_ArtistID(""),
 	m_GenreID(""),
 	m_ComposerID(""),
-	m_LimitCount(100),
+	m_Format(""),
+	m_MostPlayed(-1),
 	m_TotalPage(0),
-	m_CurIndex(0),
+	m_CurPage(0),
 	m_nID(-1),
+	m_nCatID(-1),
+	m_nCatID2(-1),
 	m_nOptionID(-1),
 	ui(new Ui::MusicDBWindow)
 {
@@ -198,9 +198,11 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 									 m_ArtistID,
 									 m_GenreID,
 									 m_ComposerID,
+									 m_Format,
+									 m_MostPlayed,
 									 m_nFavorite,
 									 m_nRating,
-									 m_LimitCount * m_CurIndex,
+									 m_LimitCount * m_CurPage,
 									 m_LimitCount);
 		}
 		else
@@ -211,9 +213,11 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 										m_ArtistID,
 										m_GenreID,
 										m_ComposerID,
+										m_Format,
+										m_MostPlayed,
 										m_nFavorite,
 										m_nRating,
-										m_LimitCount * m_CurIndex,
+										m_LimitCount * m_CurPage,
 										m_LimitCount);
 		}
 	}
@@ -229,9 +233,11 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 										   m_ArtistID,
 										   m_GenreID,
 										   m_ComposerID,
+										   m_Format,
+										   m_MostPlayed,
 										   m_nFavorite,
 										   m_nRating,
-										   m_LimitCount * m_CurIndex,
+										   m_LimitCount * m_CurPage,
 										   m_LimitCount,
 										   strCatID);
 	}
@@ -242,16 +248,18 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 
 		m_pInfoHome->SetTitle(UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST);
 		m_pMgr->RequestArtistOfCategoryList(m_nCategory,
-										   m_nSortCategory,
-										   m_bIncreaseCategory,
-										   m_ArtistID,
-										   m_GenreID,
-										   m_ComposerID,
-										   m_nFavorite,
-										   m_nRating,
-										   m_LimitCount * m_CurIndex,
-										   m_LimitCount,
-										   strCatID);
+											m_nSortCategory,
+											m_bIncreaseCategory,
+											m_ArtistID,
+											m_GenreID,
+											m_ComposerID,
+											m_Format,
+											m_MostPlayed,
+											m_nFavorite,
+											m_nRating,
+											m_LimitCount * m_CurPage,
+											m_LimitCount,
+											strCatID);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
@@ -267,9 +275,11 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 												   m_ArtistID,
 												   m_GenreID,
 												   m_ComposerID,
+												   m_Format,
+												   m_MostPlayed,
 												   m_nFavorite,
 												   m_nRating,
-												   m_LimitCount * m_CurIndex,
+												   m_LimitCount * m_CurPage,
 												   m_LimitCount,
 												   strCatID,
 												   strCatID2);
@@ -301,7 +311,7 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 										m_nCategory,
 										m_nSortTrack,
 										m_bIncreaseTrack,
-										m_LimitCount * m_CurIndex,
+										m_LimitCount * m_CurPage,
 										m_LimitCount,
 										strCatID);
 	}
@@ -314,7 +324,7 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 												m_nCategory,
 												m_nSortTrack,
 												m_bIncreaseTrack,
-												m_LimitCount * m_CurIndex,
+												m_LimitCount * m_CurPage,
 												m_LimitCount,
 												strCatID,
 												strCatID2);
@@ -328,9 +338,11 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 								 "",
 								 "",
 								 "",
-								 0,
-								 0,
-								 m_LimitCount * m_CurIndex,
+								 "",
+								 -1,
+								 -1,
+								 -1,
+								 m_LimitCount * m_CurPage,
 								 m_LimitCount);
 	}
 }
@@ -402,6 +414,9 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 		{
 			m_pMgr->RequestClassifyList(SQLManager::CLASSIFY_COMPOSER);
 		}
+
+		SetClassifyFormat();
+		SetClassifyMostPlayed();
 	}
 
 	QString strCnt = "";
@@ -1120,9 +1135,9 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 
 void MusicDBWindow::SlotAppendList()
 {
-	m_CurIndex++;
-	LogDebug("total [%d] curIndex [%d]", m_TotalPage, m_CurIndex);
-	if (m_TotalPage > m_CurIndex)
+	m_CurPage++;
+	LogDebug("total page [%d] cur page[%d]", m_TotalPage, m_CurPage);
+	if (m_TotalPage > m_CurPage)
 	{
 		LogDebug("execute append ~~!!");
 		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
@@ -1141,11 +1156,11 @@ void MusicDBWindow::SlotAppendList()
 	}
 	else
 	{
-		m_CurIndex = m_TotalPage - 1;
-		LogDebug("last page ~~!! total [%d] curIndex [%d]", m_TotalPage, m_CurIndex);
-		if (m_CurIndex < 0)
+		m_CurPage = m_TotalPage - 1;
+		LogDebug("last page ~~!! total [%d] current [%d]", m_TotalPage, m_CurPage);
+		if (m_CurPage < 0)
 		{
-			m_CurIndex = 0;
+			m_CurPage = 0;
 		}
 	}
 }
@@ -1211,10 +1226,6 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 		m_ArtistID = "";
 	}
 
-//	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
-	m_nFavorite = 0;
-	m_nRating = 0;
-
 	RequestCategoryList(m_nCatID, m_nCatID2);
 
 }
@@ -1233,10 +1244,6 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 		m_GenreID = "";
 	}
 
-//	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
-	m_nFavorite = 0;
-	m_nRating = 0;
-
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -1254,9 +1261,81 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 		m_ComposerID = "";
 	}
 
-//	m_pMgr->RequestCategoryList(m_nCategory, m_nSortCategory, m_bIncreaseCategory, m_ArtistID, m_GenreID, m_ComposerID);
-	m_nFavorite = 0;
-	m_nRating = 0;
+	RequestCategoryList(m_nCatID, m_nCatID2);
+}
+
+void MusicDBWindow::SlotClassifyFormat(bool bAdd, QString id)
+{
+	ClearList();
+
+	LogDebug("format add [%d] id [%s]", bAdd, id.toUtf8().data());
+	if (bAdd)
+	{
+		int nID = id.toInt();
+		switch (nID)
+		{
+		case SelectFormatDialog::FORMAT_ID_CAF:
+			m_Format = FORMAT_CAF;
+			break;
+		case SelectFormatDialog::FORMAT_ID_WAV:
+			m_Format = FORMAT_WAV;
+			break;
+		case SelectFormatDialog::FORMAT_ID_AIFF:
+			m_Format = FORMAT_AIFF;
+			break;
+		case SelectFormatDialog::FORMAT_ID_FLAC:
+			m_Format = FORMAT_FLAC;
+			break;
+		case SelectFormatDialog::FORMAT_ID_M4A:
+			m_Format = FORMAT_M4A;
+			break;
+		case SelectFormatDialog::FORMAT_ID_MP3:
+			m_Format = FORMAT_MP3;
+			break;
+		case SelectFormatDialog::FORMAT_ID_OGG:
+			m_Format = FORMAT_OGG;
+			break;
+		case SelectFormatDialog::FORMAT_ID_WMA:
+			m_Format = FORMAT_WMA;
+			break;
+		}
+	}
+	else
+	{
+		m_Format = "";
+	}
+
+	RequestCategoryList(m_nCatID, m_nCatID2);
+}
+
+void MusicDBWindow::SlotClassifyMostPlayed(bool bAdd, QString id)
+{
+	ClearList();
+
+	LogDebug("most played add [%d] id [%s]", bAdd, id.toUtf8().data());
+	if (bAdd)
+	{
+		int nID = id.toInt();
+		switch (nID)
+		{
+		case 0:
+			m_MostPlayed = 10;
+			break;
+		case 1:
+			m_MostPlayed = 25;
+			break;
+		case 2:
+			m_MostPlayed = 50;
+			break;
+		case 3:
+			m_MostPlayed = 100;
+			break;
+		}
+	}
+	else
+	{
+		m_MostPlayed = -1;
+	}
 
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
@@ -1626,6 +1705,8 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyArtist(bool, QString)), this, SLOT(SlotClassifyArtist(bool, QString)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyGenre(bool, QString)), this, SLOT(SlotClassifyGenre(bool, QString)));
 	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyComposer(bool, QString)), this, SLOT(SlotClassifyComposer(bool, QString)));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyFormat(bool, QString)), this, SLOT(SlotClassifyFormat(bool, QString)));
+	connect(m_pInfoHome->GetFormClassify(), SIGNAL(SigClassifyMostPlayed(bool, QString)), this, SLOT(SlotClassifyMostPlayed(bool, QString)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigMenu(int)), this, SLOT(SlotSortMenu(int)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotIncDec(bool)));
 	connect(m_pInfoHome->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
@@ -1684,9 +1765,13 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 	m_pInfoTracks->GetFormSort()->SetSliderMinimum(TABLE_HEIGHT_MIN);
 
+	m_RespList.clear();
+
 	m_TopMenuMap.clear();
 	m_CategoryMenuMap.clear();
+	m_OptionMenuMap.clear();
 	m_SelectMap.clear();
+	m_UpdateMap.clear();
 
 	m_AlbumList.clear();
 	m_AlbumArtistList.clear();
@@ -1698,9 +1783,6 @@ void MusicDBWindow::Initialize()
 //	m_ListMode = VIEW_MODE_ICON;
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
 	m_DispMode = SQLManager::DISP_MODE_TRACK;
-
-	m_nID = -1;
-	m_nCatID = -1;
 
 	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
 	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
@@ -2506,6 +2588,15 @@ void MusicDBWindow::SetSortMenu(int category)
 	}
 }
 
+void MusicDBWindow::ClearList()
+{
+	m_RespList.clear();
+	m_pIconTracks->ClearNodeList();
+	m_pTableTracks->ClearNodeList();
+	m_TotalPage = 0;
+	m_CurPage = 0;
+}
+
 void MusicDBWindow::ClearClassifyMenu()
 {
 	m_pInfoHome->GetFormClassify()->ClearClassifyArtistMenu();
@@ -2513,18 +2604,80 @@ void MusicDBWindow::ClearClassifyMenu()
 	m_pInfoHome->GetFormClassify()->ClearClassifyComposerMenu();
 }
 
-void MusicDBWindow::ClearList()
+void MusicDBWindow::SetClassifyFormat()
 {
-	m_RespList.clear();
-	m_pIconTracks->ClearNodeList();
-	m_pTableTracks->ClearNodeList();
-	m_CurIndex = 0;
+	QList<CJsonNode> list;
+
+	CJsonNode nodeCaf(JSON_OBJECT);
+	nodeCaf.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_CAF);
+	nodeCaf.Add(KEY_NAME, FORMAT_CAF);
+	CJsonNode nodeWav(JSON_OBJECT);
+	nodeWav.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_WAV);
+	nodeWav.Add(KEY_NAME, FORMAT_WAV);
+	CJsonNode nodeAiff(JSON_OBJECT);
+	nodeAiff.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_AIFF);
+	nodeAiff.Add(KEY_NAME, FORMAT_AIFF);
+	CJsonNode nodeFlac(JSON_OBJECT);
+	nodeFlac.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_FLAC);
+	nodeFlac.Add(KEY_NAME, FORMAT_FLAC);
+	CJsonNode nodeM4a(JSON_OBJECT);
+	nodeM4a.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_M4A);
+	nodeM4a.Add(KEY_NAME, FORMAT_M4A);
+	CJsonNode nodeMp3(JSON_OBJECT);
+	nodeMp3.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_MP3);
+	nodeMp3.Add(KEY_NAME, FORMAT_MP3);
+	CJsonNode nodeOgg(JSON_OBJECT);
+	nodeOgg.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_OGG);
+	nodeOgg.Add(KEY_NAME, FORMAT_OGG);
+	CJsonNode nodeWma(JSON_OBJECT);
+	nodeWma.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_WMA);
+	nodeWma.Add(KEY_NAME, FORMAT_WMA);
+
+	list.append(nodeCaf);
+	list.append(nodeWav);
+	list.append(nodeAiff);
+	list.append(nodeFlac);
+	list.append(nodeM4a);
+	list.append(nodeMp3);
+	list.append(nodeOgg);
+	list.append(nodeWma);
+
+	m_pInfoHome->GetFormClassify()->ClearClassifyFormatMenu();
+	m_pInfoHome->GetFormClassify()->SetClassifyFormatMenu(list);
+
+}
+
+void MusicDBWindow::SetClassifyMostPlayed()
+{
+	QList<CJsonNode> list;
+
+	CJsonNode nodeTop10(JSON_OBJECT);
+	nodeTop10.AddInt(KEY_ID_LOWER, 0);
+	nodeTop10.Add(KEY_NAME, STR_TOP_10);
+	CJsonNode nodeTop25(JSON_OBJECT);
+	nodeTop25.AddInt(KEY_ID_LOWER, 1);
+	nodeTop25.Add(KEY_NAME, STR_TOP_25);
+	CJsonNode nodeTop50(JSON_OBJECT);
+	nodeTop50.AddInt(KEY_ID_LOWER, 2);
+	nodeTop50.Add(KEY_NAME, STR_TOP_50);
+	CJsonNode nodeTop100(JSON_OBJECT);
+	nodeTop100.AddInt(KEY_ID_LOWER, 3);
+	nodeTop100.Add(KEY_NAME, STR_TOP_100);
+
+	list.append(nodeTop10);
+	list.append(nodeTop25);
+	list.append(nodeTop50);
+	list.append(nodeTop100);
+
+	m_pInfoHome->GetFormClassify()->ClearClassifyMostPlayedMenu();
+	m_pInfoHome->GetFormClassify()->SetClassifyMostPlayedMenu(list);
 }
 
 void MusicDBWindow::CalculatePage(int totalCount)
 {
 	if (totalCount <= 0)
 	{
+		m_TotalPage = 0;
 		return;
 	}
 

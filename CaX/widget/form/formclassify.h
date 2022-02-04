@@ -19,11 +19,16 @@ public:
 	~FormClassify();
 
 	void ClearClassifyArtistMenu();
-	void SetClassifyArtistMenu(QList<CJsonNode> list);
 	void ClearClassifyGenreMenu();
-	void SetClassifyGenreMenu(QList<CJsonNode> list);
 	void ClearClassifyComposerMenu();
+	void ClearClassifyFormatMenu();
+	void ClearClassifyMostPlayedMenu();
+
+	void SetClassifyArtistMenu(QList<CJsonNode> list);
+	void SetClassifyGenreMenu(QList<CJsonNode> list);
 	void SetClassifyComposerMenu(QList<CJsonNode> list);
+	void SetClassifyFormatMenu(QList<CJsonNode> list);
+	void SetClassifyMostPlayedMenu(QList<CJsonNode> list);
 
 	int GetFavorite() const;
 	void SetFavorite(int Favorite);
@@ -39,6 +44,8 @@ signals:
 	void SigClassifyArtist(bool bAdd, QString id);
 	void SigClassifyGenre(bool bAdd, QString id);
 	void SigClassifyComposer(bool bAdd, QString id);
+	void SigClassifyFormat(bool bAdd, QString id);
+	void SigClassifyMostPlayed(bool bAdd, QString id);
 
 protected:
 
@@ -49,6 +56,8 @@ private slots:
 	void SlotArtistMenu(QAction* action);
 	void SlotGenreMenu(QAction* action);
 	void SlotComposerMenu(QAction* action);
+	void SlotFormatMenu(QAction* action);
+	void SlotMostPlayedMenu(QAction* action);
 
 	void SlotBtnRating0();
 	void SlotBtnRating1();
@@ -66,6 +75,8 @@ private:
 	QMenu		*m_GenreMenu;
 	QMenu		*m_ArtistMenu;
 	QMenu		*m_ComposerMenu;
+	QMenu		*m_FormatMenu;
+	QMenu		*m_MostPlayedMenu;
 
 	int			m_Favorite;
 	int			m_Rating;

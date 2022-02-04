@@ -52,6 +52,11 @@
 #define STR_SEARCH					TR("Search")
 #define STR_NOW_PLAY				TR("Now play")
 
+
+//////////////////////////////////////////////////
+// etc
+//////////////////////////////////////////////////
+
 #define STR_AVAILABLE				TR("Available")
 #define STR_NOT_AVAILABLE			TR("Not available")
 
@@ -132,6 +137,18 @@
 #define STR_TITLE           		TR("Title")
 
 
+
+//////////////////////////////////////////////////
+// classify
+//////////////////////////////////////////////////
+
+#define STR_AUDIO_FORMAT			TR("Audio format")
+#define STR_MOST_PLAYED        		TR("Most played")
+
+#define STR_TOP_10					TR("Top 10")
+#define STR_TOP_25					TR("Top 25")
+#define STR_TOP_50					TR("Top 50")
+#define STR_TOP_100					TR("Top 100")
 
 
 //////////////////////////////////////////////////

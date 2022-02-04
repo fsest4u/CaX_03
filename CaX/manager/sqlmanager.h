@@ -34,6 +34,13 @@ public:
 		SORT_MAX
 	};
 
+	enum {
+		CLASSIFY_ARTIST = 0,
+		CLASSIFY_GENRE,
+		CLASSIFY_COMPOSER,
+		CLASSIFY_MAX
+	};
+
 	QString GetQueryMusicDBOverview();
 	QString GetQueryCategoryListFromSong(int nCategory = CATEGORY_ALBUM,
 										 int nSort = SORT_IMPORTED_DATE,
@@ -41,6 +48,8 @@ public:
 										 QString artistID = "",
 										 QString genreID = "",
 										 QString composerID = "",
+										 QString format = "",
+										 int nMostPlayed = -1,
 										 int nFavorite = -1,
 										 int nRating = -1,
 										 int nStartIndex = 0,
@@ -51,6 +60,8 @@ public:
 												QString artistID = "",
 												QString genreID = "",
 												QString composerID = "",
+												QString format = "",
+												int nMostPlayed = -1,
 												int nFavorite = -1,
 												int nRating = -1,
 												int nStartIndex = 0,
@@ -62,6 +73,8 @@ public:
 												 QString artistID = "",
 												 QString genreID = "",
 												 QString composerID = "",
+												 QString format = "",
+												 int nMostPlayed = -1,
 												 int nFavorite = -1,
 												 int nRating = -1,
 												 int nStartIndex = 0,
@@ -73,6 +86,8 @@ public:
 														QString artistID = "",
 														QString genreID = "",
 														QString composerID = "",
+														QString format = "",
+														int nMostPlayed = -1,
 														int nFavorite = -1,
 														int nRating = -1,
 														int nStartIndex = 0,
@@ -88,6 +103,8 @@ public:
 							  QString artistID = "",
 							  QString genreID = "",
 							  QString composerID = "",
+							  QString format = "",
+							  int nMostPlayed = -1,
 							  int nFavorite = -1,
 							  int nRating = -1,
 							  int nStartIndex = 0,

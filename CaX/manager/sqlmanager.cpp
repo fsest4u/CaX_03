@@ -17,15 +17,17 @@ QString SQLManager::GetQueryMusicDBOverview()
 }
 
 QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
-										 int nSort,
-										 bool bIncrease,
-										 QString artistID,
-										 QString genreID,
-										 QString composerID,
-										 int nFavorite,
-										 int nRating,
-										 int nStartIndex,
-										 int nLimitCount)
+												 int nSort,
+												 bool bIncrease,
+												 QString artistID,
+												 QString genreID,
+												 QString composerID,
+												 QString format,
+												 int nMostPlayed,
+												 int nFavorite,
+												 int nRating,
+												 int nStartIndex,
+												 int nLimitCount)
 {
 
 	QString query;
@@ -36,6 +38,7 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 	QString whereArtist = "";
 	QString whereGenre = "";
 	QString whereComposer = "";
+	QString whereFormat = "";
 	QString whereFavorite = "";
 	QString whereRating = "";
 
@@ -51,6 +54,10 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
 	}
+	if (!format.isEmpty())
+	{
+		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
+	}
 	if (nFavorite >= 0)
 	{
 		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
@@ -65,6 +72,14 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 	if (nLimitCount > 0)
 	{
 		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
+	if (nMostPlayed >= 0)
+	{
+		category = "song";
+		column = "playcnt";
+		increase = "desc";
+		limit = QString("limit %1, %2").arg(0).arg(nMostPlayed);
 	}
 
 	switch (nCategory)
@@ -100,8 +115,10 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 			.arg(whereArtist)
 			.arg(whereGenre)
 			.arg(whereComposer)
+			.arg(whereFormat)
 			.arg(whereFavorite)
 			.arg(whereRating)
+			.arg(category)
 			.arg(column)
 			.arg(increase)
 			.arg(limit);
@@ -117,6 +134,8 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 														QString artistID,
 														QString genreID,
 														QString composerID,
+														QString format,
+														int nMostPlayed,
 														int nFavorite,
 														int nRating,
 														int nStartIndex,
@@ -131,6 +150,7 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 	QString whereArtist = "";
 	QString whereGenre = "";
 	QString whereComposer = "";
+	QString whereFormat = "";
 	QString whereFavorite = "";
 	QString whereRating = "";
 	QString whereCategory = "";
@@ -146,6 +166,10 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 	if (!composerID.isEmpty())
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
+	}
+	if (!format.isEmpty())
+	{
+		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{
@@ -164,7 +188,16 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 
 	if (nLimitCount > 0)
 	{
+		category = "album";
 		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
+	if (nMostPlayed >= 0)
+	{
+		category = "song";
+		column = "playcnt";
+		increase = "desc";
+		limit = QString("limit %1, %2").arg(0).arg(nMostPlayed);
 	}
 
 	query = QString(SQL_ALBUM_OF_CAT_LIST_FROM_SONG);
@@ -173,9 +206,11 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 			.arg(whereArtist)
 			.arg(whereGenre)
 			.arg(whereComposer)
+			.arg(whereFormat)
 			.arg(whereFavorite)
 			.arg(whereRating)
 			.arg(whereCategory)
+			.arg(category)
 			.arg(column)
 			.arg(increase)
 			.arg(limit);
@@ -191,6 +226,8 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 														 QString artistID,
 														 QString genreID,
 														 QString composerID,
+														 QString format,
+														 int nMostPlayed,
 														 int nFavorite,
 														 int nRating,
 														 int nStartIndex,
@@ -205,6 +242,7 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 	QString whereArtist = "";
 	QString whereGenre = "";
 	QString whereComposer = "";
+	QString whereFormat = "";
 	QString whereFavorite = "";
 	QString whereRating = "";
 	QString whereCategory = "";
@@ -220,6 +258,10 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 	if (!composerID.isEmpty())
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
+	}
+	if (!format.isEmpty())
+	{
+		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{
@@ -238,7 +280,16 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 
 	if (nLimitCount > 0)
 	{
+		category = "artist";
 		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
+	if (nMostPlayed >= 0)
+	{
+		category = "song";
+		column = "playcnt";
+		increase = "desc";
+		limit = QString("limit %1, %2").arg(0).arg(nMostPlayed);
 	}
 
 	query = QString(SQL_ARTIST_OF_CAT_LIST_FROM_SONG);
@@ -247,9 +298,11 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 			.arg(whereArtist)
 			.arg(whereGenre)
 			.arg(whereComposer)
+			.arg(whereFormat)
 			.arg(whereFavorite)
 			.arg(whereRating)
 			.arg(whereCategory)
+			.arg(category)
 			.arg(column)
 			.arg(increase)
 			.arg(limit);
@@ -265,6 +318,8 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 																QString artistID,
 																QString genreID,
 																QString composerID,
+																QString format,
+																int nMostPlayed,
 																int nFavorite,
 																int nRating,
 																int nStartIndex,
@@ -280,6 +335,7 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 	QString whereArtist = "";
 	QString whereGenre = "";
 	QString whereComposer = "";
+	QString whereFormat = "";
 	QString whereFavorite = "";
 	QString whereRating = "";
 	QString whereCategory = "";
@@ -296,6 +352,10 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 	if (!composerID.isEmpty())
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
+	}
+	if (!format.isEmpty())
+	{
+		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{
@@ -320,7 +380,16 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 
 	if (nLimitCount > 0)
 	{
+		category = "album";
 		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
+	if (nMostPlayed >= 0)
+	{
+		category = "song";
+		column = "playcnt";
+		increase = "desc";
+		limit = QString("limit %1, %2").arg(0).arg(nMostPlayed);
 	}
 
 	query = QString(SQL_ALBUM_OF_ARTIST_CAT_LIST_FROM_SONG);
@@ -329,10 +398,12 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 			.arg(whereArtist)
 			.arg(whereGenre)
 			.arg(whereComposer)
+			.arg(whereFormat)
 			.arg(whereFavorite)
 			.arg(whereRating)
 			.arg(whereCategory)
 			.arg(whereCategory2)
+			.arg(category)
 			.arg(column)
 			.arg(increase)
 			.arg(limit);
@@ -387,6 +458,8 @@ QString SQLManager::GetQueryTrackList(int nID,
 									  QString artistID,
 									  QString genreID,
 									  QString composerID,
+									  QString format,
+									  int nMostPlayed,
 									  int nFavorite,
 									  int nRating,
 									  int nStartIndex,
@@ -400,6 +473,7 @@ QString SQLManager::GetQueryTrackList(int nID,
 	QString whereArtist = "";
 	QString whereGenre = "";
 	QString whereComposer = "";
+	QString whereFormat = "";
 	QString whereFavorite = "";
 	QString whereRating = "";
 
@@ -415,6 +489,10 @@ QString SQLManager::GetQueryTrackList(int nID,
 	{
 		whereComposer = " and Song.ComposerID = " + composerID;
 	}
+	if (!format.isEmpty())
+	{
+		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
+	}
 	if (nFavorite >= 0)
 	{
 		whereFavorite = QString(" and %1.Favorite = %2").arg(category).arg(nFavorite);
@@ -429,6 +507,13 @@ QString SQLManager::GetQueryTrackList(int nID,
 	if (nLimitCount > 0)
 	{
 		limit = QString("limit %1, %2").arg(nStartIndex).arg(nLimitCount);
+	}
+
+	if (nMostPlayed >= 0)
+	{
+		column = "playcnt";
+		increase = "desc";
+		limit = QString("limit %1, %2").arg(0).arg(nMostPlayed);
 	}
 
 	switch (nCategory)
@@ -468,6 +553,7 @@ QString SQLManager::GetQueryTrackList(int nID,
 				.arg(whereArtist)
 				.arg(whereGenre)
 				.arg(whereComposer)
+				.arg(whereFormat)
 				.arg(whereFavorite)
 				.arg(whereRating)
 				.arg(column)
@@ -481,6 +567,7 @@ QString SQLManager::GetQueryTrackList(int nID,
 				.arg(whereArtist)
 				.arg(whereGenre)
 				.arg(whereComposer)
+				.arg(whereFormat)
 				.arg(whereFavorite)
 				.arg(whereRating)
 				.arg(column)
@@ -676,13 +763,13 @@ QString SQLManager::GetQueryClassifyArtist(int nCategory)
 
 	switch (nCategory)
 	{
-	case CATEGORY_ARTIST:
+	case CLASSIFY_ARTIST:
 		query = QString(SQL_CLASSIFY).arg("Artist");
 		break;
-	case CATEGORY_GENRE:
+	case CLASSIFY_GENRE:
 		query = QString(SQL_CLASSIFY).arg("Genre");
 		break;
-	case CATEGORY_COMPOSER:
+	case CLASSIFY_COMPOSER:
 		query = QString(SQL_CLASSIFY).arg("Composer");
 		break;
 	}
