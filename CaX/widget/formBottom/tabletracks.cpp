@@ -9,8 +9,10 @@
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/settingio.h"
 #include "util/utilnovatron.h"
 
+const QString SETTINGS_GROUP = "TableTracks";
 
 TableTracks::TableTracks(QWidget *parent) :
 	QWidget(parent),
@@ -22,8 +24,9 @@ TableTracks::TableTracks(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	Initialize();
 	ConnectSigToSlot();
+	ReadSettings();
+	Initialize();
 }
 
 TableTracks::~TableTracks()
@@ -179,16 +182,106 @@ void TableTracks::SetColResize(int resize)
 
 	int showColCnt = GetCntColumnShow();
 
-	int coverWidth = resize * 2;
-	int titleWidth = resize * (colCnt - showColCnt);
-
-	for (int i = 0; i < colCnt; i++)
+	if (m_ColWidthSelect <= 0)
 	{
-		ui->tableView->setColumnWidth(i, resize);
+		m_ColWidthSelect = resize;
+	}
+	if (m_ColWidthCover <= 0)
+	{
+		m_ColWidthCover = resize * 2;
+	}
+	if (m_ColWidthPlay <= 0)
+	{
+		m_ColWidthPlay = resize;
+	}
+	if (m_ColWidthTitle <= 0)
+	{
+		m_ColWidthTitle = resize * (colCnt - showColCnt);
+	}
+	if (m_ColWidthFavorite <= 0)
+	{
+		m_ColWidthFavorite = resize;
+	}
+	if (m_ColWidthTime <= 0)
+	{
+		m_ColWidthTime = resize;
+	}
+	if (m_ColWidthArtist <= 0)
+	{
+		m_ColWidthArtist = resize;
+	}
+	if (m_ColWidthAlbum <= 0)
+	{
+		m_ColWidthAlbum = resize;
+	}
+	if (m_ColWidthGenre <= 0)
+	{
+		m_ColWidthGenre = resize;
+	}
+	if (m_ColWidthAlbumArtist <= 0)
+	{
+		m_ColWidthAlbumArtist = resize;
+	}
+	if (m_ColWidthComposer <= 0)
+	{
+		m_ColWidthComposer = resize;
+	}
+	if (m_ColWidthYear <= 0)
+	{
+		m_ColWidthYear = resize;
+	}
+	if (m_ColWidthMood <= 0)
+	{
+		m_ColWidthMood = resize;
+	}
+	if (m_ColWidthTempo <= 0)
+	{
+		m_ColWidthTempo = resize;
+	}
+	if (m_ColWidthFormat <= 0)
+	{
+		m_ColWidthFormat = resize;
+	}
+	if (m_ColWidthSampleRate <= 0)
+	{
+		m_ColWidthSampleRate = resize;
+	}
+	if (m_ColWidthBitDepth <= 0)
+	{
+		m_ColWidthBitDepth = resize;
+	}
+	if (m_ColWidthRating <= 0)
+	{
+		m_ColWidthRating = resize;
+	}
+	if (m_ColWidthIndex <= 0)
+	{
+		m_ColWidthIndex = resize;
+	}
+	if (m_ColWidthMenu <= 0)
+	{
+		m_ColWidthMenu = resize;
 	}
 
-	ui->tableView->setColumnWidth(TABLE_TRACKS_COVER, coverWidth);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_TITLE, titleWidth);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_SELECT, m_ColWidthSelect);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_COVER, m_ColWidthCover);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_PLAY, m_ColWidthPlay);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_TITLE, m_ColWidthTitle);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_FAVORITE, m_ColWidthFavorite);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_TIME, m_ColWidthTime);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_ARTIST, m_ColWidthArtist);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_ALBUM, m_ColWidthAlbum);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_GENRE, m_ColWidthGenre);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_ALBUM_ARTIST, m_ColWidthAlbumArtist);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_COMPOSER, m_ColWidthComposer);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_YEAR, m_ColWidthYear);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_MOOD, m_ColWidthMood);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_TEMPO, m_ColWidthTempo);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_FORMAT, m_ColWidthFormat);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_SAMPLE_RATE, m_ColWidthSampleRate);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_BIT_DEPTH, m_ColWidthBitDepth);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_RATING, m_ColWidthRating);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_MENU, m_ColWidthMenu);
 
 }
 
@@ -240,6 +333,8 @@ void TableTracks::SetColumnShow(int column, bool show)
 
 void TableTracks::resizeEvent(QResizeEvent *event)
 {
+	LogDebug("resizeEvent");
+
 	SetColResize(0);
 }
 
@@ -327,14 +422,157 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 	}
 }
 
+void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth)
+{
+	LogDebug("col [%d] old [%d] new [%d]", logicalIndex, oldWidth, newWidth);
+	if (newWidth <= 0)
+	{
+		return;
+	}
+
+	switch (logicalIndex)
+	{
+	case TABLE_TRACKS_ID:
+		m_ColWidthID = newWidth;
+		break;
+	case TABLE_TRACKS_SELECT:
+		m_ColWidthSelect = newWidth;
+		break;
+	case TABLE_TRACKS_COVER:
+		m_ColWidthCover = newWidth;
+		break;
+	case TABLE_TRACKS_PLAY:
+		m_ColWidthPlay = newWidth;
+		break;
+	case TABLE_TRACKS_TITLE:
+		m_ColWidthTitle = newWidth;
+		break;
+	case TABLE_TRACKS_FAVORITE:
+		m_ColWidthFavorite = newWidth;
+		break;
+	case TABLE_TRACKS_TIME:
+		m_ColWidthTime = newWidth;
+		break;
+	case TABLE_TRACKS_ARTIST:
+		m_ColWidthArtist = newWidth;
+		break;
+	case TABLE_TRACKS_ALBUM:
+		m_ColWidthAlbum = newWidth;
+		break;
+	case TABLE_TRACKS_GENRE:
+		m_ColWidthGenre = newWidth;
+		break;
+	case TABLE_TRACKS_ALBUM_ARTIST:
+		m_ColWidthAlbumArtist = newWidth;
+		break;
+	case TABLE_TRACKS_COMPOSER:
+		m_ColWidthComposer = newWidth;
+		break;
+	case TABLE_TRACKS_YEAR:
+		m_ColWidthYear = newWidth;
+		break;
+	case TABLE_TRACKS_MOOD:
+		m_ColWidthMood = newWidth;
+		break;
+	case TABLE_TRACKS_TEMPO:
+		m_ColWidthTempo = newWidth;
+		break;
+	case TABLE_TRACKS_FORMAT:
+		m_ColWidthFormat = newWidth;
+		break;
+	case TABLE_TRACKS_SAMPLE_RATE:
+		m_ColWidthSampleRate = newWidth;
+		break;
+	case TABLE_TRACKS_BIT_DEPTH:
+		m_ColWidthBitDepth = newWidth;
+		break;
+	case TABLE_TRACKS_RATING:
+		m_ColWidthRating = newWidth;
+		break;
+	case TABLE_TRACKS_INDEX:
+		m_ColWidthIndex = newWidth;
+		break;
+	case TABLE_TRACKS_MENU:
+		m_ColWidthMenu = newWidth;
+		break;
+
+	}
+
+	WriteSettings();
+
+}
+
 void TableTracks::SlotMenuAction(QAction *action)
 {
 	emit SigMenuAction(m_ID, action->data().toInt());
 }
 
+void TableTracks::ReadSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	m_ColWidthID = settings.value("col_width_id").toInt();
+	m_ColWidthSelect = settings.value("col_width_select").toInt();
+	m_ColWidthCover = settings.value("col_width_cover").toInt();
+	m_ColWidthPlay = settings.value("col_width_play").toInt();
+	m_ColWidthTitle = settings.value("col_width_title").toInt();
+	m_ColWidthFavorite = settings.value("col_width_favorite").toInt();
+	m_ColWidthTime = settings.value("col_width_time").toInt();
+	m_ColWidthArtist = settings.value("col_width_artist").toInt();
+	m_ColWidthAlbum = settings.value("col_width_album").toInt();
+	m_ColWidthGenre = settings.value("col_width_genre").toInt();
+	m_ColWidthAlbumArtist = settings.value("col_width_album_artist").toInt();
+	m_ColWidthComposer = settings.value("col_width_composer").toInt();
+	m_ColWidthYear = settings.value("col_width_year").toInt();
+	m_ColWidthMood = settings.value("col_width_mood").toInt();
+	m_ColWidthTempo = settings.value("col_width_tempo").toInt();
+	m_ColWidthFormat = settings.value("col_width_format").toInt();
+	m_ColWidthSampleRate = settings.value("col_width_sample_rate").toInt();
+	m_ColWidthBitDepth = settings.value("col_width_bit_depth").toInt();
+	m_ColWidthRating = settings.value("col_width_rating").toInt();
+	m_ColWidthIndex = settings.value("col_width_index").toInt();
+	m_ColWidthMenu = settings.value("col_width_menu").toInt();
+
+	settings.endGroup();
+
+}
+
+void TableTracks::WriteSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	settings.setValue("col_width_id", m_ColWidthID);
+	settings.setValue("col_width_select", m_ColWidthSelect);
+	settings.setValue("col_width_cover", m_ColWidthCover);
+	settings.setValue("col_width_play", m_ColWidthPlay);
+	settings.setValue("col_width_title", m_ColWidthTitle);
+	settings.setValue("col_width_favorite", m_ColWidthFavorite);
+	settings.setValue("col_width_time", m_ColWidthTime);
+	settings.setValue("col_width_artist", m_ColWidthArtist);
+	settings.setValue("col_width_album", m_ColWidthAlbum);
+	settings.setValue("col_width_genre", m_ColWidthGenre);
+	settings.setValue("col_width_album_artist", m_ColWidthAlbumArtist);
+	settings.setValue("col_width_composer", m_ColWidthComposer);
+	settings.setValue("col_width_year", m_ColWidthYear);
+	settings.setValue("col_width_mood", m_ColWidthMood);
+	settings.setValue("col_width_tempo", m_ColWidthTempo);
+	settings.setValue("col_width_format", m_ColWidthFormat);
+	settings.setValue("col_width_sample_rate", m_ColWidthSampleRate);
+	settings.setValue("col_width_bit_depth", m_ColWidthBitDepth);
+	settings.setValue("col_width_rating", m_ColWidthRating);
+	settings.setValue("col_width_index", m_ColWidthIndex);
+	settings.setValue("col_width_menu", m_ColWidthMenu);
+
+	settings.endGroup();
+
+}
+
 void TableTracks::ConnectSigToSlot()
 {
 	connect(ui->tableView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(SlotClickCell(const QModelIndex&)));
+	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), this, SLOT(SlotSectionResize(int, int, int)));
 	connect(m_Model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(SlotDataChanged(const QModelIndex&, const QModelIndex&)));
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 

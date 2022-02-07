@@ -108,9 +108,13 @@ private slots:
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 	void SlotClickCell(const QModelIndex &index);
+	void SlotSectionResize(int logicalIndex, int oldWidth, int newWidth);
 	void SlotMenuAction(QAction *action);
 
 private:
+
+	void ReadSettings();
+	void WriteSettings();
 
 	void ConnectSigToSlot();
 	void Initialize();
@@ -126,6 +130,28 @@ private:
 	QMenu					*m_Menu;
 
 	int						m_ID;
+
+	int						m_ColWidthID;
+	int						m_ColWidthSelect;
+	int						m_ColWidthCover;
+	int						m_ColWidthPlay;
+	int						m_ColWidthTitle;
+	int						m_ColWidthFavorite;
+	int						m_ColWidthTime;
+	int						m_ColWidthArtist;
+	int						m_ColWidthAlbum;
+	int						m_ColWidthGenre;
+	int						m_ColWidthAlbumArtist;
+	int						m_ColWidthComposer;
+	int						m_ColWidthYear;
+	int						m_ColWidthMood;
+	int						m_ColWidthTempo;
+	int						m_ColWidthFormat;
+	int						m_ColWidthSampleRate;
+	int						m_ColWidthBitDepth;
+	int						m_ColWidthRating;
+	int						m_ColWidthIndex;
+	int						m_ColWidthMenu;
 
 	Ui::TableTracks *ui;
 };
