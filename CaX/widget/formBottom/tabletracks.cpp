@@ -254,10 +254,6 @@ void TableTracks::SetColResize(int resize)
 	{
 		m_ColWidthRating = resize;
 	}
-	if (m_ColWidthIndex <= 0)
-	{
-		m_ColWidthIndex = resize;
-	}
 	if (m_ColWidthMenu <= 0)
 	{
 		m_ColWidthMenu = resize;

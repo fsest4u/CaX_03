@@ -6,7 +6,11 @@
 #include "dialog/inputtagdialog.h"
 
 #include "util/caxkeyvalue.h"
+#include "util/settingio.h"
 #include "util/log.h"
+
+
+const QString SETTINGS_GROUP = "EditTagDialog";
 
 EditTagDialog::EditTagDialog(QWidget *parent) :
 	QDialog(parent),
@@ -16,12 +20,15 @@ EditTagDialog::EditTagDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	Initialize();
 	ConnectSigToSlot();
+	ReadSettings();
+	Initialize();
 }
 
 EditTagDialog::~EditTagDialog()
 {
+	WriteSettings();
+
 	if (m_Model)
 	{
 		delete m_Model;
@@ -44,7 +51,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	int index = 0;
 	foreach (CJsonNode node, list)
 	{
-//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
 //		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE_CAP).toUtf8().data());
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
@@ -104,50 +111,54 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 	int rowSize = height / rowCnt;
 	LogDebug("resize colSize [%d] rowSize [%d]", colSize, rowSize);
 
-//	for (int i = 0; i < colCnt; i++)
-//	{
-//		ui->tableView->setColumnWidth(i, colSize);
-//	}
-//	for (int i = 0; i < rowCnt; i++)
-//	{
-//		ui->tableView->setRowHeight(i, rowSize);
-//	}
+	if (m_ColWidthTitle <= 0)
+	{
+		m_ColWidthTitle = colSize;
+	}
+	if (m_ColWidthFavorite <= 0)
+	{
+		m_ColWidthFavorite = colSize;
+	}
+	if (m_ColWidthArtist <= 0)
+	{
+		m_ColWidthArtist = colSize;
+	}
+	if (m_ColWidthAlbum <= 0)
+	{
+		m_ColWidthAlbum = colSize;
+	}
+	if (m_ColWidthGenre <= 0)
+	{
+		m_ColWidthGenre = colSize;
+	}
+	if (m_ColWidthAlbumArtist <= 0)
+	{
+		m_ColWidthAlbumArtist = colSize;
+	}
+	if (m_ColWidthComposer <= 0)
+	{
+		m_ColWidthComposer = colSize;
+	}
+	if (m_ColWidthYear <= 0)
+	{
+		m_ColWidthYear = colSize;
+	}
+	if (m_ColWidthMood <= 0)
+	{
+		m_ColWidthMood = colSize;
+	}
 
-	ui->tableView->horizontalHeader()->setDefaultSectionSize(colSize);
+	ui->tableView->setColumnWidth(EDIT_TAG_TITLE, m_ColWidthTitle);
+	ui->tableView->setColumnWidth(EDIT_TAG_FAVORITE, m_ColWidthFavorite);
+	ui->tableView->setColumnWidth(EDIT_TAG_ARTIST, m_ColWidthArtist);
+	ui->tableView->setColumnWidth(EDIT_TAG_ALBUM, m_ColWidthAlbum);
+	ui->tableView->setColumnWidth(EDIT_TAG_GENRE, m_ColWidthGenre);
+	ui->tableView->setColumnWidth(EDIT_TAG_ALBUM_ARTIST, m_ColWidthAlbumArtist);
+	ui->tableView->setColumnWidth(EDIT_TAG_COMPOSER, m_ColWidthComposer);
+	ui->tableView->setColumnWidth(EDIT_TAG_YEAR, m_ColWidthYear);
+	ui->tableView->setColumnWidth(EDIT_TAG_MOOD, m_ColWidthMood);
+
 	ui->tableView->verticalHeader()->setDefaultSectionSize(rowSize);
-}
-
-void EditTagDialog::SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
-{
-
-	Q_UNUSED(bottomRight)
-
-	if (!m_EnableChange)
-	{
-//		LogDebug("not yet ready to change");
-		return;
-	}
-
-	int rowTopLeft = topLeft.row();
-	int colTopLeft = topLeft.column();
-	if (rowTopLeft < 0 || colTopLeft < 0)
-	{
-		return;
-	}
-	QModelIndex indexTopLeft = m_Model->index(rowTopLeft, colTopLeft);
-	QStandardItem *itemTopLeft = m_Model->itemFromIndex(indexTopLeft);
-//	LogDebug("top left row [%d] col [%d] value [%s]", rowTopLeft, colTopLeft, qvariant_cast<QString>(itemTopLeft->data(Qt::DisplayRole)).toUtf8().data());
-
-//	int rowBottomRight = bottomRight.row();
-//	int colBottomRight = bottomRight.column();
-//	QModelIndex indexBottomRight = m_Model->index(rowBottomRight, colBottomRight);
-//	QStandardItem *itemBottomRight = m_Model->itemFromIndex(indexBottomRight);
-//	LogDebug("bottom right row [%d] col [%d] value [%s]", rowBottomRight, colBottomRight, qvariant_cast<QString>(itemBottomRight->data(Qt::DisplayRole)).toUtf8().data());
-
-	QStringList list;
-	list.append(QString::number(rowTopLeft));
-	list.append(QString::number(colTopLeft));
-	m_MapUpdateCell.insert(list, qvariant_cast<QString>(itemTopLeft->data(Qt::DisplayRole)));
 }
 
 void EditTagDialog::SlotSectionClicked(int logicalIndex)
@@ -187,6 +198,84 @@ void EditTagDialog::SlotSectionClicked(int logicalIndex)
 
 }
 
+void EditTagDialog::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth)
+{
+	LogDebug("col [%d] old [%d] new [%d]", logicalIndex, oldWidth, newWidth);
+	if (newWidth <= 0)
+	{
+		return;
+	}
+
+	switch (logicalIndex)
+	{
+	case EDIT_TAG_ID:
+		m_ColWidthID = newWidth;
+		break;
+	case EDIT_TAG_TITLE:
+		m_ColWidthTitle = newWidth;
+		break;
+	case EDIT_TAG_FAVORITE:
+		m_ColWidthFavorite = newWidth;
+		break;
+	case EDIT_TAG_ARTIST:
+		m_ColWidthArtist = newWidth;
+		break;
+	case EDIT_TAG_ALBUM:
+		m_ColWidthAlbum = newWidth;
+		break;
+	case EDIT_TAG_GENRE:
+		m_ColWidthGenre = newWidth;
+		break;
+	case EDIT_TAG_ALBUM_ARTIST:
+		m_ColWidthAlbumArtist = newWidth;
+		break;
+	case EDIT_TAG_COMPOSER:
+		m_ColWidthComposer = newWidth;
+		break;
+	case EDIT_TAG_YEAR:
+		m_ColWidthYear = newWidth;
+		break;
+	case EDIT_TAG_MOOD:
+		m_ColWidthMood = newWidth;
+		break;
+	}
+
+	WriteSettings();
+}
+
+void EditTagDialog::SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+{
+
+	Q_UNUSED(bottomRight)
+
+	if (!m_EnableChange)
+	{
+//		LogDebug("not yet ready to change");
+		return;
+	}
+
+	int rowTopLeft = topLeft.row();
+	int colTopLeft = topLeft.column();
+	if (rowTopLeft < 0 || colTopLeft < 0)
+	{
+		return;
+	}
+	QModelIndex indexTopLeft = m_Model->index(rowTopLeft, colTopLeft);
+	QStandardItem *itemTopLeft = m_Model->itemFromIndex(indexTopLeft);
+//	LogDebug("top left row [%d] col [%d] value [%s]", rowTopLeft, colTopLeft, qvariant_cast<QString>(itemTopLeft->data(Qt::DisplayRole)).toUtf8().data());
+
+//	int rowBottomRight = bottomRight.row();
+//	int colBottomRight = bottomRight.column();
+//	QModelIndex indexBottomRight = m_Model->index(rowBottomRight, colBottomRight);
+//	QStandardItem *itemBottomRight = m_Model->itemFromIndex(indexBottomRight);
+//	LogDebug("bottom right row [%d] col [%d] value [%s]", rowBottomRight, colBottomRight, qvariant_cast<QString>(itemBottomRight->data(Qt::DisplayRole)).toUtf8().data());
+
+	QStringList list;
+	list.append(QString::number(rowTopLeft));
+	list.append(QString::number(colTopLeft));
+	m_MapUpdateCell.insert(list, qvariant_cast<QString>(itemTopLeft->data(Qt::DisplayRole)));
+}
+
 void EditTagDialog::SlotClickFavorite(const QModelIndex &index)
 {
 	int data = index.data().toString().toInt() == 0 ? 1 : 0;
@@ -194,10 +283,54 @@ void EditTagDialog::SlotClickFavorite(const QModelIndex &index)
 	m_Model->setData(index, data);
 }
 
+void EditTagDialog::ReadSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	restoreGeometry(settings.value("geometry").toByteArray());
+
+	m_ColWidthID = settings.value("col_width_id").toInt();
+	m_ColWidthTitle = settings.value("col_width_title").toInt();
+	m_ColWidthFavorite = settings.value("col_width_favorite").toInt();
+	m_ColWidthArtist = settings.value("col_width_artist").toInt();
+	m_ColWidthAlbum = settings.value("col_width_album").toInt();
+	m_ColWidthGenre = settings.value("col_width_genre").toInt();
+	m_ColWidthAlbumArtist = settings.value("col_width_album_artist").toInt();
+	m_ColWidthComposer = settings.value("col_width_composer").toInt();
+	m_ColWidthYear = settings.value("col_width_year").toInt();
+	m_ColWidthMood = settings.value("col_width_mood").toInt();
+
+	settings.endGroup();
+
+}
+
+void EditTagDialog::WriteSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	settings.setValue("geometry", saveGeometry());
+
+	settings.setValue("col_width_id", m_ColWidthID);
+	settings.setValue("col_width_title", m_ColWidthTitle);
+	settings.setValue("col_width_favorite", m_ColWidthFavorite);
+	settings.setValue("col_width_artist", m_ColWidthArtist);
+	settings.setValue("col_width_album", m_ColWidthAlbum);
+	settings.setValue("col_width_genre", m_ColWidthGenre);
+	settings.setValue("col_width_album_artist", m_ColWidthAlbumArtist);
+	settings.setValue("col_width_composer", m_ColWidthComposer);
+	settings.setValue("col_width_year", m_ColWidthYear);
+	settings.setValue("col_width_mood", m_ColWidthMood);
+
+	settings.endGroup();
+}
+
 void EditTagDialog::ConnectSigToSlot()
 {
-	connect(m_Model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(SlotDataChanged(const QModelIndex&, const QModelIndex&)));
 	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(SlotSectionClicked(int)));
+	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), this, SLOT(SlotSectionResize(int, int, int)));
+	connect(m_Model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(SlotDataChanged(const QModelIndex&, const QModelIndex&)));
 	connect(m_Delegate, SIGNAL(SigClickFavorite(const QModelIndex&)), this, SLOT(SlotClickFavorite(const QModelIndex&)));
 }
 
@@ -222,6 +355,7 @@ void EditTagDialog::Initialize()
 	ui->tableView->setColumnHidden(EDIT_TAG_ID, true);
 
 	ui->tableView->setItemDelegateForColumn(EDIT_TAG_FAVORITE, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(EDIT_TAG_YEAR, m_Delegate);
 
 	m_EnableChange = false;
 	m_MapUpdateCell.clear();

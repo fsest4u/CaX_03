@@ -64,11 +64,15 @@ protected:
 
 private slots:
 
-	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void SlotSectionClicked(int logicalIndex);
+	void SlotSectionResize(int logicalIndex, int oldWidth, int newWidth);
+	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void SlotClickFavorite(const QModelIndex &index);
 
 private:
+
+	void ReadSettings();
+	void WriteSettings();
 
 	void ConnectSigToSlot();
 	void Initialize();
@@ -88,6 +92,17 @@ private:
 	QStringList	m_MoodList;
 
 	bool					m_EnableChange;
+
+	int						m_ColWidthID;
+	int						m_ColWidthTitle;
+	int						m_ColWidthFavorite;
+	int						m_ColWidthArtist;
+	int						m_ColWidthAlbum;
+	int						m_ColWidthGenre;
+	int						m_ColWidthAlbumArtist;
+	int						m_ColWidthComposer;
+	int						m_ColWidthYear;
+	int						m_ColWidthMood;
 
 	Ui::EditTagDialog *ui;
 };

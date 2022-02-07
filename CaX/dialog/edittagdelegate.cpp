@@ -1,4 +1,6 @@
 #include <QMouseEvent>
+#include <QLineEdit>
+#include <QPainter>
 
 #include "edittagdelegate.h"
 #include "edittagdialog.h"
@@ -52,6 +54,46 @@ void EditTagDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
 		m_BtnFavorite->setStyleSheet(style);
 		m_BtnFavorite->style()->drawControl(QStyle::CE_PushButton, &button, painter, m_BtnFavorite);
 
+	}
+	else if (index.column() == EditTagDialog::EDIT_TAG_YEAR)
+	{
+		QItemDelegate::paint(painter, option, index);
+		painter->save();
+
+		QString year = qvariant_cast<QString>(index.data(EditTagDialog::EDIT_TAG_YEAR));
+
+		QFont fontYear("Segoe UI", 9, QFont::Normal, false);
+		QFontMetrics fmTitle(fontYear);
+
+		QRect rectYear = option.rect;
+
+//		painter->drawRect(rectYear);
+
+		painter->setPen(QColor(84, 84, 84));
+		if (!year.isEmpty())
+		{
+			painter->setFont(fontYear);
+			painter->drawText(rectYear, year);
+		}
+
+		painter->restore();
+
+	}
+}
+
+QWidget *EditTagDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+	if (index.column() == EditTagDialog::EDIT_TAG_YEAR)
+	{
+		QLineEdit *lineEdit = new QLineEdit(parent);
+		// Set validator
+		QIntValidator *validator = new QIntValidator(1900, 2100, lineEdit);
+		lineEdit->setValidator(validator);
+		return lineEdit;
+	}
+	else
+	{
+		return nullptr;
 	}
 }
 
