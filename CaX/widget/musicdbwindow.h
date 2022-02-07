@@ -262,7 +262,7 @@ private:
 	bool				m_ShowTempo;
 	bool				m_ShowFormat;
 	bool				m_ShowSampleRate;
-	bool				m_ShowBitDepth;
+	bool				m_ShowBitrate;
 	bool				m_ShowRating;
 
 	Ui::MusicDBWindow *ui;

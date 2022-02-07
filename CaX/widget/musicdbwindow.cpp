@@ -1619,7 +1619,7 @@ void MusicDBWindow::ReadSettings()
 	m_ShowTempo = settings.value("show_tempo").toBool();
 	m_ShowFormat = settings.value("show_format").toBool();
 	m_ShowSampleRate = settings.value("show_sample_rate").toBool();
-	m_ShowBitDepth = settings.value("show_bit_depth").toBool();
+	m_ShowBitrate = settings.value("show_bit_depth").toBool();
 	m_ShowRating = settings.value("show_rating").toBool();
 
 	m_ResizeItem = settings.value("resize_item_value").toInt();
@@ -1663,7 +1663,7 @@ void MusicDBWindow::WriteSettings()
 	settings.setValue("show_tempo", m_ShowTempo);
 	settings.setValue("show_format", m_ShowFormat);
 	settings.setValue("show_sample_rate", m_ShowSampleRate);
-	settings.setValue("show_bit_depth", m_ShowBitDepth);
+	settings.setValue("show_bit_depth", m_ShowBitrate);
 	settings.setValue("show_rating", m_ShowRating);
 
 	settings.setValue("resize_item_value", m_ResizeItem);
@@ -2235,7 +2235,7 @@ void MusicDBWindow::DoTopMenuItemShowColumns()
 	dialog.SetCBTempo(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_TEMPO));
 	dialog.SetCBFormat(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_FORMAT));
 	dialog.SetCBSampleRate(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE));
-	dialog.SetCBBitDepth(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_BIT_DEPTH));
+	dialog.SetCBBitrate(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_BITRATE));
 //	dialog.SetCBRating(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_RATING));
 
 	if (dialog.exec() == QDialog::Accepted)
@@ -2253,7 +2253,7 @@ void MusicDBWindow::DoTopMenuItemShowColumns()
 		m_ShowTempo = dialog.GetCBTempo();
 		m_ShowFormat = dialog.GetCBFormat();
 		m_ShowSampleRate = dialog.GetCBSampleRate();
-		m_ShowBitDepth = dialog.GetCBBitDepth();
+		m_ShowBitrate = dialog.GetCBBitrate();
 //		m_ShowRating = dialog.GetCBRating();
 
 		WriteSettings();
@@ -2271,7 +2271,7 @@ void MusicDBWindow::DoTopMenuItemShowColumns()
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTempo);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowFormat);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowSampleRate);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BIT_DEPTH, m_ShowBitDepth);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowBitrate);
 //		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowRating);
 
 		// change value
@@ -2739,7 +2739,7 @@ void MusicDBWindow::SetColumn(int typeMode)
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTempo);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowFormat);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowSampleRate);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BIT_DEPTH, m_ShowBitDepth);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowBitrate);
 //		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowRating);
 	}
 

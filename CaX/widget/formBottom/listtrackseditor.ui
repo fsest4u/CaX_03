@@ -379,9 +379,9 @@ QLabel:hover
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="labelBitDepth">
+    <widget class="QLabel" name="labelBitrate">
      <property name="text">
-      <string>bit depth</string>
+      <string>bitrate</string>
      </property>
     </widget>
    </item>

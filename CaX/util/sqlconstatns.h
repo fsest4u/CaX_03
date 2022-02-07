@@ -181,7 +181,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -229,7 +229,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -275,7 +275,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -323,7 +323,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -371,7 +371,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -419,7 +419,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -467,7 +467,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -512,7 +512,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -555,7 +555,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -638,7 +638,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
@@ -667,7 +667,7 @@ select	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as SampleRate	\
-	, Song.nov_Bitrate as BitRate	\
+	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\

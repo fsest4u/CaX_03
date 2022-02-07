@@ -23,8 +23,7 @@
 #define		KEY_AUTO_JOIN		"Autojoin"
 #define		KEY_AUTO_JOIN_ENABLED		"autoJoinEnabled"
 
-#define		KEY_BIT_DEPTH		"BitDepth"
-#define		KEY_BITRATE			"BitRate"
+#define		KEY_BITRATE			"Bitrate"
 #define		KEY_BPS				"bps"
 #define		KEY_BOT				"Bot"
 #define		KEY_BOT1			"Bot1"

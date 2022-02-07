@@ -90,6 +90,8 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			}
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			QString extension = UtilNovatron::GetSuffix(node.GetString(KEY_FORMAT));
+			QString bitrate = UtilNovatron::ConvertBitrate(node.GetString(KEY_BITRATE));
+			QString samplerate = UtilNovatron::ConvertSamplerate(node.GetString(KEY_SAMPLERATE_CAP));
 
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ID), nID, Qt::DisplayRole);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SELECT), false);
@@ -105,8 +107,8 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_MOOD), node.GetString(KEY_MOOD));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_TEMPO), node.GetString(KEY_TEMPO));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_FORMAT), extension);
-			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SAMPLE_RATE), node.GetString(KEY_SAMPLERATE_CAP));
-			m_Model->setData(m_Model->index(index, TABLE_TRACKS_BIT_DEPTH), node.GetString(KEY_BITRATE));
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SAMPLE_RATE), samplerate);
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_BITRATE), bitrate);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_RATING), node.GetString(KEY_RATING_CAP));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_INDEX), index);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_MENU), false);
@@ -246,9 +248,9 @@ void TableTracks::SetColResize(int resize)
 	{
 		m_ColWidthSampleRate = resize;
 	}
-	if (m_ColWidthBitDepth <= 0)
+	if (m_ColWidthBitrate <= 0)
 	{
-		m_ColWidthBitDepth = resize;
+		m_ColWidthBitrate = resize;
 	}
 	if (m_ColWidthRating <= 0)
 	{
@@ -275,7 +277,7 @@ void TableTracks::SetColResize(int resize)
 	ui->tableView->setColumnWidth(TABLE_TRACKS_TEMPO, m_ColWidthTempo);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_FORMAT, m_ColWidthFormat);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_SAMPLE_RATE, m_ColWidthSampleRate);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_BIT_DEPTH, m_ColWidthBitDepth);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_BITRATE, m_ColWidthBitrate);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_RATING, m_ColWidthRating);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_MENU, m_ColWidthMenu);
 
@@ -479,8 +481,8 @@ void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth
 	case TABLE_TRACKS_SAMPLE_RATE:
 		m_ColWidthSampleRate = newWidth;
 		break;
-	case TABLE_TRACKS_BIT_DEPTH:
-		m_ColWidthBitDepth = newWidth;
+	case TABLE_TRACKS_BITRATE:
+		m_ColWidthBitrate = newWidth;
 		break;
 	case TABLE_TRACKS_RATING:
 		m_ColWidthRating = newWidth;
@@ -525,7 +527,7 @@ void TableTracks::ReadSettings()
 	m_ColWidthTempo = settings.value("col_width_tempo").toInt();
 	m_ColWidthFormat = settings.value("col_width_format").toInt();
 	m_ColWidthSampleRate = settings.value("col_width_sample_rate").toInt();
-	m_ColWidthBitDepth = settings.value("col_width_bit_depth").toInt();
+	m_ColWidthBitrate = settings.value("col_width_bit_depth").toInt();
 	m_ColWidthRating = settings.value("col_width_rating").toInt();
 	m_ColWidthIndex = settings.value("col_width_index").toInt();
 	m_ColWidthMenu = settings.value("col_width_menu").toInt();
@@ -556,7 +558,7 @@ void TableTracks::WriteSettings()
 	settings.setValue("col_width_tempo", m_ColWidthTempo);
 	settings.setValue("col_width_format", m_ColWidthFormat);
 	settings.setValue("col_width_sample_rate", m_ColWidthSampleRate);
-	settings.setValue("col_width_bit_depth", m_ColWidthBitDepth);
+	settings.setValue("col_width_bit_depth", m_ColWidthBitrate);
 	settings.setValue("col_width_rating", m_ColWidthRating);
 	settings.setValue("col_width_index", m_ColWidthIndex);
 	settings.setValue("col_width_menu", m_ColWidthMenu);
@@ -600,7 +602,7 @@ void TableTracks::Initialize()
 	m_Model->setHeaderData(TABLE_TRACKS_TEMPO, Qt::Horizontal, KEY_TEMPO);
 	m_Model->setHeaderData(TABLE_TRACKS_FORMAT, Qt::Horizontal, KEY_FORMAT);
 	m_Model->setHeaderData(TABLE_TRACKS_SAMPLE_RATE, Qt::Horizontal, KEY_SAMPLERATE_CAP);
-	m_Model->setHeaderData(TABLE_TRACKS_BIT_DEPTH, Qt::Horizontal, KEY_BIT_DEPTH);
+	m_Model->setHeaderData(TABLE_TRACKS_BITRATE, Qt::Horizontal, KEY_BITRATE);
 	m_Model->setHeaderData(TABLE_TRACKS_RATING, Qt::Horizontal, KEY_RATING);
 	m_Model->setHeaderData(TABLE_TRACKS_MENU, Qt::Horizontal, KEY_MENU);
 
@@ -622,7 +624,7 @@ void TableTracks::Initialize()
 	ui->tableView->setColumnHidden(TABLE_TRACKS_TEMPO, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_FORMAT, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_SAMPLE_RATE, true);
-	ui->tableView->setColumnHidden(TABLE_TRACKS_BIT_DEPTH, true);
+	ui->tableView->setColumnHidden(TABLE_TRACKS_BITRATE, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_RATING, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_INDEX, true);
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_MENU, true);

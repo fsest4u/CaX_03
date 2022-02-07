@@ -354,25 +354,25 @@ void ListTracksEditor::ShowSampleRate(bool show)
 	}
 }
 
-QString ListTracksEditor::GetBitDepth()
+QString ListTracksEditor::GetBitrate()
 {
-	return ui->labelBitDepth->text();
+	return ui->labelBitrate->text();
 }
 
-void ListTracksEditor::SetBitDepth(const QString &title)
+void ListTracksEditor::SetBitrate(const QString &title)
 {
-	ui->labelBitDepth->setText(title);
+	ui->labelBitrate->setText(title);
 }
 
-void ListTracksEditor::ShowBitDepth(bool show)
+void ListTracksEditor::ShowBitrate(bool show)
 {
 	if (show)
 	{
-		ui->labelBitDepth->show();
+		ui->labelBitrate->show();
 	}
 	else
 	{
-		ui->labelBitDepth->hide();
+		ui->labelBitrate->hide();
 	}
 }
 
@@ -534,7 +534,7 @@ void ListTracksEditor::Initialize()
 	ui->labelTempo->hide();
 	ui->labelFormat->hide();
 	ui->labelSampleRate->hide();
-	ui->labelBitDepth->hide();
+	ui->labelBitrate->hide();
 	ui->labelRating->hide();
 
 	ui->labelPlay->installEventFilter(this);

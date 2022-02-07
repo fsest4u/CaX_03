@@ -376,6 +376,20 @@ QString UtilNovatron::CalcSecondToHMS(int seconds)
 	return time;
 }
 
+QString UtilNovatron::ConvertBitrate(QString bitrate)
+{
+	int value = bitrate.toInt();
+	QString ret = QString::number(value / 1000.0) + "M";
+	return ret;
+}
+
+QString UtilNovatron::ConvertSamplerate(QString samplerate)
+{
+	int value = samplerate.toInt();
+	QString ret = QString::number(value / 1000.0) + "K";
+	return ret;
+}
+
 QString UtilNovatron::GetTempDirectory()
 {
 	QString dirTemp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);

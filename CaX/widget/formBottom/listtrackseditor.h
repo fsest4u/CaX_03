@@ -74,9 +74,9 @@ public:
 	void SetSampleRate(const QString &title);
 	void ShowSampleRate(bool show);
 
-	QString GetBitDepth();
-	void SetBitDepth(const QString &title);
-	void ShowBitDepth(bool show);
+	QString GetBitrate();
+	void SetBitrate(const QString &title);
+	void ShowBitrate(bool show);
 
 	int GetRating() const;
 	void SetRating(int value);

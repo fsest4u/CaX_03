@@ -15,6 +15,8 @@ public:
 	static QString GetCoverArtIcon(const int service, const int value);
 
 	static QString CalcSecondToHMS(int seconds);
+	static QString ConvertBitrate(QString bitrate);
+	static QString ConvertSamplerate(QString samplerate);
 
 	static QString GetTempDirectory();
 	static void	CreateTempDirectory();

@@ -51,8 +51,8 @@ public:
 	bool GetCBSampleRate();
 	void SetCBSampleRate(bool bCheck);
 
-	bool GetCBBitDepth();
-	void SetCBBitDepth(bool bCheck);
+	bool GetCBBitrate();
+	void SetCBBitrate(bool bCheck);
 
 	bool GetCBRating();
 	void SetCBRating(bool bCheck);

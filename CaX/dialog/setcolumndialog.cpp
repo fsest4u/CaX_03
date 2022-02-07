@@ -303,9 +303,9 @@ void SetColumnDialog::SetCBSampleRate(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBBitDepth()
+bool SetColumnDialog::GetCBBitrate()
 {
-	if (ui->cbBitDepth->checkState() == Qt::Checked)
+	if (ui->cbBitrate->checkState() == Qt::Checked)
 	{
 		return true;
 	}
@@ -315,15 +315,15 @@ bool SetColumnDialog::GetCBBitDepth()
 	}
 }
 
-void SetColumnDialog::SetCBBitDepth(bool bCheck)
+void SetColumnDialog::SetCBBitrate(bool bCheck)
 {
 	if (bCheck)
 	{
-		ui->cbBitDepth->setCheckState(Qt::Checked);
+		ui->cbBitrate->setCheckState(Qt::Checked);
 	}
 	else
 	{
-		ui->cbBitDepth->setCheckState(Qt::Unchecked);
+		ui->cbBitrate->setCheckState(Qt::Unchecked);
 	}
 }
 

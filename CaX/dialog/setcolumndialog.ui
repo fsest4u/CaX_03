@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>312</width>
-    <height>334</height>
+    <height>342</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -141,9 +141,9 @@ QWidget
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QCheckBox" name="cbBitDepth">
+       <widget class="QCheckBox" name="cbBitrate">
         <property name="text">
-         <string>Bit depth</string>
+         <string>Bitrate</string>
         </property>
        </widget>
       </item>

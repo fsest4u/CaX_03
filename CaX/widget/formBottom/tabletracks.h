@@ -40,7 +40,7 @@ public:
 		TABLE_TRACKS_TEMPO,
 		TABLE_TRACKS_FORMAT,
 		TABLE_TRACKS_SAMPLE_RATE,
-		TABLE_TRACKS_BIT_DEPTH,
+		TABLE_TRACKS_BITRATE,
 		TABLE_TRACKS_RATING,
 		TABLE_TRACKS_INDEX,
 		TABLE_TRACKS_MENU,
@@ -148,7 +148,7 @@ private:
 	int						m_ColWidthTempo;
 	int						m_ColWidthFormat;
 	int						m_ColWidthSampleRate;
-	int						m_ColWidthBitDepth;
+	int						m_ColWidthBitrate;
 	int						m_ColWidthRating;
 	int						m_ColWidthIndex;
 	int						m_ColWidthMenu;
