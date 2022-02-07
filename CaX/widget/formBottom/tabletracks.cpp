@@ -344,7 +344,7 @@ void TableTracks::Initialize()
 {
 	ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 	ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-//	ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+	ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft|Qt::AlignVCenter);
 	ui->tableView->horizontalHeader()->sizeHint().setHeight(100);
 
 	ui->tableView->setModel(m_Model);
