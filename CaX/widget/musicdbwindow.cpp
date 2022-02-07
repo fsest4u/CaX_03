@@ -54,7 +54,6 @@ MusicDBWindow::MusicDBWindow(QWidget *parent, const QString &addr, const int &ev
 	m_ComposerID(""),
 	m_Format(""),
 	m_MostPlayed(-1),
-	m_TotalPage(0),
 	m_CurPage(0),
 	m_nID(-1),
 	m_nCatID(-1),
@@ -376,8 +375,6 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
-//	int totalCount = UtilNovatron::GetCategoryCount(m_nCategory, node);
-//	CalculatePage(totalCount);
 
 	QString strAlbumCnt = node.GetString(KEY_ALBUM);
 	QString strAlbumArtistCnt = node.GetString(KEY_ALBUM_ARTIST);
@@ -456,9 +453,9 @@ void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 
 void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 {
+	m_CurPage++;
 
 	m_RespList.append(list);
-	CalculatePage(m_RespList.count());
 	SetOptionMenu();
 
 	int service = SIDEMENU_MUSIC_DB;
@@ -528,7 +525,6 @@ void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 		title = STR_TRACK;
 	}
 
-//	CalculatePage(count.toInt());
 
 	m_pInfoTracks->SetTitle(title);
 	m_pInfoTracks->SetSubtitle(artist);
@@ -540,8 +536,9 @@ void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 
 void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
+	m_CurPage++;
+
 	m_RespList.append(list);
-	CalculatePage(m_RespList.count());
 	SetOptionMenu();
 
 	int service = SIDEMENU_MUSIC_DB;
@@ -1184,33 +1181,18 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 
 void MusicDBWindow::SlotAppendList()
 {
-	m_CurPage++;
-	LogDebug("total page [%d] cur page[%d]", m_TotalPage, m_CurPage);
-	if (m_TotalPage > m_CurPage)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
-		LogDebug("execute append ~~!!");
-		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
-				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
-				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
-				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
-		{
-			RequestCategoryList(m_nCatID, m_nCatID2);
-		}
-		else if (m_TypeMode == TYPE_MODE_TRACK
-				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
-				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
-		{
-			RequestTrackList(m_nID, m_nCatID, m_nCatID2);
-		}
+		RequestCategoryList(m_nCatID, m_nCatID2);
 	}
-	else
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
-		m_CurPage = m_TotalPage - 1;
-		LogDebug("last page ~~!! total [%d] current [%d]", m_TotalPage, m_CurPage);
-		if (m_CurPage < 0)
-		{
-			m_CurPage = 0;
-		}
+		RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 	}
 }
 
@@ -1250,7 +1232,6 @@ void MusicDBWindow::SlotClassifyFavorite(int nFavorite)
 	ClearList();
 
 	m_nFavorite = nFavorite;
-	// here
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -1259,7 +1240,6 @@ void MusicDBWindow::SlotClassifyRating(int nRating)
 	ClearList();
 
 	m_nRating = nRating;
-	// here
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -1276,7 +1256,6 @@ void MusicDBWindow::SlotClassifyArtist(bool bAdd, QString id)
 	{
 		m_ArtistID = "";
 	}
-	// here
 	RequestCategoryList(m_nCatID, m_nCatID2);
 
 }
@@ -1294,7 +1273,6 @@ void MusicDBWindow::SlotClassifyGenre(bool bAdd, QString id)
 	{
 		m_GenreID = "";
 	}
-	// here
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -1311,7 +1289,6 @@ void MusicDBWindow::SlotClassifyComposer(bool bAdd, QString id)
 	{
 		m_ComposerID = "";
 	}
-	// here
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -1355,7 +1332,6 @@ void MusicDBWindow::SlotClassifyFormat(bool bAdd, QString id)
 	{
 		m_Format = "";
 	}
-	// here
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -1387,7 +1363,6 @@ void MusicDBWindow::SlotClassifyMostPlayed(bool bAdd, QString id)
 	{
 		m_MostPlayed = -1;
 	}
-	// here
 	RequestCategoryList(m_nCatID, m_nCatID2);
 }
 
@@ -2041,14 +2016,12 @@ void MusicDBWindow::DoTopMenuReload()
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
-		// here
 		RequestCategoryList(m_nCatID, m_nCatID2);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
-		// here
 		RequestTrackList(m_nID, m_nCatID, m_nCatID2);
 	}
 }
@@ -2639,7 +2612,6 @@ void MusicDBWindow::ClearList()
 	m_RespList.clear();
 	m_pIconTracks->ClearNodeList();
 	m_pTableTracks->ClearNodeList();
-	m_TotalPage = 0;
 	m_CurPage = 0;
 }
 
@@ -2717,26 +2689,6 @@ void MusicDBWindow::SetClassifyMostPlayed()
 
 	m_pInfoHome->GetFormClassify()->ClearClassifyMostPlayedMenu();
 	m_pInfoHome->GetFormClassify()->SetClassifyMostPlayedMenu(list);
-}
-
-void MusicDBWindow::CalculatePage(int totalCount)
-{
-	if (totalCount <= 0)
-	{
-		m_TotalPage = 0;
-		return;
-	}
-
-	if (m_LimitCount <= 0)
-	{
-		m_TotalPage = 1;
-	}
-	else
-	{
-		m_TotalPage = ceil((float) totalCount / m_LimitCount);
-	}
-
-	LogDebug("limit [%d] total [%d] current [%d]", m_LimitCount, m_TotalPage, m_CurPage);
 }
 
 void MusicDBWindow::SetColumn(int typeMode)

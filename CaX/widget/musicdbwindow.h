@@ -185,8 +185,6 @@ private:
 	void SetClassifyFormat();
 	void SetClassifyMostPlayed();
 
-	void CalculatePage(int totalCount);
-
 	void SetColumn(int typeMode);
 	int GetListModeFromResize(int resize);
 	QString GetTitleSortMenu(int sort);
@@ -240,7 +238,6 @@ private:
 	int					m_MostPlayed;
 
 	int					m_LimitCount;
-	int					m_TotalPage;
 	int					m_CurPage;
 
 	int					m_nID;
