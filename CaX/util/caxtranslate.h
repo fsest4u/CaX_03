@@ -89,7 +89,7 @@
 //////////////////////////////////////////////////
 
 #define STR_ADD						TR("Add")
-#define STR_ADD_COVERART			TR("Add coverart")
+#define STR_ADD_COVERART			TR("Search coverart")
 #define STR_ADD_PLAYLIST			TR("Add playlist")
 #define STR_ADD_TO_FAVORITE			TR("Add to favorite")
 //#define STR_ADD_RADIO				TR("Add radio")
@@ -107,8 +107,8 @@
 #define STR_EDIT_TAG          		TR("Edit tag")
 #define STR_EJECT_CD				TR("Eject CD")
 #define STR_EXPORT_TRACK			TR("Export track")
-#define STR_GAIN_SET				TR("Gain set")
-#define STR_GAIN_CLEAR				TR("Gain clear")
+#define STR_GAIN_SET				TR("Replaygain")
+#define STR_GAIN_CLEAR				TR("Clear replaygain")
 #define STR_GO_TO_ALBUM				TR("Go to album")
 #define STR_LOAD_COUNT				TR("Load count")
 #define STR_MENU              		TR("Menu")
@@ -122,7 +122,7 @@
 #define STR_PLAY_NOW				TR("Play now")
 #define STR_PLAY_LAST				TR("Play last")
 #define STR_PLAY_NEXT				TR("Play next")
-#define STR_PLAY_CLEAR				TR("Clear & Play")
+#define STR_PLAY_CLEAR				TR("Clear && Play")
 #define STR_RELOAD					TR("Reload")
 #define STR_RENAME					TR("Rename")
 //#define STR_RENAME_PLAYLIST			TR("Rename playlist")
