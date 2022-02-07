@@ -82,6 +82,13 @@ private slots:
 	void SlotChangedGenre(int index);
 	void SlotChangedMood(int index);
 
+	void SlotEditTextChangedAlbum(const QString &text);
+	void SlotEditTextChangedAlbumArtist(const QString &text);
+	void SlotEditTextChangedArtist(const QString &text);
+	void SlotEditTextChangedComposer(const QString &text);
+	void SlotEditTextChangedGenre(const QString &text);
+	void SlotEditTextChangedMood(const QString &text);
+
 	void SlotEditFinishTitle();
 	void SlotEditFinishTempo();
 	void SlotEditFinishYear();

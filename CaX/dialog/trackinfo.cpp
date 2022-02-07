@@ -131,7 +131,7 @@ void TrackInfo::SlotChangedAlbum(int index)
 
 void TrackInfo::SlotChangedAlbumArtist(int index)
 {
-	emit SigChangeAlbumArtist(m_Index, ui->cbAlbumArtist->itemText(index));\
+	emit SigChangeAlbumArtist(m_Index, ui->cbAlbumArtist->itemText(index));
 }
 
 void TrackInfo::SlotChangedArtist(int index)
@@ -152,6 +152,36 @@ void TrackInfo::SlotChangedComposer(int index)
 void TrackInfo::SlotChangedMood(int index)
 {
 	emit SigChangeMood(m_Index, ui->cbMood->itemText(index));
+}
+
+void TrackInfo::SlotEditTextChangedAlbum(const QString &text)
+{
+	emit SigChangeAlbum(m_Index, text);
+}
+
+void TrackInfo::SlotEditTextChangedAlbumArtist(const QString &text)
+{
+	emit SigChangeAlbumArtist(m_Index, text);
+}
+
+void TrackInfo::SlotEditTextChangedArtist(const QString &text)
+{
+	emit SigChangeArtist(m_Index, text);
+}
+
+void TrackInfo::SlotEditTextChangedComposer(const QString &text)
+{
+	emit SigChangeComposer(m_Index, text);
+}
+
+void TrackInfo::SlotEditTextChangedGenre(const QString &text)
+{
+	emit SigChangeGenre(m_Index, text);
+}
+
+void TrackInfo::SlotEditTextChangedMood(const QString &text)
+{
+	emit SigChangeMood(m_Index, text);
 }
 
 void TrackInfo::SlotEditFinishTitle()
@@ -221,12 +251,19 @@ void TrackInfo::SlotEditFinishCDTotal()
 
 void TrackInfo::ConnectSigToSlot()
 {
-	connect(ui->cbAlbum, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
-	connect(ui->cbAlbumArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbumArtist(int)));
-	connect(ui->cbArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedArtist(int)));
-	connect(ui->cbGenre, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedGenre(int)));
-	connect(ui->cbComposer, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedComposer(int)));
-	connect(ui->cbMood, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedMood(int)));
+//	connect(ui->cbAlbum, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
+//	connect(ui->cbAlbumArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbumArtist(int)));
+//	connect(ui->cbArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedArtist(int)));
+//	connect(ui->cbGenre, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedGenre(int)));
+//	connect(ui->cbComposer, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedComposer(int)));
+//	connect(ui->cbMood, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedMood(int)));
+
+	connect(ui->cbAlbum, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbum(const QString &)));
+	connect(ui->cbAlbumArtist, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbumArtist(const QString &)));
+	connect(ui->cbArtist, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedArtist(const QString &)));
+	connect(ui->cbGenre, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedGenre(const QString &)));
+	connect(ui->cbComposer, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedComposer(const QString &)));
+	connect(ui->cbMood, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedMood(const QString &)));
 
 	connect(ui->lineEditTitle, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishTitle()));
 	connect(ui->lineEditTempo, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishTempo()));
@@ -252,6 +289,13 @@ void TrackInfo::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+
+	ui->cbAlbum->setEditable(true);
+	ui->cbAlbumArtist->setEditable(true);
+	ui->cbArtist->setEditable(true);
+	ui->cbGenre->setEditable(true);
+	ui->cbComposer->setEditable(true);
+	ui->cbMood->setEditable(true);
 
 	ui->frameTitle->hide();
 	ui->frameAlbum->hide();

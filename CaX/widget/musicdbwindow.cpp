@@ -564,6 +564,31 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 //		m_pTableTracks->ClearNodeList();
 		m_pTableTracks->SetNodeList(list, service);
 	}
+
+	if (m_AlbumList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
+	}
+	if (m_AlbumArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
+	}
+	if (m_ArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
+	}
+	if (m_GenreList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
+	}
+	if (m_ComposerList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
+	}
+	if (m_MoodList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
+	}
 }
 
 void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
