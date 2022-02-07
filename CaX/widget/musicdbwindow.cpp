@@ -482,6 +482,30 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 		m_pTableTracks->SetNodeList(list, service);
 	}
 
+	if (m_AlbumList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
+	}
+	if (m_AlbumArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
+	}
+	if (m_ArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
+	}
+	if (m_GenreList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
+	}
+	if (m_ComposerList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
+	}
+	if (m_MoodList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
+	}
 }
 
 void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
@@ -1785,13 +1809,6 @@ void MusicDBWindow::Initialize()
 //	m_ListMode = VIEW_MODE_ICON;
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
 	m_DispMode = SQLManager::DISP_MODE_TRACK;
-
-	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
-	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
-	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
-	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
-	m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
 }
 
 void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)
