@@ -213,18 +213,18 @@ void FormSort::Initialize()
 
 void FormSort::SetResizeMenu()
 {
-	m_Slider->setOrientation(Qt::Horizontal);
+	m_Slider->setOrientation(Qt::Vertical);
 	m_Slider->setMinimum(LIST_HEIGHT_MIN);
 	m_Slider->setMaximum(ICON_HEIGHT_MAX);
 	m_Slider->setGeometry( 0, 0, 340, 22 );
 
-	QString style = QString("QSlider::groove:horizontal {	\
+	QString style = QString("QSlider::groove: vertical {	\
 								background-color: #e8e6e6;	\
 								border: 1px solid #e8e6e6;	\
 								height: 2px;	\
 								border-radius: 2px;	\
 							}	\
-							QSlider::handle:horizontal {	\
+							QSlider::handle: vertical {	\
 								background-color: #34aed6;	\
 								border: 1px solid #34aed6;	\
 								width: 10px;	\
