@@ -107,6 +107,7 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 		break;
 	case CATEGORY_YEAR:
 		query = QString(SQL_YEAR_LIST_FROM_SONG);
+		category = KEY_SONG;
 		column = KEY_YEAR;
 		break;
 	}
