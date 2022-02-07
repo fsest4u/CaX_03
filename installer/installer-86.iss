@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Music X Neo"
-#define MyAppVersion "1.5"
+#define MyAppVersion "1.6"
 #define MyAppPublisher "NOVATRON, Inc."
 #define MyAppURL "https://www.cocktailaudio.com/home/"
 #define MyAppExeName "CaX.exe"
@@ -20,17 +20,17 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={localappdata}\{#MyAppName}
 DisableProgramGroupPage=yes
-;LicenseFile=d:\03-Project\CaX\installer\doc\license.txt
-;InfoBeforeFile=d:\03-Project\CaX\installer\doc\readme.txt
-;InfoAfterFile=d:\03-Project\CaX\installer\doc\changelog.txt
+;LicenseFile=d:\01-Devel\DeskTop\CaX\installer\doc\license.txt
+;InfoBeforeFile=d:\01-Devel\DeskTop\CaX\installer\doc\readme.txt
+;InfoAfterFile=d:\01-Devel\DeskTop\CaX\installer\doc\changelog.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 ;ArchitecturesAllowed=x86
-OutputDir=D:\03-Project\CaX\installer\release
+OutputDir=d:\01-Devel\DeskTop\CaX\installer\release
 OutputBaseFilename=MusicXNeo-{#MyAppVersion}-Setup
-SetupIconFile=D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-256.ico
-WizardImageFile=D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c164.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c192.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c246.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c273.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c328.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c355.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-c410.bmp
-WizardSmallImageFile=D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-55.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-64.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-83.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-92.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-110.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-119.bmp,D:\03-Project\CaX\installer\resource\logo-icon-musicxneo-138.bmp
+SetupIconFile=d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-256.ico
+WizardImageFile=d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-c164.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-c192.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-c246.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-c273.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-c328.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-c355.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-c410.bmp
+WizardSmallImageFile=d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-55.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-64.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-83.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-92.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-110.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-119.bmp,d:\01-Devel\DeskTop\CaX\installer\resource\logo-icon-musicxneo-138.bmp
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -51,39 +51,39 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Files]
-Source: "D:\03-Project\CaX\installer\src-86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\libcrypto-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\libssl-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Positioning.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Qml.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Quick.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5QuickWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5SerialPort.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5WebChannel.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5WebEngineCore.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5WebEngineWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\QtWebEngineProcess.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\03-Project\CaX\installer\src-86\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\position\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\printsupport\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\resources\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\03-Project\CaX\installer\src-86\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\libcrypto-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\libssl-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Positioning.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Qml.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Quick.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5QuickWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5SerialPort.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5WebChannel.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5WebEngineCore.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5WebEngineWidgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\QtWebEngineProcess.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\position\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\printsupport\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\resources\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; VC++ redistributable runtime. Extracted by VC2017RedistNeedsInstall(), if needed.
-Source: "d:\03-Project\CaX\installer\Redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy
+Source: "d:\01-Devel\DeskTop\CaX\installer\Redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
