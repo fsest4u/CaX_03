@@ -29,6 +29,7 @@ public:
 		TABLE_TRACKS_PLAY,
 		TABLE_TRACKS_TITLE,
 		TABLE_TRACKS_FAVORITE,
+		TABLE_TRACKS_RATING,
 		TABLE_TRACKS_TIME,
 		TABLE_TRACKS_ARTIST,
 		TABLE_TRACKS_ALBUM,
@@ -41,7 +42,7 @@ public:
 		TABLE_TRACKS_FORMAT,
 		TABLE_TRACKS_SAMPLE_RATE,
 		TABLE_TRACKS_BITRATE,
-		TABLE_TRACKS_RATING,
+		TABLE_TRACKS_TRACK_COUNT,
 		TABLE_TRACKS_INDEX,
 		TABLE_TRACKS_MENU,
 		TABLE_TRACKS_MAX
@@ -95,8 +96,8 @@ signals:
 
 	void SigSelectPlay(int id, int playType);
 	void SigSelectTitle(int id, QString coverArt);
-	void SigSelectFavorite(int id, int favorite);
-	void SigMenuAction(int, int);
+	void SigSelectFavorite(int id, int index, int favorite);
+	void SigMenuAction(int id, int menuID);
 
 protected:
 
@@ -150,6 +151,7 @@ private:
 	int						m_ColWidthSampleRate;
 	int						m_ColWidthBitrate;
 	int						m_ColWidthRating;
+	int						m_ColWidthTrackCount;
 	int						m_ColWidthIndex;
 	int						m_ColWidthMenu;
 

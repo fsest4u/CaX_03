@@ -10,7 +10,8 @@
 #include "dialog/searchcoverartdialog.h"
 #include "dialog/searchcoverartresultdialog.h"
 #include "dialog/selectformatdialog.h"
-#include "dialog/setcolumndialog.h"
+#include "dialog/setcategorycolumndialog.h"
+#include "dialog/settrackcolumndialog.h"
 #include "dialog/trackinfodialog.h"
 #include "dialog/trackinfo.h"
 
@@ -130,6 +131,20 @@ void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 		ui->gridLayoutBottom->addWidget(m_pTableTracks);
 	}
 
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+	{
+		m_pTableTracks->SetHeaderTitle(STR_NAME);
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+	{
+		m_pTableTracks->SetHeaderTitle(STR_TITLE);
+	}
+
 	if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_pInfoHome->GetFormPlay()->ShowPlayAll(false);
@@ -158,6 +173,21 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 	{
 		m_pInfoTracks->GetFormSort()->SetResize(m_ResizeTrack);
 		ui->gridLayoutBottom->addWidget(m_pTableTracks);
+	}
+
+
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+	{
+		m_pTableTracks->SetHeaderTitle(STR_NAME);
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+	{
+		m_pTableTracks->SetHeaderTitle(STR_TITLE);
 	}
 
 	if (m_TypeMode == TYPE_MODE_TRACK_ADD)
@@ -661,7 +691,9 @@ void MusicDBWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_ADD_TO_PLAYLIST:
 		DoTopMenuAddToPlaylist();
 		break;
-
+	case TOP_MENU_SHOW_COLUMNS:
+		DoTopMenuShowCategoryColumns();
+		break;
 	}
 
 }
@@ -771,20 +803,6 @@ void MusicDBWindow::SlotResize(int resize)
 			{
 				m_pTableTracks->ClearNodeList();
 				m_pTableTracks->SetNodeList(m_RespList, service);
-			}
-
-			if (m_TypeMode == TYPE_MODE_ITEM_TRACK
-					|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
-					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
-					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
-			{
-				m_pTableTracks->SetHeaderTitle(STR_NAME);
-			}
-			else if (m_TypeMode == TYPE_MODE_TRACK
-					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
-					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
-			{
-				m_pTableTracks->SetHeaderTitle(STR_TITLE);
 			}
 
 			m_pIconTracks->hide();
@@ -955,7 +973,7 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 		DoTopMenuItemAddToPlaylist();
 		break;
 	case TOP_MENU_SHOW_COLUMNS:
-		DoTopMenuItemShowColumns();
+		DoTopMenuItemShowTrackColumns();
 		break;
 	}
 
@@ -1159,9 +1177,18 @@ void MusicDBWindow::SlotSelectTrackPlay(int nID, int where)
 	m_pMgr->RequestManageCategory(VAL_PLAY, map, where, SQLManager::CATEGORY_TRACK);
 }
 
-void MusicDBWindow::SlotSelectTrackFavorite(int nID, int nFavorite)
+void MusicDBWindow::SlotSelectTrackFavorite(int nID, int index, int nFavorite)
 {
-	m_pMgr->RequestUpdateTrackFavorite(nID, nFavorite);
+	if (m_TypeMode == TYPE_MODE_TRACK
+			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+	{
+		QModelIndex modelIndex = m_pTableTracks->GetModel()->index(index, TableTracks::TABLE_TRACKS_FAVORITE);
+		nFavorite = nFavorite == 0 ? 1 : 0;
+		m_pTableTracks->GetModel()->setData(modelIndex, nFavorite);
+
+		m_pMgr->RequestUpdateTrackFavorite(nID, nFavorite);
+	}
 }
 
 void MusicDBWindow::SlotRespClassifyArtist(QList<CJsonNode> list)
@@ -1561,21 +1588,29 @@ void MusicDBWindow::ReadSettings()
 	SettingIO settings;
 	settings.beginGroup(SETTINGS_GROUP);
 
-	m_ShowFavorite = settings.value("show_favorite").toBool();
-	m_ShowTime = settings.value("show_time").toBool();
-	m_ShowArtist = settings.value("show_artist").toBool();
-	m_ShowAlbum = settings.value("show_album").toBool();
-	m_ShowGenre = settings.value("show_genre").toBool();
-	m_ShowAlbumArtist = settings.value("show_album_artist").toBool();
-	m_ShowComposer = settings.value("show_composer").toBool();
-	m_ShowYear = settings.value("show_year").toBool();
+	m_ShowCategoryFavorite = settings.value("show_category_favorite").toBool();
+	m_ShowCategoryRating = settings.value("show_category_rating").toBool();
+	m_ShowCategoryArtist = settings.value("show_category_artist").toBool();
+	m_ShowCategoryAlbum = settings.value("show_category_album").toBool();
+	m_ShowCategoryGenre = settings.value("show_category_genre").toBool();
+	m_ShowCategoryAlbumArtist = settings.value("show_category_album_artist").toBool();
+	m_ShowCategoryTrackCount = settings.value("show_category_track_count").toBool();
 
-	m_ShowMood = settings.value("show_mood").toBool();
-	m_ShowTempo = settings.value("show_tempo").toBool();
-	m_ShowFormat = settings.value("show_format").toBool();
-	m_ShowSampleRate = settings.value("show_sample_rate").toBool();
-	m_ShowBitrate = settings.value("show_bit_depth").toBool();
-	m_ShowRating = settings.value("show_rating").toBool();
+	m_ShowTrackFavorite = settings.value("show_track_favorite").toBool();
+	m_ShowTrackTime = settings.value("show_track_time").toBool();
+	m_ShowTrackArtist = settings.value("show_track_artist").toBool();
+	m_ShowTrackAlbum = settings.value("show_track_album").toBool();
+	m_ShowTrackGenre = settings.value("show_track_genre").toBool();
+	m_ShowTrackAlbumArtist = settings.value("show_track_album_artist").toBool();
+	m_ShowTrackComposer = settings.value("show_track_composer").toBool();
+	m_ShowTrackYear = settings.value("show_track_year").toBool();
+
+	m_ShowTrackMood = settings.value("show_track_mood").toBool();
+	m_ShowTrackTempo = settings.value("show_track_tempo").toBool();
+	m_ShowTrackFormat = settings.value("show_track_format").toBool();
+	m_ShowTrackSampleRate = settings.value("show_track_sample_rate").toBool();
+	m_ShowTrackBitrate = settings.value("show_track_bitrate").toBool();
+	m_ShowTrackRating = settings.value("show_track_rating").toBool();
 
 	m_ResizeItem = settings.value("resize_item_value").toInt();
 	m_ResizeTrack = settings.value("resize_track_value").toInt();
@@ -1605,21 +1640,29 @@ void MusicDBWindow::WriteSettings()
 	SettingIO settings;
 	settings.beginGroup(SETTINGS_GROUP);
 
-	settings.setValue("show_favorite", m_ShowFavorite);
-	settings.setValue("show_time", m_ShowTime);
-	settings.setValue("show_artist", m_ShowArtist);
-	settings.setValue("show_album", m_ShowAlbum);
-	settings.setValue("show_genre", m_ShowGenre);
-	settings.setValue("show_album_artist", m_ShowAlbumArtist);
-	settings.setValue("show_composer", m_ShowComposer);
-	settings.setValue("show_year", m_ShowYear);
+	settings.setValue("show_category_favorite", m_ShowCategoryFavorite);
+	settings.setValue("show_category_rating", m_ShowCategoryRating);
+	settings.setValue("show_category_artist", m_ShowCategoryArtist);
+	settings.setValue("show_category_album", m_ShowCategoryAlbum);
+	settings.setValue("show_category_genre", m_ShowCategoryGenre);
+	settings.setValue("show_category_album_artist", m_ShowCategoryAlbumArtist);
+	settings.setValue("show_category_track_count", m_ShowCategoryTrackCount);
 
-	settings.setValue("show_mood", m_ShowMood);
-	settings.setValue("show_tempo", m_ShowTempo);
-	settings.setValue("show_format", m_ShowFormat);
-	settings.setValue("show_sample_rate", m_ShowSampleRate);
-	settings.setValue("show_bit_depth", m_ShowBitrate);
-	settings.setValue("show_rating", m_ShowRating);
+	settings.setValue("show_track_favorite", m_ShowTrackFavorite);
+	settings.setValue("show_track_time", m_ShowTrackTime);
+	settings.setValue("show_track_artist", m_ShowTrackArtist);
+	settings.setValue("show_track_album", m_ShowTrackAlbum);
+	settings.setValue("show_track_genre", m_ShowTrackGenre);
+	settings.setValue("show_track_album_artist", m_ShowTrackAlbumArtist);
+	settings.setValue("show_track_composer", m_ShowTrackComposer);
+	settings.setValue("show_track_year", m_ShowTrackYear);
+
+	settings.setValue("show_track_mood", m_ShowTrackMood);
+	settings.setValue("show_track_tempo", m_ShowTrackTempo);
+	settings.setValue("show_track_format", m_ShowTrackFormat);
+	settings.setValue("show_track_sample_rate", m_ShowTrackSampleRate);
+	settings.setValue("show_track_bitrate", m_ShowTrackBitrate);
+	settings.setValue("show_track_rating", m_ShowTrackRating);
 
 	settings.setValue("resize_item_value", m_ResizeItem);
 	settings.setValue("resize_track_value", m_ResizeTrack);
@@ -1721,7 +1764,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pTableTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pTableTracks, SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pTableTracks, SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pTableTracks, SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectTrackFavorite(int, int)));
+	connect(m_pTableTracks, SIGNAL(SigSelectFavorite(int, int, int)), this, SLOT(SlotSelectTrackFavorite(int, int, int)));
 	connect(m_pTableTracks, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
 }
@@ -1841,6 +1884,7 @@ void MusicDBWindow::SetSelectOffTopMenu()
 			m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
 		}
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_SHOW_COLUMNS, STR_SHOW_COLUMNS);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
@@ -2060,7 +2104,43 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 //	m_pMgr->RequestManageCategory(VAL_ADD,
 //								  m_SelectMap,
 //								  PLAY_NONE,
-//								  m_nCategory);
+	//								  m_nCategory);
+}
+
+void MusicDBWindow::DoTopMenuShowCategoryColumns()
+{
+	SetCategoryColumnDialog dialog;
+	dialog.SetCBFavorite(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE));
+	dialog.SetCBRating(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_RATING));
+	dialog.SetCBArtist(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ARTIST));
+	dialog.SetCBAlbum(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ALBUM));
+	dialog.SetCBGenre(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_GENRE));
+	dialog.SetCBAlbumArtist(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST));
+	dialog.SetCBTrackCount(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_TRACK_COUNT));
+
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		m_ShowCategoryFavorite = dialog.GetCBFavorite();
+		m_ShowCategoryRating = dialog.GetCBRating();
+		m_ShowCategoryArtist = dialog.GetCBArtist();
+		m_ShowCategoryAlbum = dialog.GetCBAlbum();
+		m_ShowCategoryGenre = dialog.GetCBGenre();
+		m_ShowCategoryAlbumArtist = dialog.GetCBAlbumArtist();
+		m_ShowCategoryTrackCount = dialog.GetCBTrackCount();
+
+		WriteSettings();
+
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowCategoryFavorite);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowCategoryRating);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowCategoryArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowCategoryAlbum);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowCategoryGenre);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowCategoryAlbumArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TRACK_COUNT, m_ShowCategoryTrackCount);
+
+		m_pTableTracks->SetColResize(0);
+
+	}
 }
 
 
@@ -2172,9 +2252,9 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 
 }
 
-void MusicDBWindow::DoTopMenuItemShowColumns()
+void MusicDBWindow::DoTopMenuItemShowTrackColumns()
 {
-	SetColumnDialog dialog;
+	SetTrackColumnDialog dialog;
 	dialog.SetCBFavorite(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE));
 	dialog.SetCBTime(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_TIME));
 	dialog.SetCBArtist(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ARTIST));
@@ -2193,39 +2273,39 @@ void MusicDBWindow::DoTopMenuItemShowColumns()
 
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		m_ShowFavorite = dialog.GetCBFavorite();
-		m_ShowTime = dialog.GetCBTime();
-		m_ShowArtist = dialog.GetCBArtist();
-		m_ShowAlbum = dialog.GetCBAlbum();
-		m_ShowGenre = dialog.GetCBGenre();
-		m_ShowAlbumArtist = dialog.GetCBAlbumArtist();
-		m_ShowComposer = dialog.GetCBComposer();
-		m_ShowYear = dialog.GetCBYear();
+		m_ShowTrackFavorite = dialog.GetCBFavorite();
+		m_ShowTrackTime = dialog.GetCBTime();
+		m_ShowTrackArtist = dialog.GetCBArtist();
+		m_ShowTrackAlbum = dialog.GetCBAlbum();
+		m_ShowTrackGenre = dialog.GetCBGenre();
+		m_ShowTrackAlbumArtist = dialog.GetCBAlbumArtist();
+		m_ShowTrackComposer = dialog.GetCBComposer();
+		m_ShowTrackYear = dialog.GetCBYear();
 
-		m_ShowMood = dialog.GetCBMood();
-		m_ShowTempo = dialog.GetCBTempo();
-		m_ShowFormat = dialog.GetCBFormat();
-		m_ShowSampleRate = dialog.GetCBSampleRate();
-		m_ShowBitrate = dialog.GetCBBitrate();
-//		m_ShowRating = dialog.GetCBRating();
+		m_ShowTrackMood = dialog.GetCBMood();
+		m_ShowTrackTempo = dialog.GetCBTempo();
+		m_ShowTrackFormat = dialog.GetCBFormat();
+		m_ShowTrackSampleRate = dialog.GetCBSampleRate();
+		m_ShowTrackBitrate = dialog.GetCBBitrate();
+//		m_ShowTrackRating = dialog.GetCBRating();
 
 		WriteSettings();
 
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowFavorite);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTime);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowArtist);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowAlbum);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowGenre);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowAlbumArtist);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_COMPOSER, m_ShowComposer);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_YEAR, m_ShowYear);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowTrackFavorite);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTrackTime);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowTrackArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowTrackAlbum);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowTrackGenre);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowTrackAlbumArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_COMPOSER, m_ShowTrackComposer);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_YEAR, m_ShowTrackYear);
 
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_MOOD, m_ShowMood);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTempo);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowFormat);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowSampleRate);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowBitrate);
-//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowRating);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_MOOD, m_ShowTrackMood);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTrackTempo);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowTrackFormat);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowTrackSampleRate);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowTrackBitrate);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowTrackRating);
 
 		// change value
 //		{
@@ -2679,29 +2759,65 @@ void MusicDBWindow::SetColumn(int typeMode)
 {
 	if (typeMode <= TYPE_MODE_ITEM_ADD)
 	{
-//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowFavorite);
-//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTime);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowArtist);
-//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowAlbum);
-//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowGenre);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowCategoryFavorite);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowCategoryRating);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowCategoryArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowCategoryAlbum);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowCategoryGenre);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowCategoryAlbumArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TRACK_COUNT, m_ShowCategoryTrackCount);
+
+		if (SQLManager::CATEGORY_ALBUM == m_nCategory)
+		{
+			m_ShowCategoryAlbum = false;
+			m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowCategoryAlbum);
+		}
+		else if (SQLManager::CATEGORY_ALBUM_ARTIST == m_nCategory)
+		{
+			m_ShowCategoryAlbumArtist = false;
+			m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowCategoryAlbumArtist);
+		}
+		else if (SQLManager::CATEGORY_ARTIST == m_nCategory)
+		{
+			m_ShowCategoryArtist = false;
+			m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowCategoryArtist);
+		}
+		else if (SQLManager::CATEGORY_GENRE == m_nCategory)
+		{
+			m_ShowCategoryGenre = false;
+			m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowCategoryGenre);
+		}
+		else if (SQLManager::CATEGORY_YEAR == m_nCategory)
+		{
+			m_ShowCategoryRating = false;
+			m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowCategoryRating);
+		}
+		else if (SQLManager::CATEGORY_TRACK == m_nCategory)
+		{
+			m_ShowCategoryRating = false;
+			m_ShowCategoryTrackCount = false;
+
+			m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowCategoryRating);
+			m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TRACK_COUNT, m_ShowCategoryTrackCount);
+		}
 	}
 	else
 	{
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowFavorite);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTime);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowArtist);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowAlbum);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowGenre);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowAlbumArtist);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_COMPOSER, m_ShowComposer);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_YEAR, m_ShowYear);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE, m_ShowTrackFavorite);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TIME, m_ShowTrackTime);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ARTIST, m_ShowTrackArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM, m_ShowTrackAlbum);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowTrackGenre);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowTrackAlbumArtist);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_COMPOSER, m_ShowTrackComposer);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_YEAR, m_ShowTrackYear);
 
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_MOOD, m_ShowMood);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTempo);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowFormat);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowSampleRate);
-		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowBitrate);
-//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowRating);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_MOOD, m_ShowTrackMood);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TEMPO, m_ShowTrackTempo);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowTrackFormat);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowTrackSampleRate);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowTrackBitrate);
+//		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowTrackRating);
 	}
 
 	m_pTableTracks->SetColResize(0);

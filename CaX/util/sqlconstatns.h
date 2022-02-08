@@ -31,13 +31,19 @@ select	\
 	, Album.favorite as favorite	\
 	, Album.rating as rating	\
 	, count(Album.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 where Album.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Album.rowid	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 
 #define SQL_ALBUM_ARTIST_LIST_FROM_SONG	"	\
@@ -47,12 +53,19 @@ select	\
 	, AlbumArtist.favorite as favorite	\
 	, AlbumArtist.rating as rating	\
 	, count(AlbumArtist.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 where AlbumArtist.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by AlbumArtist.rowid	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 #define SQL_ARTIST_LIST_FROM_SONG	"	\
 select	\
@@ -61,12 +74,19 @@ select	\
 	, Artist.favorite as favorite	\
 	, Artist.rating as rating	\
 	, count(Artist.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 where Artist.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Artist.rowid	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 
 #define SQL_COMPOSER_LIST_FROM_SONG	"	\
@@ -76,12 +96,20 @@ select	\
 	, Composer.favorite as favorite	\
 	, Composer.rating as rating	\
 	, count(Composer.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 where Composer.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Composer.rowid	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 
 
@@ -92,12 +120,19 @@ select	\
 	, Genre.favorite as favorite	\
 	, Genre.rating as rating	\
 	, count(Genre.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where Genre.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Genre.rowid	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 
 
@@ -108,12 +143,20 @@ select	\
 	, Mood.favorite as favorite	\
 	, Mood.rating as rating	\
 	, count(Mood.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Mood.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Mood.rowid	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 
 
@@ -124,12 +167,20 @@ select	\
 	, Folder.favorite as favorite	\
 	, Folder.rating as rating	\
 	, count(Folder.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join Folder on Song.FolderID = Folder.ROWID	\
 where Folder.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Folder.rowid	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 
 #define SQL_YEAR_LIST_FROM_SONG	"	\
@@ -137,11 +188,19 @@ select	\
 	Song.Year as id	\
 	, Song.Year as title	\
 	, count(*) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
 from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
+inner join Artist on Song.ArtistID = Artist.ROWID	\
+inner join Genre on Song.GenreID = Genre.ROWID	\
 where Song.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Song.Year	\
-		order by %7.%8 %9	\
-				%10"
+order by %7.%8 %9	\
+%10"
 
 
 

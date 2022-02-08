@@ -1,21 +1,21 @@
-#include "setcolumndialog.h"
-#include "ui_setcolumndialog.h"
+#include "settrackcolumndialog.h"
+#include "ui_settrackcolumndialog.h"
 
-SetColumnDialog::SetColumnDialog(QWidget *parent) :
+SetTrackColumnDialog::SetTrackColumnDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::SetColumnDialog)
+	ui(new Ui::SetTrackColumnDialog)
 {
 	ui->setupUi(this);
 
 	ui->cbRating->hide();
 }
 
-SetColumnDialog::~SetColumnDialog()
+SetTrackColumnDialog::~SetTrackColumnDialog()
 {
 	delete ui;
 }
 
-bool SetColumnDialog::GetCBFavorite()
+bool SetTrackColumnDialog::GetCBFavorite()
 {
 	if (ui->cbFavorite->checkState() == Qt::Checked)
 	{
@@ -27,7 +27,7 @@ bool SetColumnDialog::GetCBFavorite()
 	}
 }
 
-void SetColumnDialog::SetCBFavorite(bool bCheck)
+void SetTrackColumnDialog::SetCBFavorite(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -39,7 +39,7 @@ void SetColumnDialog::SetCBFavorite(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBTime()
+bool SetTrackColumnDialog::GetCBTime()
 {
 	if (ui->cbTime->checkState() == Qt::Checked)
 	{
@@ -51,7 +51,7 @@ bool SetColumnDialog::GetCBTime()
 	}
 }
 
-void SetColumnDialog::SetCBTime(bool bCheck)
+void SetTrackColumnDialog::SetCBTime(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -63,7 +63,7 @@ void SetColumnDialog::SetCBTime(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBArtist()
+bool SetTrackColumnDialog::GetCBArtist()
 {
 	if (ui->cbArtist->checkState() == Qt::Checked)
 	{
@@ -75,7 +75,7 @@ bool SetColumnDialog::GetCBArtist()
 	}
 }
 
-void SetColumnDialog::SetCBArtist(bool bCheck)
+void SetTrackColumnDialog::SetCBArtist(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -87,7 +87,7 @@ void SetColumnDialog::SetCBArtist(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBAlbum()
+bool SetTrackColumnDialog::GetCBAlbum()
 {
 	if (ui->cbAlbum->checkState() == Qt::Checked)
 	{
@@ -99,7 +99,7 @@ bool SetColumnDialog::GetCBAlbum()
 	}
 }
 
-void SetColumnDialog::SetCBAlbum(bool bCheck)
+void SetTrackColumnDialog::SetCBAlbum(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -111,7 +111,7 @@ void SetColumnDialog::SetCBAlbum(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBGenre()
+bool SetTrackColumnDialog::GetCBGenre()
 {
 	if (ui->cbGenre->checkState() == Qt::Checked)
 	{
@@ -123,7 +123,7 @@ bool SetColumnDialog::GetCBGenre()
 	}
 }
 
-void SetColumnDialog::SetCBGenre(bool bCheck)
+void SetTrackColumnDialog::SetCBGenre(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -135,7 +135,7 @@ void SetColumnDialog::SetCBGenre(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBAlbumArtist()
+bool SetTrackColumnDialog::GetCBAlbumArtist()
 {
 	if (ui->cbAlbumArtist->checkState() == Qt::Checked)
 	{
@@ -147,7 +147,7 @@ bool SetColumnDialog::GetCBAlbumArtist()
 	}
 }
 
-void SetColumnDialog::SetCBAlbumArtist(bool bCheck)
+void SetTrackColumnDialog::SetCBAlbumArtist(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -159,7 +159,7 @@ void SetColumnDialog::SetCBAlbumArtist(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBComposer()
+bool SetTrackColumnDialog::GetCBComposer()
 {
 	if (ui->cbComposer->checkState() == Qt::Checked)
 	{
@@ -171,7 +171,7 @@ bool SetColumnDialog::GetCBComposer()
 	}
 }
 
-void SetColumnDialog::SetCBComposer(bool bCheck)
+void SetTrackColumnDialog::SetCBComposer(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -183,7 +183,7 @@ void SetColumnDialog::SetCBComposer(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBYear()
+bool SetTrackColumnDialog::GetCBYear()
 {
 	if (ui->cbYear->checkState() == Qt::Checked)
 	{
@@ -195,7 +195,7 @@ bool SetColumnDialog::GetCBYear()
 	}
 }
 
-void SetColumnDialog::SetCBYear(bool bCheck)
+void SetTrackColumnDialog::SetCBYear(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -207,7 +207,7 @@ void SetColumnDialog::SetCBYear(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBMood()
+bool SetTrackColumnDialog::GetCBMood()
 {
 	if (ui->cbMood->checkState() == Qt::Checked)
 	{
@@ -219,7 +219,7 @@ bool SetColumnDialog::GetCBMood()
 	}
 }
 
-void SetColumnDialog::SetCBMood(bool bCheck)
+void SetTrackColumnDialog::SetCBMood(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -231,7 +231,7 @@ void SetColumnDialog::SetCBMood(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBTempo()
+bool SetTrackColumnDialog::GetCBTempo()
 {
 	if (ui->cbTempo->checkState() == Qt::Checked)
 	{
@@ -243,7 +243,7 @@ bool SetColumnDialog::GetCBTempo()
 	}
 }
 
-void SetColumnDialog::SetCBTempo(bool bCheck)
+void SetTrackColumnDialog::SetCBTempo(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -255,7 +255,7 @@ void SetColumnDialog::SetCBTempo(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBFormat()
+bool SetTrackColumnDialog::GetCBFormat()
 {
 	if (ui->cbFormat->checkState() == Qt::Checked)
 	{
@@ -267,7 +267,7 @@ bool SetColumnDialog::GetCBFormat()
 	}
 }
 
-void SetColumnDialog::SetCBFormat(bool bCheck)
+void SetTrackColumnDialog::SetCBFormat(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -279,7 +279,7 @@ void SetColumnDialog::SetCBFormat(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBSampleRate()
+bool SetTrackColumnDialog::GetCBSampleRate()
 {
 	if (ui->cbSampleRate->checkState() == Qt::Checked)
 	{
@@ -291,7 +291,7 @@ bool SetColumnDialog::GetCBSampleRate()
 	}
 }
 
-void SetColumnDialog::SetCBSampleRate(bool bCheck)
+void SetTrackColumnDialog::SetCBSampleRate(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -303,7 +303,7 @@ void SetColumnDialog::SetCBSampleRate(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBBitrate()
+bool SetTrackColumnDialog::GetCBBitrate()
 {
 	if (ui->cbBitrate->checkState() == Qt::Checked)
 	{
@@ -315,7 +315,7 @@ bool SetColumnDialog::GetCBBitrate()
 	}
 }
 
-void SetColumnDialog::SetCBBitrate(bool bCheck)
+void SetTrackColumnDialog::SetCBBitrate(bool bCheck)
 {
 	if (bCheck)
 	{
@@ -327,7 +327,7 @@ void SetColumnDialog::SetCBBitrate(bool bCheck)
 	}
 }
 
-bool SetColumnDialog::GetCBRating()
+bool SetTrackColumnDialog::GetCBRating()
 {
 	if (ui->cbRating->checkState() == Qt::Checked)
 	{
@@ -339,7 +339,7 @@ bool SetColumnDialog::GetCBRating()
 	}
 }
 
-void SetColumnDialog::SetCBRating(bool bCheck)
+void SetTrackColumnDialog::SetCBRating(bool bCheck)
 {
 	if (bCheck)
 	{

@@ -45,10 +45,10 @@ void InputFavoriteDialog::SetFavorite(bool Favorite)
 	else
 	{
 		style = QString("	\
-		QPushButton	\
-		{	\
-			border-image: url(\":/resource/play-btn12-like-n.png\");	\
-		}");
+						QPushButton	\
+						{	\
+							border-image: url(\":/resource/play-btn12-like-n.png\");	\
+						}");
 	}
 	ui->btnFavorite->setStyleSheet(style);
 

@@ -1,19 +1,19 @@
-#ifndef SETCOLUMNDIALOG_H
-#define SETCOLUMNDIALOG_H
+#ifndef SETTRACKCOLUMNDIALOG_H
+#define SETTRACKCOLUMNDIALOG_H
 
 #include <QDialog>
 
 namespace Ui {
-class SetColumnDialog;
+class SetTrackColumnDialog;
 }
 
-class SetColumnDialog : public QDialog
+class SetTrackColumnDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit SetColumnDialog(QWidget *parent = nullptr);
-	~SetColumnDialog();
+	explicit SetTrackColumnDialog(QWidget *parent = nullptr);
+	~SetTrackColumnDialog();
 
 	bool GetCBFavorite();
 	void SetCBFavorite(bool bCheck);
@@ -62,7 +62,7 @@ public:
 private:
 
 
-	Ui::SetColumnDialog *ui;
+	Ui::SetTrackColumnDialog *ui;
 };
 
-#endif // SETCOLUMNDIALOG_H
+#endif // SETTRACKCOLUMNDIALOG_H

@@ -12,6 +12,7 @@ TableTracksDelegate::TableTracksDelegate() :
 	m_BtnCover(new QPushButton),
 	m_BtnPlay(new QPushButton),
 	m_BtnFavorite(new QPushButton),
+	m_BtnRating(new QPushButton),
 	m_BtnMenu(new QPushButton)
 {
 	ConnectSigToSlot();
@@ -44,6 +45,12 @@ TableTracksDelegate::~TableTracksDelegate()
 		m_BtnFavorite = nullptr;
 	}
 
+	if (m_BtnRating)
+	{
+		delete m_BtnRating;
+		m_BtnRating = nullptr;
+	}
+
 	if (m_BtnMenu)
 	{
 		delete m_BtnMenu;
@@ -53,8 +60,7 @@ TableTracksDelegate::~TableTracksDelegate()
 
 void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	int col = index.column();
-	if (col == TableTracks::TABLE_TRACKS_SELECT)
+	if (index.column() == TableTracks::TABLE_TRACKS_SELECT)
 	{
 		QStyleOptionButton button;
 		button.rect  = QRect(option.rect.x() + (option.rect.width() - 20) / 2,
@@ -128,9 +134,9 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	{
 		QStyleOptionButton button;
 		button.rect  = QRect(option.rect.x(),
-							 option.rect.y() + (option.rect.height() - 26) / 2,
-							 15,
-							 26);
+							 option.rect.y() + (option.rect.height() - 22) / 2,
+							 22,
+							 22);
 		button.features = QStyleOptionButton::Flat;
 
 		QString style;
@@ -139,7 +145,7 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 			style = QString("	\
 							QPushButton	\
 							{	\
-								border-image: url(\":/resource/play-btn12-like-n.png\");	\
+								border-image: url(\":/resource/top-btn22-classify-like-n.png\");	\
 							}");
 		}
 		else
@@ -147,11 +153,63 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 			style = QString("	\
 							QPushButton	\
 							{	\
-								border-image: url(\":/resource/play-btn12-like-u.png\");	\
+								border-image: url(\":/resource/top-btn22-classify-like-h.png\");	\
 							}");
 		}
 		m_BtnFavorite->setStyleSheet(style);
 		m_BtnFavorite->style()->drawControl(QStyle::CE_PushButton, &button, painter, m_BtnFavorite);
+
+	}
+	else if (index.column() == TableTracks::TABLE_TRACKS_RATING)
+	{
+		QStyleOptionButton button;
+		button.rect  = QRect(option.rect.x(),
+							 option.rect.y() + (option.rect.height() - 22) / 2,
+							 86,
+							 22);
+		button.features = QStyleOptionButton::Flat;
+
+		QString style;
+//		LogDebug("rating ~~~~~~~~~~~~~[%s]", index.data().toString().toUtf8().data());
+		if (index.data().toString().toInt() <= 0)
+		{
+			style = "play-btn28-rank-sel0.png";
+
+		}
+		else if (index.data().toString().toInt() == 1)
+		{
+			style = "play-btn28-rank-sel1.png";
+
+		}
+		else if (index.data().toString().toInt() == 2)
+		{
+			style = "play-btn28-rank-sel2.png";
+
+		}
+		else if (index.data().toString().toInt() == 3)
+		{
+			style = "play-btn28-rank-sel3.png";
+
+		}
+		else if (index.data().toString().toInt() == 4)
+		{
+			style = "play-btn28-rank-sel4.png";
+
+		}
+		else if (index.data().toString().toInt() == 5)
+		{
+			style = "play-btn28-rank-sel5.png";
+
+		}
+
+		style = QString("	\
+						QPushButton	\
+						{	\
+						  border-image: url(\":/resource/%1\");	\
+						}").arg(style);
+
+		m_BtnRating->setStyleSheet(style);
+		m_BtnRating->style()->drawControl(QStyle::CE_PushButton, &button, painter, m_BtnRating);
 
 	}
 	else if (index.column() == TableTracks::TABLE_TRACKS_MENU)

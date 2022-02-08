@@ -33,6 +33,7 @@ private:
 	QPushButton		*m_BtnCover;
 	QPushButton		*m_BtnPlay;
 	QPushButton		*m_BtnFavorite;
+	QPushButton		*m_BtnRating;
 	QPushButton		*m_BtnMenu;
 
 };

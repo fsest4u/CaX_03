@@ -74,20 +74,20 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 	{
 		foreach (CJsonNode node, list)
 		{
-//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			m_Model->setVerticalHeaderItem(index, new QStandardItem());
 
 			int seconds = node.GetInt(KEY_TIME);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
-			QString artist;
-			if (!node.GetString(KEY_ARTIST).isEmpty())
-			{
-				artist = node.GetString(KEY_ARTIST);
-			}
-			else if (!node.GetString(KEY_SUBTITLE).isEmpty())
-			{
-				artist = node.GetString(KEY_SUBTITLE);
-			}
+//			QString artist;
+//			if (!node.GetString(KEY_ARTIST).isEmpty())
+//			{
+//				artist = node.GetString(KEY_ARTIST);
+//			}
+//			else if (!node.GetString(KEY_SUBTITLE).isEmpty())
+//			{
+//				artist = node.GetString(KEY_SUBTITLE);
+//			}
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			QString extension = UtilNovatron::GetSuffix(node.GetString(KEY_FORMAT));
 			QString bitrate = UtilNovatron::ConvertBitrate(node.GetString(KEY_BITRATE));
@@ -97,8 +97,9 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SELECT), false);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_TITLE), node.GetString(KEY_TITLE), Qt::DisplayRole);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_FAVORITE), node.GetString(KEY_FAVORITE_CAP));
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_RATING), node.GetString(KEY_RATING));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_TIME), hhmmss);
-			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ARTIST), artist);
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ARTIST), node.GetString(KEY_ARTIST));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ALBUM), node.GetString(KEY_ALBUM));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_GENRE), node.GetString(KEY_GENRE));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ALBUM_ARTIST), node.GetString(KEY_ALBUM_ARTIST));
@@ -109,7 +110,7 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_FORMAT), extension);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SAMPLE_RATE), samplerate);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_BITRATE), bitrate);
-			m_Model->setData(m_Model->index(index, TABLE_TRACKS_RATING), node.GetString(KEY_RATING_CAP));
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_TRACK_COUNT), node.GetString(KEY_COUNT));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_INDEX), index);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_MENU), false);
 
@@ -266,6 +267,7 @@ void TableTracks::SetColResize(int resize)
 	ui->tableView->setColumnWidth(TABLE_TRACKS_PLAY, m_ColWidthPlay);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_TITLE, m_ColWidthTitle);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_FAVORITE, m_ColWidthFavorite);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_RATING, m_ColWidthRating);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_TIME, m_ColWidthTime);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_ARTIST, m_ColWidthArtist);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_ALBUM, m_ColWidthAlbum);
@@ -278,7 +280,7 @@ void TableTracks::SetColResize(int resize)
 	ui->tableView->setColumnWidth(TABLE_TRACKS_FORMAT, m_ColWidthFormat);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_SAMPLE_RATE, m_ColWidthSampleRate);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_BITRATE, m_ColWidthBitrate);
-	ui->tableView->setColumnWidth(TABLE_TRACKS_RATING, m_ColWidthRating);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_TRACK_COUNT, m_ColWidthTrackCount);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_MENU, m_ColWidthMenu);
 
 }
@@ -393,10 +395,15 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 	}
 	else if (col == TableTracks::TABLE_TRACKS_FAVORITE)
 	{
+		int nIndex = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_INDEX)));
 		int favorite = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_FAVORITE)));
-		favorite = favorite == 0 ? 1 : 0;
-		m_Model->setData(index, favorite);
-		emit SigSelectFavorite(m_ID, favorite);
+//		favorite = favorite == 0 ? 1 : 0;
+//		m_Model->setData(index, favorite);
+		emit SigSelectFavorite(m_ID, nIndex, favorite);
+	}
+	else if (col == TableTracks::TABLE_TRACKS_RATING)
+	{
+
 	}
 	else if (col == TableTracks::TABLE_TRACKS_MENU)
 	{
@@ -422,7 +429,7 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 
 void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth)
 {
-	LogDebug("col [%d] old [%d] new [%d]", logicalIndex, oldWidth, newWidth);
+//	LogDebug("col [%d] old [%d] new [%d]", logicalIndex, oldWidth, newWidth);
 	if (newWidth <= 0)
 	{
 		return;
@@ -447,6 +454,9 @@ void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth
 		break;
 	case TABLE_TRACKS_FAVORITE:
 		m_ColWidthFavorite = newWidth;
+		break;
+	case TABLE_TRACKS_RATING:
+		m_ColWidthRating = newWidth;
 		break;
 	case TABLE_TRACKS_TIME:
 		m_ColWidthTime = newWidth;
@@ -484,8 +494,8 @@ void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth
 	case TABLE_TRACKS_BITRATE:
 		m_ColWidthBitrate = newWidth;
 		break;
-	case TABLE_TRACKS_RATING:
-		m_ColWidthRating = newWidth;
+	case TABLE_TRACKS_TRACK_COUNT:
+		m_ColWidthTrackCount = newWidth;
 		break;
 	case TABLE_TRACKS_INDEX:
 		m_ColWidthIndex = newWidth;
@@ -527,7 +537,7 @@ void TableTracks::ReadSettings()
 	m_ColWidthTempo = settings.value("col_width_tempo").toInt();
 	m_ColWidthFormat = settings.value("col_width_format").toInt();
 	m_ColWidthSampleRate = settings.value("col_width_sample_rate").toInt();
-	m_ColWidthBitrate = settings.value("col_width_bit_depth").toInt();
+	m_ColWidthBitrate = settings.value("col_width_bitrate").toInt();
 	m_ColWidthRating = settings.value("col_width_rating").toInt();
 	m_ColWidthIndex = settings.value("col_width_index").toInt();
 	m_ColWidthMenu = settings.value("col_width_menu").toInt();
@@ -558,7 +568,7 @@ void TableTracks::WriteSettings()
 	settings.setValue("col_width_tempo", m_ColWidthTempo);
 	settings.setValue("col_width_format", m_ColWidthFormat);
 	settings.setValue("col_width_sample_rate", m_ColWidthSampleRate);
-	settings.setValue("col_width_bit_depth", m_ColWidthBitrate);
+	settings.setValue("col_width_bitrate", m_ColWidthBitrate);
 	settings.setValue("col_width_rating", m_ColWidthRating);
 	settings.setValue("col_width_index", m_ColWidthIndex);
 	settings.setValue("col_width_menu", m_ColWidthMenu);
@@ -590,6 +600,7 @@ void TableTracks::Initialize()
 	m_Model->setHeaderData(TABLE_TRACKS_PLAY, Qt::Horizontal, "");
 	m_Model->setHeaderData(TABLE_TRACKS_TITLE, Qt::Horizontal, KEY_TITLE_CAP);
 	m_Model->setHeaderData(TABLE_TRACKS_FAVORITE, Qt::Horizontal, KEY_FAVORITE_CAP);
+	m_Model->setHeaderData(TABLE_TRACKS_RATING, Qt::Horizontal, KEY_RATING_CAP);
 	m_Model->setHeaderData(TABLE_TRACKS_TIME, Qt::Horizontal, KEY_TIME_CAP);
 	m_Model->setHeaderData(TABLE_TRACKS_ARTIST, Qt::Horizontal, KEY_ARTIST);
 	m_Model->setHeaderData(TABLE_TRACKS_ALBUM, Qt::Horizontal, KEY_ALBUM);
@@ -603,7 +614,7 @@ void TableTracks::Initialize()
 	m_Model->setHeaderData(TABLE_TRACKS_FORMAT, Qt::Horizontal, KEY_FORMAT);
 	m_Model->setHeaderData(TABLE_TRACKS_SAMPLE_RATE, Qt::Horizontal, KEY_SAMPLERATE_CAP);
 	m_Model->setHeaderData(TABLE_TRACKS_BITRATE, Qt::Horizontal, KEY_BITRATE);
-	m_Model->setHeaderData(TABLE_TRACKS_RATING, Qt::Horizontal, KEY_RATING);
+	m_Model->setHeaderData(TABLE_TRACKS_TRACK_COUNT, Qt::Horizontal, KEY_TRACK);
 	m_Model->setHeaderData(TABLE_TRACKS_MENU, Qt::Horizontal, KEY_MENU);
 
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ID, true);
@@ -612,6 +623,7 @@ void TableTracks::Initialize()
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_PLAY, true);
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_TITLE, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_FAVORITE, true);
+	ui->tableView->setColumnHidden(TABLE_TRACKS_RATING, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_TIME, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ARTIST, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ALBUM, true);
@@ -625,7 +637,7 @@ void TableTracks::Initialize()
 	ui->tableView->setColumnHidden(TABLE_TRACKS_FORMAT, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_SAMPLE_RATE, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_BITRATE, true);
-	ui->tableView->setColumnHidden(TABLE_TRACKS_RATING, true);
+	ui->tableView->setColumnHidden(TABLE_TRACKS_TRACK_COUNT, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_INDEX, true);
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_MENU, true);
 
@@ -633,7 +645,7 @@ void TableTracks::Initialize()
 	ui->tableView->setItemDelegateForColumn(TABLE_TRACKS_COVER, m_Delegate);
 	ui->tableView->setItemDelegateForColumn(TABLE_TRACKS_PLAY, m_Delegate);
 	ui->tableView->setItemDelegateForColumn(TABLE_TRACKS_FAVORITE, m_Delegate);
-//	ui->tableView->setItemDelegateForColumn(TABLE_TRACKS_RATING, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(TABLE_TRACKS_RATING, m_Delegate);
 	ui->tableView->setItemDelegateForColumn(TABLE_TRACKS_MENU, m_Delegate);
 
 	SetColResize(0);

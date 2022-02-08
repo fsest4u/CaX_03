@@ -106,7 +106,7 @@ private slots:
 	void SlotAppendList();
 
 	void SlotSelectTrackPlay(int nID, int where);
-	void SlotSelectTrackFavorite(int nID, int nFavorite);
+	void SlotSelectTrackFavorite(int nID, int index, int nFavorite);
 
 	void SlotClassifyFavorite(int nFavorite);
 	void SlotClassifyRating(int nRating);
@@ -156,6 +156,7 @@ private:
 	void DoTopMenuGainClear();
 	void DoTopMenuAddToPlaylist();
 	void DoTopMenuAddFromPlaylist();
+	void DoTopMenuShowCategoryColumns();
 
 	void DoTopMenuItemPlay(int nWhere);
 	void DoTopMenuItemSelectAll();
@@ -164,7 +165,7 @@ private:
 	void DoTopMenuItemGainClear();
 	void DoTopMenuItemAddToPlaylist();
 	void DoTopMenuItemAddFromPlaylist();
-	void DoTopMenuItemShowColumns();
+	void DoTopMenuItemShowTrackColumns();
 
 	void SetOptionMenu();
 
@@ -246,21 +247,29 @@ private:
 
 	int					m_nOptionID;
 
-	bool				m_ShowFavorite;
-	bool				m_ShowTime;
-	bool				m_ShowArtist;
-	bool				m_ShowAlbum;
-	bool				m_ShowGenre;
-	bool				m_ShowAlbumArtist;
-	bool				m_ShowComposer;
-	bool				m_ShowYear;
+	bool				m_ShowCategoryFavorite;
+	bool				m_ShowCategoryRating;
+	bool				m_ShowCategoryArtist;
+	bool				m_ShowCategoryAlbum;
+	bool				m_ShowCategoryGenre;
+	bool				m_ShowCategoryAlbumArtist;
+	bool				m_ShowCategoryTrackCount;
 
-	bool				m_ShowMood;
-	bool				m_ShowTempo;
-	bool				m_ShowFormat;
-	bool				m_ShowSampleRate;
-	bool				m_ShowBitrate;
-	bool				m_ShowRating;
+	bool				m_ShowTrackFavorite;
+	bool				m_ShowTrackTime;
+	bool				m_ShowTrackArtist;
+	bool				m_ShowTrackAlbum;
+	bool				m_ShowTrackGenre;
+	bool				m_ShowTrackAlbumArtist;
+	bool				m_ShowTrackComposer;
+	bool				m_ShowTrackYear;
+
+	bool				m_ShowTrackMood;
+	bool				m_ShowTrackTempo;
+	bool				m_ShowTrackFormat;
+	bool				m_ShowTrackSampleRate;
+	bool				m_ShowTrackBitrate;
+	bool				m_ShowTrackRating;
 
 	Ui::MusicDBWindow *ui;
 };

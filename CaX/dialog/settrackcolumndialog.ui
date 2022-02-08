@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SetColumnDialog</class>
- <widget class="QDialog" name="SetColumnDialog">
+ <class>SetTrackColumnDialog</class>
+ <widget class="QDialog" name="SetTrackColumnDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -200,7 +200,7 @@ QPushButton:hover
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>SetColumnDialog</receiver>
+   <receiver>SetTrackColumnDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -216,7 +216,7 @@ QPushButton:hover
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>SetColumnDialog</receiver>
+   <receiver>SetTrackColumnDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
