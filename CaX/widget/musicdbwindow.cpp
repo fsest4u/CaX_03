@@ -902,6 +902,9 @@ void MusicDBWindow::SlotCategoryMenu()
 
 void MusicDBWindow::SlotCategoryMenuAction(int nCategory, QString title)
 {
+
+	Q_UNUSED(title)
+
 //	if (nCategory == SQLManager::CATEGORY_TRACK)
 //	{
 //		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);

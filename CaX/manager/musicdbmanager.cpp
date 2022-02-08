@@ -971,7 +971,10 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 			return;
 		}
 
-		emit SigRespError(message.left((MSG_LIMIT_COUNT)));
+		if (!message.toLower().contains("not found"))
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		}
 		return;
 	}
 
@@ -1024,7 +1027,10 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	CJsonNode result = node.GetArray(VAL_RESULT);
 	if (result.ArraySize() <= 0)
 	{
-		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		if (!message.toLower().contains("not found"))
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		}
 		return;
 	}
 
