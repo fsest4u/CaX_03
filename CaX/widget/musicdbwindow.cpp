@@ -478,31 +478,6 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 //		m_pTableTracks->ClearNodeList();
 		m_pTableTracks->SetNodeList(list, service);
 	}
-
-	if (m_AlbumList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-	}
-	if (m_AlbumArtistList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
-	}
-	if (m_ArtistList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
-	}
-	if (m_GenreList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
-	}
-	if (m_ComposerList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
-	}
-	if (m_MoodList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
-	}
 }
 
 void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
@@ -560,31 +535,6 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 	{
 //		m_pTableTracks->ClearNodeList();
 		m_pTableTracks->SetNodeList(list, service);
-	}
-
-	if (m_AlbumList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-	}
-	if (m_AlbumArtistList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
-	}
-	if (m_ArtistList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
-	}
-	if (m_GenreList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
-	}
-	if (m_ComposerList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
-	}
-	if (m_MoodList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
 	}
 }
 
@@ -2390,6 +2340,31 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 void MusicDBWindow::DoOptionMenuInfo(int nID)
 {
 	m_nOptionID = nID;
+
+	if (m_AlbumList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
+	}
+	if (m_AlbumArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
+	}
+	if (m_ArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
+	}
+	if (m_GenreList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
+	}
+	if (m_ComposerList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
+	}
+	if (m_MoodList.isEmpty())
+	{
+		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
+	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
