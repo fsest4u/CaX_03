@@ -681,7 +681,8 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 			WriteSettings();
 		}
 
-		RequestCategoryList(m_nCatID, m_nCatID2);
+		//RequestCategoryList(m_nCatID, m_nCatID2);
+		DoTopMenuReload();
 
 	}
 	else if (SQLManager::DISP_MODE_ALBUM == menuID)
@@ -707,7 +708,8 @@ void MusicDBWindow::SlotIncDec(bool bIncrease)
 	m_bIncreaseCategory = bIncrease;
 	WriteSettings();
 
-	RequestCategoryList(m_nCatID, m_nCatID2);
+//	RequestCategoryList(m_nCatID, m_nCatID2);
+	DoTopMenuReload();
 }
 
 void MusicDBWindow::SlotResize(int resize)
@@ -2523,6 +2525,10 @@ void MusicDBWindow::SetSortMenu(int category)
 		m_pInfoHome->GetFormSort()->ClearMenu();
 		m_pInfoHome->GetFormSort()->SetMenu(list);
 		m_pInfoHome->GetFormSort()->SetMenuTitle(title);
+
+		m_pInfoTracks->GetFormSort()->ClearMenu();
+		m_pInfoTracks->GetFormSort()->SetMenu(list);
+		m_pInfoTracks->GetFormSort()->SetMenuTitle(title);
 	}
 	else if (category == SQLManager::CATEGORY_ARTIST
 			 || category == SQLManager::CATEGORY_COMPOSER
