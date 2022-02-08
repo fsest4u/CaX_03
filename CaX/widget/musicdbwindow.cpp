@@ -1032,8 +1032,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 			widget->AddWidgetTrack(TYPE_MODE_TRACK, m_nCategory);
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-			widget->RequestTrackList(nID);
 			widget->SetCoverArt(coverArt);
+			widget->RequestTrackList(nID);
 		}
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM)
@@ -1043,8 +1043,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(nID, m_nCatID);
 		widget->SetCoverArt(coverArt);
+		widget->RequestTrackList(nID, m_nCatID);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
 	{
@@ -1062,8 +1062,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM_ARTIST, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(nID, m_nCatID, m_nCatID2);
 		widget->SetCoverArt(coverArt);
+		widget->RequestTrackList(nID, m_nCatID, m_nCatID2);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -1071,8 +1071,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ADD, m_nCategory);
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-		widget->RequestTrackList(nID);
 		widget->SetCoverArt(coverArt);
+		widget->RequestTrackList(nID);
 
 		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
 
