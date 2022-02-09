@@ -1033,10 +1033,10 @@ void PlaylistWindow::DoOptionMenuGoToAlbum()
 {
 	LogDebug("DoOptionMenuGoToAlbum id [%d]", m_TrackAlbumID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	widget->AddWidgetTrack();
+	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(m_TrackAlbumID, SQLManager::CATEGORY_ALBUM);
+	widget->RequestTrackList(m_TrackAlbumID);
 	widget->SetCoverArt(m_TrackCover);
 
 }
@@ -1045,9 +1045,9 @@ void PlaylistWindow::DoOptionMenuGoToArtist()
 {
 	LogDebug("DoOptionMenuGoToArtist id [%d]", m_TrackArtistID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	widget->AddWidgetTrack();
+	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(m_TrackArtistID, SQLManager::CATEGORY_ARTIST);
+	widget->RequestTrackList(m_TrackArtistID);
 	widget->SetCoverArt(m_TrackCover);
 }

@@ -63,7 +63,7 @@ void SearchTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 //	QRect rectMenu = QRect(rectGenre.x() + rectGenre.width() + gap, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 	QRect rectMenu = QRect(rectBase.width() - 10 - 29, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 
-	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
+//	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 //	painter->drawRect(rectOrig);
 //	painter->drawRect(rectCover);
 //	painter->drawRect(rectPlay);

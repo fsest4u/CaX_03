@@ -161,20 +161,20 @@ void SearchWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int category
 void SearchWindow::SlotSelectAlbum(int id, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	widget->AddWidgetTrack();
+	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(id, SQLManager::CATEGORY_ALBUM);
+	widget->RequestTrackList(id);
 	widget->SetCoverArt(coverArt);
 }
 
 void SearchWindow::SlotSelectArtist(int id, QString coverArt)
 {
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	widget->AddWidgetTrack();
+	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(id, SQLManager::CATEGORY_ARTIST);
+	widget->RequestTrackList(id);
 	widget->SetCoverArt(coverArt);
 }
 
@@ -279,9 +279,9 @@ void SearchWindow::DoOptionMenuGoToAlbum(int id, QString coverArt)
 {
 	LogDebug("id [%d]", id);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	widget->AddWidgetTrack();
+	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(id, SQLManager::CATEGORY_ALBUM);
+	widget->RequestTrackList(id);
 	widget->SetCoverArt(coverArt);
 }

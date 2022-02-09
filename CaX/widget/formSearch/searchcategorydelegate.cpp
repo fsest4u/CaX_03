@@ -45,7 +45,7 @@ void SearchCategoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 							   rectBase.width() - (rectCover.width() + 20),
 							   fmTitle.height());
 
-	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
+//	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 //	painter->drawRect(rectOrig);
 //	painter->drawRect(rectCover);
 //	painter->drawRect(rectTitle);
@@ -117,7 +117,7 @@ bool SearchCategoryDelegate::editorEvent(QEvent *event, QAbstractItemModel *mode
 							   fmTitle.height());
 
 	QPoint curPoint(((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
-	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
+//	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 
 	if (event->type() == QMouseEvent::MouseButtonPress)
 	{
