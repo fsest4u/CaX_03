@@ -96,12 +96,16 @@ private:
 	void DoTopMenuItemAddToPlaylist();
 	void DoTopMenuItemDeleteToPlaylist();
 
+
 	void SetOptionMenu();
 
 	void DoOptionMenuPlay(int nID, int where);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuDelete(int nID);
 	void DoOptionMenuAddToPlaylist(int nID);
+	void DoOptionMenuFavorite();
+	void DoOptionMenuGoToAlbum();
+	void DoOptionMenuGoToArtist();
 
 	PlaylistManager		*m_pMgr;
 	InfoService			*m_pInfoService;
@@ -121,6 +125,14 @@ private:
 	int					m_TypeMode;
 
 	int					m_ID;
+	int					m_TrackAlbumID;
+	int					m_TrackArtistID;
+	int					m_TrackGenreID;
+	int					m_TrackFavorite;
+	int					m_TrackIndex;
+
+	QString				m_TrackCover;
+
 	int					m_ResizeItem;
 	int					m_ResizeTrack;
 

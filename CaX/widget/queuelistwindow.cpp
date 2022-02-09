@@ -217,15 +217,15 @@ void QueuelistWindow::SlotRespTrackInfo(CJsonNode node)
 
 	if (m_TrackFavorite == 1)
 	{
-		menuMap.insert(TOP_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
 	}
 	else
 	{
-		menuMap.insert(TOP_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
 	}
 
-	menuMap.insert(TOP_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
-	menuMap.insert(TOP_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
 
 	ClearMenu();
 	SetMenu(menuMap);
@@ -279,13 +279,13 @@ void QueuelistWindow::SlotMenuAction(QAction *action)
 	int menuID = action->data().toInt();
 	switch (menuID)
 	{
-	case TOP_MENU_FAVORITE:
+	case OPTION_MENU_FAVORITE:
 		DoMenuFavorite();
 		break;
-	case TOP_MENU_GO_TO_ALBUM:
+	case OPTION_MENU_GO_TO_ALBUM:
 		DoMenuGoToAlbum();
 		break;
-	case TOP_MENU_GO_TO_ARTIST:
+	case OPTION_MENU_GO_TO_ARTIST:
 		DoMenuGoToArtist();
 		break;
 	}
@@ -459,15 +459,15 @@ void QueuelistWindow::DoMenuFavorite()
 
 	if (m_TrackFavorite == 1)
 	{
-		menuMap.insert(TOP_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
 	}
 	else
 	{
-		menuMap.insert(TOP_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
 	}
 
-	menuMap.insert(TOP_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
-	menuMap.insert(TOP_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
 
 	ClearMenu();
 	SetMenu(menuMap);

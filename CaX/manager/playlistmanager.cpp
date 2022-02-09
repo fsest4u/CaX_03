@@ -210,6 +210,15 @@ void PlaylistManager::RequestDelTrack(int id, QMap<int, bool> idMap)
 
 }
 
+void PlaylistManager::RequestUpdateTrackFavorite(int id, int favorite)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryUpdateTrackFavorite(id, favorite));
+	RequestCommand(node, PLAYLIST_UPDATE_TRACK_FAVORITE);
+}
+
 void PlaylistManager::RequestRandom()
 {
 	CJsonNode node(JSON_OBJECT);
@@ -257,6 +266,7 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 			|| cmdID == PLAYLIST_DELETE_PLAYLIST
 			|| cmdID == PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST
 			|| cmdID == PLAYLIST_ADD_TRACK_FROM_PLAYLIST
+			|| cmdID == PLAYLIST_UPDATE_TRACK_FAVORITE
 			)
 	{
 		return;

@@ -102,7 +102,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 	{
 		foreach (CJsonNode node, list)
 		{
-//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			int seconds = node.GetInt(KEY_TIME);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
@@ -114,6 +114,10 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 			item->setData(node.GetString(KEY_ARTIST), ListTracksDelegate::LIST_TRACKS_ARTIST);
 			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);
 			item->setData(node.GetString(KEY_GENRE), ListTracksDelegate::LIST_TRACKS_GENRE);
+			item->setData(node.GetString(KEY_ARTIST_ID), ListTracksDelegate::LIST_TRACKS_ARTIST_ID);
+			item->setData(node.GetString(KEY_ALBUM_ID), ListTracksDelegate::LIST_TRACKS_ALBUM_ID);
+			item->setData(node.GetString(KEY_GENRE_ID), ListTracksDelegate::LIST_TRACKS_GENRE_ID);
+			item->setData(node.GetString(KEY_FAVORITE), ListTracksDelegate::LIST_TRACKS_FAVORITE);
 			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
 			item->setData(false, ListTracksDelegate::LIST_TRACKS_SELECT);
 

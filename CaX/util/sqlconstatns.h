@@ -813,6 +813,9 @@ select	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
 	, Genre.Name as Genre	\
+	, Artist.ROWID as ArtistID	\
+	, Album.ROWID as AlbumID	\
+	, Genre.ROWID as GenreID	\
 	, Song.favorite as favorite	\
 from Song	\
 inner join Album on Song.AlbumID = Album.ROWID	\

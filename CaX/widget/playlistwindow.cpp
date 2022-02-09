@@ -223,7 +223,17 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
 	m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
-	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
+	m_TrackCover = qvariant_cast<QString>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_COVER));
+	m_TrackAlbumID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ALBUM_ID));
+	m_TrackArtistID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ARTIST_ID));
+	m_TrackGenreID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_GENRE_ID));
+	m_TrackFavorite = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_FAVORITE));
+	m_TrackIndex = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+
+//	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
+	LogDebug("index [%d] favorite [%d] album [%d] artist [%d] genre [%d]", m_TrackIndex, m_TrackFavorite, m_TrackAlbumID, m_TrackArtistID, m_TrackGenreID);
+
+	SetOptionMenu();
 
 	m_Menu->clear();
 
@@ -527,6 +537,15 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 	case OPTION_MENU_ADD_TO_PLAYLIST:
 		DoOptionMenuAddToPlaylist(nID);
 		break;
+	case OPTION_MENU_FAVORITE:
+		DoOptionMenuFavorite();
+		break;
+	case OPTION_MENU_GO_TO_ALBUM:
+		DoOptionMenuGoToAlbum();
+		break;
+	case OPTION_MENU_GO_TO_ARTIST:
+		DoOptionMenuGoToArtist();
+		break;
 	}
 }
 
@@ -647,6 +666,12 @@ void PlaylistWindow::Initialize()
 //	m_ListMode = GetListModeFromResize(m_Resize);
 
 	m_ID = -1;
+	m_TrackAlbumID = -1;
+	m_TrackArtistID = -1;
+	m_TrackGenreID = -1;
+	m_TrackFavorite = -1;
+	m_TrackIndex = -1;
+	m_TrackCover.clear();
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -905,6 +930,18 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TO_PLAYLIST);
+
+		if (m_TrackFavorite == 1)
+		{
+			m_OptionMenuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+		}
+		else
+		{
+			m_OptionMenuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+		}
+
+		m_OptionMenuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+		m_OptionMenuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
 	}
 
 }
@@ -980,3 +1017,37 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 	}
 }
 
+
+void PlaylistWindow::DoOptionMenuFavorite()
+{
+	m_TrackFavorite = m_TrackFavorite == 0 ? 1 : 0;
+	LogDebug("DoTopMenuItemFavorite favorite [%d]", m_TrackFavorite);
+	QModelIndex modelIndex = m_pListTracks->GetModel()->index(m_TrackIndex, 0);
+	m_pListTracks->GetModel()->setData(modelIndex, m_TrackFavorite, ListTracksDelegate::LIST_TRACKS_FAVORITE);
+
+	m_pMgr->RequestUpdateTrackFavorite(m_ID, m_TrackFavorite);
+
+}
+
+void PlaylistWindow::DoOptionMenuGoToAlbum()
+{
+	LogDebug("DoOptionMenuGoToAlbum id [%d]", m_TrackAlbumID);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
+	widget->AddWidgetTrack();
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+	widget->RequestTrackList(m_TrackAlbumID, SQLManager::CATEGORY_ALBUM);
+	widget->SetCoverArt(m_TrackCover);
+
+}
+
+void PlaylistWindow::DoOptionMenuGoToArtist()
+{
+	LogDebug("DoOptionMenuGoToArtist id [%d]", m_TrackArtistID);
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
+	widget->AddWidgetTrack();
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+
+	widget->RequestTrackList(m_TrackArtistID, SQLManager::CATEGORY_ARTIST);
+	widget->SetCoverArt(m_TrackCover);
+}
