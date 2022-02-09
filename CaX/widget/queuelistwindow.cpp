@@ -485,10 +485,10 @@ void QueuelistWindow::DoMenuGoToAlbum()
 
 	LogDebug("DoMenuGoToAlbum id [%d]", m_TrackAlbumID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	m_pMusicDBWin->AddWidgetTrack();
+	m_pMusicDBWin->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
 
-	m_pMusicDBWin->RequestTrackList(m_TrackAlbumID, SQLManager::CATEGORY_ALBUM);
+	m_pMusicDBWin->RequestTrackList(m_TrackAlbumID);
 	m_pMusicDBWin->SetCoverArt(m_AlbumCoverArt);
 }
 
@@ -504,10 +504,10 @@ void QueuelistWindow::DoMenuGoToArtist()
 
 	LogDebug("DoMenuGoToArtist id [%d]", m_TrackArtistID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	m_pMusicDBWin->AddWidgetTrack();
+	m_pMusicDBWin->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ARTIST);
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
 
-	m_pMusicDBWin->RequestTrackList(m_TrackArtistID, SQLManager::CATEGORY_ARTIST);
+	m_pMusicDBWin->RequestTrackList(m_TrackArtistID);
 	m_pMusicDBWin->SetCoverArt(m_AlbumCoverArt);
 }
 
