@@ -7,6 +7,7 @@
 
 #include "util/utilnovatron.h"
 
+#include "widget/musicdbwindow.h"
 #include "widget/form/formcoverart.h"
 #include "widget/form/formtitle.h"
 #include "widget/formQueue/queuetrack.h"
@@ -20,6 +21,7 @@ QueuelistWindow::QueuelistWindow(QWidget *parent, const QString &addr, const int
 	m_Track(new QueueTrack(this)),
 	m_Lyrics(new QueueLyrics(this)),
 	m_Artist(new QueueArtist(this)),
+	m_Menu(new QMenu(this)),
 	m_pFormCoverArt(new FormCoverArt(this)),
 	m_pFormTitle(new FormTitle(this)),
 	m_EventID(eventID),
@@ -60,6 +62,13 @@ QueuelistWindow::~QueuelistWindow()
 		m_Artist = nullptr;
 	}
 
+	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
+	if (m_Menu)
+	{
+		delete m_Menu;
+		m_Menu = nullptr;
+	}
+
 	if (m_pFormCoverArt)
 	{
 		delete m_pFormCoverArt;
@@ -70,6 +79,14 @@ QueuelistWindow::~QueuelistWindow()
 	{
 		delete m_pFormTitle;
 		m_pFormTitle = nullptr;
+	}
+
+	if (m_pMusicDBWin)
+	{
+//		emit SigRemoveWidget(m_pMusicDBWin);
+
+		delete m_pMusicDBWin;
+		m_pMusicDBWin = nullptr;
 	}
 
 	delete ui;
@@ -123,6 +140,11 @@ void QueuelistWindow::SetNodeInfo(CJsonNode node)
 
 void QueuelistWindow::SetPlayInfo(CJsonNode node)
 {
+	if (node.IsNull())
+	{
+		LogWarning("node is null~");
+		return;
+	}
 	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	m_pMgr->RequestCoverArt(node.GetString(KEY_COVER_ART), -1, -1);
@@ -133,6 +155,12 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 	SetFormat(node.GetString(KEY_FORMAT));
 	SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
 	SetTotalTime(m_TotalTime);
+
+	if (!m_Src.compare(SRC_MUSIC_DB))
+	{
+		m_TrackID = node.GetString(KEY_ID_UPPER).toInt();
+		m_pMgr->RequestTrackInfo(m_TrackID);
+	}
 }
 
 
@@ -162,6 +190,13 @@ void QueuelistWindow::SlotClickBtnArtist()
 
 void QueuelistWindow::SlotClickBtnClose()
 {
+	if (m_pMusicDBWin)
+	{
+		emit SigRemoveWidget(m_pMusicDBWin);
+
+		delete m_pMusicDBWin;
+		m_pMusicDBWin = nullptr;
+	}
 	emit SigRemoveQueueWidget();
 }
 
@@ -171,16 +206,31 @@ void QueuelistWindow::SlotRespError(QString errMsg)
 	dialog.exec();
 }
 
-//void QueuelistWindow::SlotRespCategoryInfo(CJsonNode node)
-//{
-//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+void QueuelistWindow::SlotRespTrackInfo(CJsonNode node)
+{
+	LogDebug("node [%s]", node.ToTabedByteArray().data());
+	QMap<int, QString>	menuMap;
 
-//	m_AlbumName = node.GetString(KEY_ALBUM);
-////	m_ArtistName = node.GetString(KEY_ARTIST);
+	m_TrackAlbumID = node.GetInt(KEY_ALBUM_ID);
+	m_TrackArtistID = node.GetInt(KEY_ARTIST_ID);
+	m_TrackFavorite = node.GetInt(KEY_FAVORITE);
 
-//	RequestCoverArtMusicDB(node.GetInt(KEY_ALBUM_ID), 0);
-////	RequestCoverArtMusicDB(node.GetInt(KEY_ARTIST_ID), 1);
-//}
+	if (m_TrackFavorite == 1)
+	{
+		menuMap.insert(TOP_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+	}
+	else
+	{
+		menuMap.insert(TOP_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+	}
+
+	menuMap.insert(TOP_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+	menuMap.insert(TOP_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+
+	ClearMenu();
+	SetMenu(menuMap);
+
+}
 
 void QueuelistWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
@@ -218,8 +268,33 @@ void QueuelistWindow::SlotSelectPlay(int index, int playType)
 	m_pMgr->RequestTrackPlay(index);
 }
 
+void QueuelistWindow::SlotMenu()
+{
+//	emit SigMenu();
+}
+
+void QueuelistWindow::SlotMenuAction(QAction *action)
+{
+//	emit SigMenuAction(action->data().toInt());
+	int menuID = action->data().toInt();
+	switch (menuID)
+	{
+	case TOP_MENU_FAVORITE:
+		DoMenuFavorite();
+		break;
+	case TOP_MENU_GO_TO_ALBUM:
+		DoMenuGoToAlbum();
+		break;
+	case TOP_MENU_GO_TO_ARTIST:
+		DoMenuGoToArtist();
+		break;
+	}
+}
+
 void QueuelistWindow::ConnectSigToSlot()
 {
+	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
+	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 	connect(this, SIGNAL(SigRemoveQueueWidget()), parent(), SLOT(SlotRemoveQueueWidget()));
 
 	connect(ui->btnTrack, SIGNAL(clicked()), this, SLOT(SlotClickBtnTrack()));
@@ -227,8 +302,10 @@ void QueuelistWindow::ConnectSigToSlot()
 	connect(ui->btnArtist, SIGNAL(clicked()), this, SLOT(SlotClickBtnArtist()));
 	connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(SlotClickBtnClose()));
 
+	connect(ui->btnMenu, SIGNAL(pressed()), this, SLOT(SlotMenu()));
+
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-//	connect(m_pMgr, SIGNAL(SigRespCategoryInfo(CJsonNode)), this, SLOT(SlotRespCategoryInfo(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_Track->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
@@ -237,6 +314,26 @@ void QueuelistWindow::ConnectSigToSlot()
 
 void QueuelistWindow::Initialize()
 {
+
+	QString style = QString("QMenu::icon {	\
+								padding: 0px 0px 0px 20px;	\
+							}	\
+							QMenu::item {	\
+								width: 260px;	\
+								height: 40px;	\
+								color: rgb(255, 255, 255);	\
+								font-size: 14pt;	\
+								padding: 0px 20px 0px 20px;	\
+							}	\
+							QMenu::item:selected {	\
+								background: rgba(84,84,84,255);	\
+							}");
+
+	m_Menu->setStyleSheet(style);
+	ui->btnMenu->setMenu(m_Menu);
+
+	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+
 	ui->gridLayoutFormCoverArt->addWidget(m_pFormCoverArt);
 	ui->gridLayoutFormTitle->addWidget(m_pFormTitle);
 
@@ -253,10 +350,17 @@ void QueuelistWindow::Initialize()
 
 	m_pFormTitle->SetTitleFont(FONT_SIZE_QUEUE_TITLE, FONT_COLOR_WHITE, FONT_WEIGHT_NORMAL);
 
+	m_pMusicDBWin = nullptr;
+
 	m_Src = "";
 	m_TotalTime = 0;
 	m_Favorite = -1;
 	m_Rating = -1;
+
+	m_TrackID = -1;
+	m_TrackAlbumID = -1;
+	m_TrackArtistID = -1;
+	m_TrackFavorite = -1;
 }
 
 void QueuelistWindow::RequestCoverArtMusicDB(int id, int index)
@@ -344,6 +448,69 @@ void QueuelistWindow::SetTotalTime(int time)
 	ui->labelTotalTime->setText(hhmmss);
 }
 
+void QueuelistWindow::DoMenuFavorite()
+{
+	QMap<int, QString>	menuMap;
+
+	m_TrackFavorite = m_TrackFavorite == 0 ? 1 : 0;
+	LogDebug("DoMenuFavorite favorite [%d]", m_TrackFavorite);
+
+	m_pMgr->RequestUpdateTrackFavorite(m_TrackID, m_TrackFavorite);
+
+	if (m_TrackFavorite == 1)
+	{
+		menuMap.insert(TOP_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+	}
+	else
+	{
+		menuMap.insert(TOP_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+	}
+
+	menuMap.insert(TOP_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+	menuMap.insert(TOP_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+
+	ClearMenu();
+	SetMenu(menuMap);
+}
+
+void QueuelistWindow::DoMenuGoToAlbum()
+{
+	if (m_pMusicDBWin)
+	{
+		emit SigRemoveWidget(m_pMusicDBWin);
+
+		delete m_pMusicDBWin;
+		m_pMusicDBWin = nullptr;
+	}
+
+	LogDebug("DoMenuGoToAlbum id [%d]", m_TrackAlbumID);
+	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
+	m_pMusicDBWin->AddWidgetTrack();
+	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
+
+	m_pMusicDBWin->RequestTrackList(m_TrackAlbumID, SQLManager::CATEGORY_ALBUM);
+	m_pMusicDBWin->SetCoverArt(m_AlbumCoverArt);
+}
+
+void QueuelistWindow::DoMenuGoToArtist()
+{
+	if (m_pMusicDBWin)
+	{
+		emit SigRemoveWidget(m_pMusicDBWin);
+
+		delete m_pMusicDBWin;
+		m_pMusicDBWin = nullptr;
+	}
+
+	LogDebug("DoMenuGoToArtist id [%d]", m_TrackArtistID);
+	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
+	m_pMusicDBWin->AddWidgetTrack();
+	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
+
+	m_pMusicDBWin->RequestTrackList(m_TrackArtistID, SQLManager::CATEGORY_ARTIST);
+	m_pMusicDBWin->SetCoverArt(m_AlbumCoverArt);
+}
+
 int QueuelistWindow::GetRating() const
 {
 	return m_Rating;
@@ -392,7 +559,36 @@ void QueuelistWindow::SetRating(int Rating)
 					  border-image: url(\":/resource/%1\");	\
 					}").arg(style);
 
-	ui->frameRating->setStyleSheet(style);
+					ui->frameRating->setStyleSheet(style);
+}
+
+void QueuelistWindow::ClearMenu()
+{
+	m_Menu->clear();
+}
+
+void QueuelistWindow::SetMenu(QMap<int, QString> map)
+{
+	QMap<int, QString>::iterator i;
+	for (i = map.begin(); i != map.end(); i++)
+	{
+		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
+		QAction *action = new QAction(icon, i.value(), this);
+		action->setData(i.key());
+		m_Menu->addAction(action);
+	}
+}
+
+void QueuelistWindow::SlotAddWidget(QWidget *widget, QString)
+{
+	emit SigAddWidget(widget, STR_NOW_PLAY);	// recursive
+
+}
+
+void QueuelistWindow::SlotRemoveWidget(QWidget *widget)
+{
+	emit SigRemoveWidget(widget);
+
 }
 
 int QueuelistWindow::GetFavorite() const

@@ -15,8 +15,9 @@ public:
 	QueuelistManager();
 	~QueuelistManager();
 
-	void RequestCategoryInfo(int id);
+	void RequestTrackInfo(int id);
 	void RequestTrackPlay(int index);
+	void RequestUpdateTrackFavorite(int id, int favorite);
 
 	SQLManager *GetSqlMgr() const;
 	void SetSqlMgr(SQLManager *pSql);
@@ -24,7 +25,7 @@ public:
 signals:
 
 	void SigRespError(QString errMsg);
-	void SigRespCategoryInfo(CJsonNode node);
+	void SigRespTrackInfo(CJsonNode node);
 
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
 
@@ -36,12 +37,13 @@ private slots:
 private:
 
 	enum {
-		QUEUELIST_CATEGORY_INFO = 0,
+		QUEUELIST_TRACK_INFO = 0,
 		QUEUELIST_TRACK_PLAY,
+		QUEUELIST_UPDATE_TRACK_FAVORITE,
 		QUEUELIST_MAX
 	};
 
-	void ParseCategoryInfo(CJsonNode result);
+	void ParseTrackInfo(CJsonNode result);
 
 	SQLManager	*m_pSql;
 

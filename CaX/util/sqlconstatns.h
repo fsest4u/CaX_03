@@ -922,12 +922,13 @@ LIMIT 0, 100	\
 /// queue list info
 ////////////////////////////////////////////
 
-#define SQL_QUEUE_CATEGORY_INFO	"	\
+#define SQL_QUEUE_TRACK_INFO	"	\
 SELECT	\
 	Album.Name as Album,	\
 	Album.ROWID as AlbumID,	\
 	Artist.Name as Artist,	\
-	Artist.ROWID as ArtistID	\
+	Artist.ROWID as ArtistID,	\
+	Song.favorite as favorite	\
 FROM Song	\
 INNER JOIN Album on Song.AlbumID = Album.ROWID	\
 INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\

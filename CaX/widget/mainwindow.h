@@ -124,6 +124,8 @@ private:
 	QMap<int, QString>		m_SideMenuMap;
 	QMap<QString, QString>	m_DeviceMap;
 
+	CJsonNode			m_NodePlay;
+
 	QString			m_strCurrentMac;
 	QString			m_strAddr;
 

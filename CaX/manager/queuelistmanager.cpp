@@ -17,16 +17,16 @@ QueuelistManager::~QueuelistManager()
 	}
 }
 
-void QueuelistManager::RequestCategoryInfo(int id)
+void QueuelistManager::RequestTrackInfo(int id)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
 	node.Add(KEY_CMD1, VAL_SONG);
 	node.Add(KEY_AS, true);
 	node.Add(KEY_AL, false);
-	node.Add(KEY_SQL, m_pSql->GetQueryQueueCategoryInfo(id));
+	node.Add(KEY_SQL, m_pSql->GetQueryQueueTrackInfo(id));
 
-	RequestCommand(node, QUEUELIST_CATEGORY_INFO);
+	RequestCommand(node, QUEUELIST_TRACK_INFO);
 }
 
 void QueuelistManager::RequestTrackPlay(int index)
@@ -37,6 +37,15 @@ void QueuelistManager::RequestTrackPlay(int index)
 	node.AddInt(KEY_INDEX, index);
 
 	RequestCommand(node, QUEUELIST_TRACK_PLAY);
+}
+
+void QueuelistManager::RequestUpdateTrackFavorite(int id, int favorite)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryUpdateTrackFavorite(id, favorite));
+	RequestCommand(node, QUEUELIST_UPDATE_TRACK_FAVORITE);
 }
 
 SQLManager *QueuelistManager::GetSqlMgr() const
@@ -86,10 +95,15 @@ void QueuelistManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
+	if (nCmdID == QUEUELIST_UPDATE_TRACK_FAVORITE)
+	{
+		return;
+	}
+
 	switch (nCmdID)
 	{
-	case QUEUELIST_CATEGORY_INFO:
-		ParseCategoryInfo(result);
+	case QUEUELIST_TRACK_INFO:
+		ParseTrackInfo(result);
 		break;
 	case QUEUELIST_TRACK_PLAY:
 		break;
@@ -104,8 +118,8 @@ void QueuelistManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
 	emit SigCoverArtUpdate(fileName, nIndex, mode);
 }
 
-void QueuelistManager::ParseCategoryInfo(CJsonNode result)
+void QueuelistManager::ParseTrackInfo(CJsonNode result)
 {
 	CJsonNode node = result.GetArrayAt(0);
-	emit SigRespCategoryInfo(node);
+	emit SigRespTrackInfo(node);
 }

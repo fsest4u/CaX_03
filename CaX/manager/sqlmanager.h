@@ -139,7 +139,7 @@ public:
 	QString GetIncrease(bool bIncrease);
 
 	QString GetQuerySearchList(int nCategory, QString keyword);
-	QString GetQueryQueueCategoryInfo(int nID);
+	QString GetQueryQueueTrackInfo(int nID);
 
 //	QString GetQueryCheckCategory(int updateCategory, QString updateName);
 //	QString GetQueryInsertCategory(int updateCategory, QString updateName);

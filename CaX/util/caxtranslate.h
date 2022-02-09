@@ -110,6 +110,7 @@
 #define STR_GAIN_SET				TR("Replaygain")
 #define STR_GAIN_CLEAR				TR("Clear replaygain")
 #define STR_GO_TO_ALBUM				TR("Go to album")
+#define STR_GO_TO_ARTIST			TR("Go to artist")
 #define STR_LOAD_COUNT				TR("Load count")
 #define STR_MENU              		TR("Menu")
 #define STR_MOVE              		TR("Move")

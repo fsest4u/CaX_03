@@ -836,9 +836,10 @@ void MainWindow::SlotAddQueueList(CJsonNode node)
 
 void MainWindow::SlotSetPlayInfo(CJsonNode node)
 {
+	m_NodePlay = node;
 	if (m_pQueueWin)
 	{
-		m_pQueueWin->SetPlayInfo(node);
+		m_pQueueWin->SetPlayInfo(m_NodePlay);
 	}
 }
 

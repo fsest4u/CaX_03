@@ -880,11 +880,11 @@ QString SQLManager::GetQuerySearchList(int nCategory, QString keyword)
 	return query;
 }
 
-QString SQLManager::GetQueryQueueCategoryInfo(int nID)
+QString SQLManager::GetQueryQueueTrackInfo(int nID)
 {
 	QString query;
 
-	query = QString(SQL_QUEUE_CATEGORY_INFO).arg(nID);
+	query = QString(SQL_QUEUE_TRACK_INFO).arg(nID);
 
 	return query;
 }
