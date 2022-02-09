@@ -329,7 +329,20 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 //	}
 //	else
 	{
-		m_pMgr->RequestCategoryOverview(m_nID, m_nCategory);
+		int overviewID = -1;
+		if (catID2 >= 0)
+		{
+			overviewID = catID2;
+		}
+		else if (catID >= 0)
+		{
+			overviewID = catID;
+		}
+		else
+		{
+			overviewID = nID;
+		}
+		m_pMgr->RequestCategoryOverview(overviewID, m_nCategory);
 	}
 
 	if (m_TypeMode == TYPE_MODE_TRACK_ALBUM)

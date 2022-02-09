@@ -95,9 +95,9 @@ QueuelistWindow::~QueuelistWindow()
 void QueuelistWindow::SetNodeInfo(CJsonNode node)
 {
 
-	LogWarning("====================================");
-	LogWarning("SetNodeInfo [%s]", node.ToCompactByteArray().data());
-	LogWarning("====================================");
+//	LogDebug("====================================");
+//	LogDebug("SetNodeInfo [%s]", node.ToCompactByteArray().data());
+//	LogDebug("====================================");
 
 	m_Src = node.GetString(KEY_SRC);
 
