@@ -253,7 +253,7 @@ CJsonNode TrackInfoDialog::GetInfoData() const
 void TrackInfoDialog::SetInfoData(const CJsonNode &InfoData)
 {
 	m_InfoData = InfoData;
-	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
 
 	m_TrackInfo->SetAlbumList(m_AlbumList);
 	m_TrackInfo->SetAlbumArtistList(m_AlbumArtistList);

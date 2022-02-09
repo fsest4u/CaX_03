@@ -62,10 +62,10 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
-			LogDebug("type : [%d]", node.GetInt(KEY_TYPE));
-	//		LogDebug("cover art : [%s]", node.GetString(KEY_COVER_ART).toUtf8().data());
-			LogDebug("title : [%s]", node.GetString(KEY_TOP).toUtf8().data());
-	//		LogDebug("url : [%s]", node.GetString(VAL_URL).toUtf8().data());
+//			LogDebug("type : [%d]", node.GetInt(KEY_TYPE));
+//			LogDebug("cover art : [%s]", node.GetString(KEY_COVER_ART).toUtf8().data());
+//			LogDebug("title : [%s]", node.GetString(KEY_TOP).toUtf8().data());
+//			LogDebug("url : [%s]", node.GetString(VAL_URL).toUtf8().data());
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetString(KEY_ID_UPPER), ListServiceDelegate::LIST_SERVICE_ID);
 			item->setData(node.GetInt(KEY_TYPE), ListServiceDelegate::LIST_SERVICE_TYPE);

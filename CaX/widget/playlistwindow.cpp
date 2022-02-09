@@ -187,7 +187,7 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 
 void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
 {
-	LogDebug("playlist info [%s]", node.ToCompactByteArray().data());
+//	LogDebug("playlist info [%s]", node.ToCompactByteArray().data());
 
 	QString count = node.GetString(KEY_COUNT);
 	QString total = node.GetString(KEY_TOTAL);
@@ -231,7 +231,7 @@ void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 	m_TrackIndex = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
 
 //	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
-	LogDebug("index [%d] favorite [%d] album [%d] artist [%d] genre [%d]", m_TrackIndex, m_TrackFavorite, m_TrackAlbumID, m_TrackArtistID, m_TrackGenreID);
+//	LogDebug("index [%d] favorite [%d] album [%d] artist [%d] genre [%d]", m_TrackIndex, m_TrackFavorite, m_TrackAlbumID, m_TrackArtistID, m_TrackGenreID);
 
 	SetOptionMenu();
 
@@ -306,7 +306,7 @@ void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
 
 void PlaylistWindow::SlotSelectPlay(int id, int playType)
 {
-	LogDebug("click Count [%d]", id);
+//	LogDebug("click Count [%d]", id);
 	QMap<int, bool> map;
 	map.insert(id, true);
 	m_pMgr->RequestPlayPlaylist(map, playType);
@@ -551,7 +551,7 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 
 void PlaylistWindow::SlotAddCategoryFromPlaylist(int category, QMap<int, bool> idMap)
 {
-	LogDebug("playlist id [%d] cat [%d] id [%d]", m_ID, category);
+//	LogDebug("playlist id [%d] cat [%d] id [%d]", m_ID, category);
 	// add category
 	m_pMgr->RequestAddCategoryFromPlaylist(m_ID, idMap, category);
 	// refresh
@@ -563,7 +563,7 @@ void PlaylistWindow::SlotAddCategoryFromPlaylist(int category, QMap<int, bool> i
 
 void PlaylistWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
 {
-	LogDebug("playlist id [%d] track [%d]", m_ID);
+//	LogDebug("playlist id [%d] track [%d]", m_ID);
 	// add track
 	m_pMgr->RequestAddTrackFromPlaylist(m_ID, idMap);
 	// refresh
@@ -848,7 +848,7 @@ void PlaylistWindow::DoTopMenuAddToPlaylist()
 	}
 	else
 	{
-		LogDebug("bad choice");
+		LogWarning("bad choice");
 	}
 }
 
@@ -976,7 +976,7 @@ void PlaylistWindow::DoOptionMenuRename(int nID)
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
-		LogDebug("invalid type");
+		LogWarning("invalid type");
 	}
 }
 
@@ -1021,7 +1021,7 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 void PlaylistWindow::DoOptionMenuFavorite()
 {
 	m_TrackFavorite = m_TrackFavorite == 0 ? 1 : 0;
-	LogDebug("DoTopMenuItemFavorite favorite [%d]", m_TrackFavorite);
+//	LogDebug("DoTopMenuItemFavorite favorite [%d]", m_TrackFavorite);
 	QModelIndex modelIndex = m_pListTracks->GetModel()->index(m_TrackIndex, 0);
 	m_pListTracks->GetModel()->setData(modelIndex, m_TrackFavorite, ListTracksDelegate::LIST_TRACKS_FAVORITE);
 
@@ -1031,7 +1031,7 @@ void PlaylistWindow::DoOptionMenuFavorite()
 
 void PlaylistWindow::DoOptionMenuGoToAlbum()
 {
-	LogDebug("DoOptionMenuGoToAlbum id [%d]", m_TrackAlbumID);
+//	LogDebug("DoOptionMenuGoToAlbum id [%d]", m_TrackAlbumID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
@@ -1043,7 +1043,7 @@ void PlaylistWindow::DoOptionMenuGoToAlbum()
 
 void PlaylistWindow::DoOptionMenuGoToArtist()
 {
-	LogDebug("DoOptionMenuGoToArtist id [%d]", m_TrackArtistID);
+//	LogDebug("DoOptionMenuGoToArtist id [%d]", m_TrackArtistID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);

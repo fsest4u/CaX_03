@@ -191,7 +191,7 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 //		node.Add(KEY_CDTOTAL, cdtotal);
 
 		node.AddInt(KEY_EVENT_ID, m_EventID);
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 		m_pMgr->RequestCDRip(node);
 	}
@@ -251,7 +251,7 @@ void AudioCDWindow::SlotSelectPlay(int id, int playType)
 void AudioCDWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
 	m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
-	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
+//	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
 
 	m_Menu->clear();
 
@@ -502,7 +502,7 @@ void AudioCDWindow::ResetSelectMap()
 	int index = 0;
 	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 	{
-		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
 		index = i.key() - 1;
 		if (index < 0)
 			index = 0;

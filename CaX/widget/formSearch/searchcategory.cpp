@@ -56,7 +56,7 @@ void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 
 	foreach (CJsonNode node, m_NodeList)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 		int id = node.GetInt(KEY_ID_LOWER);
 

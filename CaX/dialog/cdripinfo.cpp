@@ -43,7 +43,7 @@ CJsonNode CDRipInfo::GetInfoData()
 void CDRipInfo::SetInfoData(CJsonNode node)
 {
 	m_InfoData = node;
-	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
 	ui->cbFormat->addItems(m_InfoData.GetStringList(KEY_FORMATS));
 	ui->cbFormat->setCurrentIndex(m_InfoData.GetInt(KEY_FORMAT));
 

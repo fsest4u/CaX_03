@@ -132,7 +132,7 @@ void IServiceWindow::RequestIServiceURL(QString url)
 	if (!url.isEmpty())
 	{
 		url = QString("%1?p=%2").arg(url).arg(m_CurIndex);
-		LogDebug("index [%d], url [%s]", m_CurIndex, url.toUtf8().data());
+//		LogDebug("index [%d], url [%s]", m_CurIndex, url.toUtf8().data());
 		m_CurIndex++;
 	}
 	m_pAirableMgr->RequestURL(m_InternetType, url);
@@ -326,7 +326,7 @@ void IServiceWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
 	m_ModelIndex = modelIndex;
 	int type = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
-	LogDebug("type [%d] x [%d] y [%d]", type, point.x(), point.y());
+//	LogDebug("type [%d] x [%d] y [%d]", type, point.x(), point.y());
 
 	if (iIServiceType_Qobuz == m_InternetType)
 	{
@@ -742,7 +742,7 @@ void IServiceWindow::SlotTopMenuAction(int menuID)
 
 void IServiceWindow::SlotOptionMenuAction(QString url, int type, int menuID)
 {
-	LogDebug("click option menu [%s] [%d] [%d]", url.toUtf8().data(), type, menuID);
+//	LogDebug("click option menu [%s] [%d] [%d]", url.toUtf8().data(), type, menuID);
 	switch (menuID) {
 	case OPTION_MENU_DELETE_PLAYLIST:
 		m_pQobuzMgr->RequestDeletePlaylist(url);
@@ -1017,7 +1017,7 @@ void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
 	m_Type = nType;
 	m_Node = node;
 
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
 	int itemType = node.GetInt(KEY_ITEM_TYPE);
 
@@ -1062,7 +1062,7 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 	m_Type = nType;
 	m_Node = node;
 
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
 	if (iQobuzType_Mask_Recommend == nType)
 	{
@@ -1143,7 +1143,7 @@ void IServiceWindow::SelectFavoriteForQobuz(int nType, CJsonNode node)
 	m_Type = nType;
 	m_Node = node;
 
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
 	if (iQobuzType_Mask_Favorite == nType)
 	{
@@ -1181,7 +1181,7 @@ void IServiceWindow::SelectUserPlaylistForQobuz(int nType, CJsonNode node)
 
 	m_PlaylistID = "";
 
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
 	if (iQobuzType_Mask_UserPlaylist == nType)
 	{
@@ -1207,7 +1207,7 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 	m_Type = nType;
 	m_Node = node;
 
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
 	QString url = m_Node.GetString(KEY_URL);
 

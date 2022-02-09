@@ -163,7 +163,7 @@ void MainWindow::SlotMenu()
 
 void MainWindow::SlotMenuAction(int menuID)
 {
-	LogDebug("menu action [%d]", menuID);
+//	LogDebug("menu action [%d]", menuID);
 	switch (menuID)
 	{
 	case SIDEMENU_MUSIC_DB:
@@ -294,7 +294,7 @@ void MainWindow::ReadSettings()
 		CJsonNode nodeList;
 		if (nodeList.SetContent(strNodeWol))
 		{
-			LogDebug("ReadSettings [%s]", nodeList.ToCompactByteArray().data());
+//			LogDebug("ReadSettings [%s]", nodeList.ToCompactByteArray().data());
 			if (!nodeList.IsNull() && nodeList.ArraySize() > 0)
 			{
 //				for (int i = 0; i < nodeList.ArraySize(); i++)
@@ -343,7 +343,7 @@ void MainWindow::WriteSettings()
 //			CJsonNode node = nodeList.GetArrayAt(i);
 //			LogDebug("wol [%s]", node.ToCompactByteArray().data());
 //		}
-		LogDebug("wol list [%s]", nodeList.ToCompactByteArray().data());
+//		LogDebug("wol list [%s]", nodeList.ToCompactByteArray().data());
 		settings.setValue("node_wol", nodeList.ToCompactString());
 	}
 
@@ -730,7 +730,7 @@ void MainWindow::SlotPowerOff(QList<CJsonNode> list)
 	QStringList devices;
 	foreach (CJsonNode node, list)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 		devices.append(node.GetString(KEY_CA_NAME));
 	}
 
@@ -779,7 +779,7 @@ void MainWindow::SlotDevice()
 	for (int i = 0; i < nodeList.ArraySize(); i++)
 	{
 		CJsonNode node = nodeList.GetArrayAt(i);
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 		m_DeviceMap.insert(node.GetString(KEY_MAC), node.GetString(KEY_VAL));
 	}
 
@@ -1097,7 +1097,7 @@ void MainWindow::DoAbout()
 
 void MainWindow::DoSearchHome(QString keyword)
 {
-	LogDebug("search [%s]", keyword.toUtf8().data());
+//	LogDebug("search [%s]", keyword.toUtf8().data());
 	SearchWindow *widget = new SearchWindow(this, m_strAddr);
 	SlotAddWidget(widget, STR_SEARCH);
 

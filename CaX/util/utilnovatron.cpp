@@ -201,7 +201,7 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	}
 	else
 	{
-		LogDebug("There is no icon corresponding to the string.");
+//		LogDebug("There is no icon corresponding to the string.");
 		return QIcon("");
 	}
 }
@@ -308,7 +308,7 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 
 	if (coverArt.isEmpty())
 	{
-		LogDebug("There is no icon corresponding to the string.");
+//		LogDebug("There is no icon corresponding to the string.");
 	}
 
 	return coverArt;

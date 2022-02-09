@@ -112,7 +112,7 @@ void QueuelistWindow::SetNodeInfo(CJsonNode node)
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
 		list.append(result.GetArrayAt(i));
-		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
+//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
 	}
 
 //	CJsonNode track = list.at(0);
@@ -145,7 +145,7 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		LogWarning("node is null~");
 		return;
 	}
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	m_pMgr->RequestCoverArt(node.GetString(KEY_COVER_ART), -1, -1);
 
@@ -208,7 +208,7 @@ void QueuelistWindow::SlotRespError(QString errMsg)
 
 void QueuelistWindow::SlotRespTrackInfo(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
 	QMap<int, QString>	menuMap;
 
 	m_TrackAlbumID = node.GetInt(KEY_ALBUM_ID);
@@ -236,7 +236,7 @@ void QueuelistWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	Q_UNUSED(mode)
 
-	LogDebug("filename [%s]", fileName.toUtf8().data());
+//	LogDebug("filename [%s]", fileName.toUtf8().data());
 	if (!m_Src.compare(SRC_MUSIC_DB))
 	{
 	//	if (nIndex == 0)
@@ -453,7 +453,7 @@ void QueuelistWindow::DoMenuFavorite()
 	QMap<int, QString>	menuMap;
 
 	m_TrackFavorite = m_TrackFavorite == 0 ? 1 : 0;
-	LogDebug("DoMenuFavorite favorite [%d]", m_TrackFavorite);
+//	LogDebug("DoMenuFavorite favorite [%d]", m_TrackFavorite);
 
 	m_pMgr->RequestUpdateTrackFavorite(m_TrackID, m_TrackFavorite);
 
@@ -483,7 +483,7 @@ void QueuelistWindow::DoMenuGoToAlbum()
 		m_pMusicDBWin = nullptr;
 	}
 
-	LogDebug("DoMenuGoToAlbum id [%d]", m_TrackAlbumID);
+//	LogDebug("DoMenuGoToAlbum id [%d]", m_TrackAlbumID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	m_pMusicDBWin->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
@@ -502,7 +502,7 @@ void QueuelistWindow::DoMenuGoToArtist()
 		m_pMusicDBWin = nullptr;
 	}
 
-	LogDebug("DoMenuGoToArtist id [%d]", m_TrackArtistID);
+//	LogDebug("DoMenuGoToArtist id [%d]", m_TrackArtistID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	m_pMusicDBWin->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);

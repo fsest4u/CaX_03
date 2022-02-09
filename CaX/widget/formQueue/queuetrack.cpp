@@ -55,7 +55,7 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list)
 
 	foreach (CJsonNode node, list)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 		int seconds = node.GetInt(KEY_DURATION);
 		QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 

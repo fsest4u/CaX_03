@@ -295,7 +295,7 @@ bool FormClassify::eventFilter(QObject *object, QEvent *event)
 
 void FormClassify::SlotArtistMenu(QAction *action)
 {
-	LogDebug("Artist id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+//	LogDebug("Artist id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
 	ui->labelArtist->setText(action->text());
 	ui->labelArtist->show();
 	emit SigClassifyArtist(true, action->data().toString());
@@ -303,7 +303,7 @@ void FormClassify::SlotArtistMenu(QAction *action)
 
 void FormClassify::SlotGenreMenu(QAction *action)
 {
-	LogDebug("Genre id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+//	LogDebug("Genre id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
 	ui->labelGenre->setText(action->text());
 	ui->labelGenre->show();
 	emit SigClassifyGenre(true, action->data().toString());
@@ -311,7 +311,7 @@ void FormClassify::SlotGenreMenu(QAction *action)
 
 void FormClassify::SlotComposerMenu(QAction *action)
 {
-	LogDebug("Composer id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+//	LogDebug("Composer id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
 	ui->labelComposer->setText(action->text());
 	ui->labelComposer->show();
 	emit SigClassifyComposer(true, action->data().toString());
@@ -319,7 +319,7 @@ void FormClassify::SlotComposerMenu(QAction *action)
 
 void FormClassify::SlotFormatMenu(QAction *action)
 {
-	LogDebug("Format id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+//	LogDebug("Format id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
 	ui->labelFormat->setText(action->text());
 	ui->labelFormat->show();
 	emit SigClassifyFormat(true, action->data().toString());
@@ -327,7 +327,7 @@ void FormClassify::SlotFormatMenu(QAction *action)
 
 void FormClassify::SlotMostPlayedMenu(QAction *action)
 {
-	LogDebug("Most play id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
+//	LogDebug("Most play id [%s][%s]", action->data().toString().toUtf8().data(), action->text().toUtf8().data());
 	ui->labelMostPlayed->setText(action->text());
 	ui->labelMostPlayed->show();
 	emit SigClassifyMostPlayed(true, action->data().toString());

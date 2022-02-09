@@ -74,7 +74,7 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 	{
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			m_Model->setVerticalHeaderItem(index, new QStandardItem());
 
 			int seconds = node.GetInt(KEY_TIME);
@@ -333,7 +333,7 @@ void TableTracks::SetColumnShow(int column, bool show)
 
 void TableTracks::resizeEvent(QResizeEvent *event)
 {
-	LogDebug("resizeEvent");
+//	LogDebug("resizeEvent");
 
 	SetColResize(0);
 }

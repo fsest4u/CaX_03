@@ -404,7 +404,7 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 
 void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 	QString strAlbumCnt = node.GetString(KEY_ALBUM);
 	QString strAlbumArtistCnt = node.GetString(KEY_ALBUM_ARTIST);
@@ -1278,7 +1278,7 @@ void MusicDBWindow::SlotClassifyFormat(bool bAdd, QString id)
 {
 	ClearList();
 
-	LogDebug("format add [%d] id [%s]", bAdd, id.toUtf8().data());
+//	LogDebug("format add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		int nID = id.toInt();
@@ -1321,7 +1321,7 @@ void MusicDBWindow::SlotClassifyMostPlayed(bool bAdd, QString id)
 {
 	ClearList();
 
-	LogDebug("most played add [%d] id [%s]", bAdd, id.toUtf8().data());
+//	LogDebug("most played add [%d] id [%s]", bAdd, id.toUtf8().data());
 	if (bAdd)
 	{
 		int nID = id.toInt();
@@ -1398,7 +1398,7 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 {
 	// temp_code, dylee
-	LogDebug("id [%d] category [%d]", id, category);
+//	LogDebug("id [%d] category [%d]", id, category);
 }
 
 //void MusicDBWindow::SlotRespUpdateCategory(int updateId)

@@ -29,7 +29,7 @@ CJsonNode TrackInfo::GetInfoData()
 void TrackInfo::SetInfoData(CJsonNode node)
 {
 	m_InfoData = node;
-	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
 
 	SetAlbum(m_AlbumList, m_InfoData.GetString(KEY_ALBUM));
 	SetAlbumArtist(m_AlbumArtistList, m_InfoData.GetString(KEY_ALBUM_ARTIST));

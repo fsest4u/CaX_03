@@ -211,7 +211,7 @@ void BrowserWindow::SlotTopMenu()
 
 void BrowserWindow::SlotTopMenuAction(int menuID)
 {
-	LogDebug("click top menu [%d]", menuID);
+//	LogDebug("click top menu [%d]", menuID);
 	switch (menuID) {
 	case TOP_MENU_RELOAD:
 		DoTopMenuReload();
@@ -283,7 +283,7 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 {
 	QString path = node.GetString(KEY_PATH);
-	LogDebug("click option menu [%s] [%d] [%d]", path.toUtf8().data(), type, menuID);
+//	LogDebug("click option menu [%s] [%d] [%d]", path.toUtf8().data(), type, menuID);
 	switch (menuID) {
 	case OPTION_MENU_OPTION_PLAY_SUBDIR:
 		DoOptionMenuOptionPlaySubDir();
@@ -438,7 +438,7 @@ void BrowserWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
 	m_ModelIndex = modelIndex;
 	int type = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
-	LogDebug("type [%d] x [%d] y [%d]", type, point.x(), point.y());
+//	LogDebug("type [%d] x [%d] y [%d]", type, point.x(), point.y());
 
 	SetOptionMenu(type);
 
@@ -640,7 +640,7 @@ void BrowserWindow::SlotListUpdate()
 
 void BrowserWindow::SlotCopyHere(bool move, QString dstPath, QString path, int type)
 {
-	LogDebug("click copy/move here [%d] [%d] [%s]", m_BrowserMode, move, dstPath.toUtf8().data());
+//	LogDebug("click copy/move here [%d] [%d] [%s]", m_BrowserMode, move, dstPath.toUtf8().data());
 	if (BROWSER_MODE_COPY == m_BrowserMode
 			|| BROWSER_MODE_MOVE == m_BrowserMode)
 	{
@@ -1252,14 +1252,14 @@ void BrowserWindow::DoOptionMenuPlay(CJsonNode node, int type, int where)
 {
 	if  (iFolderType_Mask_Pls & type)
 	{
-		LogDebug("Pls node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("Pls node [%s]", node.ToCompactByteArray().data());
 		m_Files.clear();
 		m_Files.append(node.GetString(KEY_ID_LOWER));
 		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, PLAY_NOW);
 	}
 	else
 	{
-		LogDebug("Play_Select node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("Play_Select node [%s]", node.ToCompactByteArray().data());
 		QString path = node.GetString(KEY_PATH);
 		QStringList dirs;
 		QStringList files;
@@ -1329,7 +1329,7 @@ void BrowserWindow::DoOptionMenuRename(QString path)
 		QString dst = dialog.GetName();
 		if (dst.isEmpty())
 		{
-			LogDebug("please input name");
+			LogWarning("please input name");
 		}
 		else
 		{

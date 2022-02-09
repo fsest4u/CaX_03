@@ -124,7 +124,7 @@ void SearchCoverArtResultDialog::SlotAppendList()
 {
 	if (!m_NextUrl.isEmpty())
 	{
-		LogDebug("next url [%s]", m_NextUrl.toUtf8().data());
+//		LogDebug("next url [%s]", m_NextUrl.toUtf8().data());
 		m_pMgr->RequestCoverArtList(m_Site, m_Keyword, m_Artist, m_NextUrl);
 	}
 }

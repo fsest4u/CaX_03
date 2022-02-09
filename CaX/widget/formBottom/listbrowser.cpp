@@ -160,7 +160,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			UtilNovatron::DebugTypeForQobuz("SetNodeList", node.GetInt(KEY_TYPE));
 
 			int nodeType = node.GetInt(KEY_TYPE);

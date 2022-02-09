@@ -51,7 +51,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	int index = 0;
 	foreach (CJsonNode node, list)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 //		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE_CAP).toUtf8().data());
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
@@ -109,7 +109,7 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 
 	int colSize = width / colCnt;
 	int rowSize = height / rowCnt;
-	LogDebug("resize colSize [%d] rowSize [%d]", colSize, rowSize);
+//	LogDebug("resize colSize [%d] rowSize [%d]", colSize, rowSize);
 
 	if (m_ColWidthTitle <= 0)
 	{
@@ -200,7 +200,7 @@ void EditTagDialog::SlotSectionClicked(int logicalIndex)
 
 void EditTagDialog::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth)
 {
-	LogDebug("col [%d] old [%d] new [%d]", logicalIndex, oldWidth, newWidth);
+//	LogDebug("col [%d] old [%d] new [%d]", logicalIndex, oldWidth, newWidth);
 	if (newWidth <= 0)
 	{
 		return;

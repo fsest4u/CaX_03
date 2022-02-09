@@ -132,7 +132,7 @@ void SearchWindow::SlotReqCoverArt(int id, int index, int category)
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(strCat).arg(id);
 
-	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
+//	LogDebug("path [%s] index [%d]", fullpath.toUtf8().data(), index);
 	m_pMgr->RequestCoverArt(fullpath, index, category);
 }
 
@@ -189,7 +189,7 @@ void SearchWindow::SlotSelectPlay(int id, int playType)
 void SearchWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
 	m_ModelIndex = modelIndex;
-	LogDebug(" x [%d] y [%d]", point.x(), point.y());
+//	LogDebug(" x [%d] y [%d]", point.x(), point.y());
 
 	m_Menu->clear();
 
@@ -278,7 +278,7 @@ void SearchWindow::SetOptionMenu()
 
 void SearchWindow::DoOptionMenuGoToAlbum(int id, QString coverArt)
 {
-	LogDebug("id [%d]", id);
+//	LogDebug("id [%d]", id);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);

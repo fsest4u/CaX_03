@@ -65,7 +65,7 @@ void TCPClient::RequestCommand(QByteArray jsonData, int nCmdID, int nIndex)
 	{
 
 		QString jsonValue = QString::fromUtf8(m_pReply->readAll());
-		LogDebug("Network Success : [%s]", jsonValue.toUtf8().data());
+//		LogDebug("Network Success : [%s]", jsonValue.toUtf8().data());
 		if (nIndex < 0)
 		{
 			emit SigRespInfo(jsonValue, nCmdID);
@@ -117,7 +117,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 	QEventLoop loop;
 	if (QFileInfo::exists(filename))
 	{
-		LogDebug("file exists [%s]", filename.toUtf8().data());
+//		LogDebug("file exists [%s]", filename.toUtf8().data());
 		emit SigRespCoverArt(filename, nIndex, nMode);
 		return;
 	}
@@ -148,7 +148,7 @@ void TCPClient::RequestCoverArt(QString fullpath, int nIndex, int nMode)
 		{
 			if (image.save(filename, suffix.toLatin1().data()))
 			{
-				LogDebug("file saves [%s]", filename.toUtf8().data());
+//				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename, nIndex, nMode);
 			}
 		}
@@ -221,7 +221,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 	QEventLoop loop;
 	if (QFileInfo::exists(filename))
 	{
-		LogDebug("file exists [%s]", filename.toUtf8().data());
+//		LogDebug("file exists [%s]", filename.toUtf8().data());
 		emit SigRespCoverArt(filename);
 		return;
 	}
@@ -260,7 +260,7 @@ void TCPClient::RequestCoverArt(QString fullpath)
 		{
 			if (image.save(filename, suffix.toLatin1().data()))
 			{
-				LogDebug("file saves [%s]", filename.toUtf8().data());
+//				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespCoverArt(filename);
 			}
 		}
@@ -339,7 +339,7 @@ void TCPClient::RequestSearchCoverArt(QString strUrl, int index)
 		{
 			if (image.save(filename, suffix.toLatin1().data()))
 			{
-				LogDebug("file saves [%s]", filename.toUtf8().data());
+//				LogDebug("file saves [%s]", filename.toUtf8().data());
 				emit SigRespSearchCoverArt(filename, index);
 			}
 		}

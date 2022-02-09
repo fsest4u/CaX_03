@@ -176,7 +176,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			QString subtitle = GetGroupPlayStatus(node.GetInt(KEY_GROUP_PLAY_STATUS))
 					+ " / "
 					+ GetActiveChannel(node.GetInt(KEY_ACTIVE_CHANNEL))

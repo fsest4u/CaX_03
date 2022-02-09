@@ -67,7 +67,7 @@ void AudioCDManager::RequestCDRipInfo(int index, QMap<int, bool> idMap)
 		QMap<int, bool>::iterator i;
 		for (i = idMap.begin(); i!= idMap.end(); i++)
 		{
-	//		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//			LogDebug("key [%d] value [%d]", i.key(), i.value());
 			idArr.AppendArray((int64_t)i.key());
 		}
 		node.Add(KEY_TRACKS, idArr);

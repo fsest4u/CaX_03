@@ -229,7 +229,7 @@ void PlayWindow::SlotEventNowPlay(CJsonNode node)
 
 void PlayWindow::SlotTrackInfo(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
 }
 
 void PlayWindow::SlotCoverArtUpdate(QString fileName)
@@ -373,32 +373,32 @@ void PlayWindow::SetVariable(CJsonNode node)
 
 void PlayWindow::DebugVariable()
 {
-	LogDebug("m_Info [%d]", m_Info);
-	LogDebug("m_List [%d]", m_List);
-	LogDebug("m_Mute [%d]", m_Mute);
-	LogDebug("m_Next [%d]", m_Next);
-	LogDebug("m_PlayPause [%d]", m_PlayPause);
-	LogDebug("m_Prev [%d]", m_Prev);
-	LogDebug("m_Program [%d]", m_Program);
-	LogDebug("m_Record [%d]", m_Record);
-	LogDebug("m_Recordable [%d]", m_Recordable);
-	LogDebug("m_Seek [%d]", m_Seek);
-	LogDebug("m_Swap [%d]", m_Swap);
-	LogDebug("m_Duration [%d]", m_Duration);
-	LogDebug("m_ID [%d]", m_ID);
-	LogDebug("m_PlayTime [%d]", m_PlayTime);
-	LogDebug("m_SampleRate [%d]", m_SampleRate);
-	LogDebug("m_Volume [%d]", m_Volume);
-	LogDebug("m_TimeStamp [%d]", m_TimeStamp);
-	LogDebug("m_Bot [%s]", m_Bot.toUtf8().data());
-	LogDebug("m_CoverArt [%s]", m_CoverArt.toUtf8().data());
-	LogDebug("m_Format [%s]", m_Format.toUtf8().data());
-	LogDebug("m_Input [%s]", m_Input.toUtf8().data());
-	LogDebug("m_PlayState [%s]", m_PlayState.toUtf8().data());
-	LogDebug("m_Repeat [%s]", m_Repeat.toUtf8().data());
-	LogDebug("m_Src [%s]", m_Src.toUtf8().data());
-	LogDebug("m_Top [%s]", m_Top.toUtf8().data());
-	LogDebug("m_Mqa [%s]", m_Mqa.toUtf8().data());
+//	LogDebug("m_Info [%d]", m_Info);
+//	LogDebug("m_List [%d]", m_List);
+//	LogDebug("m_Mute [%d]", m_Mute);
+//	LogDebug("m_Next [%d]", m_Next);
+//	LogDebug("m_PlayPause [%d]", m_PlayPause);
+//	LogDebug("m_Prev [%d]", m_Prev);
+//	LogDebug("m_Program [%d]", m_Program);
+//	LogDebug("m_Record [%d]", m_Record);
+//	LogDebug("m_Recordable [%d]", m_Recordable);
+//	LogDebug("m_Seek [%d]", m_Seek);
+//	LogDebug("m_Swap [%d]", m_Swap);
+//	LogDebug("m_Duration [%d]", m_Duration);
+//	LogDebug("m_ID [%d]", m_ID);
+//	LogDebug("m_PlayTime [%d]", m_PlayTime);
+//	LogDebug("m_SampleRate [%d]", m_SampleRate);
+//	LogDebug("m_Volume [%d]", m_Volume);
+//	LogDebug("m_TimeStamp [%d]", m_TimeStamp);
+//	LogDebug("m_Bot [%s]", m_Bot.toUtf8().data());
+//	LogDebug("m_CoverArt [%s]", m_CoverArt.toUtf8().data());
+//	LogDebug("m_Format [%s]", m_Format.toUtf8().data());
+//	LogDebug("m_Input [%s]", m_Input.toUtf8().data());
+//	LogDebug("m_PlayState [%s]", m_PlayState.toUtf8().data());
+//	LogDebug("m_Repeat [%s]", m_Repeat.toUtf8().data());
+//	LogDebug("m_Src [%s]", m_Src.toUtf8().data());
+//	LogDebug("m_Top [%s]", m_Top.toUtf8().data());
+//	LogDebug("m_Mqa [%s]", m_Mqa.toUtf8().data());
 }
 
 void PlayWindow::InitPlayInfo()

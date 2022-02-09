@@ -52,7 +52,7 @@ void ListSetup::SetNodeList(const QList<CJsonNode> &NodeList)
 
 	foreach (CJsonNode node, m_NodeList)
 	{
-		LogDebug("type : [%s]", node.ToCompactByteArray().data());
+//		LogDebug("type : [%s]", node.ToCompactByteArray().data());
 
 		QStandardItem *item = new QStandardItem;
 		item->setData(node.GetString(KEY_ID_UPPER), ListSetupDelegate::LIST_SETUP_ID);
