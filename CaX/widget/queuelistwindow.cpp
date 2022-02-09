@@ -504,11 +504,10 @@ void QueuelistWindow::DoMenuGoToArtist()
 
 	LogDebug("DoMenuGoToArtist id [%d]", m_TrackArtistID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	m_pMusicDBWin->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ARTIST);
+	m_pMusicDBWin->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
 
-	m_pMusicDBWin->RequestTrackList(m_TrackArtistID);
-	m_pMusicDBWin->SetCoverArt(m_AlbumCoverArt);
+	m_pMusicDBWin->RequestCategoryList(m_TrackArtistID);
 }
 
 int QueuelistWindow::GetRating() const

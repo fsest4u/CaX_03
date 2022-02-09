@@ -170,12 +170,13 @@ void SearchWindow::SlotSelectAlbum(int id, QString coverArt)
 
 void SearchWindow::SlotSelectArtist(int id, QString coverArt)
 {
+	Q_UNUSED(coverArt)
+
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ARTIST);
+	widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(id);
-	widget->SetCoverArt(coverArt);
+	widget->RequestCategoryList(id);
 }
 
 void SearchWindow::SlotSelectPlay(int id, int playType)

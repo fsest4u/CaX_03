@@ -1045,9 +1045,8 @@ void PlaylistWindow::DoOptionMenuGoToArtist()
 {
 	LogDebug("DoOptionMenuGoToArtist id [%d]", m_TrackArtistID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
-	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ARTIST);
+	widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
-	widget->RequestTrackList(m_TrackArtistID);
-	widget->SetCoverArt(m_TrackCover);
+	widget->RequestCategoryList(m_TrackArtistID);
 }
