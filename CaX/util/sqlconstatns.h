@@ -239,7 +239,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -287,7 +287,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -333,7 +333,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -381,7 +381,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -429,7 +429,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -477,7 +477,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -525,7 +525,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -570,7 +570,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -613,7 +613,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -696,7 +696,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\
@@ -725,7 +725,7 @@ select	\
 	, Mood.Name as Mood	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
-	, Song.nov_Samplerate as SampleRate	\
+	, Song.nov_Samplerate as samplerate	\
 	, Song.nov_Bitrate as Bitrate	\
 	, Song.Rating as Rating	\
 from Song	\

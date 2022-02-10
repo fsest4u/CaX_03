@@ -91,7 +91,7 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			int nID = node.GetString(KEY_ID_LOWER).toInt();
 			QString extension = UtilNovatron::GetSuffix(node.GetString(KEY_FORMAT));
 			QString bitrate = UtilNovatron::ConvertBitrate(node.GetString(KEY_BITRATE));
-			QString samplerate = UtilNovatron::ConvertSamplerate(node.GetString(KEY_SAMPLERATE_CAP));
+			QString samplerate = UtilNovatron::ConvertSamplerate(node.GetString(KEY_SAMPLERATE));
 
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ID), nID, Qt::DisplayRole);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SELECT), false);

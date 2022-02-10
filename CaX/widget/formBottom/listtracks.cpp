@@ -160,7 +160,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 //			item->setData(node.GetString(KEY_MOOD), ListTracksDelegate::LIST_TRACKS_MOOD);
 //			item->setData(node.GetString(KEY_TEMPO), ListTracksDelegate::LIST_TRACKS_TEMPO);
 //			item->setData(node.GetString(KEY_FORMAT), ListTracksDelegate::LIST_TRACKS_FORMAT);
-//			item->setData(node.GetString(KEY_SAMPLERATE_CAP), ListTracksDelegate::LIST_TRACKS_SAMPLE_RATE);
+//			item->setData(node.GetString(KEY_SAMPLERATE), ListTracksDelegate::LIST_TRACKS_SAMPLE_RATE);
 //			item->setData(node.GetString(KEY_BITRATE), ListTracksDelegate::LIST_TRACKS_BIT_DEPTH);
 //			item->setData(node.GetString(KEY_RATING_CAP).toInt(), ListTracksDelegate::LIST_TRACKS_RATING);
 //			item->setData(index, ListTracksDelegate::LIST_TRACKS_INDEX);
