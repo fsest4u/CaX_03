@@ -543,7 +543,6 @@ void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
 		title = STR_TRACK;
 	}
 
-
 	m_pInfoTracks->SetTitle(title);
 	m_pInfoTracks->SetSubtitle(artist);
 //	m_pInfoTracks->SetInfo(info);

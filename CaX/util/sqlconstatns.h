@@ -228,7 +228,7 @@ where Song.IsDel = 0 and Song.AlbumID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -276,7 +276,7 @@ where Song.IsDel = 0 and Song.AlbumArtistID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -305,7 +305,7 @@ where Song.IsDel = 0 and Song.AlbumArtistID = %1 %2 %3 %4 %5 %6 %7	\
 select	\
 	Artist.Name as title	\
 	, Artist.Name as Artist	\
-	, Artist.favorite as Favorite \
+	, Artist.favorite as favorite \
 	, Artist.rating as rating \
 	, count(*) as count	\
 	, sum(song.nov_time) as total	\
@@ -322,7 +322,7 @@ where Song.IsDel = 0 and Song.ArtistID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -370,7 +370,7 @@ where Song.IsDel = 0 and Song.ComposerID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -418,7 +418,7 @@ where Song.IsDel = 0 and Song.GenreID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -466,7 +466,7 @@ where Song.IsDel = 0 and Song.MoodID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -514,7 +514,7 @@ where Song.IsDel = 0 and Song.FolderID = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -559,7 +559,7 @@ where Song.IsDel = 0 and Song.Year = %1	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -602,7 +602,7 @@ where Song.IsDel = 0	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -685,7 +685,7 @@ order by %9.%10 %11	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\
@@ -714,7 +714,7 @@ order by Song.%3 %4	\
 select	\
 	Song.ROWID as id	\
 	, Song.Name as title	\
-	, Song.Favorite as Favorite	\
+	, Song.favorite as favorite	\
 	, Song.nov_time as time	\
 	, Artist.Name as Artist	\
 	, Album.Name as Album	\

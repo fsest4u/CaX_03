@@ -96,7 +96,7 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ID), nID, Qt::DisplayRole);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SELECT), false);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_TITLE), node.GetString(KEY_TITLE), Qt::DisplayRole);
-			m_Model->setData(m_Model->index(index, TABLE_TRACKS_FAVORITE), node.GetString(KEY_FAVORITE_CAP));
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_FAVORITE), node.GetString(KEY_FAVORITE));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_RATING), node.GetString(KEY_RATING));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_TIME), hhmmss);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ARTIST), node.GetString(KEY_ARTIST));

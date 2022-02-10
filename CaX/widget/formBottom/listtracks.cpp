@@ -149,7 +149,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 //			int nID = node.GetString(KEY_ID_LOWER).toInt();
 //			item->setData(nID, ListTracksDelegate::LIST_TRACKS_ID);
 //			item->setData(node.GetString(KEY_TITLE), ListTracksDelegate::LIST_TRACKS_TITLE);
-//			item->setData(node.GetString(KEY_FAVORITE_CAP).toInt(), ListTracksDelegate::LIST_TRACKS_FAVORITE);
+//			item->setData(node.GetString(KEY_FAVORITE).toInt(), ListTracksDelegate::LIST_TRACKS_FAVORITE);
 //			item->setData(hhmmss, ListTracksDelegate::LIST_TRACKS_TIME);
 //			item->setData(artist, ListTracksDelegate::LIST_TRACKS_ARTIST);
 //			item->setData(node.GetString(KEY_ALBUM), ListTracksDelegate::LIST_TRACKS_ALBUM);

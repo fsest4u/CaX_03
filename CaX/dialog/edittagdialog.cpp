@@ -52,12 +52,12 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	foreach (CJsonNode node, list)
 	{
 //		LogDebug("node [%s]", node.ToCompactByteArray().data());
-//		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE_CAP).toUtf8().data());
+//		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE).toUtf8().data());
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ID), node.GetString(KEY_ID_LOWER));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_TITLE), node.GetString(KEY_TITLE));
-		m_Model->setData(m_Model->index(index, EDIT_TAG_FAVORITE), node.GetString(KEY_FAVORITE_CAP));
+		m_Model->setData(m_Model->index(index, EDIT_TAG_FAVORITE), node.GetString(KEY_FAVORITE));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ARTIST), node.GetString(KEY_ARTIST));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ALBUM), node.GetString(KEY_ALBUM));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_GENRE), node.GetString(KEY_GENRE));
