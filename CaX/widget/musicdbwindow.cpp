@@ -411,6 +411,116 @@ void MusicDBWindow::SlotRemoveWidget(QWidget *widget)
 	emit SigRemoveWidget(widget);
 }
 
+void MusicDBWindow::SlotUpdateFavoriteParent(int id, int favorite)
+{
+	LogDebug("refresh id [%d] favorite [%d]", id, favorite);
+	int index = -1;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		int count = m_pIconTracks->GetModel()->rowCount();
+
+		QModelIndex modelIndex;
+		for (int i = 0; i < count; i++)
+		{
+			modelIndex = m_pIconTracks->GetModel()->index(i, 0);
+			if (qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID)) == id)
+			{
+				index = i;
+				break;
+			}
+		}
+	}
+	else
+	{
+		int count = m_pTableTracks->GetModel()->rowCount();
+
+		QModelIndex modelIndex;
+		for (int i = 0; i < count; i++)
+		{
+			modelIndex = m_pTableTracks->GetModel()->index(i, 0);
+			if (qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ID)) == id))
+			{
+				index = i;
+				break;
+			}
+		}
+	}
+
+	if (index >= 0)
+	{
+		if (m_ListMode == VIEW_MODE_ICON)
+		{
+			QModelIndex modelIndex = m_pIconTracks->GetModel()->index(index, 0);
+			m_pIconTracks->GetModel()->setData(modelIndex, favorite, IconTracksDelegate::ICON_TRACKS_FAVORITE);
+		}
+		else
+		{
+			QModelIndex modelIndex = m_pTableTracks->GetModel()->index(index, TableTracks::TABLE_TRACKS_FAVORITE);
+			m_pTableTracks->GetModel()->setData(modelIndex, favorite);
+		}
+	}
+	else
+	{
+		LogWarning("favorite item is not found");
+	}
+
+}
+
+void MusicDBWindow::SlotUpdateRatingParent(int id, int rating)
+{
+	LogDebug("refresh id [%d] rating [%d]", id, rating);
+	int index = -1;
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		int count = m_pIconTracks->GetModel()->rowCount();
+
+		QModelIndex modelIndex;
+		for (int i = 0; i < count; i++)
+		{
+			modelIndex = m_pIconTracks->GetModel()->index(i, 0);
+			if (qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID)) == id)
+			{
+				index = i;
+				break;
+			}
+		}
+	}
+	else
+	{
+		int count = m_pTableTracks->GetModel()->rowCount();
+
+		QModelIndex modelIndex;
+		for (int i = 0; i < count; i++)
+		{
+			modelIndex = m_pTableTracks->GetModel()->index(i, 0);
+			if (qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ID)) == id))
+			{
+				index = i;
+				break;
+			}
+		}
+	}
+
+	if (index >= 0)
+	{
+		if (m_ListMode == VIEW_MODE_ICON)
+		{
+			QModelIndex modelIndex = m_pIconTracks->GetModel()->index(index, 0);
+			m_pIconTracks->GetModel()->setData(modelIndex, rating, IconTracksDelegate::ICON_TRACKS_RATING);
+		}
+		else
+		{
+			QModelIndex modelIndex = m_pTableTracks->GetModel()->index(index, TableTracks::TABLE_TRACKS_RATING);
+			m_pTableTracks->GetModel()->setData(modelIndex, rating);
+		}
+	}
+	else
+	{
+		LogWarning("rating item is not found");
+	}
+}
+
 void MusicDBWindow::SlotRespError(QString errMsg)
 {
 	CommonDialog dialog(this, STR_WARNING, errMsg);
@@ -996,11 +1106,13 @@ void MusicDBWindow::SlotItemTopMenuAction(int menuID)
 void MusicDBWindow::SlotItemFavorite(int nFavorite)
 {
 	m_pMgr->RequestUpdateFavorite(m_nID, nFavorite, m_nCategory);
+	emit SigUpdateFavoriteParent(m_nID, nFavorite);
 }
 
 void MusicDBWindow::SlotItemRating(int nRating)
 {
 	m_pMgr->RequestUpdateRating(m_nID, nRating, m_nCategory);
+	emit SigUpdateRatingParent(m_nID, nRating);
 }
 
 void MusicDBWindow::SlotItemSortMenu(int sort)
@@ -1715,6 +1827,9 @@ void MusicDBWindow::ConnectSigToSlot()
 	// recursive
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
 	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
+
+	connect(this, SIGNAL(SigUpdateFavoriteParent(int, int)), parent(), SLOT(SlotUpdateFavoriteParent(int, int)));
+	connect(this, SIGNAL(SigUpdateRatingParent(int, int)), parent(), SLOT(SlotUpdateRatingParent(int, int)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespMusicOverview(CJsonNode)), this, SLOT(SlotRespMusicOverview(CJsonNode)));

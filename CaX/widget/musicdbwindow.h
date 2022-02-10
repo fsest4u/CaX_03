@@ -40,17 +40,24 @@ public:
 
 signals:
 
+	// refresh
+	void SigUpdateFavoriteParent(int id, int favorite);
+	void SigUpdateRatingParent(int id, int rating);
+
 	//	void SigCategoryInfo(int nID, int nCategory);
 	void SigAddWidget(QWidget *widget, QString title);
 	void SigRemoveWidget(QWidget* widget);
 	void SigAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);
 	void SigAddTrackFromPlaylist(QMap<int, bool> idMap);
 
-
 private slots:
 
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget *widget);
+
+	// refresh
+	void SlotUpdateFavoriteParent(int id, int favorite);
+	void SlotUpdateRatingParent(int id, int rating);
 
 	void SlotRespError(QString errMsg);
 	void SlotRespMusicOverview(CJsonNode node);
