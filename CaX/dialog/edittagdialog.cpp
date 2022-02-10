@@ -65,7 +65,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 		m_Model->setData(m_Model->index(index, EDIT_TAG_COMPOSER), node.GetString(KEY_COMPOSER));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_YEAR), node.GetString(KEY_YEAR));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_MOOD), node.GetString(KEY_MOOD));
-//		m_Model->setData(m_Model->index(index, EDIT_TAG_RATING), node.GetString(KEY_RATING_CAP));
+//		m_Model->setData(m_Model->index(index, EDIT_TAG_RATING), node.GetString(KEY_RATING));
 
 		m_Model->item(index, EDIT_TAG_TITLE)->setTextAlignment(Qt::AlignCenter);
 		m_Model->item(index, EDIT_TAG_FAVORITE)->setTextAlignment(Qt::AlignCenter);
@@ -350,7 +350,7 @@ void EditTagDialog::Initialize()
 	m_Model->setHeaderData(EDIT_TAG_COMPOSER, Qt::Horizontal, KEY_COMPOSER);
 	m_Model->setHeaderData(EDIT_TAG_YEAR, Qt::Horizontal, KEY_YEAR);
 	m_Model->setHeaderData(EDIT_TAG_MOOD, Qt::Horizontal, KEY_MOOD);
-//	m_Model->setHeaderData(EDIT_TAG_RATING, Qt::Horizontal, KEY_RATING);
+//	m_Model->setHeaderData(EDIT_TAG_RATING, Qt::Horizontal, KEY_RATING_CAP);
 
 	ui->tableView->setColumnHidden(EDIT_TAG_ID, true);
 
