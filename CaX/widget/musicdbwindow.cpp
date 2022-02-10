@@ -2095,12 +2095,13 @@ void MusicDBWindow::DoTopMenuGainClear()
 
 void MusicDBWindow::DoTopMenuAddToPlaylist()
 {
-	if (m_TypeMode == TYPE_MODE_TRACK
-			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM
-			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
-			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM
+			|| m_TypeMode == TYPE_MODE_TRACK
+			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			|| m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
@@ -2118,7 +2119,7 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 //	m_pMgr->RequestManageCategory(VAL_ADD,
 //								  m_SelectMap,
 //								  PLAY_NONE,
-	//								  m_nCategory);
+//								  m_nCategory);
 }
 
 void MusicDBWindow::DoTopMenuShowCategoryColumns()
