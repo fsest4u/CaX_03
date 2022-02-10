@@ -663,8 +663,6 @@ void PlaylistWindow::ConnectSigToSlot()
 
 void PlaylistWindow::Initialize()
 {
-
-
 	m_pInfoService->GetFormPlay()->ShowPlayAll();
 	m_pInfoService->GetFormPlay()->ShowMenu();
 	m_pInfoService->GetFormSort()->ShowResize();

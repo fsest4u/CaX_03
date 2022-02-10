@@ -15,6 +15,7 @@
 #include "util/loading.h"
 #include "util/log.h"
 #include "util/settingio.h"
+#include "util/utilnovatron.h"
 
 #include "widget/devicelistwindow.h"
 #include "widget/musicdbwindow.h"
@@ -953,6 +954,8 @@ void MainWindow::DoAudioCDHome()
 
 void MainWindow::DoPlaylistHome()
 {
+	UtilNovatron::RemoveFilesInTempDirectory(KEY_PLS);
+
 	PlaylistWindow *widget = new PlaylistWindow(this, m_strAddr);
 	widget->AddWidgetItem();
 	SlotAddWidget(widget, STR_PLAYLIST);
