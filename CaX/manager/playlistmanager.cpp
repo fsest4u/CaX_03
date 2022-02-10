@@ -254,7 +254,10 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 			return;
 		}
 
-		emit SigRespError(message.left((MSG_LIMIT_COUNT)));
+		if (!message.toLower().contains("not found"))
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		}
 		return;
 	}
 
@@ -272,29 +275,24 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 		return;
 	}
 
+
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+		if (!message.toLower().contains("not found"))
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		}
+		return;
+	}
+
 	switch (cmdID)
 	{
 	case PLAYLIST_LIST:
-	{
-		CJsonNode result = node.GetArray(VAL_RESULT);
-		if (result.ArraySize() <= 0)
-		{
-			emit SigRespError(message.left(MSG_LIMIT_COUNT));
-			return;
-		}
-
 		ParsePlaylist(result);
-	}
 		break;
 	case PLAYLIST_INFO:
 	{
-		CJsonNode result = node.GetArray(VAL_RESULT);
-		if (result.ArraySize() <= 0)
-		{
-			emit SigRespError(message.left(MSG_LIMIT_COUNT));
-			return;
-		}
-
 		m_Node.Clear();
 		for (int i = 0; i < result.ArraySize(); i++)
 		{
@@ -306,16 +304,7 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 	}
 		break;
 	case PLAYLIST_TRACK_LIST:
-	{
-		CJsonNode result = node.GetArray(VAL_RESULT);
-		if (result.ArraySize() <= 0)
-		{
-			emit SigRespError(message.left(MSG_LIMIT_COUNT));
-			return;
-		}
-
 		ParseTrackList(result);
-	}
 		break;
 	case PLAYLIST_PLAY_TRACK:
 		break;

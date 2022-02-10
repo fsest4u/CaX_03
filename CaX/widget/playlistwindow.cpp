@@ -204,6 +204,7 @@ void PlaylistWindow::SlotRespPlaylistInfo(CJsonNode node)
 
 void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 {
+	m_RespList.clear();
 	m_RespList = list;
 
 	SetOptionMenu();
@@ -222,15 +223,22 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
-	m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
-	m_TrackCover = qvariant_cast<QString>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_COVER));
-	m_TrackAlbumID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ALBUM_ID));
-	m_TrackArtistID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ARTIST_ID));
-	m_TrackGenreID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_GENRE_ID));
-	m_TrackFavorite = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_FAVORITE));
-	m_TrackIndex = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
+	{
+		m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		m_TrackID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+		m_TrackCover = qvariant_cast<QString>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_COVER));
+		m_TrackAlbumID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ALBUM_ID));
+		m_TrackArtistID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ARTIST_ID));
+		m_TrackGenreID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_GENRE_ID));
+		m_TrackFavorite = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_FAVORITE));
+		m_TrackIndex = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+	}
 
-//	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
+	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
 //	LogDebug("index [%d] favorite [%d] album [%d] artist [%d] genre [%d]", m_TrackIndex, m_TrackFavorite, m_TrackAlbumID, m_TrackArtistID, m_TrackGenreID);
 
 	SetOptionMenu();
@@ -251,7 +259,14 @@ void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 
 void PlaylistWindow::SlotMenuAction(QAction *action)
 {
-	SlotOptionMenuAction(m_ID, action->data().toInt());
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
+	{
+		SlotOptionMenuAction(m_ID, action->data().toInt());
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		SlotOptionMenuAction(m_TrackID, action->data().toInt());
+	}
 }
 
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
@@ -666,6 +681,7 @@ void PlaylistWindow::Initialize()
 //	m_ListMode = GetListModeFromResize(m_Resize);
 
 	m_ID = -1;
+	m_TrackID = -1;
 	m_TrackAlbumID = -1;
 	m_TrackArtistID = -1;
 	m_TrackGenreID = -1;

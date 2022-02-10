@@ -134,7 +134,8 @@ void MusicDBWindow::AddWidgetItem(int typeMode, int category)
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
-			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_pTableTracks->SetHeaderTitle(STR_NAME);
 	}
@@ -214,7 +215,8 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 //	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
 	m_pMgr->RequestMusicDBOverView();
 
-	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		m_pInfoHome->SetTitle(UtilNovatron::GetCategoryTitleName(m_nCategory));
 

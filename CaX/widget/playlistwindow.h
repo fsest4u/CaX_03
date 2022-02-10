@@ -125,6 +125,7 @@ private:
 	int					m_TypeMode;
 
 	int					m_ID;
+	int					m_TrackID;
 	int					m_TrackAlbumID;
 	int					m_TrackArtistID;
 	int					m_TrackGenreID;
