@@ -105,6 +105,7 @@
 #define		KEY_ITEM_TYPE		"ItemType"
 
 #define		KEY_KEY				"Key"
+#define		KEY_KEYS			"Keys"
 #define		KEY_KEYWORD			"Str"
 
 #define		KEY_LEFT			"Left"

@@ -17,11 +17,7 @@ public:
 	explicit FormDialog(QWidget *parent = nullptr);
 	~FormDialog();
 
-	void SetWindowTitle(QString title);
-	void SetLabelTitle(CJsonNode arrInput);
-
-	void SetOK(QString title, int action);
-	void SetCancel(QString title, int action);
+	void SetNodeForm(CJsonNode node);
 
 private slots:
 
@@ -30,7 +26,10 @@ private slots:
 
 private:
 
+	void SetLabelTitle(CJsonNode node);
 
+	void SetOK(QString title, int action);
+	void SetCancel(QString title, int action);
 
 	int m_ActionOK;
 	int m_ActionCancel;

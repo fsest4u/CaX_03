@@ -14,25 +14,31 @@ public:
 
 	enum {
 		LIST_SETUP_ID = Qt::UserRole + 0,
+		LIST_SETUP_TYPE,
 		LIST_SETUP_TITLE,
+		LIST_SETUP_SUBTITLE,
+		LIST_SETUP_VALUES,
+		LIST_SETUP_KEYS,
+		LIST_SETUP_FORM,
 		LIST_SETUP_INDEX,
 		LIST_SETUP_MAX
 	};
 
-	QMap<QString, CJsonNode> GetMenuMap() const;
-	void SetMenuMap(const QMap<QString, CJsonNode> &MenuMap);
+//	QMap<QString, CJsonNode> GetMenuMap() const;
+//	void SetMenuMap(const QMap<QString, CJsonNode> &MenuMap);
 
 signals:
 
-	void SigSelectTitle(QString strID, int index);
-	void SigMenuAction(QString strID, QString json);
-	void SigSubMenuAction(QString value, QString json);
+//	void SigSelectTitle(QString strID, int index);
+	void SigSelectMenu(const QModelIndex &modelIndex, QPoint point);
+//	void SigMenuAction(QString strID, QString json);
+//	void SigSubMenuAction(QString value, QString json);
 
 private slots:
 
-	void SlotClickTitle(QString strID, int index);
-	void SlotMenuAction(QString strID, QString json);
-	void SlotSubMenuAction(QString value, QString json);
+//	void SlotClickTitle(QString strID, int index);
+//	void SlotMenuAction(QString strID, QString json);
+//	void SlotSubMenuAction(QString value, QString json);
 
 private:
 
@@ -40,11 +46,12 @@ private:
 	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
-	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+	bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+//	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+//	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+//	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-	QMap<QString, CJsonNode> m_MenuMap;
+//	QMap<QString, CJsonNode> m_MenuMap;
 
 };
 

@@ -2,6 +2,7 @@
 #include "ui_formdialog.h"
 
 #include "util/caxkeyvalue.h"
+#include "util/log.h"
 
 FormDialog::FormDialog(QWidget *parent) :
 	QDialog(parent),
@@ -9,9 +10,13 @@ FormDialog::FormDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->labelTitle1->hide();
-	ui->labelTitle2->hide();
-	ui->labelTitle3->hide();
+	ui->labelKey0->hide();
+	ui->labelKey1->hide();
+	ui->labelKey2->hide();
+
+	ui->labelValue0->hide();
+	ui->labelValue1->hide();
+	ui->labelValue2->hide();
 
 	ui->btnOK->hide();
 	ui->btnCancel->hide();
@@ -25,36 +30,68 @@ FormDialog::~FormDialog()
 	delete ui;
 }
 
-void FormDialog::SetWindowTitle(QString title)
+void FormDialog::SetNodeForm(CJsonNode node)
 {
-	setWindowTitle(title);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	setWindowTitle(node.GetString(KEY_TITLE_CAP));
+
+	CJsonNode nodeOK = node.GetObject(KEY_OK);
+	CJsonNode nodeCancel = node.GetObject(KEY_CANCEL);
+	CJsonNode arrNodeInput = node.GetArray(KEY_INPUTS);
+
+	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
+	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
+	SetLabelTitle(arrNodeInput);
 }
 
-void FormDialog::SetLabelTitle(CJsonNode arrInput)
+void FormDialog::SetLabelTitle(CJsonNode node)
 {
 	CJsonNode input;
-	for (int i = 0; i < arrInput.ArraySize(); i++)
+	for (int i = 0; i < node.ArraySize(); i++)
 	{
-		input = arrInput.GetArrayAt(i);
-//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
-		if (i == 0)
+		input = node.GetArrayAt(i);
+		LogDebug("node : [%s]", input.ToCompactByteArray().data());
+		QString labelKey = input.GetString(KEY_KEY);
+		QString labelValue = input.GetString(KEY_VALUE);
+
+		if (!labelKey.isEmpty())
 		{
-			ui->labelTitle1->show();
-			ui->labelTitle1->setText(input.GetString(KEY_VALUE));
-		}
-		else if (i == 1)
-		{
-			ui->labelTitle2->show();
-			ui->labelTitle2->setText(input.GetString(KEY_VALUE));
-		}
-		if (i == 2)
-		{
-			ui->labelTitle3->show();
-			ui->labelTitle3->setText(input.GetString(KEY_VALUE));
+			if (i == 0)
+			{
+				ui->labelKey0->show();
+				ui->labelKey0->setText(labelKey);
+			}
+			else if (i == 1)
+			{
+				ui->labelKey1->show();
+				ui->labelKey1->setText(labelKey);
+			}
+			if (i == 2)
+			{
+				ui->labelKey2->show();
+				ui->labelKey2->setText(labelKey);
+			}
 		}
 
+		if (!labelValue.isEmpty())
+		{
+			if (i == 0)
+			{
+				ui->labelValue0->show();
+				ui->labelValue0->setText(labelValue);
+			}
+			else if (i == 1)
+			{
+				ui->labelValue1->show();
+				ui->labelValue1->setText(labelValue);
+			}
+			if (i == 2)
+			{
+				ui->labelValue2->show();
+				ui->labelValue2->setText(labelValue);
+			}
+		}
 	}
-
 }
 
 void FormDialog::SetOK(QString title, int action)

@@ -20,7 +20,7 @@ void SetupManager::RequestSetupGroup(int eventID, QString id, int index)
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0,		VAL_SETUP);
 	node.Add(KEY_CMD1,		VAL_GROUP);
-	node.AddInt(KEY_EVENT_ID,		eventID);
+	node.AddInt(KEY_EVENT_ID,	eventID);
 	node.Add(KEY_ID_UPPER,		id);
 
 	RequestCommand(node, SETUP_GROUP);
