@@ -1280,6 +1280,11 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 
 void MusicDBWindow::SlotAppendList()
 {
+	if (m_LimitCount <= 0)
+	{
+		return;
+	}
+
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
@@ -1748,6 +1753,10 @@ void MusicDBWindow::ReadSettings()
 	m_bIncreaseTrack = settings.value("increase_track").toBool();
 
 	m_LimitCount = settings.value("limit_count").toInt();
+	if (m_LimitCount == 0)
+	{
+		m_LimitCount = 1000;	// init value
+	}
 
 	settings.endGroup();
 
