@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Music X Neo"
-#define MyAppVersion "1.6"
+#define MyAppVersion "1.7"
 #define MyAppPublisher "NOVATRON, Inc."
 #define MyAppURL "https://www.cocktailaudio.com/home/"
 #define MyAppExeName "CaX.exe"
