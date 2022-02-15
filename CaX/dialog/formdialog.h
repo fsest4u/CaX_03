@@ -26,10 +26,9 @@ private slots:
 
 private:
 
-	void SetLabelTitle(CJsonNode node);
-
 	void SetOK(QString title, int action);
 	void SetCancel(QString title, int action);
+	void SetInputs(CJsonNode node);
 
 	int m_ActionOK;
 	int m_ActionCancel;

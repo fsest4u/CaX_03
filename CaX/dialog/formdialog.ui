@@ -146,6 +146,23 @@ QWidget
        <height>50</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
+	width: 110px;
+	height: 30px;
+	color: rgb(84, 84, 84)
+}
+
+QPushButton:hover
+{
+ 	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
+	width: 110px;
+	height: 30px;	
+	color: rgb(255, 255, 255)
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -153,6 +170,21 @@ QWidget
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -183,23 +215,6 @@ QWidget
           <bold>false</bold>
          </font>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton
-{
-	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
-	width: 110px;
-	height: 30px;
-	color: rgb(84, 84, 84)
-}
-
-QPushButton:hover
-{
- 	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
-	width: 110px;
-	height: 30px;	
-	color: rgb(255, 255, 255)
-}</string>
-        </property>
        </widget>
       </item>
       <item>
@@ -218,23 +233,6 @@ QPushButton:hover
           <italic>false</italic>
           <bold>false</bold>
          </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton
-{
-	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-n.png&quot;);
-	width: 110px;
-	height: 30px;
-	color: rgb(84, 84, 84)
-}
-
-QPushButton:hover
-{
- 	border-image: url(&quot;:/resource/audiocd-popup-btn110-ok-h.png&quot;);
-	width: 110px;
-	height: 30px;	
-	color: rgb(255, 255, 255)
-}</string>
         </property>
        </widget>
       </item>

@@ -17,7 +17,6 @@ SOURCES += \
     dialog/commondialog.cpp \
     dialog/edittagdelegate.cpp \
     dialog/edittagdialog.cpp \
-    dialog/formdialog.cpp \
     dialog/groupplaydialog.cpp \
     dialog/inputfavoritedialog.cpp \
     dialog/inputnamedialog.cpp \
@@ -34,6 +33,11 @@ SOURCES += \
     dialog/selectnetworkinterfacedialog.cpp \
     dialog/setcategorycolumndialog.cpp \
     dialog/settrackcolumndialog.cpp \
+    dialog/setup/analoginvolumedialog.cpp \
+    dialog/setup/formdialog.cpp \
+    dialog/setup/maxvolumedialog.cpp \
+    dialog/setup/poweronvolumedialog.cpp \
+    dialog/setup/setuplogindialog.cpp \
     dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
@@ -145,7 +149,6 @@ HEADERS += \
     dialog/commondialog.h \
     dialog/edittagdelegate.h \
     dialog/edittagdialog.h \
-    dialog/formdialog.h \
     dialog/groupplaydialog.h \
     dialog/inputfavoritedialog.h \
     dialog/inputnamedialog.h \
@@ -163,6 +166,11 @@ HEADERS += \
     dialog/selectnetworkinterfacedialog.h \
     dialog/setcategorycolumndialog.h \
     dialog/settrackcolumndialog.h \
+    dialog/setup/analoginvolumedialog.h \
+    dialog/setup/formdialog.h \
+    dialog/setup/maxvolumedialog.h \
+    dialog/setup/poweronvolumedialog.h \
+    dialog/setup/setuplogindialog.h \
     dialog/trackinfo.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
@@ -283,7 +291,6 @@ FORMS += \
     dialog/cdripinfodialog.ui \
     dialog/commondialog.ui \
     dialog/edittagdialog.ui \
-    dialog/formdialog.ui \
     dialog/groupplaydialog.ui \
     dialog/inputfavoritedialog.ui \
     dialog/inputnamedialog.ui \
@@ -300,6 +307,11 @@ FORMS += \
     dialog/selectnetworkinterfacedialog.ui \
     dialog/setcategorycolumndialog.ui \
     dialog/settrackcolumndialog.ui \
+    dialog/setup/analoginvolumedialog.ui \
+    dialog/setup/formdialog.ui \
+    dialog/setup/maxvolumedialog.ui \
+    dialog/setup/poweronvolumedialog.ui \
+    dialog/setup/setuplogindialog.ui \
     dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \

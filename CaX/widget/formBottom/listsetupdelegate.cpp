@@ -6,6 +6,8 @@
 #include "util/caxconstants.h"
 #include "util/log.h"
 
+#include "widget/setup.h"
+
 ListSetupDelegate::ListSetupDelegate()
 {
 //	m_MenuMap.clear();
@@ -41,21 +43,28 @@ void ListSetupDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 	QStyledItemDelegate::paint(painter, option, index);
 	painter->save();
 
+	int type = qvariant_cast<int>(index.data(LIST_SETUP_TYPE));
 	QString title = qvariant_cast<QString>(index.data(LIST_SETUP_TITLE));
 	QString subtitle = qvariant_cast<QString>(index.data(LIST_SETUP_SUBTITLE));
+
+	int indent = 0;
+	if (iAppSetupType_Mask_Sub & type)
+	{
+		indent = 40;
+	}
 
 	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
 	QFontMetrics fmTitle(fontTitle);
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	QRect rectTitle = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 180, fmTitle.height());
+	QRect rectTitle = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 180, fmTitle.height());
 	QRect rectSubtitle = QRect(rectBase.width() - 140, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 140, fmTitle.height());
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
-	painter->drawRect(rectOrig);
-	painter->drawRect(rectTitle);
-	painter->drawRect(rectSubtitle);
+//	painter->drawRect(rectOrig);
+//	painter->drawRect(rectTitle);
+//	painter->drawRect(rectSubtitle);
 
 	painter->setPen(QColor(84, 84, 84));
 	if (!title.isEmpty())
@@ -96,8 +105,8 @@ QWidget *ListSetupDelegate::createEditor(QWidget *parent, const QStyleOptionView
 
 bool ListSetupDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
-	QFontMetrics fmTitle(fontTitle);
+//	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
+//	QFontMetrics fmTitle(fontTitle);
 
 //	QRect rectOrig = option.rect;
 //	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
@@ -113,6 +122,7 @@ bool ListSetupDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
 			//if (rectTitle.contains(curPoint))
 			{
 				emit SigSelectMenu(index, curPoint);
+				return true;
 			}
 		}
 	}

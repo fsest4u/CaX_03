@@ -930,79 +930,79 @@ void UtilNovatron::DebugTypeForSetup(QString title, int type)
 
 void UtilNovatron::DebugTypeForSetupBtn(QString title, int type)
 {
-	if (type & iSetupBtnAction_None)
+	if (type == iSetupBtnAction_None)
 	{
 		LogDebug("[%s] iSetupBtnAction_None", title.toUtf8().data());
 	}
-	if (type & iSetupBtnAction_Request)
+	if (type == iSetupBtnAction_Request)
 	{
 		LogDebug("[%s] iSetupBtnAction_Request", title.toUtf8().data());
 	}
-	if (type & iSetupBtnAction_Event)
+	if (type == iSetupBtnAction_Event)
 	{
 		LogDebug("[%s] iSetupBtnAction_Event", title.toUtf8().data());
 	}
-	if (type & iSetupBtnAction_OpenWeb)
+	if (type == iSetupBtnAction_OpenWeb)
 	{
 		LogDebug("[%s] iSetupBtnAction_OpenWeb", title.toUtf8().data());
 	}
-	if (type & iSetupBtnAction_Cancel)
+	if (type == iSetupBtnAction_Cancel)
 	{
 		LogDebug("[%s] iSetupBtnAction_Cancel", title.toUtf8().data());
 	}
-	if (type & iSetupBtnAction_Max)
+	if (type == iSetupBtnAction_Max)
 	{
-		LogDebug("[%s] iSetupBtnAction_Max", title.toUtf8().data());
+		//LogDebug("[%s] iSetupBtnAction_Max", title.toUtf8().data());
 	}
 }
 
 void UtilNovatron::DebugTypeForSetupInput(QString title, int type)
 {
-	if (type & iSetupInput_Disp)
+	if (type == iSetupInput_Disp)
 	{
 		LogDebug("[%s] iSetupInput_Disp", title.toUtf8().data());
 	}
-	if (type & iSetupInput_Label)
+	if (type == iSetupInput_Label)
 	{
 		LogDebug("[%s] iSetupInput_Label", title.toUtf8().data());
 	}
-	if (type & iSetupInput_Hidden)
+	if (type == iSetupInput_Hidden)
 	{
 		LogDebug("[%s] iSetupInput_Hidden", title.toUtf8().data());
 	}
-	if (type & iSetupInput_Slider)
+	if (type == iSetupInput_Slider)
 	{
 		LogDebug("[%s] iSetupInput_Slider", title.toUtf8().data());
 	}
-	if (type & iSetupInput_List)
+	if (type == iSetupInput_List)
 	{
 		LogDebug("[%s] iSetupInput_List", title.toUtf8().data());
 	}
-	if (type & iSetupInput_IP)
+	if (type == iSetupInput_IP)
 	{
 		LogDebug("[%s] iSetupInput_IP", title.toUtf8().data());
 	}
-	if (type & iSetupInput_Password)
+	if (type == iSetupInput_Password)
 	{
 		LogDebug("[%s] iSetupInput_Password", title.toUtf8().data());
 	}
-	if (type & iSetupInput_Text)
+	if (type == iSetupInput_Text)
 	{
 		LogDebug("[%s] iSetupInput_Text", title.toUtf8().data());
 	}
-	if (type & iSetupInput_Time)
+	if (type == iSetupInput_Time)
 	{
 		LogDebug("[%s] iSetupInput_Time", title.toUtf8().data());
 	}
-	if (type & iSetupInput_Switch)
+	if (type == iSetupInput_Switch)
 	{
 		LogDebug("[%s] iSetupInput_Switch", title.toUtf8().data());
 	}
-	if (type & iSetupInput_CurrDate)
+	if (type == iSetupInput_CurrDate)
 	{
 		LogDebug("[%s] iSetupInput_CurrDate", title.toUtf8().data());
 	}
-	if (type & iSetupInput_CurrTime)
+	if (type == iSetupInput_CurrTime)
 	{
 		LogDebug("[%s] iSetupInput_CurrTime", title.toUtf8().data());
 	}

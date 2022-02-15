@@ -10,14 +10,18 @@ public:
 	SetupManager();
 	~SetupManager();
 
-	void RequestSetupGroup(int eventID, QString id, int index);
+	void RequestSetupGroup(int eventID, QString id);
 	void RequestSetupSet(int eventID, QString id, QString value = "");
 	void RequestSetupSet(int eventID, QString id, bool ok);
+	void RequestSetupSet(int eventID, QString id, bool ok, int analog, int aux, int phono);
+	void RequestSetupSet(int eventID, QString id, bool ok, int volume, QString key, QString value);
+	void RequestSetupSet(int eventID, QString id, bool ok, QString usernameKey, QString username, QString passwordKey, QString password);
+	void RequestVolume(int eventID, int value);
 
 signals:
 
 	void SigRespError(QString message);
-	void SigRespGroup(QList<CJsonNode> list, int index);
+	void SigRespGroup(QList<CJsonNode> list);
 	void SigRespSet(CJsonNode node);
 
 private slots:
@@ -29,13 +33,12 @@ private:
 	enum {
 		SETUP_GROUP = 0,
 		SETUP_SET,
+		SETUP_VOLUME,
 		SETUP_MAX
 	};
 
 	void ParseGroup(CJsonNode node);
 	void ParseSet(CJsonNode node);
-
-	int m_Index;
 
 };
 

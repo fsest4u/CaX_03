@@ -3,6 +3,9 @@
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
+
+#include "widget/setup.h"
 
 FormDialog::FormDialog(QWidget *parent) :
 	QDialog(parent),
@@ -41,16 +44,54 @@ void FormDialog::SetNodeForm(CJsonNode node)
 
 	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
 	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
-	SetLabelTitle(arrNodeInput);
+	SetInputs(arrNodeInput);
 }
 
-void FormDialog::SetLabelTitle(CJsonNode node)
+void FormDialog::accept()
+{
+	done(QDialog::Accepted);
+}
+
+void FormDialog::reject()
+{
+	done(QDialog::Rejected);
+}
+
+void FormDialog::SetOK(QString title, int action)
+{
+	UtilNovatron::DebugTypeForSetupBtn("SetOK", action);
+	if (!title.isEmpty())
+	{
+		ui->btnOK->setText(title);
+		ui->btnOK->show();
+
+		m_ActionOK = action;
+	}
+}
+
+void FormDialog::SetCancel(QString title, int action)
+{
+	UtilNovatron::DebugTypeForSetupBtn("SetCancel", action);
+	if (!title.isEmpty())
+	{
+		ui->btnCancel->setText(title);
+		ui->btnCancel->show();
+
+		m_ActionCancel = action;
+	}
+}
+
+void FormDialog::SetInputs(CJsonNode node)
 {
 	CJsonNode input;
 	for (int i = 0; i < node.ArraySize(); i++)
 	{
 		input = node.GetArrayAt(i);
 		LogDebug("node : [%s]", input.ToCompactByteArray().data());
+
+		int typeInput = input.GetInt(KEY_TYPE);
+		UtilNovatron::DebugTypeForSetupInput("SetInputs", typeInput);
+
 		QString labelKey = input.GetString(KEY_KEY);
 		QString labelValue = input.GetString(KEY_VALUE);
 
@@ -66,7 +107,7 @@ void FormDialog::SetLabelTitle(CJsonNode node)
 				ui->labelKey1->show();
 				ui->labelKey1->setText(labelKey);
 			}
-			if (i == 2)
+			else if (i == 2)
 			{
 				ui->labelKey2->show();
 				ui->labelKey2->setText(labelKey);
@@ -85,7 +126,7 @@ void FormDialog::SetLabelTitle(CJsonNode node)
 				ui->labelValue1->show();
 				ui->labelValue1->setText(labelValue);
 			}
-			if (i == 2)
+			else if (i == 2)
 			{
 				ui->labelValue2->show();
 				ui->labelValue2->setText(labelValue);
@@ -93,38 +134,3 @@ void FormDialog::SetLabelTitle(CJsonNode node)
 		}
 	}
 }
-
-void FormDialog::SetOK(QString title, int action)
-{
-	if (!title.isEmpty())
-	{
-		ui->btnOK->setText(title);
-		ui->btnOK->show();
-
-		m_ActionOK = action;
-	}
-}
-
-void FormDialog::SetCancel(QString title, int action)
-{
-	if (!title.isEmpty())
-	{
-		ui->btnCancel->setText(title);
-		ui->btnCancel->show();
-
-		m_ActionCancel = action;
-	}
-}
-
-void FormDialog::accept()
-{
-	done(QDialog::Accepted);
-
-}
-
-void FormDialog::reject()
-{
-	done(QDialog::Rejected);
-
-}
-

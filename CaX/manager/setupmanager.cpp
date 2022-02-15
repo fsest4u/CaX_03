@@ -5,7 +5,6 @@ SetupManager::SetupManager()
 {
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
 
-	m_Index = -1;
 }
 
 SetupManager::~SetupManager()
@@ -13,10 +12,8 @@ SetupManager::~SetupManager()
 
 }
 
-void SetupManager::RequestSetupGroup(int eventID, QString id, int index)
+void SetupManager::RequestSetupGroup(int eventID, QString id)
 {
-	m_Index = index;
-
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0,		VAL_SETUP);
 	node.Add(KEY_CMD1,		VAL_GROUP);
@@ -51,6 +48,61 @@ void SetupManager::RequestSetupSet(int eventID, QString id, bool ok)
 	node.Add(KEY_OK,		ok);
 
 	RequestCommand(node, SETUP_SET);
+}
+
+void SetupManager::RequestSetupSet(int eventID, QString id, bool ok, int analog, int aux, int phono)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0,		VAL_SETUP);
+	node.Add(KEY_CMD1,		VAL_SET);
+	node.AddInt(KEY_EVENT_ID,	eventID);
+	node.Add(KEY_ID_UPPER,	id);
+	node.Add(KEY_OK,		ok);
+	node.AddInt(KEY_ANALOG_IN,	analog);
+	node.AddInt(KEY_AUX_IN,		aux);
+	node.AddInt(KEY_PHONO_IN,	phono);
+
+	RequestCommand(node, SETUP_SET);
+}
+
+void SetupManager::RequestSetupSet(int eventID, QString id, bool ok, int volume, QString key, QString value)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0,		VAL_SETUP);
+	node.Add(KEY_CMD1,		VAL_SET);
+	node.AddInt(KEY_EVENT_ID,	eventID);
+	node.Add(KEY_ID_UPPER,	id);
+	node.Add(KEY_OK,		ok);
+	node.Add(KEY_VOLUME_CAP,	QString::number(volume));
+	node.Add(key,		value);
+
+	RequestCommand(node, SETUP_SET);
+}
+
+void SetupManager::RequestSetupSet(int eventID, QString id, bool ok,
+								   QString usernameKey, QString username,
+								   QString passwordKey, QString password)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0,		VAL_SETUP);
+	node.Add(KEY_CMD1,		VAL_SET);
+	node.AddInt(KEY_EVENT_ID,	eventID);
+	node.Add(KEY_ID_UPPER,	id);
+	node.Add(KEY_OK,		ok);
+	node.Add(usernameKey,		username);
+	node.Add(passwordKey,		password);
+
+	RequestCommand(node, SETUP_SET);
+}
+
+void SetupManager::RequestVolume(int eventID, int value)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_PLAY);
+	node.Add	(KEY_CMD1,		VAL_SET_VOLUME);
+	node.AddInt(KEY_EVENT_ID,	eventID);
+	node.AddInt(KEY_VOLUME_CAP,	value);
+	RequestCommand(node, SETUP_VOLUME);
 }
 
 void SetupManager::SlotRespInfo(QString json, int cmdID)
@@ -110,7 +162,7 @@ void SetupManager::ParseGroup(CJsonNode node)
 		nodeList.append(result.GetArrayAt(i));
 	}
 
-	emit SigRespGroup(nodeList, m_Index);
+	emit SigRespGroup(nodeList);
 }
 
 void SetupManager::ParseSet(CJsonNode node)

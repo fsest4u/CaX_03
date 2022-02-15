@@ -32,21 +32,27 @@ private slots:
 //	void SlotSubMenuAction(QString value, QString json);
 	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
 	void SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point);
-	void SlotSelectMenuDetail(const QModelIndex &modelIndex, QPoint point);
-	void SlotMenuAction(QAction *action);
+//	void SlotSelectMenuDetail(const QModelIndex &modelIndex, QPoint point);
+	void SlotMenuActionSub(QAction *action);
 
 	void SlotRespError(QString errMsg);
-	void SlotRespGroup(QList<CJsonNode> list, int index);
+	void SlotRespGroup(QList<CJsonNode> list);
 	void SlotRespSet(CJsonNode node);
 
 private:
 
+	void ReadSettings();
+	void WriteSettings();
+
 	void ConnectSigToSlot();
 	void Initialize();
 
-//	void SetSetupHome(QList<CJsonNode> & list);
+	void SetMenuSubMap(QStringList values);
 
-	void SetMenuMap(QStringList values);
+	void DoAnalogInVolume(CJsonNode node);
+	void DoLogin(CJsonNode node);
+	void DoMaxVolume(int volume);
+	void DoPowerOnVolume(CJsonNode node);
 
 	SetupManager		*m_pMgr;
 	InfoService			*m_pInfoService;
@@ -54,11 +60,14 @@ private:
 
 	int m_EventID;
 	QString m_StrID;
+	QString m_StrIDSub;
+
+	int m_MaxVolume;
 
 //	QMap<QString, CJsonNode>	m_MenuMap;
-	QMap<QString, QString>	m_MenuMap;
+	QMap<int, QString>	m_MenuSubMap;
 
-	QMenu				*m_Menu;
+	QMenu				*m_MenuSub;
 
 	QModelIndex			m_ModelIndex;
 	QPoint				m_Point;

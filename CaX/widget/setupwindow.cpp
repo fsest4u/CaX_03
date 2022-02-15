@@ -2,12 +2,17 @@
 #include "ui_setupwindow.h"
 
 #include "dialog/commondialog.h"
-#include "dialog/formdialog.h"
+#include "dialog/setup/analoginvolumedialog.h"
+#include "dialog/setup/formdialog.h"
+#include "dialog/setup/maxvolumedialog.h"
+#include "dialog/setup/poweronvolumedialog.h"
+#include "dialog/setup/setuplogindialog.h"
 
 #include "manager/setupmanager.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/settingio.h"
 #include "util/utilnovatron.h"
 
 #include "widget/setup.h"
@@ -15,8 +20,7 @@
 #include "widget/formBottom/listsetup.h"
 #include "widget/formBottom/listsetupdelegate.h"
 
-#define MAIN_TITLE	"Setup"
-
+const QString SETTINGS_GROUP = "Setup";
 
 SetupWindow::SetupWindow(QWidget *parent, const QString &addr) :
 	QWidget(parent),
@@ -24,7 +28,8 @@ SetupWindow::SetupWindow(QWidget *parent, const QString &addr) :
 	m_pInfoService(new InfoService(this)),
 	m_pListSetup(new ListSetup(this)),\
 	m_StrID(""),
-	m_Menu(new QMenu(this)),
+	m_StrIDSub(""),
+	m_MenuSub(new QMenu(this)),
 	ui(new Ui::SetupWindow)
 {
 	ui->setupUi(this);
@@ -32,6 +37,7 @@ SetupWindow::SetupWindow(QWidget *parent, const QString &addr) :
 	m_pMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
+	ReadSettings();
 	Initialize();
 }
 
@@ -55,11 +61,11 @@ SetupWindow::~SetupWindow()
 		m_pListSetup = nullptr;
 	}
 
-	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
-	if (m_Menu)
+	disconnect(m_MenuSub, SIGNAL(triggered(QAction*)));
+	if (m_MenuSub)
 	{
-		delete m_Menu;
-		m_Menu = nullptr;
+		delete m_MenuSub;
+		m_MenuSub = nullptr;
 	}
 
 	delete ui;
@@ -73,22 +79,19 @@ void SetupWindow::SetupHome(QList<CJsonNode> list, int eventID)
 	ui->gridLayoutTop->addWidget(m_pInfoService);
 	ui->gridLayoutBottom->addWidget(m_pListSetup);
 
-//	SetSetupHome(list);
-
-	m_pInfoService->SetTitle(MAIN_TITLE);
+	m_pInfoService->SetTitle(SETTINGS_GROUP);
 	m_pListSetup->SetNodeList(list);
 }
 
 void SetupWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
 	LogDebug("setup main menu");
-	m_ModelIndex = modelIndex;
-	m_Point = point;
+//	m_ModelIndex = modelIndex;
+//	m_Point = point;
 
-	QString strID = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
-	int index = qvariant_cast<int>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_INDEX));
+	m_StrID = qvariant_cast<QString>(modelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
 
-	m_pMgr->RequestSetupGroup(m_EventID, strID, index);
+	m_pMgr->RequestSetupGroup(m_EventID, m_StrID);
 }
 
 void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
@@ -97,39 +100,91 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 	m_ModelIndex = modelIndex;
 	m_Point = point;
 
-	QStringList values = qvariant_cast<QStringList>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_VALUES));
-	if (values.isEmpty())
-	{
-		QString strID = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
-		m_pMgr->RequestSetupSet(m_EventID, strID);
-	}
-	else
-	{
-		SetMenuMap(values);
+	m_StrIDSub = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
+	int type = qvariant_cast<int>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_TYPE));
+	UtilNovatron::DebugTypeForSetup("SlotSelectMenuSub", type);
 
-		m_Menu->clear();
-
-		QMap<QString, QString>::iterator i;
-		for (i = m_MenuMap.begin(); i != m_MenuMap.end(); i++)
+	if (type & iAppSetupType_Mask_Enum
+			|| type & iAppSetupType_Mask_Select)
+	{
+		QString json = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_RAW));
+		CJsonNode node;
+		if (!node.SetContent(json))
 		{
-			QAction *action = new QAction(i.key(), this);
-			action->setData(i.value());
-			m_Menu->addAction(action);
+			return;
 		}
 
-		m_Menu->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(m_Point));
+		QStringList values = node.GetStringList(KEY_VALUES);
+		SetMenuSubMap(values);
+
+		m_MenuSub->clear();
+
+		QMap<int, QString>::iterator i;
+		for (i = m_MenuSubMap.begin(); i != m_MenuSubMap.end(); i++)
+		{
+			QAction *action = new QAction(i.value(), this);
+			action->setData(i.value());
+			m_MenuSub->addAction(action);
+		}
+
+		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(m_Point));
+	}
+	else if (type & iAppSetupType_Mask_List)
+	{
+
+	}
+	else if (type & iAppSetupType_Mask_FormSelect)
+	{
+
+	}
+	else if (type & iAppSetupType_Mask_Exec
+			 || type & iAppSetupType_Mask_App)
+	{
+		QString json = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_RAW));
+		CJsonNode node;
+		if (!node.SetContent(json))
+		{
+			return;
+		}
+
+		CJsonNode nodeForm = node.GetObject(KEY_FORM);
+
+		if (nodeForm.IsNull())
+		{
+			LogDebug("form is null");
+			if (m_StrIDSub.contains("MaxVolume"))
+			{
+				int volume = qvariant_cast<int>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_SUBTITLE));
+
+				DoMaxVolume(volume);
+			}
+
+		}
+		else
+		{
+			LogDebug("form is exist");
+			if (m_StrIDSub.contains("AUD_ANALOG_IN_VOLUME"))
+			{
+				DoAnalogInVolume(nodeForm);
+			}
+			else if (m_StrIDSub.contains("IS_QB_USER")
+					 || m_StrIDSub.contains("IS_AIRABLE_TIDAL_USER")
+					 || m_StrIDSub.contains("IS_AIRABLE_DEEZER_USER")
+					 || m_StrIDSub.contains("IS_AIRABLE_NAPSTER_USER")
+					 || m_StrIDSub.contains("IS_AIRABLE_HIGHRESAUDIO_USER")
+					 || m_StrIDSub.contains("IS_AIRABLE_AMAZON_USER"))
+			{
+				DoLogin(nodeForm);
+			}
+		}
 	}
 }
 
-void SetupWindow::SlotSelectMenuDetail(const QModelIndex &modelIndex, QPoint point)
+void SetupWindow::SlotMenuActionSub(QAction *action)
 {
-	LogDebug("setup detail menu");
-}
-
-void SetupWindow::SlotMenuAction(QAction *action)
-{
-	QString rawData = action->data().toString();
-	LogDebug("rawData [%s]", rawData.toUtf8().data());
+	QString value = action->data().toString();
+	LogDebug("eventID [%d] strID [%s] value [%s]", m_EventID, m_StrIDSub.toUtf8().data(), value.toUtf8().data());
+	m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, value);
 }
 
 //void SetupWindow::SlotSelectTitle(QString strID, int index)
@@ -214,7 +269,7 @@ void SetupWindow::SlotRespError(QString errMsg)
 	dialog.exec();
 }
 
-void SetupWindow::SlotRespGroup(QList<CJsonNode> list, int index)
+void SetupWindow::SlotRespGroup(QList<CJsonNode> list)
 {
 	m_pListSetup->ClearNodeListSub();
 	m_pListSetup->SetNodeListSub(list);
@@ -227,18 +282,53 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 	if (nodeForm.IsNull())
 	{
 		LogDebug("resp is not form~~");
+		m_pMgr->RequestSetupGroup(m_EventID, m_StrID);
 	}
 	else
 	{
 		LogDebug("resp is form~~");
-
-		FormDialog dialog;
-		dialog.SetNodeForm(nodeForm);
-		if (dialog.exec() == QDialog::Accepted)
+		QString title = nodeForm.GetString(KEY_TITLE_CAP);
+		if (title.contains("Power On Volume"))
 		{
-			m_pMgr->RequestSetupSet(m_EventID, m_StrID, true);
+			DoPowerOnVolume(nodeForm);
+		}
+		else
+		{
+			FormDialog dialog;
+			dialog.SetNodeForm(nodeForm);
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true);
+			}
 		}
 	}
+}
+
+void SetupWindow::ReadSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	m_MaxVolume = settings.value("setup_max_volume").toInt();
+
+	settings.endGroup();
+
+	if (m_MaxVolume <= 0)
+	{
+		m_MaxVolume = 30;
+	}
+
+}
+
+void SetupWindow::WriteSettings()
+{
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+
+	settings.setValue("setup_max_volume", m_MaxVolume);
+
+	settings.endGroup();
+
 }
 
 void SetupWindow::ConnectSigToSlot()
@@ -248,19 +338,18 @@ void SetupWindow::ConnectSigToSlot()
 //	connect(m_pListSetup->GetDelegate(), SIGNAL(SigSubMenuAction(QString, QString)), this, SLOT(SlotSubMenuAction(QString, QString)));
 	connect(m_pListSetup->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
 	connect(m_pListSetup->GetDelegateSub(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenuSub(const QModelIndex&, QPoint)));
-	connect(m_pListSetup->GetDelegateDetail(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenuDetail(const QModelIndex&, QPoint)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(m_pMgr, SIGNAL(SigRespGroup(QList<CJsonNode>, int)), this, SLOT(SlotRespGroup(QList<CJsonNode>, int)));
+	connect(m_pMgr, SIGNAL(SigRespGroup(QList<CJsonNode>)), this, SLOT(SlotRespGroup(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespSet(CJsonNode)), this, SLOT(SlotRespSet(CJsonNode)));
 
-	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
+	connect(m_MenuSub, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuActionSub(QAction*)));
 
 }
 
 void SetupWindow::Initialize()
 {
-	m_MenuMap.clear();
+	m_MenuSubMap.clear();
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -276,33 +365,77 @@ void SetupWindow::Initialize()
 								background: rgba(201,237,248,255);	\
 							}");
 
-	m_Menu->setStyleSheet(style);
+	m_MenuSub->setStyleSheet(style);
 }
 
-void SetupWindow::SetMenuMap(QStringList values)
+void SetupWindow::SetMenuSubMap(QStringList values)
 {
-	m_MenuMap.clear();
+	m_MenuSubMap.clear();
+	int index = 0;
 	foreach (QString value, values)
 	{
 		LogDebug("value [%s]", value.toUtf8().data());
-		m_MenuMap.insert(value, value);
+		m_MenuSubMap.insert(index, value);
+		index++;
 	}
 }
 
-//void SetupWindow::SetSetupHome(QList<CJsonNode> &list)
-//{
-//	QList<CJsonNode> tempList;
-//	int index = 0;
-//	QString strCover = "";
+void SetupWindow::DoAnalogInVolume(CJsonNode node)
+{
+	AnalogInVolumeDialog dialog;
+	dialog.SetNodeForm(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		int analog = dialog.GetSliderValue0();
+		int aux = dialog.GetSliderValue1();
+		int phono = dialog.GetSliderValue2();
 
-//	foreach (CJsonNode node, list)
-//	{
-//		node.Add(KEY_COVER_ART, strCover);
-//		node.AddInt(KEY_TYPE, index);
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, analog, aux, phono);
+	}
+}
 
-//		tempList.append(node);
-//		index++;
-//	}
+void SetupWindow::DoLogin(CJsonNode node)
+{
+	SetupLoginDialog dialog;
+	dialog.SetNodeForm(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString usernameKey = dialog.GetUsernameKey();
+		QString passwordKey = dialog.GetPasswordKey();
 
-//	list = tempList;
-//}
+		QString username = dialog.GetUsername();
+		QString password = dialog.GetPassword();
+
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, usernameKey, username, passwordKey, password);
+	}
+}
+
+void SetupWindow::DoMaxVolume(int volume)
+{
+	MaxVolumeDialog dialog;
+	dialog.SetMaxVolume(m_MaxVolume);
+	dialog.SetCurVolume(volume);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		m_MaxVolume = dialog.GetMaxVolume();
+		volume = dialog.GetCurVolume();
+
+		m_pMgr->RequestVolume(m_EventID, volume);
+		WriteSettings();
+		m_pMgr->RequestSetupGroup(m_EventID, m_StrID);
+	}
+}
+
+void SetupWindow::DoPowerOnVolume(CJsonNode node)
+{
+	PowerOnVolumeDialog dialog;
+	dialog.SetNodeForm(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		int volume = dialog.GetSliderValue0();
+		QString key = dialog.GetHiddenKey();
+		QString value = dialog.GetHiddenValue();
+
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, volume, key, value);
+	}
+}

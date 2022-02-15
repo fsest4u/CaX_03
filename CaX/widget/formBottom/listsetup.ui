@@ -29,33 +29,6 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0">
-    <widget class="QFrame" name="frameSetup">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QGridLayout" name="gridLayoutSetup">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <property name="spacing">
-       <number>0</number>
-      </property>
-     </layout>
-    </widget>
-   </item>
    <item row="0" column="1">
     <widget class="QFrame" name="frameSetupSub">
      <property name="frameShape">
@@ -83,15 +56,15 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QFrame" name="frameSetupDetail">
+   <item row="0" column="0">
+    <widget class="QFrame" name="frameSetup">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayoutSetupDetail">
+     <layout class="QGridLayout" name="gridLayoutSetup">
       <property name="leftMargin">
        <number>0</number>
       </property>
