@@ -36,19 +36,38 @@ void SetupLoginDialog::SetNodeForm(CJsonNode node)
 	SetInputs(arrNodeInput);
 }
 
-QString SetupLoginDialog::GetUsername() const
+QString SetupLoginDialog::GetKey0() const
+{
+	return ui->label0->text();
+}
+
+QString SetupLoginDialog::GetKey1() const
+{
+	return ui->label1->text();
+}
+
+QString SetupLoginDialog::GetValue0() const
 {
 	return ui->lineEdit0->text();
 }
 
-QString SetupLoginDialog::GetPassword() const
+QString SetupLoginDialog::GetValue1() const
 {
 	return ui->lineEdit1->text();
 }
 
+void SetupLoginDialog::accept()
+{
+	done(QDialog::Accepted);
+}
+
+void SetupLoginDialog::reject()
+{
+	done(QDialog::Rejected);
+}
+
 void SetupLoginDialog::ConnectSigToSlot()
 {
-
 	connect(ui->btnOK, SIGNAL(clicked()), this, SLOT(accept()));
 	connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
 }
@@ -102,41 +121,15 @@ void SetupLoginDialog::SetInputs(CJsonNode node)
 
 		if (iSetupInput_Text == typeInput)
 		{
-			SetUsernameKey(labelKey);
 			ui->frame0->show();
 			ui->label0->setText(labelKey);
-
-			ui->frame0->show();
 			ui->lineEdit0->setText(labelValue);
 		}
 		else if (iSetupInput_Password == typeInput)
 		{
-			SetPasswordKey(labelKey);
 			ui->frame1->show();
 			ui->label1->setText(labelKey);
-
-			ui->frame1->show();
 			ui->lineEdit1->setText(labelValue);
 		}
 	}
-}
-
-QString SetupLoginDialog::GetPasswordKey() const
-{
-	return m_PasswordKey;
-}
-
-void SetupLoginDialog::SetPasswordKey(const QString &PasswordKey)
-{
-	m_PasswordKey = PasswordKey;
-}
-
-QString SetupLoginDialog::GetUsernameKey() const
-{
-	return m_UsernameKey;
-}
-
-void SetupLoginDialog::SetUsernameKey(const QString &UsernameKey)
-{
-	m_UsernameKey = UsernameKey;
 }

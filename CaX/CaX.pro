@@ -34,10 +34,12 @@ SOURCES += \
     dialog/setcategorycolumndialog.cpp \
     dialog/settrackcolumndialog.cpp \
     dialog/setup/analoginvolumedialog.cpp \
+    dialog/setup/customeqdialog.cpp \
     dialog/setup/formdialog.cpp \
     dialog/setup/maxvolumedialog.cpp \
     dialog/setup/poweronvolumedialog.cpp \
     dialog/setup/setuplogindialog.cpp \
+    dialog/setup/wiredlansetupdialog.cpp \
     dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
@@ -167,10 +169,12 @@ HEADERS += \
     dialog/setcategorycolumndialog.h \
     dialog/settrackcolumndialog.h \
     dialog/setup/analoginvolumedialog.h \
+    dialog/setup/customeqdialog.h \
     dialog/setup/formdialog.h \
     dialog/setup/maxvolumedialog.h \
     dialog/setup/poweronvolumedialog.h \
     dialog/setup/setuplogindialog.h \
+    dialog/setup/wiredlansetupdialog.h \
     dialog/trackinfo.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
@@ -308,10 +312,12 @@ FORMS += \
     dialog/setcategorycolumndialog.ui \
     dialog/settrackcolumndialog.ui \
     dialog/setup/analoginvolumedialog.ui \
+    dialog/setup/customeqdialog.ui \
     dialog/setup/formdialog.ui \
     dialog/setup/maxvolumedialog.ui \
     dialog/setup/poweronvolumedialog.ui \
     dialog/setup/setuplogindialog.ui \
+    dialog/setup/wiredlansetupdialog.ui \
     dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \

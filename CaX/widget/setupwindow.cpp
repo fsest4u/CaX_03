@@ -3,10 +3,12 @@
 
 #include "dialog/commondialog.h"
 #include "dialog/setup/analoginvolumedialog.h"
+#include "dialog/setup/customeqdialog.h"
 #include "dialog/setup/formdialog.h"
 #include "dialog/setup/maxvolumedialog.h"
 #include "dialog/setup/poweronvolumedialog.h"
 #include "dialog/setup/setuplogindialog.h"
+#include "dialog/setup/wiredlansetupdialog.h"
 
 #include "manager/setupmanager.h"
 
@@ -135,7 +137,33 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 	}
 	else if (type & iAppSetupType_Mask_FormSelect)
 	{
+		QString json = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_RAW));
+		CJsonNode node;
+		if (!node.SetContent(json))
+		{
+			return;
+		}
 
+		QStringList values;
+		CJsonNode nodeForms = node.GetArray(KEY_FORMS);
+		for(int i = 0; i < nodeForms.ArraySize(); i++)
+		{
+			CJsonNode nodeForm = nodeForms.GetArrayAt(i);
+			values.append(nodeForm.GetString(KEY_TITLE_CAP));
+		}
+		SetMenuSubMap(values);
+
+		m_MenuSub->clear();
+
+		QMap<int, QString>::iterator i;
+		for (i = m_MenuSubMap.begin(); i != m_MenuSubMap.end(); i++)
+		{
+			QAction *action = new QAction(i.value(), this);
+			action->setData(i.value());
+			m_MenuSub->addAction(action);
+		}
+
+		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(m_Point));
 	}
 	else if (type & iAppSetupType_Mask_Exec
 			 || type & iAppSetupType_Mask_App)
@@ -158,7 +186,10 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 
 				DoMaxVolume(volume);
 			}
-
+			else if (m_StrIDSub.contains("NET_NETWORK_INFO"))
+			{
+				m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub);
+			}
 		}
 		else
 		{
@@ -172,7 +203,10 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 					 || m_StrIDSub.contains("IS_AIRABLE_DEEZER_USER")
 					 || m_StrIDSub.contains("IS_AIRABLE_NAPSTER_USER")
 					 || m_StrIDSub.contains("IS_AIRABLE_HIGHRESAUDIO_USER")
-					 || m_StrIDSub.contains("IS_AIRABLE_AMAZON_USER"))
+					 || m_StrIDSub.contains("IS_AIRABLE_AMAZON_USER")
+					 || m_StrIDSub.contains("NET_SAMBA_HOST_NAME")
+					 || m_StrIDSub.contains("NET_SAMBA_WORKGROUP")
+					 || m_StrIDSub.contains("NET_FTP_PASS"))
 			{
 				DoLogin(nodeForm);
 			}
@@ -184,7 +218,31 @@ void SetupWindow::SlotMenuActionSub(QAction *action)
 {
 	QString value = action->data().toString();
 	LogDebug("eventID [%d] strID [%s] value [%s]", m_EventID, m_StrIDSub.toUtf8().data(), value.toUtf8().data());
-	m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, value);
+	if (m_StrIDSub.contains("NET_WIRED_LAN_SETUP"))
+	{
+		QString json = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_RAW));
+		CJsonNode node;
+		if (!node.SetContent(json))
+		{
+			return;
+		}
+
+		QStringList values;
+		CJsonNode nodeForms = node.GetArray(KEY_FORMS);
+		for(int i = 0; i < nodeForms.ArraySize(); i++)
+		{
+			CJsonNode nodeForm = nodeForms.GetArrayAt(i);
+			if (!nodeForm.GetString(KEY_TITLE_CAP).compare(value))
+			{
+				DoWiredLanSetup(nodeForm);
+				break;
+			}
+		}
+	}
+	else
+	{
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, value);
+	}
 }
 
 //void SetupWindow::SlotSelectTitle(QString strID, int index)
@@ -292,6 +350,10 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 		{
 			DoPowerOnVolume(nodeForm);
 		}
+		else if (title.contains("Custom EQ"))
+		{
+			DoCustomEQ(nodeForm);
+		}
 		else
 		{
 			FormDialog dialog;
@@ -394,17 +456,51 @@ void SetupWindow::DoAnalogInVolume(CJsonNode node)
 	}
 }
 
+void SetupWindow::DoCustomEQ(CJsonNode node)
+{
+	CustomEQDialog dialog;
+	dialog.SetNodeForm(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString title = node.GetString(KEY_TITLE_CAP);
+
+		int value00 = dialog.GetSliderValue00();
+		int value01 = dialog.GetSliderValue01();
+		int value02 = dialog.GetSliderValue02();
+		int value03 = dialog.GetSliderValue03();
+		int value04 = dialog.GetSliderValue04();
+		int value05 = dialog.GetSliderValue05();
+		int value06 = dialog.GetSliderValue06();
+		int value07 = dialog.GetSliderValue07();
+		int value08 = dialog.GetSliderValue08();
+		int value09 = dialog.GetSliderValue09();
+
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true,
+								title,
+								value00,
+								value01,
+								value02,
+								value03,
+								value04,
+								value05,
+								value06,
+								value07,
+								value08,
+								value09);
+	}
+}
+
 void SetupWindow::DoLogin(CJsonNode node)
 {
 	SetupLoginDialog dialog;
 	dialog.SetNodeForm(node);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		QString usernameKey = dialog.GetUsernameKey();
-		QString passwordKey = dialog.GetPasswordKey();
+		QString usernameKey = dialog.GetKey0();
+		QString passwordKey = dialog.GetKey1();
 
-		QString username = dialog.GetUsername();
-		QString password = dialog.GetPassword();
+		QString username = dialog.GetValue0();
+		QString password = dialog.GetValue1();
 
 		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, usernameKey, username, passwordKey, password);
 	}
@@ -437,5 +533,34 @@ void SetupWindow::DoPowerOnVolume(CJsonNode node)
 		QString value = dialog.GetHiddenValue();
 
 		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, volume, key, value);
+	}
+}
+
+void SetupWindow::DoWiredLanSetup(CJsonNode node)
+{
+	WiredLanSetupDialog dialog;
+	dialog.SetNodeForm(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+
+		QString key0 = dialog.GetKey0();
+		QString key1 = dialog.GetKey1();
+		QString key2 = dialog.GetKey2();
+		QString key3 = dialog.GetKey3();
+
+		QString value0 = dialog.GetValue0();
+		QString value1 = dialog.GetValue1();
+		QString value2 = dialog.GetValue2();
+		QString value3 = dialog.GetValue3();
+
+		QString hiddenKey = dialog.GetHiddenKey();
+		QString hiddenValue = dialog.GetHiddenValue();
+
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true,
+								key0, value0,
+								key1, value1,
+								key2, value2,
+								key3, value3,
+								hiddenKey, hiddenValue);
 	}
 }

@@ -5,6 +5,17 @@
 // key
 //////////////////////////////////////////////////
 
+#define		KEY_063HZ			"63 Hz"
+#define		KEY_150HZ			"150 Hz"
+#define		KEY_300HZ			"300 Hz"
+#define		KEY_600HZ			"600 Hz"
+#define		KEY_01KHZ			"1 kHz"
+#define		KEY_03KHZ			"3 kHz"
+#define		KEY_05KHZ			"5 kHz"
+#define		KEY_10KHZ			"10 kHz"
+#define		KEY_16KHZ			"16 kHz"
+#define		KEY_20KHZ			"20 kHz"
+
 #define		KEY_ACTION			"Action"
 #define		KEY_ACTIVE_CHANNEL	"activeChannel"
 #define		KEY_ACTS			"Acts"
@@ -76,6 +87,7 @@
 #define		KEY_FM_RADIO		"FmRadio"
 #define		KEY_FOLDER			"Folder"
 #define		KEY_FORM			"Form"
+#define		KEY_FORMS			"Forms"
 #define		KEY_FORMATS			"Formats"
 #define		KEY_FORMAT			"Format"
 #define		KEY_FREE			"Free"

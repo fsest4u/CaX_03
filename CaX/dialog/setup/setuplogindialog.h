@@ -19,14 +19,16 @@ public:
 
 	void SetNodeForm(CJsonNode node);
 
-	QString GetUsername() const;
-	QString GetPassword() const;
+	QString GetKey0() const;
+	QString GetKey1() const;
 
-	QString GetUsernameKey() const;
-	void SetUsernameKey(const QString &UsernameKey);
+	QString GetValue0() const;
+	QString GetValue1() const;
 
-	QString GetPasswordKey() const;
-	void SetPasswordKey(const QString &PasswordKey);
+private slots:
+
+	void accept();
+	void reject();
 
 private:
 
@@ -39,9 +41,6 @@ private:
 
 	int m_ActionOK;
 	int m_ActionCancel;
-
-	QString m_UsernameKey;
-	QString m_PasswordKey;
 
 	Ui::SetupLoginDialog *ui;
 };

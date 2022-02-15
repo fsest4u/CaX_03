@@ -50,9 +50,11 @@ private:
 	void SetMenuSubMap(QStringList values);
 
 	void DoAnalogInVolume(CJsonNode node);
+	void DoCustomEQ(CJsonNode node);
 	void DoLogin(CJsonNode node);
 	void DoMaxVolume(int volume);
 	void DoPowerOnVolume(CJsonNode node);
+	void DoWiredLanSetup(CJsonNode node);
 
 	SetupManager		*m_pMgr;
 	InfoService			*m_pInfoService;

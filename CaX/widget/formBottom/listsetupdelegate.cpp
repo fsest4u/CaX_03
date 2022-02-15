@@ -66,13 +66,21 @@ void ListSetupDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 //	painter->drawRect(rectTitle);
 //	painter->drawRect(rectSubtitle);
 
-	painter->setPen(QColor(84, 84, 84));
+	if (iAppSetupType_Mask_Disable & type)
+	{
+		painter->setPen(QColor(230, 230, 230));
+	}
+	else
+	{
+		painter->setPen(QColor(84, 84, 84));
+	}
+
 	if (!title.isEmpty())
 	{
 		painter->setFont(fontTitle);
 		painter->drawText(rectTitle, title);
 	}
-	if (!subtitle.isEmpty())
+	if (!subtitle.isEmpty() && !(iAppSetupType_Mask_HideValue & type))
 	{
 		painter->setFont(fontTitle);
 		painter->drawText(rectSubtitle, subtitle);
@@ -105,6 +113,8 @@ QWidget *ListSetupDelegate::createEditor(QWidget *parent, const QStyleOptionView
 
 bool ListSetupDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
+	int type = qvariant_cast<int>(index.data(LIST_SETUP_TYPE));
+
 //	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
 //	QFontMetrics fmTitle(fontTitle);
 
@@ -119,11 +129,19 @@ bool ListSetupDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
 	{
 		if (((QMouseEvent*)event)->button() == Qt::LeftButton)
 		{
-			//if (rectTitle.contains(curPoint))
+			if (iAppSetupType_Mask_Disable & type)
 			{
-				emit SigSelectMenu(index, curPoint);
-				return true;
+				// nothing
 			}
+			else
+			{
+				//if (rectTitle.contains(curPoint))
+				{
+					emit SigSelectMenu(index, curPoint);
+					return true;
+				}
+			}
+
 		}
 	}
 
