@@ -186,7 +186,12 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 
 				DoMaxVolume(volume);
 			}
-			else if (m_StrIDSub.contains("NET_NETWORK_INFO"))
+			else if (m_StrIDSub.contains("NET_NETWORK_INFO")
+					 || m_StrIDSub.contains("SY_CHECKFIRMWARE")
+					 || m_StrIDSub.contains("LI_GRACENOTE_CD")
+					 || m_StrIDSub.contains("LI_GRACENOTE_COVER")
+					 || m_StrIDSub.contains("LI_GRACENOTE_FINGER")
+					 || m_StrIDSub.contains("LI_GRACENOTE_PLS"))
 			{
 				m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub);
 			}
