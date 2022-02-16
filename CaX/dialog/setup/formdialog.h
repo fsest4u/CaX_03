@@ -26,12 +26,17 @@ private slots:
 
 private:
 
+	void ConnectSigToSlot();
+	void Initialize();
+
 	void SetOK(QString title, int action);
 	void SetCancel(QString title, int action);
 	void SetInputs(CJsonNode node);
 
 	int m_ActionOK;
 	int m_ActionCancel;
+
+	QString m_Url;
 
 	Ui::FormDialog *ui;
 };
