@@ -17,6 +17,7 @@ public:
 	explicit FormDialog(QWidget *parent = nullptr);
 	~FormDialog();
 
+	CJsonNode GetNodeForm();
 	void SetNodeForm(CJsonNode node);
 
 private slots:
@@ -35,6 +36,9 @@ private:
 
 	int m_ActionOK;
 	int m_ActionCancel;
+
+	QString m_HiddenKey;
+	QString m_HiddenValue;
 
 	QString m_Url;
 

@@ -226,7 +226,9 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 				DoTimeManual(nodeForm);
 			}
 			else if (m_StrIDSub.contains("SY_FACTORY_RESET")
-					 || m_StrIDSub.contains("MDB_INIT"))
+					 || m_StrIDSub.contains("MDB_INIT")
+					 || m_StrIDSub.contains("RIP_FREE_DB_UPDATE")
+					 || m_StrIDSub.contains("RIP_FREE_DB_DELETE"))
 			{
 				FormDialog dialog;
 				dialog.SetNodeForm(nodeForm);
@@ -293,7 +295,9 @@ void SetupWindow::SlotMenuActionSub(QAction *action)
 		}
 	}
 	else if (m_StrIDSub.contains("SY_ALARM")
-			 || m_StrIDSub.contains("SY_AUTO_SHUTDOWN"))
+			 || m_StrIDSub.contains("SY_AUTO_SHUTDOWN")
+			 || m_StrIDSub.contains("SY_HDD_FORMAT")
+			 || m_StrIDSub.contains("SY_NTFS_FIX"))
 	{
 		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, key);
 	}
@@ -347,7 +351,11 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 			dialog.SetNodeForm(nodeForm);
 			if (dialog.exec() == QDialog::Accepted)
 			{
-				m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true);
+				CJsonNode node = dialog.GetNodeForm();
+				node.AddInt(KEY_EVENT_ID, m_EventID);
+				node.Add(KEY_ID_UPPER, m_StrIDSub);
+				node.Add(KEY_OK, true);
+				m_pMgr->RequestSetupSet(node);
 			}
 		}
 	}

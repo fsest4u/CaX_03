@@ -24,6 +24,22 @@ FormDialog::~FormDialog()
 	delete ui;
 }
 
+CJsonNode FormDialog::GetNodeForm()
+{
+	CJsonNode nodeFileSystem(JSON_OBJECT);
+	nodeFileSystem.Add(KEY_VALUE, ui->cbList->currentText());
+	nodeFileSystem.AddInt(KEY_INDEX, ui->cbList->currentIndex());
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(m_HiddenKey, m_HiddenValue);
+	if (!ui->frameList->isHidden())
+	{
+		node.Add(KEY_FILE_SYSTEM, nodeFileSystem);
+	}
+
+	return node;
+}
+
 void FormDialog::SetNodeForm(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -49,6 +65,8 @@ void FormDialog::accept()
 	}
 	else if (iSetupBtnAction_OpenWeb == m_ActionOK)
 	{
+		done(QDialog::Rejected);
+
 		// web browser
 		if (!m_Url.isEmpty())
 		{
@@ -78,6 +96,7 @@ void FormDialog::Initialize()
 	ui->frame2->hide();
 	ui->frame3->hide();
 	ui->frame4->hide();
+	ui->frameList->hide();
 
 	ui->btnOK->hide();
 	ui->btnCancel->hide();
@@ -121,87 +140,193 @@ void FormDialog::SetInputs(CJsonNode node)
 		QString labelKey = input.GetString(KEY_KEY);
 		QString labelValue = input.GetString(KEY_VALUE);
 
-		if (!labelKey.isEmpty() && !(iSetupInput_Disp & typeInput))
+		if (iSetupInput_Disp == typeInput)
 		{
-			if (i == 0)
+			if (!labelValue.isEmpty())
 			{
-				ui->frame0->show();
-				ui->labelKey0->setText(labelKey);
-			}
-			else if (i == 1)
-			{
-				ui->frame1->show();
-				ui->labelKey1->setText(labelKey);
-			}
-			else if (i == 2)
-			{
-				ui->frame2->show();
-				ui->labelKey2->setText(labelKey);
-			}
-			else if (i == 3)
-			{
-				ui->frame3->show();
-				ui->labelKey3->setText(labelKey);
-			}
-			else if (i == 4)
-			{
-				ui->frame4->show();
-				ui->labelKey4->setText(labelKey);
+				QString style = "";
+				bool readOnly = true;
+				if (iSetupInput_Text & typeInput)
+				{
+					readOnly = false;
+				}
+				else
+				{
+					readOnly = true;
+					style = QString("QLineEdit	\
+									{	\
+										border: none;	\
+										background: transparent;	\
+									}");
+				}
+
+				if (i == 0)
+				{
+					ui->frame0->show();
+					ui->lineEdit0->setText(labelValue);
+					ui->lineEdit0->setReadOnly(readOnly);
+					ui->lineEdit0->setStyleSheet(style);
+				}
+				else if (i == 1)
+				{
+					ui->frame1->show();
+					ui->lineEdit1->setText(labelValue);
+					ui->lineEdit1->setReadOnly(readOnly);
+					ui->lineEdit1->setStyleSheet(style);
+				}
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->lineEdit2->setText(labelValue);
+					ui->lineEdit2->setReadOnly(readOnly);
+					ui->lineEdit2->setStyleSheet(style);
+				}
+				else if (i == 3)
+				{
+					ui->frame3->show();
+					ui->lineEdit3->setText(labelValue);
+					ui->lineEdit3->setReadOnly(readOnly);
+					ui->lineEdit3->setStyleSheet(style);
+				}
+				else if (i == 4)
+				{
+					ui->frame4->show();
+					ui->lineEdit4->setText(labelValue);
+					ui->lineEdit4->setReadOnly(readOnly);
+					ui->lineEdit4->setStyleSheet(style);
+				}
 			}
 		}
-
-		if (!labelValue.isEmpty())
+		else if (iSetupInput_Label == typeInput
+				 || iSetupInput_Text == typeInput)
 		{
-			QString style = "";
-			bool readOnly = true;
-			if (iSetupInput_Text & typeInput)
+			if (!labelKey.isEmpty())
 			{
-				readOnly = false;
-			}
-			else
-			{
-				readOnly = true;
-				style = QString("QLineEdit	\
-								{	\
-									border: none;	\
-									background: transparent;	\
-								}");
+				if (i == 0)
+				{
+					ui->frame0->show();
+					ui->labelKey0->setMinimumWidth(100);
+					ui->labelKey0->setText(labelKey);
+				}
+				else if (i == 1)
+				{
+					ui->frame1->show();
+					ui->labelKey1->setMinimumWidth(100);
+					ui->labelKey1->setText(labelKey);
+				}
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->labelKey2->setMinimumWidth(100);
+					ui->labelKey2->setText(labelKey);
+				}
+				else if (i == 3)
+				{
+					ui->frame3->show();
+					ui->labelKey3->setMinimumWidth(100);
+					ui->labelKey3->setText(labelKey);
+				}
+				else if (i == 4)
+				{
+					ui->frame4->show();
+					ui->labelKey4->setMinimumWidth(100);
+					ui->labelKey4->setText(labelKey);
+				}
 			}
 
-			if (i == 0)
+			if (!labelValue.isEmpty())
 			{
-				ui->frame0->show();
-				ui->lineEdit0->setText(labelValue);
-				ui->lineEdit0->setReadOnly(readOnly);
-				ui->lineEdit0->setStyleSheet(style);
+				QString style = "";
+				bool readOnly = true;
+				if (iSetupInput_Text & typeInput)
+				{
+					readOnly = false;
+				}
+				else
+				{
+					readOnly = true;
+					style = QString("QLineEdit	\
+									{	\
+										border: none;	\
+										background: transparent;	\
+									}");
+				}
+
+				if (i == 0)
+				{
+					ui->frame0->show();
+					ui->lineEdit0->setText(labelValue);
+					ui->lineEdit0->setReadOnly(readOnly);
+					ui->lineEdit0->setStyleSheet(style);
+				}
+				else if (i == 1)
+				{
+					ui->frame1->show();
+					ui->lineEdit1->setText(labelValue);
+					ui->lineEdit1->setReadOnly(readOnly);
+					ui->lineEdit1->setStyleSheet(style);
+				}
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->lineEdit2->setText(labelValue);
+					ui->lineEdit2->setReadOnly(readOnly);
+					ui->lineEdit2->setStyleSheet(style);
+				}
+				else if (i == 3)
+				{
+					ui->frame3->show();
+					ui->lineEdit3->setText(labelValue);
+					ui->lineEdit3->setReadOnly(readOnly);
+					ui->lineEdit3->setStyleSheet(style);
+				}
+				else if (i == 4)
+				{
+					ui->frame4->show();
+					ui->lineEdit4->setText(labelValue);
+					ui->lineEdit4->setReadOnly(readOnly);
+					ui->lineEdit4->setStyleSheet(style);
+				}
 			}
-			else if (i == 1)
+		}
+		else if (iSetupInput_Hidden == typeInput)
+		{
+			m_HiddenKey = labelKey;
+			m_HiddenValue = labelValue;
+		}
+		else if (iSetupInput_List == typeInput)
+		{
+			if (!labelKey.compare("File System"))
 			{
-				ui->frame1->show();
-				ui->lineEdit1->setText(labelValue);
-				ui->lineEdit1->setReadOnly(readOnly);
-				ui->lineEdit1->setStyleSheet(style);
-			}
-			else if (i == 2)
-			{
-				ui->frame2->show();
-				ui->lineEdit2->setText(labelValue);
-				ui->lineEdit2->setReadOnly(readOnly);
-				ui->lineEdit2->setStyleSheet(style);
-			}
-			else if (i == 3)
-			{
-				ui->frame3->show();
-				ui->lineEdit3->setText(labelValue);
-				ui->lineEdit3->setReadOnly(readOnly);
-				ui->lineEdit3->setStyleSheet(style);
-			}
-			else if (i == 4)
-			{
-				ui->frame4->show();
-				ui->lineEdit4->setText(labelValue);
-				ui->lineEdit4->setReadOnly(readOnly);
-				ui->lineEdit4->setStyleSheet(style);
+				ui->frameList->show();
+				ui->labelList->setText(labelKey);
+				QStringList keys = input.GetStringList(KEY_KEYS);
+				QStringList values = input.GetStringList(KEY_VALUES);
+
+				QString key;
+				QString value;
+				for (int i = 0; i < values.count(); i++)
+				{
+					if (!keys.isEmpty() && keys.count() > i)
+					{
+						key = keys.at(i);
+					}
+					if (!values.isEmpty() && values.count() > i)
+					{
+						value = values.at(i);
+					}
+
+					if (key.isEmpty())
+					{
+						ui->cbList->addItem(value, QString::number(i));
+					}
+					else
+					{
+						ui->cbList->addItem(value, key);
+					}
+				}
+				int index = input.GetString(KEY_VALUE).toInt();
+				ui->cbList->setCurrentIndex(index);
 			}
 		}
 	}
