@@ -181,6 +181,14 @@ void SetupManager::RequestSetupSet(int eventID, QString id, bool ok, QString dat
 	RequestCommand(node, SETUP_SET);
 }
 
+void SetupManager::RequestSetupSet(CJsonNode node)
+{
+	node.Add(KEY_CMD0,		VAL_SETUP);
+	node.Add(KEY_CMD1,		VAL_SET);
+
+	RequestCommand(node, SETUP_SET);
+}
+
 void SetupManager::RequestVolume(int eventID, int value)
 {
 	CJsonNode node(JSON_OBJECT);

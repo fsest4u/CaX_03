@@ -35,6 +35,7 @@ public:
 						 int value08,
 						 int value09);
 	void RequestSetupSet(int eventID, QString id, bool ok, QString date, QString time);
+	void RequestSetupSet(CJsonNode node);
 	void RequestVolume(int eventID, int value);
 
 signals:

@@ -87,6 +87,9 @@ void TimeManualDialog::ConnectSigToSlot()
 
 void TimeManualDialog::Initialize()
 {
+	ui->btnOK->hide();
+	ui->btnCancel->hide();
+
 	for (int i = 2000; i <= 2100; i++)
 	{
 		ui->cbYear->addItem(QString::number(i));
@@ -109,8 +112,6 @@ void TimeManualDialog::Initialize()
 	{
 		ui->cbMinute->addItem(QString::number(i));
 	}
-	ui->btnOK->hide();
-	ui->btnCancel->hide();
 
 	int year = QDate::currentDate().year();
 	int month = QDate::currentDate().month();
@@ -120,8 +121,8 @@ void TimeManualDialog::Initialize()
 	ui->cbDay->setCurrentText(QString::number(day));
 
 	QString ampm = QTime::currentTime().toString("AP");
-	QString hour = QTime::currentTime().toString("h");
-	QString minute = QTime::currentTime().toString("m");
+	QString hour = QTime::currentTime().toString("hh");
+	QString minute = QTime::currentTime().toString("mm");
 	ui->cbAMPM->setCurrentText(ampm);
 	ui->cbHour->setCurrentText(hour);
 	ui->cbMinute->setCurrentText(minute);

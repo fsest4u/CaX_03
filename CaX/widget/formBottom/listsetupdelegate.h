@@ -22,21 +22,15 @@ public:
 		LIST_SETUP_MAX
 	};
 
-//	QMap<QString, CJsonNode> GetMenuMap() const;
-//	void SetMenuMap(const QMap<QString, CJsonNode> &MenuMap);
 
 signals:
 
-//	void SigSelectTitle(QString strID, int index);
 	void SigSelectMenu(const QModelIndex &modelIndex, QPoint point);
-//	void SigMenuAction(QString strID, QString json);
-//	void SigSubMenuAction(QString value, QString json);
+
 
 private slots:
 
-//	void SlotClickTitle(QString strID, int index);
-//	void SlotMenuAction(QString strID, QString json);
-//	void SlotSubMenuAction(QString value, QString json);
+
 
 private:
 
@@ -49,7 +43,6 @@ private:
 //	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 //	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-//	QMap<QString, CJsonNode> m_MenuMap;
 
 };
 

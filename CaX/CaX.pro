@@ -33,6 +33,7 @@ SOURCES += \
     dialog/selectnetworkinterfacedialog.cpp \
     dialog/setcategorycolumndialog.cpp \
     dialog/settrackcolumndialog.cpp \
+    dialog/setup/alarmdialog.cpp \
     dialog/setup/analoginvolumedialog.cpp \
     dialog/setup/customeqdialog.cpp \
     dialog/setup/formdialog.cpp \
@@ -169,6 +170,7 @@ HEADERS += \
     dialog/selectnetworkinterfacedialog.h \
     dialog/setcategorycolumndialog.h \
     dialog/settrackcolumndialog.h \
+    dialog/setup/alarmdialog.h \
     dialog/setup/analoginvolumedialog.h \
     dialog/setup/customeqdialog.h \
     dialog/setup/formdialog.h \
@@ -313,6 +315,7 @@ FORMS += \
     dialog/selectnetworkinterfacedialog.ui \
     dialog/setcategorycolumndialog.ui \
     dialog/settrackcolumndialog.ui \
+    dialog/setup/alarmdialog.ui \
     dialog/setup/analoginvolumedialog.ui \
     dialog/setup/customeqdialog.ui \
     dialog/setup/formdialog.ui \

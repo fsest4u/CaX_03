@@ -2,6 +2,7 @@
 #include "ui_setupwindow.h"
 
 #include "dialog/commondialog.h"
+#include "dialog/setup/alarmdialog.h"
 #include "dialog/setup/analoginvolumedialog.h"
 #include "dialog/setup/customeqdialog.h"
 #include "dialog/setup/formdialog.h"
@@ -117,16 +118,17 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			return;
 		}
 
+		QStringList keys = node.GetStringList(KEY_KEYS);
 		QStringList values = node.GetStringList(KEY_VALUES);
-		SetMenuSubMap(values);
+		SetMenuSubMap(keys, values);
 
 		m_MenuSub->clear();
 
-		QMap<int, QString>::iterator i;
+		QMap<QString, QString>::iterator i;
 		for (i = m_MenuSubMap.begin(); i != m_MenuSubMap.end(); i++)
 		{
 			QAction *action = new QAction(i.value(), this);
-			action->setData(i.value());
+			action->setData(i.key());
 			m_MenuSub->addAction(action);
 		}
 
@@ -145,22 +147,24 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			return;
 		}
 
+		QStringList keys;
 		QStringList values;
 		CJsonNode nodeForms = node.GetArray(KEY_FORMS);
 		for(int i = 0; i < nodeForms.ArraySize(); i++)
 		{
 			CJsonNode nodeForm = nodeForms.GetArrayAt(i);
+			keys.append(QString::number(i));
 			values.append(nodeForm.GetString(KEY_TITLE_CAP));
 		}
-		SetMenuSubMap(values);
+		SetMenuSubMap(keys, values);
 
 		m_MenuSub->clear();
 
-		QMap<int, QString>::iterator i;
+		QMap<QString, QString>::iterator i;
 		for (i = m_MenuSubMap.begin(); i != m_MenuSubMap.end(); i++)
 		{
 			QAction *action = new QAction(i.value(), this);
-			action->setData(i.value());
+			action->setData(i.key());
 			m_MenuSub->addAction(action);
 		}
 
@@ -264,8 +268,9 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 
 void SetupWindow::SlotMenuActionSub(QAction *action)
 {
-	QString value = action->data().toString();
-	LogDebug("eventID [%d] strID [%s] value [%s]", m_EventID, m_StrIDSub.toUtf8().data(), value.toUtf8().data());
+	QString key = action->data().toString();
+	QString value = action->text();
+	LogDebug("eventID [%d] strID [%s] key [%s] value [%s]", m_EventID, m_StrIDSub.toUtf8().data(), key.toUtf8().data(), value.toUtf8().data());
 	if (m_StrIDSub.contains("NET_WIRED_LAN_SETUP"))
 	{
 		QString json = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_RAW));
@@ -287,87 +292,16 @@ void SetupWindow::SlotMenuActionSub(QAction *action)
 			}
 		}
 	}
+	else if (m_StrIDSub.contains("SY_ALARM")
+			 || m_StrIDSub.contains("SY_AUTO_SHUTDOWN"))
+	{
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, key);
+	}
 	else
 	{
 		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, value);
 	}
 }
-
-//void SetupWindow::SlotSelectTitle(QString strID, int index)
-//{
-//	m_pMgr->RequestSetupGroup(m_EventID, strID, index);
-//}
-
-//void SetupWindow::SlotMenuAction(QString strID, QString json)
-//{
-//	LogDebug("strID [%s] json [%s] ", strID.toUtf8().data(), json.toUtf8().data());
-//	CJsonNode node;
-//	if (!node.SetContent(json))
-//	{
-//		return;
-//	}
-
-//	m_StrID = node.GetString(KEY_ID_UPPER);
-
-//	int type = node.GetInt(KEY_TYPE);
-//	UtilNovatron::DebugTypeForSetup("SlotMenuAction", type);
-
-//	CJsonNode form = node.GetObject(KEY_FORM);
-//	if (form.IsNull())
-//	{
-//		LogDebug("menu is not form~~");
-
-//		if (type & iAppSetupType_Mask_Exec)
-//		{
-//			m_pMgr->RequestSetupSet(m_EventID, m_StrID);
-//		}
-//		else if (type & iAppSetupType_Mask_Event)
-//		{
-//			m_pMgr->RequestSetupSet(m_EventID, m_StrID);
-//		}
-//	}
-//	else
-//	{
-//		LogDebug("menu is form~~");
-//		QString title = form.GetString(KEY_TITLE_CAP);
-//		CJsonNode nodeOK = form.GetObject(KEY_OK);
-//		CJsonNode nodeCancel = form.GetObject(KEY_CANCEL);
-//		CJsonNode arrInput = form.GetArray(KEY_INPUTS);
-
-//		FormDialog dialog;
-//		dialog.SetWindowTitle(title);
-//		dialog.SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
-//		dialog.SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
-//		dialog.SetLabelTitle(arrInput);
-//		if (dialog.exec() == QDialog::Accepted)
-//		{
-//			m_pMgr->RequestSetupSet(m_EventID, m_StrID, true);
-//		}
-//	}
-//}
-
-//void SetupWindow::SlotSubMenuAction(QString value, QString json)
-//{
-//	LogDebug("value [%s] json [%s] ", value.toUtf8().data(), json.toUtf8().data());
-//	CJsonNode node;
-//	if (!node.SetContent(json))
-//	{
-//		return;
-//	}
-//	int type = node.GetInt(KEY_TYPE);
-//	UtilNovatron::DebugTypeForSetup("SlotSubMenuAction", type);
-
-//	if (type & iAppSetupType_Mask_Enum)
-//	{
-//		QString id = node.GetString(KEY_ID_UPPER);
-//		m_pMgr->RequestSetupSet(m_EventID, id, value);
-//	}
-//	else if (type & iAppSetupType_Mask_Select)
-//	{
-//		QString id = node.GetString(KEY_ID_UPPER);
-//		m_pMgr->RequestSetupSet(m_EventID, id, value);
-//	}
-//}
 
 void SetupWindow::SlotRespError(QString errMsg)
 {
@@ -401,6 +335,11 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 		else if (title.contains("Custom EQ"))
 		{
 			DoCustomEQ(nodeForm);
+		}
+		else if (title.contains("Alarm")
+				 || title.contains("Auto Shutdown"))
+		{
+			DoAlarm(nodeForm);
 		}
 		else
 		{
@@ -443,9 +382,6 @@ void SetupWindow::WriteSettings()
 
 void SetupWindow::ConnectSigToSlot()
 {
-//	connect(m_pListSetup->GetDelegate(), SIGNAL(SigSelectTitle(QString, int)), this, SLOT(SlotSelectTitle(QString, int)));
-//	connect(m_pListSetup->GetDelegate(), SIGNAL(SigMenuAction(QString, QString)), this, SLOT(SlotMenuAction(QString, QString)));
-//	connect(m_pListSetup->GetDelegate(), SIGNAL(SigSubMenuAction(QString, QString)), this, SLOT(SlotSubMenuAction(QString, QString)));
 	connect(m_pListSetup->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
 	connect(m_pListSetup->GetDelegateSub(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenuSub(const QModelIndex&, QPoint)));
 
@@ -478,15 +414,44 @@ void SetupWindow::Initialize()
 	m_MenuSub->setStyleSheet(style);
 }
 
-void SetupWindow::SetMenuSubMap(QStringList values)
+void SetupWindow::SetMenuSubMap(QStringList keys, QStringList values)
 {
 	m_MenuSubMap.clear();
-	int index = 0;
-	foreach (QString value, values)
+	QString key;
+	QString value;
+	for (int i = 0; i < values.count(); i++)
 	{
-		LogDebug("value [%s]", value.toUtf8().data());
-		m_MenuSubMap.insert(index, value);
-		index++;
+		if (!keys.isEmpty() && keys.count() > i)
+		{
+			key = keys.at(i);
+		}
+		if (!values.isEmpty() && values.count() > i)
+		{
+			value = values.at(i);
+		}
+		LogDebug("key [%s] value [%s]", key.toUtf8().data(), value.toUtf8().data());
+		if (key.isEmpty())
+		{
+			m_MenuSubMap.insert(QString::number(i), value);
+		}
+		else
+		{
+			m_MenuSubMap.insert(key, value);
+		}
+	}
+}
+
+void SetupWindow::DoAlarm(CJsonNode node)
+{
+	AlarmDialog dialog;
+	dialog.SetNodeForm(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		CJsonNode node = dialog.GetNodeForm();
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		node.Add(KEY_OK, true);
+		m_pMgr->RequestSetupSet(node);
 	}
 }
 

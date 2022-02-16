@@ -17,6 +17,7 @@
 #define		KEY_20KHZ			"20 kHz"
 
 #define		KEY_ACTION			"Action"
+#define		KEY_ACTIVE			"Active"
 #define		KEY_ACTIVE_CHANNEL	"activeChannel"
 #define		KEY_ACTS			"Acts"
 #define		KEY_ADDR			"Addr"
@@ -192,6 +193,7 @@
 #define		KEY_SONG			"Song"
 #define		KEY_SONG_FILES		"SongFiles"
 #define		KEY_SONG_ORDER		"SongOrder"
+#define		KEY_SOUND			"Sound"
 #define		KEY_SOURCE			"Source"
 #define		KEY_SQL				"Sql"
 #define		KEY_SRC				"Src"

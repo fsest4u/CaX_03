@@ -10,33 +10,8 @@
 
 ListSetupDelegate::ListSetupDelegate()
 {
-//	m_MenuMap.clear();
+
 }
-
-//QMap<QString, CJsonNode> ListSetupDelegate::GetMenuMap() const
-//{
-//	return m_MenuMap;
-//}
-
-//void ListSetupDelegate::SetMenuMap(const QMap<QString, CJsonNode> &MenuMap)
-//{
-//	m_MenuMap = MenuMap;
-//}
-
-//void ListSetupDelegate::SlotClickTitle(QString strID, int index)
-//{
-//	emit SigSelectTitle(strID, index);
-//}
-
-//void ListSetupDelegate::SlotMenuAction(QString strID, QString json)
-//{
-//	emit SigMenuAction(strID, json);
-//}
-
-//void ListSetupDelegate::SlotSubMenuAction(QString strID, QString json)
-//{
-//	emit SigSubMenuAction(strID, json);
-//}
 
 void ListSetupDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {

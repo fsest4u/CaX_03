@@ -27,12 +27,8 @@ public:
 
 private slots:
 
-//	void SlotSelectTitle(QString strID, int index);
-//	void SlotMenuAction(QString strID, QString json);
-//	void SlotSubMenuAction(QString value, QString json);
 	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
 	void SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point);
-//	void SlotSelectMenuDetail(const QModelIndex &modelIndex, QPoint point);
 	void SlotMenuActionSub(QAction *action);
 
 	void SlotRespError(QString errMsg);
@@ -47,8 +43,9 @@ private:
 	void ConnectSigToSlot();
 	void Initialize();
 
-	void SetMenuSubMap(QStringList values);
+	void SetMenuSubMap(QStringList keys, QStringList values);
 
+	void DoAlarm(CJsonNode node);
 	void DoAnalogInVolume(CJsonNode node);
 	void DoCustomEQ(CJsonNode node);
 	void DoLogin(CJsonNode node);
@@ -68,7 +65,7 @@ private:
 	int m_MaxVolume;
 
 //	QMap<QString, CJsonNode>	m_MenuMap;
-	QMap<int, QString>	m_MenuSubMap;
+	QMap<QString, QString>	m_MenuSubMap;
 
 	QMenu				*m_MenuSub;
 
