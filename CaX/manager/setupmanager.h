@@ -34,6 +34,7 @@ public:
 						 int value07,
 						 int value08,
 						 int value09);
+	void RequestSetupSet(int eventID, QString id, bool ok, QString date, QString time);
 	void RequestVolume(int eventID, int value);
 
 signals:

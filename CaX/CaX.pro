@@ -39,6 +39,7 @@ SOURCES += \
     dialog/setup/maxvolumedialog.cpp \
     dialog/setup/poweronvolumedialog.cpp \
     dialog/setup/setuplogindialog.cpp \
+    dialog/setup/timemanualdialog.cpp \
     dialog/setup/wiredlansetupdialog.cpp \
     dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
@@ -174,6 +175,7 @@ HEADERS += \
     dialog/setup/maxvolumedialog.h \
     dialog/setup/poweronvolumedialog.h \
     dialog/setup/setuplogindialog.h \
+    dialog/setup/timemanualdialog.h \
     dialog/setup/wiredlansetupdialog.h \
     dialog/trackinfo.h \
     dialog/trackinfodialog.h \
@@ -317,6 +319,7 @@ FORMS += \
     dialog/setup/maxvolumedialog.ui \
     dialog/setup/poweronvolumedialog.ui \
     dialog/setup/setuplogindialog.ui \
+    dialog/setup/timemanualdialog.ui \
     dialog/setup/wiredlansetupdialog.ui \
     dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \

@@ -167,6 +167,20 @@ void SetupManager::RequestSetupSet(int eventID, QString id, bool ok, QString val
 	RequestCommand(node, SETUP_SET);
 }
 
+void SetupManager::RequestSetupSet(int eventID, QString id, bool ok, QString date, QString time)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0,		VAL_SETUP);
+	node.Add(KEY_CMD1,		VAL_SET);
+	node.AddInt(KEY_EVENT_ID,	eventID);
+	node.Add(KEY_ID_UPPER,	id);
+	node.Add(KEY_OK,		ok);
+	node.Add(KEY_DATE,		date);
+	node.Add(KEY_TIME_CAP,	time);
+
+	RequestCommand(node, SETUP_SET);
+}
+
 void SetupManager::RequestVolume(int eventID, int value)
 {
 	CJsonNode node(JSON_OBJECT);

@@ -62,6 +62,7 @@
 #define		KEY_CURR_PLAY		"CurrPlay"
 
 #define		KEY_DAB				"Dab"
+#define		KEY_DATE				"Date"
 #define		KEY_DESC			"Desc"
 #define		KEY_DEV				"Dev"
 #define		KEY_DEV_LIST		"DevList"

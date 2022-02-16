@@ -8,6 +8,7 @@
 #include "dialog/setup/maxvolumedialog.h"
 #include "dialog/setup/poweronvolumedialog.h"
 #include "dialog/setup/setuplogindialog.h"
+#include "dialog/setup/timemanualdialog.h"
 #include "dialog/setup/wiredlansetupdialog.h"
 
 #include "manager/setupmanager.h"
@@ -214,6 +215,10 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 					 || m_StrIDSub.contains("NET_FTP_PASS"))
 			{
 				DoLogin(nodeForm);
+			}
+			else if (m_StrIDSub.contains("TM_MANUAL"))
+			{
+				DoTimeManual(nodeForm);
 			}
 		}
 	}
@@ -538,6 +543,28 @@ void SetupWindow::DoPowerOnVolume(CJsonNode node)
 		QString value = dialog.GetHiddenValue();
 
 		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, volume, key, value);
+	}
+}
+
+void SetupWindow::DoTimeManual(CJsonNode node)
+{
+	TimeManualDialog dialog;
+	dialog.SetNodeForm(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString date = QString("%1-%2-%3").arg(dialog.GetYear()).arg(dialog.GetMonth()).arg(dialog.GetDay());
+		int hour = 0;
+		if (!dialog.GetAMPM().compare("PM"))
+		{
+			hour = dialog.GetHour().toInt() + 12;
+		}
+		else
+		{
+			hour = dialog.GetHour().toInt();
+		}
+		QString time = QString("%1:%2").arg(hour).arg(dialog.GetMinute());
+
+		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, date, time);
 	}
 }
 

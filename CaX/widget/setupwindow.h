@@ -54,6 +54,7 @@ private:
 	void DoLogin(CJsonNode node);
 	void DoMaxVolume(int volume);
 	void DoPowerOnVolume(CJsonNode node);
+	void DoTimeManual(CJsonNode node);
 	void DoWiredLanSetup(CJsonNode node);
 
 	SetupManager		*m_pMgr;
