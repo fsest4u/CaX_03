@@ -99,11 +99,11 @@ void SetupWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 
 void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 {
-	LogDebug("setup sub menu");
 	m_ModelIndex = modelIndex;
 	m_Point = point;
 
 	m_StrIDSub = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
+	LogDebug("setup sub menu [%s]", m_StrIDSub.toUtf8().data());
 	int type = qvariant_cast<int>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_TYPE));
 	UtilNovatron::DebugTypeForSetup("SlotSelectMenuSub", type);
 
@@ -192,7 +192,8 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 					 || m_StrIDSub.contains("LI_GRACENOTE_CD")
 					 || m_StrIDSub.contains("LI_GRACENOTE_COVER")
 					 || m_StrIDSub.contains("LI_GRACENOTE_FINGER")
-					 || m_StrIDSub.contains("LI_GRACENOTE_PLS"))
+					 || m_StrIDSub.contains("LI_GRACENOTE_PLS")
+					 || m_StrIDSub.contains("MDB_RESCAN"))
 			{
 				m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub);
 			}
@@ -220,6 +221,43 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			{
 				DoTimeManual(nodeForm);
 			}
+			else if (m_StrIDSub.contains("SY_FACTORY_RESET")
+					 || m_StrIDSub.contains("MDB_INIT"))
+			{
+				FormDialog dialog;
+				dialog.SetNodeForm(nodeForm);
+				if (dialog.exec() == QDialog::Accepted)
+				{
+					m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true);
+				}
+			}
+		}
+	}
+	else if (type & iAppSetupType_Mask_Sub)
+	{
+
+	}
+	else if (type & iAppSetupType_Mask_PlayDisable)
+	{
+
+	}
+	else if (type & iAppSetupType_Mask_Disable)
+	{
+
+	}
+	else if (type & iAppSetupType_Mask_HideValue)
+	{
+
+	}
+	else if (type & iAppSetupType_Mask_Browser)
+	{
+
+	}
+	else if (type & iAppSetupType_Mask_Event)
+	{
+		if (m_StrIDSub.contains("MDB_SCAN_STATUS"))
+		{
+			m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub);
 		}
 	}
 }
