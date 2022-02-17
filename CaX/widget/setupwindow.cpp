@@ -199,7 +199,10 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 					 || m_StrIDSub.contains("LI_GRACENOTE_PLS")
 					 || m_StrIDSub.contains("MDB_RESCAN"))
 			{
-				m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub);
+				CJsonNode node(JSON_OBJECT);
+				node.AddInt(KEY_EVENT_ID, m_EventID);
+				node.Add(KEY_ID_UPPER, m_StrIDSub);
+				m_pMgr->RequestSetupSet(node);
 			}
 		}
 		else
@@ -234,7 +237,11 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 				dialog.SetNodeForm(nodeForm);
 				if (dialog.exec() == QDialog::Accepted)
 				{
-					m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true);
+					CJsonNode node = dialog.GetNodeForm();
+					node.AddInt(KEY_EVENT_ID, m_EventID);
+					node.Add(KEY_ID_UPPER, m_StrIDSub);
+					node.Add(KEY_OK, true);
+					m_pMgr->RequestSetupSet(node);
 				}
 			}
 		}
@@ -263,7 +270,10 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 	{
 		if (m_StrIDSub.contains("MDB_SCAN_STATUS"))
 		{
-			m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub);
+			CJsonNode node(JSON_OBJECT);
+			node.AddInt(KEY_EVENT_ID, m_EventID);
+			node.Add(KEY_ID_UPPER, m_StrIDSub);
+			m_pMgr->RequestSetupSet(node);
 		}
 	}
 }
@@ -299,11 +309,25 @@ void SetupWindow::SlotMenuActionSub(QAction *action)
 			 || m_StrIDSub.contains("SY_HDD_FORMAT")
 			 || m_StrIDSub.contains("SY_NTFS_FIX"))
 	{
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, key);
+		CJsonNode node(JSON_OBJECT);
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		if (!key.isEmpty())
+		{
+			node.Add(KEY_VALUE,		key);
+		}
+		m_pMgr->RequestSetupSet(node);
 	}
 	else
 	{
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, value);
+		CJsonNode node(JSON_OBJECT);
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		if (!value.isEmpty())
+		{
+			node.Add(KEY_VALUE,		value);
+		}
+		m_pMgr->RequestSetupSet(node);
 	}
 }
 
@@ -469,11 +493,11 @@ void SetupWindow::DoAnalogInVolume(CJsonNode node)
 	dialog.SetNodeForm(node);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		int analog = dialog.GetSliderValue0();
-		int aux = dialog.GetSliderValue1();
-		int phono = dialog.GetSliderValue2();
-
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, analog, aux, phono);
+		CJsonNode node = dialog.GetNodeForm();
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		node.Add(KEY_OK, true);
+		m_pMgr->RequestSetupSet(node);
 	}
 }
 
@@ -483,31 +507,12 @@ void SetupWindow::DoCustomEQ(CJsonNode node)
 	dialog.SetNodeForm(node);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		QString title = node.GetString(KEY_TITLE_CAP);
-
-		int value00 = dialog.GetSliderValue00();
-		int value01 = dialog.GetSliderValue01();
-		int value02 = dialog.GetSliderValue02();
-		int value03 = dialog.GetSliderValue03();
-		int value04 = dialog.GetSliderValue04();
-		int value05 = dialog.GetSliderValue05();
-		int value06 = dialog.GetSliderValue06();
-		int value07 = dialog.GetSliderValue07();
-		int value08 = dialog.GetSliderValue08();
-		int value09 = dialog.GetSliderValue09();
-
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true,
-								title,
-								value00,
-								value01,
-								value02,
-								value03,
-								value04,
-								value05,
-								value06,
-								value07,
-								value08,
-								value09);
+		CJsonNode node = dialog.GetNodeForm();
+		node.Add(KEY_VALUE,		node.GetString(KEY_TITLE_CAP));
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		node.Add(KEY_OK, true);
+		m_pMgr->RequestSetupSet(node);
 	}
 }
 
@@ -517,13 +522,11 @@ void SetupWindow::DoLogin(CJsonNode node)
 	dialog.SetNodeForm(node);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		QString usernameKey = dialog.GetKey0();
-		QString passwordKey = dialog.GetKey1();
-
-		QString username = dialog.GetValue0();
-		QString password = dialog.GetValue1();
-
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, usernameKey, username, passwordKey, password);
+		CJsonNode node = dialog.GetNodeForm();
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		node.Add(KEY_OK, true);
+		m_pMgr->RequestSetupSet(node);
 	}
 }
 
@@ -549,11 +552,11 @@ void SetupWindow::DoPowerOnVolume(CJsonNode node)
 	dialog.SetNodeForm(node);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		int volume = dialog.GetSliderValue0();
-		QString key = dialog.GetHiddenKey();
-		QString value = dialog.GetHiddenValue();
-
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, volume, key, value);
+		CJsonNode node = dialog.GetNodeForm();
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		node.Add(KEY_OK, true);
+		m_pMgr->RequestSetupSet(node);
 	}
 }
 
@@ -563,19 +566,11 @@ void SetupWindow::DoTimeManual(CJsonNode node)
 	dialog.SetNodeForm(node);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-		QString date = QString("%1-%2-%3").arg(dialog.GetYear()).arg(dialog.GetMonth()).arg(dialog.GetDay());
-		int hour = 0;
-		if (!dialog.GetAMPM().compare("PM"))
-		{
-			hour = dialog.GetHour().toInt() + 12;
-		}
-		else
-		{
-			hour = dialog.GetHour().toInt();
-		}
-		QString time = QString("%1:%2").arg(hour).arg(dialog.GetMinute());
-
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true, date, time);
+		CJsonNode node = dialog.GetNodeForm();
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		node.Add(KEY_OK, true);
+		m_pMgr->RequestSetupSet(node);
 	}
 }
 
@@ -585,25 +580,10 @@ void SetupWindow::DoWiredLanSetup(CJsonNode node)
 	dialog.SetNodeForm(node);
 	if (dialog.exec() == QDialog::Accepted)
 	{
-
-		QString key0 = dialog.GetKey0();
-		QString key1 = dialog.GetKey1();
-		QString key2 = dialog.GetKey2();
-		QString key3 = dialog.GetKey3();
-
-		QString value0 = dialog.GetValue0();
-		QString value1 = dialog.GetValue1();
-		QString value2 = dialog.GetValue2();
-		QString value3 = dialog.GetValue3();
-
-		QString hiddenKey = dialog.GetHiddenKey();
-		QString hiddenValue = dialog.GetHiddenValue();
-
-		m_pMgr->RequestSetupSet(m_EventID, m_StrIDSub, true,
-								key0, value0,
-								key1, value1,
-								key2, value2,
-								key3, value3,
-								hiddenKey, hiddenValue);
+		CJsonNode node = dialog.GetNodeForm();
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+		node.Add(KEY_ID_UPPER, m_StrIDSub);
+		node.Add(KEY_OK, true);
+		m_pMgr->RequestSetupSet(node);
 	}
 }

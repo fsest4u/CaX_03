@@ -17,13 +17,8 @@ public:
 	explicit SetupLoginDialog(QWidget *parent = nullptr);
 	~SetupLoginDialog();
 
+	CJsonNode GetNodeForm();
 	void SetNodeForm(CJsonNode node);
-
-	QString GetKey0() const;
-	QString GetKey1() const;
-
-	QString GetValue0() const;
-	QString GetValue1() const;
 
 private slots:
 

@@ -20,8 +20,6 @@ public:
 	CJsonNode GetNodeForm();
 	void SetNodeForm(CJsonNode node);
 
-
-
 private slots:
 
 	void SlotActive(bool active);

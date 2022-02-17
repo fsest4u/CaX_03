@@ -17,15 +17,8 @@ public:
 	explicit PowerOnVolumeDialog(QWidget *parent = nullptr);
 	~PowerOnVolumeDialog();
 
+	CJsonNode GetNodeForm();
 	void SetNodeForm(CJsonNode node);
-
-	int GetSliderValue0() const;
-
-	QString GetHiddenKey() const;
-	void SetHiddenKey(const QString &HiddenKey);
-
-	QString GetHiddenValue() const;
-	void SetHiddenValue(const QString &HiddenValue);
 
 private slots:
 

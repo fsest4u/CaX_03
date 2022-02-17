@@ -22,6 +22,16 @@ AnalogInVolumeDialog::~AnalogInVolumeDialog()
 	delete ui;
 }
 
+CJsonNode AnalogInVolumeDialog::GetNodeForm()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.AddInt(KEY_ANALOG_IN,	ui->horizontalSlider0->value());
+	node.AddInt(KEY_AUX_IN,		ui->horizontalSlider1->value());
+	node.AddInt(KEY_PHONO_IN,	ui->horizontalSlider2->value());
+
+	return node;
+}
+
 void AnalogInVolumeDialog::SetNodeForm(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -34,21 +44,6 @@ void AnalogInVolumeDialog::SetNodeForm(CJsonNode node)
 	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
 	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
 	SetInputs(arrNodeInput);
-}
-
-int AnalogInVolumeDialog::GetSliderValue0() const
-{
-	return ui->horizontalSlider0->value();
-}
-
-int AnalogInVolumeDialog::GetSliderValue1() const
-{
-	return ui->horizontalSlider1->value();
-}
-
-int AnalogInVolumeDialog::GetSliderValue2() const
-{
-	return ui->horizontalSlider2->value();
 }
 
 void AnalogInVolumeDialog::SlotSliderValueChanged0(int value)

@@ -17,11 +17,8 @@ public:
 	explicit AnalogInVolumeDialog(QWidget *parent = nullptr);
 	~AnalogInVolumeDialog();
 
+	CJsonNode GetNodeForm();
 	void SetNodeForm(CJsonNode node);
-
-	int GetSliderValue0() const;
-	int GetSliderValue1() const;
-	int GetSliderValue2() const;
 
 private slots:
 

@@ -17,15 +17,8 @@ public:
 	explicit TimeManualDialog(QWidget *parent = nullptr);
 	~TimeManualDialog();
 
+	CJsonNode GetNodeForm();
 	void SetNodeForm(CJsonNode node);
-
-	QString GetYear() const;
-	QString GetMonth() const;
-	QString GetDay() const;
-
-	QString GetAMPM() const;
-	QString GetHour() const;
-	QString GetMinute() const;
 
 private slots:
 

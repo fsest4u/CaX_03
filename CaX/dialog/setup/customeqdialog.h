@@ -17,18 +17,8 @@ public:
 	explicit CustomEQDialog(QWidget *parent = nullptr);
 	~CustomEQDialog();
 
+	CJsonNode GetNodeForm();
 	void SetNodeForm(CJsonNode node);
-
-	int GetSliderValue00() const;
-	int GetSliderValue01() const;
-	int GetSliderValue02() const;
-	int GetSliderValue03() const;
-	int GetSliderValue04() const;
-	int GetSliderValue05() const;
-	int GetSliderValue06() const;
-	int GetSliderValue07() const;
-	int GetSliderValue08() const;
-	int GetSliderValue09() const;
 
 private slots:
 

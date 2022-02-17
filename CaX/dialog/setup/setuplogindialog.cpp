@@ -22,6 +22,26 @@ SetupLoginDialog::~SetupLoginDialog()
 	delete ui;
 }
 
+CJsonNode SetupLoginDialog::GetNodeForm()
+{
+	QString usernameKey = ui->label0->text();
+	QString passwordKey = ui->label1->text();
+	QString username = ui->lineEdit0->text();
+	QString password = ui->lineEdit1->text();
+
+	CJsonNode node(JSON_OBJECT);
+	if (!usernameKey.isEmpty())
+	{
+		node.Add(usernameKey,		username);
+	}
+	if (!passwordKey.isEmpty())
+	{
+		node.Add(passwordKey,		password);
+	}
+
+	return node;
+}
+
 void SetupLoginDialog::SetNodeForm(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -34,26 +54,6 @@ void SetupLoginDialog::SetNodeForm(CJsonNode node)
 	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
 	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
 	SetInputs(arrNodeInput);
-}
-
-QString SetupLoginDialog::GetKey0() const
-{
-	return ui->label0->text();
-}
-
-QString SetupLoginDialog::GetKey1() const
-{
-	return ui->label1->text();
-}
-
-QString SetupLoginDialog::GetValue0() const
-{
-	return ui->lineEdit0->text();
-}
-
-QString SetupLoginDialog::GetValue1() const
-{
-	return ui->lineEdit1->text();
 }
 
 void SetupLoginDialog::accept()

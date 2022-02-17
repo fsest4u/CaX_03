@@ -25,6 +25,28 @@ TimeManualDialog::~TimeManualDialog()
 	delete ui;
 }
 
+CJsonNode TimeManualDialog::GetNodeForm()
+{
+	QString date = QString("%1-%2-%3").arg(ui->cbYear->currentText()).arg(ui->cbMonth->currentText()).arg(ui->cbDay->currentText());
+	int hour = 0;
+	if (!ui->cbAMPM->currentText().compare("PM"))
+	{
+		hour = ui->cbHour->currentText().toInt() + 12;
+	}
+	else
+	{
+		hour = ui->cbHour->currentText().toInt();
+	}
+	QString time = QString("%1:%2").arg(hour).arg(ui->cbMinute->currentText());
+
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_DATE,		date);
+	node.Add(KEY_TIME_CAP,	time);
+
+	return node;
+}
+
 void TimeManualDialog::SetNodeForm(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -37,36 +59,6 @@ void TimeManualDialog::SetNodeForm(CJsonNode node)
 	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
 	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
 	SetInputs(arrNodeInput);
-}
-
-QString TimeManualDialog::GetYear() const
-{
-	return ui->cbYear->currentText();
-}
-
-QString TimeManualDialog::GetMonth() const
-{
-	return ui->cbMonth->currentText();
-}
-
-QString TimeManualDialog::GetDay() const
-{
-	return ui->cbDay->currentText();
-}
-
-QString TimeManualDialog::GetAMPM() const
-{
-	return ui->cbAMPM->currentText();
-}
-
-QString TimeManualDialog::GetHour() const
-{
-	return ui->cbHour->currentText();
-}
-
-QString TimeManualDialog::GetMinute() const
-{
-	return ui->cbMinute->currentText();
 }
 
 void TimeManualDialog::accept()

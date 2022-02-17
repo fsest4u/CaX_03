@@ -22,6 +22,39 @@ WiredLanSetupDialog::~WiredLanSetupDialog()
 	delete ui;
 }
 
+CJsonNode WiredLanSetupDialog::GetNodeForm()
+{
+	QString key0 = ui->label0->text();
+	QString key1 = ui->label1->text();
+	QString key2 = ui->label2->text();
+	QString key3 = ui->label3->text();
+
+	QString value0 = ui->lineEdit0->text();
+	QString value1 = ui->lineEdit1->text();
+	QString value2 = ui->lineEdit2->text();
+	QString value3 = ui->lineEdit3->text();
+
+	CJsonNode node(JSON_OBJECT);
+	if (!key0.isEmpty())
+	{
+		node.Add(key0,	value0);
+	}
+	if (!key1.isEmpty())
+	{
+		node.Add(key1,	value1);
+	}
+	if (!key2.isEmpty())
+	{
+		node.Add(key2,	value2);
+	}
+	if (!key3.isEmpty())
+	{
+		node.Add(key3,	value3);
+	}
+	node.Add(m_HiddenKey,		m_HiddenValue);
+	return node;
+}
+
 void WiredLanSetupDialog::SetNodeForm(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -34,66 +67,6 @@ void WiredLanSetupDialog::SetNodeForm(CJsonNode node)
 	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
 	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
 	SetInputs(arrNodeInput);
-}
-
-QString WiredLanSetupDialog::GetKey0() const
-{
-	return ui->label0->text();
-}
-
-QString WiredLanSetupDialog::GetKey1() const
-{
-	return ui->label1->text();
-}
-
-QString WiredLanSetupDialog::GetKey2() const
-{
-	return ui->label2->text();
-}
-
-QString WiredLanSetupDialog::GetKey3() const
-{
-	return ui->label3->text();
-}
-
-QString WiredLanSetupDialog::GetValue0() const
-{
-	return ui->lineEdit0->text();
-}
-
-QString WiredLanSetupDialog::GetValue1() const
-{
-	return ui->lineEdit1->text();
-}
-
-QString WiredLanSetupDialog::GetValue2() const
-{
-	return ui->lineEdit2->text();
-}
-
-QString WiredLanSetupDialog::GetValue3() const
-{
-	return ui->lineEdit3->text();
-}
-
-QString WiredLanSetupDialog::GetHiddenValue() const
-{
-	return m_HiddenValue;
-}
-
-void WiredLanSetupDialog::SetHiddenValue(const QString &HiddenValue)
-{
-	m_HiddenValue = HiddenValue;
-}
-
-QString WiredLanSetupDialog::GetHiddenKey() const
-{
-	return m_HiddenKey;
-}
-
-void WiredLanSetupDialog::SetHiddenKey(const QString &HiddenKey)
-{
-	m_HiddenKey = HiddenKey;
 }
 
 void WiredLanSetupDialog::accept()
@@ -168,8 +141,8 @@ void WiredLanSetupDialog::SetInputs(CJsonNode node)
 
 		if (iSetupInput_Hidden == typeInput)
 		{
-			SetHiddenKey(input.GetString(KEY_KEY));
-			SetHiddenValue(input.GetString(KEY_VALUE));
+			m_HiddenKey = input.GetString(KEY_KEY);
+			m_HiddenValue = input.GetString(KEY_VALUE);
 		}
 
 		if (i == 0 || i == 1)

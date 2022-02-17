@@ -22,6 +22,23 @@ CustomEQDialog::~CustomEQDialog()
 	delete ui;
 }
 
+CJsonNode CustomEQDialog::GetNodeForm()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_063HZ, QString::number(ui->verticalSlider00->value()));
+	node.Add(KEY_150HZ, QString::number(ui->verticalSlider01->value()));
+	node.Add(KEY_300HZ, QString::number(ui->verticalSlider02->value()));
+	node.Add(KEY_600HZ, QString::number(ui->verticalSlider03->value()));
+	node.Add(KEY_01KHZ, QString::number(ui->verticalSlider04->value()));
+	node.Add(KEY_03KHZ, QString::number(ui->verticalSlider05->value()));
+	node.Add(KEY_05KHZ, QString::number(ui->verticalSlider06->value()));
+	node.Add(KEY_10KHZ, QString::number(ui->verticalSlider07->value()));
+	node.Add(KEY_16KHZ, QString::number(ui->verticalSlider08->value()));
+	node.Add(KEY_20KHZ, QString::number(ui->verticalSlider09->value()));
+
+	return node;
+}
+
 void CustomEQDialog::SetNodeForm(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -34,56 +51,6 @@ void CustomEQDialog::SetNodeForm(CJsonNode node)
 	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
 	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
 	SetInputs(arrNodeInput);
-}
-
-int CustomEQDialog::GetSliderValue00() const
-{
-	return ui->verticalSlider00->value();
-}
-
-int CustomEQDialog::GetSliderValue01() const
-{
-	return ui->verticalSlider01->value();
-}
-
-int CustomEQDialog::GetSliderValue02() const
-{
-	return ui->verticalSlider02->value();
-}
-
-int CustomEQDialog::GetSliderValue03() const
-{
-	return ui->verticalSlider03->value();
-}
-
-int CustomEQDialog::GetSliderValue04() const
-{
-	return ui->verticalSlider04->value();
-}
-
-int CustomEQDialog::GetSliderValue05() const
-{
-	return ui->verticalSlider05->value();
-}
-
-int CustomEQDialog::GetSliderValue06() const
-{
-	return ui->verticalSlider06->value();
-}
-
-int CustomEQDialog::GetSliderValue07() const
-{
-	return ui->verticalSlider07->value();
-}
-
-int CustomEQDialog::GetSliderValue08() const
-{
-	return ui->verticalSlider08->value();
-}
-
-int CustomEQDialog::GetSliderValue09() const
-{
-	return ui->verticalSlider09->value();
 }
 
 void CustomEQDialog::SlotSliderValueChanged00(int value)

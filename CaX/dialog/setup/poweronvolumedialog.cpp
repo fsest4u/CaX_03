@@ -22,6 +22,15 @@ PowerOnVolumeDialog::~PowerOnVolumeDialog()
 	delete ui;
 }
 
+CJsonNode PowerOnVolumeDialog::GetNodeForm()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_VOLUME_CAP,	QString::number(ui->horizontalSlider0->value()));
+	node.Add(m_HiddenKey,		m_HiddenValue);
+
+	return node;
+}
+
 void PowerOnVolumeDialog::SetNodeForm(CJsonNode node)
 {
 	LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -34,11 +43,6 @@ void PowerOnVolumeDialog::SetNodeForm(CJsonNode node)
 	SetOK(nodeOK.GetString(KEY_NAME_CAP), nodeOK.GetInt(KEY_ACTION));
 	SetCancel(nodeCancel.GetString(KEY_NAME_CAP), nodeCancel.GetInt(KEY_ACTION));
 	SetInputs(arrNodeInput);
-}
-
-int PowerOnVolumeDialog::GetSliderValue0() const
-{
-	return ui->horizontalSlider0->value();
 }
 
 void PowerOnVolumeDialog::SlotSliderValueChanged0(int value)
@@ -109,8 +113,8 @@ void PowerOnVolumeDialog::SetInputs(CJsonNode node)
 
 		if (iSetupInput_Hidden == typeInput)
 		{
-			SetHiddenKey(input.GetString(KEY_KEY));
-			SetHiddenValue(input.GetString(KEY_VALUE));
+			m_HiddenKey = input.GetString(KEY_KEY);
+			m_HiddenValue = input.GetString(KEY_VALUE);
 		}
 		else if (iSetupInput_Slider == typeInput)
 		{
@@ -145,24 +149,3 @@ void PowerOnVolumeDialog::SetInputs(CJsonNode node)
 
 	}
 }
-
-QString PowerOnVolumeDialog::GetHiddenValue() const
-{
-	return m_HiddenValue;
-}
-
-void PowerOnVolumeDialog::SetHiddenValue(const QString &HiddenValue)
-{
-	m_HiddenValue = HiddenValue;
-}
-
-QString PowerOnVolumeDialog::GetHiddenKey() const
-{
-	return m_HiddenKey;
-}
-
-void PowerOnVolumeDialog::SetHiddenKey(const QString &HiddenKey)
-{
-	m_HiddenKey = HiddenKey;
-}
-
