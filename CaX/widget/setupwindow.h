@@ -25,15 +25,26 @@ public:
 
 	void SetupHome(QList<CJsonNode> list, int eventID);
 
+signals:
+
+	void SigAddWidget(QWidget *widget, QString title);
+	void SigRemoveWidget(QWidget* widget);
+
 private slots:
+
+	void SlotAddWidget(QWidget *widget, QString title);
+	void SlotRemoveWidget(QWidget* widget);
 
 	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
 	void SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point);
 	void SlotMenuActionSub(QAction *action);
 
+	void SlotBrowserPath(QString path);
+
 	void SlotRespError(QString errMsg);
 	void SlotRespGroup(QList<CJsonNode> list);
 	void SlotRespSet(CJsonNode node);
+
 
 private:
 

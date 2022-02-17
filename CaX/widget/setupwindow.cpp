@@ -19,6 +19,7 @@
 #include "util/settingio.h"
 #include "util/utilnovatron.h"
 
+#include "widget/browserwindow.h"
 #include "widget/setup.h"
 #include "widget/formTop/infoservice.h"
 #include "widget/formBottom/listsetup.h"
@@ -85,6 +86,17 @@ void SetupWindow::SetupHome(QList<CJsonNode> list, int eventID)
 
 	m_pInfoService->SetTitle(SETTINGS_GROUP);
 	m_pListSetup->SetNodeList(list);
+}
+
+void SetupWindow::SlotAddWidget(QWidget *widget, QString title)
+{
+	emit SigAddWidget(widget, title);		// recursive
+}
+
+void SetupWindow::SlotRemoveWidget(QWidget *widget)
+{
+	emit SigRemoveWidget(widget);
+
 }
 
 void SetupWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
@@ -204,6 +216,14 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 				node.Add(KEY_ID_UPPER, m_StrIDSub);
 				m_pMgr->RequestSetupSet(node);
 			}
+			else if (type & iAppSetupType_Mask_Browser)
+			{
+				QString ext = node.GetString(KEY_EXT);
+
+				BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+				emit widget->SigAddWidget(widget, STR_BROWSER);
+				widget->RequestRoot(ext);
+			}
 		}
 		else
 		{
@@ -259,10 +279,6 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 
 	}
 	else if (type & iAppSetupType_Mask_HideValue)
-	{
-
-	}
-	else if (type & iAppSetupType_Mask_Browser)
 	{
 
 	}
@@ -329,6 +345,19 @@ void SetupWindow::SlotMenuActionSub(QAction *action)
 		}
 		m_pMgr->RequestSetupSet(node);
 	}
+}
+
+void SetupWindow::SlotBrowserPath(QString path)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.AddInt(KEY_EVENT_ID, m_EventID);
+	node.Add(KEY_ID_UPPER, m_StrIDSub);
+	if (!path.isEmpty())
+	{
+		node.Add(KEY_PATH,		path);
+	}
+
+	m_pMgr->RequestSetupSet(node);
 }
 
 void SetupWindow::SlotRespError(QString errMsg)
@@ -414,6 +443,9 @@ void SetupWindow::WriteSettings()
 
 void SetupWindow::ConnectSigToSlot()
 {
+	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));		// recursive
+	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
+
 	connect(m_pListSetup->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
 	connect(m_pListSetup->GetDelegateSub(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenuSub(const QModelIndex&, QPoint)));
 

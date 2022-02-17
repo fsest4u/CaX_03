@@ -79,6 +79,7 @@
 #define		KEY_ENABLE_CAP		"Enable"
 #define		KEY_ETC_ORDER		"EtcOrder"
 #define		KEY_EVENT_ID		"EventID"
+#define		KEY_EXT				"Ext"
 #define		KEY_EXTENSION		"extension"
 
 #define		KEY_FAVORITE		"favorite"

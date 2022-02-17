@@ -26,8 +26,8 @@ public:
 	explicit BrowserWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1, const QString &root = "");
 	~BrowserWindow();
 
-	void RequestRoot();
-	void RequestFolder(QString strPath);
+	void RequestRoot(QString ext = "");
+	void RequestFolder(QString strPath, QString ext = "");
 
 	int GetFolderType() const;
 	void SetFolderType(int FolderType);
@@ -43,11 +43,13 @@ signals:
 	void SigCopyHere(bool move, QString dstPath, QString path = "", int type = -1);
 	void SigOptionCopyHere(bool move, QString dstPath, QString path, int type);
 
+	void SigBrowserPath(QString path);
 
 private slots:
 
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget* widget);
+	void SlotBrowserPath(QString path);
 
 	void SlotIconSelectTitle(int nType, QString rawData);
 	void SlotSelectTrackPlay(int nType, CJsonNode node);
@@ -141,6 +143,8 @@ private:
 
 	QMenu				*m_Menu;
 
+	QModelIndex			m_ModelIndex;
+
 	QString				m_Root;
 	QStringList			m_Paths;
 	QStringList			m_Dirs;
@@ -160,7 +164,7 @@ private:
 	QStringList			m_ComposerList;
 	QStringList			m_MoodList;
 
-	QModelIndex			m_ModelIndex;
+	QString				m_Ext;
 
 	Ui::BrowserWindow *ui;
 };

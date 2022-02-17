@@ -32,6 +32,16 @@ void BrowserManager::RequestRoot(bool dirOnly)
 	RequestCommand(node, BROWSER_ROOT);
 }
 
+void BrowserManager::RequestRootSetup(QString ext)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_ROOT);
+	node.Add	(KEY_EXT,		ext);
+
+	RequestCommand(node, BROWSER_ROOT);
+}
+
 void BrowserManager::RequestFolder(QString strPath, bool dirOnly, bool imageOnly)
 {
 	CJsonNode node(JSON_OBJECT);
@@ -41,6 +51,18 @@ void BrowserManager::RequestFolder(QString strPath, bool dirOnly, bool imageOnly
 	node.Add	(KEY_PATH,		strPath);
 	node.Add	(KEY_DIR_ONLY,	dirOnly);
 	node.Add	(KEY_IMAGE,		imageOnly);
+
+	RequestCommand(node, BROWSER_FOLDER);
+}
+
+void BrowserManager::RequestFolderSetup(QString strPath, QString ext)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_FOLDER);
+	// path : folder path, cd, net, upnp ...
+	node.Add	(KEY_PATH,		strPath);
+	node.Add	(KEY_EXT,		ext);
 
 	RequestCommand(node, BROWSER_FOLDER);
 }

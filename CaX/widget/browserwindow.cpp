@@ -99,7 +99,7 @@ BrowserWindow::~BrowserWindow()
 
 }
 
-void BrowserWindow::RequestRoot()
+void BrowserWindow::RequestRoot(QString ext)
 {
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
@@ -113,12 +113,20 @@ void BrowserWindow::RequestRoot()
 	}
 	else
 	{
-		m_pMgr->RequestRoot();
+		if (ext.isEmpty())
+		{
+			m_pMgr->RequestRoot();
+		}
+		else
+		{
+			m_Ext = ext;
+			m_pMgr->RequestRootSetup(ext);
+		}
 	}
 
 }
 
-void BrowserWindow::RequestFolder(QString strPath)
+void BrowserWindow::RequestFolder(QString strPath, QString ext)
 {
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
@@ -132,7 +140,15 @@ void BrowserWindow::RequestFolder(QString strPath)
 	}
 	else
 	{
-		m_pMgr->RequestFolder(strPath);
+		if (ext.isEmpty())
+		{
+			m_pMgr->RequestFolder(strPath);
+		}
+		else
+		{
+			m_Ext = ext;
+			m_pMgr->RequestFolderSetup(strPath, ext);
+		}
 	}
 }
 
@@ -166,12 +182,18 @@ void BrowserWindow::SetBrowserMode(int BrowserMode, QString optionPath, int opti
 
 void BrowserWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget, STR_BROWSER);		// recursive
+	emit SigAddWidget(widget, title);		// recursive
 }
 
 void BrowserWindow::SlotRemoveWidget(QWidget *widget)
 {
 	emit SigRemoveWidget(widget);
+}
+
+void BrowserWindow::SlotBrowserPath(QString path)
+{
+	emit SigBrowserPath(path);
+	emit SigRemoveWidget(this);
 }
 
 void BrowserWindow::SlotPlayAll(int where)
@@ -375,7 +397,7 @@ void BrowserWindow::SlotIconSelectTitle(int nType, QString rawData)
 			widget->ShowFormPlay(true);
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
-		widget->RequestFolder(path);
+		widget->RequestFolder(path, m_Ext);
 
 		emit SigAddWidget(widget, STR_BROWSER);
 	}
@@ -424,9 +446,18 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 			widget->ShowFormPlay(true);
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
-		widget->RequestFolder(path);
+		widget->RequestFolder(path, m_Ext);
 
 		emit SigAddWidget(widget, STR_BROWSER);
+	}
+	else if (iFolderType_Mask_File & nType && !m_Ext.isEmpty())
+	{
+		QString path = node.GetString(KEY_PATH);
+		if (!m_Root.isEmpty())
+			path = m_Root + "/" + path;
+
+		emit SigBrowserPath(path);
+		emit SigRemoveWidget(this);
 	}
 //	else
 //	{
@@ -721,6 +752,7 @@ void BrowserWindow::ConnectSigToSlot()
 	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 	connect(this, SIGNAL(SigCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotCopyHere(bool, QString, QString, int)));
 //	connect(this, SIGNAL(SigOptionCopyHere(bool, QString, QString, int)), parent(), SLOT(SlotOptionCopyHere(bool, QString, QString, int)));
+	connect(this, SIGNAL(SigBrowserPath(QString)), parent(), SLOT(SlotBrowserPath(QString)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespList(QList<CJsonNode>)), this, SLOT(SlotRespList(QList<CJsonNode>)));
@@ -773,6 +805,8 @@ void BrowserWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+
+	m_Ext.clear();
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -1032,7 +1066,7 @@ void BrowserWindow::DoTopMenuReload()
 		QString prefix = UtilNovatron::ConvertURLToFilename(m_Root);
 		UtilNovatron::RemoveContainFilesInTempDirectory(prefix);
 
-		RequestFolder(m_Root);
+		RequestFolder(m_Root, m_Ext);
 	}
 }
 

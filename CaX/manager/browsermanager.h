@@ -12,7 +12,9 @@ public:
 	~BrowserManager();
 
 	void RequestRoot(bool dirOnly = false);
+	void RequestRootSetup(QString ext);
 	void RequestFolder(QString strPath, bool dirOnly = false, bool imageOnly = false);
+	void RequestFolderSetup(QString strPath, QString ext);
 	void RequestInfoBot(QString strPath, int nIndex);
 	void RequestTrackPlay(QString root, QStringList dirs, QStringList files, int where = PLAY_CLEAR);
 	void RequestPlaylistPlay(QString path, QStringList indexes, int where = PLAY_CLEAR);
