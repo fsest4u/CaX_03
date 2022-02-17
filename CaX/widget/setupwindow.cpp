@@ -101,11 +101,8 @@ void SetupWindow::SlotRemoveWidget(QWidget *widget)
 
 void SetupWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
-	LogDebug("setup main menu");
-//	m_ModelIndex = modelIndex;
-//	m_Point = point;
-
 	m_StrID = qvariant_cast<QString>(modelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
+//	LogDebug("setup main menu [%s]", m_StrID.toUtf8().data());
 
 	m_pMgr->RequestSetupGroup(m_EventID, m_StrID);
 }
@@ -113,10 +110,9 @@ void SetupWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 {
 	m_ModelIndex = modelIndex;
-	m_Point = point;
 
 	m_StrIDSub = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
-	LogDebug("setup sub menu [%s]", m_StrIDSub.toUtf8().data());
+//	LogDebug("setup sub menu [%s]", m_StrIDSub.toUtf8().data());
 	int type = qvariant_cast<int>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_TYPE));
 	UtilNovatron::DebugTypeForSetup("SlotSelectMenuSub", type);
 
@@ -144,7 +140,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			m_MenuSub->addAction(action);
 		}
 
-		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(m_Point));
+		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(point));
 	}
 	else if (type & iAppSetupType_Mask_List)
 	{
@@ -180,7 +176,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			m_MenuSub->addAction(action);
 		}
 
-		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(m_Point));
+		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(point));
 	}
 	else if (type & iAppSetupType_Mask_Exec
 			 || type & iAppSetupType_Mask_App)
@@ -196,20 +192,20 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 
 		if (nodeForm.IsNull())
 		{
-			LogDebug("form is null");
-			if (m_StrIDSub.contains("MaxVolume"))
+//			LogDebug("form is null");
+			if (m_StrIDSub.contains(ID_MAX_VOLUME))
 			{
 				int volume = qvariant_cast<int>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_SUBTITLE));
 
 				DoMaxVolume(volume);
 			}
-			else if (m_StrIDSub.contains("NET_NETWORK_INFO")
-					 || m_StrIDSub.contains("SY_CHECKFIRMWARE")
-					 || m_StrIDSub.contains("LI_GRACENOTE_CD")
-					 || m_StrIDSub.contains("LI_GRACENOTE_COVER")
-					 || m_StrIDSub.contains("LI_GRACENOTE_FINGER")
-					 || m_StrIDSub.contains("LI_GRACENOTE_PLS")
-					 || m_StrIDSub.contains("MDB_RESCAN"))
+			else if (m_StrIDSub.contains(ID_NET_NETWORK_INFO)
+					 || m_StrIDSub.contains(ID_SY_CHECKFIRMWARE)
+					 || m_StrIDSub.contains(ID_LI_GRACENOTE_CD)
+					 || m_StrIDSub.contains(ID_LI_GRACENOTE_COVER)
+					 || m_StrIDSub.contains(ID_LI_GRACENOTE_FINGER)
+					 || m_StrIDSub.contains(ID_LI_GRACENOTE_PLS)
+					 || m_StrIDSub.contains(ID_MDB_RESCAN))
 			{
 				CJsonNode node(JSON_OBJECT);
 				node.AddInt(KEY_EVENT_ID, m_EventID);
@@ -227,31 +223,31 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 		}
 		else
 		{
-			LogDebug("form is exist");
-			if (m_StrIDSub.contains("AUD_ANALOG_IN_VOLUME"))
+//			LogDebug("form is exist");
+			if (m_StrIDSub.contains(ID_AUD_ANALOG_IN_VOLUME))
 			{
 				DoAnalogInVolume(nodeForm);
 			}
-			else if (m_StrIDSub.contains("IS_QB_USER")
-					 || m_StrIDSub.contains("IS_AIRABLE_TIDAL_USER")
-					 || m_StrIDSub.contains("IS_AIRABLE_DEEZER_USER")
-					 || m_StrIDSub.contains("IS_AIRABLE_NAPSTER_USER")
-					 || m_StrIDSub.contains("IS_AIRABLE_HIGHRESAUDIO_USER")
-					 || m_StrIDSub.contains("IS_AIRABLE_AMAZON_USER")
-					 || m_StrIDSub.contains("NET_SAMBA_HOST_NAME")
-					 || m_StrIDSub.contains("NET_SAMBA_WORKGROUP")
-					 || m_StrIDSub.contains("NET_FTP_PASS"))
+			else if (m_StrIDSub.contains(ID_IS_QB_USER)
+					 || m_StrIDSub.contains(ID_IS_AIRABLE_TIDAL_USER)
+					 || m_StrIDSub.contains(ID_IS_AIRABLE_DEEZER_USER)
+					 || m_StrIDSub.contains(ID_IS_AIRABLE_NAPSTER_USER)
+					 || m_StrIDSub.contains(ID_IS_AIRABLE_HIGHRESAUDIO_USER)
+					 || m_StrIDSub.contains(ID_IS_AIRABLE_AMAZON_USER)
+					 || m_StrIDSub.contains(ID_NET_SAMBA_HOST_NAME)
+					 || m_StrIDSub.contains(ID_NET_SAMBA_WORKGROUP)
+					 || m_StrIDSub.contains(ID_NET_FTP_PASS))
 			{
 				DoLogin(nodeForm);
 			}
-			else if (m_StrIDSub.contains("TM_MANUAL"))
+			else if (m_StrIDSub.contains(ID_TM_MANUAL))
 			{
 				DoTimeManual(nodeForm);
 			}
-			else if (m_StrIDSub.contains("SY_FACTORY_RESET")
-					 || m_StrIDSub.contains("MDB_INIT")
-					 || m_StrIDSub.contains("RIP_FREE_DB_UPDATE")
-					 || m_StrIDSub.contains("RIP_FREE_DB_DELETE"))
+			else if (m_StrIDSub.contains(ID_SY_FACTORY_RESET)
+					 || m_StrIDSub.contains(ID_MDB_INIT)
+					 || m_StrIDSub.contains(ID_RIP_FREE_DB_UPDATE)
+					 || m_StrIDSub.contains(ID_RIP_FREE_DB_DELETE))
 			{
 				FormDialog dialog;
 				dialog.SetNodeForm(nodeForm);
@@ -284,7 +280,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 	}
 	else if (type & iAppSetupType_Mask_Event)
 	{
-		if (m_StrIDSub.contains("MDB_SCAN_STATUS"))
+		if (m_StrIDSub.contains(ID_MDB_SCAN_STATUS))
 		{
 			CJsonNode node(JSON_OBJECT);
 			node.AddInt(KEY_EVENT_ID, m_EventID);
@@ -298,8 +294,8 @@ void SetupWindow::SlotMenuActionSub(QAction *action)
 {
 	QString key = action->data().toString();
 	QString value = action->text();
-	LogDebug("eventID [%d] strID [%s] key [%s] value [%s]", m_EventID, m_StrIDSub.toUtf8().data(), key.toUtf8().data(), value.toUtf8().data());
-	if (m_StrIDSub.contains("NET_WIRED_LAN_SETUP"))
+//	LogDebug("eventID [%d] strID [%s] key [%s] value [%s]", m_EventID, m_StrIDSub.toUtf8().data(), key.toUtf8().data(), value.toUtf8().data());
+	if (m_StrIDSub.contains(ID_NET_WIRED_LAN_SETUP))
 	{
 		QString json = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_RAW));
 		CJsonNode node;
@@ -320,10 +316,10 @@ void SetupWindow::SlotMenuActionSub(QAction *action)
 			}
 		}
 	}
-	else if (m_StrIDSub.contains("SY_ALARM")
-			 || m_StrIDSub.contains("SY_AUTO_SHUTDOWN")
-			 || m_StrIDSub.contains("SY_HDD_FORMAT")
-			 || m_StrIDSub.contains("SY_NTFS_FIX"))
+	else if (m_StrIDSub.contains(ID_SY_ALARM)
+			 || m_StrIDSub.contains(ID_SY_AUTO_SHUTDOWN)
+			 || m_StrIDSub.contains(ID_SY_HDD_FORMAT)
+			 || m_StrIDSub.contains(ID_SY_NTFS_FIX))
 	{
 		CJsonNode node(JSON_OBJECT);
 		node.AddInt(KEY_EVENT_ID, m_EventID);
@@ -374,27 +370,27 @@ void SetupWindow::SlotRespGroup(QList<CJsonNode> list)
 
 void SetupWindow::SlotRespSet(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	CJsonNode nodeForm = node.GetObject(KEY_FORM);
 	if (nodeForm.IsNull())
 	{
-		LogDebug("resp is not form~~");
+//		LogDebug("resp is not form~~");
 		m_pMgr->RequestSetupGroup(m_EventID, m_StrID);
 	}
 	else
 	{
-		LogDebug("resp is form~~");
+//		LogDebug("resp is form~~");
 		QString title = nodeForm.GetString(KEY_TITLE_CAP);
-		if (title.contains("Power On Volume"))
+		if (title.contains(SETUP_POWER_ON_VOLUME))
 		{
 			DoPowerOnVolume(nodeForm);
 		}
-		else if (title.contains("Custom EQ"))
+		else if (title.contains(SETUP_CUSTOM_EQ))
 		{
 			DoCustomEQ(nodeForm);
 		}
-		else if (title.contains("Alarm")
-				 || title.contains("Auto Shutdown"))
+		else if (title.contains(SETUP_ALRAM)
+				 || title.contains(SETUP_AUTO_SHUTDOWN))
 		{
 			DoAlarm(nodeForm);
 		}
@@ -493,7 +489,7 @@ void SetupWindow::SetMenuSubMap(QStringList keys, QStringList values)
 		{
 			value = values.at(i);
 		}
-		LogDebug("key [%s] value [%s]", key.toUtf8().data(), value.toUtf8().data());
+//		LogDebug("key [%s] value [%s]", key.toUtf8().data(), value.toUtf8().data());
 		if (key.isEmpty())
 		{
 			m_MenuSubMap.insert(QString::number(i), value);

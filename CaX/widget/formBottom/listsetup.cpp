@@ -3,6 +3,7 @@
 
 #include "listsetupdelegate.h"
 
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
 #include "util/log.h"
@@ -93,14 +94,12 @@ QList<CJsonNode> ListSetup::GetNodeListSub() const
 
 void ListSetup::SetNodeList(const QList<CJsonNode> &NodeList)
 {
-	LogDebug("setup main menu ========================");
-
 	int index = 0;
 	m_NodeList = NodeList;
 
 	foreach (CJsonNode node, m_NodeList)
 	{
-		LogDebug("type : [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node main : [%s]", node.ToCompactByteArray().data());
 
 		QStandardItem *item = new QStandardItem;
 		item->setData(node.GetString(KEY_ID_UPPER), ListSetupDelegate::LIST_SETUP_ID);
@@ -116,14 +115,19 @@ void ListSetup::SetNodeList(const QList<CJsonNode> &NodeList)
 
 void ListSetup::SetNodeListSub(const QList<CJsonNode> &NodeList)
 {
-	LogDebug("setup sub menu ========================");
-
 	int index = 0;
 	m_NodeListSub = NodeList;
 
 	foreach (CJsonNode node, m_NodeListSub)
 	{
-		LogDebug("type : [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node sub : [%s]", node.ToCompactByteArray().data());
+		QString id = node.GetString(KEY_ID_UPPER);
+		if (!id.compare(ID_RIP_FREE_DB_INSTALL)
+				|| !id.compare(ID_RIP_FREE_DB_UPDATE)
+				|| !id.compare(ID_RIP_FREE_DB_DELETE))
+		{
+			continue;
+		}
 
 		QString subtitle = node.GetString(KEY_VALUE);
 		if (subtitle.isEmpty())
@@ -132,7 +136,7 @@ void ListSetup::SetNodeListSub(const QList<CJsonNode> &NodeList)
 		}
 
 		QStandardItem *item = new QStandardItem;
-		item->setData(node.GetString(KEY_ID_UPPER), ListSetupDelegate::LIST_SETUP_ID);
+		item->setData(id, ListSetupDelegate::LIST_SETUP_ID);
 		item->setData(node.GetString(KEY_TYPE), ListSetupDelegate::LIST_SETUP_TYPE);
 		item->setData(node.GetString(KEY_NAME_CAP), ListSetupDelegate::LIST_SETUP_TITLE);
 		item->setData(subtitle, ListSetupDelegate::LIST_SETUP_SUBTITLE);
@@ -144,28 +148,6 @@ void ListSetup::SetNodeListSub(const QList<CJsonNode> &NodeList)
 		index++;
 	}
 }
-
-//void ListSetup::SetNodeListDetail(const QList<CJsonNode> &NodeList)
-//{
-//	LogDebug("setup detail menu ========================");
-
-//	int index = 0;
-//	m_NodeListDetail = NodeList;
-
-//	foreach (CJsonNode node, m_NodeListDetail)
-//	{
-//		LogDebug("type : [%s]", node.ToCompactByteArray().data());
-
-//		QStandardItem *item = new QStandardItem;
-//		item->setData(node.GetString(KEY_ID_UPPER), ListSetupDelegate::LIST_SETUP_ID);
-//		item->setData(node.GetString(KEY_NAME_CAP), ListSetupDelegate::LIST_SETUP_TITLE);
-//		item->setData(index, ListSetupDelegate::LIST_SETUP_INDEX);
-
-//		m_ModelDetail->appendRow(item);
-
-//		index++;
-//	}
-//}
 
 void ListSetup::ClearNodeList()
 {
@@ -179,21 +161,6 @@ void ListSetup::ClearNodeListSub()
 	m_NodeListSub.clear();
 }
 
-//void ListSetup::ClearNodeListDetail()
-//{
-//	m_ModelDetail->clear();
-//	m_NodeListDetail.clear();
-//}
-
-//void ListSetup::SetEditor(int index)
-//{
-//	QModelIndex modelIndex = m_Model->index(index, 0);
-//	QString nothing = qvariant_cast<QString>(modelIndex.data(ListSetupDelegate::LIST_SETUP_MAX));
-//	m_Model->setData(modelIndex, nothing + " ", ListSetupDelegate::LIST_SETUP_MAX);
-
-//	m_ListView->openPersistentEditor(modelIndex);
-//}
-
 QListView *ListSetup::GetListView()
 {
 	return m_ListView;
@@ -203,11 +170,6 @@ QListView *ListSetup::GetListViewSub()
 {
 	return m_ListViewSub;
 }
-
-//QListView *ListSetup::GetListViewDetail()
-//{
-//	return m_ListViewDetail;
-//}
 
 QStandardItemModel *ListSetup::GetModel()
 {
@@ -219,11 +181,6 @@ QStandardItemModel *ListSetup::GetModelSub()
 	return m_ModelSub;
 }
 
-//QStandardItemModel *ListSetup::GetModelDetail()
-//{
-//	return m_ModelDetail;
-//}
-
 ListSetupDelegate *ListSetup::GetDelegate()
 {
 	return m_Delegate;
@@ -233,11 +190,6 @@ ListSetupDelegate *ListSetup::GetDelegateSub()
 {
 	return m_DelegateSub;
 }
-
-//ListSetupDelegate *ListSetup::GetDelegateDetail()
-//{
-//	return m_DelegateDetail;
-//}
 
 void ListSetup::Initialize()
 {
@@ -253,13 +205,6 @@ void ListSetup::Initialize()
 	m_ListViewSub->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	m_ListViewSub->setViewMode(QListView::ListMode);
 
-//	m_ListViewDetail->setItemDelegate(m_DelegateDetail);
-//	m_ListViewDetail->setModel(m_ModelDetail);
-//	m_ListViewDetail->setResizeMode(QListView::Adjust);
-//	m_ListViewDetail->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-//	m_ListViewDetail->setViewMode(QListView::ListMode);
-
 	ui->gridLayoutSetup->addWidget(m_ListView);
 	ui->gridLayoutSetupSub->addWidget(m_ListViewSub);
-//	ui->gridLayoutSetupDetail->addWidget(m_ListViewDetail);
 }

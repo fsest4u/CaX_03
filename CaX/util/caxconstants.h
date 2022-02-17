@@ -42,6 +42,93 @@
 #define PORT_IMAGE_SERVER			"50006"
 
 //////////////////////////////////////////////////
+// play
+//////////////////////////////////////////////////
+
+#define PLAY_NONE		-1
+#define PLAY_NOW		0
+#define PLAY_LAST		1
+#define PLAY_NEXT		2
+#define PLAY_CLEAR		3
+
+#define RM_NORMAL			"RM_NORMAL"
+#define RM_SHUFFLE			"RM_SHUFFLE"
+#define RM_RANDOM			"RM_RANDOM"
+#define RM_ONCE				"RM_ONCE"
+#define RM_R_ONE			"RM_R_ONE"
+#define RM_R_ALL			"RM_R_ALL"
+
+#define SRC_MUSIC_DB		"Music DB"
+#define SRC_BROWSER			"File"
+#define SRC_AUDIO_CD		"Audio CD"
+
+#define SRC_AES_EBU			"AES"
+#define SRC_COAXIAL			"COAXIAL"
+#define SRC_TOSLINK			"TOSLINK"
+#define SRC_ANALOG_IN		"ANALOG IN"
+#define SRC_AUX_IN			"AUX IN"
+#define SRC_PHONO_IN		"PHONO IN"
+
+#define SRC_FM_RADIO		"FM Radio"
+#define SRC_DAB_RADIO		"DAB"
+#define SRC_I_RADIO			"i-Radio"
+#define SRC_PODCAST			"Podcasts"
+#define SRC_TIDAL			"TIDAL"
+#define SRC_DEEZER			"Deezer"
+#define SRC_NAPSTER			"Napster"
+#define SRC_HIGH_RES_AUDIO	"HighResAudio"
+#define SRC_AMAZON			"Amazon"
+#define SRC_AIRABLE_UPNP	"Airable UPNP"
+#define SRC_QOBUZ			"Qobuz"
+
+//////////////////////////////////////////////////
+// setup
+//////////////////////////////////////////////////
+
+#define ID_AUD_ANALOG_IN_VOLUME				"AUD_ANALOG_IN_VOLUME"
+
+#define ID_IS_QB_USER						"IS_QB_USER"
+#define ID_IS_AIRABLE_TIDAL_USER			"IS_AIRABLE_TIDAL_USER"
+#define ID_IS_AIRABLE_DEEZER_USER			"IS_AIRABLE_DEEZER_USER"
+#define ID_IS_AIRABLE_NAPSTER_USER			"IS_AIRABLE_NAPSTER_USER"
+#define ID_IS_AIRABLE_HIGHRESAUDIO_USER		"IS_AIRABLE_HIGHRESAUDIO_USER"
+#define ID_IS_AIRABLE_AMAZON_USER			"IS_AIRABLE_AMAZON_USER"
+
+#define ID_MAX_VOLUME						"MaxVolume"
+
+#define ID_MDB_INIT							"MDB_INIT"
+#define ID_MDB_RESCAN						"MDB_RESCAN"
+#define ID_MDB_SCAN_STATUS					"MDB_SCAN_STATUS"
+#define ID_NET_FTP_PASS						"NET_FTP_PASS"
+#define ID_NET_NETWORK_INFO					"NET_NETWORK_INFO"
+#define ID_NET_SAMBA_HOST_NAME				"NET_SAMBA_HOST_NAME"
+#define ID_NET_SAMBA_WORKGROUP				"NET_SAMBA_WORKGROUP"
+#define ID_NET_WIRED_LAN_SETUP				"NET_WIRED_LAN_SETUP"
+
+#define ID_LI_GRACENOTE_CD					"LI_GRACENOTE_CD"
+#define ID_LI_GRACENOTE_COVER				"LI_GRACENOTE_COVER"
+#define ID_LI_GRACENOTE_FINGER				"LI_GRACENOTE_FINGER"
+#define ID_LI_GRACENOTE_PLS					"LI_GRACENOTE_PLS"
+
+#define ID_RIP_FREE_DB_DELETE				"RIP_FREE_DB_DELETE"
+#define ID_RIP_FREE_DB_INSTALL				"RIP_FREE_DB_INSTALL"
+#define ID_RIP_FREE_DB_UPDATE				"RIP_FREE_DB_UPDATE"
+
+#define ID_SY_ALARM							"SY_ALARM"
+#define ID_SY_AUTO_SHUTDOWN					"SY_AUTO_SHUTDOWN"
+#define ID_SY_CHECKFIRMWARE					"SY_CHECKFIRMWARE"
+#define ID_SY_FACTORY_RESET					"SY_FACTORY_RESET"
+#define ID_SY_HDD_FORMAT					"SY_HDD_FORMAT"
+#define ID_SY_NTFS_FIX						"SY_NTFS_FIX"
+
+#define ID_TM_MANUAL						"TM_MANUAL"
+
+#define SETUP_ALRAM							"Alarm"
+#define SETUP_AUTO_SHUTDOWN					"Auto Shutdown"
+#define SETUP_CUSTOM_EQ						"Custom EQ"
+#define SETUP_POWER_ON_VOLUME				"Power On Volume"
+
+//////////////////////////////////////////////////
 // ui
 //////////////////////////////////////////////////
 
@@ -109,45 +196,6 @@ enum {
 	BROWSER_MODE_MAX
 };
 
-//////////////////////////////////////////////////
-// play
-//////////////////////////////////////////////////
-
-#define PLAY_NONE		-1
-#define PLAY_NOW		0
-#define PLAY_LAST		1
-#define PLAY_NEXT		2
-#define PLAY_CLEAR		3
-
-#define RM_NORMAL			"RM_NORMAL"
-#define RM_SHUFFLE			"RM_SHUFFLE"
-#define RM_RANDOM			"RM_RANDOM"
-#define RM_ONCE				"RM_ONCE"
-#define RM_R_ONE			"RM_R_ONE"
-#define RM_R_ALL			"RM_R_ALL"
-
-#define SRC_MUSIC_DB		"Music DB"
-#define SRC_BROWSER			"File"
-#define SRC_AUDIO_CD		"Audio CD"
-
-#define SRC_AES_EBU			"AES"
-#define SRC_COAXIAL			"COAXIAL"
-#define SRC_TOSLINK			"TOSLINK"
-#define SRC_ANALOG_IN		"ANALOG IN"
-#define SRC_AUX_IN			"AUX IN"
-#define SRC_PHONO_IN		"PHONO IN"
-
-#define SRC_FM_RADIO		"FM Radio"
-#define SRC_DAB_RADIO		"DAB"
-#define SRC_I_RADIO			"i-Radio"
-#define SRC_PODCAST			"Podcasts"
-#define SRC_TIDAL			"TIDAL"
-#define SRC_DEEZER			"Deezer"
-#define SRC_NAPSTER			"Napster"
-#define SRC_HIGH_RES_AUDIO	"HighResAudio"
-#define SRC_AMAZON			"Amazon"
-#define SRC_AIRABLE_UPNP	"Airable UPNP"
-#define SRC_QOBUZ			"Qobuz"
 
 //////////////////////////////////////////////////
 // side menu

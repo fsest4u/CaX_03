@@ -75,13 +75,11 @@ private:
 
 	int m_MaxVolume;
 
-//	QMap<QString, CJsonNode>	m_MenuMap;
 	QMap<QString, QString>	m_MenuSubMap;
 
 	QMenu				*m_MenuSub;
 
 	QModelIndex			m_ModelIndex;
-	QPoint				m_Point;
 
 	Ui::SetupWindow *ui;
 };
