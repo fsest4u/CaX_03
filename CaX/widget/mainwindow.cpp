@@ -563,8 +563,7 @@ void MainWindow::SlotRespObserverInfo(CJsonNode node)
 	}
 	else
 	{
-//		DoMusicDBHome();
-		DoSetupHome();
+		DoMusicDBHome();
 	}
 
 	m_pAppMgr->RequestTaskList();

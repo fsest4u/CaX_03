@@ -184,7 +184,7 @@ void PlayWindow::SlotSetVolumeSlider(int volume)
 
 void PlayWindow::SlotPlayTimeSliderValueChanged(int value)
 {
-	m_pMgr->RequestSeek(value);
+//	m_pMgr->RequestSeek(value);
 }
 
 void PlayWindow::SlotPlayTimeSliderReleased()
