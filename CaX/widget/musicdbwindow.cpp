@@ -2170,6 +2170,10 @@ void MusicDBWindow::DoTopMenuSetLimitCount(int count)
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		m_LimitCount = dialog.GetLimitCount();
+		if (m_LimitCount == 0)
+		{
+			m_LimitCount = -1;
+		}
 		WriteSettings();
 	}
 }
