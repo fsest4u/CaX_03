@@ -33,8 +33,6 @@ void LoadingDialog::Initialize()
 	if (widget)
 	{
 		QRect rect = widget->geometry();
-		rect.setY(rect.y() - 20);
-		rect.setHeight(rect.height() + 20);
 		setGeometry(rect);
 
 	//	setAttribute(Qt::WA_TranslucentBackground);
