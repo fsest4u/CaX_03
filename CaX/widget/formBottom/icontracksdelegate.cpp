@@ -77,6 +77,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QString subtitle = qvariant_cast<QString>(index.data(ICON_TRACKS_SUBTITLE));
 	int rating = qvariant_cast<int>(index.data(ICON_TRACKS_RATING));
 	int favorite = qvariant_cast<int>(index.data(ICON_TRACKS_FAVORITE));
+	int nIndex = qvariant_cast<int>(index.data(ICON_TRACKS_INDEX));
 	bool select = qvariant_cast<bool>(index.data(ICON_TRACKS_SELECT));
 
 	QFont fontCount("Segoe UI", 12, QFont::Normal, false);
@@ -108,10 +109,12 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QPixmap pixCover;
 	if (cover.isEmpty())
 	{
+//		LogDebug("cover is empty [%d] - [%s] [%s]", nIndex, cover.toUtf8().data(), title.toUtf8().data());
 		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
 	}
 	if (pixCover.load(cover))
 	{
+//		LogDebug("cover is load  [%d] - [%s] [%s]", nIndex, cover.toUtf8().data(), title.toUtf8().data());
 		painter->drawPixmap(rectCover, pixCover);
 	}
 

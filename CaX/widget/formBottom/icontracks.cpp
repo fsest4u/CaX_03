@@ -5,6 +5,8 @@
 
 #include "icontracksdelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/loading.h"
@@ -67,6 +69,8 @@ QList<CJsonNode> IconTracks::GetNodeList() const
 void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 {
 //	m_pLoading->Start();
+	LoadingDialog dialog;
+	dialog.show();
 
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
@@ -131,12 +135,13 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 			}
 
 			m_Model->appendRow(item);
-
+//			LogDebug("set data [%d] - [%s]", index, node.GetString(KEY_TITLE).toUtf8().data());
 			emit SigReqCoverArt(nID, index, QListView::IconMode);
 			index++;
 		}
 	}
 
+	dialog.close();
 //	m_pLoading->Stop();
 }
 

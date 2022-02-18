@@ -1,8 +1,6 @@
 #ifndef CAXCONSTANTS_H
 #define CAXCONSTANTS_H
 
-#include <QCoreApplication>
-
 #define	APP_VERSION					"1.8"
 #define FIRMWARE_MIN_VERSION		1720
 //////////////////////////////////////////////////

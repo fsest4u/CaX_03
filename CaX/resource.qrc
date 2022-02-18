@@ -901,5 +901,6 @@
         <file>resource/play-btn52-rank-sel5@3x.png</file>
         <file>resource/mqa_blue.png</file>
         <file>resource/mqa_green.png</file>
+        <file>resource/loading.gif</file>
     </qresource>
 </RCC>
