@@ -32,11 +32,12 @@ void AppManager::RequestDeviceInfo()
 	RequestCommand(node, APP_MGR_DEVICE_INFO);
 }
 
-void AppManager::RequestDevicePowerOff(bool bWol)
+void AppManager::RequestDevicePowerOff(int eventID, bool bWol)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, KEY_SETUP);
 	node.Add(KEY_CMD1, VAL_POWER_OFF);
+	node.AddInt(KEY_EVENT_ID, eventID);
 	node.Add(KEY_WOL, bWol);
 
 	RequestCommand(node, APP_MGR_POWER_OFF);

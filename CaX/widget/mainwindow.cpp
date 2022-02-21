@@ -761,9 +761,9 @@ void MainWindow::SlotPowerOff(QList<CJsonNode> list)
 					m_pDeviceMgr->DelDeviceWol(indexWol);
 				}
 			}
-			m_pAppMgr->SetAddr(addr);
-			m_pAppMgr->RequestDevicePowerOff(bWol);
-			m_pAppMgr->SetAddr(m_strAddr);
+//			m_pAppMgr->SetAddr(addr);
+			m_pAppMgr->RequestDevicePowerOff(m_EventID, bWol);
+//			m_pAppMgr->SetAddr(m_strAddr);
 		}
 	}
 }
@@ -1058,9 +1058,9 @@ void MainWindow::DoPowerOff()
 			}
 		}
 
-		m_pAppMgr->SetAddr(m_strWolAddr);
-		m_pAppMgr->RequestDevicePowerOff(bWol);
-		m_pAppMgr->SetAddr(m_strAddr);
+//		m_pAppMgr->SetAddr(m_strWolAddr);
+		m_pAppMgr->RequestDevicePowerOff(m_EventID, bWol);
+//		m_pAppMgr->SetAddr(m_strAddr);
 	}
 
 }

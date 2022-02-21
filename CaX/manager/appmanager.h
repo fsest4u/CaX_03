@@ -16,7 +16,7 @@ public:
 
 	void RequestTaskList();
 	void RequestDeviceInfo();
-	void RequestDevicePowerOff(bool bWol);
+	void RequestDevicePowerOff(int eventID, bool bWol);
 
 	void RequestProgressBack(int eventID, int taskID);
 	void RequestProgressStop(int eventID, int taskID);
