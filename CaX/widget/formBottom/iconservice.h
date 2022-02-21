@@ -8,7 +8,6 @@
 #include "util/CJsonNode.h"
 
 class IconServiceDelegate;
-class Loading;
 
 namespace Ui {
 class IconService;
@@ -65,8 +64,6 @@ private:
 	QListView				*m_ListView;
 	QStandardItemModel		*m_Model;
 	IconServiceDelegate		*m_Delegate;
-
-//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;

@@ -5,10 +5,11 @@
 
 #include "listtracksdelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
-#include "util/loading.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
 
@@ -18,7 +19,6 @@ ListTracks::ListTracks(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListTracksDelegate),
 	m_ScrollBar(nullptr),
-//	m_pLoading(new Loading(this)),
 	ui(new Ui::ListTracks)
 {
 	ui->setupUi(this);
@@ -51,12 +51,6 @@ ListTracks::~ListTracks()
 		m_Delegate = nullptr;
 	}
 
-//	if (m_pLoading)
-//	{
-//		delete m_pLoading;
-//		m_pLoading = nullptr;
-//	}
-
 	delete ui;
 
 }
@@ -68,7 +62,9 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 
 void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 {
-//	m_pLoading->Start();
+	LoadingDialog dialog;
+	dialog.show();
+
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
@@ -173,7 +169,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 //		}
 //	}
 
-//	m_pLoading->Stop();
+	dialog.close();
 }
 
 void ListTracks::ClearNodeList()

@@ -9,7 +9,6 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
 
@@ -19,7 +18,6 @@ IconTracks::IconTracks(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconTracksDelegate),
 	m_ScrollBar(nullptr),
-//	m_pLoading(new Loading(this)),
 	ui(new Ui::IconTracks)
 {
 	ui->setupUi(this);
@@ -51,12 +49,6 @@ IconTracks::~IconTracks()
 		m_Delegate = nullptr;
 	}
 
-//	if (m_pLoading)
-//	{
-//		delete m_pLoading;
-//		m_pLoading = nullptr;
-//	}
-
 	delete ui;
 
 }
@@ -68,7 +60,6 @@ QList<CJsonNode> IconTracks::GetNodeList() const
 
 void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 {
-//	m_pLoading->Start();
 	LoadingDialog dialog;
 	dialog.show();
 
@@ -142,7 +133,6 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 	}
 
 	dialog.close();
-//	m_pLoading->Stop();
 }
 
 void IconTracks::ClearNodeList()

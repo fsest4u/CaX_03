@@ -8,7 +8,6 @@
 #include "util/CJsonNode.h"
 
 class ListBrowserDelegate;
-class Loading;
 
 namespace Ui {
 class ListBrowser;
@@ -68,8 +67,6 @@ private:
 	QStandardItemModel		*m_Model;
 	ListBrowserDelegate		*m_Delegate;
 	QScrollBar				*m_ScrollBar;
-
-//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<QString, int>		m_SelectMap;

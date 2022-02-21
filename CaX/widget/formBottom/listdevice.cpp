@@ -3,8 +3,9 @@
 
 #include "listdevicedelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 ListDevice::ListDevice(QWidget *parent) :
@@ -12,7 +13,6 @@ ListDevice::ListDevice(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListDeviceDelegate),
-//	m_pLoading(new Loading(this)),
 	ui(new Ui::ListDevice)
 {
 	ui->setupUi(this);
@@ -37,12 +37,6 @@ ListDevice::~ListDevice()
 		delete m_Delegate;
 		m_Delegate = nullptr;
 	}
-
-//	if (m_pLoading)
-//	{
-//		delete m_pLoading;
-//		m_pLoading = nullptr;
-//	}
 
 	delete ui;
 
@@ -75,7 +69,9 @@ QList<CJsonNode> ListDevice::GetNodeList() const
 
 void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 {
-//	m_pLoading->Start();
+	LoadingDialog dialog;
+	dialog.show();
+
 	m_Model->clear();
 	m_NodeList = NodeList;
 
@@ -92,7 +88,7 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 		m_ListView->openPersistentEditor(modelIndex);
 	}
 
-//	m_pLoading->Stop();
+	dialog.close();
 
 }
 

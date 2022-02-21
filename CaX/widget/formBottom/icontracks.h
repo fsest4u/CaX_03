@@ -8,7 +8,6 @@
 #include "util/CJsonNode.h"
 
 class IconTracksDelegate;
-class Loading;
 
 namespace Ui {
 class IconTracks;
@@ -63,8 +62,6 @@ private:
 	QStandardItemModel		*m_Model;
 	IconTracksDelegate		*m_Delegate;
 	QScrollBar				*m_ScrollBar;
-
-//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;

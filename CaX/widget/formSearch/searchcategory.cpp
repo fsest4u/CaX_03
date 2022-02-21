@@ -3,6 +3,8 @@
 
 #include "searchcategorydelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -49,6 +51,9 @@ QList<CJsonNode> SearchCategory::GetNodeList() const
 
 void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 {
+	LoadingDialog dialog;
+	dialog.show();
+
 	m_Model->clear();
 	m_NodeList = NodeList;
 
@@ -70,6 +75,7 @@ void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		emit SigReqCoverArt(id, index, category);
 		index++;
 	}
+	dialog.close();
 
 }
 

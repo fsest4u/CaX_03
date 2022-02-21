@@ -77,7 +77,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QString subtitle = qvariant_cast<QString>(index.data(ICON_TRACKS_SUBTITLE));
 	int rating = qvariant_cast<int>(index.data(ICON_TRACKS_RATING));
 	int favorite = qvariant_cast<int>(index.data(ICON_TRACKS_FAVORITE));
-	int nIndex = qvariant_cast<int>(index.data(ICON_TRACKS_INDEX));
+//	int nIndex = qvariant_cast<int>(index.data(ICON_TRACKS_INDEX));
 	bool select = qvariant_cast<bool>(index.data(ICON_TRACKS_SELECT));
 
 	QFont fontCount("Segoe UI", 12, QFont::Normal, false);

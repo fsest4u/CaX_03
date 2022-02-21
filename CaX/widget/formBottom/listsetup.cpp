@@ -5,7 +5,6 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 ListSetup::ListSetup(QWidget *parent) :

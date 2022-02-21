@@ -6,10 +6,11 @@
 
 #include "listbrowserdelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
-#include "util/loading.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
 
@@ -21,7 +22,6 @@ ListBrowser::ListBrowser(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new ListBrowserDelegate),
 	m_ScrollBar(nullptr),
-//	m_pLoading(new Loading(this)),
 	ui(new Ui::ListBrowser)
 {
 	ui->setupUi(this);
@@ -53,12 +53,6 @@ ListBrowser::~ListBrowser()
 		m_Delegate = nullptr;
 	}
 
-//	if (m_pLoading)
-//	{
-//		delete m_pLoading;
-//		m_pLoading = nullptr;
-//	}
-
 	delete ui;
 }
 
@@ -69,7 +63,8 @@ QList<CJsonNode> ListBrowser::GetNodeList() const
 
 int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 {
-//	m_pLoading->Start();
+	LoadingDialog dialog;
+	dialog.show();
 
 	int type = 0;
 	int index = m_NodeList.count();
@@ -191,7 +186,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 		}
 	}
 
-//	m_pLoading->Stop();
+	dialog.close();
 
 	return type;
 }

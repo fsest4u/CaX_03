@@ -4,7 +4,10 @@
 
 #include "tabletracks.h"
 #include "ui_tabletracks.h"
+
 #include "tabletracksdelegate.h"
+
+#include "dialog/loadingdialog.h"
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
@@ -68,6 +71,9 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 {
 	Q_UNUSED(service)
 
+	LoadingDialog dialog;
+	dialog.show();
+
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
@@ -118,6 +124,8 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			index++;
 		}
 	}
+
+	dialog.close();
 
 }
 

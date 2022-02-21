@@ -3,9 +3,10 @@
 
 #include "widget/formSearch/searchtrackdelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
 
@@ -49,6 +50,9 @@ QList<CJsonNode> SearchTrack::GetNodeList() const
 
 void SearchTrack::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 {
+	LoadingDialog dialog;
+	dialog.show();
+
 	m_Model->clear();
 	m_NodeList = NodeList;
 
@@ -76,6 +80,8 @@ void SearchTrack::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		emit SigReqCoverArt(nID, index, category);
 		index++;
 	}
+	dialog.close();
+
 }
 
 void SearchTrack::ClearNodeList()

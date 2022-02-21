@@ -8,7 +8,6 @@
 #include "util/CJsonNode.h"
 
 class IconCoverArtDelegate;
-class Loading;
 
 namespace Ui {
 class IconCoverArt;
@@ -53,8 +52,6 @@ private:
 	QStandardItemModel		*m_Model;
 	IconCoverArtDelegate	*m_Delegate;
 	QScrollBar				*m_ScrollBar;
-
-//	Loading					*m_pLoading;
 
 	QList<CJsonNode>		m_NodeList;
 

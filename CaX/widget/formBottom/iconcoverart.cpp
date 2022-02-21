@@ -5,9 +5,10 @@
 
 #include "iconcoverartdelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 IconCoverArt::IconCoverArt(QWidget *parent) :
@@ -16,7 +17,6 @@ IconCoverArt::IconCoverArt(QWidget *parent) :
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconCoverArtDelegate),
 	m_ScrollBar(nullptr),
-//	m_pLoading(new Loading(this)),
 	ui(new Ui::IconCoverArt)
 {
 	ui->setupUi(this);
@@ -42,12 +42,6 @@ IconCoverArt::~IconCoverArt()
 		m_Delegate = nullptr;
 	}
 
-//	if (m_pLoading)
-//	{
-//		delete m_pLoading;
-//		m_pLoading = nullptr;
-//	}
-
 	delete ui;
 }
 
@@ -58,7 +52,9 @@ QList<CJsonNode> IconCoverArt::GetNodeList() const
 
 void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 {
-//	m_pLoading->Start();
+	LoadingDialog dialog;
+	dialog.show();
+
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
 
@@ -75,7 +71,7 @@ void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 		index++;
 	}
 
-//	m_pLoading->Stop();
+	dialog.close();
 }
 
 void IconCoverArt::ClearNodeList()

@@ -12,8 +12,6 @@ class QueuelistWindow;
 class ObserverManager;
 class AppManager;
 
-class Loading;
-
 class ProgressDialog;
 
 QT_BEGIN_NAMESPACE
@@ -113,7 +111,6 @@ private:
 	ObserverManager		*m_pObsMgr;
 	AppManager			*m_pAppMgr;
 
-	Loading				*m_pLoading;
 	ProgressDialog		*m_ProgressDialog;
 
 	QList<CJsonNode> m_IServiceList;

@@ -3,6 +3,8 @@
 
 #include "queuetrackdelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -48,6 +50,9 @@ QList<CJsonNode> QueueTrack::GetNodeList() const
 
 int QueueTrack::SetNodeList(QList<CJsonNode> list)
 {
+	LoadingDialog dialog;
+	dialog.show();
+
 	m_NodeList = list;
 
 	int index = 0;
@@ -72,6 +77,8 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list)
 		totalTime += seconds;
 		index++;
 	}
+
+	dialog.close();
 
 	return totalTime;
 }

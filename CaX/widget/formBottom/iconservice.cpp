@@ -3,9 +3,10 @@
 
 #include "iconservicedelegate.h"
 
+#include "dialog/loadingdialog.h"
+
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
 
@@ -14,7 +15,6 @@ IconService::IconService(QWidget *parent) :
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new IconServiceDelegate),
-//	m_pLoading(new Loading(this)),
 	ui(new Ui::IconService)
 {
 	ui->setupUi(this);
@@ -40,12 +40,6 @@ IconService::~IconService()
 		m_Delegate = nullptr;
 	}
 
-//	if (m_pLoading)
-//	{
-//		delete m_pLoading;
-//		m_pLoading = nullptr;
-//	}
-
 	delete ui;
 
 }
@@ -59,7 +53,9 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 {
 	int type = 0;
 
-//	m_pLoading->Start();
+	LoadingDialog dialog;
+	dialog.show();
+
 	m_Model->clear();
 	m_NodeList = list;
 	m_Delegate->SetService(nService);
@@ -205,7 +201,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 		}
 	}
 
-//	m_pLoading->Stop();
+	dialog.close();
 
 	return type;
 

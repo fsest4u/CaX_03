@@ -12,7 +12,6 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
-#include "util/loading.h"
 #include "util/log.h"
 #include "util/settingio.h"
 #include "util/utilnovatron.h"
@@ -40,7 +39,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pDeviceWin(new DeviceListWindow),
 	m_pObsMgr(new ObserverManager),
 	m_pAppMgr(new AppManager),
-	m_pLoading(new Loading(this)),
 	m_ProgressDialog(new ProgressDialog),
 	ui(new Ui::MainWindow)
 {
@@ -93,12 +91,6 @@ MainWindow::~MainWindow()
 	{
 		delete m_pQueueWin;
 		m_pQueueWin = nullptr;
-	}
-
-	if (m_pLoading)
-	{
-		delete m_pLoading;
-		m_pLoading = nullptr;
 	}
 
 	if (m_ProgressDialog)
