@@ -364,6 +364,9 @@ void MainWindow::ObserverConnect()
 
 	SlotMenu();
 
+	UtilNovatron::RemoveTempDirectory();
+	UtilNovatron::CreateTempDirectory();
+
 }
 
 void MainWindow::ObserverDisconnect()
