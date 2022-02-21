@@ -5,6 +5,7 @@
 #include "ui_musicdbwindow.h"
 
 #include "dialog/commondialog.h"
+#include "dialog/confirmcoverartdialog.h"
 #include "dialog/edittagdialog.h"
 #include "dialog/inputnamedialog.h"
 #include "dialog/limitcountdialog.h"
@@ -2708,30 +2709,35 @@ void MusicDBWindow::DoOptionMenuAddCoverArt(int nID)
 	resultDialog.RequestCoverArtList(site, keyword, artist);
 	if (resultDialog.exec() == QDialog::Accepted)
 	{
-		QString image = resultDialog.GetImage();
-		QString thumb = resultDialog.GetThumb();
-		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
-				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
-				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
-				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+		ConfirmCoverArtDialog dialog;
+		dialog.SetImagePath(resultDialog.GetImagePath());
+		if (dialog.exec() == QDialog::Accepted)
 		{
-			m_pMgr->RequestSetCategoryCoverArt(nID,
-									   m_nCategory,
-									   m_EventID,
-									   image,
-									   thumb);
+			QString image = resultDialog.GetImage();
+			QString thumb = resultDialog.GetThumb();
+			if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+					|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+			{
+				m_pMgr->RequestSetCategoryCoverArt(nID,
+										   m_nCategory,
+										   m_EventID,
+										   image,
+										   thumb);
+			}
+			else if (m_TypeMode == TYPE_MODE_TRACK
+					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+			{
+				m_pMgr->RequestSetTrackCoverArt(nID,
+										   SQLManager::CATEGORY_TRACK,
+										   m_EventID,
+										   image,
+										   thumb);
+			}
+	//		DoTopMenuReload();
 		}
-		else if (m_TypeMode == TYPE_MODE_TRACK
-				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
-				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
-		{
-			m_pMgr->RequestSetTrackCoverArt(nID,
-									   SQLManager::CATEGORY_TRACK,
-									   m_EventID,
-									   image,
-									   thumb);
-		}
-//		DoTopMenuReload();
 	}
 }
 

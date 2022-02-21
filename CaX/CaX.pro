@@ -15,6 +15,7 @@ SOURCES += \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
     dialog/commondialog.cpp \
+    dialog/confirmcoverartdialog.cpp \
     dialog/edittagdelegate.cpp \
     dialog/edittagdialog.cpp \
     dialog/groupplaydialog.cpp \
@@ -152,6 +153,7 @@ HEADERS += \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
     dialog/commondialog.h \
+    dialog/confirmcoverartdialog.h \
     dialog/edittagdelegate.h \
     dialog/edittagdialog.h \
     dialog/groupplaydialog.h \
@@ -300,6 +302,7 @@ FORMS += \
     dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \
     dialog/commondialog.ui \
+    dialog/confirmcoverartdialog.ui \
     dialog/edittagdialog.ui \
     dialog/groupplaydialog.ui \
     dialog/inputfavoritedialog.ui \
