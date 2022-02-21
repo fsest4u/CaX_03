@@ -493,6 +493,8 @@ void AudioCDWindow::Initialize()
 							}");
 
 	m_Menu->setStyleSheet(style);
+
+	UtilNovatron::RemoveFilesInTempDirectory(KEY_CD);
 }
 
 void AudioCDWindow::ResetSelectMap()
