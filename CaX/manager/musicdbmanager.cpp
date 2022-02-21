@@ -742,8 +742,9 @@ void MusicDBManager::RequestSetCategoryCoverArt(int id, int category, int eventI
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_MUSIC_DB);
 	node.Add(KEY_CMD1, VAL_SET_ART);
-	node.Add(KEY_CMD2, VAL_CATEGORY);
-	node.Add(KEY_CATEGORY, strCat);
+	node.Add(KEY_CMD2, strCat);
+//	node.Add(KEY_CMD2, VAL_CATEGORY);
+//	node.Add(KEY_CATEGORY, strCat);
 	node.AddInt(KEY_EVENT_ID, eventID);
 	node.Add(KEY_COVER_ART, coverArt);
 	node.AddInt(KEY_ID_UPPER, id);
