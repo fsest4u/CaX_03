@@ -69,8 +69,8 @@ QList<CJsonNode> ListDevice::GetNodeList() const
 
 void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 {
-	LoadingDialog dialog;
-	dialog.show();
+//	LoadingDialog dialog;
+//	dialog.show();
 
 	m_Model->clear();
 	m_NodeList = NodeList;
@@ -88,7 +88,7 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 		m_ListView->openPersistentEditor(modelIndex);
 	}
 
-	dialog.close();
+//	dialog.close();
 
 }
 
