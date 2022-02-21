@@ -1,4 +1,5 @@
 #include <QStackedWidget>
+#include <QThread>
 
 #include "musicdbwindow.h"
 #include "ui_musicdbwindow.h"
@@ -1531,8 +1532,53 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 
 void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 {
-	// temp_code, dylee
-//	LogDebug("id [%d] category [%d]", id, category);
+	// delete
+	QString part = QString("%1_%2").arg(UtilNovatron::GetCategoryName(category)).arg(id);
+	UtilNovatron::RemoveContainFilesInTempDirectory(part);
+//	LogDebug("id [%d] category [%d] part [%s]", id, category, part.toUtf8().data());
+
+	// refresh
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		int index = -1;
+		int count = m_pIconTracks->GetModel()->rowCount();
+		QModelIndex modelIndex;
+		for (int i = 0; i < count; i++)
+		{
+			modelIndex = m_pIconTracks->GetModel()->index(i, 0);
+			if (qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID)) == id)
+			{
+				index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+				break;
+			}
+		}
+
+		if (index >= 0)
+		{
+			QThread::msleep(1000);
+			emit SlotReqCoverArt(id, index, QListView::IconMode);
+		}
+
+	}
+	else
+	{
+		int index = -1;
+		int count = m_pTableTracks->GetModel()->rowCount();
+		for (int i = 0; i < count; i++)
+		{
+			if (qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ID))) == id)
+			{
+				index = qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_INDEX)));
+				break;
+			}
+		}
+
+		if (index >= 0)
+		{
+			QThread::msleep(1000);
+			emit SlotReqCoverArt(id, index, QListView::ListMode);
+		}
+	}
 }
 
 //void MusicDBWindow::SlotRespUpdateCategory(int updateId)
@@ -1556,7 +1602,6 @@ void MusicDBWindow::SlotRespRefresh()
 
 void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
 {
-
 	switch (menuID) {
 	case OPTION_MENU_PLAY_NOW:
 		DoOptionMenuPlay(nID, PLAY_NOW);
@@ -2615,15 +2660,32 @@ void MusicDBWindow::DoOptionMenuAddCoverArt(int nID)
 	QString keyword;
 	QString artist;
 
-	int count = m_pTableTracks->GetModel()->rowCount();
-	for (int i = 0; i < count; i++)
+	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		int id = qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ID)));
-		if (id == nID)
+		int count = m_pIconTracks->GetModel()->rowCount();
+		QModelIndex modelIndex;
+		for (int i = 0; i < count; i++)
 		{
-			keyword = qvariant_cast<QString>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_TITLE)));;
-			artist = qvariant_cast<QString>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ARTIST)));;
-			break;
+			modelIndex = m_pIconTracks->GetModel()->index(i, 0);
+			if (qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID)) == nID)
+			{
+				keyword = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
+				artist = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_SUBTITLE));
+				break;
+			}
+		}
+	}
+	else
+	{
+		int count = m_pTableTracks->GetModel()->rowCount();
+		for (int i = 0; i < count; i++)
+		{
+			if (qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ID))) == nID)
+			{
+				keyword = qvariant_cast<QString>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_TITLE)));
+				artist = qvariant_cast<QString>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ARTIST)));
+				break;
+			}
 		}
 	}
 
