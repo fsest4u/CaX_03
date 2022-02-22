@@ -66,6 +66,7 @@ protected:
 private slots:
 
 	void SlotSectionClicked(int logicalIndex);
+	void SlotSectionDoubleClicked(int logicalIndex);
 	void SlotSectionResize(int logicalIndex, int oldWidth, int newWidth);
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void SlotClickFavorite(const QModelIndex &index);

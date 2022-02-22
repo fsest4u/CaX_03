@@ -168,7 +168,14 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 
 void EditTagDialog::SlotSectionClicked(int logicalIndex)
 {
-//	LogDebug("header index [%d]", logicalIndex);
+	LogDebug("sortIndicatorSection index [%d] section [%d] order [%d]", logicalIndex, ui->tableView->horizontalHeader()->sortIndicatorSection(), ui->tableView->horizontalHeader()->sortIndicatorOrder());
+//	Qt::SortOrder order = Qt::SortOrder::AscendingOrder == ui->tableView->horizontalHeader()->sortIndicatorOrder() ? Qt::SortOrder::AscendingOrder : Qt::SortOrder::DescendingOrder;
+//	ui->tableView->horizontalHeader()->setSortIndicator(logicalIndex, order);
+}
+
+void EditTagDialog::SlotSectionDoubleClicked(int logicalIndex)
+{
+	LogDebug("header double click index [%d]", logicalIndex);
 	if (logicalIndex == EDIT_TAG_FAVORITE)
 	{
 		InputFavoriteDialog dialog;
@@ -201,7 +208,6 @@ void EditTagDialog::SlotSectionClicked(int logicalIndex)
 			}
 		}
 	}
-
 }
 
 void EditTagDialog::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth)
@@ -340,6 +346,7 @@ void EditTagDialog::WriteSettings()
 void EditTagDialog::ConnectSigToSlot()
 {
 	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(SlotSectionClicked(int)));
+	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(SlotSectionDoubleClicked(int)));
 	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), this, SLOT(SlotSectionResize(int, int, int)));
 	connect(m_Model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(SlotDataChanged(const QModelIndex&, const QModelIndex&)));
 	connect(m_Delegate, SIGNAL(SigClickFavorite(const QModelIndex&)), this, SLOT(SlotClickFavorite(const QModelIndex&)));
@@ -349,10 +356,11 @@ void EditTagDialog::Initialize()
 {
 	ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 	ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-	ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+	ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+	ui->tableView->horizontalHeader()->setSortIndicatorShown(true);
 
 	ui->tableView->setModel(m_Model);
-
+	ui->tableView->setSortingEnabled(true);
 
 	m_Model->setHeaderData(EDIT_TAG_TITLE, Qt::Horizontal, KEY_TITLE_CAP);
 	m_Model->setHeaderData(EDIT_TAG_FAVORITE, Qt::Horizontal, KEY_FAVORITE_CAP);
