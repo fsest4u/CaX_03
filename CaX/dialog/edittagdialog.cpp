@@ -52,7 +52,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	foreach (CJsonNode node, list)
 	{
 //		LogDebug("node [%s]", node.ToCompactByteArray().data());
-//		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_FAVORITE).toUtf8().data());
+//		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_TITLE).toUtf8().data());
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ID), node.GetString(KEY_ID_LOWER));
@@ -181,9 +181,10 @@ void EditTagDialog::SlotSectionClicked(int logicalIndex)
 	else
 	{
 		QStringList tagList = GetTagList(logicalIndex);
+		QString tag = qvariant_cast<QString>(m_Model->data(m_Model->index(0, logicalIndex)));
 
 		InputTagDialog dialog;
-		dialog.SetTagList(tagList);
+		dialog.SetTagList(tagList, tag);
 		if (dialog.exec() == QDialog::Accepted)
 		{
 			QString name = dialog.GetTagName();

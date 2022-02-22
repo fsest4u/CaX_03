@@ -16,7 +16,7 @@ public:
 	~InputTagDialog();
 
 	QStringList GetTagList() const;
-	void SetTagList(const QStringList &tagList);
+	void SetTagList(const QStringList &tagList, const QString &tag);
 
 	QString GetTagName() const;
 	void SetTagName(const QString name);

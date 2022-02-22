@@ -19,13 +19,22 @@ QStringList InputTagDialog::GetTagList() const
 	return m_TagList;
 }
 
-void InputTagDialog::SetTagList(const QStringList &tagList)
+void InputTagDialog::SetTagList(const QStringList &tagList, const QString &tag)
 {
 	m_TagList = tagList;
-	if (tagList.count() > 0)
+	if (m_TagList.count() > 0)
 	{
-		ui->comboBox->addItems(tagList);
-		ui->comboBox->setCurrentIndex(0);
+		ui->comboBox->addItems(m_TagList);
+		int index = 0;
+		for (int i = 0; i < m_TagList.count(); i++)
+		{
+			if (!m_TagList.at(i).compare(tag))
+			{
+				index = i;
+				break;
+			}
+		}
+		ui->comboBox->setCurrentIndex(index);
 	}
 }
 
