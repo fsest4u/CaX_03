@@ -237,6 +237,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -285,6 +286,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -331,6 +333,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -379,6 +382,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -427,6 +431,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -475,6 +480,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -523,6 +529,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -568,6 +575,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -611,6 +619,7 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.CdNumber as CdNumber	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\

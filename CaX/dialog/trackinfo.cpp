@@ -48,9 +48,9 @@ void TrackInfo::SetInfoData(CJsonNode node)
 	SetSampleRate(m_InfoData.GetString(KEY_SAMPLERATE));
 	SetChannel(m_InfoData.GetString(KEY_CHANNEL));
 	SetFormat(m_InfoData.GetString(KEY_FORMAT));
-	SetCDYear(m_InfoData.GetString(KEY_CDYEAR));
-	SetCDNumber(m_InfoData.GetString(KEY_CDNUMBER));
-	SetCDTotal(m_InfoData.GetString(KEY_CDTOTAL));
+	SetCDYear(m_InfoData.GetString(KEY_CD_YEAR));
+	SetCDNumber(m_InfoData.GetString(KEY_CD_NUMBER));
+	SetCDTotal(m_InfoData.GetString(KEY_CD_TOTAL));
 
 }
 

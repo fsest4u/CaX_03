@@ -173,21 +173,21 @@ void TrackInfoDialog::SlotChangeFormat(int index, QString value)
 void TrackInfoDialog::SlotChangeCDYear(int index, QString value)
 {
 	Q_UNUSED(index)
-	m_InfoData.Add(KEY_CDYEAR, value);
+	m_InfoData.Add(KEY_CD_YEAR, value);
 
 }
 
 void TrackInfoDialog::SlotChangeCDNumber(int index, QString value)
 {
 	Q_UNUSED(index)
-	m_InfoData.Add(KEY_CDNUMBER, value);
+	m_InfoData.Add(KEY_CD_NUMBER, value);
 
 }
 
 void TrackInfoDialog::SlotChangeCDTotal(int index, QString value)
 {
 	Q_UNUSED(index)
-	m_InfoData.Add(KEY_CDTOTAL, value);
+	m_InfoData.Add(KEY_CD_TOTAL, value);
 
 }
 

@@ -119,17 +119,17 @@ void CDRipInfoDialog::SlotChangeAlbumArtist(QString value)
 
 void CDRipInfoDialog::SlotChangeCDYear(QString value)
 {
-	m_InfoData.Add(KEY_CDYEAR, value);
+	m_InfoData.Add(KEY_CD_YEAR, value);
 }
 
 void CDRipInfoDialog::SlotChangeCDNumber(QString value)
 {
-	m_InfoData.Add(KEY_CDNUMBER, value);
+	m_InfoData.Add(KEY_CD_NUMBER, value);
 }
 
 void CDRipInfoDialog::SlotChangeCDTotal(QString value)
 {
-	m_InfoData.Add(KEY_CDTOTAL, value);
+	m_InfoData.Add(KEY_CD_TOTAL, value);
 }
 
 void CDRipInfoDialog::SlotChangeCoverArt(QString image, QString thumb)

@@ -57,9 +57,9 @@ void CDRipInfo::SetInfoData(CJsonNode node)
 	ui->cbAlbumArtist->addItems(m_AlbumArtistList);
 	ui->cbAlbumArtist->setCurrentIndex(0);
 
-	ui->lineEditCDYear->setText(m_InfoData.GetString(KEY_CDYEAR));
-	ui->lineEditCDNumber->setText(m_InfoData.GetString(KEY_CDNUMBER));
-	ui->lineEditCDTotal->setText(m_InfoData.GetString(KEY_CDTOTAL));
+	ui->lineEditCDYear->setText(m_InfoData.GetString(KEY_CD_YEAR));
+	ui->lineEditCDNumber->setText(m_InfoData.GetString(KEY_CD_NUMBER));
+	ui->lineEditCDTotal->setText(m_InfoData.GetString(KEY_CD_TOTAL));
 	// cover art
 }
 

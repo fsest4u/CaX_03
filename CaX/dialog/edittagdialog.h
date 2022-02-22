@@ -31,6 +31,7 @@ public:
 		EDIT_TAG_COMPOSER,
 		EDIT_TAG_YEAR,
 		EDIT_TAG_MOOD,
+		EDIT_TAG_CD_NUMBER,
 //		EDIT_TAG_RATING,
 		EDIT_TAG_MAX
 	};
@@ -103,6 +104,7 @@ private:
 	int						m_ColWidthComposer;
 	int						m_ColWidthYear;
 	int						m_ColWidthMood;
+	int						m_ColWidthCdNumber;
 
 	Ui::EditTagDialog *ui;
 };

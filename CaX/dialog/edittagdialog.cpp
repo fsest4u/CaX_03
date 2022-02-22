@@ -65,6 +65,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 		m_Model->setData(m_Model->index(index, EDIT_TAG_COMPOSER), node.GetString(KEY_COMPOSER));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_YEAR), node.GetString(KEY_YEAR));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_MOOD), node.GetString(KEY_MOOD));
+		m_Model->setData(m_Model->index(index, EDIT_TAG_CD_NUMBER), node.GetString(KEY_CD_NUMBER));
 //		m_Model->setData(m_Model->index(index, EDIT_TAG_RATING), node.GetString(KEY_RATING));
 
 		m_Model->item(index, EDIT_TAG_TITLE)->setTextAlignment(Qt::AlignCenter);
@@ -76,6 +77,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 		m_Model->item(index, EDIT_TAG_COMPOSER)->setTextAlignment(Qt::AlignCenter);
 		m_Model->item(index, EDIT_TAG_YEAR)->setTextAlignment(Qt::AlignCenter);
 		m_Model->item(index, EDIT_TAG_MOOD)->setTextAlignment(Qt::AlignCenter);
+		m_Model->item(index, EDIT_TAG_CD_NUMBER)->setTextAlignment(Qt::AlignCenter);
 //		m_Model->item(index, EDIT_TAG_RATING)->setTextAlignment(Qt::AlignCenter);
 
 		index++;
@@ -147,6 +149,10 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 	{
 		m_ColWidthMood = colSize;
 	}
+	if (m_ColWidthCdNumber <= 0)
+	{
+		m_ColWidthCdNumber = colSize;
+	}
 
 	ui->tableView->setColumnWidth(EDIT_TAG_TITLE, m_ColWidthTitle);
 	ui->tableView->setColumnWidth(EDIT_TAG_FAVORITE, m_ColWidthFavorite);
@@ -157,6 +163,7 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 	ui->tableView->setColumnWidth(EDIT_TAG_COMPOSER, m_ColWidthComposer);
 	ui->tableView->setColumnWidth(EDIT_TAG_YEAR, m_ColWidthYear);
 	ui->tableView->setColumnWidth(EDIT_TAG_MOOD, m_ColWidthMood);
+	ui->tableView->setColumnWidth(EDIT_TAG_CD_NUMBER, m_ColWidthCdNumber);
 
 	ui->tableView->verticalHeader()->setDefaultSectionSize(rowSize);
 }
@@ -239,6 +246,9 @@ void EditTagDialog::SlotSectionResize(int logicalIndex, int oldWidth, int newWid
 	case EDIT_TAG_MOOD:
 		m_ColWidthMood = newWidth;
 		break;
+	case EDIT_TAG_CD_NUMBER:
+		m_ColWidthCdNumber = newWidth;
+		break;
 	}
 
 	WriteSettings();
@@ -301,6 +311,7 @@ void EditTagDialog::ReadSettings()
 	m_ColWidthComposer = settings.value("col_width_composer").toInt();
 	m_ColWidthYear = settings.value("col_width_year").toInt();
 	m_ColWidthMood = settings.value("col_width_mood").toInt();
+	m_ColWidthCdNumber = settings.value("col_width_cd_number").toInt();
 
 	settings.endGroup();
 
@@ -323,6 +334,7 @@ void EditTagDialog::WriteSettings()
 	settings.setValue("col_width_composer", m_ColWidthComposer);
 	settings.setValue("col_width_year", m_ColWidthYear);
 	settings.setValue("col_width_mood", m_ColWidthMood);
+	settings.setValue("col_width_cd_number", m_ColWidthCdNumber);
 
 	settings.endGroup();
 }
@@ -351,6 +363,7 @@ void EditTagDialog::Initialize()
 	m_Model->setHeaderData(EDIT_TAG_COMPOSER, Qt::Horizontal, KEY_COMPOSER);
 	m_Model->setHeaderData(EDIT_TAG_YEAR, Qt::Horizontal, KEY_YEAR);
 	m_Model->setHeaderData(EDIT_TAG_MOOD, Qt::Horizontal, KEY_MOOD);
+	m_Model->setHeaderData(EDIT_TAG_CD_NUMBER, Qt::Horizontal, KEY_CD_NUMBER);
 //	m_Model->setHeaderData(EDIT_TAG_RATING, Qt::Horizontal, KEY_RATING_CAP);
 
 	ui->tableView->setColumnHidden(EDIT_TAG_ID, true);
