@@ -42,13 +42,7 @@ CJsonNode CDRipInfoDialog::GetInfoData()
 void CDRipInfoDialog::SetInfoData(CJsonNode node)
 {
 	m_InfoData = node;
-//	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
-
-	m_WidgetCD->SetAddr(m_Addr);
-	m_WidgetCD->SetAlbumList(m_AlbumList);
-	m_WidgetCD->SetAlbumArtistList(m_AlbumArtistList);
-	m_WidgetCD->SetInfoData(m_InfoData);
-	ui->stackedWidget->addWidget(m_WidgetCD);
+	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
 
 	connect(m_WidgetCD, SIGNAL(SigChangeFormat(int)), this, SLOT(SlotChangeFormat(int)));
 	connect(m_WidgetCD, SIGNAL(SigChangeAlbum(QString)), this, SLOT(SlotChangeAlbum(QString)));
@@ -57,6 +51,12 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 	connect(m_WidgetCD, SIGNAL(SigChangeCDNumber(QString)), this, SLOT(SlotChangeCDNumber(QString)));
 	connect(m_WidgetCD, SIGNAL(SigChangeCDTotal(QString)), this, SLOT(SlotChangeCDTotal(QString)));
 	connect(m_WidgetCD, SIGNAL(SigChangeCoverArt(QString, QString)), this, SLOT(SlotChangeCoverArt(QString, QString)));
+
+	m_WidgetCD->SetAddr(m_Addr);
+	m_WidgetCD->SetAlbumList(m_AlbumList);
+	m_WidgetCD->SetAlbumArtistList(m_AlbumArtistList);
+	m_WidgetCD->SetInfoData(m_InfoData);
+	ui->stackedWidget->addWidget(m_WidgetCD);
 
 	CJsonNode tracks = m_InfoData.GetArray(KEY_TRACKS);
 //	LogDebug("tracks [%s]", tracks.ToCompactByteArray().data());
@@ -135,10 +135,10 @@ void CDRipInfoDialog::SlotChangeCDTotal(QString value)
 void CDRipInfoDialog::SlotChangeCoverArt(QString image, QString thumb)
 {
 	CJsonNode coverArt(JSON_OBJECT);
-	coverArt.Add("ImageUrl", image);
-	coverArt.Add("ThumUrl", thumb);
+	coverArt.Add(KEY_IMAGE_URL, image);
+	coverArt.Add(KEY_THUMB_URL, thumb);
 
-	m_InfoData.Add("Coverart", coverArt);
+	m_InfoData.Add(KEY_COVER_ART_LOWER, coverArt);
 }
 
 void CDRipInfoDialog::SlotChangeArtist(int index, QString value)
@@ -204,6 +204,7 @@ void CDRipInfoDialog::accept()
 	{
 		trackArr.AppendArray(m_ListTrack.at(i));
 	}
+	m_InfoData.Del(KEY_COVER_ART);
 	m_InfoData.Del(KEY_TRACKS);
 	m_InfoData.Add(KEY_TRACKS, trackArr);
 

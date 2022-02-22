@@ -60,7 +60,12 @@ void CDRipInfo::SetInfoData(CJsonNode node)
 	ui->lineEditCDYear->setText(m_InfoData.GetString(KEY_CD_YEAR));
 	ui->lineEditCDNumber->setText(m_InfoData.GetString(KEY_CD_NUMBER));
 	ui->lineEditCDTotal->setText(m_InfoData.GetString(KEY_CD_TOTAL));
+
 	// cover art
+	QString thumb = m_InfoData.GetString(KEY_COVER_ART);
+	emit SigChangeCoverArt("", thumb);
+	m_InfoData.Del(KEY_COVER_ART);
+
 }
 
 void CDRipInfo::SlotChangedFormat(int index)

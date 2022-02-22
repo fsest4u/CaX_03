@@ -60,6 +60,7 @@
 #define		KEY_COMPOSER		"Composer"
 #define		KEY_COUNT			"count"
 #define		KEY_COVER_ART		"CoverArt"
+#define		KEY_COVER_ART_LOWER	"Coverart"
 #define		KEY_CURR_PLAY		"CurrPlay"
 
 #define		KEY_DAB				"Dab"
