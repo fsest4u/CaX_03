@@ -51,7 +51,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	int index = 0;
 	foreach (CJsonNode node, list)
 	{
-//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
 //		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_TITLE).toUtf8().data());
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
@@ -68,16 +68,16 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 		m_Model->setData(m_Model->index(index, EDIT_TAG_CD_NUMBER), node.GetString(KEY_CD_NUMBER));
 //		m_Model->setData(m_Model->index(index, EDIT_TAG_RATING), node.GetString(KEY_RATING));
 
-		m_Model->item(index, EDIT_TAG_TITLE)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_FAVORITE)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_ARTIST)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_ALBUM)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_GENRE)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_ALBUM_ARTIST)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_COMPOSER)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_YEAR)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_MOOD)->setTextAlignment(Qt::AlignCenter);
-		m_Model->item(index, EDIT_TAG_CD_NUMBER)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_TITLE)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_FAVORITE)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_ARTIST)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_ALBUM)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_GENRE)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_ALBUM_ARTIST)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_COMPOSER)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_YEAR)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_MOOD)->setTextAlignment(Qt::AlignCenter);
+//		m_Model->item(index, EDIT_TAG_CD_NUMBER)->setTextAlignment(Qt::AlignCenter);
 //		m_Model->item(index, EDIT_TAG_RATING)->setTextAlignment(Qt::AlignCenter);
 
 		index++;
@@ -115,7 +115,7 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 
 	if (m_ColWidthTitle <= 0)
 	{
-		m_ColWidthTitle = colSize;
+		m_ColWidthTitle = colSize * 6;
 	}
 	if (m_ColWidthFavorite <= 0)
 	{
@@ -149,10 +149,8 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 	{
 		m_ColWidthMood = colSize;
 	}
-	if (m_ColWidthCdNumber <= 0)
-	{
-		m_ColWidthCdNumber = colSize;
-	}
+	m_ColWidthCdNumber = 60;
+
 
 	ui->tableView->setColumnWidth(EDIT_TAG_TITLE, m_ColWidthTitle);
 	ui->tableView->setColumnWidth(EDIT_TAG_FAVORITE, m_ColWidthFavorite);
@@ -247,7 +245,7 @@ void EditTagDialog::SlotSectionResize(int logicalIndex, int oldWidth, int newWid
 		m_ColWidthMood = newWidth;
 		break;
 	case EDIT_TAG_CD_NUMBER:
-		m_ColWidthCdNumber = newWidth;
+		m_ColWidthCdNumber = 60;
 		break;
 	}
 
@@ -311,7 +309,7 @@ void EditTagDialog::ReadSettings()
 	m_ColWidthComposer = settings.value("col_width_composer").toInt();
 	m_ColWidthYear = settings.value("col_width_year").toInt();
 	m_ColWidthMood = settings.value("col_width_mood").toInt();
-	m_ColWidthCdNumber = settings.value("col_width_cd_number").toInt();
+	m_ColWidthCdNumber = 60;
 
 	settings.endGroup();
 
@@ -351,8 +349,10 @@ void EditTagDialog::Initialize()
 {
 	ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 	ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+	ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 
 	ui->tableView->setModel(m_Model);
+
 
 	m_Model->setHeaderData(EDIT_TAG_TITLE, Qt::Horizontal, KEY_TITLE_CAP);
 	m_Model->setHeaderData(EDIT_TAG_FAVORITE, Qt::Horizontal, KEY_FAVORITE_CAP);
@@ -369,6 +369,12 @@ void EditTagDialog::Initialize()
 	ui->tableView->setColumnHidden(EDIT_TAG_ID, true);
 
 	ui->tableView->setItemDelegateForColumn(EDIT_TAG_FAVORITE, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(EDIT_TAG_ARTIST, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(EDIT_TAG_ALBUM, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(EDIT_TAG_GENRE, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(EDIT_TAG_ALBUM_ARTIST, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(EDIT_TAG_COMPOSER, m_Delegate);
+	ui->tableView->setItemDelegateForColumn(EDIT_TAG_MOOD, m_Delegate);
 	ui->tableView->setItemDelegateForColumn(EDIT_TAG_YEAR, m_Delegate);
 
 	m_EnableChange = false;
@@ -381,12 +387,6 @@ void EditTagDialog::Initialize()
 //	flags |= Qt::WindowContextHelpButtonHint;
 	setWindowFlags( flags );
 
-	m_AlbumList.clear();
-	m_AlbumArtistList.clear();
-	m_ArtistList.clear();
-	m_GenreList.clear();
-	m_ComposerList.clear();
-	m_MoodList.clear();
 
 }
 
@@ -397,22 +397,22 @@ QStringList EditTagDialog::GetTagList(int index)
 	switch (index)
 	{
 	case EDIT_TAG_ARTIST:
-		tagList = m_ArtistList;
+		tagList = m_Delegate->GetArtistList();
 		break;
 	case EDIT_TAG_ALBUM:
-		tagList = m_AlbumList;
+		tagList = m_Delegate->GetAlbumList();
 		break;
 	case EDIT_TAG_GENRE:
-		tagList = m_GenreList;
+		tagList = m_Delegate->GetGenreList();
 		break;
 	case EDIT_TAG_ALBUM_ARTIST:
-		tagList = m_AlbumArtistList;
+		tagList = m_Delegate->GetAlbumArtistList();
 		break;
 	case EDIT_TAG_COMPOSER:
-		tagList = m_ComposerList;
+		tagList = m_Delegate->GetComposerList();
 		break;
 	case EDIT_TAG_MOOD:
-		tagList = m_MoodList;
+		tagList = m_Delegate->GetMoodList();
 		break;
 	}
 
@@ -421,61 +421,61 @@ QStringList EditTagDialog::GetTagList(int index)
 
 QStringList EditTagDialog::GetMoodList() const
 {
-	return m_MoodList;
+	return m_Delegate->GetMoodList();
 }
 
-void EditTagDialog::SetMoodList(const QStringList &MoodList)
+void EditTagDialog::SetMoodList(const QStringList &list)
 {
-	m_MoodList = MoodList;
+	m_Delegate->SetMoodList(list);
 }
 
 QStringList EditTagDialog::GetComposerList() const
 {
-	return m_ComposerList;
+	return m_Delegate->GetComposerList();
 }
 
-void EditTagDialog::SetComposerList(const QStringList &ComposerList)
+void EditTagDialog::SetComposerList(const QStringList &list)
 {
-	m_ComposerList = ComposerList;
+	m_Delegate->SetComposerList(list);
 }
 
 QStringList EditTagDialog::GetGenreList() const
 {
-	return m_GenreList;
+	return m_Delegate->GetGenreList();
 }
 
-void EditTagDialog::SetGenreList(const QStringList &GenreList)
+void EditTagDialog::SetGenreList(const QStringList &list)
 {
-	m_GenreList = GenreList;
+	m_Delegate->SetGenreList(list);
 }
 
 QStringList EditTagDialog::GetArtistList() const
 {
-	return m_ArtistList;
+	return m_Delegate->GetArtistList();
 }
 
-void EditTagDialog::SetArtistList(const QStringList &ArtistList)
+void EditTagDialog::SetArtistList(const QStringList &list)
 {
-	m_ArtistList = ArtistList;
+	m_Delegate->SetArtistList(list);
 }
 
 QStringList EditTagDialog::GetAlbumArtistList() const
 {
-	return m_AlbumArtistList;
+	return m_Delegate->GetAlbumArtistList();
 }
 
-void EditTagDialog::SetAlbumArtistList(const QStringList &AlbumArtistList)
+void EditTagDialog::SetAlbumArtistList(const QStringList &list)
 {
-	m_AlbumArtistList = AlbumArtistList;
+	m_Delegate->SetAlbumArtistList(list);
 }
 
 QStringList EditTagDialog::GetAlbumList() const
 {
-	return m_AlbumList;
+	return m_Delegate->GetAlbumList();
 }
 
-void EditTagDialog::SetAlbumList(const QStringList &AlbumList)
+void EditTagDialog::SetAlbumList(const QStringList &list)
 {
-	m_AlbumList = AlbumList;
+	m_Delegate->SetAlbumList(list);
 }
 

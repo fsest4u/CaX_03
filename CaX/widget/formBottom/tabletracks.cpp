@@ -207,7 +207,8 @@ void TableTracks::SetColResize(int resize)
 	}
 	if (m_ColWidthTitle <= 0)
 	{
-		m_ColWidthTitle = resize * (colCnt - showColCnt);
+//		m_ColWidthTitle = resize * (colCnt - showColCnt);
+		m_ColWidthTitle = resize * 6;
 	}
 	if (m_ColWidthFavorite <= 0)
 	{
@@ -265,10 +266,7 @@ void TableTracks::SetColResize(int resize)
 	{
 		m_ColWidthRating = resize;
 	}
-	if (m_ColWidthMenu <= 0)
-	{
-		m_ColWidthMenu = resize;
-	}
+	m_ColWidthMenu = 60;
 
 	ui->tableView->setColumnWidth(TABLE_TRACKS_SELECT, m_ColWidthSelect);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_COVER, m_ColWidthCover);
@@ -509,7 +507,7 @@ void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth
 		m_ColWidthIndex = newWidth;
 		break;
 	case TABLE_TRACKS_MENU:
-		m_ColWidthMenu = newWidth;
+		m_ColWidthMenu = 60;
 		break;
 
 	}
@@ -548,7 +546,7 @@ void TableTracks::ReadSettings()
 	m_ColWidthBitrate = settings.value("col_width_bitrate").toInt();
 	m_ColWidthRating = settings.value("col_width_rating").toInt();
 	m_ColWidthIndex = settings.value("col_width_index").toInt();
-	m_ColWidthMenu = settings.value("col_width_menu").toInt();
+	m_ColWidthMenu = 60;
 
 	settings.endGroup();
 

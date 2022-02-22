@@ -42,22 +42,22 @@ public:
 	QMap<QStringList, QString> GetUpdateCell() const;
 
 	QStringList GetAlbumList() const;
-	void SetAlbumList(const QStringList &AlbumList);
+	void SetAlbumList(const QStringList &list);
 
 	QStringList GetAlbumArtistList() const;
-	void SetAlbumArtistList(const QStringList &AlbumArtistList);
+	void SetAlbumArtistList(const QStringList &list);
 
 	QStringList GetArtistList() const;
-	void SetArtistList(const QStringList &ArtistList);
+	void SetArtistList(const QStringList &list);
 
 	QStringList GetGenreList() const;
-	void SetGenreList(const QStringList &GenreList);
+	void SetGenreList(const QStringList &list);
 
 	QStringList GetComposerList() const;
-	void SetComposerList(const QStringList &ComposerList);
+	void SetComposerList(const QStringList &list);
 
 	QStringList GetMoodList() const;
-	void SetMoodList(const QStringList &MoodList);
+	void SetMoodList(const QStringList &list);
 
 protected:
 
@@ -84,13 +84,6 @@ private:
 	EditTagDelegate			*m_Delegate;
 
 	QMap<QStringList, QString> m_MapUpdateCell;
-
-	QStringList	m_AlbumList;
-	QStringList	m_AlbumArtistList;
-	QStringList	m_ArtistList;
-	QStringList	m_GenreList;
-	QStringList	m_ComposerList;
-	QStringList	m_MoodList;
 
 	bool					m_EnableChange;
 
