@@ -840,7 +840,9 @@ inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join PlsSong on Song.ROWID = PlsSong.SongID	\
-where PlsSong.PlsID = %1	\
+inner join FilePath on FilePath.ROWID = Song.FilePathID	\
+inner join FsUuid on FsUuid.ROWID = FilePath.FsUuidID	\
+where PlsSong.PlsID = %1 and FsUuid.MntPath != \"\"	\
 order by PlsSong.Seq	\
 "
 
