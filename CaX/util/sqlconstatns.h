@@ -820,7 +820,9 @@ inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join PlsSong on Song.ROWID = PlsSong.SongID	\
 inner join Pls on Pls.ROWID = PlsSong.PlsID	\
-where PlsSong.PlsID = %1	\
+inner join FilePath on FilePath.ROWID = Song.FilePathID	\
+inner join FsUuid on FsUuid.ROWID = FilePath.FsUuidID	\
+where PlsSong.PlsID = %1 and FsUuid.MntPath != \"\"	\
 "
 
 #define SQL_PLAYLIST_TRACK_LIST	"	\
