@@ -5,11 +5,10 @@
 
 #include "iconcoverartdelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 IconCoverArt::IconCoverArt(QWidget *parent) :
 	QWidget(parent),
@@ -52,8 +51,7 @@ QList<CJsonNode> IconCoverArt::GetNodeList() const
 
 void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 {
-	LoadingDialog dialog;
-	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
@@ -71,7 +69,7 @@ void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 		index++;
 	}
 
-	dialog.close();
+	UtilNovatron::LoadingStop(loading);
 }
 
 void IconCoverArt::ClearNodeList()

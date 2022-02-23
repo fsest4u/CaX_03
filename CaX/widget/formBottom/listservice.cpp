@@ -3,10 +3,9 @@
 
 #include "listservicedelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 ListService::ListService(QWidget *parent) :
 	QWidget(parent),
@@ -48,8 +47,7 @@ QList<CJsonNode> ListService::GetNodeList() const
 
 void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 {
-	LoadingDialog dialog;
-	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	m_NodeList = NodeList;
 	int index = 0;
@@ -78,8 +76,7 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 		}
 	}
 
-	dialog.close();
-
+	UtilNovatron::LoadingStop(loading);
 }
 
 void ListService::ClearNodeList()

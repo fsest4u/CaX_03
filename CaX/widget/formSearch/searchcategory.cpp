@@ -3,11 +3,10 @@
 
 #include "searchcategorydelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 SearchCategory::SearchCategory(QWidget *parent) :
 	QWidget(parent),
@@ -51,8 +50,7 @@ QList<CJsonNode> SearchCategory::GetNodeList() const
 
 void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 {
-	LoadingDialog dialog;
-	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	m_Model->clear();
 	m_NodeList = NodeList;
@@ -75,8 +73,8 @@ void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 		emit SigReqCoverArt(id, index, category);
 		index++;
 	}
-	dialog.close();
 
+	UtilNovatron::LoadingStop(loading);
 }
 
 void SearchCategory::ClearNodeList()

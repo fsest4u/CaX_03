@@ -5,8 +5,6 @@
 
 #include "listtracksdelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
@@ -62,8 +60,7 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 
 void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 {
-	LoadingDialog dialog;
-	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
@@ -169,7 +166,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 //		}
 //	}
 
-	dialog.close();
+	UtilNovatron::LoadingStop(loading);
 }
 
 void ListTracks::ClearNodeList()

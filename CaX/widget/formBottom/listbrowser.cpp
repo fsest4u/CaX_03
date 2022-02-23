@@ -6,8 +6,6 @@
 
 #include "listbrowserdelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
@@ -63,8 +61,7 @@ QList<CJsonNode> ListBrowser::GetNodeList() const
 
 int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 {
-	LoadingDialog dialog;
-	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	int type = 0;
 	int index = m_NodeList.count();
@@ -186,7 +183,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 		}
 	}
 
-	dialog.close();
+	UtilNovatron::LoadingStop(loading);
 
 	return type;
 }

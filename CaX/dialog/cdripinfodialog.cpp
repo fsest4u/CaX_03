@@ -42,7 +42,7 @@ CJsonNode CDRipInfoDialog::GetInfoData()
 void CDRipInfoDialog::SetInfoData(CJsonNode node)
 {
 	m_InfoData = node;
-	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_InfoData.ToCompactByteArray().data());
 
 	connect(m_WidgetCD, SIGNAL(SigChangeFormat(int)), this, SLOT(SlotChangeFormat(int)));
 	connect(m_WidgetCD, SIGNAL(SigChangeAlbum(QString)), this, SLOT(SlotChangeAlbum(QString)));

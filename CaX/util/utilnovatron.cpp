@@ -12,6 +12,7 @@
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
+#include "util/loading.h"
 #include "util/log.h"
 
 #include "widget/airable.h"
@@ -596,6 +597,33 @@ QString UtilNovatron::GetSuffix(QString filename)
 {
 	int index = filename.length() - filename.lastIndexOf('.') - 1;
 	return filename.right(index);
+}
+
+Loading *UtilNovatron::LoadingStart(QWidget *widget)
+{
+	if (widget != nullptr)
+	{
+		Loading *loading = new Loading(widget);
+		loading->Start();
+
+		return loading;
+	}
+
+	return nullptr;
+}
+
+void UtilNovatron::LoadingStop(Loading *loading)
+{
+	if (loading != nullptr)
+	{
+		loading->Stop();
+		if (loading)
+		{
+			delete loading;
+			loading = nullptr;
+		}
+	}
+
 }
 
 void UtilNovatron::DebugTypeForBrowser(QString title, int type)

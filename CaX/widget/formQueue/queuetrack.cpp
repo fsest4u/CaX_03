@@ -3,8 +3,6 @@
 
 #include "queuetrackdelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -50,8 +48,7 @@ QList<CJsonNode> QueueTrack::GetNodeList() const
 
 int QueueTrack::SetNodeList(QList<CJsonNode> list)
 {
-	LoadingDialog dialog;
-	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	m_NodeList = list;
 
@@ -78,7 +75,7 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list)
 		index++;
 	}
 
-	dialog.close();
+	UtilNovatron::LoadingStop(loading);
 
 	return totalTime;
 }

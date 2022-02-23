@@ -3,8 +3,6 @@
 
 #include "iconservicedelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -53,8 +51,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 {
 	int type = 0;
 
-	LoadingDialog dialog;
-	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	m_Model->clear();
 	m_NodeList = list;
@@ -201,7 +198,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 		}
 	}
 
-	dialog.close();
+	UtilNovatron::LoadingStop(loading);
 
 	return type;
 

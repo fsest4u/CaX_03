@@ -749,9 +749,6 @@ void MusicDBWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 	if (QListView::IconMode == mode)
 	{
 		QModelIndex modelIndex = m_pIconTracks->GetModel()->index(nIndex, 0);
-//		QString title = qvariant_cast<QString>(m_pIconTracks->GetModel()->data(modelIndex, IconTracksDelegate::ICON_TRACKS_TITLE));
-//		int nIndex2 = qvariant_cast<int>(m_pIconTracks->GetModel()->data(modelIndex, IconTracksDelegate::ICON_TRACKS_INDEX));
-//		LogDebug("set cover [%d][%d] - [%s]", nIndex, nIndex2, fileName.toUtf8().data(), title.toUtf8().data());
 		m_pIconTracks->GetModel()->setData(modelIndex, fileName, IconTracksDelegate::ICON_TRACKS_COVER);
 	}
 	else

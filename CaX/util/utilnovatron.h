@@ -5,6 +5,8 @@
 
 #include "util/CJsonNode.h"
 
+class Loading;
+
 class UtilNovatron
 {
 public:
@@ -29,6 +31,9 @@ public:
 	static QString GetCategoryTitleName(int category);
 	static int GetCategoryCount(int category, CJsonNode node);
 	static QString GetSuffix(QString filename);
+
+	static Loading* LoadingStart(QWidget* widget);
+	static void LoadingStop(Loading* loading);
 
 	static void DebugTypeForBrowser(QString title, int type);
 	static void DebugTypeForIService(QString title, int type);

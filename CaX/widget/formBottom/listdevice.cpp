@@ -3,10 +3,9 @@
 
 #include "listdevicedelegate.h"
 
-#include "dialog/loadingdialog.h"
-
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 ListDevice::ListDevice(QWidget *parent) :
 	QWidget(parent),
@@ -69,8 +68,7 @@ QList<CJsonNode> ListDevice::GetNodeList() const
 
 void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 {
-//	LoadingDialog dialog;
-//	dialog.show();
+	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	m_Model->clear();
 	m_NodeList = NodeList;
@@ -88,8 +86,7 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 		m_ListView->openPersistentEditor(modelIndex);
 	}
 
-//	dialog.close();
-
+	UtilNovatron::LoadingStop(loading);
 }
 
 void ListDevice::ClearNodeList()
