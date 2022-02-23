@@ -105,7 +105,8 @@ protected:
 
 private slots:
 
-	void SlotScrollValueChanged(int value);
+	void SlotSliderValueChanged(int value);
+	void SlotSliderReleased();
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 	void SlotClickCell(const QModelIndex &index);
@@ -131,6 +132,8 @@ private:
 	QMenu					*m_Menu;
 
 	int						m_ID;
+
+	QPoint					m_PointCurrent;
 
 	int						m_ColWidthID;
 	int						m_ColWidthSelect;

@@ -87,7 +87,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 			m_Model->appendRow(item);
 
 //			totalTime += seconds;
-			emit SigReqCoverArt(nID, index, QListView::IconMode);
+//			emit SigReqCoverArt(nID, index, QListView::IconMode);
 			index++;
 		}
 //		emit SigCalcTotalTime(totalTime);
@@ -124,10 +124,12 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 
 			m_Model->appendRow(item);
 //			LogDebug("set data [%d] - [%s]", index, node.GetString(KEY_TITLE).toUtf8().data());
-			emit SigReqCoverArt(nID, index, QListView::IconMode);
+//			emit SigReqCoverArt(nID, index, QListView::IconMode);
 			index++;
 		}
 	}
+
+	SlotSliderReleased();
 
 	UtilNovatron::LoadingStop(loading);
 }
@@ -196,7 +198,7 @@ IconTracksDelegate *IconTracks::GetDelegate()
 	return m_Delegate;
 }
 
-void IconTracks::SlotScrollValueChanged(int value)
+void IconTracks::SlotSliderValueChanged(int value)
 {
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
@@ -205,6 +207,50 @@ void IconTracks::SlotScrollValueChanged(int value)
 	{
 		emit SigAppendList();
 	}
+	m_PointCurrent = QPoint(0, min);
+	SlotSliderReleased();
+}
+
+void IconTracks::SlotSliderReleased()
+{
+//	LogDebug("=======================");
+//	LogDebug("slider released...");
+//	LogDebug("=======================");
+	QModelIndex startModelIndex = m_ListView->indexAt(m_PointCurrent);
+	if (!startModelIndex.isValid())
+	{
+		return;
+	}
+
+//	int id = qvariant_cast<int>(startModelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+	int startIndex = qvariant_cast<int>(startModelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+//	LogDebug("start id [%d] index [%d]", id, startIndex);
+
+	QRect validRect = rect();
+//	LogDebug("valid x [%d] y [%d] w [%d] h [%d]", validRect.x(), validRect.y(), validRect.width(), validRect.height());
+
+	for (int i = startIndex; i < startIndex + 100; i++)
+	{
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		if (modelIndex.isValid())
+		{
+			QRect visualRect = m_ListView->visualRect(modelIndex);
+//			LogDebug("visual x [%d] y [%d] w [%d] h [%d]", visualRect.x(), visualRect.y(), visualRect.width(), visualRect.height());
+			if (visualRect.y() > validRect.height() || visualRect.y() < (ICON_ITEM_HEIGHT * -1))
+			{
+//				LogDebug("visual rect is invalid rect");
+				break;
+			}
+			int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+			int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+			QString title = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
+			QString subtitle = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_SUBTITLE));
+//			LogDebug("id [%d] index [%d]", id, index);
+//			LogDebug("title [%s] subtitle [%s]", title.toUtf8().data(), subtitle.toUtf8().data());
+			emit SigReqCoverArt(id, index, QListView::IconMode);
+		}
+	}
+
 }
 
 void IconTracks::SlotSelectCheck(const QModelIndex &modelIndex)
@@ -236,7 +282,8 @@ void IconTracks::Initialize()
 	SetResize(ICON_HEIGHT_INIT);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
-	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotSliderValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotSliderReleased()));
 	connect(m_Delegate, SIGNAL(SigSelectCheck(const QModelIndex&)), this, SLOT(SlotSelectCheck(const QModelIndex&)));
 
 	m_SelectMap.clear();

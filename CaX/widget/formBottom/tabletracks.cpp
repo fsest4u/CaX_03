@@ -1,5 +1,6 @@
 #include <QScrollBar>
 #include <QHeaderView>
+#include <QListView>
 
 #include "tabletracks.h"
 #include "ui_tabletracks.h"
@@ -116,10 +117,12 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_INDEX), index);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_MENU), false);
 
-			emit SigReqCoverArt(nID, index, 0);	// 0 is QListView::ListMode
+//			emit SigReqCoverArt(nID, index, 0);	// 0 is QListView::ListMode
 			index++;
 		}
 	}
+
+	SlotSliderReleased();
 
 	UtilNovatron::LoadingStop(loading);
 }
@@ -339,7 +342,7 @@ void TableTracks::resizeEvent(QResizeEvent *event)
 	SetColResize(0);
 }
 
-void TableTracks::SlotScrollValueChanged(int value)
+void TableTracks::SlotSliderValueChanged(int value)
 {
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
@@ -347,6 +350,48 @@ void TableTracks::SlotScrollValueChanged(int value)
 	if (value >= max && max != 0)
 	{
 		emit SigAppendList();
+	}
+	m_PointCurrent = QPoint(0, min);
+	SlotSliderReleased();
+}
+
+void TableTracks::SlotSliderReleased()
+{
+//	LogDebug("=======================");
+//	LogDebug("slider released...");
+//	LogDebug("=======================");
+	QModelIndex startModelIndex = ui->tableView->indexAt(m_PointCurrent);
+	if (!startModelIndex.isValid())
+	{
+		return;
+	}
+
+	int id = qvariant_cast<int>(m_Model->data(m_Model->index(startModelIndex.row(), TABLE_TRACKS_ID)));
+	int startIndex = qvariant_cast<int>(m_Model->data(m_Model->index(startModelIndex.row(), TABLE_TRACKS_INDEX)));
+//	LogDebug("start id [%d] index [%d]", id, startIndex);
+
+	QRect validRect = rect();
+//	LogDebug("valid x [%d] y [%d] w [%d] h [%d]", validRect.x(), validRect.y(), validRect.width(), validRect.height());
+
+	for (int i = startIndex; i < startIndex + 100; i++)
+	{
+		QModelIndex modelIndex = m_Model->index(i, TABLE_TRACKS_COVER);
+		if (modelIndex.isValid())
+		{
+			QRect visualRect = ui->tableView->visualRect(modelIndex);
+//			LogDebug("visual x [%d] y [%d] w [%d] h [%d]", visualRect.x(), visualRect.y(), visualRect.width(), visualRect.height());
+			if (visualRect.y() > validRect.height() || visualRect.y() < (ICON_HEIGHT_MID * -1))
+			{
+//				LogDebug("visual rect is invalid rect");
+				break;
+			}
+			int id = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_ID)));
+			int index = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_INDEX)));
+			QString title = qvariant_cast<QString>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_TITLE)));
+//			LogDebug("id [%d] index [%d]", id, index);
+//			LogDebug("title [%s]", title.toUtf8().data());
+			emit SigReqCoverArt(id, index, QListView::ListMode);
+		}
 	}
 }
 
@@ -652,9 +697,6 @@ void TableTracks::Initialize()
 	SetColResize(0);
 	SetRowResize(TABLE_HEIGHT_MIN);
 
-	m_ScrollBar = ui->tableView->verticalScrollBar();
-	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
-
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
 							}	\
@@ -672,6 +714,7 @@ void TableTracks::Initialize()
 	m_Menu->setStyleSheet(style);
 
 	m_ScrollBar = ui->tableView->verticalScrollBar();
-	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotSliderValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotSliderReleased()));
 }
 

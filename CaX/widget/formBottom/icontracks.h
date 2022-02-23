@@ -51,7 +51,8 @@ signals:
 
 private slots:
 
-	void SlotScrollValueChanged(int value);
+	void SlotSliderValueChanged(int value);
+	void SlotSliderReleased();
 	void SlotSelectCheck(const QModelIndex &modelIndex);
 
 private:
@@ -65,6 +66,8 @@ private:
 
 	QList<CJsonNode>		m_NodeList;
 	QMap<int, bool>			m_SelectMap;
+
+	QPoint					m_PointCurrent;
 
 	Ui::IconTracks *ui;
 };

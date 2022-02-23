@@ -131,7 +131,7 @@
 //////////////////////////////////////////////////
 
 #define ICON_ITEM_WIDTH				170
-#define ICON_ITEM_HEIGHT			ICON_ITEM_WIDTH + 30
+#define ICON_ITEM_HEIGHT			(ICON_ITEM_WIDTH + 30)
 
 #define LIST_ITEM_WIDTH				100
 #define LIST_BROWSER_HEIGHT			50
