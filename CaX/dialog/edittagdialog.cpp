@@ -56,6 +56,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ID), node.GetString(KEY_ID_LOWER));
+		m_Model->setData(m_Model->index(index, EDIT_TAG_TRACK), node.GetString(KEY_TRACK));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_TITLE), node.GetString(KEY_TITLE));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_FAVORITE), node.GetString(KEY_FAVORITE));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ARTIST), node.GetString(KEY_ARTIST));
@@ -113,6 +114,10 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 	int rowSize = height / rowCnt;
 //	LogDebug("resize colSize [%d] rowSize [%d]", colSize, rowSize);
 
+	if (m_ColWidthTrack <= 0)
+	{
+		m_ColWidthTrack = colSize;
+	}
 	if (m_ColWidthTitle <= 0)
 	{
 		m_ColWidthTitle = colSize * 6;
@@ -152,6 +157,7 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 	m_ColWidthCdNumber = 60;
 
 
+	ui->tableView->setColumnWidth(EDIT_TAG_TRACK, m_ColWidthTrack);
 	ui->tableView->setColumnWidth(EDIT_TAG_TITLE, m_ColWidthTitle);
 	ui->tableView->setColumnWidth(EDIT_TAG_FAVORITE, m_ColWidthFavorite);
 	ui->tableView->setColumnWidth(EDIT_TAG_ARTIST, m_ColWidthArtist);
@@ -222,6 +228,9 @@ void EditTagDialog::SlotSectionResize(int logicalIndex, int oldWidth, int newWid
 	{
 	case EDIT_TAG_ID:
 		m_ColWidthID = newWidth;
+		break;
+	case EDIT_TAG_TRACK:
+		m_ColWidthTrack = newWidth;
 		break;
 	case EDIT_TAG_TITLE:
 		m_ColWidthTitle = newWidth;
@@ -306,6 +315,7 @@ void EditTagDialog::ReadSettings()
 	restoreGeometry(settings.value("geometry").toByteArray());
 
 	m_ColWidthID = settings.value("col_width_id").toInt();
+	m_ColWidthTrack = settings.value("col_width_track").toInt();
 	m_ColWidthTitle = settings.value("col_width_title").toInt();
 	m_ColWidthFavorite = settings.value("col_width_favorite").toInt();
 	m_ColWidthArtist = settings.value("col_width_artist").toInt();
@@ -329,6 +339,7 @@ void EditTagDialog::WriteSettings()
 	settings.setValue("geometry", saveGeometry());
 
 	settings.setValue("col_width_id", m_ColWidthID);
+	settings.setValue("col_width_track", m_ColWidthTrack);
 	settings.setValue("col_width_title", m_ColWidthTitle);
 	settings.setValue("col_width_favorite", m_ColWidthFavorite);
 	settings.setValue("col_width_artist", m_ColWidthArtist);
@@ -362,6 +373,7 @@ void EditTagDialog::Initialize()
 	ui->tableView->setModel(m_Model);
 	ui->tableView->setSortingEnabled(true);
 
+	m_Model->setHeaderData(EDIT_TAG_TRACK, Qt::Horizontal, KEY_TRACK);
 	m_Model->setHeaderData(EDIT_TAG_TITLE, Qt::Horizontal, KEY_TITLE_CAP);
 	m_Model->setHeaderData(EDIT_TAG_FAVORITE, Qt::Horizontal, KEY_FAVORITE_CAP);
 	m_Model->setHeaderData(EDIT_TAG_ARTIST, Qt::Horizontal, KEY_ARTIST);

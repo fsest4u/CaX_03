@@ -22,6 +22,7 @@ public:
 
 	enum {
 		EDIT_TAG_ID = 0,
+		EDIT_TAG_TRACK,
 		EDIT_TAG_TITLE,
 		EDIT_TAG_FAVORITE,
 		EDIT_TAG_ARTIST,
@@ -89,6 +90,7 @@ private:
 	bool					m_EnableChange;
 
 	int						m_ColWidthID;
+	int						m_ColWidthTrack;
 	int						m_ColWidthTitle;
 	int						m_ColWidthFavorite;
 	int						m_ColWidthArtist;

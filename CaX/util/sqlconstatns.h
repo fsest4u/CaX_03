@@ -238,6 +238,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -287,6 +288,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -334,6 +336,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -383,6 +386,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -432,6 +436,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -481,6 +486,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -530,6 +536,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -576,6 +583,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
@@ -620,6 +628,7 @@ select	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
 	, Song.CdNumber as CdNumber	\
+	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
 	, Song.FileName as Format	\
 	, Song.nov_Samplerate as samplerate	\
