@@ -1,5 +1,4 @@
 #include <QStackedWidget>
-#include <QThread>
 
 #include "musicdbwindow.h"
 #include "ui_musicdbwindow.h"
@@ -1578,7 +1577,6 @@ void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 
 		if (index >= 0)
 		{
-			QThread::msleep(1000);
 			emit SlotReqCoverArt(id, index, QListView::IconMode);
 		}
 
@@ -1598,7 +1596,6 @@ void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 
 		if (index >= 0)
 		{
-			QThread::msleep(1000);
 			emit SlotReqCoverArt(id, index, QListView::ListMode);
 		}
 	}

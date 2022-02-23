@@ -1,5 +1,4 @@
 #include <QMouseEvent>
-#include <QThread>
 
 #include "infotracks.h"
 #include "ui_infotracks.h"
@@ -113,12 +112,10 @@ bool InfoTracks::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelTitle)
 		{
-			QThread::sleep(1);
 			ui->labelTitle->startTimer();
 		}
 		else if (object == ui->labelSubtitle)
 		{
-			QThread::sleep(1);
 			ui->labelSubtitle->startTimer();
 		}
 	}

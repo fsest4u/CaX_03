@@ -1,5 +1,4 @@
 #include <QMouseEvent>
-#include <QThread>
 
 #include "infobrowser.h"
 #include "ui_infobrowser.h"
@@ -90,12 +89,10 @@ bool InfoBrowser::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelTitle)
 		{
-			QThread::sleep(1);
 			ui->labelTitle->startTimer();
 		}
 		else if (object == ui->labelSubtitle)
 		{
-			QThread::sleep(1);
 			ui->labelSubtitle->startTimer();
 		}
 	}

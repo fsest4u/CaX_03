@@ -1,5 +1,4 @@
 #include <QMouseEvent>
-#include <QThread>
 
 #include "formtitle.h"
 #include "ui_formtitle.h"
@@ -84,12 +83,10 @@ bool FormTitle::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelTitle)
 		{
-			QThread::sleep(1);
 			ui->labelTitle->startTimer();
 		}
 		else if (object == ui->labelSubtitle)
 		{
-			QThread::sleep(1);
 			ui->labelSubtitle->startTimer();
 		}
 	}

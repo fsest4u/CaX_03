@@ -1,5 +1,4 @@
 #include <QMouseEvent>
-#include <QThread>
 
 #include "infoservice.h"
 #include "ui_infoservice.h"
@@ -79,7 +78,6 @@ bool InfoService::eventFilter(QObject *object, QEvent *event)
 	{
 		if (object == ui->labelTitle)
 		{
-			QThread::sleep(1);
 			ui->labelTitle->startTimer();
 		}
 

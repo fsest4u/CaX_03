@@ -1,4 +1,3 @@
-#include <QThread>
 #include <QScrollBar>
 #include <QHeaderView>
 

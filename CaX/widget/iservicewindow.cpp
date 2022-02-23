@@ -1,5 +1,4 @@
 #include <QtWebEngineWidgets/QWebEngineView>
-#include <QThread>
 
 #include "iservicewindow.h"
 #include "ui_iservicewindow.h"
