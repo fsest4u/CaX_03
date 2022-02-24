@@ -354,7 +354,7 @@ void AudioCDWindow::SlotResize(int resize)
 		m_ListMode = listMode;
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
-			LogDebug("icon~~~~~~~~");
+//			LogDebug("icon~~~~~~~~");
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
@@ -367,7 +367,7 @@ void AudioCDWindow::SlotResize(int resize)
 		}
 		else
 		{
-			LogDebug("list~~~~~~~~");
+//			LogDebug("list~~~~~~~~");
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pListTracks->ClearNodeList();

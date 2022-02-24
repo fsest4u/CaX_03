@@ -302,7 +302,6 @@ void QobuzManager::SlotRespInfo(QString json, int nCmdID)
 		case QOBUZ_DELETE_TRACK:
 			// refresh
 			emit SigListUpdate();
-			emit
 			break;
 		case QOBUZ_MAX:
 			emit SigRespError(STR_INVALID_ID);

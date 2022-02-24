@@ -238,7 +238,7 @@ void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 		m_TrackIndex = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
 	}
 
-	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
+//	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
 //	LogDebug("index [%d] favorite [%d] album [%d] artist [%d] genre [%d]", m_TrackIndex, m_TrackFavorite, m_TrackAlbumID, m_TrackArtistID, m_TrackGenreID);
 
 	SetOptionMenu();
@@ -428,7 +428,7 @@ void PlaylistWindow::SlotResize(int resize)
 		m_ListMode = listMode;
 		if (m_ListMode == VIEW_MODE_ICON)
 		{
-			LogDebug("icon~~~~~~~~");
+//			LogDebug("icon~~~~~~~~");
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
@@ -441,7 +441,7 @@ void PlaylistWindow::SlotResize(int resize)
 		}
 		else
 		{
-			LogDebug("list~~~~~~~~");
+//			LogDebug("list~~~~~~~~");
 			if (m_pListTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pListTracks->ClearNodeList();

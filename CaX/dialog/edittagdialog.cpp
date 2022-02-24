@@ -51,7 +51,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 	int index = 0;
 	foreach (CJsonNode node, list)
 	{
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 //		LogDebug("index [%d] title [%s]", index, node.GetString(KEY_TITLE).toUtf8().data());
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
@@ -174,14 +174,14 @@ void EditTagDialog::resizeEvent(QResizeEvent *event)
 
 void EditTagDialog::SlotSectionClicked(int logicalIndex)
 {
-	LogDebug("sortIndicatorSection index [%d] section [%d] order [%d]", logicalIndex, ui->tableView->horizontalHeader()->sortIndicatorSection(), ui->tableView->horizontalHeader()->sortIndicatorOrder());
+//	LogDebug("header click index [%d] section [%d] order [%d]", logicalIndex, ui->tableView->horizontalHeader()->sortIndicatorSection(), ui->tableView->horizontalHeader()->sortIndicatorOrder());
 //	Qt::SortOrder order = Qt::SortOrder::AscendingOrder == ui->tableView->horizontalHeader()->sortIndicatorOrder() ? Qt::SortOrder::AscendingOrder : Qt::SortOrder::DescendingOrder;
 //	ui->tableView->horizontalHeader()->setSortIndicator(logicalIndex, order);
 }
 
 void EditTagDialog::SlotSectionDoubleClicked(int logicalIndex)
 {
-	LogDebug("header double click index [%d]", logicalIndex);
+//	LogDebug("header double click index [%d]", logicalIndex);
 	if (logicalIndex == EDIT_TAG_FAVORITE)
 	{
 		InputFavoriteDialog dialog;

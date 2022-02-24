@@ -57,7 +57,7 @@ CJsonNode WiredLanSetupDialog::GetNodeForm()
 
 void WiredLanSetupDialog::SetNodeForm(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	setWindowTitle(node.GetString(KEY_TITLE_CAP));
 
 	CJsonNode nodeOK = node.GetObject(KEY_OK);
@@ -131,7 +131,7 @@ void WiredLanSetupDialog::SetInputs(CJsonNode node)
 	for (int i = 0; i < node.ArraySize(); i++)
 	{
 		input = node.GetArrayAt(i);
-		LogDebug("node : [%s]", input.ToCompactByteArray().data());
+//		LogDebug("node : [%s]", input.ToCompactByteArray().data());
 
 		int typeInput = input.GetInt(KEY_TYPE);
 		UtilNovatron::DebugTypeForSetupInput("SetInputs", typeInput);

@@ -136,19 +136,17 @@ bool InfoTracks::eventFilter(QObject *object, QEvent *event)
 
 void InfoTracks::SlotCoverArt()
 {
-	LogDebug("good choice cover art");
+//	LogDebug("good choice cover art");
 }
 
 void InfoTracks::SlotTitle()
 {
-	LogDebug("good choice title");
-
+//	LogDebug("good choice title");
 }
 
 void InfoTracks::SlotSubtitle()
 {
-	LogDebug("good choice subtitle");
-
+//	LogDebug("good choice subtitle");
 }
 
 void InfoTracks::ConnectSigToSlot()

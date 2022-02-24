@@ -113,17 +113,17 @@ bool InfoBrowser::eventFilter(QObject *object, QEvent *event)
 
 void InfoBrowser::SlotCoverArt()
 {
-	LogDebug("good choice cover art");
+//	LogDebug("good choice cover art");
 }
 
 void InfoBrowser::SlotTitle()
 {
-	LogDebug("good choice title");
+//	LogDebug("good choice title");
 }
 
 void InfoBrowser::SlotSubtitle()
 {
-	LogDebug("good choice subtitle");
+//	LogDebug("good choice subtitle");
 
 }
 

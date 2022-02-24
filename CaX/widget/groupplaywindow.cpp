@@ -123,7 +123,6 @@ void GroupPlayWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 
 void GroupPlayWindow::SlotSelectPlay(int index, bool muted)
 {
-	LogDebug("good choice!~!~");
 	muted = !muted;
 
 	CJsonNode node = m_pIconService->GetNodeList().at(index);
@@ -146,7 +145,7 @@ void GroupPlayWindow::SlotSelectTitle(int type, QString rawData)
 		return;
 	}
 
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 	if (!node.GetString(KEY_LOCATION).compare(m_Addr))
 	{
@@ -169,21 +168,18 @@ void GroupPlayWindow::SlotEventGroupPlayUpdate()
 
 void GroupPlayWindow::SlotGroupPlay(QString addr, bool enabled)
 {
-	LogDebug("group play enable [%d]", enabled);
 	m_pMgr->SetAddr(addr);
 	m_pMgr->RequestGroupPlay(enabled, m_EventID);
 }
 
 void GroupPlayWindow::SlotAutoJoin(QString addr, bool enabled)
 {
-	LogDebug("auto join enable [%d]", enabled);
 	m_pMgr->SetAddr(addr);
 	m_pMgr->RequestAutoJoin(enabled, m_EventID);
 }
 
 void GroupPlayWindow::SlotMute(QString addr, bool enabled)
 {
-	LogDebug("mute enable [%d]", enabled);
 	m_pMgr->SetAddr(addr);
 	m_pMgr->RequestMute(enabled, m_EventID);
 }
@@ -196,7 +192,6 @@ void GroupPlayWindow::SlotPlayStop(QString addr, bool enabled)
 
 void GroupPlayWindow::SlotPowerOff(QString addr, bool self)
 {
-	LogDebug("power off self [%d]", self);
 //	m_pMgr->SetAddr(addr);
 
 	QList<CJsonNode> nodeList = m_pIconService->GetNodeList();
@@ -229,14 +224,12 @@ void GroupPlayWindow::SlotPowerOff(QString addr, bool self)
 
 void GroupPlayWindow::SlotVolumeSliderReleased(QString addr, int value)
 {
-	LogDebug("volume [%d]", value);
 	m_pMgr->SetAddr(addr);
 	m_pMgr->RequestVolume(value, m_EventID);
 }
 
 void GroupPlayWindow::SlotChangedChannel(QString addr, int value)
 {
-	LogDebug("channel [%d]", value);
 	m_pMgr->SetAddr(addr);
 	m_pMgr->RequestChannel(value, m_EventID);
 

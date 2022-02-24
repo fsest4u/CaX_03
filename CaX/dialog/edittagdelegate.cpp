@@ -243,7 +243,6 @@ QWidget *EditTagDelegate::createEditor(QWidget *parent, const QStyleOptionViewIt
 	}
 	else if (index.column() == EditTagDialog::EDIT_TAG_YEAR)
 	{
-		LogDebug("EDIT_TAG_YEAR");
 		QLineEdit *lineEdit = new QLineEdit(parent);
 		// Set validator
 		QIntValidator *validator = new QIntValidator(1900, 2100, lineEdit);

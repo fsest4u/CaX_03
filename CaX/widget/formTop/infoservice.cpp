@@ -96,12 +96,12 @@ bool InfoService::eventFilter(QObject *object, QEvent *event)
 
 void InfoService::SlotTitle()
 {
-	LogDebug("good choice title");
+//	LogDebug("good choice title");
 }
 
 void InfoService::SlotSubtitle()
 {
-	LogDebug("good choice subtitle");
+//	LogDebug("good choice subtitle");
 }
 
 

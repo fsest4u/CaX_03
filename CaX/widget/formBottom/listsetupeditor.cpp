@@ -81,7 +81,7 @@ void ListSetupEditor::SetMenu(QMap<QString, CJsonNode> map)
 #endif
 
 		CJsonNode node = i.value();
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 		QString name = node.GetString(KEY_NAME_CAP);
 		QStringList values = node.GetStringList(KEY_VALUES);
@@ -97,7 +97,7 @@ void ListSetupEditor::SetMenu(QMap<QString, CJsonNode> map)
 
 			foreach (QString value, values)
 			{
-				LogDebug("value [%s]", value.toUtf8().data());
+//				LogDebug("value [%s]", value.toUtf8().data());
 
 				QAction *action = new QAction(value, this);
 				action->setData(node.ToCompactByteArray().data());
@@ -137,7 +137,7 @@ void ListSetupEditor::SlotMenuAction(QAction *action)
 	}
 	else
 	{
-		LogDebug("menu action strID [%s] data [%s]", m_StrID.toUtf8().data(), action->data().toString().toUtf8().data());
+//		LogDebug("menu action strID [%s] data [%s]", m_StrID.toUtf8().data(), action->data().toString().toUtf8().data());
 		emit SigMenuAction(m_StrID, action->data().toString());
 	}
 }
@@ -147,7 +147,7 @@ void ListSetupEditor::SlotSubMenuAction(QAction *action)
 	disconnect(m_Menu, SIGNAL(triggered(QAction*)));
 	m_bSubMenu = true;
 
-	LogDebug("sub menu action strID [%s] data [%s]", action->text().toUtf8().data(), action->data().toString().toUtf8().data());
+//	LogDebug("sub menu action strID [%s] data [%s]", action->text().toUtf8().data(), action->data().toString().toUtf8().data());
 	emit SigSubMenuAction(action->text(), action->data().toString());
 }
 

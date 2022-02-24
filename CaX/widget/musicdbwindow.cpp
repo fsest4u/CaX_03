@@ -414,7 +414,7 @@ void MusicDBWindow::SlotRemoveWidget(QWidget *widget)
 
 void MusicDBWindow::SlotUpdateFavoriteParent(int id, int favorite)
 {
-	LogDebug("refresh id [%d] favorite [%d]", id, favorite);
+//	LogDebug("refresh id [%d] favorite [%d]", id, favorite);
 	int index = -1;
 
 	if (m_ListMode == VIEW_MODE_ICON)
@@ -470,7 +470,7 @@ void MusicDBWindow::SlotUpdateFavoriteParent(int id, int favorite)
 
 void MusicDBWindow::SlotUpdateRatingParent(int id, int rating)
 {
-	LogDebug("refresh id [%d] rating [%d]", id, rating);
+//	LogDebug("refresh id [%d] rating [%d]", id, rating);
 	int index = -1;
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
@@ -863,7 +863,7 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 			WriteSettings();
 		}
 
-		//RequestCategoryList(m_nCatID, m_nCatID2);
+//		RequestCategoryList(m_nCatID, m_nCatID2);
 		DoTopMenuReload();
 
 	}
@@ -924,7 +924,7 @@ void MusicDBWindow::SlotResize(int resize)
 				service = IconTracks::ICON_TRACKS_MUSIC_DB_TRACK;
 			}
 
-			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
+//			LogDebug("icon~~~~~~~~[%d][%d]", m_pIconTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pIconTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pIconTracks->ClearNodeList();
@@ -948,7 +948,7 @@ void MusicDBWindow::SlotResize(int resize)
 //				service = ListTracks::LIST_TRACKS_MUSIC_DB_TRACK;
 //			}
 
-			LogDebug("list~~~~~~~~[%d][%d]", m_pTableTracks->GetNodeList().count(), m_RespList.count());
+//			LogDebug("list~~~~~~~~[%d][%d]", m_pTableTracks->GetNodeList().count(), m_RespList.count());
 			if (m_pTableTracks->GetNodeList().count() != m_RespList.count())
 			{
 				m_pTableTracks->ClearNodeList();
