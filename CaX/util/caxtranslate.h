@@ -130,7 +130,7 @@
 #define STR_RESERVE_RECORD_LIST		TR("Reserved record list")
 #define STR_SCAN_ON					TR("Scan on")
 #define STR_SCAN_OFF				TR("Scan off")
-#define STR_SEARCH_ALL_N_DELETE		TR("Delete and search all")
+#define STR_SEARCH_ALL_N_DELETE		TR("Clear and search all")
 #define STR_SEARCH_ALL				TR("Search all")
 #define STR_SELECT_ALL				TR("Select all")
 #define STR_SHOW_COLUMNS			TR("Show columns")
