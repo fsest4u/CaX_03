@@ -129,7 +129,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 		}
 	}
 
-	SlotSliderReleased();
+	SlotScrollReleased();
 
 	UtilNovatron::LoadingStop(loading);
 }
@@ -198,7 +198,7 @@ IconTracksDelegate *IconTracks::GetDelegate()
 	return m_Delegate;
 }
 
-void IconTracks::SlotSliderValueChanged(int value)
+void IconTracks::SlotScrollValueChanged(int value)
 {
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
@@ -208,10 +208,10 @@ void IconTracks::SlotSliderValueChanged(int value)
 		emit SigAppendList();
 	}
 	m_PointCurrent = QPoint(0, min);
-	SlotSliderReleased();
+	SlotScrollReleased();
 }
 
-void IconTracks::SlotSliderReleased()
+void IconTracks::SlotScrollReleased()
 {
 //	LogDebug("=======================");
 //	LogDebug("slider released...");
@@ -282,8 +282,8 @@ void IconTracks::Initialize()
 	SetResize(ICON_HEIGHT_INIT);
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
-	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotSliderValueChanged(int)));
-	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotSliderReleased()));
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotScrollReleased()));
 	connect(m_Delegate, SIGNAL(SigSelectCheck(const QModelIndex&)), this, SLOT(SlotSelectCheck(const QModelIndex&)));
 
 	m_SelectMap.clear();

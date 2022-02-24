@@ -51,8 +51,8 @@ signals:
 
 private slots:
 
-	void SlotSliderValueChanged(int value);
-	void SlotSliderReleased();
+	void SlotScrollValueChanged(int value);
+	void SlotScrollReleased();
 	void SlotSelectCheck(const QModelIndex &modelIndex);
 
 private:

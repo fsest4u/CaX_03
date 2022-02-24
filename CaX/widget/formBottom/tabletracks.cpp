@@ -122,7 +122,7 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 		}
 	}
 
-	SlotSliderReleased();
+	SlotScrollReleased();
 
 	UtilNovatron::LoadingStop(loading);
 }
@@ -342,7 +342,7 @@ void TableTracks::resizeEvent(QResizeEvent *event)
 	SetColResize(0);
 }
 
-void TableTracks::SlotSliderValueChanged(int value)
+void TableTracks::SlotScrollValueChanged(int value)
 {
 	int min = m_ScrollBar->minimum();
 	int max = m_ScrollBar->maximum();
@@ -352,10 +352,10 @@ void TableTracks::SlotSliderValueChanged(int value)
 		emit SigAppendList();
 	}
 	m_PointCurrent = QPoint(0, min);
-	SlotSliderReleased();
+	SlotScrollReleased();
 }
 
-void TableTracks::SlotSliderReleased()
+void TableTracks::SlotScrollReleased()
 {
 //	LogDebug("=======================");
 //	LogDebug("slider released...");
@@ -714,7 +714,7 @@ void TableTracks::Initialize()
 	m_Menu->setStyleSheet(style);
 
 	m_ScrollBar = ui->tableView->verticalScrollBar();
-	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotSliderValueChanged(int)));
-	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotSliderReleased()));
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotScrollReleased()));
 }
 

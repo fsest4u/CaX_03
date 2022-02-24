@@ -105,8 +105,8 @@ protected:
 
 private slots:
 
-	void SlotSliderValueChanged(int value);
-	void SlotSliderReleased();
+	void SlotScrollValueChanged(int value);
+	void SlotScrollReleased();
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 	void SlotClickCell(const QModelIndex &index);
