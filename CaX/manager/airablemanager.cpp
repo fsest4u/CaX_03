@@ -231,13 +231,21 @@ void AirableManager::ParseURL(CJsonNode node)
 		return;
 	}
 
+	QString coverArt = node.GetString(KEY_ART);
+	QString title = node.GetString(KEY_NAME_CAP);
+
 	QList<CJsonNode> nodeList;
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
-		nodeList.append(result.GetArrayAt(i));
+		CJsonNode tempNode = result.GetArrayAt(i);
+		if (tempNode.GetString(KEY_ART).isEmpty() && !coverArt.isEmpty())
+		{
+			tempNode.Add(KEY_ART, coverArt);
+		}
+
+		nodeList.append(tempNode);
 	}
 
-	QString title = node.GetString(KEY_NAME_CAP);
 
 	emit SigRespURL(m_ServiceType, title, nodeList);
 }

@@ -321,10 +321,18 @@ void QobuzManager::ParseList(CJsonNode node, bool genre)
 		return;
 	}
 
+	QString coverArt = node.GetString(KEY_ART);
+
 	QList<CJsonNode> nodeList;
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
-		nodeList.append(result.GetArrayAt(i));
+		CJsonNode tempNode = result.GetArrayAt(i);
+		if (tempNode.GetString(KEY_ART).isEmpty() && !coverArt.isEmpty())
+		{
+			tempNode.Add(KEY_ART, coverArt);
+		}
+
+		nodeList.append(tempNode);
 	}
 
 	emit SigRespList(nodeList, genre);
