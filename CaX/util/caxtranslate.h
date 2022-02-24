@@ -13,8 +13,8 @@
 #define TR_APPLICATION				TR("Music X Neo")
 
 #define STR_INFO					TR("Info")
-#define STR_WARNING					TR("Warning")
-#define STR_CRITICAL				TR("Critical")
+#define STR_WARNING					TR("")
+#define STR_CRITICAL				TR("")
 
 #define STR_COMING_SOON				TR("Coming soon")
 #define STR_ENTER_SEARCH_WORD		TR("Please enter a search term of at least 3 characters")

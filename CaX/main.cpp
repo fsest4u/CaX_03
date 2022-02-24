@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 	QCoreApplication::setOrganizationName(TR_ORGANIZATION);
 
+	QApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
+
 	QApplication a(argc, argv);
 //	const auto fusion = QStyleFactory::create( "Fusion" );
 //	QApplication::setStyle( fusion );

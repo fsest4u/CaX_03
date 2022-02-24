@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Favorite</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QLabel
