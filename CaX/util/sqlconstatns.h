@@ -797,13 +797,19 @@ ORDER BY cnt DESC LIMIT 0, 20\
 
 #define SQL_PLAYLIST	"	\
 select	\
-	Pls.ROWID as id	\
-	, Pls.Name as title	\
-	, (select count(*) from PlsSong inner join Pls on Pls.ROWID = PlsSong.PlsID) as count	\
+	Pls.ROWID as id,	\
+	Pls.name as title,	\
+	(select	\
+		count(*)	\
+	from PlsSong	\
+	left outer join Song on Song.ROWID = PlsSong.SongID	\
+	left outer join FilePath on FilePath.ROWID = Song.FilePathID	\
+	inner join FsUuid on FsUuid.ROWID = FilePath.FsUuidID and FsUuid.MntPath != \"\"	\
+	where PlsSong.PlsID = Pls.ROWID) as count	\
 from Pls	\
-where Pls.IsDel = 0	\
+where pls.IsDel = 0	\
 group by Pls.ROWID	\
-order by Pls.Name	\
+order by pls.Name	\
 "
 
 #define SQL_PLAYLIST_OVERVIEW	"	\
