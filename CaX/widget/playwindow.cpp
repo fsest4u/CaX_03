@@ -342,7 +342,7 @@ void PlayWindow::SetVariable(CJsonNode node)
 	EnableBtnPrev(m_Prev);
 	EnableBtnRandom(m_PlayPause);
 	EnableBtnSlider(m_Seek);
-	EnableBtnStop(m_PlayPause);
+//	EnableBtnStop(m_PlayPause);
 
 	m_Duration = node.GetInt(KEY_DURATION);
 	m_ID = node.GetInt(KEY_ID_UPPER);
@@ -665,10 +665,13 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	SetPlayState();
 	SetRepeatMode(m_Repeat);
 
+	ui->btnPlay->show();
+
 	if (!m_Src.compare(SRC_MUSIC_DB)
 			|| !m_Src.compare(SRC_BROWSER)
 			|| !m_Src.compare(SRC_AUDIO_CD) )
 	{
+
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Bot);
 
@@ -690,6 +693,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	else if (!m_Src.compare(SRC_FM_RADIO)
 			 || !m_Src.compare(SRC_DAB_RADIO))
 	{
+		ui->btnPlay->hide();
+
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Src);
 
