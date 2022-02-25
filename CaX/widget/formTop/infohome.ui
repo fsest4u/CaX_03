@@ -134,7 +134,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
           </widget>
          </item>
@@ -147,7 +147,7 @@
             </font>
            </property>
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
           </widget>
          </item>
@@ -329,7 +329,7 @@ border-left : 1px solid #b9b8ba;
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string> </string>
               </property>
              </widget>
             </item>
@@ -465,7 +465,7 @@ border-left : 1px solid #b9b8ba;
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string> </string>
               </property>
              </widget>
             </item>
@@ -601,7 +601,7 @@ border-left : 1px solid #b9b8ba;
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string> </string>
               </property>
              </widget>
             </item>
@@ -740,7 +740,7 @@ border-left : 1px solid #b9b8ba;
                </font>
               </property>
               <property name="text">
-               <string>-</string>
+               <string> </string>
               </property>
              </widget>
             </item>

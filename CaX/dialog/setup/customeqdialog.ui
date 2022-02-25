@@ -87,7 +87,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label00">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -197,7 +197,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label01">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -307,7 +307,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label02">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -417,7 +417,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label03">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -527,7 +527,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label04">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -637,7 +637,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label05">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -747,7 +747,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label06">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -857,7 +857,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label07">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -967,7 +967,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label08">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1077,7 +1077,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label09">
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

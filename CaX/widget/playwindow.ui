@@ -579,7 +579,7 @@ QPushButton::menu-indicator
             <string notr="true">color: rgb(255, 255, 255);</string>
            </property>
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -643,7 +643,7 @@ QPushButton::menu-indicator
             <string notr="true">color: rgb(255, 255, 255);</string>
            </property>
            <property name="text">
-            <string>-</string>
+            <string> </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1127</width>
-    <height>615</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -274,7 +274,7 @@ QPushButton:hover
       <item row="0" column="5">
        <widget class="QLabel" name="labelCount">
         <property name="text">
-         <string>-</string>
+         <string> </string>
         </property>
        </widget>
       </item>
@@ -620,7 +620,7 @@ border: none;</string>
       <item>
        <widget class="QLabel" name="labelFormat">
         <property name="text">
-         <string>-</string>
+         <string> </string>
         </property>
        </widget>
       </item>

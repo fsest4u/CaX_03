@@ -100,7 +100,7 @@ color: rgb(84, 84, 84);
 </string>
         </property>
         <property name="text">
-         <string>-</string>
+         <string> </string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
