@@ -1,7 +1,7 @@
 #ifndef CAXCONSTANTS_H
 #define CAXCONSTANTS_H
 
-#define	APP_VERSION					"1.8"
+#define	APP_VERSION					"1.9"
 #define FIRMWARE_MIN_VERSION		1720
 //////////////////////////////////////////////////
 // ssdp
