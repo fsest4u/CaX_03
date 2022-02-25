@@ -235,7 +235,7 @@ void MusicDBManager::RequestTrackListForEditTag(int nID, int nCategory, int nSor
 {
 	QString query = m_pSql->GetQueryTrackList(nID,
 											  nCategory,
-											  nSort,
+											  -1,
 											  bIncrease,
 											  "",
 											  "",

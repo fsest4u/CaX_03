@@ -826,7 +826,7 @@ QString SQLManager::GetColumnName(int nSort)
 		sort = "rating";
 		break;
 	default:
-		sort = "rowid";
+		sort = "track";
 	}
 
 	return sort;

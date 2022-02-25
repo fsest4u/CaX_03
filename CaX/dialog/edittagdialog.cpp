@@ -56,7 +56,7 @@ void EditTagDialog::SetNodeList(QList<CJsonNode> list)
 		m_Model->setVerticalHeaderItem(index, new QStandardItem(QString::number(index+1)));
 
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ID), node.GetString(KEY_ID_LOWER));
-		m_Model->setData(m_Model->index(index, EDIT_TAG_TRACK), node.GetString(KEY_TRACK));
+		m_Model->setData(m_Model->index(index, EDIT_TAG_TRACK), node.GetInt(KEY_TRACK));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_TITLE), node.GetString(KEY_TITLE));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_FAVORITE), node.GetString(KEY_FAVORITE));
 		m_Model->setData(m_Model->index(index, EDIT_TAG_ARTIST), node.GetString(KEY_ARTIST));
@@ -373,7 +373,7 @@ void EditTagDialog::Initialize()
 	ui->tableView->setModel(m_Model);
 	ui->tableView->setSortingEnabled(true);
 
-	m_Model->setHeaderData(EDIT_TAG_TRACK, Qt::Horizontal, KEY_TRACK);
+	m_Model->setHeaderData(EDIT_TAG_TRACK, Qt::Horizontal, "Track No.");
 	m_Model->setHeaderData(EDIT_TAG_TITLE, Qt::Horizontal, KEY_TITLE_CAP);
 	m_Model->setHeaderData(EDIT_TAG_FAVORITE, Qt::Horizontal, KEY_FAVORITE_CAP);
 	m_Model->setHeaderData(EDIT_TAG_ARTIST, Qt::Horizontal, KEY_ARTIST);
