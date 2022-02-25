@@ -231,8 +231,9 @@ void AirableManager::ParseURL(CJsonNode node)
 		return;
 	}
 
-	QString coverArt = node.GetString(KEY_ART);
 	QString title = node.GetString(KEY_NAME_CAP);
+	QString coverArt = node.GetString(KEY_ART);
+	QString next = node.GetString(KEY_NEXT);
 
 	QList<CJsonNode> nodeList;
 	for (int i = 0; i < result.ArraySize(); i++)
@@ -246,6 +247,5 @@ void AirableManager::ParseURL(CJsonNode node)
 		nodeList.append(tempNode);
 	}
 
-
-	emit SigRespURL(m_ServiceType, title, nodeList);
+	emit SigRespURL(m_ServiceType, nodeList, title, next);
 }

@@ -42,6 +42,8 @@ public:
 	void RequestQobuzCategory(int nType, QString strID, int nStart, int nCount);
 	void RequestQobuzPlay(QMap<int, CJsonNode> nodeMap, int nWhere);
 
+	void AddWidgetItem(bool playAll = false, bool playRandom = false, bool menu = false);
+
 	AirableManager	*GetAirableManager();
 	QobuzManager	*GetQobuzManager();
 
@@ -54,7 +56,8 @@ public:
 	int GetType() const;
 	void SetType(int Type);
 
-	void AddWidgetItem(bool playAll = false, bool playRandom = false, bool menu = false);
+	int GetTypeParent() const;
+	void SetTypeParent(int TypeParent);
 
 	bool GetGenre() const;
 	void SetGenre(bool bGenre);
@@ -65,7 +68,7 @@ public:
 	CJsonNode GetNode() const;
 	void SetNode(const CJsonNode &Node);
 
-signals:
+	signals:
 
 	//	void SigBtnPrev();
 	//	void SigSelectURL(int nServiceType, QString url);
@@ -95,11 +98,11 @@ private slots:
 	void SlotRespAirableLoginFail(CJsonNode node);
 	void SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAuth);
 
-	void SlotRespQobuzList(QList<CJsonNode> list, bool genre);
+	void SlotRespQobuzList(QList<CJsonNode> list, bool genre, int start);
 	void SlotListUpdate();
 
 	void SlotRespAuth(int nServiceType);
-	void SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list);
+	void SlotRespURL(int nServiceType, QList<CJsonNode> list, QString title, QString nextUrl);
 	void SlotRespForm(int nServiceType, CJsonNode node);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 
@@ -139,14 +142,20 @@ private:
 	void SelectUserPlaylistForQobuz(int nType, CJsonNode node);
 	void SelectTitleForAirable(int nType, CJsonNode node);
 
+	void AppendSearchForQobuz();
+	void AppendRecommendForQobuz();
+	void AppendFavoriteForQobuz();
+	void AppendUserPlaylistForQobuz();
+	void AppendTitleForAirable();
+
 	void DoQobuzHome();
 	void DoQobuzSearch();
 	void DoQobuzRecommend();
 	void DoQobuzFavorite();
 
-	void DoRecommendAlbum();
-	void DoRecommendPlaylist();
-	void DoRecommendGenre(int nType, QString strID);
+	void DoQobuzRecommendAlbum();
+	void DoQobuzRecommendPlaylist();
+	void DoQobuzRecommendGenre(int nType, QString strID);
 
 	void SetIServiceHome(QList<CJsonNode> &list);
 	void SetQobuzHome(QList<CJsonNode> &list);
@@ -180,11 +189,12 @@ private:
 
 	int					m_InternetType;
 	int					m_Type;
+	int					m_TypeParent;
 
 	bool				m_bGenre;
 	bool				m_Refresh;
 
-	int					m_CurIndex;
+	int					m_StartCount;
 
 	QModelIndex			m_ModelIndex;
 

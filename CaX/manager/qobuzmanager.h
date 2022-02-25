@@ -33,7 +33,7 @@ signals:
 	void SigRespLoginFail(CJsonNode node);
 	void SigRespLoginSuccess();
 
-	void SigRespList(QList<CJsonNode> nodeList, bool genre);
+	void SigRespList(QList<CJsonNode> nodeList, bool genre, int start);
 	void SigListUpdate();
 
 

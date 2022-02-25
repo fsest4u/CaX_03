@@ -128,12 +128,7 @@ void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 
 void IServiceWindow::RequestIServiceURL(QString url)
 {
-	if (!url.isEmpty())
-	{
-		url = QString("%1?p=%2").arg(url).arg(m_CurIndex);
-//		LogDebug("index [%d], url [%s]", m_CurIndex, url.toUtf8().data());
-		m_CurIndex++;
-	}
+//	LogDebug("call url [%s]", url.toUtf8().data());
 	m_pAirableMgr->RequestURL(m_InternetType, url);
 }
 
@@ -177,6 +172,18 @@ void IServiceWindow::RequestQobuzPlay(QMap<int, CJsonNode> nodeMap, int nWhere)
 	m_pQobuzMgr->RequestPlay(nodeMap, nWhere);
 }
 
+void IServiceWindow::AddWidgetItem(bool playAll, bool playRandom, bool menu)
+{
+	ui->gridLayoutTop->addWidget(m_pInfoBrowser);
+	ui->gridLayoutBottom->addWidget(m_pListBrowser);
+
+	m_pInfoBrowser->GetFormPlay()->ShowPlayAll(playAll);
+	m_pInfoBrowser->GetFormPlay()->ShowMenu(menu);
+
+	m_pInfoBrowser->SetCoverArt(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, m_InternetType));
+
+}
+
 AirableManager *IServiceWindow::GetAirableManager()
 {
 	return m_pAirableMgr;
@@ -217,16 +224,14 @@ void IServiceWindow::SetType(int Type)
 	m_Type = Type;
 }
 
-void IServiceWindow::AddWidgetItem(bool playAll, bool playRandom, bool menu)
+int IServiceWindow::GetTypeParent() const
 {
-	ui->gridLayoutTop->addWidget(m_pInfoBrowser);
-	ui->gridLayoutBottom->addWidget(m_pListBrowser);
+	return m_TypeParent;
+}
 
-	m_pInfoBrowser->GetFormPlay()->ShowPlayAll(playAll);
-	m_pInfoBrowser->GetFormPlay()->ShowMenu(menu);
-
-	m_pInfoBrowser->SetCoverArt(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, m_InternetType));
-
+void IServiceWindow::SetTypeParent(int TypeParent)
+{
+	m_TypeParent = TypeParent;
 }
 
 bool IServiceWindow::GetGenre() const
@@ -257,6 +262,7 @@ CJsonNode IServiceWindow::GetNode() const
 void IServiceWindow::SetNode(const CJsonNode &Node)
 {
 	m_Node = Node;
+//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 }
 
 void IServiceWindow::SlotAddWidget(QWidget *widget, QString title)
@@ -416,7 +422,30 @@ void IServiceWindow::SlotReqCoverArt(QString url, int index)
 
 void IServiceWindow::SlotAppendList()
 {
-	SlotSelectTitle(m_Type, m_Node);
+//	LogDebug("SlotAppendList node [%s]", m_Node.ToCompactByteArray().data());
+	if (iIServiceType_Qobuz == m_InternetType)
+	{
+		if (iQobuzType_Mask_Search & m_TypeParent)
+		{
+			AppendSearchForQobuz();
+		}
+		else if (iQobuzType_Mask_Recommend & m_TypeParent)
+		{
+			AppendRecommendForQobuz();
+		}
+		else if (iQobuzType_Mask_Favorite & m_TypeParent)
+		{
+			AppendFavoriteForQobuz();
+		}
+		else if ((iQobuzType_Mask_UserPlaylist & m_TypeParent))
+		{
+			AppendUserPlaylistForQobuz();
+		}
+	}
+	else
+	{
+		AppendTitleForAirable();
+	}
 }
 
 void IServiceWindow::SlotRespQobuzLoginFail(CJsonNode node)
@@ -490,8 +519,10 @@ void IServiceWindow::SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAut
 
 }
 
-void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre)
+void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre, int start)
 {
+	m_StartCount = start;
+
 	int nType =  list[0].GetInt(KEY_TYPE);
 	UtilNovatron::DebugTypeForQobuz("SlotRespQobuzList", nType);
 
@@ -506,53 +537,51 @@ void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre)
 	}
 	else
 	{
-		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
-		emit SigAddWidget(widget, STR_ISERVICE);
-		widget->SetInternetType(iIServiceType_Qobuz);
 		if (iQobuzType_Mask_Track & nType)
 		{
-			widget->AddWidgetItem(true, true, true);
+			AddWidgetItem(true, true, true);
 		}
 		// search
 		else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
 				  || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == nType
 				  || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == nType)
 		{
-			widget->AddWidgetItem(false, false, true);
+			AddWidgetItem(false, false, true);
 		}
 		// recommend
 		else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album) == nType)
 		{
-			widget->AddWidgetItem(false, false, true);
+			AddWidgetItem(false, false, true);
 		}
 		// favorite
 		else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Artist) == nType
 					 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Album) == nType
 					 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Album) == nType)
 		{
-			widget->AddWidgetItem(false, false, true);
+			AddWidgetItem(false, false, true);
 		}
 		// playlist
 		else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == nType)
 		{
-			widget->AddWidgetItem(false, false, true);
+			AddWidgetItem(false, false, true);
 		}
 		else
 		{
-			widget->AddWidgetItem();
+			AddWidgetItem();
 		}
 
-		widget->GetInfoBrowser()->SetTitle(QOBUZ_TITLE);
-		widget->GetListBrowser()->SetNodeInfo(m_Node);
-//		widget->GetListBrowser()->ClearNodeList();
-		nType = widget->GetListBrowser()->SetNodeList(list, -1);
-		widget->SetType(nType);
-		widget->SetNode(m_Node);
-		widget->SetGenre(genre);
+//		LogDebug("SlotRespQobuzList node [%s]", m_Node.ToCompactByteArray().data());
+
+		GetInfoBrowser()->SetTitle(QOBUZ_TITLE);
+		GetListBrowser()->SetNodeInfo(m_Node);
+//		GetListBrowser()->ClearNodeList();
+		nType = GetListBrowser()->SetNodeList(list, -1);
+		SetType(nType);
+		SetGenre(genre);
 
 		if (!m_PlaylistID.isEmpty())
 		{
-			widget->SetPlaylistID(m_PlaylistID);
+			SetPlaylistID(m_PlaylistID);
 		}
 	}
 }
@@ -569,6 +598,7 @@ void IServiceWindow::SlotListUpdate()
 	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Track) == m_Type)
 	{
 		m_PlaylistID = m_Node.GetString(KEY_ID_UPPER);
+
 		RequestQobuzCategory(m_Type, m_PlaylistID, QOBUZ_START, QOBUZ_COUNT);
 	}
 }
@@ -576,32 +606,27 @@ void IServiceWindow::SlotListUpdate()
 void IServiceWindow::SlotRespAuth(int nServiceType)
 {
 	m_InternetType = nServiceType;
-	RequestIServiceURL();
-}
-
-void IServiceWindow::SlotRespURL(int nServiceType, QString title, QList<CJsonNode> list)
-{
-	int count = list.count() - 1;
-	int nType =  list[count].GetInt(KEY_TYPE);
 
 	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
 	emit SigAddWidget(widget, STR_ISERVICE);
-	widget->SetInternetType(nServiceType);
-	if (iAirableType_Mask_Play & nType)
-	{
-		widget->AddWidgetItem(true, true, true);
-	}
-	else
-	{
-		widget->AddWidgetItem();
-	}
+	widget->SetInternetType(m_InternetType);
+	widget->AddWidgetItem();
+	widget->RequestIServiceURL();
+}
 
-	widget->GetInfoBrowser()->SetTitle(title);
-	widget->GetListBrowser()->SetNodeInfo(m_Node);
-//	widget->GetListBrowser()->ClearNodeList();
-	nType = widget->GetListBrowser()->SetNodeList(list, SIDEMENU_ISERVICE);
-	widget->SetType(nType);
-	widget->SetNode(m_Node);
+void IServiceWindow::SlotRespURL(int nServiceType, QList<CJsonNode> list, QString title, QString nextUrl)
+{
+//	int count = list.count() - 1;
+//	int nType =  list[count].GetInt(KEY_TYPE);
+	m_Node.Add(KEY_NEXT, nextUrl);
+//	LogDebug("SlotRespURL node [%s]", m_Node.ToCompactByteArray().data());
+
+	GetInfoBrowser()->SetTitle(title);
+	GetListBrowser()->SetNodeInfo(m_Node);
+	//	widget->GetListBrowser()->ClearNodeList();
+	int nType = GetListBrowser()->SetNodeList(list, SIDEMENU_ISERVICE);
+	SetInternetType(nServiceType);
+	SetType(nType);
 }
 
 void IServiceWindow::SlotRespForm(int nServiceType, CJsonNode node)
@@ -615,7 +640,12 @@ void IServiceWindow::SlotRespForm(int nServiceType, CJsonNode node)
 		QString url = node.GetString(KEY_URL);
 		url = url + "?q=" + keyword;
 
-		RequestIServiceURL(url);
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		emit SigAddWidget(widget, STR_ISERVICE);
+		widget->SetInternetType(m_InternetType);
+		widget->AddWidgetItem();
+		widget->SetNode(node);
+		widget->RequestIServiceURL(url);
 	}
 }
 
@@ -760,7 +790,7 @@ void IServiceWindow::ConnectSigToSlot()
 
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespQobuzLoginFail(CJsonNode)));
 	connect(m_pQobuzMgr, SIGNAL(SigRespLoginSuccess()), this, SLOT(SlotRespQobuzLoginSuccess()));
-	connect(m_pQobuzMgr, SIGNAL(SigRespList(QList<CJsonNode>, bool)), this, SLOT(SlotRespQobuzList(QList<CJsonNode>, bool)));
+	connect(m_pQobuzMgr, SIGNAL(SigRespList(QList<CJsonNode>, bool, int)), this, SLOT(SlotRespQobuzList(QList<CJsonNode>, bool, int)));
 	connect(m_pQobuzMgr, SIGNAL(SigListUpdate()), this, SLOT(SlotListUpdate()));
 
 	connect(m_pAirableMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
@@ -769,7 +799,7 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pAirableMgr, SIGNAL(SigRespLoginSuccess(int, bool)), this, SLOT(SlotRespAirableLoginSuccess(int, bool)));
 
 	connect(m_pAirableMgr, SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAuth(int)));
-	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QString, QList<CJsonNode>)), this, SLOT(SlotRespURL(int, QString, QList<CJsonNode>)));
+	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QList<CJsonNode>, QString, QString)), this, SLOT(SlotRespURL(int, QList<CJsonNode>, QString, QString)));
 	connect(m_pAirableMgr, SIGNAL(SigRespForm(int, CJsonNode)), this, SLOT(SlotRespForm(int, CJsonNode)));
 	connect(m_pAirableMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
@@ -808,7 +838,7 @@ void IServiceWindow::Initialize()
 	m_PlaylistID = "";
 	m_Refresh = false;
 
-	m_CurIndex = 0;
+	m_StartCount = QOBUZ_START;
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -833,7 +863,7 @@ void IServiceWindow::SetSelectOffTopMenu()
 
 	if (iIServiceType_Qobuz == m_InternetType)
 	{
-		int nType = GetType();
+		int nType = m_Type;
 		UtilNovatron::DebugTypeForQobuz("SetSelectOffTopMenu", nType);
 
 		if (iQobuzType_Mask_Track & nType)
@@ -871,7 +901,7 @@ void IServiceWindow::SetSelectOnTopMenu()
 
 	if (iIServiceType_Qobuz == m_InternetType)
 	{
-		int nType = GetType();
+		int nType = m_Type;
 		UtilNovatron::DebugTypeForQobuz("SetSelectOnTopMenu", nType);
 
 		if (iQobuzType_Mask_Track & nType)
@@ -1013,12 +1043,12 @@ void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForQobuz("SelectSearchForQobuz", nType);
 
-	m_Type = nType;
-	m_Node = node;
+	SetType(nType);
+	SetNode(node);
 
 //	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
-	int itemType = node.GetInt(KEY_ITEM_TYPE);
+	int itemType = m_Node.GetInt(KEY_ITEM_TYPE);
 
 	if (iQobuzType_Mask_Search == nType && itemType < 0)
 	{
@@ -1034,8 +1064,15 @@ void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
 		if (dialog.exec() == QDialog::Accepted)
 		{
 			QString keyword = dialog.GetKeyword();
+			m_Node.Add(KEY_KEYWORD, keyword);
 
-			RequestQobuzSearch(itemType, keyword, QOBUZ_START, QOBUZ_COUNT);
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			emit SigAddWidget(widget, STR_ISERVICE);
+			widget->SetInternetType(iIServiceType_Qobuz);
+//			widget->AddWidgetItem();
+			widget->SetNode(m_Node);
+			widget->SetTypeParent(m_Type);
+			widget->RequestQobuzSearch(itemType, keyword, QOBUZ_START, QOBUZ_COUNT);
 		}
 	}
 	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
@@ -1043,7 +1080,13 @@ void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
 		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == nType)
 	{
 		QString strID = m_Node.GetString(KEY_ID_UPPER);
-		RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		emit SigAddWidget(widget, STR_ISERVICE);
+		widget->SetInternetType(iIServiceType_Qobuz);
+		widget->SetNode(m_Node);
+		widget->SetTypeParent(m_Type);
+		widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Track) == nType)
 	{
@@ -1058,8 +1101,8 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForQobuz("SelectRecommendForQobuz", nType);
 
-	m_Type = nType;
-	m_Node = node;
+	SetType(nType);
+	SetNode(node);
 
 //	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
@@ -1069,18 +1112,23 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
 	{
-		DoRecommendAlbum();
+		DoQobuzRecommendAlbum();
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
 	{
-		DoRecommendPlaylist();
+		DoQobuzRecommendPlaylist();
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre) == nType)
 	{
-		QString strID = node.GetString(KEY_ID_UPPER);
+		QString strID = m_Node.GetString(KEY_ID_UPPER);
 		if (!strID.compare(VAL_GENRE))
 		{
-			RequestQobuzGenre();
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			emit SigAddWidget(widget, STR_ISERVICE);
+			widget->SetInternetType(iIServiceType_Qobuz);
+			widget->SetNode(m_Node);
+			widget->SetTypeParent(m_Type);
+			widget->RequestQobuzGenre();
 		}
 		else if (!strID.compare(VAL_ID_BEST_SELLERS)
 				 || !strID.compare(VAL_ID_MOST_STREAMED)
@@ -1090,25 +1138,36 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 				 || !strID.compare(VAL_ID_MOST_FEATURED))
 		{
 			QString strGenreID = m_Node.GetString(KEY_GENRE_ID);
-			RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT, strGenreID);
+
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			emit SigAddWidget(widget, STR_ISERVICE);
+			widget->SetInternetType(iIServiceType_Qobuz);
+			widget->SetNode(m_Node);
+			widget->SetTypeParent(m_Type);
+			widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT, strGenreID);
 		}
 		else
 		{
 			if (m_bGenre)
 			{
 				m_bGenre = false;
-				DoRecommendGenre(nType, strID);
+				DoQobuzRecommendGenre(nType, strID);
 			}
 			else
 			{
-				RequestQobuzGenre(strID);
+				IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+				emit SigAddWidget(widget, STR_ISERVICE);
+				widget->SetInternetType(iIServiceType_Qobuz);
+				widget->SetNode(m_Node);
+				widget->SetTypeParent(m_Type);
+				widget->RequestQobuzGenre(strID);
 			}
 		}
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album) == nType
 			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
 	{
-		QString strID = node.GetString(KEY_ID_UPPER);
+		QString strID = m_Node.GetString(KEY_ID_UPPER);
 		if (!strID.compare(VAL_ID_BEST_SELLERS)
 				 || !strID.compare(VAL_ID_MOST_STREAMED)
 				 || !strID.compare(VAL_ID_NEW_RELEASES)
@@ -1117,12 +1176,23 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 				 || !strID.compare(VAL_ID_MOST_FEATURED)
 				 || !strID.compare(VAL_ID_LAST_CREATED))
 		{
-			RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			emit SigAddWidget(widget, STR_ISERVICE);
+			widget->SetInternetType(iIServiceType_Qobuz);
+			widget->SetNode(m_Node);
+			widget->SetTypeParent(m_Type);
+			widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 		}
 		else
 		{
 			QString strID = m_Node.GetString(KEY_ID_UPPER);
-			RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			emit SigAddWidget(widget, STR_ISERVICE);
+			widget->SetInternetType(iIServiceType_Qobuz);
+			widget->SetNode(m_Node);
+			widget->SetTypeParent(m_Type);
+			widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 		}
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Track) == nType
@@ -1139,8 +1209,8 @@ void IServiceWindow::SelectFavoriteForQobuz(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForQobuz("SelectFavoriteForQobuz", nType);
 
-	m_Type = nType;
-	m_Node = node;
+	SetType(nType);
+	SetNode(node);
 
 //	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
@@ -1152,14 +1222,25 @@ void IServiceWindow::SelectFavoriteForQobuz(int nType, CJsonNode node)
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album) == nType
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track) == nType)
 	{
-		RequestQobuzFavorite(nType, QOBUZ_START, QOBUZ_COUNT);
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		emit SigAddWidget(widget, STR_ISERVICE);
+		widget->SetInternetType(iIServiceType_Qobuz);
+		widget->SetNode(m_Node);
+		widget->SetTypeParent(m_Type);
+		widget->RequestQobuzFavorite(nType, QOBUZ_START, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Artist) == nType
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Album) == nType
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Album) == nType)
 	{
 		QString strID = m_Node.GetString(KEY_ID_UPPER);
-		RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		emit SigAddWidget(widget, STR_ISERVICE);
+		widget->SetInternetType(iIServiceType_Qobuz);
+		widget->SetNode(m_Node);
+		widget->SetTypeParent(m_Type);
+		widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Track) == nType
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Track) == nType
@@ -1175,8 +1256,8 @@ void IServiceWindow::SelectUserPlaylistForQobuz(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForQobuz("SelectUserPlaylistForQobuz", nType);
 
-	m_Type = nType;
-	m_Node = node;
+	SetType(nType);
+	SetNode(node);
 
 	m_PlaylistID = "";
 
@@ -1184,12 +1265,23 @@ void IServiceWindow::SelectUserPlaylistForQobuz(int nType, CJsonNode node)
 
 	if (iQobuzType_Mask_UserPlaylist == nType)
 	{
-		RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		emit SigAddWidget(widget, STR_ISERVICE);
+		widget->SetInternetType(iIServiceType_Qobuz);
+		widget->SetNode(m_Node);
+		widget->SetTypeParent(m_Type);
+		widget->RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == nType)
 	{
 		m_PlaylistID = m_Node.GetString(KEY_ID_UPPER);
-		RequestQobuzCategory(nType, m_PlaylistID, QOBUZ_START, QOBUZ_COUNT);
+
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		emit SigAddWidget(widget, STR_ISERVICE);
+		widget->SetInternetType(iIServiceType_Qobuz);
+		widget->SetNode(m_Node);
+		widget->SetTypeParent(m_Type);
+		widget->RequestQobuzCategory(nType, m_PlaylistID, QOBUZ_START, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Track) == nType)
 	{
@@ -1203,8 +1295,8 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForAirable("SlotSelectTitle", nType);
 
-	m_Type = nType;
-	m_Node = node;
+	SetType(nType);
+	SetNode(node);
 
 //	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
@@ -1214,7 +1306,12 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 	{
 		if (!url.isEmpty())
 		{
-			RequestIServiceURL(url);
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			emit SigAddWidget(widget, STR_ISERVICE);
+			widget->SetInternetType(m_InternetType);
+			widget->AddWidgetItem();
+			widget->SetNode(m_Node);
+			widget->RequestIServiceURL(url);
 		}
 	}
 	else if (nType & iAirableType_Mask_Track
@@ -1233,6 +1330,281 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 		{
 			m_pAirableMgr->RequestLogout(m_InternetType, url);
 		}
+	}
+}
+
+void IServiceWindow::AppendSearchForQobuz()
+{
+	int nType = m_TypeParent;
+	CJsonNode node = m_Node;
+
+	UtilNovatron::DebugTypeForQobuz("AppendSearchForQobuz", nType);
+
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	int itemType = node.GetInt(KEY_ITEM_TYPE);
+
+	if (iQobuzType_Mask_Search == nType && itemType < 0)
+	{
+//		DoQobuzSearch();
+	}
+	else if (iQobuzType_Mask_Search == nType
+			 && ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == itemType
+				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == itemType
+				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Track) == itemType
+				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == itemType))
+	{
+//		SearchDialog dialog;
+//		if (dialog.exec() == QDialog::Accepted)
+//		{
+//			QString keyword = dialog.GetKeyword();
+
+//			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//			emit SigAddWidget(widget, STR_ISERVICE);
+//			widget->SetInternetType(iIServiceType_Qobuz);
+////			widget->AddWidgetItem();
+//			widget->SetNode(node);
+//			widget->RequestQobuzSearch(itemType, keyword, QOBUZ_START, QOBUZ_COUNT);
+//		}
+
+		QString keyword = node.GetString(KEY_KEYWORD);
+
+		RequestQobuzSearch(itemType, keyword, m_StartCount, QOBUZ_COUNT);
+
+	}
+	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
+		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Album) == nType
+		  || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == nType)
+	{
+//		QString strID = m_Node.GetString(KEY_ID_UPPER);
+
+//		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//		emit SigAddWidget(widget, STR_ISERVICE);
+//		widget->SetInternetType(iIServiceType_Qobuz);
+//		widget->SetNode(node);
+//		widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+
+		QString strID = node.GetString(KEY_ID_UPPER);
+
+		RequestQobuzCategory(nType, strID, m_StartCount, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Track) == nType)
+	{
+//		QMap<int, CJsonNode> map;
+//		map.insert(0, node);
+//		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
+
+}
+
+void IServiceWindow::AppendRecommendForQobuz()
+{
+	int nType = m_TypeParent;
+	CJsonNode node = m_Node;
+
+	UtilNovatron::DebugTypeForQobuz("AppendRecommendForQobuz", nType);
+
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	if (iQobuzType_Mask_Recommend == nType)
+	{
+//		DoQobuzRecommend();
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album) == nType)
+	{
+//		DoQobuzRecommendAlbum();
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist) == nType)
+	{
+//		DoQobuzRecommendPlaylist();
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre) == nType)
+	{
+		QString strID = node.GetString(KEY_ID_UPPER);
+		if (!strID.compare(VAL_GENRE))
+		{
+//			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//			emit SigAddWidget(widget, STR_ISERVICE);
+//			widget->SetInternetType(iIServiceType_Qobuz);
+//			widget->SetNode(node);
+//			widget->RequestQobuzGenre();
+		}
+		else if (!strID.compare(VAL_ID_BEST_SELLERS)
+				 || !strID.compare(VAL_ID_MOST_STREAMED)
+				 || !strID.compare(VAL_ID_NEW_RELEASES)
+				 || !strID.compare(VAL_ID_PRESS_AWARDS)
+				 || !strID.compare(VAL_ID_EDITOR_PICKS)
+				 || !strID.compare(VAL_ID_MOST_FEATURED))
+		{
+//			QString strGenreID = m_Node.GetString(KEY_GENRE_ID);
+
+//			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//			emit SigAddWidget(widget, STR_ISERVICE);
+//			widget->SetInternetType(iIServiceType_Qobuz);
+//			widget->SetNode(node);
+//			widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT, strGenreID);
+
+			QString strGenreID = node.GetString(KEY_GENRE_ID);
+
+			RequestQobuzRecommend(nType, strID, m_StartCount, QOBUZ_COUNT, strGenreID);
+		}
+		else
+		{
+//			if (m_bGenre)
+//			{
+//				m_bGenre = false;
+//				DoQobuzRecommendGenre(nType, strID);
+//			}
+//			else
+//			{
+//				IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//				emit SigAddWidget(widget, STR_ISERVICE);
+//				widget->SetInternetType(iIServiceType_Qobuz);
+//				widget->SetNode(node);
+//				widget->RequestQobuzGenre(strID);
+//			}
+		}
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Album) == nType
+			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Playlist) == nType)
+	{
+		QString strID = node.GetString(KEY_ID_UPPER);
+		if (!strID.compare(VAL_ID_BEST_SELLERS)
+				 || !strID.compare(VAL_ID_MOST_STREAMED)
+				 || !strID.compare(VAL_ID_NEW_RELEASES)
+				 || !strID.compare(VAL_ID_PRESS_AWARDS)
+				 || !strID.compare(VAL_ID_EDITOR_PICKS)
+				 || !strID.compare(VAL_ID_MOST_FEATURED)
+				 || !strID.compare(VAL_ID_LAST_CREATED))
+		{
+//			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//			emit SigAddWidget(widget, STR_ISERVICE);
+//			widget->SetInternetType(iIServiceType_Qobuz);
+//			widget->SetNode(node);
+//			widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+
+			RequestQobuzRecommend(nType, strID, m_StartCount, QOBUZ_COUNT);
+		}
+		else
+		{
+//			QString strID = m_Node.GetString(KEY_ID_UPPER);
+
+//			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//			emit SigAddWidget(widget, STR_ISERVICE);
+//			widget->SetInternetType(iIServiceType_Qobuz);
+//			widget->SetNode(node);
+//			widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+
+			RequestQobuzCategory(nType, strID, m_StartCount, QOBUZ_COUNT);
+		}
+	}
+	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Playlist | iQobuzType_Mask_Track) == nType)
+	{
+//		QMap<int, CJsonNode> map;
+//		map.insert(0, m_Node);
+//		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
+}
+
+void IServiceWindow::AppendFavoriteForQobuz()
+{
+	int nType = m_TypeParent;
+	CJsonNode node = m_Node;
+
+	UtilNovatron::DebugTypeForQobuz("AppendFavoriteForQobuz", nType);
+
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	if (iQobuzType_Mask_Favorite == nType)
+	{
+//		DoQobuzFavorite();
+	}
+	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track) == nType)
+	{
+//		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//		emit SigAddWidget(widget, STR_ISERVICE);
+//		widget->SetInternetType(iIServiceType_Qobuz);
+//		widget->SetNode(node);
+//		widget->RequestQobuzFavorite(nType, QOBUZ_START, QOBUZ_COUNT);
+
+		RequestQobuzFavorite(nType, m_StartCount, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Artist) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Album) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Album) == nType)
+	{
+//		QString strID = m_Node.GetString(KEY_ID_UPPER);
+
+//		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//		emit SigAddWidget(widget, STR_ISERVICE);
+//		widget->SetInternetType(iIServiceType_Qobuz);
+//		widget->SetNode(node);
+//		widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
+
+		QString strID = node.GetString(KEY_ID_UPPER);
+
+		RequestQobuzCategory(nType, strID, m_StartCount, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Track) == nType
+			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track | iQobuzType_Mask_Track) == nType)
+	{
+//		QMap<int, CJsonNode> map;
+//		map.insert(0, node);
+//		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
+}
+
+void IServiceWindow::AppendUserPlaylistForQobuz()
+{
+	int nType = m_TypeParent;
+	CJsonNode node = m_Node;
+
+	UtilNovatron::DebugTypeForQobuz("AppendUserPlaylistForQobuz", nType);
+
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	if (iQobuzType_Mask_UserPlaylist == nType)
+	{
+//		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//		emit SigAddWidget(widget, STR_ISERVICE);
+//		widget->SetInternetType(iIServiceType_Qobuz);
+//		widget->SetNode(node);
+//		widget->RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
+
+		RequestQobuzPlaylist(m_StartCount, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == nType)
+	{
+		QString playlistID = node.GetString(KEY_ID_UPPER);
+
+//		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+//		emit SigAddWidget(widget, STR_ISERVICE);
+//		widget->SetInternetType(iIServiceType_Qobuz);
+//		widget->SetNode(node);
+//		widget->RequestQobuzCategory(nType, m_PlaylistID, QOBUZ_START, QOBUZ_COUNT);
+
+		RequestQobuzCategory(nType, playlistID, m_StartCount, QOBUZ_COUNT);
+	}
+	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Track) == nType)
+	{
+//		QMap<int, CJsonNode> map;
+//		map.insert(0, node);
+//		RequestQobuzPlay(map, PLAY_CLEAR);
+	}
+}
+
+void IServiceWindow::AppendTitleForAirable()
+{
+	UtilNovatron::DebugTypeForAirable("AppendTitleForAirable", m_Type);
+	QString nextUrl = m_Node.GetString(KEY_NEXT);
+	if (!nextUrl.isEmpty())
+	{
+		RequestIServiceURL(nextUrl);
 	}
 }
 
@@ -1336,7 +1708,7 @@ void IServiceWindow::DoQobuzFavorite()
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
-void IServiceWindow::DoRecommendAlbum()
+void IServiceWindow::DoQobuzRecommendAlbum()
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 	emit SigAddWidget(widget, STR_ISERVICE);
@@ -1352,7 +1724,7 @@ void IServiceWindow::DoRecommendAlbum()
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
-void IServiceWindow::DoRecommendPlaylist()
+void IServiceWindow::DoQobuzRecommendPlaylist()
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 	emit SigAddWidget(widget, STR_ISERVICE);
@@ -1368,7 +1740,7 @@ void IServiceWindow::DoRecommendPlaylist()
 	int nType = widget->GetListBrowser()->SetNodeList(list, -1);
 }
 
-void IServiceWindow::DoRecommendGenre(int nType, QString strID)
+void IServiceWindow::DoQobuzRecommendGenre(int nType, QString strID)
 {
 	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
 	emit SigAddWidget(widget, STR_ISERVICE);

@@ -70,7 +70,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 
 	if (SIDEMENU_BROWSER == service)
 	{
-		foreach (CJsonNode node, m_NodeList)
+		foreach (CJsonNode node, list)
 		{
 //			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			QString title = node.GetString(KEY_NAME_CAP);
@@ -115,7 +115,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 	}
 	else if (SIDEMENU_ISERVICE == service)
 	{
-		foreach (CJsonNode node, m_NodeList)
+		foreach (CJsonNode node, list)
 		{
 //			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			UtilNovatron::DebugTypeForAirable("SetNodeList", node.GetInt(KEY_TYPE));
@@ -149,7 +149,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 	}
 	else // qobuz
 	{
-		foreach (CJsonNode node, m_NodeList)
+		foreach (CJsonNode node, list)
 		{
 //			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			UtilNovatron::DebugTypeForQobuz("SetNodeList", node.GetInt(KEY_TYPE));

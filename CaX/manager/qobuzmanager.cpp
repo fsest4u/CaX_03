@@ -321,6 +321,7 @@ void QobuzManager::ParseList(CJsonNode node, bool genre)
 	}
 
 	QString coverArt = node.GetString(KEY_ART);
+	int start = node.GetInt(KEY_START);
 
 	QList<CJsonNode> nodeList;
 	for (int i = 0; i < result.ArraySize(); i++)
@@ -334,6 +335,6 @@ void QobuzManager::ParseList(CJsonNode node, bool genre)
 		nodeList.append(tempNode);
 	}
 
-	emit SigRespList(nodeList, genre);
+	emit SigRespList(nodeList, genre, start);
 }
 
