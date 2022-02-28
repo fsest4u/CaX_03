@@ -17,7 +17,7 @@ select	\
 	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.MoodID)) as Mood	\
 	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.FolderID)) as Folder	\
 	, (select count(*) from (select * from Song where Song.IsDel = 0 group by song.Year)) as Year	\
-	, (select count(song.ROWID) from Song) as Song	\
+	, (select count(song.ROWID) from Song where Song.IsDel = 0) as Song	\
 from song	\
 limit 1;"
 
