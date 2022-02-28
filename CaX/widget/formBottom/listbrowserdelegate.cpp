@@ -90,7 +90,7 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	int gap = ( rectBase.width() - (60 + 40 + 20 + 200 + 200 + 200 + 200 + 30 + 60) ) / 6;
+	int gap = ( rectBase.width() - (60 + 40 + 20 + 400 + 300 + 50 + 50 + 30 + 60) ) / 6;
 	int indent = 0;
 	if (SIDEMENU_ISERVICE == m_Service)
 	{
@@ -102,10 +102,10 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QRect rectCover = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - 40) / 2, 40, 40);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + gap, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
-	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
-	QRect rectSubtitle = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
-	QRect rectDuration = QRect(rectSubtitle.x() + rectSubtitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
-	QRect rectFileSize = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 400, fmTitle.height());
+	QRect rectSubtitle = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 300, fmTitle.height());
+	QRect rectDuration = QRect(rectSubtitle.x() + rectSubtitle.width() + gap, rectTitle.y(), 50, fmTitle.height());
+	QRect rectFileSize = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 50, fmTitle.height());
 //	QRect rectMenu = QRect(rectFileSize.x() + rectFileSize.width() + gap, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 	QRect rectMenu = QRect(rectBase.width() - 60 - 29, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 
