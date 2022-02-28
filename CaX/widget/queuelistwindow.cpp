@@ -118,11 +118,12 @@ void QueuelistWindow::SetNodeInfo(CJsonNode node)
 //	CJsonNode track = list.at(0);
 //	LogDebug("track [%s]", track.ToTabedByteArray().data());
 
-//	if (!m_Src.compare(SRC_MUSIC_DB))
-//	{
+	if (!m_Src.compare(SRC_MUSIC_DB))
+	{
 //		int id = track.GetString(KEY_SONG).toInt();
 //		m_pMgr->RequestCategoryInfo(id);
-//	}
+		ui->btnMenu->show();
+	}
 //	else if (!m_Src.compare(SRC_BROWSER))
 //	{
 //		m_AlbumName = track.GetString(KEY_TOP);
@@ -331,6 +332,7 @@ void QueuelistWindow::Initialize()
 
 	m_Menu->setStyleSheet(style);
 	ui->btnMenu->setMenu(m_Menu);
+	ui->btnMenu->hide();
 
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
 
