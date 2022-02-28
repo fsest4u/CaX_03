@@ -112,11 +112,17 @@ void TimeManualDialog::Initialize()
 	ui->cbMonth->setCurrentText(QString::number(month));
 	ui->cbDay->setCurrentText(QString::number(day));
 
-	QString ampm = QTime::currentTime().toString("AP");
-	QString hour = QTime::currentTime().toString("hh");
+	int hour = QTime::currentTime().toString("hh").toInt();
 	QString minute = QTime::currentTime().toString("mm");
-	ui->cbAMPM->setCurrentText(ampm);
-	ui->cbHour->setCurrentText(hour);
+	if (hour < 12)
+	{
+		ui->cbAMPM->setCurrentIndex(0);
+	}
+	else
+	{
+		ui->cbAMPM->setCurrentIndex(1);
+	}
+	ui->cbHour->setCurrentText(QString::number(hour % 12));
 	ui->cbMinute->setCurrentText(minute);
 }
 
