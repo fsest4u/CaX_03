@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>836</width>
+    <width>826</width>
     <height>200</height>
    </rect>
   </property>
@@ -100,6 +100,12 @@
       </item>
       <item>
        <widget class="QFrame" name="frameFormTitle">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>200</width>
@@ -108,7 +114,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
@@ -149,7 +155,7 @@ color: rgb(84, 84, 84);
 }</string>
            </property>
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -168,7 +174,7 @@ color: rgb(84, 84, 84);
 }</string>
            </property>
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -206,6 +212,9 @@ color: rgb(84, 84, 84);
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
