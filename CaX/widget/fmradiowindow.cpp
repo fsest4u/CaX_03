@@ -118,8 +118,8 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
-	case TOP_MENU_ADD:
-		DoTopMenuAdd();
+	case TOP_MENU_ADD_NEW_STATION:
+		DoTopMenuAddNewStation();
 		break;
 	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
@@ -254,7 +254,7 @@ void FMRadioWindow::SetSelectOffTopMenu()
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_AND_SEEK_ALL, STR_CLEAR_AND_SEEK_ALL);
 	m_TopMenuMap.insert(TOP_MENU_SEEK_ALL, STR_SEEK_ALL);
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-	m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+	m_TopMenuMap.insert(TOP_MENU_ADD_NEW_STATION, STR_ADD_NEW_STATION);
 //	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
@@ -287,7 +287,7 @@ void FMRadioWindow::DoTopMenuClearAll()
 	m_pIconService->ClearSelectMap();
 }
 
-void FMRadioWindow::DoTopMenuAdd()
+void FMRadioWindow::DoTopMenuAddNewStation()
 {
 	AddRadioDialog dialog;
 	dialog.SetName(STR_MY_RADIO);

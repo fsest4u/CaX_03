@@ -90,9 +90,9 @@
 
 #define STR_ADD						TR("Add")
 #define STR_ADD_COVERART			TR("Search coverart")
+#define STR_ADD_NEW_STATION			TR("Add new station")
 #define STR_ADD_PLAYLIST			TR("Add playlist")
 #define STR_ADD_TO_FAVORITE			TR("Add to favorite")
-//#define STR_ADD_RADIO				TR("Add radio")
 #define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
 #define STR_CD_RIPPING				TR("CD ripping")
 #define STR_CLEAR_ALL				TR("Clear all")

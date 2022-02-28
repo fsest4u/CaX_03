@@ -59,7 +59,7 @@ private:
 	void DoTopMenuSeekAll(bool bDelete);
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
-	void DoTopMenuAdd();
+	void DoTopMenuAddNewStation();
 	void DoTopMenuDelete();
 	void DoTopMenuReservedRecordList();
 
