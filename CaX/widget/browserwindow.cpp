@@ -375,7 +375,7 @@ void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 
 void BrowserWindow::SlotIconSelectTitle(int nType, QString rawData)
 {
-	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
+	UtilNovatron::DebugTypeForBrowser("SlotIconSelectTitle", nType);
 
 	CJsonNode node;
 	if (!node.SetContent(rawData))
@@ -459,10 +459,10 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 		emit SigBrowserPath(path);
 		emit SigRemoveWidget(this);
 	}
-//	else
-//	{
-//		SlotSelectTrackPlay(nType, rawData);
-	//	}
+	else
+	{
+		SlotSelectTrackPlay(nType, node);
+	}
 }
 
 void BrowserWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
