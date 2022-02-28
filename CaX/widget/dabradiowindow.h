@@ -52,7 +52,7 @@ private:
 	void SetSelectOffTopMenu();
 	void SetSelectOnTopMenu();
 
-	void DoTopMenuSearchAll(bool bDelete);
+	void DoTopMenuSeekAll(bool bDelete);
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
 	void DoTopMenuDelete();

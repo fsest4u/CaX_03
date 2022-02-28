@@ -106,11 +106,11 @@ void FMRadioWindow::SlotTopMenu()
 void FMRadioWindow::SlotTopMenuAction(int menuID)
 {
 	switch (menuID) {
-	case TOP_MENU_SEARCH_ALL_N_DELETE:
-		DoTopMenuSearchAll(true);
+	case TOP_MENU_CLEAR_AND_SEEK_ALL:
+		DoTopMenuSeekAll(true);
 		break;
-	case TOP_MENU_SEARCH_ALL:
-		DoTopMenuSearchAll(false);
+	case TOP_MENU_SEEK_ALL:
+		DoTopMenuSeekAll(false);
 		break;
 	case TOP_MENU_SELECT_ALL:
 		DoTopMenuSelectAll();
@@ -251,8 +251,8 @@ void FMRadioWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL_N_DELETE, STR_SEARCH_ALL_N_DELETE);
-	m_TopMenuMap.insert(TOP_MENU_SEARCH_ALL, STR_SEARCH_ALL);
+	m_TopMenuMap.insert(TOP_MENU_CLEAR_AND_SEEK_ALL, STR_CLEAR_AND_SEEK_ALL);
+	m_TopMenuMap.insert(TOP_MENU_SEEK_ALL, STR_SEEK_ALL);
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
 //	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
@@ -272,7 +272,7 @@ void FMRadioWindow::SetSelectOnTopMenu()
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
 }
 
-void FMRadioWindow::DoTopMenuSearchAll(bool bDelete)
+void FMRadioWindow::DoTopMenuSeekAll(bool bDelete)
 {
 	m_pMgr->RequestSeek(bDelete);
 }

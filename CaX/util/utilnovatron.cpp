@@ -127,11 +127,11 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	{
 		return QIcon("");
 	}
-	else if (value.contains(STR_SEARCH_ALL_N_DELETE))
+	else if (value.contains(STR_CLEAR_AND_SEEK_ALL))
 	{
 		return QIcon("");
 	}
-	else if (value.contains(STR_SEARCH_ALL))
+	else if (value.contains(STR_SEEK_ALL))
 	{
 		return QIcon("");
 	}
