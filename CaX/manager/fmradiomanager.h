@@ -14,9 +14,9 @@ public:
 	void RequestPlay(int index);
 	void RequestSeek(bool bDel);
 	void RequestSeekStop();
-	void RequestAdd(int64_t freq, QString name);
+	void RequestAdd(QString name, int64_t freq);
 	void RequestDelete(QMap<int, bool> idMap);
-	void RequestSet(int index, QString name);
+	void RequestSet(QString name, int64_t freq, int index);
 	void RequestRecordList();
 	void RequestRecordSet();
 

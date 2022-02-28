@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>292</width>
-    <height>220</height>
+    <width>294</width>
+    <height>228</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -184,7 +184,21 @@ QPushButton:hover
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>MHz ~ Max.</string>
+         <string>MHz</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;~&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Max.</string>
         </property>
        </widget>
       </item>

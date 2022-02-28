@@ -13,6 +13,11 @@ AddRadioDialog::~AddRadioDialog()
 	delete ui;
 }
 
+void AddRadioDialog::SetTitle(QString title)
+{
+	setWindowTitle(title);
+}
+
 QString AddRadioDialog::GetName()
 {
 	return ui->lineEdit->text();

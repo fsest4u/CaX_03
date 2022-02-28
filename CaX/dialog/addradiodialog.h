@@ -15,6 +15,8 @@ public:
 	explicit AddRadioDialog(QWidget *parent = nullptr);
 	~AddRadioDialog();
 
+	void SetTitle(QString title);
+
 	QString GetName();
 	void SetName(QString name);
 

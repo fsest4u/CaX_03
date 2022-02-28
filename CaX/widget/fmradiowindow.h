@@ -61,7 +61,9 @@ private:
 	void DoTopMenuClearAll();
 	void DoTopMenuAddNewStation();
 	void DoTopMenuDelete();
+	void DoTopMenuEdit();
 	void DoTopMenuReservedRecordList();
+	void DoTopMenuSetReservedRecord();
 
 	void SetHome(QList<CJsonNode> &list);
 
@@ -72,6 +74,8 @@ private:
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, bool>		m_SelectMap;
+
+	QList<CJsonNode>	m_NodeList;
 
 	int					m_FreqMax;
 	int					m_FreqMin;

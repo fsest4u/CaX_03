@@ -106,17 +106,17 @@ void FMRadioWindow::SlotTopMenu()
 void FMRadioWindow::SlotTopMenuAction(int menuID)
 {
 	switch (menuID) {
-	case TOP_MENU_CLEAR_AND_SEEK_ALL:
-		DoTopMenuSeekAll(true);
-		break;
-	case TOP_MENU_SEEK_ALL:
-		DoTopMenuSeekAll(false);
-		break;
 	case TOP_MENU_SELECT_ALL:
 		DoTopMenuSelectAll();
 		break;
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
+		break;
+	case TOP_MENU_CLEAR_AND_SEEK_ALL:
+		DoTopMenuSeekAll(true);
+		break;
+	case TOP_MENU_SEEK_ALL:
+		DoTopMenuSeekAll(false);
 		break;
 	case TOP_MENU_ADD_NEW_STATION:
 		DoTopMenuAddNewStation();
@@ -124,8 +124,14 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
 		break;
+	case TOP_MENU_EDIT:
+		DoTopMenuEdit();
+		break;
 	case TOP_MENU_RESERVED_RECORD_LIST:
 		DoTopMenuReservedRecordList();
+		break;
+	case TOP_MENU_SET_RESERVED_RECORD:
+		DoTopMenuSetReservedRecord();
 		break;
 	}
 
@@ -160,24 +166,25 @@ void FMRadioWindow::SlotRespList(CJsonNode node)
 	m_FreqMin = node.GetInt(KEY_FREQ_MIN);
 	m_FreqStep = node.GetInt(KEY_FREQ_STEP);
 
-	QList<CJsonNode> nodeList;
+	m_NodeList.clear();
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
-		nodeList.append(result.GetArrayAt(i));
+		m_NodeList.append(result.GetArrayAt(i));
 	}
 
-	SetHome(nodeList);
+	SetHome(m_NodeList);
 
 	m_pInfoService->SetTitle(MAIN_TITLE);
-	m_pIconService->SetNodeList(nodeList, IconService::ICON_SERVICE_FM_RADIO);
+	m_pIconService->SetNodeList(m_NodeList, IconService::ICON_SERVICE_FM_RADIO);
 }
 
 void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 {
-	SetHome(list);
+	m_NodeList = list;
+	SetHome(m_NodeList);
 
 	m_pInfoService->SetTitle(RESERVE_TITLE);
-	m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_FM_RADIO_RECORD);
+	m_pIconService->SetNodeList(m_NodeList, IconService::ICON_SERVICE_FM_RADIO_RECORD);
 }
 
 void FMRadioWindow::SlotEventFmSeeking(CJsonNode node)
@@ -255,7 +262,7 @@ void FMRadioWindow::SetSelectOffTopMenu()
 	m_TopMenuMap.insert(TOP_MENU_SEEK_ALL, STR_SEEK_ALL);
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 	m_TopMenuMap.insert(TOP_MENU_ADD_NEW_STATION, STR_ADD_NEW_STATION);
-//	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
+	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -267,6 +274,8 @@ void FMRadioWindow::SetSelectOnTopMenu()
 
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 	m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
+	m_TopMenuMap.insert(TOP_MENU_EDIT, STR_EDIT);
+	m_TopMenuMap.insert(TOP_MENU_SET_RESERVED_RECORD, STR_SET_RESERVE_RECORD);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -297,7 +306,7 @@ void FMRadioWindow::DoTopMenuAddNewStation()
 	{
 		QString name = dialog.GetName();
 		double freq = dialog.GetFrequency();
-		m_pMgr->RequestAdd(freq, name);
+		m_pMgr->RequestAdd(name, freq);
 	}
 }
 
@@ -310,6 +319,41 @@ void FMRadioWindow::DoTopMenuDelete()
 	m_pIconService->ClearSelectMap();
 }
 
+void FMRadioWindow::DoTopMenuEdit()
+{
+	if (m_SelectMap.count() == 1)
+	{
+		int index = -1;
+		QMap<int, bool>::iterator i;
+		for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+		{
+			index = (int64_t)i.key();
+		}
+
+		CJsonNode node = m_NodeList.at(index);
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+		AddRadioDialog dialog;
+		dialog.SetTitle(STR_EDIT);
+		dialog.SetName(node.GetString(KEY_RIGHT));
+		dialog.SetFrequency((node.GetString(KEY_LEFT).toDouble() * 1000));
+		dialog.SetRange(m_FreqMin/100.0, m_FreqMax/100.0, m_FreqStep/100.0);
+
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			QString name = dialog.GetName();
+			double freq = dialog.GetFrequency();
+			m_pMgr->RequestSet(name, freq, index);
+		}
+
+	}
+	else
+	{
+		CommonDialog dialog(this, STR_WARNING, STR_SELECT_ONE_ITEM);
+		dialog.exec();
+	}
+}
+
 void FMRadioWindow::DoTopMenuReservedRecordList()
 {
 	FMRadioWindow *widget = new FMRadioWindow(this, m_pMgr->GetAddr());
@@ -317,6 +361,11 @@ void FMRadioWindow::DoTopMenuReservedRecordList()
 	emit SigAddWidget(widget, STR_FM_RADIO);
 
 	widget->RequestRecordList();
+}
+
+void FMRadioWindow::DoTopMenuSetReservedRecord()
+{
+
 }
 
 void FMRadioWindow::SetHome(QList<CJsonNode> &list)

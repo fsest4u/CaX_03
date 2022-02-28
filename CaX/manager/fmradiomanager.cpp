@@ -52,13 +52,13 @@ void FmRadioManager::RequestSeekStop()
 	RequestCommand(node, FM_SEEK_STOP);
 }
 
-void FmRadioManager::RequestAdd(int64_t freq, QString name)
+void FmRadioManager::RequestAdd(QString name, int64_t freq)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
 	node.Add	(KEY_CMD1,		VAL_ADD);
+	node.Add	(KEY_NAME_CAP,	name);
 	node.Add	(KEY_FREQ,		freq);
-	node.Add	(KEY_NAME_CAP,		name);
 
 	RequestCommand(node, FM_ADD);
 }
@@ -81,13 +81,14 @@ void FmRadioManager::RequestDelete(QMap<int, bool> idMap)
 	RequestCommand(node, FM_DELETE);
 }
 
-void FmRadioManager::RequestSet(int index, QString name)
+void FmRadioManager::RequestSet(QString name, int64_t freq, int index)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
 	node.Add	(KEY_CMD1,		VAL_SET);
+	node.Add	(KEY_NAME_CAP,	name);
+	node.Add	(KEY_FREQ,		freq);
 	node.AddInt	(KEY_INDEX,		index);
-	node.Add	(KEY_NAME_CAP,		name);
 
 	RequestCommand(node, FM_SET);
 }

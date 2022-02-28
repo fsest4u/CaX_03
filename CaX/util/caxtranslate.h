@@ -20,6 +20,7 @@
 #define STR_ENTER_SEARCH_WORD		TR("Please enter a search term of at least 3 characters")
 #define STR_INSERT_CD				TR("Please insert a CD")
 #define STR_NO_DEVICES				TR("No devices found")
+#define STR_SELECT_ONE_ITEM			TR("Please select only one item")
 #define	STR_UPDATE_FIRMWARE			TR("Update to the latest firmware (current version: %1)")
 
 //////////////////////////////////////////////////
@@ -104,6 +105,7 @@
 //#define STR_DELETE_RADIO			TR("Delete radio")
 #define STR_DELETE_TO_FAVORITE		TR("Delete to favorite")
 #define STR_DELETE_TO_PLAYLIST		TR("Delete track to playlist")
+#define STR_EDIT	          		TR("Edit")
 #define STR_EDIT_TAG          		TR("Edit tag")
 #define STR_EJECT_CD				TR("Eject CD")
 #define STR_EXPORT_TRACK			TR("Export track")
@@ -133,6 +135,7 @@
 #define STR_SEARCH_COVERART			TR("Search coverart")
 #define STR_SEEK_ALL				TR("Seek all")
 #define STR_SELECT_ALL				TR("Select all")
+#define STR_SET_RESERVE_RECORD		TR("Set reserve record")
 #define STR_SHOW_COLUMNS			TR("Show columns")
 #define STR_TAG_EDIT           		TR("Tag edit")
 #define STR_TITLE           		TR("Title")
