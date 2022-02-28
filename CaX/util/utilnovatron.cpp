@@ -135,7 +135,7 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	{
 		return QIcon("");
 	}
-	else if (value.contains(STR_ADD_COVERART))
+	else if (value.contains(STR_SEARCH_COVERART))
 	{
 		return QIcon(":/resource/play-popup-icon16-searchcoverart.png");
 	}
