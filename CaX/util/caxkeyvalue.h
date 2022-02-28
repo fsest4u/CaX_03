@@ -333,6 +333,7 @@
 
 #define		VAL_RECOMMEND		"Recommend"
 #define		VAL_RECORD_LIST		"RecordList"
+#define		VAL_RECORD_SET		"RecordSet"
 #define		VAL_REMOTE			"Remote"
 #define		VAL_REMOVE_DB		"RemoveDB"
 #define		VAL_RENAME			"Rename"

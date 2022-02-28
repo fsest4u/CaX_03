@@ -19,7 +19,7 @@ class FMRadioWindow : public QWidget
 	Q_OBJECT
 
 public:
-	explicit FMRadioWindow(QWidget *parent = nullptr, const QString &addr = "");
+	explicit FMRadioWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~FMRadioWindow();
 
 	void AddWidgetFMRadioHome();
@@ -63,7 +63,7 @@ private:
 	void DoTopMenuDelete();
 	void DoTopMenuEdit();
 	void DoTopMenuReservedRecordList();
-	void DoTopMenuSetReservedRecord();
+	void DoTopMenuSetupReservedRecord();
 
 	void SetHome(QList<CJsonNode> &list);
 
@@ -76,6 +76,8 @@ private:
 	QMap<int, bool>		m_SelectMap;
 
 	QList<CJsonNode>	m_NodeList;
+
+	int					m_EventID;
 
 	int					m_FreqMax;
 	int					m_FreqMin;

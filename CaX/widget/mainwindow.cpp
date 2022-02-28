@@ -980,7 +980,7 @@ void MainWindow::DoInputHome()
 
 void MainWindow::DoFmRadioHome()
 {
-	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr);
+	FMRadioWindow *widget = new FMRadioWindow(this, m_strAddr, m_EventID);
 	widget->AddWidgetFMRadioHome();
 	SlotAddWidget(widget, STR_FM_RADIO);
 	widget->RequestList();

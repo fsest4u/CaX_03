@@ -102,9 +102,10 @@ void FmRadioManager::RequestRecordList()
 	RequestCommand(node, FM_RECORD_LIST);
 }
 
-void FmRadioManager::RequestRecordSet()
+void FmRadioManager::RequestRecordSet(CJsonNode node)
 {
-	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add(KEY_CMD1,		VAL_RECORD_SET);
 
 	RequestCommand(node, FM_RECORD_SET);
 }

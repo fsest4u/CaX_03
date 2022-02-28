@@ -44,6 +44,7 @@ SOURCES += \
     dialog/setup/setuplogindialog.cpp \
     dialog/setup/timemanualdialog.cpp \
     dialog/setup/wiredlansetupdialog.cpp \
+    dialog/setupreservationrecordingdialog.cpp \
     dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
     dialog/webengineviewdialog.cpp \
@@ -183,6 +184,7 @@ HEADERS += \
     dialog/setup/setuplogindialog.h \
     dialog/setup/timemanualdialog.h \
     dialog/setup/wiredlansetupdialog.h \
+    dialog/setupreservationrecordingdialog.h \
     dialog/trackinfo.h \
     dialog/trackinfodialog.h \
     dialog/webengineviewdialog.h \
@@ -330,6 +332,7 @@ FORMS += \
     dialog/setup/setuplogindialog.ui \
     dialog/setup/timemanualdialog.ui \
     dialog/setup/wiredlansetupdialog.ui \
+    dialog/setupreservationrecordingdialog.ui \
     dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \
     dialog/webengineviewdialog.ui \

@@ -1,10 +1,10 @@
-
 #include "fmradiowindow.h"
 #include "ui_fmradiowindow.h"
 
 #include "dialog/addradiodialog.h"
 #include "dialog/commondialog.h"
 #include "dialog/progressfmdialog.h"
+#include "dialog/setupreservationrecordingdialog.h"
 
 #include "manager/fmradiomanager.h"
 
@@ -24,12 +24,13 @@
 #define MAIN_TITLE	"FM Radio"
 #define RESERVE_TITLE	"Reserved record list"
 
-FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr) :
+FMRadioWindow::FMRadioWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
 	m_pMgr(new FmRadioManager),
 	m_pInfoService(new InfoService(this)),
 	m_pIconService(new IconService(this)),
 	m_ProgressDialog(new ProgressFmDialog(this)),
+	m_EventID(eventID),
 	m_FreqMax(0),
 	m_FreqMin(0),
 	m_FreqStep(0),
@@ -130,8 +131,8 @@ void FMRadioWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_RESERVED_RECORD_LIST:
 		DoTopMenuReservedRecordList();
 		break;
-	case TOP_MENU_SET_RESERVED_RECORD:
-		DoTopMenuSetReservedRecord();
+	case TOP_MENU_SETUP_RESERVED_RECORD:
+		DoTopMenuSetupReservedRecord();
 		break;
 	}
 
@@ -275,7 +276,7 @@ void FMRadioWindow::SetSelectOnTopMenu()
 	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
 	m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
 	m_TopMenuMap.insert(TOP_MENU_EDIT, STR_EDIT);
-	m_TopMenuMap.insert(TOP_MENU_SET_RESERVED_RECORD, STR_SET_RESERVE_RECORD);
+	m_TopMenuMap.insert(TOP_MENU_SETUP_RESERVED_RECORD, STR_SETUP_RESERVE_RECORD);
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -363,9 +364,44 @@ void FMRadioWindow::DoTopMenuReservedRecordList()
 	widget->RequestRecordList();
 }
 
-void FMRadioWindow::DoTopMenuSetReservedRecord()
+void FMRadioWindow::DoTopMenuSetupReservedRecord()
 {
+	if (m_SelectMap.count() == 1)
+	{
+		int index = -1;
+		QMap<int, bool>::iterator i;
+		for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+		{
+			index = (int64_t)i.key();
+		}
 
+		CJsonNode tempNode = m_NodeList.at(index);
+		LogDebug("node [%s]", tempNode.ToCompactByteArray().data());
+
+		CJsonNode node(JSON_OBJECT);
+		node.Add(KEY_TOP, tempNode.GetString(KEY_RIGHT));
+		node.Add(KEY_ACTIVE, false);
+		node.AddInt(KEY_DURATION, 5);
+
+		SetupReservationRecordingDialog dialog;
+		dialog.SetNodeData(node);
+
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			node.Clear();
+			node = dialog.GetNodeData();
+			node.AddInt(KEY_FREQ, tempNode.GetString(KEY_LEFT).toDouble() * 100);
+			node.AddInt(KEY_EVENT_ID, m_EventID);
+
+			m_pMgr->RequestRecordSet(node);
+		}
+
+	}
+	else
+	{
+		CommonDialog dialog(this, STR_WARNING, STR_SELECT_ONE_ITEM);
+		dialog.exec();
+	}
 }
 
 void FMRadioWindow::SetHome(QList<CJsonNode> &list)

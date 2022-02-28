@@ -18,7 +18,7 @@ public:
 	void RequestDelete(QMap<int, bool> idMap);
 	void RequestSet(QString name, int64_t freq, int index);
 	void RequestRecordList();
-	void RequestRecordSet();
+	void RequestRecordSet(CJsonNode node);
 
 signals:
 
