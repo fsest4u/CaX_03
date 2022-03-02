@@ -44,9 +44,9 @@ TopWindow::~TopWindow()
 	delete ui;
 }
 
-void TopWindow::AddTitle(QString title)
+void TopWindow::AddTitle(int index, QString title)
 {
-	m_TitleList.append(title);
+	m_TitleList.insert(index, title);
 }
 
 void TopWindow::RemoveTitle()

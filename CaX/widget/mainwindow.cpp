@@ -1119,7 +1119,7 @@ void MainWindow::SlotAddWidget(QWidget *widget, QString title)
 
 	idx = ui->stackMain->addWidget(widget);
 	ui->stackMain->setCurrentIndex(idx);
-	ui->widgetTop->AddTitle(title);
+	ui->widgetTop->AddTitle(idx, title);
 
 	UpdateStackState();
 }

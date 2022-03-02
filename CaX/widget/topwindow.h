@@ -17,7 +17,7 @@ public:
 	explicit TopWindow(QWidget *parent = nullptr);
 	~TopWindow();
 
-	void AddTitle(QString title);
+	void AddTitle(int index, QString title);
 	void RemoveTitle();
 	void SetTitle(int index);
 
