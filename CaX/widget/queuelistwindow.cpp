@@ -442,6 +442,8 @@ void QueuelistWindow::SetPlayIndex(int total, int currPlay)
 	}
 	QString count = QString("%1 / %2").arg(currPlay + 1).arg(total);
 	ui->labelCount->setText(count);
+
+	m_Track->SetCurrentIndex(currPlay);
 }
 
 void QueuelistWindow::SetTotalTime(int time)

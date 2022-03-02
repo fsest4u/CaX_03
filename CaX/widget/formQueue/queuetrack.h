@@ -25,6 +25,8 @@ public:
 	int SetNodeList(QList<CJsonNode> list);
 	void ClearNodeList();
 
+	void SetCurrentIndex(int index);
+
 	QStandardItemModel	*GetModel();
 	QueueTrackDelegate	*GetDelegate();
 

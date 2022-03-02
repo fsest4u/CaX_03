@@ -86,6 +86,12 @@ void QueueTrack::ClearNodeList()
 	m_NodeList.clear();
 }
 
+void QueueTrack::SetCurrentIndex(int index)
+{
+	QModelIndex modelIndex = m_Model->index(index, 0);
+	m_ListView->setCurrentIndex(modelIndex);
+}
+
 QStandardItemModel *QueueTrack::GetModel()
 {
 	return m_Model;
