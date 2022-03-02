@@ -60,7 +60,7 @@ CJsonNode AlarmDialog::GetNodeForm()
 	CJsonNode node(JSON_OBJECT);
 	node.Add(m_HiddenKey, m_HiddenValue);
 	node.Add(KEY_ACTIVE, active);
-	node.Add(KEY_TIME_CAP, QString("%1:%2").arg(QString::number(hour).rightJustified(2, '0')).arg(ui->cbMinute->currentText().rightJustified(2, '0')));
+	node.Add(KEY_TIME_CAP, QString("%1:%2").arg(QString::number(hour), 2, '0').arg(ui->cbMinute->currentText(), 2, '0'));
 	if (!ui->frameVolume->isHidden())
 	{
 		node.AddInt(KEY_VOLUME_CAP, ui->horizontalSlider->value());

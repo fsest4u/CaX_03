@@ -27,7 +27,10 @@ TimeManualDialog::~TimeManualDialog()
 
 CJsonNode TimeManualDialog::GetNodeForm()
 {
-	QString date = QString("%1-%2-%3").arg(ui->cbYear->currentText()).arg(ui->cbMonth->currentText()).arg(ui->cbDay->currentText());
+	QString date = QString("%1-%2-%3")
+			.arg(ui->cbYear->currentText())
+			.arg(ui->cbMonth->currentText(), 2, '0')
+			.arg(ui->cbDay->currentText(), 2, '0');
 	int hour = 0;
 	if (!ui->cbAMPM->currentText().compare("PM"))
 	{
@@ -37,7 +40,9 @@ CJsonNode TimeManualDialog::GetNodeForm()
 	{
 		hour = ui->cbHour->currentText().toInt();
 	}
-	QString time = QString("%1:%2").arg(hour).arg(ui->cbMinute->currentText());
+	QString time = QString("%1:%2")
+			.arg(QString::number(hour), 2, '0')
+			.arg(ui->cbMinute->currentText(), 2, '0');
 
 
 	CJsonNode node(JSON_OBJECT);

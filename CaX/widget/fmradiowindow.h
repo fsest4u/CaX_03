@@ -24,14 +24,19 @@ public:
 
 	void AddWidgetFMRadioHome();
 	void RequestList();
-	void RequestRecordList();
+	void RequestRecordList(int eventID);
+
+	void SetRecordList(QList<CJsonNode> list);
 
 signals:
 
 	void SigAddWidget(QWidget *widget, QString title);
-
+	void SigRemoveWidget(QWidget* widget);
 
 private slots:
+
+	void SlotAddWidget(QWidget *widget, QString title);
+	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
@@ -39,6 +44,7 @@ private slots:
 
 	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int nType);
+	void SlotSelectTitle(int nType, QString rawData);
 	void SlotRespList(CJsonNode node);
 	void SlotRespRecordList(QList<CJsonNode> list);
 	void SlotRespRecordSet(CJsonNode node);
@@ -83,6 +89,8 @@ private:
 	int					m_FreqMax;
 	int					m_FreqMin;
 	int					m_FreqStep;
+
+	bool				m_UpdateList;
 
 	Ui::FMRadioWindow *ui;
 };

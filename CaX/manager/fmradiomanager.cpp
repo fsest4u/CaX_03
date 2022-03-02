@@ -81,6 +81,17 @@ void FmRadioManager::RequestDelete(QMap<int, bool> idMap)
 	RequestCommand(node, FM_DELETE);
 }
 
+void FmRadioManager::RequestDeleteRecord(int id, int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_ETC);
+	node.Add	(KEY_CMD1,		VAL_RECORD_DEL);
+	node.AddInt	(KEY_ID_UPPER,	id);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+
+	RequestCommand(node, FM_DELETE_RECORD);
+}
+
 void FmRadioManager::RequestSet(QString name, int64_t freq, int index)
 {
 	CJsonNode node(JSON_OBJECT);
@@ -93,11 +104,12 @@ void FmRadioManager::RequestSet(QString name, int64_t freq, int index)
 	RequestCommand(node, FM_SET);
 }
 
-void FmRadioManager::RequestRecordList()
+void FmRadioManager::RequestRecordList(int eventID)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
 	node.Add	(KEY_CMD1,		VAL_RECORD_LIST);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
 
 	RequestCommand(node, FM_RECORD_LIST);
 }
@@ -150,6 +162,7 @@ void FmRadioManager::SlotRespInfo(QString json, int nCmdID)
 	case FM_SEEK_STOP:
 	case FM_ADD:
 	case FM_DELETE:
+	case FM_DELETE_RECORD:
 	case FM_SET:
 		break;
 	case FM_RECORD_LIST:

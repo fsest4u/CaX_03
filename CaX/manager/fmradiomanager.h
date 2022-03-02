@@ -16,8 +16,9 @@ public:
 	void RequestSeekStop();
 	void RequestAdd(QString name, int64_t freq);
 	void RequestDelete(QMap<int, bool> idMap);
+	void RequestDeleteRecord(int id, int eventID);
 	void RequestSet(QString name, int64_t freq, int index);
-	void RequestRecordList();
+	void RequestRecordList(int eventID);
 	void RequestRecordSet(CJsonNode node);
 
 signals:
@@ -41,6 +42,7 @@ private:
 		FM_SEEK_STOP,
 		FM_ADD,
 		FM_DELETE,
+		FM_DELETE_RECORD,
 		FM_SET,
 		FM_RECORD_LIST,
 		FM_RECORD_SET,

@@ -86,9 +86,28 @@ void FMRadioWindow::RequestList()
 	m_pMgr->RequestList();
 }
 
-void FMRadioWindow::RequestRecordList()
+void FMRadioWindow::RequestRecordList(int eventID)
 {
-	m_pMgr->RequestRecordList();
+	m_pMgr->RequestRecordList(eventID);
+}
+
+void FMRadioWindow::SetRecordList(QList<CJsonNode> list)
+{
+	m_NodeList = list;
+	SetHome(m_NodeList);
+
+	m_pInfoService->SetTitle(RESERVE_TITLE);
+	m_pIconService->SetNodeList(m_NodeList, IconService::ICON_SERVICE_FM_RADIO_RECORD);
+}
+
+void FMRadioWindow::SlotAddWidget(QWidget *widget, QString title)
+{
+	emit SigAddWidget(widget, STR_FM_RADIO);	// recursive
+}
+
+void FMRadioWindow::SlotRemoveWidget(QWidget *widget)
+{
+	emit SigRemoveWidget(widget);
 }
 
 void FMRadioWindow::SlotTopMenu()
@@ -154,6 +173,32 @@ void FMRadioWindow::SlotSelectTitle(int nType)
 	m_pMgr->RequestPlay(nType);
 }
 
+void FMRadioWindow::SlotSelectTitle(int nType, QString rawData)
+{
+	Q_UNUSED(nType)
+
+	CJsonNode node;
+	if (!node.SetContent(rawData))
+	{
+		return;
+	}
+
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+
+	SetupReservationRecordingDialog dialog;
+	dialog.SetNodeData(node);
+
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		node.Clear();
+		node = dialog.GetNodeData();
+//		node.Del(KEY_NAME_CAP);
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+
+		m_pMgr->RequestRecordSet(node);
+	}
+}
+
 void FMRadioWindow::SlotRespList(CJsonNode node)
 {
 	CJsonNode result;
@@ -181,11 +226,19 @@ void FMRadioWindow::SlotRespList(CJsonNode node)
 
 void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 {
-	m_NodeList = list;
-	SetHome(m_NodeList);
+	if (m_UpdateList)
+	{
+		m_UpdateList = false;
+		SetRecordList(list);
+	}
+	else
+	{
+		FMRadioWindow *widget = new FMRadioWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->AddWidgetFMRadioHome();
+		emit SigAddWidget(widget, STR_FM_RADIO);
+		widget->SetRecordList(list);
+	}
 
-	m_pInfoService->SetTitle(RESERVE_TITLE);
-	m_pIconService->SetNodeList(m_NodeList, IconService::ICON_SERVICE_FM_RADIO_RECORD);
 }
 
 void FMRadioWindow::SlotRespRecordSet(CJsonNode node)
@@ -196,6 +249,9 @@ void FMRadioWindow::SlotRespRecordSet(CJsonNode node)
 		CommonDialog dialog(this, STR_WARNING, desc);
 		dialog.exec();
 	}
+
+	m_UpdateList = true;
+	RequestRecordList(m_EventID);
 }
 
 void FMRadioWindow::SlotEventFmSeeking(CJsonNode node)
@@ -240,15 +296,16 @@ void FMRadioWindow::SlotEventFmSet(CJsonNode node)
 void FMRadioWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
-
-//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
-	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
-//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespList(CJsonNode)), this, SLOT(SlotRespList(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespRecordSet(CJsonNode)), this, SLOT(SlotRespRecordSet(CJsonNode)));
+
+//	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectPlay(int)), this, SLOT(SlotSelectPlay(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int)), this, SLOT(SlotSelectTitle(int)));
+	connect(m_pIconService->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
@@ -264,17 +321,26 @@ void FMRadioWindow::Initialize()
 
 	m_TopMenuMap.clear();
 	m_SelectMap.clear();
+
+	m_UpdateList = false;
 }
 
 void FMRadioWindow::SetSelectOffTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	m_TopMenuMap.insert(TOP_MENU_CLEAR_AND_SEEK_ALL, STR_CLEAR_AND_SEEK_ALL);
-	m_TopMenuMap.insert(TOP_MENU_SEEK_ALL, STR_SEEK_ALL);
-	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-	m_TopMenuMap.insert(TOP_MENU_ADD_NEW_STATION, STR_ADD_NEW_STATION);
-	m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
+	if (m_pIconService->GetDelegate()->GetService() == IconService::ICON_SERVICE_FM_RADIO_RECORD)
+	{
+
+	}
+	else
+	{
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_AND_SEEK_ALL, STR_CLEAR_AND_SEEK_ALL);
+		m_TopMenuMap.insert(TOP_MENU_SEEK_ALL, STR_SEEK_ALL);
+		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+		m_TopMenuMap.insert(TOP_MENU_ADD_NEW_STATION, STR_ADD_NEW_STATION);
+		m_TopMenuMap.insert(TOP_MENU_RESERVED_RECORD_LIST, STR_RESERVE_RECORD_LIST);
+	}
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -284,10 +350,18 @@ void FMRadioWindow::SetSelectOnTopMenu()
 {
 	m_TopMenuMap.clear();
 
-	m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-	m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
-	m_TopMenuMap.insert(TOP_MENU_EDIT, STR_EDIT);
-	m_TopMenuMap.insert(TOP_MENU_SETUP_RESERVED_RECORD, STR_SETUP_RESERVE_RECORD);
+	if (m_pIconService->GetDelegate()->GetService() == IconService::ICON_SERVICE_FM_RADIO_RECORD)
+	{
+		m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
+		m_TopMenuMap.insert(TOP_MENU_EDIT, STR_EDIT);
+	}
+	else
+	{
+		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
+		m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
+		m_TopMenuMap.insert(TOP_MENU_EDIT, STR_EDIT);
+		m_TopMenuMap.insert(TOP_MENU_SETUP_RESERVED_RECORD, STR_SETUP_RESERVE_RECORD);
+	}
 
 	m_pInfoService->GetFormPlay()->ClearMenu();
 	m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -326,7 +400,29 @@ void FMRadioWindow::DoTopMenuDelete()
 {
 	if (m_SelectMap.count() > 0)
 	{
-		m_pMgr->RequestDelete(m_SelectMap);
+		if (m_pIconService->GetDelegate()->GetService() == IconService::ICON_SERVICE_FM_RADIO_RECORD)
+		{
+			if (m_SelectMap.count() == 1)
+			{
+				int id = -1;
+				QMap<int, bool>::iterator i;
+				for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+				{
+					id = (int64_t)i.key();
+				}
+
+				m_pMgr->RequestDeleteRecord(id, m_EventID);
+			}
+			else
+			{
+				CommonDialog dialog(this, STR_WARNING, STR_SELECT_ONE_ITEM);
+				dialog.exec();
+			}
+		}
+		else
+		{
+			m_pMgr->RequestDelete(m_SelectMap);
+		}
 	}
 	m_pIconService->ClearSelectMap();
 }
@@ -335,29 +431,67 @@ void FMRadioWindow::DoTopMenuEdit()
 {
 	if (m_SelectMap.count() == 1)
 	{
-		int index = -1;
-		QMap<int, bool>::iterator i;
-		for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+		if (m_pIconService->GetDelegate()->GetService() == IconService::ICON_SERVICE_FM_RADIO_RECORD)
 		{
-			index = (int64_t)i.key();
+			int id = -1;
+			QMap<int, bool>::iterator i;
+			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+			{
+				id = (int64_t)i.key();
+			}
+
+			CJsonNode node;
+			foreach (CJsonNode tempNode, m_NodeList)
+			{
+				if (tempNode.GetInt(KEY_ID_UPPER) == id)
+				{
+					node = tempNode;
+//					LogDebug("node [%s]", node.ToCompactByteArray().data());
+				}
+			}
+
+			if (!node.IsNull())
+			{
+				SetupReservationRecordingDialog dialog;
+				dialog.SetNodeData(node);
+
+				if (dialog.exec() == QDialog::Accepted)
+				{
+					node.Clear();
+					node = dialog.GetNodeData();
+			//		node.Del(KEY_NAME_CAP);
+					node.AddInt(KEY_EVENT_ID, m_EventID);
+
+					m_pMgr->RequestRecordSet(node);
+				}
+			}
+
 		}
-
-		CJsonNode node = m_NodeList.at(index);
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
-
-		AddRadioDialog dialog;
-		dialog.SetTitle(STR_EDIT);
-		dialog.SetName(node.GetString(KEY_RIGHT));
-		dialog.SetFrequency((node.GetString(KEY_LEFT).toDouble() * 1000));
-		dialog.SetRange(m_FreqMin/100.0, m_FreqMax/100.0, m_FreqStep/100.0);
-
-		if (dialog.exec() == QDialog::Accepted)
+		else
 		{
-			QString name = dialog.GetName();
-			double freq = dialog.GetFrequency();
-			m_pMgr->RequestSet(name, freq, index);
-		}
+			int index = -1;
+			QMap<int, bool>::iterator i;
+			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+			{
+				index = (int64_t)i.key();
+			}
 
+			CJsonNode node = m_NodeList.at(index);
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+			AddRadioDialog dialog;
+			dialog.SetTitle(STR_EDIT);
+			dialog.SetName(node.GetString(KEY_RIGHT));
+			dialog.SetFrequency((node.GetString(KEY_LEFT).toDouble() * 1000));
+			dialog.SetRange(m_FreqMin/100.0, m_FreqMax/100.0, m_FreqStep/100.0);
+
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				QString name = dialog.GetName();
+				double freq = dialog.GetFrequency();
+				m_pMgr->RequestSet(name, freq, index);
+			}
+		}
 	}
 	else
 	{
@@ -368,11 +502,7 @@ void FMRadioWindow::DoTopMenuEdit()
 
 void FMRadioWindow::DoTopMenuReservedRecordList()
 {
-	FMRadioWindow *widget = new FMRadioWindow(this, m_pMgr->GetAddr());
-	widget->AddWidgetFMRadioHome();
-	emit SigAddWidget(widget, STR_FM_RADIO);
-
-	widget->RequestRecordList();
+	RequestRecordList(m_EventID);
 }
 
 void FMRadioWindow::DoTopMenuSetupReservedRecord()
@@ -387,7 +517,7 @@ void FMRadioWindow::DoTopMenuSetupReservedRecord()
 		}
 
 		CJsonNode tempNode = m_NodeList.at(index);
-		LogDebug("node [%s]", tempNode.ToCompactByteArray().data());
+//		LogDebug("node [%s]", tempNode.ToCompactByteArray().data());
 
 		CJsonNode node(JSON_OBJECT);
 		node.Add(KEY_TOP, tempNode.GetString(KEY_RIGHT));
@@ -423,8 +553,8 @@ void FMRadioWindow::SetHome(QList<CJsonNode> &list)
 	foreach (CJsonNode node, list)
 	{
 		node.Add(KEY_COVER_ART, UtilNovatron::GetCoverArtIcon(SIDEMENU_FM_RADIO));
-		node.AddInt(KEY_ID_UPPER, index);
-		node.AddInt(KEY_TYPE, index);
+//		node.AddInt(KEY_ID_UPPER, index);
+//		node.AddInt(KEY_TYPE, index);
 
 		tempList.append(node);
 		index++;

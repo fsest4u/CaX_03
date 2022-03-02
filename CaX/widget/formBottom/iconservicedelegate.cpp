@@ -112,6 +112,7 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	}
 
 	if (IconService::ICON_SERVICE_FM_RADIO == m_Service
+			|| IconService::ICON_SERVICE_FM_RADIO_RECORD == m_Service
 			|| IconService::ICON_SERVICE_DAB_RADIO == m_Service
 			|| IconService::ICON_SERVICE_GROUP_PLAY == m_Service)
 	{
@@ -208,10 +209,12 @@ bool IconServiceDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 			if (rectCheck.contains(curPoint))
 			{
 				emit SigSelectCheck(index);
+				return true;
 			}
 			else if (rectPlay.contains(curPoint))
 			{
 				emit SigSelectPlay(id, mute);
+				return true;
 			}
 			else if (rectCover.contains(curPoint))
 			{
@@ -227,10 +230,12 @@ bool IconServiceDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, 
 						|| (IconService::ICON_SERVICE_ISERVICE == m_Service && node.GetString(KEY_ITEM_TYPE).isEmpty()))
 				{
 					emit SigSelectTitle(type);
+					return true;
 				}
 				else
 				{
 					emit SigSelectTitle(type, rawData);
+					return true;
 				}
 			}
 		}

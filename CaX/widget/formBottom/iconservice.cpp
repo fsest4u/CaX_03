@@ -132,9 +132,11 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
 			QStandardItem *item = new QStandardItem;
-			item->setData(node.GetInt(KEY_ID_UPPER), IconServiceDelegate::ICON_SERVICE_ID);
-			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_ID);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
@@ -151,11 +153,14 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 	{
 		foreach (CJsonNode node, m_NodeList)
 		{
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
 			QStandardItem *item = new QStandardItem;
 			item->setData(node.GetInt(KEY_ID_UPPER), IconServiceDelegate::ICON_SERVICE_ID);
-			item->setData(node.GetInt(KEY_TYPE), IconServiceDelegate::ICON_SERVICE_TYPE);
+			item->setData(index, IconServiceDelegate::ICON_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_TOP), IconServiceDelegate::ICON_SERVICE_TITLE);
+			item->setData(node.GetString(KEY_DATE), IconServiceDelegate::ICON_SERVICE_SUBTITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
 			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
