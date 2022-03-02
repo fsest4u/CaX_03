@@ -250,7 +250,11 @@ void FMRadioWindow::SlotRespRecordSet(CJsonNode node)
 		dialog.exec();
 	}
 
-	m_UpdateList = true;
+	if (m_pIconService->GetDelegate()->GetService() == IconService::ICON_SERVICE_FM_RADIO_RECORD)
+	{
+		m_UpdateList = true;
+	}
+
 	RequestRecordList(m_EventID);
 }
 
