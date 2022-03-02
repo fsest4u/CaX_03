@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>227</width>
+    <width>327</width>
     <height>22</height>
    </rect>
   </property>
@@ -33,13 +33,13 @@
     <widget class="QPushButton" name="btnMenu">
      <property name="minimumSize">
       <size>
-       <width>150</width>
+       <width>250</width>
        <height>22</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>150</width>
+       <width>250</width>
        <height>22</height>
       </size>
      </property>
@@ -54,7 +54,7 @@
 {
   color: rgb(52, 174, 214);
   border-image: url(&quot;:/resource/top-btn150-sort-n.png&quot;);
-  text-align: left;
+  text-align: center;
   padding-left: 10px;
 }
 

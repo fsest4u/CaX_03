@@ -221,8 +221,6 @@ void CDRipInfoDialog::UpdateStackState()
 	auto idx = ui->stackedWidget->currentIndex();
 	auto cnt = ui->stackedWidget->count();
 
-//	ui->widgetTop->SetTitle(idx);
-
 	// Update buttons depending on the page count.
 	auto hasPage = cnt > 0;
 	if (!hasPage)
