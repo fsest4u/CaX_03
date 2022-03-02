@@ -41,6 +41,7 @@ private slots:
 	void SlotSelectTitle(int nType);
 	void SlotRespList(CJsonNode node);
 	void SlotRespRecordList(QList<CJsonNode> list);
+	void SlotRespRecordSet(CJsonNode node);
 
 	void SlotEventFmSeeking(CJsonNode node);
 	void SlotEventFmSeek(CJsonNode node);

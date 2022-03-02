@@ -188,6 +188,16 @@ void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 	m_pIconService->SetNodeList(m_NodeList, IconService::ICON_SERVICE_FM_RADIO_RECORD);
 }
 
+void FMRadioWindow::SlotRespRecordSet(CJsonNode node)
+{
+	QString desc = node.GetString(KEY_DESC);
+	if (!desc.isEmpty())
+	{
+		CommonDialog dialog(this, STR_WARNING, desc);
+		dialog.exec();
+	}
+}
+
 void FMRadioWindow::SlotEventFmSeeking(CJsonNode node)
 {
 	QString title = node.GetString(KEY_NAME_CAP);
@@ -238,6 +248,7 @@ void FMRadioWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespList(CJsonNode)), this, SLOT(SlotRespList(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespRecordList(QList<CJsonNode>)), this, SLOT(SlotRespRecordList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespRecordSet(CJsonNode)), this, SLOT(SlotRespRecordSet(CJsonNode)));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));

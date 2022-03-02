@@ -26,6 +26,7 @@ signals:
 //	void SigRespList(QList<CJsonNode> list);
 	void SigRespList(CJsonNode node);
 	void SigRespRecordList(QList<CJsonNode> list);
+	void SigRespRecordSet(CJsonNode node);
 
 private slots:
 
@@ -48,6 +49,7 @@ private:
 
 	void ParseList(CJsonNode node);
 	void ParseRecordList(CJsonNode node);
+	void ParseRecordSet(CJsonNode node);
 
 
 };
