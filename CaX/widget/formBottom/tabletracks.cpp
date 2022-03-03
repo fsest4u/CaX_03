@@ -285,6 +285,7 @@ void TableTracks::SetColResize(int resize)
 	ui->tableView->setColumnWidth(TABLE_TRACKS_SAMPLE_RATE, m_ColWidthSampleRate);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_BITRATE, m_ColWidthBitrate);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_TRACK_COUNT, m_ColWidthTrackCount);
+	ui->tableView->setColumnWidth(TABLE_TRACKS_ALBUM_GAIN, m_ColWidthAlbumGain);
 	ui->tableView->setColumnWidth(TABLE_TRACKS_MENU, m_ColWidthMenu);
 
 }
@@ -543,6 +544,9 @@ void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth
 	case TABLE_TRACKS_TRACK_COUNT:
 		m_ColWidthTrackCount = newWidth;
 		break;
+	case TABLE_TRACKS_ALBUM_GAIN:
+		m_ColWidthAlbumGain = newWidth;
+		break;
 	case TABLE_TRACKS_INDEX:
 		m_ColWidthIndex = newWidth;
 		break;
@@ -661,6 +665,7 @@ void TableTracks::Initialize()
 	m_Model->setHeaderData(TABLE_TRACKS_SAMPLE_RATE, Qt::Horizontal, KEY_SAMPLERATE_CAP);
 	m_Model->setHeaderData(TABLE_TRACKS_BITRATE, Qt::Horizontal, KEY_BITRATE);
 	m_Model->setHeaderData(TABLE_TRACKS_TRACK_COUNT, Qt::Horizontal, KEY_TRACK);
+	m_Model->setHeaderData(TABLE_TRACKS_ALBUM_GAIN, Qt::Horizontal, KEY_ALBUM_GAIN);
 	m_Model->setHeaderData(TABLE_TRACKS_MENU, Qt::Horizontal, KEY_MENU);
 
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ID, true);
@@ -684,6 +689,7 @@ void TableTracks::Initialize()
 	ui->tableView->setColumnHidden(TABLE_TRACKS_SAMPLE_RATE, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_BITRATE, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_TRACK_COUNT, true);
+	ui->tableView->setColumnHidden(TABLE_TRACKS_ALBUM_GAIN, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_INDEX, true);
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_MENU, true);
 

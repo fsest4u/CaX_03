@@ -23,18 +23,28 @@ public:
 
 	bool GetCBArtist();
 	void SetCBArtist(bool bCheck);
+	void ShowCBArtist(bool show);
 
 	bool GetCBAlbum();
 	void SetCBAlbum(bool bCheck);
+	void ShowCBAlbum(bool show);
 
 	bool GetCBGenre();
 	void SetCBGenre(bool bCheck);
+	void ShowCBGenre(bool show);
 
 	bool GetCBAlbumArtist();
 	void SetCBAlbumArtist(bool bCheck);
+	void ShowCBAlbumArtist(bool show);
 
 	bool GetCBTrackCount();
 	void SetCBTrackCount(bool bCheck);
+	void ShowCBTrackCount(bool show);
+
+	bool GetCBAlbumGain();
+	void SetCBAlbumGain(bool bCheck);
+
+	void SetCategory(int category);
 
 
 private:

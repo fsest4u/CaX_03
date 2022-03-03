@@ -261,6 +261,7 @@ private:
 	bool				m_ShowCategoryGenre;
 	bool				m_ShowCategoryAlbumArtist;
 	bool				m_ShowCategoryTrackCount;
+	bool				m_ShowCategoryAlbumGain;
 
 	bool				m_ShowTrackFavorite;
 	bool				m_ShowTrackTime;

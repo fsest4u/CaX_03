@@ -1794,6 +1794,7 @@ void MusicDBWindow::ReadSettings()
 	m_ShowCategoryGenre = settings.value("show_category_genre").toBool();
 	m_ShowCategoryAlbumArtist = settings.value("show_category_album_artist").toBool();
 	m_ShowCategoryTrackCount = settings.value("show_category_track_count").toBool();
+	m_ShowCategoryAlbumGain = settings.value("show_category_album_gain").toBool();
 
 	m_ShowTrackFavorite = settings.value("show_track_favorite").toBool();
 	m_ShowTrackTime = settings.value("show_track_time").toBool();
@@ -1850,6 +1851,7 @@ void MusicDBWindow::WriteSettings()
 	settings.setValue("show_category_genre", m_ShowCategoryGenre);
 	settings.setValue("show_category_album_artist", m_ShowCategoryAlbumArtist);
 	settings.setValue("show_category_track_count", m_ShowCategoryTrackCount);
+	settings.setValue("show_category_album_gain", m_ShowCategoryAlbumGain);
 
 	settings.setValue("show_track_favorite", m_ShowTrackFavorite);
 	settings.setValue("show_track_time", m_ShowTrackTime);
@@ -2322,6 +2324,7 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 void MusicDBWindow::DoTopMenuShowCategoryColumns()
 {
 	SetCategoryColumnDialog dialog;
+	dialog.SetCategory(m_nCategory);
 	dialog.SetCBFavorite(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_FAVORITE));
 	dialog.SetCBRating(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_RATING));
 	dialog.SetCBArtist(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ARTIST));
@@ -2329,6 +2332,7 @@ void MusicDBWindow::DoTopMenuShowCategoryColumns()
 	dialog.SetCBGenre(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_GENRE));
 	dialog.SetCBAlbumArtist(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST));
 	dialog.SetCBTrackCount(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_TRACK_COUNT));
+	dialog.SetCBAlbumGain(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_GAIN));
 
 	if (dialog.exec() == QDialog::Accepted)
 	{
@@ -2339,6 +2343,7 @@ void MusicDBWindow::DoTopMenuShowCategoryColumns()
 		m_ShowCategoryGenre = dialog.GetCBGenre();
 		m_ShowCategoryAlbumArtist = dialog.GetCBAlbumArtist();
 		m_ShowCategoryTrackCount = dialog.GetCBTrackCount();
+		m_ShowCategoryAlbumGain = dialog.GetCBAlbumGain();
 
 		WriteSettings();
 
@@ -2349,6 +2354,7 @@ void MusicDBWindow::DoTopMenuShowCategoryColumns()
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowCategoryGenre);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowCategoryAlbumArtist);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TRACK_COUNT, m_ShowCategoryTrackCount);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_GAIN, m_ShowCategoryAlbumGain);
 
 		m_pTableTracks->SetColResize(0);
 
@@ -3003,6 +3009,7 @@ void MusicDBWindow::SetColumn(int typeMode)
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_GENRE, m_ShowCategoryGenre);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_ARTIST, m_ShowCategoryAlbumArtist);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_TRACK_COUNT, m_ShowCategoryTrackCount);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_ALBUM_GAIN, m_ShowCategoryAlbumGain);
 
 		if (SQLManager::CATEGORY_ALBUM == m_nCategory)
 		{

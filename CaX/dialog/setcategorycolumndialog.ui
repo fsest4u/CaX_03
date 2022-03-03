@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>240</width>
-    <height>330</height>
+    <height>413</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -63,10 +63,31 @@ QWidget
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="cbRating">
+        <property name="text">
+         <string>Rating</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cbAlbum">
+        <property name="text">
+         <string>Album</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="0">
        <widget class="QCheckBox" name="cbArtist">
         <property name="text">
          <string>Artist</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="cbGenre">
+        <property name="text">
+         <string>Genre</string>
         </property>
        </widget>
       </item>
@@ -80,7 +101,7 @@ QWidget
       <item row="6" column="0">
        <widget class="QCheckBox" name="cbTrackCount">
         <property name="text">
-         <string>Track Count</string>
+         <string>Track count</string>
         </property>
        </widget>
       </item>
@@ -91,24 +112,10 @@ QWidget
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="cbRating">
+      <item row="7" column="0">
+       <widget class="QCheckBox" name="cbAlbumGain">
         <property name="text">
-         <string>Rating</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QCheckBox" name="cbGenre">
-        <property name="text">
-         <string>Genre</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QCheckBox" name="cbAlbum">
-        <property name="text">
-         <string>Album</string>
+         <string>Album gain</string>
         </property>
        </widget>
       </item>

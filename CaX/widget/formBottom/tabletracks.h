@@ -43,6 +43,7 @@ public:
 		TABLE_TRACKS_SAMPLE_RATE,
 		TABLE_TRACKS_BITRATE,
 		TABLE_TRACKS_TRACK_COUNT,
+		TABLE_TRACKS_ALBUM_GAIN,
 		TABLE_TRACKS_INDEX,
 		TABLE_TRACKS_MENU,
 		TABLE_TRACKS_MAX
@@ -155,6 +156,7 @@ private:
 	int						m_ColWidthBitrate;
 	int						m_ColWidthRating;
 	int						m_ColWidthTrackCount;
+	int						m_ColWidthAlbumGain;
 	int						m_ColWidthIndex;
 	int						m_ColWidthMenu;
 

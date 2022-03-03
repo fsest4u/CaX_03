@@ -1,6 +1,8 @@
 #include "setcategorycolumndialog.h"
 #include "ui_setcategorycolumndialog.h"
 
+#include "manager/sqlmanager.h"
+
 SetCategoryColumnDialog::SetCategoryColumnDialog(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::SetCategoryColumnDialog)
@@ -85,6 +87,18 @@ void SetCategoryColumnDialog::SetCBArtist(bool bCheck)
 	}
 }
 
+void SetCategoryColumnDialog::ShowCBArtist(bool show)
+{
+	if (show)
+	{
+		ui->cbArtist->show();
+	}
+	else
+	{
+		ui->cbArtist->hide();
+	}
+}
+
 bool SetCategoryColumnDialog::GetCBAlbum()
 {
 	if (ui->cbAlbum->checkState() == Qt::Checked)
@@ -106,6 +120,18 @@ void SetCategoryColumnDialog::SetCBAlbum(bool bCheck)
 	else
 	{
 		ui->cbAlbum->setCheckState(Qt::Unchecked);
+	}
+}
+
+void SetCategoryColumnDialog::ShowCBAlbum(bool show)
+{
+	if (show)
+	{
+		ui->cbAlbum->show();
+	}
+	else
+	{
+		ui->cbAlbum->hide();
 	}
 }
 
@@ -133,6 +159,18 @@ void SetCategoryColumnDialog::SetCBGenre(bool bCheck)
 	}
 }
 
+void SetCategoryColumnDialog::ShowCBGenre(bool show)
+{
+	if (show)
+	{
+		ui->cbGenre->show();
+	}
+	else
+	{
+		ui->cbGenre->hide();
+	}
+}
+
 bool SetCategoryColumnDialog::GetCBAlbumArtist()
 {
 	if (ui->cbAlbumArtist->checkState() == Qt::Checked)
@@ -157,6 +195,18 @@ void SetCategoryColumnDialog::SetCBAlbumArtist(bool bCheck)
 	}
 }
 
+void SetCategoryColumnDialog::ShowCBAlbumArtist(bool show)
+{
+	if (show)
+	{
+		ui->cbAlbumArtist->show();
+	}
+	else
+	{
+		ui->cbAlbumArtist->hide();
+	}
+}
+
 bool SetCategoryColumnDialog::GetCBTrackCount()
 {
 	if (ui->cbTrackCount->checkState() == Qt::Checked)
@@ -178,5 +228,65 @@ void SetCategoryColumnDialog::SetCBTrackCount(bool bCheck)
 	else
 	{
 		ui->cbTrackCount->setCheckState(Qt::Unchecked);
+	}
+}
+
+void SetCategoryColumnDialog::ShowCBTrackCount(bool show)
+{
+	if (show)
+	{
+		ui->cbTrackCount->show();
+	}
+	else
+	{
+		ui->cbTrackCount->hide();
+	}
+}
+
+bool SetCategoryColumnDialog::GetCBAlbumGain()
+{
+	if (ui->cbAlbumGain->checkState() == Qt::Checked)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void SetCategoryColumnDialog::SetCBAlbumGain(bool bCheck)
+{
+	if (bCheck)
+	{
+		ui->cbAlbumGain->setCheckState(Qt::Checked);
+	}
+	else
+	{
+		ui->cbAlbumGain->setCheckState(Qt::Unchecked);
+	}
+}
+
+void SetCategoryColumnDialog::SetCategory(int category)
+{
+	if (SQLManager::CATEGORY_ARTIST == category)
+	{
+		ShowCBArtist(false);
+	}
+	else if (SQLManager::CATEGORY_ALBUM== category)
+	{
+		ShowCBAlbum(false);
+	}
+	else if (SQLManager::CATEGORY_GENRE == category)
+	{
+		ShowCBGenre(false);
+	}
+	else if (SQLManager::CATEGORY_ALBUM_ARTIST == category)
+	{
+		ShowCBAlbumArtist(false);
+	}
+	else if (SQLManager::CATEGORY_TRACK == category)
+	{
+		ShowCBTrackCount(false);
 	}
 }

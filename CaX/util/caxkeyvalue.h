@@ -24,6 +24,7 @@
 #define		KEY_AL				"Al"
 #define		KEY_ALBUM			"Album"
 #define		KEY_ALBUM_ARTIST	"AlbumArtist"
+#define		KEY_ALBUM_GAIN		"Album Gain"
 #define		KEY_ALBUM_ID		"AlbumID"
 #define		KEY_ANALOG_IN		"ANALOG IN"
 #define		KEY_APP				"App"
