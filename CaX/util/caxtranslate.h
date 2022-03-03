@@ -141,7 +141,11 @@
 #define STR_TAG_EDIT           		TR("Tag edit")
 #define STR_TITLE           		TR("Title")
 
+//////////////////////////////////////////////////
+// playlist
+//////////////////////////////////////////////////
 
+#define STR_AUTO_PLAY					TR("Auto Play")
 
 //////////////////////////////////////////////////
 // classify
@@ -177,10 +181,13 @@
 // dialog
 //////////////////////////////////////////////////
 
-#define STR_ADD_TO_DEVICE			TR("Add to device")
-#define STR_ASK_POWER_OFF			TR("Do you want to power off?")
-#define STR_POWER_OFF_OTHERS		TR("Power off Others")
-#define STR_WOL						TR("Wake on lan")
+#define STR_ADD_TO_DEVICE				TR("Add to device")
+#define STR_DO_YOU_WANT_TO_POWER_OFF	TR("Do you want to power off?")
+#define STR_CANNOT_DELETE_AUTO_PLAY		TR("Can't delete Auto Play")
+#define STR_NO_SELECT					TR("No select")
+#define STR_SELECT_ONLY_ONE_ITEM		TR("Select only one item")
+#define STR_POWER_OFF_OTHERS			TR("Power off Others")
+#define STR_WOL							TR("Wake on lan")
 
 
 

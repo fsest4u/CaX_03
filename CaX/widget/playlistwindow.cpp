@@ -824,7 +824,39 @@ void PlaylistWindow::DoTopMenuMakePlaylist()
 
 void PlaylistWindow::DoTopMenuDelete()
 {
-	if (m_SelectMap.count() > 0)
+	if (m_SelectMap.count() <= 0)
+	{
+		return;
+	}
+
+	int id = 0;
+	foreach (CJsonNode tempNode, m_RespList)
+	{
+		if (tempNode.GetString(KEY_TITLE) == STR_AUTO_PLAY)
+		{
+			id = tempNode.GetInt(KEY_ID_LOWER);
+			break;
+		}
+	}
+
+	bool bAutoPlay = false;
+	QMap<int, bool>::iterator i;
+	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+	{
+		if ((int64_t)i.key() == id)
+		{
+			bAutoPlay = true;
+			break;
+		}
+	}
+
+	if(bAutoPlay)
+	{
+		CommonDialog dialog(this, STR_WARNING, STR_CANNOT_DELETE_AUTO_PLAY);
+		dialog.exec();
+
+	}
+	else
 	{
 		m_pMgr->RequestDeletePlaylist(m_SelectMap);
 
@@ -839,12 +871,12 @@ void PlaylistWindow::DoTopMenuAddToPlaylist()
 	{
 		if (m_SelectMap.count() <= 0)
 		{
-			CommonDialog dialog(this, STR_WARNING, tr("no select"));
+			CommonDialog dialog(this, STR_WARNING, STR_NO_SELECT);
 			dialog.exec();
 		}
 		else if (m_SelectMap.count() > 1)
 		{
-			CommonDialog dialog(this, STR_WARNING, tr("select only one"));
+			CommonDialog dialog(this, STR_WARNING, STR_SELECT_ONLY_ONE_ITEM);
 			dialog.exec();
 		}
 		else if (m_SelectMap.count() == 1)

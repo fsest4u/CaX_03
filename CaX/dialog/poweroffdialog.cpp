@@ -10,7 +10,7 @@ PowerOffDialog::PowerOffDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->labelPowerOff->setText(STR_ASK_POWER_OFF);
+	ui->labelPowerOff->setText(STR_DO_YOU_WANT_TO_POWER_OFF);
 	ui->labelDevices->hide();
 	ui->cbWol->setText(STR_WOL);
 	ui->cbWol->setCheckState(Qt::Checked);
