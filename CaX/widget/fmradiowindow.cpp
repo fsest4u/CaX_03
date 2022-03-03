@@ -102,7 +102,7 @@ void FMRadioWindow::SetRecordList(QList<CJsonNode> list)
 
 void FMRadioWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget, STR_FM_RADIO);	// recursive
+	emit SigAddWidget(widget, title);	// recursive
 }
 
 void FMRadioWindow::SlotRemoveWidget(QWidget *widget)
@@ -235,8 +235,9 @@ void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 	{
 		FMRadioWindow *widget = new FMRadioWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetFMRadioHome();
-		emit SigAddWidget(widget, STR_FM_RADIO);
 		widget->SetRecordList(list);
+
+		emit widget->SigAddWidget(widget, STR_FM_RADIO);
 	}
 
 }

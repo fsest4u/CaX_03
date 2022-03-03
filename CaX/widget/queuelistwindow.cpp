@@ -490,10 +490,10 @@ void QueuelistWindow::DoMenuGoToAlbum()
 //	LogDebug("DoMenuGoToAlbum id [%d]", m_TrackAlbumID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	m_pMusicDBWin->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
-	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
-
 	m_pMusicDBWin->RequestTrackList(m_TrackAlbumID);
 	m_pMusicDBWin->SetCoverArt(m_AlbumCoverArt);
+
+	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
 }
 
 void QueuelistWindow::DoMenuGoToArtist()
@@ -509,9 +509,9 @@ void QueuelistWindow::DoMenuGoToArtist()
 //	LogDebug("DoMenuGoToArtist id [%d]", m_TrackArtistID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	m_pMusicDBWin->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
-	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
-
 	m_pMusicDBWin->RequestCategoryList(m_TrackArtistID);
+
+	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
 }
 
 int QueuelistWindow::GetRating() const
@@ -582,16 +582,14 @@ void QueuelistWindow::SetMenu(QMap<int, QString> map)
 	}
 }
 
-void QueuelistWindow::SlotAddWidget(QWidget *widget, QString)
+void QueuelistWindow::SlotAddWidget(QWidget *widget, QString title)
 {
-	emit SigAddWidget(widget, STR_NOW_PLAY);	// recursive
-
+	emit SigAddWidget(widget, title);	// recursive
 }
 
 void QueuelistWindow::SlotRemoveWidget(QWidget *widget)
 {
 	emit SigRemoveWidget(widget);
-
 }
 
 int QueuelistWindow::GetFavorite() const

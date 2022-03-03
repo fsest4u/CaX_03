@@ -77,6 +77,16 @@ void DABRadioWindow::RequestRecordList()
 	m_pMgr->RequestRecordList();
 }
 
+void DABRadioWindow::SlotAddWidget(QWidget *widget, QString title)
+{
+	emit SigAddWidget(widget, title);	// recursive
+}
+
+void DABRadioWindow::SlotRemoveWidget(QWidget *widget)
+{
+	emit SigRemoveWidget(widget);
+}
+
 void DABRadioWindow::SlotTopMenu()
 {
 	m_SelectMap = m_pIconService->GetSelectMap();
@@ -184,6 +194,7 @@ void DABRadioWindow::SlotEventDabSet(CJsonNode node)
 void DABRadioWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
+	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespList(CJsonNode)), this, SLOT(SlotRespList(CJsonNode)));
@@ -260,9 +271,9 @@ void DABRadioWindow::DoTopMenuReservedRecordList()
 {
 	DABRadioWindow *widget = new DABRadioWindow(this, m_pMgr->GetAddr());
 	widget->AddWidgetDABRadioHome();
-	emit SigAddWidget(widget, STR_DAB_RADIO);
-
 	widget->RequestRecordList();
+
+	emit widget->SigAddWidget(widget, STR_DAB_RADIO);
 }
 
 void DABRadioWindow::SetHome(QList<CJsonNode> &list)
