@@ -114,6 +114,7 @@
 #define STR_GO_TO_ALBUM				TR("Go to album")
 #define STR_GO_TO_ARTIST			TR("Go to artist")
 #define STR_LOAD_COUNT				TR("Load count")
+#define STR_MAKE_PLAYLIST     		TR("Make a playlist")
 #define STR_MENU              		TR("Menu")
 #define STR_MOVE              		TR("Move")
 #define STR_MOVE_HERE          		TR("Move here")

@@ -397,8 +397,8 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
-	case TOP_MENU_ADD:
-		DoTopMenuAdd();
+	case TOP_MENU_MAKE_PLAYLIST:
+		DoTopMenuMakePlaylist();
 		break;
 	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
@@ -723,7 +723,7 @@ void PlaylistWindow::SetSelectOffTopMenu()
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
-		m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+		m_TopMenuMap.insert(TOP_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
 
 		m_pInfoService->GetFormPlay()->ClearMenu();
 		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -809,7 +809,7 @@ void PlaylistWindow::DoTopMenuClearAll()
 	}
 }
 
-void PlaylistWindow::DoTopMenuAdd()
+void PlaylistWindow::DoTopMenuMakePlaylist()
 {
 	InputNameDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)
