@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>540</width>
-    <height>242</height>
+    <height>372</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,6 +20,11 @@
 	font: 14pt &quot;Segoe UI&quot;;
 }
 QPushButton
+{
+	color: rgb(84, 84, 84);
+	font: 14pt &quot;Segoe UI&quot;;
+}
+QProgressBar
 {
 	color: rgb(84, 84, 84);
 	font: 14pt &quot;Segoe UI&quot;;
@@ -182,14 +187,14 @@ QPushButton:hover
       <item>
        <widget class="QLabel" name="labelCurTime">
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="labelTotTime">
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -201,6 +206,12 @@ QPushButton:hover
    </item>
    <item row="0" column="0">
     <widget class="QScrollArea" name="scrollArea">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>200</height>
+      </size>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -210,14 +221,20 @@ QPushButton:hover
         <x>0</x>
         <y>0</y>
         <width>520</width>
-        <height>68</height>
+        <height>202</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
         <widget class="QLabel" name="labelContent">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
-          <string> </string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -234,6 +251,18 @@ QPushButton:hover
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item row="1" column="0">
        <widget class="QProgressBar" name="progressBar">
         <property name="value">
