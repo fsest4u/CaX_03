@@ -1,3 +1,5 @@
+#include <QThread>
+
 #include "browserwindow.h"
 #include "ui_browserwindow.h"
 
@@ -665,6 +667,7 @@ void BrowserWindow::SlotRespCategoryList(QList<CJsonNode> list)
 
 void BrowserWindow::SlotListUpdate()
 {
+	QThread::sleep(1);
 	// refresh
 	DoTopMenuReload();
 }
