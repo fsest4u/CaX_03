@@ -285,7 +285,7 @@ void PlaylistWindow::SlotMenuAction(QAction *action)
 void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
 {
 	QString strCat;
-	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK || m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
 		strCat = KEY_PLS;
 	}
