@@ -28,8 +28,12 @@ public:
 signals:
 
 	void SigAddWidget(QWidget *widget, QString title);
+	void SigRemoveWidget(QWidget* widget);
 
 private slots:
+
+	void SlotAddWidget(QWidget *widget, QString title);
+	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotTopMenu();
 	void SlotTopMenuAction(int menuID);
