@@ -403,6 +403,9 @@ void PlaylistWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
 		break;
+	case TOP_MENU_RENAME:
+		DoTopMenuRename();
+		break;
 	case TOP_MENU_ADD_TO_PLAYLIST:
 		DoTopMenuAddToPlaylist();
 		break;
@@ -750,6 +753,7 @@ void PlaylistWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
+		m_TopMenuMap.insert(TOP_MENU_RENAME, STR_RENAME);
 		m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
 //		m_TopMenuMap.insert(TOP_MENU_EXPORT_TRACK, STR_EXPORT_TRACK);
 
@@ -829,12 +833,12 @@ void PlaylistWindow::DoTopMenuDelete()
 		return;
 	}
 
-	int id = 0;
+	int idAutoPlay = -1;
 	foreach (CJsonNode tempNode, m_RespList)
 	{
 		if (tempNode.GetString(KEY_TITLE) == STR_AUTO_PLAY)
 		{
-			id = tempNode.GetInt(KEY_ID_LOWER);
+			idAutoPlay = tempNode.GetInt(KEY_ID_LOWER);
 			break;
 		}
 	}
@@ -843,7 +847,7 @@ void PlaylistWindow::DoTopMenuDelete()
 	QMap<int, bool>::iterator i;
 	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 	{
-		if ((int64_t)i.key() == id)
+		if ((int64_t)i.key() == idAutoPlay)
 		{
 			bAutoPlay = true;
 			break;
@@ -854,7 +858,6 @@ void PlaylistWindow::DoTopMenuDelete()
 	{
 		CommonDialog dialog(this, STR_WARNING, STR_CANNOT_DELETE_AUTO_PLAY);
 		dialog.exec();
-
 	}
 	else
 	{
@@ -862,6 +865,55 @@ void PlaylistWindow::DoTopMenuDelete()
 
 		//refresh
 		RequestPlaylist();
+	}
+}
+
+void PlaylistWindow::DoTopMenuRename()
+{
+	if (m_SelectMap.count() > 1)
+	{
+		CommonDialog dialog(this, STR_WARNING, STR_SELECT_ONLY_ONE_ITEM);
+		dialog.exec();
+	}
+	else if (m_SelectMap.count() == 1)
+	{
+		int id = -1;
+		QMap<int, bool>::iterator i;
+		for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+		{
+			id = i.key();
+			break;
+		}
+
+		CJsonNode node;
+		foreach (CJsonNode tempNode, m_RespList)
+		{
+			if (tempNode.GetInt(KEY_ID_LOWER) == id)
+			{
+				node = tempNode;
+				LogDebug("node [%s]", node.ToCompactByteArray().data());
+				break;
+			}
+		}
+
+		if (node.GetString(KEY_TITLE) == STR_AUTO_PLAY)
+		{
+			CommonDialog dialog(this, STR_WARNING, STR_CANNOT_RENAME_AUTO_PLAY);
+			dialog.exec();
+		}
+		else
+		{
+			InputNameDialog dialog;
+			dialog.SetName(node.GetString(KEY_TITLE));
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				QString name = dialog.GetName();
+				m_pMgr->RequestRenamePlaylist(id, name);
+
+				//refresh
+				RequestPlaylist();
+			}
+		}
 	}
 }
 
@@ -881,7 +933,7 @@ void PlaylistWindow::DoTopMenuAddToPlaylist()
 		}
 		else if (m_SelectMap.count() == 1)
 		{
-			int id = 0;
+			int id = -1;
 			QMap<int, bool>::iterator i;
 			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 			{

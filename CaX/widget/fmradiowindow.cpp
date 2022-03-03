@@ -413,6 +413,7 @@ void FMRadioWindow::DoTopMenuDelete()
 				for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 				{
 					id = (int64_t)i.key();
+					break;
 				}
 
 				m_pMgr->RequestDeleteRecord(id, m_EventID);
@@ -442,6 +443,7 @@ void FMRadioWindow::DoTopMenuEdit()
 			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 			{
 				id = (int64_t)i.key();
+				break;
 			}
 
 			CJsonNode node;
@@ -451,6 +453,7 @@ void FMRadioWindow::DoTopMenuEdit()
 				{
 					node = tempNode;
 //					LogDebug("node [%s]", node.ToCompactByteArray().data());
+					break;
 				}
 			}
 
@@ -478,6 +481,7 @@ void FMRadioWindow::DoTopMenuEdit()
 			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 			{
 				index = (int64_t)i.key();
+				break;
 			}
 
 			CJsonNode node = m_NodeList.at(index);
@@ -518,6 +522,7 @@ void FMRadioWindow::DoTopMenuSetupReservedRecord()
 		for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 		{
 			index = (int64_t)i.key();
+			break;
 		}
 
 		CJsonNode tempNode = m_NodeList.at(index);

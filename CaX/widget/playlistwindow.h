@@ -88,6 +88,7 @@ private:
 	void DoTopMenuClearAll();
 	void DoTopMenuMakePlaylist();
 	void DoTopMenuDelete();
+	void DoTopMenuRename();
 	void DoTopMenuAddToPlaylist();
 
 	void DoTopMenuItemPlay(int nWhere);
