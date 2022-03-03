@@ -733,6 +733,13 @@ void PlaylistWindow::SetSelectOffTopMenu()
 		m_pInfoService->GetFormPlay()->ClearMenu();
 		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
 	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
+	{
+		m_TopMenuMap.insert(TOP_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
+
+		m_pInfoService->GetFormPlay()->ClearMenu();
+		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
@@ -762,6 +769,13 @@ void PlaylistWindow::SetSelectOnTopMenu()
 		m_pInfoService->GetFormPlay()->ClearMenu();
 		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
 	}
+	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
+	{
+		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+
+		m_pInfoService->GetFormPlay()->ClearMenu();
+		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
@@ -773,13 +787,6 @@ void PlaylistWindow::SetSelectOnTopMenu()
 
 		m_pInfoTracks->GetFormPlay()->ClearMenu();
 		m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
-	}
-	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
-	{
-		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-
-		m_pInfoService->GetFormPlay()->ClearMenu();
-		m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
 	}
 }
 
