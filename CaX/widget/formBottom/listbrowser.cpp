@@ -79,6 +79,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 				title = node.GetString(KEY_PATH);
 			}
 			int nodeType = node.GetInt(KEY_TYPE);
+			UtilNovatron::DebugTypeForBrowser("SetNodeList", nodeType);
 			type = type | nodeType;
 
 			int seconds = node.GetInt(KEY_DURATION);

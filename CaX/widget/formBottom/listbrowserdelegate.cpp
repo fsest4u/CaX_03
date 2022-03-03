@@ -211,8 +211,15 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 		}
 	}
 
+	if (SIDEMENU_BROWSER == m_Service && (type & iFolderType_Mask_Scan))
+	{
+		painter->setPen(QColor(52, 174, 214));
+	}
+	else
+	{
+		painter->setPen(QColor(84, 84, 84));
+	}
 
-	painter->setPen(QColor(84, 84, 84));
 	if (!title.isEmpty())
 	{
 		painter->setFont(fontTitle);
