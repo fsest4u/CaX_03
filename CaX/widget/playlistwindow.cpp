@@ -167,8 +167,21 @@ void PlaylistWindow::SlotRespError(QString errMsg)
 	dialog.exec();
 }
 
+void PlaylistWindow::SlotRefresh()
+{
+	if (m_TypeMode == TYPE_MODE_TRACK)
+	{
+		RequestTrackList(m_ID);
+	}
+	else
+	{
+		RequestPlaylist();
+	}
+}
+
 void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 {
+	m_RespList.clear();
 	m_RespList = list;
 
 	SetOptionMenu();
@@ -524,8 +537,8 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 	case TOP_MENU_ADD_TO_PLAYLIST:
 		DoTopMenuItemAddToPlaylist();
 		break;
-	case TOP_MENU_DELETE_TO_PLAYLIST:
-		DoTopMenuItemDeleteToPlaylist();
+	case TOP_MENU_DELETE_FROM_PLAYLIST:
+		DoTopMenuItemDeleteFromPlaylist();
 		break;
 	}
 }
@@ -549,7 +562,7 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 		DoOptionMenuRename(nID);
 		break;
 	case OPTION_MENU_DELETE:
-	case OPTION_MENU_DELETE_TO_PLAYLIST:
+	case OPTION_MENU_DELETE_FROM_PLAYLIST:
 		DoOptionMenuDelete(nID);
 		break;
 	case OPTION_MENU_ADD_TO_PLAYLIST:
@@ -570,25 +583,13 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 void PlaylistWindow::SlotAddCategoryFromPlaylist(int category, QMap<int, bool> idMap)
 {
 //	LogDebug("playlist id [%d] cat [%d] id [%d]", m_ID, category);
-	// add category
 	m_pMgr->RequestAddCategoryFromPlaylist(m_ID, idMap, category);
-	// refresh
-	if (m_TypeMode == TYPE_MODE_TRACK)
-	{
-		m_pMgr->RequestTrackList(m_ID);
-	}
 }
 
 void PlaylistWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
 {
 //	LogDebug("playlist id [%d] track [%d]", m_ID);
-	// add track
 	m_pMgr->RequestAddTrackFromPlaylist(m_ID, idMap);
-	// refresh
-	if (m_TypeMode == TYPE_MODE_TRACK)
-	{
-		m_pMgr->RequestTrackList(m_ID);
-	}
 }
 
 void PlaylistWindow::ReadSettings()
@@ -631,6 +632,7 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
+	connect(m_pMgr, SIGNAL(SigRefresh()), this, SLOT(SlotRefresh()));
 
 	connect(m_pMgr, SIGNAL(SigRespPlaylist(QList<CJsonNode>)), this, SLOT(SlotRespPlaylist(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespPlaylistInfo(CJsonNode)), this, SLOT(SlotRespPlaylistInfo(CJsonNode)));
@@ -767,7 +769,7 @@ void PlaylistWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-		m_TopMenuMap.insert(TOP_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TO_PLAYLIST);
+		m_TopMenuMap.insert(TOP_MENU_DELETE_FROM_PLAYLIST, STR_DELETE_FROM_PLAYLIST);
 
 		m_pInfoTracks->GetFormPlay()->ClearMenu();
 		m_pInfoTracks->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -820,9 +822,6 @@ void PlaylistWindow::DoTopMenuMakePlaylist()
 	{
 		QString name = dialog.GetName();
 		m_pMgr->RequestAddPlaylist(name);
-
-		//refresh
-		RequestPlaylist();
 	}
 }
 
@@ -862,9 +861,6 @@ void PlaylistWindow::DoTopMenuDelete()
 	else
 	{
 		m_pMgr->RequestDeletePlaylist(m_SelectMap);
-
-		//refresh
-		RequestPlaylist();
 	}
 }
 
@@ -909,9 +905,6 @@ void PlaylistWindow::DoTopMenuRename()
 			{
 				QString name = dialog.GetName();
 				m_pMgr->RequestRenamePlaylist(id, name);
-
-				//refresh
-				RequestPlaylist();
 			}
 		}
 	}
@@ -997,14 +990,11 @@ void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 	}
 }
 
-void PlaylistWindow::DoTopMenuItemDeleteToPlaylist()
+void PlaylistWindow::DoTopMenuItemDeleteFromPlaylist()
 {
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestDelTrack(m_ID, m_SelectMap);
-
-		//refresh
-		m_pMgr->RequestTrackList(m_ID);
 	}
 }
 
@@ -1027,7 +1017,7 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_OptionMenuMap.insert(OPTION_MENU_DELETE_TO_PLAYLIST, STR_DELETE_TO_PLAYLIST);
+		m_OptionMenuMap.insert(OPTION_MENU_DELETE_FROM_PLAYLIST, STR_DELETE_FROM_PLAYLIST);
 
 		if (m_TrackFavorite == 1)
 		{
@@ -1062,15 +1052,33 @@ void PlaylistWindow::DoOptionMenuRename(int nID)
 {
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		InputNameDialog dialog;
-		if (dialog.exec() == QDialog::Accepted)
+		CJsonNode node;
+		foreach (CJsonNode tempNode, m_RespList)
 		{
-			QString name = dialog.GetName();
-			m_pMgr->RequestRenamePlaylist(nID, name);
-
-			//refresh
-			RequestPlaylist();
+			if (tempNode.GetInt(KEY_ID_LOWER) == nID)
+			{
+				node = tempNode;
+				LogDebug("node [%s]", node.ToCompactByteArray().data());
+				break;
+			}
 		}
+
+		if (node.GetString(KEY_TITLE) == STR_AUTO_PLAY)
+		{
+			CommonDialog dialog(this, STR_WARNING, STR_CANNOT_RENAME_AUTO_PLAY);
+			dialog.exec();
+		}
+		else
+		{
+			InputNameDialog dialog;
+			dialog.SetName(node.GetString(KEY_TITLE));
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				QString name = dialog.GetName();
+				m_pMgr->RequestRenamePlaylist(nID, name);
+			}
+		}
+
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
@@ -1085,18 +1093,30 @@ void PlaylistWindow::DoOptionMenuDelete(int nID)
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		m_pMgr->RequestDeletePlaylist(map);
+		CJsonNode node;
+		foreach (CJsonNode tempNode, m_RespList)
+		{
+			if (tempNode.GetInt(KEY_ID_LOWER) == nID)
+			{
+				node = tempNode;
+				LogDebug("node [%s]", node.ToCompactByteArray().data());
+				break;
+			}
+		}
 
-		// refresh
-		RequestPlaylist();
+		if (node.GetString(KEY_TITLE) == STR_AUTO_PLAY)
+		{
+			CommonDialog dialog(this, STR_WARNING, STR_CANNOT_DELETE_AUTO_PLAY);
+			dialog.exec();
+		}
+		else
+		{
+			m_pMgr->RequestDeletePlaylist(map);
+		}
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
-
 		m_pMgr->RequestDelTrack(m_ID, map);
-
-		//refresh
-		RequestTrackList(m_ID);
 	}
 }
 

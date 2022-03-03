@@ -104,7 +104,7 @@
 #define STR_DELETE_PLAYLIST			TR("Delete playlist")
 //#define STR_DELETE_RADIO			TR("Delete radio")
 #define STR_DELETE_TO_FAVORITE		TR("Delete to favorite")
-#define STR_DELETE_TO_PLAYLIST		TR("Delete track to playlist")
+#define STR_DELETE_FROM_PLAYLIST	TR("Delete track from playlist")
 #define STR_EDIT	          		TR("Edit")
 #define STR_EDIT_TAG          		TR("Edit tag")
 #define STR_EJECT_CD				TR("Eject CD")

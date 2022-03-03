@@ -261,21 +261,47 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 		return;
 	}
 
-	if (cmdID == PLAYLIST_PLAY_TRACK
-			|| cmdID == PLAYLIST_PLAY_PLAYLIST
-			|| cmdID == PLAYLIST_RANDOM
-			|| cmdID == PLAYLIST_ADD_PLAYLIST
-			|| cmdID == PLAYLIST_RENAME_PLAYLIST
-			|| cmdID == PLAYLIST_DELETE_PLAYLIST
-			|| cmdID == PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST
-			|| cmdID == PLAYLIST_ADD_TRACK_FROM_PLAYLIST
+	if (cmdID == PLAYLIST_PLAY_PLAYLIST
+			|| cmdID == PLAYLIST_PLAY_TRACK
 			|| cmdID == PLAYLIST_UPDATE_TRACK_FAVORITE
+			|| cmdID == PLAYLIST_RANDOM
 			)
 	{
 		return;
 	}
 
+	switch (cmdID)
+	{
+	case PLAYLIST_LIST:
+		ParsePlaylist(node);
+		break;
+	case PLAYLIST_TRACK_LIST:
+		ParseTrackList(node);
+		break;
+	case PLAYLIST_INFO:
+		ParsePlaylistInfo(node);
+		break;
+	case PLAYLIST_ADD_PLAYLIST:
+	case PLAYLIST_RENAME_PLAYLIST:
+	case PLAYLIST_DELETE_PLAYLIST:
+	case PLAYLIST_DEL_TRACK:
+	case PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST:
+	case PLAYLIST_ADD_TRACK_FROM_PLAYLIST:
+		emit SigRefresh();
+		break;
 
+	}
+}
+
+
+void PlaylistManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
+{
+	emit SigCoverArtUpdate(fileName, nIndex, mode);
+}
+
+void PlaylistManager::ParsePlaylist(CJsonNode node)
+{
+	QString message = node.GetString(VAL_MSG);
 	CJsonNode result = node.GetArray(VAL_RESULT);
 	if (result.ArraySize() <= 0)
 	{
@@ -283,45 +309,13 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 		{
 			emit SigRespError(message.left(MSG_LIMIT_COUNT));
 		}
+		else
+		{
+			emit SigRefresh();
+		}
 		return;
 	}
 
-	switch (cmdID)
-	{
-	case PLAYLIST_LIST:
-		ParsePlaylist(result);
-		break;
-	case PLAYLIST_INFO:
-	{
-		m_Node.Clear();
-		for (int i = 0; i < result.ArraySize(); i++)
-		{
-			m_Node = result.GetArrayAt(i);
-//			LogDebug("node : [%s]", m_Node.ToCompactByteArray().data());
-		}
-
-		emit SigRespPlaylistInfo(m_Node);
-	}
-		break;
-	case PLAYLIST_TRACK_LIST:
-		ParseTrackList(result);
-		break;
-	case PLAYLIST_PLAY_TRACK:
-		break;
-	case PLAYLIST_DEL_TRACK:
-		break;
-	case PLAYLIST_RANDOM:
-		break;
-	}
-}
-
-void PlaylistManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
-{
-	emit SigCoverArtUpdate(fileName, nIndex, mode);
-}
-
-void PlaylistManager::ParsePlaylist(CJsonNode result)
-{
 	m_NodeList.clear();
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
@@ -332,8 +326,23 @@ void PlaylistManager::ParsePlaylist(CJsonNode result)
 	emit SigRespPlaylist(m_NodeList);
 }
 
-void PlaylistManager::ParseTrackList(CJsonNode result)
+void PlaylistManager::ParseTrackList(CJsonNode node)
 {
+	QString message = node.GetString(VAL_MSG);
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+		if (!message.toLower().contains("not found"))
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		}
+		else
+		{
+//			emit SigRefresh();
+		}
+		return;
+	}
+
 	m_NodeList.clear();
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
@@ -342,4 +351,31 @@ void PlaylistManager::ParseTrackList(CJsonNode result)
 	}
 
 	emit SigRespTrackList(m_NodeList);
+}
+
+void PlaylistManager::ParsePlaylistInfo(CJsonNode node)
+{
+	QString message = node.GetString(VAL_MSG);
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+		if (!message.toLower().contains("not found"))
+		{
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		}
+		else
+		{
+			emit SigRefresh();
+		}
+		return;
+	}
+
+	m_Node.Clear();
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		m_Node = result.GetArrayAt(i);
+//			LogDebug("node : [%s]", m_Node.ToCompactByteArray().data());
+	}
+
+	emit SigRespPlaylistInfo(m_Node);
 }

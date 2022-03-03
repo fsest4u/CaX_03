@@ -55,7 +55,7 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	{
 		return QIcon(":/resource/playlist-icon16-delete.png");
 	}
-	else if (value.contains(STR_DELETE_TO_PLAYLIST))
+	else if (value.contains(STR_DELETE_FROM_PLAYLIST))
 	{
 		return QIcon("");
 	}
