@@ -69,6 +69,10 @@ public slots:
 	void SlotAddQueueList(CJsonNode node);
 	void SlotSetPlayInfo(CJsonNode node);
 
+	// dummy
+	void SlotUpdateFavoriteParent(int id, int favorite);
+	void SlotUpdateRatingParent(int id, int rating);
+
 private:
 
 	void ReadSettings();

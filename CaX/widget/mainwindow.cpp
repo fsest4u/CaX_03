@@ -839,6 +839,22 @@ void MainWindow::SlotSetPlayInfo(CJsonNode node)
 	}
 }
 
+void MainWindow::SlotUpdateFavoriteParent(int id, int favorite)
+{
+	Q_UNUSED(id)
+	Q_UNUSED(favorite)
+
+	LogDebug("dummy function");
+}
+
+void MainWindow::SlotUpdateRatingParent(int id, int rating)
+{
+	Q_UNUSED(id)
+	Q_UNUSED(rating)
+
+	LogDebug("dummy function");
+}
+
 void MainWindow::Initialize()
 {
 	RemoveAllWidget();
