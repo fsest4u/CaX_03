@@ -17,6 +17,7 @@ public:
 
 	enum {
 		PLAY_STATE = 0,
+		PLAY_RECORD,
 		PLAY_VOLUME,
 		PLAY_SEEK,
 		PLAY_SHUFFLE,
@@ -37,7 +38,8 @@ public:
 		PLAY_MODE_MAX
 	};
 
-	void RequestPlayState(int mode);	// play, pause, next, prev, stop, record
+	void RequestPlayState(int mode);	// play, pause, next, prev, stop
+	void RequestRecord();	// record
 	void RequestSeek(int msec);
 	void RequestVolume(int value);
 	void RequestRepeatMode();

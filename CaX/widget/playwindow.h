@@ -95,6 +95,7 @@ private:
 	void SetTimer(bool bStart);
 	void SetPlayState();
 	void SetRepeatMode(QString mode);
+	void SetRecordable();
 	void SetCoverArt(QString filepath);
 	void SetPlayTimeSliderState();
 	void SetVolumeMenu();

@@ -30,6 +30,14 @@ void PlayManager::RequestPlayState(int mode)
 	RequestCommand(node, PLAY_STATE);
 }
 
+void PlayManager::RequestRecord()
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_PLAY);
+	node.Add	(KEY_CMD1,		VAL_RECORD);
+	RequestCommand(node, PLAY_RECORD);
+}
+
 void PlayManager::RequestSeek(int msec)
 {
 	int pos = msec / 1000;
@@ -130,6 +138,7 @@ void PlayManager::SlotRespInfo(QString json, int nCmdID)
 	}
 
 	if (nCmdID == PLAY_STATE
+			|| nCmdID == PLAY_RECORD
 			|| nCmdID == PLAY_VOLUME
 			|| nCmdID == PLAY_SEEK
 			|| nCmdID == PLAY_SHUFFLE

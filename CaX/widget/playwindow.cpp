@@ -125,13 +125,6 @@ void PlayWindow::SlotBtnPlay()
 
 void PlayWindow::SlotBtnStop()
 {
-	InitPlayInfo();
-	InitPlayTimeSlider();
-	EnableUI(false);
-
-	m_bPause = true;
-	SetPlayState();
-
 	m_pMgr->RequestPlayState(PlayManager::PLAY_MODE_STOP);
 }
 
@@ -142,7 +135,21 @@ void PlayWindow::SlotBtnPlayNext()
 
 void PlayWindow::SlotBtnRandom()
 {
-	m_pMgr->RequestRepeatMode();
+	if (m_Recordable)
+	{
+		if (m_Record)
+		{
+			SlotBtnStop();
+		}
+		else
+		{
+			m_pMgr->RequestRecord();
+		}
+	}
+	else
+	{
+		m_pMgr->RequestRepeatMode();
+	}
 }
 
 void PlayWindow::SlotDialValueChanged(int value)
@@ -340,7 +347,7 @@ void PlayWindow::SetVariable(CJsonNode node)
 	EnableBtnNext(m_Next);
 	EnableBtnPlay(m_PlayPause);
 	EnableBtnPrev(m_Prev);
-	EnableBtnRandom(m_PlayPause);
+//	EnableBtnRandom(m_PlayPause);
 	EnableBtnSlider(m_Seek);
 //	EnableBtnStop(m_PlayPause);
 
@@ -406,6 +413,12 @@ void PlayWindow::InitPlayInfo()
 	m_pFormTitle->SetTitle(" ");
 	m_pFormTitle->SetSubtitle(" ");
 	m_pFormCoverArt->SetCoverArt(" ");
+
+	ui->btnPrev->show();
+	ui->btnPlay->show();
+	ui->btnStop->show();
+	ui->btnNext->show();
+	ui->btnRandom->show();
 }
 
 void PlayWindow::InitPlayTimeSlider()
@@ -595,6 +608,34 @@ void PlayWindow::SetRepeatMode(QString mode)
 
 }
 
+void PlayWindow::SetRecordable()
+{
+	QString style;
+
+	if (m_Record)
+	{
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/internets-btn28-record-u.png\");	\
+						}");
+
+		ui->btnStop->hide();
+	}
+	else
+	{
+		style = QString("QPushButton	\
+						{	\
+						  border-image: url(\":/resource/internets-btn28-record-n.png\");	\
+						}\
+						QPushButton:hover	\
+						{	\
+						  border-image: url(\":/resource/internets-btn28-record-h.png\");	\
+						}");
+	}
+
+	ui->btnRandom->setStyleSheet(style);
+}
+
 void PlayWindow::SetCoverArt(QString filepath)
 {
 	m_pMgr->RequestCoverArt(filepath);
@@ -663,14 +704,25 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 
 	SetPlayTimeSliderState();
 	SetPlayState();
-	SetRepeatMode(m_Repeat);
+	if (m_Recordable)
+	{
+		SetRecordable();
+	}
+	else
+	{
+		SetRepeatMode(m_Repeat);
+	}
 
-	ui->btnPlay->show();
 
 	if (!m_Src.compare(SRC_MUSIC_DB)
 			|| !m_Src.compare(SRC_BROWSER)
 			|| !m_Src.compare(SRC_AUDIO_CD) )
 	{
+		ui->btnPrev->show();
+		ui->btnPlay->show();
+		ui->btnStop->show();
+		ui->btnNext->show();
+		ui->btnRandom->show();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Bot);
@@ -684,6 +736,12 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !m_Src.compare(SRC_AUX_IN)
 			 || !m_Src.compare(SRC_PHONO_IN) )
 	{
+		ui->btnPrev->hide();
+		ui->btnPlay->hide();
+		ui->btnStop->show();
+		ui->btnNext->hide();
+		ui->btnRandom->show();
+
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Format);
 
@@ -693,7 +751,11 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	else if (!m_Src.compare(SRC_FM_RADIO)
 			 || !m_Src.compare(SRC_DAB_RADIO))
 	{
+		ui->btnPrev->show();
 		ui->btnPlay->hide();
+		ui->btnStop->show();
+		ui->btnNext->show();
+		ui->btnRandom->show();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Src);
@@ -711,6 +773,26 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !m_Src.compare(SRC_AIRABLE_UPNP)
 			 || !m_Src.compare(SRC_QOBUZ) )
 	{
+		ui->btnPrev->hide();
+		if (m_PlayPause)
+		{
+			ui->btnPlay->show();
+		}
+		else
+		{
+			ui->btnPlay->hide();
+		}
+		ui->btnStop->show();
+		ui->btnNext->hide();
+		if (m_Recordable)
+		{
+			ui->btnRandom->show();
+		}
+		else
+		{
+			ui->btnRandom->hide();
+		}
+
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Src);
 
