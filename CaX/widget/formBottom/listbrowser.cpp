@@ -118,7 +118,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 	{
 		foreach (CJsonNode node, list)
 		{
-//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			UtilNovatron::DebugTypeForAirable("SetNodeList", node.GetInt(KEY_TYPE));
 
 			int nodeType = node.GetInt(KEY_TYPE);
@@ -127,10 +127,16 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 			int seconds = node.GetInt(KEY_TIME_CAP);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
+			QString coverArt = node.GetString(KEY_ART);
+			if (coverArt.isEmpty())
+			{
+				coverArt = node.GetString(KEY_ICON);
+			}
+
 			QStandardItem *item = new QStandardItem;
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_ID);
 			item->setData(nodeType, ListBrowserDelegate::LIST_BROWSER_TYPE);
-			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, node.GetString(KEY_COVER_ART)), ListBrowserDelegate::LIST_BROWSER_COVER);
+			item->setData(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, coverArt), ListBrowserDelegate::LIST_BROWSER_COVER);
 			item->setData(node.GetString(KEY_TOP), ListBrowserDelegate::LIST_BROWSER_TITLE);
 			item->setData(node.GetString(KEY_BOT1), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 			item->setData(hhmmss, ListBrowserDelegate::LIST_BROWSER_DURATION);
@@ -140,8 +146,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 
 			m_Model->appendRow(item);
 
-			QString coverArt = node.GetString(KEY_ART);
-			if (!coverArt.isEmpty())
+			if (coverArt.contains("http"))
 			{
 				emit SigReqCoverArt(coverArt, index);
 			}
