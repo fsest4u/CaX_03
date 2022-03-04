@@ -901,6 +901,10 @@ void UtilNovatron::DebugTypeForAirable(QString title, int type)
 	{
 		LogDebug("[%s] iAirableType_Mask_Logout", title.toUtf8().data());
 	}
+	if (type & iAirableType_Mask_Record)
+	{
+		LogDebug("[%s] iAirableType_Mask_Record", title.toUtf8().data());
+	}
 
 }
 

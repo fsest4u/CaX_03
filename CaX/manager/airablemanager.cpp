@@ -120,11 +120,19 @@ void AirableManager::RequestActionUrl(int nServiceType, QString url)
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_AIRABLE);
 	node.Add	(KEY_CMD1,		VAL_URL);
-	node.Add(KEY_URL, url);
-	node.AddInt(KEY_TYPE, m_ServiceType);
+	node.Add	(KEY_URL,		url);
+	node.AddInt	(KEY_TYPE,		m_ServiceType);
 
 	RequestCommand(node, AIRABLE_ACTION_URL);
 
+}
+
+void AirableManager::RequestRecordSet(CJsonNode node)
+{
+	node.Add	(KEY_CMD0,		VAL_AIRABLE);
+	node.Add	(KEY_CMD1,		VAL_RECORD_SET);
+
+	RequestCommand(node, AIRABLE_RECORD_SET);
 }
 
 void AirableManager::RequestRandom()
@@ -198,6 +206,9 @@ void AirableManager::SlotRespInfo(QString json, int nCmdID)
 			ParseURL(node);
 			break;
 		case AIRABLE_ACTION_URL:
+			emit SigRespError(node.GetString(VAL_DESC));
+			break;
+		case AIRABLE_RECORD_SET:
 			emit SigRespError(node.GetString(VAL_DESC));
 			break;
 		case AIRABLE_RANDOM:

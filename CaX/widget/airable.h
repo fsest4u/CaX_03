@@ -28,6 +28,7 @@
 #define iAirableType_Mask_Art         0x00000080      // Cover View Top Menu 가능
 
 #define iAirableType_Mask_Logout      0x00000100      // Logout Item
+#define iAirableType_Mask_Record      0x00000200
 
 #define iAirableType_Track_Feed       ( iAirableType_Mask_Track | iAirableType_Mask_Feed )
 									  // Track과 Podcast는 일반적인 음원 List Play이다.       // 일반적 Play Menu Item 포함. ( Play New, Play Now, ... )

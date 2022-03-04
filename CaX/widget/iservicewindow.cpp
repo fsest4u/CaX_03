@@ -8,6 +8,7 @@
 #include "dialog/logindialog.h"
 #include "dialog/webengineviewdialog.h"
 #include "dialog/searchdialog.h"
+#include "dialog/setupreservationrecordingdialog.h"
 
 #include "manager/airablemanager.h"
 #include "manager/qobuzmanager.h"
@@ -378,40 +379,15 @@ void IServiceWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 
 void IServiceWindow::SlotMenuAction(QAction *action)
 {
-	int type = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
-
-	if (iIServiceType_Qobuz == m_InternetType)
+	QString rawData = qvariant_cast<QString>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_RAW));
+	CJsonNode node;
+	if (!node.SetContent(rawData))
 	{
-		int id = qvariant_cast<int>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_ID));
-		SlotOptionMenuAction(QString::number(id), type, action->data().toInt());
-	}
-	else
-	{
-		QString rawData = qvariant_cast<QString>(m_ModelIndex.data(ListBrowserDelegate::LIST_BROWSER_RAW));
-		CJsonNode node;
-		if (!node.SetContent(rawData))
-		{
-			LogCritical("invalid json");
-			return;
-		}
-		CJsonNode acts = node.GetArray(KEY_ACTS);
-		if (acts.ArraySize() <= 0)
-		{
-			LogCritical("array node is empty");
-			return;
-		}
-
-		CJsonNode act = acts.GetArrayAt(0);
-		QString url = act.GetString(KEY_URL);
-		if (url.isEmpty())
-		{
-			LogCritical("url is empty");
-			return;
-		}
-
-		SlotOptionMenuAction(url, type, action->data().toInt());
+		LogCritical("invalid json");
+		return;
 	}
 
+	SlotOptionMenuAction(action->data().toInt(), node);
 
 }
 
@@ -772,16 +748,19 @@ void IServiceWindow::SlotTopMenuAction(int menuID)
 //	m_pListBrowser->SetEditor(index);
 //}
 
-void IServiceWindow::SlotOptionMenuAction(QString url, int type, int menuID)
+void IServiceWindow::SlotOptionMenuAction(int menuID, CJsonNode node)
 {
-//	LogDebug("click option menu [%s] [%d] [%d]", url.toUtf8().data(), type, menuID);
+	LogDebug("click option menu [%d] node [%s]", menuID, node.ToCompactByteArray().data());
 	switch (menuID) {
 	case OPTION_MENU_DELETE_PLAYLIST:
-		m_pQobuzMgr->RequestDeletePlaylist(url);
+		DoOptionMenuDeletePlaylist(node);
 		break;
 	case OPTION_MENU_ADD_FAVORITE:
 	case OPTION_MENU_DELETE_FAVORITE:
-		m_pAirableMgr->RequestActionUrl(m_InternetType, url);
+		DoOptionMenuActionUrl(node);
+		break;
+	case OPTION_MENU_SETUP_RESERVED_RECORD:
+		DoOptionMenuSetupReservedRecord(node);
 		break;
 	}
 }
@@ -1307,16 +1286,35 @@ void IServiceWindow::SelectUserPlaylistForQobuz(int nType, CJsonNode node)
 
 void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 {
-	UtilNovatron::DebugTypeForAirable("SlotSelectTitle", nType);
+	UtilNovatron::DebugTypeForAirable("SelectTitleForAirable", nType);
 
 	SetType(nType);
 	SetNode(node);
 
-//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
 	QString url = m_Node.GetString(KEY_URL);
 
-	if (nType & iAirableType_Mask_Dir)
+	if (nType & iAirableType_Mask_Record)
+	{
+		SetupReservationRecordingDialog dialog;
+		dialog.SetNodeData(node);
+
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			CJsonNode tempNode = node;
+			node.Clear();
+			node = dialog.GetNodeData();
+			node.AddInt(KEY_ID_UPPER, tempNode.GetInt(KEY_ID_UPPER));
+			node.Add(KEY_NAME_CAP, tempNode.GetString(KEY_TOP));
+			node.Add(KEY_DESC, tempNode.GetString(KEY_BOT1));
+			node.Add(KEY_URL, tempNode.GetString(KEY_URL));
+			node.Add(KEY_LOGO_URL, tempNode.GetString(KEY_ART));
+
+			m_pAirableMgr->RequestRecordSet(node);
+		}
+	}
+	else if (nType & iAirableType_Mask_Dir)
 	{
 		if (!url.isEmpty())
 		{
@@ -1346,6 +1344,7 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 			m_pAirableMgr->RequestLogout(m_InternetType, url);
 		}
 	}
+
 }
 
 void IServiceWindow::AppendSearchForQobuz()
@@ -1648,6 +1647,11 @@ void IServiceWindow::SetOptionMenu(int type, QString menuName)
 			{
 				m_OptionMenuMap.insert(OPTION_MENU_DELETE_FAVORITE, menuName);
 			}
+
+			if(iIServiceType_Radios == m_InternetType)
+			{
+				m_OptionMenuMap.insert(OPTION_MENU_SETUP_RESERVED_RECORD, STR_SETUP_RESERVE_RECORD);
+			}
 		}
 	}
 
@@ -1656,6 +1660,63 @@ void IServiceWindow::SetOptionMenu(int type, QString menuName)
 //		m_pListBrowser->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
 //	}
 
+}
+
+void IServiceWindow::DoOptionMenuDeletePlaylist(CJsonNode node)
+{
+	if (iIServiceType_Qobuz == m_InternetType)
+	{
+		QString id = node.GetString(KEY_ID_UPPER);
+		m_pQobuzMgr->RequestDeletePlaylist(id);
+	}
+}
+
+void IServiceWindow::DoOptionMenuActionUrl(CJsonNode node)
+{
+	if (iIServiceType_Qobuz != m_InternetType)
+	{
+		CJsonNode acts = node.GetArray(KEY_ACTS);
+		if (acts.ArraySize() <= 0)
+		{
+			LogCritical("array node is empty");
+			return;
+		}
+
+		CJsonNode act = acts.GetArrayAt(0);
+		QString url = act.GetString(KEY_URL);
+		if (url.isEmpty())
+		{
+			LogCritical("url is empty");
+			return;
+		}
+
+		m_pAirableMgr->RequestActionUrl(m_InternetType, url);
+	}
+}
+
+void IServiceWindow::DoOptionMenuSetupReservedRecord(CJsonNode node)
+{
+	if (iIServiceType_Radios == m_InternetType)
+	{
+		node.Add(KEY_ACTIVE, true);
+		node.AddInt(KEY_DURATION, 5);
+
+		SetupReservationRecordingDialog dialog;
+		dialog.SetNodeData(node);
+
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			CJsonNode tempNode = node;
+			node.Clear();
+			node = dialog.GetNodeData();
+			node.Add(KEY_NAME_CAP, tempNode.GetString(KEY_TOP));
+			node.Add(KEY_DESC, tempNode.GetString(KEY_BOT1));
+			node.Add(KEY_URL, tempNode.GetString(KEY_URL));
+			node.Add(KEY_LOGO_URL, tempNode.GetString(KEY_ART));
+
+			m_pAirableMgr->RequestRecordSet(node);
+		}
+	}
 }
 
 

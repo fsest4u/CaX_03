@@ -131,6 +131,7 @@
 #define		KEY_LEFT			"Left"
 #define		KEY_LIST			"List"
 #define		KEY_LOCATION		"location"
+#define		KEY_LOGO_URL		"LogoUrl"
 
 #define		KEY_MAC				"Mac"
 #define		KEY_MAC_ADDR		"macAddr"

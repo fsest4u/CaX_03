@@ -113,7 +113,7 @@ private slots:
 
 //	void SlotOptionMenu(int id, int type);
 //	void SlotOptionMenu(int id, int type, QString menuName);
-	void SlotOptionMenuAction(QString url, int type, int menuID);
+	void SlotOptionMenuAction(int menuID, CJsonNode node);
 
 private:
 
@@ -134,7 +134,10 @@ private:
 
 	void SetOptionMenu(int type, QString menuName = "");
 
-	void DoOptionMenuPlay(int nID, int where);
+//	void DoOptionMenuPlay(int nID, int where);
+	void DoOptionMenuDeletePlaylist(CJsonNode node);
+	void DoOptionMenuActionUrl(CJsonNode node);
+	void DoOptionMenuSetupReservedRecord(CJsonNode node);
 
 	void SelectSearchForQobuz(int nType, CJsonNode node);
 	void SelectRecommendForQobuz(int nType, CJsonNode node);
