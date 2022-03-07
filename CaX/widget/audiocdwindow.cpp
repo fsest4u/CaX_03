@@ -2,6 +2,7 @@
 #include "ui_audiocdwindow.h"
 
 #include "dialog/cdripinfodialog.h"
+#include "dialog/changemetainfodialog.h"
 #include "dialog/commondialog.h"
 #include "dialog/trackinfodialog.h"
 #include "dialog/trackinfo.h"
@@ -110,12 +111,25 @@ void AudioCDWindow::RequestTrackList()
 	m_pMgr->RequestTrackList();
 }
 
-void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
+void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 {
-	m_RespList = list;
+	LogDebug("node : [%s]", node.ToCompactByteArray().data());
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
+	m_RespList.clear();
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		m_RespList.append(result.GetArrayAt(i));
+//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
+	}
 
 	CJsonNode track = m_RespList.at(0);
-//	LogDebug("track [%s]", track.ToCompactByteArray().data());
+	LogDebug("track [%s]", track.ToCompactByteArray().data());
 
 	QString art = track.GetString(KEY_ART);
 	if (art.isEmpty())
@@ -126,8 +140,18 @@ void AudioCDWindow::SlotRespTrackList(QList<CJsonNode> list)
 	{
 		m_pMgr->RequestCoverArt(art);
 	}
-	m_pInfoTracks->SetTitle(track.GetString(KEY_TOP));
-	m_pInfoTracks->SetSubtitle(track.GetString(KEY_BOT));
+	int index = 0;
+	if (node.GetInt(KEY_SOURCE_INDEX, index))
+	{
+		m_SourceList = node.GetStringList(KEY_SOURCE);
+		m_pInfoTracks->SetTitle(m_SourceList[index]);
+		m_pInfoTracks->SetSubtitle(node.GetString(KEY_ALBUM));
+	}
+	else
+	{
+		m_pInfoTracks->SetTitle(node.GetString(KEY_SOURCE));
+		m_pInfoTracks->SetSubtitle(node.GetString(KEY_ALBUM));
+	}
 //	m_pInfoTracks->SetInfo(MakeInfo());
 
 	SetOptionMenu();
@@ -197,8 +221,23 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 	}
 }
 
-void AudioCDWindow::SlotRespCategoryList(QList<CJsonNode> list)
+void AudioCDWindow::SlotRespCategoryList(CJsonNode node)
 {
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
+	QList<CJsonNode> list;
+	list.clear();
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		list.append(result.GetArrayAt(i));
+//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
+	}
+
 	SetCategoryList(list);
 }
 
@@ -334,6 +373,9 @@ void AudioCDWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_CLEAR_ALL:
 		DoTopMenuClearAll();
 		break;
+	case TOP_MENU_CHANGE_META_INFO:
+		DoTopMenuChangeMetaInfo();
+		break;
 	case TOP_MENU_CD_RIPPING:
 		DoTopMenuCDRipping();
 		break;
@@ -432,10 +474,10 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(m_pMgr, SIGNAL(SigRespTrackList(QList<CJsonNode>)), this, SLOT(SlotRespTrackList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespTrackList(CJsonNode)), this, SLOT(SlotRespTrackList(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCDRipInfo(CJsonNode)), this, SLOT(SlotRespCDRipInfo(CJsonNode)));
-	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
+	connect(m_pMgr, SIGNAL(SigRespCategoryList(CJsonNode)), this, SLOT(SlotRespCategoryList(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
 
@@ -475,6 +517,7 @@ void AudioCDWindow::Initialize()
 	m_GenreList.clear();
 	m_ComposerList.clear();
 	m_MoodList.clear();
+	m_SourceList.clear();
 
 	m_ID = -1;
 
@@ -584,6 +627,10 @@ void AudioCDWindow::SetSelectOffTopMenu()
 	m_TopMenuMap.clear();
 
 	m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+	if (m_SourceList.count() > 1)
+	{
+		m_TopMenuMap.insert(TOP_MENU_CHANGE_META_INFO, STR_CHANGE_META_INFO);
+	}
 	m_TopMenuMap.insert(TOP_MENU_CD_RIPPING, STR_CD_RIPPING);
 	m_TopMenuMap.insert(TOP_MENU_EJECT_CD, STR_EJECT_CD);
 
@@ -623,6 +670,17 @@ void AudioCDWindow::DoTopMenuClearAll()
 	else
 	{
 		m_pListTracks->ClearSelectMap();
+	}
+}
+
+void AudioCDWindow::DoTopMenuChangeMetaInfo()
+{
+	ChangeMetaInfoDialog dialog;
+	dialog.SetIndex(m_SourceList);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		int index = dialog.GetIndex();
+		m_pMgr->RequestTrackList(index);
 	}
 }
 

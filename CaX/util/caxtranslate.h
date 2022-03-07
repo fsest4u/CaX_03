@@ -96,6 +96,7 @@
 #define STR_ADD_TO_FAVORITE			TR("Add to favorite")
 #define STR_ADD_TO_PLAYLIST			TR("Add to playlist")
 #define STR_CD_RIPPING				TR("CD ripping")
+#define STR_CHANGE_META_INFO		TR("Change meta info")
 #define STR_CLEAR_ALL				TR("Clear all")
 #define STR_CLEAR_AND_SEEK_ALL		TR("Clear and seek all")
 #define STR_CONVERT_FORMAT    		TR("Convert audio format")

@@ -33,10 +33,10 @@ signals:
 
 private slots:
 
-	void SlotRespTrackList(QList<CJsonNode> list);
+	void SlotRespTrackList(CJsonNode node);
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespCDRipInfo(CJsonNode node);
-	void SlotRespCategoryList(QList<CJsonNode> list);
+	void SlotRespCategoryList(CJsonNode node);
 	void SlotCoverArtUpdate(QString filename);
 	void SlotCoverArtUpdate(QString coverArt, int index, int mode);
 
@@ -72,6 +72,7 @@ private:
 
 	void DoTopMenuSelectAll();
 	void DoTopMenuClearAll();
+	void DoTopMenuChangeMetaInfo();
 	void DoTopMenuCDRipping();
 	void DoTopMenuEjectCD();
 
@@ -109,6 +110,8 @@ private:
 	QStringList			m_GenreList;
 	QStringList			m_ComposerList;
 	QStringList			m_MoodList;
+
+	QStringList			m_SourceList;
 
 	int					m_ResizeTrack;
 

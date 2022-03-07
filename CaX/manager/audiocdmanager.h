@@ -11,7 +11,7 @@ public:
 	AudioCDManager();
 	~AudioCDManager();
 
-	void RequestTrackList(int source = -1);
+	void RequestTrackList(int index = -1);
 	void RequestTrackInfo(int id = 1);
 	void RequestTrackPlay(int id = 1);
 	void RequestEject();
@@ -25,10 +25,10 @@ public:
 signals:
 
 	void SigRespError(QString msg);
-	void SigRespTrackList(QList<CJsonNode> list);
+	void SigRespTrackList(CJsonNode node);
 	void SigRespTrackInfo(CJsonNode node);
 	void SigRespCDRipInfo(CJsonNode node);
-	void SigRespCategoryList(QList<CJsonNode> list);
+	void SigRespCategoryList(CJsonNode node);
 	void SigCoverArtUpdate(QString filename, int nIndex, int mode);
 	void SigCoverArtUpdate(QString filename);
 
@@ -52,8 +52,8 @@ private:
 		AUDIO_CD_MAX
 	};
 
-	void ParseTrackList(CJsonNode result);
-	void ParseCategoryList(CJsonNode result);
+	void ParseTrackList(CJsonNode node);
+	void ParseCategoryList(CJsonNode node);
 
 	SQLManager	*m_pSql;
 

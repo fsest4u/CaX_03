@@ -206,6 +206,7 @@
 #define		KEY_SONG_ORDER		"SongOrder"
 #define		KEY_SOUND			"Sound"
 #define		KEY_SOURCE			"Source"
+#define		KEY_SOURCE_INDEX	"SrrIndex"
 #define		KEY_SQL				"Sql"
 #define		KEY_SRC				"Src"
 #define		KEY_SRC_PATH		"SrcPath"

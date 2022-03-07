@@ -15,6 +15,7 @@ SOURCES += \
     dialog/addsharedialog.cpp \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
+    dialog/changemetainfodialog.cpp \
     dialog/commondialog.cpp \
     dialog/confirmcoverartdialog.cpp \
     dialog/edittagdelegate.cpp \
@@ -155,6 +156,7 @@ HEADERS += \
     dialog/addsharedialog.h \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
+    dialog/changemetainfodialog.h \
     dialog/commondialog.h \
     dialog/confirmcoverartdialog.h \
     dialog/edittagdelegate.h \
@@ -306,6 +308,7 @@ FORMS += \
     dialog/addsharedialog.ui \
     dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \
+    dialog/changemetainfodialog.ui \
     dialog/commondialog.ui \
     dialog/confirmcoverartdialog.ui \
     dialog/edittagdialog.ui \

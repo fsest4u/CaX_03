@@ -18,12 +18,12 @@ AudioCDManager::~AudioCDManager()
 	}
 }
 
-void AudioCDManager::RequestTrackList(int source)
+void AudioCDManager::RequestTrackList(int index)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_AUDIO_CD);
 	node.Add	(KEY_CMD1,		VAL_LIST);
-	node.AddInt	(KEY_SOURCE,	source);
+	node.AddInt	(KEY_SOURCE,	index);
 
 	RequestCommand(node, AUDIO_CD_TRACK_LIST);
 }
@@ -149,16 +149,7 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 	switch (cmdID)
 	{
 	case AUDIO_CD_TRACK_LIST:
-	{
-		CJsonNode result = node.GetArray(VAL_RESULT);
-		if (result.ArraySize() <= 0)
-		{
-			emit SigRespError(message.left(MSG_LIMIT_COUNT));
-			return;
-		}
-
-		ParseTrackList(result);
-	}
+		ParseTrackList(node);
 		break;
 	case AUDIO_CD_TRACK_INFO:
 		emit SigRespTrackInfo(node);
@@ -173,16 +164,7 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 		LogInfo("rip ...");
 		break;
 	case AUDIO_CD_CATEGORY_LIST:
-	{
-		CJsonNode result = node.GetArray(VAL_RESULT);
-		if (result.ArraySize() <= 0)
-		{
-			emit SigRespError(message.left(MSG_LIMIT_COUNT));
-			return;
-		}
-
-		ParseCategoryList(result);
-	}
+		ParseCategoryList(node);
 		break;
 	case AUDIO_CD_MAX:
 		emit SigRespError(STR_INVALID_ID);
@@ -200,27 +182,13 @@ void AudioCDManager::SlotRespCoverArt(QString filename)
 	emit SigCoverArtUpdate(filename);
 }
 
-void AudioCDManager::ParseTrackList(CJsonNode result)
+void AudioCDManager::ParseTrackList(CJsonNode node)
 {
-	m_NodeList.clear();
-	for (int i = 0; i < result.ArraySize(); i++)
-	{
-		m_NodeList.append(result.GetArrayAt(i));
-//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
-	}
-
-	emit SigRespTrackList(m_NodeList);
+	emit SigRespTrackList(node);
 }
 
-void AudioCDManager::ParseCategoryList(CJsonNode result)
+void AudioCDManager::ParseCategoryList(CJsonNode node)
 {
-	m_NodeList.clear();
-	for (int i = 0; i < result.ArraySize(); i++)
-	{
-		m_NodeList.append(result.GetArrayAt(i));
-//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
-	}
-
-	emit SigRespCategoryList(m_NodeList);
+	emit SigRespCategoryList(node);
 }
 
