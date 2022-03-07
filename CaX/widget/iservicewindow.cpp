@@ -8,6 +8,7 @@
 #include "dialog/logindialog.h"
 #include "dialog/webengineviewdialog.h"
 #include "dialog/searchdialog.h"
+#include "dialog/searchhistorydialog.h"
 #include "dialog/setupreservationrecordingdialog.h"
 
 #include "manager/airablemanager.h"
@@ -1042,7 +1043,7 @@ void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
 				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Track) == itemType
 				 || (iQobuzType_Mask_Search | iQobuzType_Mask_Playlist) == itemType))
 	{
-		SearchDialog dialog;
+		SearchHistoryDialog dialog;
 		if (dialog.exec() == QDialog::Accepted)
 		{
 			QString keyword = dialog.GetKeyword();

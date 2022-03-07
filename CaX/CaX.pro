@@ -33,6 +33,7 @@ SOURCES += \
     dialog/searchcoverartdialog.cpp \
     dialog/searchcoverartresultdialog.cpp \
     dialog/searchdialog.cpp \
+    dialog/searchhistorydialog.cpp \
     dialog/selectformatdialog.cpp \
     dialog/selectnetworkinterfacedialog.cpp \
     dialog/setcategorycolumndialog.cpp \
@@ -175,6 +176,7 @@ HEADERS += \
     dialog/searchcoverartdialog.h \
     dialog/searchcoverartresultdialog.h \
     dialog/searchdialog.h \
+    dialog/searchhistorydialog.h \
     dialog/selectformatdialog.h \
     dialog/selectnetworkinterfacedialog.h \
     dialog/setcategorycolumndialog.h \
@@ -325,6 +327,7 @@ FORMS += \
     dialog/searchcoverartdialog.ui \
     dialog/searchcoverartresultdialog.ui \
     dialog/searchdialog.ui \
+    dialog/searchhistorydialog.ui \
     dialog/selectformatdialog.ui \
     dialog/selectnetworkinterfacedialog.ui \
     dialog/setcategorycolumndialog.ui \
