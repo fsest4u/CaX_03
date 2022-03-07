@@ -69,9 +69,13 @@ public slots:
 	void SlotAddQueueList(CJsonNode node);
 	void SlotSetPlayInfo(CJsonNode node);
 
-	// dummy
+	// dummy - music db
 	void SlotUpdateFavoriteParent(int id, int favorite);
 	void SlotUpdateRatingParent(int id, int rating);
+	// dummy - browser
+	void SlotBrowserPath(QString path);
+	void SlotCopyHere(bool move, QString dstPath, QString path, int type);
+
 
 private:
 

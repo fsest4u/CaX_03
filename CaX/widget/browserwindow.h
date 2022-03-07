@@ -67,6 +67,7 @@ private slots:
 	void SlotInfoTagUpdate(CJsonNode node);
 	void SlotRespCategoryList(QList<CJsonNode> list);
 	void SlotListUpdate();
+	void SlotRespSMBInfo(CJsonNode node);
 
 	void SlotPlayAll(int where = PLAY_CLEAR);
 	void SlotPlayRandom();
@@ -105,6 +106,7 @@ private:
 	void DoTopMenuCopy(bool move);
 	void DoTopMenuCopyHere(bool move);
 	void DoTopMenuSearchCoverArt();
+	void DoTopMenuAddShare();
 
 	void SetOptionMenu(int type);
 
@@ -120,6 +122,8 @@ private:
 //	void DoOptionMenuCopyHere(QString path, bool move);
 	void DoOptionMenuEditTag(QString path, int type);
 	void DoOptionMenuSearchCoverArt(QString path, int type);
+	void DoOptionMenuModifyShare(QString path);
+	void DoOptionMenuDeleteShare(QString path);
 
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);

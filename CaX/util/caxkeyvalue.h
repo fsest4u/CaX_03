@@ -20,6 +20,7 @@
 #define		KEY_ACTIVE			"Active"
 #define		KEY_ACTIVE_CHANNEL	"activeChannel"
 #define		KEY_ACTS			"Acts"
+#define		KEY_ADD				"Add"
 #define		KEY_ADDR			"Addr"
 #define		KEY_AL				"Al"
 #define		KEY_ALBUM			"Album"
@@ -120,6 +121,8 @@
 #define		KEY_INPUT			"Input"
 #define		KEY_INPUTS			"Inputs"
 #define		KEY_INPUT_SAMPLE_RATE	"InputSampleRate"
+#define		KEY_IP				"IP"
+#define		KEY_IP_ADDR			"IpAddr"
 #define		KEY_IS_DEL_DB		"IsDelDB"
 #define		KEY_ISERVICE		"IService"
 #define		KEY_ITEM_TYPE		"ItemType"
@@ -149,6 +152,7 @@
 #define		KEY_NAME			"name"
 #define		KEY_NEXT			"Next"
 #define		KEY_NEXT_URL		"NextUrl"
+#define		KEY_NICKNAME		"Nickname"
 #define		KEY_NOW_PLAY		"NowPlaying"
 
 #define		KEY_OK			"Ok"
@@ -157,6 +161,7 @@
 
 #define		KEY_PAGE_CNT		"PageCnt"
 #define		KEY_PASS			"Pass"
+#define		KEY_PASSWORD		"Password"
 #define		KEY_PATH			"Path"
 #define		KEY_PATHS			"Paths"
 #define		KEY_PHONO_IN		"PHONO IN"
@@ -192,6 +197,7 @@
 #define		KEY_SELF			"Self"
 #define		KEY_SERVER			"Server"
 #define		KEY_SETUP			"Setup"
+#define		KEY_SHARE			"Share"
 #define		KEY_SITE			"Site"
 #define		KEY_SIZE			"Size"
 #define		KEY_SHOW_LABEL		"ShowLabel"
@@ -238,6 +244,7 @@
 
 #define		KEY_WHERE			"Where"
 #define		KEY_WOL				"WOL"
+#define		KEY_WORK_GROUP		"Workgroup"
 
 #define		KEY_YEAR			"Year"
 #define		KEY_YEARS			"Years"
@@ -351,6 +358,7 @@
 #define		VAL_SEARCH			"Search"
 #define		VAL_SEEK			"Seek"
 #define		VAL_SEEK_STOP		"SeekStop"
+#define		VAL_SERVER			"Server"
 #define		VAL_SET				"Set"
 #define		VAL_SET_ALBUM		"SetAlbum"
 #define		VAL_SET_ART			"SetArt"
@@ -359,7 +367,9 @@
 #define		VAL_SET_TAG			"SetTag"
 #define		VAL_SET_VOLUME		"SetVol"
 #define		VAL_SETUP			"Setup"
+#define		VAL_SHARE			"Share"
 #define		VAL_SHUFFLE			"SHUFFLE"
+#define		VAL_SMB				"Smb"
 #define		VAL_SKIP			"Skip"
 #define		VAL_SONG			"Song"
 #define		VAL_STOP			"Stop"
@@ -376,6 +386,8 @@
 
 #define		VAL_URL				"Url"
 #define		VAL_URLS			"Urls"
+
+#define		VAL_WORK_GROUP		"Workgroup"
 
 #define		VAL_YEAR			"Year"
 

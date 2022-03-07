@@ -855,6 +855,23 @@ void MainWindow::SlotUpdateRatingParent(int id, int rating)
 	LogDebug("dummy function");
 }
 
+void MainWindow::SlotBrowserPath(QString path)
+{
+	Q_UNUSED(path)
+
+	LogDebug("dummy function");
+}
+
+void MainWindow::SlotCopyHere(bool move, QString dstPath, QString path, int type)
+{
+	Q_UNUSED(move)
+	Q_UNUSED(dstPath)
+	Q_UNUSED(path)
+	Q_UNUSED(type)
+
+	LogDebug("dummy function");
+}
+
 void MainWindow::Initialize()
 {
 	RemoveAllWidget();

@@ -32,6 +32,13 @@ public:
 	void RequestRemoveDB(QString path, int eventID);
 	void RequestRandom();
 
+	void RequestSMBWorkGroup(int eventID);
+	void RequestSMBServer(int eventID, QString title);
+	void RequestSMBShare(int eventID, CJsonNode node);
+	void RequestSMBSet(int eventID, CJsonNode node);
+	void RequestSMBInfo(int eventID, QString title);
+	void RequestSMBDelete(int eventID, QString title);
+
 
 	bool GetOptPlaySubDir() const;
 	void SetOptPlaySubDir(bool OptPlaySubDir);
@@ -48,6 +55,10 @@ signals:
 	void SigInfoBotUpdate(CJsonNode node, int nIndex);
 	void SigInfoTagUpdate(CJsonNode node);
 	void SigRespCategoryList(QList<CJsonNode> list);
+	void SigRespSMBWorkGroup(QStringList list);
+	void SigRespSMBServer(QList<CJsonNode> list);
+	void SigRespSMBShare(QStringList list);
+	void SigRespSMBInfo(CJsonNode node);
 
 	void SigListUpdate();
 
@@ -78,6 +89,12 @@ private:
 		BROWSER_SET_TAG,
 		BROWSER_RANDOM,
 		BROWSER_CATEGORY_LIST,
+		BROWSER_SMB_WORK_GROUP,
+		BROWSER_SMB_SERVER,
+		BROWSER_SMB_SHARE,
+		BROWSER_SMB_SET,
+		BROWSER_SMB_INFO,
+		BROWSER_SMB_DELETE,
 //		BROWSER_IMPORT,
 //		BROWSER_UPNP_FOLDER,
 //		BROWSER_UPNP_PLAY,
@@ -87,7 +104,11 @@ private:
 	void ParseFolder(CJsonNode node);
 	void ParseInfoBot(CJsonNode node, int nIndex);
 	void ParseInfoTag(CJsonNode node);
-	void ParseCategoryList(CJsonNode result);
+	void ParseCategoryList(CJsonNode node);
+	void ParseSMBWorkGroup(CJsonNode node);
+	void ParseSMBServer(CJsonNode node);
+	void ParseSMBShare(CJsonNode node);
+	void ParseSMBInfo(CJsonNode node);
 
 	SQLManager	*m_pSql;
 

@@ -277,6 +277,67 @@ void BrowserManager::RequestRandom()
 	RequestCommand(node, BROWSER_RANDOM);
 }
 
+void BrowserManager::RequestSMBWorkGroup(int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_SMB);
+	node.Add(KEY_CMD1, VAL_WORK_GROUP);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+
+	RequestCommand(node, BROWSER_SMB_WORK_GROUP);
+}
+
+void BrowserManager::RequestSMBServer(int eventID, QString title)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_SMB);
+	node.Add(KEY_CMD1, VAL_SERVER);
+	node.Add(KEY_WORK_GROUP, title);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+
+	RequestCommand(node, BROWSER_SMB_SERVER);
+}
+
+void BrowserManager::RequestSMBShare(int eventID, CJsonNode node)
+{
+	node.Add(KEY_CMD0, VAL_SMB);
+	node.Add(KEY_CMD1, VAL_SHARE);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+
+	RequestCommand(node, BROWSER_SMB_SHARE);
+}
+
+void BrowserManager::RequestSMBSet(int eventID, CJsonNode node)
+{
+	node.Add(KEY_CMD0, VAL_SMB);
+	node.Add(KEY_CMD1, VAL_SET);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+
+	RequestCommand(node, BROWSER_SMB_SET);
+}
+
+void BrowserManager::RequestSMBInfo(int eventID, QString title)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_SMB);
+	node.Add(KEY_CMD1, VAL_INFO);
+	node.Add(KEY_NAME_CAP, title);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+
+	RequestCommand(node, BROWSER_SMB_INFO);
+}
+
+void BrowserManager::RequestSMBDelete(int eventID, QString title)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_SMB);
+	node.Add(KEY_CMD1, VAL_DEL);
+	node.Add(KEY_NAME_CAP, title);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+
+	RequestCommand(node, BROWSER_SMB_DELETE);
+}
+
 void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 {
 	if (json.isEmpty())
@@ -291,7 +352,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 		return;
 	}
 
-//	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool	bSuccess = false;
@@ -316,11 +377,6 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_INFO_BOT:
 		ParseInfoBot(node, nIndex);
 		break;
-	case BROWSER_TRACK_PLAY:
-	case BROWSER_PLAYLIST_PLAY:
-	case BROWSER_REPLAYGAIN:
-	case BROWSER_SET_ART:
-		break;
 	case BROWSER_CONVERT_FORMAT:
 	case BROWSER_CREATE:
 	case BROWSER_RENAME:
@@ -329,24 +385,33 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 	case BROWSER_MOVE:
 	case BROWSER_SCAN_DB:
 	case BROWSER_REMOVE_DB:
+	case BROWSER_SMB_SET:
+	case BROWSER_SMB_DELETE:
 		emit SigListUpdate();
-		break;
-	case BROWSER_SET_TAG:
 		break;
 	case BROWSER_INFO_TAG:
 		ParseInfoTag(node);
 		break;
 	case BROWSER_CATEGORY_LIST:
-	{
-		CJsonNode result = node.GetArray(VAL_RESULT);
-		if (result.ArraySize() <= 0)
-		{
-			emit SigRespError(message.left(MSG_LIMIT_COUNT));
-			return;
-		}
-
-		ParseCategoryList(result);
-	}
+		ParseCategoryList(node);
+		break;
+	case BROWSER_SMB_WORK_GROUP:
+		ParseSMBWorkGroup(node);
+		break;
+	case BROWSER_SMB_SERVER:
+		ParseSMBServer(node);
+		break;
+	case BROWSER_SMB_SHARE:
+		ParseSMBShare(node);
+		break;
+	case BROWSER_SMB_INFO:
+		ParseSMBInfo(node);
+		break;
+	case BROWSER_TRACK_PLAY:
+	case BROWSER_PLAYLIST_PLAY:
+	case BROWSER_REPLAYGAIN:
+	case BROWSER_SET_ART:
+	case BROWSER_SET_TAG:
 		break;
 //	case BROWSER_IMPORT:
 //	case BROWSER_UPNP_FOLDER:
@@ -390,9 +455,17 @@ void BrowserManager::ParseInfoTag(CJsonNode node)
 	emit SigInfoTagUpdate(node);
 }
 
-void BrowserManager::ParseCategoryList(CJsonNode result)
+void BrowserManager::ParseCategoryList(CJsonNode node)
 {
 	m_NodeList.clear();
+
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
 		m_NodeList.append(result.GetArrayAt(i));
@@ -400,6 +473,45 @@ void BrowserManager::ParseCategoryList(CJsonNode result)
 	}
 
 	emit SigRespCategoryList(m_NodeList);
+}
+
+void BrowserManager::ParseSMBWorkGroup(CJsonNode node)
+{
+	QStringList list = node.GetStringList(KEY_RESULT);
+
+	emit SigRespSMBWorkGroup(list);
+}
+
+void BrowserManager::ParseSMBServer(CJsonNode node)
+{
+	m_NodeList.clear();
+
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
+	for (int i = 0; i < result.ArraySize(); i++)
+	{
+		m_NodeList.append(result.GetArrayAt(i));
+//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
+	}
+
+	emit SigRespSMBServer(m_NodeList);
+}
+
+void BrowserManager::ParseSMBShare(CJsonNode node)
+{
+	QStringList list = node.GetStringList(KEY_RESULT);
+
+	emit SigRespSMBShare(list);
+}
+
+void BrowserManager::ParseSMBInfo(CJsonNode node)
+{
+	emit SigRespSMBInfo(node);
 }
 
 bool BrowserManager::GetOptOverwrite() const

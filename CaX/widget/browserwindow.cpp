@@ -5,6 +5,7 @@
 
 #include "browser.h"
 
+#include "dialog/addsharedialog.h"
 #include "dialog/commondialog.h"
 #include "dialog/inputnamedialog.h"
 #include "dialog/logindialog.h"
@@ -294,6 +295,9 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_COPY_HERE:
 		DoTopMenuCopyHere(false);
 		break;
+	case TOP_MENU_ADD_SHARE:
+		DoTopMenuAddShare();
+		break;
 	}
 }
 
@@ -307,7 +311,7 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 {
 	QString path = node.GetString(KEY_PATH);
-//	LogDebug("click option menu [%s] [%d] [%d]", path.toUtf8().data(), type, menuID);
+	LogDebug("click option menu node [%s] [%d] [%d]", node.ToCompactByteArray().data(), type, menuID);
 	switch (menuID) {
 	case OPTION_MENU_OPTION_PLAY_SUBDIR:
 		DoOptionMenuOptionPlaySubDir();
@@ -366,6 +370,12 @@ void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 	case OPTION_MENU_SEARCH_COVERART:
 		DoOptionMenuSearchCoverArt(path, type);
 		break;
+	case OPTION_MENU_MODIFY_SHARE:
+		DoOptionMenuModifyShare(path);
+		break;
+	case OPTION_MENU_DELETE_SHARE:
+		DoOptionMenuDeleteShare(path);
+		break;
 	}
 }
 
@@ -385,7 +395,7 @@ void BrowserWindow::SlotIconSelectTitle(int nType, QString rawData)
 		return;
 	}
 
-	if (iFolderType_Mask_Sub & nType)
+	if (iFolderType_Mask_Sub & nType && iFolderType_Mask_Dev & nType)
 	{
 		QString path = node.GetString(KEY_PATH);
 		if (!m_Root.isEmpty())
@@ -399,14 +409,12 @@ void BrowserWindow::SlotIconSelectTitle(int nType, QString rawData)
 			widget->ShowFormPlay(true);
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
+		widget->SetFolderType(nType);
 		widget->RequestFolder(path, m_Ext);
 
 		emit widget->SigAddWidget(widget, STR_BROWSER);
 	}
-//	else
-//	{
-//		SlotSelectTrackPlay(nType, rawData);
-//	}
+
 }
 
 void BrowserWindow::SlotSelectTrackPlay(int nType, CJsonNode node)
@@ -448,6 +456,7 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 			widget->ShowFormPlay(true);
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
+		widget->SetFolderType(nType);
 		widget->RequestFolder(path, m_Ext);
 
 		emit widget->SigAddWidget(widget, STR_BROWSER);
@@ -525,8 +534,9 @@ void BrowserWindow::SlotMenuAction(QAction *action)
 void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 {
 	int nType =  list[0].GetInt(KEY_TYPE);
+	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);
 
-	if (iFolderType_Mask_Root & nType)
+	if (iFolderType_Mask_Hdd & nType)
 	{
 		ui->gridLayoutTop->addWidget(m_pInfoService);
 		ui->gridLayoutBottom->addWidget(m_pIconService);
@@ -538,6 +548,18 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		nType = m_pIconService->SetNodeList(list, IconService::ICON_SERVICE_BROWSER);
 
 	}
+//	else if (iFolderType_Mask_Usb & nType)
+//	{
+
+//	}
+//	else if (iFolderType_Mask_Net & nType)
+//	{
+
+//	}
+//	else if (iFolderType_Mask_Upnp & nType)
+//	{
+
+//	}
 	else
 	{
 		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
@@ -552,8 +574,6 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		m_pListBrowser->ClearNodeList();
 		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
 	}
-
-	UtilNovatron::DebugTypeForBrowser("SlotRespList", nType);
 
 	if (iFolderType_Mask_Pls & nType
 			&& iFolderType_Mask_Dir & nType)
@@ -599,7 +619,7 @@ void BrowserWindow::SlotRespError(QString errMsg)
 		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
 
 		ShowFormPlay(false);
-//		m_pInfoBrowser->GetFormPlay()->ShowMenu();
+		m_pInfoBrowser->GetFormPlay()->ShowMenu();
 		m_pInfoBrowser->SetCoverArt("");
 		m_pInfoBrowser->SetTitle(m_Root);
 	}
@@ -670,6 +690,19 @@ void BrowserWindow::SlotListUpdate()
 	QThread::sleep(1);
 	// refresh
 	DoTopMenuReload();
+}
+
+void BrowserWindow::SlotRespSMBInfo(CJsonNode node)
+{
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	AddShareDialog dialog;
+	dialog.SetInfo(m_pMgr->GetAddr(), m_EventID);
+	dialog.SetNodeInfo(node);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		CJsonNode node = dialog.GetNodeInfo();
+		m_pMgr->RequestSMBSet(m_EventID, node);
+	}
 }
 
 void BrowserWindow::SlotCopyHere(bool move, QString dstPath, QString path, int type)
@@ -764,6 +797,7 @@ void BrowserWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigInfoTagUpdate(CJsonNode)), this, SLOT(SlotInfoTagUpdate(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespCategoryList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigListUpdate()), this, SLOT(SlotListUpdate()));
+	connect(m_pMgr, SIGNAL(SigRespSMBInfo(CJsonNode)), this, SLOT(SlotRespSMBInfo(CJsonNode)));
 
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenu()), this, SLOT(SlotTopMenu()));
 	connect(m_pInfoService->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotTopMenuAction(int)));
@@ -928,6 +962,15 @@ void BrowserWindow::SetSelectOffTopMenu()
 
 			m_pInfoService->GetFormPlay()->ClearMenu();
 			m_pInfoService->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
+		else if (m_FolderType & iFolderType_Mask_Net)
+		{
+			LogDebug("select Net");
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+			m_TopMenuMap.insert(TOP_MENU_ADD_SHARE, STR_ADD_SHARE);
+
+			m_pInfoBrowser->GetFormPlay()->ClearMenu();
+			m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
 		}
 		else
 		{
@@ -1210,6 +1253,18 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 	}
 }
 
+void BrowserWindow::DoTopMenuAddShare()
+{
+	LogDebug("do add share");
+	AddShareDialog dialog;
+	dialog.SetInfo(m_pMgr->GetAddr(), m_EventID);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		CJsonNode node = dialog.GetNodeInfo();
+		m_pMgr->RequestSMBSet(m_EventID, node);
+	}
+}
+
 void BrowserWindow::SetOptionMenu(int type)
 {
 	UtilNovatron::DebugTypeForBrowser("SetOptionMenu", type);
@@ -1242,6 +1297,7 @@ void BrowserWindow::SetOptionMenu(int type)
 			m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 			m_OptionMenuMap.insert(OPTION_MENU_CONVERT_FORMAT, STR_CONVERT_FORMAT);
 		}
+
 		if (type & iFolderType_Mask_Dir)
 		{
 			if (type & iFolderType_Mask_Scan)
@@ -1263,6 +1319,7 @@ void BrowserWindow::SetOptionMenu(int type)
 			m_OptionMenuMap.insert(OPTION_MENU_MOVE, STR_MOVE);
 			m_OptionMenuMap.insert(OPTION_MENU_COPY, STR_COPY);
 		}
+
 		if (type & iFolderType_Mask_Play_Select)
 		{
 			m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_EDIT_TAG);
@@ -1271,7 +1328,6 @@ void BrowserWindow::SetOptionMenu(int type)
 
 		if (type & iFolderType_Mask_Pls)
 		{
-			m_OptionMenuMap.clear();
 			if (type & iFolderType_Mask_Song)
 			{
 				m_OptionMenuMap.insert(OPTION_MENU_PLAY_NOW, STR_PLAY_NOW);
@@ -1279,6 +1335,12 @@ void BrowserWindow::SetOptionMenu(int type)
 				m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 				m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 			}
+		}
+
+		if (type & iFolderType_Mask_Net)
+		{
+			m_OptionMenuMap.insert(OPTION_MENU_MODIFY_SHARE, STR_MODIFY_SHARE);
+			m_OptionMenuMap.insert(OPTION_MENU_DELETE_SHARE, STR_DELETE_SHARE);
 		}
 	}
 
@@ -1482,6 +1544,17 @@ void BrowserWindow::DoOptionMenuSearchCoverArt(QString path, int type)
 
 		m_pMgr->RequestSetArt(m_Root, files, image, thumb, m_EventID);
 	}
+}
+
+void BrowserWindow::DoOptionMenuModifyShare(QString path)
+{
+	m_pMgr->RequestSMBInfo(m_EventID, path);
+
+}
+
+void BrowserWindow::DoOptionMenuDeleteShare(QString path)
+{
+	m_pMgr->RequestSMBDelete(m_EventID, path);
 }
 
 void BrowserWindow::AnalyzeNode(CJsonNode node)
