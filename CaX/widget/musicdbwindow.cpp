@@ -853,33 +853,37 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 	if (SQLManager::SORT_IMPORTED_DATE == menuID
 			|| SQLManager::SORT_ALPHABET == menuID
 			|| SQLManager::SORT_FAVORITE == menuID
-			|| SQLManager::SORT_RATING == menuID
-			|| SQLManager::DISP_MODE_TRACK == menuID)
+			|| SQLManager::SORT_RATING == menuID)
 	{
 		m_DispMode = menuID;
 		m_nSortCategory = menuID;
-		if (SQLManager::DISP_MODE_TRACK != menuID)
-		{
-			WriteSettings();
-		}
+		WriteSettings();
 
 //		RequestCategoryList(m_nCatID, m_nCatID2);
 		DoTopMenuReload();
 
 	}
+	else if (SQLManager::DISP_MODE_TRACK == menuID)
+	{
+		m_DispMode = menuID;
+		WriteSettings();
+
+		QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_TRACK;
+		m_pInfoHome->SetTitle(title);
+	}
 	else if (SQLManager::DISP_MODE_ALBUM == menuID)
 	{
 		m_DispMode = menuID;
-//		m_nSortCategory = SQLManager::SORT_IMPORTED_DATE;
-//		RequestCategoryList();
+		WriteSettings();
+
 		QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
 		m_pInfoHome->SetTitle(title);
 	}
 	else if (SQLManager::DISP_MODE_ARTIST == menuID)
 	{
 		m_DispMode = menuID;
-//		m_nSortCategory = SQLManager::SORT_IMPORTED_DATE;
-//		RequestCategoryList();
+		WriteSettings();
+
 		QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
 		m_pInfoHome->SetTitle(title);
 	}
@@ -1842,6 +1846,7 @@ void MusicDBWindow::ReadSettings()
 
 	m_nSortCategory = settings.value("sort_item_value").toInt();
 	m_nSortTrack = settings.value("sort_track_value").toInt();
+	m_DispMode = settings.value("display_mode").toInt();
 
 	m_bIncreaseCategory = settings.value("increase_item").toBool();
 	m_bIncreaseTrack = settings.value("increase_track").toBool();
@@ -1899,6 +1904,7 @@ void MusicDBWindow::WriteSettings()
 
 	settings.setValue("sort_item_value", m_nSortCategory);
 	settings.setValue("sort_track_value", m_nSortTrack);
+	settings.setValue("display_mode", m_DispMode);
 
 	settings.setValue("increase_item", m_bIncreaseCategory);
 	settings.setValue("increase_track", m_bIncreaseTrack);
@@ -2039,7 +2045,7 @@ void MusicDBWindow::Initialize()
 
 //	m_ListMode = VIEW_MODE_ICON;
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
-	m_DispMode = SQLManager::DISP_MODE_TRACK;
+//	m_DispMode = SQLManager::DISP_MODE_TRACK;
 }
 
 void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)
@@ -2898,6 +2904,8 @@ void MusicDBWindow::SetSortMenu(int category)
 
 		if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 		{
+			title = GetTitleSortMenu(m_DispMode);
+
 			list.insert(SQLManager::DISP_MODE_TRACK, STR_DISP_MODE_TRACK);
 			list.insert(SQLManager::DISP_MODE_ALBUM, STR_DISP_MODE_ALBUM);
 
@@ -2905,6 +2913,7 @@ void MusicDBWindow::SetSortMenu(int category)
 			{
 				list.insert(SQLManager::DISP_MODE_ARTIST, STR_DISP_MODE_ARTIST);
 			}
+
 		}
 		else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM
 				 || m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
@@ -2913,8 +2922,9 @@ void MusicDBWindow::SetSortMenu(int category)
 		}
 		else if (m_TypeMode == TYPE_MODE_ITEM_ARTIST)
 		{
-			list.insert(SQLManager::DISP_MODE_ALBUM, STR_DISP_MODE_ALBUM);
+			title = GetTitleSortMenu(m_DispMode);
 
+			list.insert(SQLManager::DISP_MODE_ALBUM, STR_DISP_MODE_ALBUM);
 		}
 
 		m_pInfoHome->GetFormSort()->ClearMenu();
@@ -3112,6 +3122,19 @@ int MusicDBWindow::GetListModeFromResize(int resize)
 
 QString MusicDBWindow::GetTitleSortMenu(int sort)
 {
+
+	if (m_nCategory == SQLManager::CATEGORY_ARTIST
+			|| m_nCategory == SQLManager::CATEGORY_COMPOSER
+			|| m_nCategory == SQLManager::CATEGORY_MOOD)
+	{
+		if (sort == SQLManager::DISP_MODE_ARTIST)
+		{
+			sort = SQLManager::SORT_IMPORTED_DATE;
+			m_DispMode = SQLManager::SORT_IMPORTED_DATE;
+			m_nSortCategory = SQLManager::SORT_IMPORTED_DATE;
+		}
+	}
+
 	QString title;
 
 	switch (sort)
@@ -3128,19 +3151,21 @@ QString MusicDBWindow::GetTitleSortMenu(int sort)
 	case SQLManager::SORT_RATING:
 		title = STR_SORT_RATING;
 		break;
-//	case SQLManager::DISP_MODE_TRACK:
-//		title = STR_DISP_MODE_TRACK;
-//		break;
-//	case SQLManager::DISP_MODE_ALBUM:
-//		title = STR_DISP_MODE_ALBUM;
-//		break;
-//	case SQLManager::DISP_MODE_ARTIST:
-//		title = STR_DISP_MODE_ARTIST;
-//		break;
-//	case SQLManager::DISP_MODE_ARTIST_ALBUM:
-//		title = STR_DISP_MODE_ALBUM;
-//		break;
+	case SQLManager::DISP_MODE_TRACK:
+		title = STR_DISP_MODE_TRACK;
+		break;
+	case SQLManager::DISP_MODE_ALBUM:
+		title = STR_DISP_MODE_ALBUM;
+		break;
+	case SQLManager::DISP_MODE_ARTIST:
+		title = STR_DISP_MODE_ARTIST;
+		break;
+	case SQLManager::DISP_MODE_ARTIST_ALBUM:
+		title = STR_DISP_MODE_ALBUM;
+		break;
 	}
+
+
 
 	return title;
 }
