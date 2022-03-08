@@ -126,6 +126,7 @@
 #define		KEY_IS_DEL_DB		"IsDelDB"
 #define		KEY_ISERVICE		"IService"
 #define		KEY_ITEM_TYPE		"ItemType"
+#define		KEY_ITEMS			"Items"
 
 #define		KEY_KEY				"Key"
 #define		KEY_KEYS			"Keys"
@@ -234,6 +235,7 @@
 #define		KEY_TOTAL_UPPER		"Total"
 #define		KEY_TYPE			"Type"
 
+#define		KEY_UPNP			"Upnp"
 #define		KEY_URL				"Url"
 #define		KEY_USER			"User"
 
@@ -385,6 +387,7 @@
 #define		VAL_TOTAL			"Total"
 #define		VAL_TOTAL_SEC		"TotalSec"
 
+#define		VAL_UPNP			"Upnp"
 #define		VAL_URL				"Url"
 #define		VAL_URLS			"Urls"
 

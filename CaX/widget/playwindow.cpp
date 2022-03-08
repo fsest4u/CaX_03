@@ -798,6 +798,13 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 
 		SetCoverArt(m_CoverArt);
 	}
+	else if (!m_Src.compare(SRC_UPNP))
+	{
+		m_pFormTitle->SetTitle(m_Top);
+		m_pFormTitle->SetSubtitle(m_Src);
+
+		SetCoverArt(m_CoverArt);
+	}
 	else
 	{
 		LogWarning("====================================");

@@ -27,7 +27,7 @@ public:
 	~BrowserWindow();
 
 	void RequestRoot(QString ext = "");
-	void RequestFolder(QString strPath, QString ext = "");
+	void RequestFolder(QString strPath, QString ext = "", CJsonNode upnp = CJsonNode(JSON_OBJECT));
 
 	int GetFolderType() const;
 	void SetFolderType(int FolderType);
@@ -169,6 +169,7 @@ private:
 	QStringList			m_MoodList;
 
 	QString				m_Ext;
+	CJsonNode			m_NodeUpnp;
 
 	Ui::BrowserWindow *ui;
 };

@@ -129,7 +129,7 @@ void BrowserWindow::RequestRoot(QString ext)
 
 }
 
-void BrowserWindow::RequestFolder(QString strPath, QString ext)
+void BrowserWindow::RequestFolder(QString strPath, QString ext, CJsonNode upnp)
 {
 //	ui->gridLayoutTop->addWidget(m_pInfoService);
 //	ui->gridLayoutBottom->addWidget(m_pIconService);
@@ -145,7 +145,17 @@ void BrowserWindow::RequestFolder(QString strPath, QString ext)
 	{
 		if (ext.isEmpty())
 		{
-			m_pMgr->RequestFolder(strPath);
+			QString path = upnp.GetString(KEY_PATH);
+			if (path.isEmpty())
+			{
+				m_pMgr->RequestFolder(strPath);
+			}
+			else
+			{
+				LogDebug("request upnp [%s]", upnp.ToCompactByteArray().data());
+				m_NodeUpnp = upnp;
+				m_pMgr->RequestFolderUpnp(m_NodeUpnp);
+			}
 		}
 		else
 		{
@@ -205,6 +215,21 @@ void BrowserWindow::SlotPlayAll(int where)
 	{
 		m_Files.clear();
 		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, where);
+	}
+	else if (iFolderType_Mask_Upnp & m_FolderType)
+	{
+		QList<CJsonNode> nodeList = m_pListBrowser->GetNodeList();
+		LogDebug("play upnp");
+		CJsonNode itemArr(JSON_ARRAY);
+		foreach(CJsonNode node, nodeList)
+		{
+			itemArr.AppendArray(node);
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+		}
+
+		CJsonNode tempNode(JSON_OBJECT);
+		tempNode.Add(KEY_ITEMS, itemArr);
+		m_pMgr->RequestUpnpPlay(tempNode, m_EventID, where);
 	}
 	else
 	{
@@ -428,6 +453,16 @@ void BrowserWindow::SlotSelectTrackPlay(int nType, CJsonNode node)
 		m_Files.append(node.GetString(KEY_ID_LOWER));
 		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, PLAY_NOW);
 	}
+	else if (iFolderType_Mask_Upnp & nType)
+	{
+		LogDebug("play upnp [%s]", node.ToCompactByteArray().data());
+		CJsonNode itemArr(JSON_ARRAY);
+		itemArr.AppendArray(node);
+
+		CJsonNode tempNode(JSON_OBJECT);
+		tempNode.Add(KEY_ITEMS, itemArr);
+		m_pMgr->RequestUpnpPlay(tempNode, m_EventID, PLAY_NOW);
+	}
 	else if (iFolderType_Mask_Play_Select & nType)
 	{
 //		LogDebug("Play_Select node [%s]", node.ToCompactByteArray().data());
@@ -441,8 +476,16 @@ void BrowserWindow::SlotSelectTrackPlay(int nType, CJsonNode node)
 void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
-	if (iFolderType_Mask_Sub & nType)
+
+	if (iFolderType_Mask_Song & nType)
+	{
+		SlotSelectTrackPlay(nType, node);
+	}
+	else if (iFolderType_Mask_Net & nType
+			 || iFolderType_Mask_Upnp & nType
+			 || iFolderType_Mask_Sub & nType)
 	{
 		QString path = node.GetString(KEY_PATH);
 		if (!m_Root.isEmpty())
@@ -455,9 +498,23 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 		{
 			widget->ShowFormPlay(true);
 		}
+		if (iFolderType_Mask_Upnp & nType)
+		{
+			if (m_NodeUpnp.GetString(KEY_PATH).isEmpty())
+			{
+				m_NodeUpnp = node;
+				m_NodeUpnp.Add(KEY_PATH, path);
+			}
+			else
+			{
+				m_NodeUpnp.Add(KEY_ID_UPPER, node.GetString(KEY_ID_UPPER));
+				m_NodeUpnp.Add(KEY_PATH, path);
+			}
+			LogDebug("m_NodeUpnp [%s]", m_NodeUpnp.ToCompactByteArray().data());
+		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
 		widget->SetFolderType(nType);
-		widget->RequestFolder(path, m_Ext);
+		widget->RequestFolder(path, m_Ext, m_NodeUpnp);
 
 		emit widget->SigAddWidget(widget, STR_BROWSER);
 	}
@@ -469,10 +526,6 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 
 		emit SigBrowserPath(path);
 		emit SigRemoveWidget(this);
-	}
-	else
-	{
-		SlotSelectTrackPlay(nType, node);
 	}
 }
 
@@ -592,13 +645,21 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 
 void BrowserWindow::SlotReqCoverArt(QString path, int index)
 {
-	if (!m_Root.isEmpty())
-		path = m_Root + "/" + path;
+	if (m_FolderType & iFolderType_Mask_Upnp)
+	{
+		m_pMgr->RequestCoverArt(path, index, QListView::ListMode);
+	}
+	else
+	{
+		if (!m_Root.isEmpty())
+			path = m_Root + "/" + path;
 
-	QStringList lsAddr = m_pMgr->GetAddr().split(":");
-	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
+		QStringList lsAddr = m_pMgr->GetAddr().split(":");
+		QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
 
-	m_pMgr->RequestCoverArt(fullpath, index, QListView::ListMode);
+		m_pMgr->RequestCoverArt(fullpath, index, QListView::ListMode);
+
+	}
 }
 
 void BrowserWindow::SlotReqInfoBot(QString path, int nIndex)
@@ -844,6 +905,7 @@ void BrowserWindow::Initialize()
 	m_MoodList.clear();
 
 	m_Ext.clear();
+	m_NodeUpnp.Clear();
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -968,6 +1030,26 @@ void BrowserWindow::SetSelectOffTopMenu()
 			LogDebug("select Net");
 			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
 			m_TopMenuMap.insert(TOP_MENU_ADD_SHARE, STR_ADD_SHARE);
+
+			m_pInfoBrowser->GetFormPlay()->ClearMenu();
+			m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+		}
+		else if (m_FolderType & iFolderType_Mask_Upnp)
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+			m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
+
+			if (m_FolderType & iFolderType_Mask_Play_Top
+					|| m_FolderType & iFolderType_Mask_Play_Option)
+			{
+				QString option = m_pMgr->GetOptPlaySubDir() ? STR_ON : STR_OFF;
+				m_TopMenuMap.insert(TOP_MENU_OPTION_PLAY_SUBDIR, QString("%1 - %2").arg(STR_OPTION_PLAY_SUBDIR).arg(option));
+				m_TopMenuMap.insert(TOP_MENU_PLAY_NOW, STR_PLAY_NOW);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
+				m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
+
+			}
 
 			m_pInfoBrowser->GetFormPlay()->ClearMenu();
 			m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
@@ -1112,7 +1194,7 @@ void BrowserWindow::DoTopMenuReload()
 		QString prefix = UtilNovatron::ConvertURLToFilename(m_Root);
 		UtilNovatron::RemoveContainFilesInTempDirectory(prefix);
 
-		RequestFolder(m_Root, m_Ext);
+		RequestFolder(m_Root, m_Ext, m_NodeUpnp);
 	}
 }
 
@@ -1284,8 +1366,8 @@ void BrowserWindow::SetOptionMenu(int type)
 	}
 	else
 	{
-		if (type & iFolderType_Mask_Play_Option
-				|| type & iFolderType_Mask_Play_Check)
+		if ((type & iFolderType_Mask_Play_Option
+				|| type & iFolderType_Mask_Play_Check) && !(type & iFolderType_Mask_Upnp))
 		{
 			QString option = m_pMgr->GetOptPlaySubDir() ? STR_ON : STR_OFF;
 			m_OptionMenuMap.insert(OPTION_MENU_OPTION_PLAY_SUBDIR, QString("%1 - %2").arg(STR_OPTION_PLAY_SUBDIR).arg(option));
@@ -1320,13 +1402,13 @@ void BrowserWindow::SetOptionMenu(int type)
 			m_OptionMenuMap.insert(OPTION_MENU_COPY, STR_COPY);
 		}
 
-		if (type & iFolderType_Mask_Play_Select)
+		if ((type & iFolderType_Mask_Play_Select) && !(type & iFolderType_Mask_Upnp))
 		{
 			m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_EDIT_TAG);
 			m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
 		}
 
-		if (type & iFolderType_Mask_Pls)
+		if (type & iFolderType_Mask_Pls || type & iFolderType_Mask_Upnp)
 		{
 			if (type & iFolderType_Mask_Song)
 			{
@@ -1342,6 +1424,7 @@ void BrowserWindow::SetOptionMenu(int type)
 			m_OptionMenuMap.insert(OPTION_MENU_MODIFY_SHARE, STR_MODIFY_SHARE);
 			m_OptionMenuMap.insert(OPTION_MENU_DELETE_SHARE, STR_DELETE_SHARE);
 		}
+
 	}
 
 //	m_pListBrowser->GetDelegate()->SetOptionMenuMap(m_OptionMenuMap);
@@ -1350,12 +1433,22 @@ void BrowserWindow::SetOptionMenu(int type)
 
 void BrowserWindow::DoOptionMenuPlay(CJsonNode node, int type, int where)
 {
-	if  (iFolderType_Mask_Pls & type)
+	if (iFolderType_Mask_Pls & type)
 	{
 //		LogDebug("Pls node [%s]", node.ToCompactByteArray().data());
 		m_Files.clear();
 		m_Files.append(node.GetString(KEY_ID_LOWER));
-		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, PLAY_NOW);
+		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, where);
+	}
+	else if (iFolderType_Mask_Upnp & type)
+	{
+		LogDebug("play upnp [%s]", node.ToCompactByteArray().data());
+		CJsonNode itemArr(JSON_ARRAY);
+		itemArr.AppendArray(node);
+
+		CJsonNode tempNode(JSON_OBJECT);
+		tempNode.Add(KEY_ITEMS, itemArr);
+		m_pMgr->RequestUpnpPlay(tempNode, m_EventID, where);
 	}
 	else
 	{

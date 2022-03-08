@@ -59,6 +59,7 @@
 #define SRC_MUSIC_DB		"Music DB"
 #define SRC_BROWSER			"File"
 #define SRC_AUDIO_CD		"Audio CD"
+#define SRC_UPNP			"UPNP"
 
 #define SRC_AES_EBU			"AES"
 #define SRC_COAXIAL			"COAXIAL"

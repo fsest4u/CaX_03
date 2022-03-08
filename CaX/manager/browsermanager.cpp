@@ -67,6 +67,14 @@ void BrowserManager::RequestFolderSetup(QString strPath, QString ext)
 	RequestCommand(node, BROWSER_FOLDER);
 }
 
+void BrowserManager::RequestFolderUpnp(CJsonNode node)
+{
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_FOLDER);
+
+	RequestCommand(node, BROWSER_FOLDER);
+}
+
 void BrowserManager::RequestInfoBot(QString strPath, int nIndex)
 {
 	CJsonNode node(JSON_OBJECT);
@@ -240,6 +248,17 @@ void BrowserManager::RequestPlaylistPlay(QString path, QStringList indexes, int 
 	}
 
 	RequestCommand(node, BROWSER_PLAYLIST_PLAY);
+}
+
+void BrowserManager::RequestUpnpPlay(CJsonNode node, int eventID, int where)
+{
+	node.Add	(KEY_CMD0,		VAL_BROWSER);
+	node.Add	(KEY_CMD1,		VAL_UPNP);
+	node.Add	(KEY_CMD2,		VAL_PLAY);
+	node.AddInt	(KEY_EVENT_ID,	eventID);
+	node.AddInt	(KEY_WHERE,		where);
+
+	RequestCommand(node, BROWSER_UPNP_PLAY);
 }
 
 void BrowserManager::RequestReplayGain(QString root, QStringList paths, QString gain, int eventID)

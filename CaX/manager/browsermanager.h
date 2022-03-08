@@ -15,9 +15,11 @@ public:
 	void RequestRootSetup(QString ext);
 	void RequestFolder(QString strPath, bool dirOnly = false, bool imageOnly = false);
 	void RequestFolderSetup(QString strPath, QString ext);
+	void RequestFolderUpnp(CJsonNode node);
 	void RequestInfoBot(QString strPath, int nIndex);
 	void RequestTrackPlay(QString root, QStringList dirs, QStringList files, int where = PLAY_CLEAR);
 	void RequestPlaylistPlay(QString path, QStringList indexes, int where = PLAY_CLEAR);
+	void RequestUpnpPlay(CJsonNode node, int eventID, int where = PLAY_CLEAR);
 	void RequestReplayGain(QString root, QStringList paths, QString gain, int eventID);
 	void RequestConvertFormat(QString root, QStringList paths, QString format, int eventID);
 	void RequestCreate(QString path);
@@ -75,6 +77,7 @@ private:
 		BROWSER_INFO_BOT,
 		BROWSER_TRACK_PLAY,
 		BROWSER_PLAYLIST_PLAY,
+		BROWSER_UPNP_PLAY,
 		BROWSER_REPLAYGAIN,
 		BROWSER_CONVERT_FORMAT,
 		BROWSER_CREATE,
@@ -97,7 +100,6 @@ private:
 		BROWSER_SMB_DELETE,
 //		BROWSER_IMPORT,
 //		BROWSER_UPNP_FOLDER,
-//		BROWSER_UPNP_PLAY,
 		BROWSER_MAX
 	};
 

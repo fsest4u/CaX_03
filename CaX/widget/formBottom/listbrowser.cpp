@@ -101,9 +101,14 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 
 			m_Model->appendRow(item);
 
-			QString path = node.GetString(KEY_PATH);
-			if (nodeType & iFolderType_Mask_Play_Select)
+			if (nodeType & iFolderType_Mask_Upnp)
 			{
+				QString art = node.GetString(KEY_ART);
+				emit SigReqCoverArt(art, index);
+			}
+			else if (nodeType & iFolderType_Mask_Play_Select)
+			{
+				QString path = node.GetString(KEY_PATH);
 				if (!(nodeType & iFolderType_Mask_Pls))
 				{
 					emit SigReqInfoBot(path, index);
