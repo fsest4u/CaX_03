@@ -830,12 +830,21 @@ void MainWindow::SlotAddQueueList(CJsonNode node)
 	m_pQueueWin->SetNodeInfo(node);
 }
 
-void MainWindow::SlotSetPlayInfo(CJsonNode node)
+void MainWindow::SlotSetPlayInfo(CJsonNode node, bool show)
 {
 	m_NodePlay = node;
 	if (m_pQueueWin)
 	{
 		m_pQueueWin->SetPlayInfo(m_NodePlay);
+	}
+	else
+	{
+		if (show)
+		{
+			m_pQueueWin = new QueuelistWindow(this, m_strAddr, m_EventID);
+			SlotAddWidget(m_pQueueWin, STR_NOW_PLAY);
+			m_pQueueWin->SetPlayInfo(m_NodePlay);
+		}
 	}
 }
 
@@ -920,7 +929,7 @@ void MainWindow::ConnectForUI()
 
 	connect((QObject*)ui->widgetPlay->GetManager(), SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(ui->widgetPlay, SIGNAL(SigAddQueueList(CJsonNode)), this, SLOT(SlotAddQueueList(CJsonNode)));
-	connect(ui->widgetPlay, SIGNAL(SigSetPlayInfo(CJsonNode)), this, SLOT(SlotSetPlayInfo(CJsonNode)));
+	connect(ui->widgetPlay, SIGNAL(SigSetPlayInfo(CJsonNode, bool)), this, SLOT(SlotSetPlayInfo(CJsonNode, bool)));
 	connect(ui->widgetPlay, SIGNAL(SigRemoveQueueList()), this, SLOT(SlotRemoveQueueWidget()));
 
 }

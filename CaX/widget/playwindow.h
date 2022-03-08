@@ -35,7 +35,7 @@ signals:
 	void SigSetDial(int volume);
 
 	void SigAddQueueList(CJsonNode node);
-	void SigSetPlayInfo(CJsonNode node);
+	void SigSetPlayInfo(CJsonNode node, bool show);
 	void SigRemoveQueueList();
 
 private slots:

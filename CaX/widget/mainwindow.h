@@ -67,7 +67,7 @@ public slots:
 	void SlotRespAirableLogout();
 
 	void SlotAddQueueList(CJsonNode node);
-	void SlotSetPlayInfo(CJsonNode node);
+	void SlotSetPlayInfo(CJsonNode node, bool show);
 
 	// dummy - music db
 	void SlotUpdateFavoriteParent(int id, int favorite);

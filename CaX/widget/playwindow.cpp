@@ -94,12 +94,24 @@ void PlayWindow::SlotClickCoverArt(int index)
 
 void PlayWindow::SlotBtnInfo()
 {
-//	m_pMgr->RequestSongInfo(m_ID);
+	//	m_pMgr->RequestSongInfo(m_ID);
 	if (!m_Src.compare(SRC_MUSIC_DB)
 			|| !m_Src.compare(SRC_BROWSER)
-			|| !m_Src.compare(SRC_AUDIO_CD) )
+			|| !m_Src.compare(SRC_AUDIO_CD))
 	{
 		m_pMgr->RequestQueueList(m_TimeStamp);
+	}
+	else if (!m_Src.compare(SRC_I_RADIO)
+			 || !m_Src.compare(SRC_PODCAST)
+			 || !m_Src.compare(SRC_TIDAL)
+			 || !m_Src.compare(SRC_DEEZER)
+			 || !m_Src.compare(SRC_NAPSTER)
+			 || !m_Src.compare(SRC_HIGH_RES_AUDIO)
+			 || !m_Src.compare(SRC_AMAZON)
+			 || !m_Src.compare(SRC_AIRABLE_UPNP)
+			 || !m_Src.compare(SRC_QOBUZ))
+	{
+		emit SigSetPlayInfo(m_PlayInfo, true);
 	}
 }
 
@@ -248,7 +260,7 @@ void PlayWindow::SlotQueueList(CJsonNode node)
 {
 	emit SigAddQueueList(node);
 
-	emit SigSetPlayInfo(m_PlayInfo);
+	emit SigSetPlayInfo(m_PlayInfo, false);
 }
 
 void PlayWindow::ConnectSigToSlot()
@@ -373,7 +385,7 @@ void PlayWindow::SetVariable(CJsonNode node)
 		SetRepeatMode(m_Repeat);
 	}
 
-	emit SigSetPlayInfo(node);
+	emit SigSetPlayInfo(node, false);
 
 	DebugVariable();
 }
@@ -771,7 +783,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !m_Src.compare(SRC_HIGH_RES_AUDIO)
 			 || !m_Src.compare(SRC_AMAZON)
 			 || !m_Src.compare(SRC_AIRABLE_UPNP)
-			 || !m_Src.compare(SRC_QOBUZ) )
+			 || !m_Src.compare(SRC_QOBUZ))
 	{
 		ui->btnPrev->hide();
 		if (m_PlayPause)
@@ -794,7 +806,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 		}
 
 		m_pFormTitle->SetTitle(m_Top);
-		m_pFormTitle->SetSubtitle(m_Src);
+		m_pFormTitle->SetSubtitle(m_Bot);
 
 		SetCoverArt(m_CoverArt);
 	}

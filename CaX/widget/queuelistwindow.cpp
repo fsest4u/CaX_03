@@ -124,17 +124,16 @@ void QueuelistWindow::SetNodeInfo(CJsonNode node)
 //		m_pMgr->RequestCategoryInfo(id);
 		ui->btnMenu->show();
 	}
-//	else if (!m_Src.compare(SRC_BROWSER))
-//	{
-//		m_AlbumName = track.GetString(KEY_TOP);
-//		RequestCoverArtBrowser(track.GetString(KEY_FILE));
-//	}
 //	else if (!m_Src.compare(SRC_AUDIO_CD))
 //	{
 //		m_AlbumName = track.GetString(KEY_TOP);
 //		RequestCoverArtAudioCD(track.GetString(KEY_COVER_ART));
 //	}
-
+//	else if (!m_Src.compare(SRC_BROWSER))
+//	{
+//		m_AlbumName = track.GetString(KEY_TOP);
+//		RequestCoverArtBrowser(track.GetString(KEY_FILE));
+//	}
 	m_Track->ClearNodeList();
 	m_TotalTime = m_Track->SetNodeList(list);
 }
@@ -146,21 +145,47 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		LogWarning("node is null~");
 		return;
 	}
-//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+	LogDebug("node [%s]", node.ToTabedByteArray().data());
+
+	m_Src = node.GetString(KEY_SRC);
 
 	m_pMgr->RequestCoverArt(node.GetString(KEY_COVER_ART), -1, -1);
 
-	m_AlbumName = node.GetString(KEY_ALBUM);
-	m_pFormTitle->SetTitle(m_AlbumName);
-	SetMqa(node.GetString(KEY_MQA));
-	SetFormat(node.GetString(KEY_FORMAT));
-	SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
-	SetTotalTime(m_TotalTime);
-
 	if (!m_Src.compare(SRC_MUSIC_DB))
 	{
+		m_AlbumName = node.GetString(KEY_ALBUM);
+		m_pFormTitle->SetTitle(m_AlbumName);
+		SetMqa(node.GetString(KEY_MQA));
+		SetFormat(node.GetString(KEY_FORMAT));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetTotalTime(m_TotalTime);
+
 		m_TrackID = node.GetString(KEY_ID_UPPER).toInt();
 		m_pMgr->RequestTrackInfo(m_TrackID);
+	}
+	else if (!m_Src.compare(SRC_AUDIO_CD)
+			 || !m_Src.compare(SRC_BROWSER))
+	{
+		m_AlbumName = node.GetString(KEY_ALBUM);
+		m_pFormTitle->SetTitle(m_AlbumName);
+		SetMqa(node.GetString(KEY_MQA));
+		SetFormat(node.GetString(KEY_FORMAT));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetTotalTime(m_TotalTime);
+	}
+	else if (!m_Src.compare(SRC_I_RADIO)
+			 || !m_Src.compare(SRC_PODCAST)
+			 || !m_Src.compare(SRC_TIDAL)
+			 || !m_Src.compare(SRC_DEEZER)
+			 || !m_Src.compare(SRC_NAPSTER)
+			 || !m_Src.compare(SRC_HIGH_RES_AUDIO)
+			 || !m_Src.compare(SRC_AMAZON)
+			 || !m_Src.compare(SRC_AIRABLE_UPNP)
+			 || !m_Src.compare(SRC_QOBUZ))
+	{
+		m_pFormTitle->SetTitle(node.GetString(KEY_TOP));
+//		m_pFormTitle->SetSubtitle(node.GetString(KEY_BOT));
+		SetFormat(node.GetString(KEY_FORMAT));
 	}
 }
 
@@ -238,26 +263,7 @@ void QueuelistWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 	Q_UNUSED(mode)
 
 //	LogDebug("filename [%s]", fileName.toUtf8().data());
-	if (!m_Src.compare(SRC_MUSIC_DB))
-	{
-	//	if (nIndex == 0)
-		{
-			m_AlbumCoverArt = fileName;
-		}
-	//	else
-	//	{
-	//		m_ArtistCoverArt = fileName;
-	//	}
-	}
-	else if (!m_Src.compare(SRC_BROWSER))
-	{
-		m_AlbumCoverArt = fileName;
-	}
-	else if (!m_Src.compare(SRC_AUDIO_CD))
-	{
-		m_AlbumCoverArt = fileName;
-	}
-
+	m_AlbumCoverArt = fileName;
 	m_pFormCoverArt->SetCoverArt(m_AlbumCoverArt);
 
 }
@@ -432,24 +438,22 @@ void QueuelistWindow::SetFormat(QString value)
 
 void QueuelistWindow::SetPlayIndex(int total, int currPlay)
 {
-	if (total < 0)
+	if (total >= 0 && currPlay >= 0)
 	{
-		total = 1;
-	}
-	if (currPlay < 0)
-	{
-		currPlay = 1;
-	}
-	QString count = QString("%1 / %2").arg(currPlay + 1).arg(total);
-	ui->labelCount->setText(count);
+		QString count = QString("%1 / %2").arg(currPlay + 1).arg(total);
+		ui->labelCount->setText(count);
 
-	m_Track->SetCurrentIndex(currPlay);
+		m_Track->SetCurrentIndex(currPlay);
+	}
 }
 
 void QueuelistWindow::SetTotalTime(int time)
 {
-	QString hhmmss = UtilNovatron::CalcSecondToHMS(time);
-	ui->labelTotalTime->setText(hhmmss);
+	if (time > 0)
+	{
+		QString hhmmss = UtilNovatron::CalcSecondToHMS(time);
+		ui->labelTotalTime->setText(hhmmss);
+	}
 }
 
 void QueuelistWindow::DoMenuFavorite()
