@@ -1174,8 +1174,30 @@ void MusicDBWindow::SlotSelectPlay(int nID, int where)
 	}
 }
 
-void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
+void MusicDBWindow::SlotSelectTitle(const QModelIndex &index)
 {
+	int id;
+	QString cover;
+	QString title;
+	QString count;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
+		cover = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_COVER));
+		title = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_TITLE));
+		count = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_COUNT));
+	}
+	else
+	{
+		int row = index.row();
+		QStandardItemModel *model = m_pTableTracks->GetModel();
+		id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
+		cover = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_COVER)));
+		title = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_TITLE)));
+		count = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_TRACK_COUNT)));
+	}
+
 //	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
@@ -1184,7 +1206,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 //			LogDebug("### Album mode");
 			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 			widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, m_nCategory);
-			widget->RequestCategoryList(nID);
+			widget->RequestCategoryList(id);
+			widget->SetInfoHome(title, count);
 
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 		}
@@ -1193,7 +1216,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 //			LogDebug("### Artist mode");
 			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 			widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST, m_nCategory);
-			widget->RequestCategoryList(nID);
+			widget->RequestCategoryList(id);
+			widget->SetInfoHome(title, count);
 
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 		}
@@ -1202,8 +1226,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 //			LogDebug("### Track mode");
 			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 			widget->AddWidgetTrack(TYPE_MODE_TRACK, m_nCategory);
-			widget->SetCoverArt(coverArt);
-			widget->RequestTrackList(nID);
+			widget->SetCoverArt(cover);
+			widget->RequestTrackList(id);
 
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 		}
@@ -1213,8 +1237,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 //		LogDebug("### Track mode");
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM, m_nCategory);
-		widget->SetCoverArt(coverArt);
-		widget->RequestTrackList(nID, m_nCatID);
+		widget->SetCoverArt(cover);
+		widget->RequestTrackList(id, m_nCatID);
 
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 	}
@@ -1223,7 +1247,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 //		LogDebug("### Album mode");
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST_ALBUM, m_nCategory);
-		widget->RequestCategoryList(m_nCatID, nID);
+		widget->RequestCategoryList(m_nCatID, id);
+		widget->SetInfoHome(title, count);
 
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 	}
@@ -1232,8 +1257,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 //		LogDebug("### Track mode");
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ALBUM_ARTIST, m_nCategory);
-		widget->SetCoverArt(coverArt);
-		widget->RequestTrackList(nID, m_nCatID, m_nCatID2);
+		widget->SetCoverArt(cover);
+		widget->RequestTrackList(id, m_nCatID, m_nCatID2);
 
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 	}
@@ -1241,8 +1266,8 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetTrack(TYPE_MODE_TRACK_ADD, m_nCategory);
-		widget->SetCoverArt(coverArt);
-		widget->RequestTrackList(nID);
+		widget->SetCoverArt(cover);
+		widget->RequestTrackList(id);
 
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 
@@ -1253,7 +1278,7 @@ void MusicDBWindow::SlotSelectTitle(int nID, QString coverArt)
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
-		SlotSelectTrackPlay(nID, PLAY_CLEAR);
+		SlotSelectTrackPlay(id, PLAY_CLEAR);
 	}
 
 }
@@ -1964,14 +1989,14 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 //	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectFavorite(int, int)), this, SLOT(SlotSelectFavorite(int, int)));
 //	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectRating(int, int)), this, SLOT(SlotSelectRating(int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(const QModelIndex&)), this, SLOT(SlotSelectTitle(const QModelIndex&)));
+//	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 	connect(m_pIconTracks->GetListView(), SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(SlotContextMenu(QPoint)));
 
 	connect(m_pTableTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pTableTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pTableTracks, SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
-	connect(m_pTableTracks, SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pTableTracks, SIGNAL(SigSelectTitle(const QModelIndex&)), this, SLOT(SlotSelectTitle(const QModelIndex&)));
 	connect(m_pTableTracks, SIGNAL(SigSelectFavorite(int, int, int)), this, SLOT(SlotSelectTrackFavorite(int, int, int)));
 	connect(m_pTableTracks, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
 
@@ -2831,6 +2856,12 @@ void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 void MusicDBWindow::SetCoverArt(QString coverArt)
 {
 	m_pInfoTracks->SetCoverArt(coverArt);
+}
+
+void MusicDBWindow::SetInfoHome(QString title, QString count)
+{
+	m_pInfoHome->SetTitle(title);
+	m_pInfoHome->SetCategoryCnt(count);
 }
 
 void MusicDBWindow::SetSortMenu(int category)

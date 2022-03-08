@@ -38,7 +38,7 @@ signals:
 
 	void SigSelectCheck(const QModelIndex &index);
 	void SigSelectPlay(int nID, int playType);
-	void SigSelectTitle(int nID, QString coverArt);
+	void SigSelectTitle(const QModelIndex &index);
 	void SigSelectMenu(const QModelIndex &modelIndex, QPoint point);
 //	void SigMenuAction(int nID, int menuID);
 

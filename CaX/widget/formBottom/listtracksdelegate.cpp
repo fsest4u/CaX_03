@@ -265,23 +265,23 @@ bool ListTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 			}
 			else if (rectTitle.contains(curPoint))
 			{
-				emit SigSelectTitle(id, cover);
+				emit SigSelectTitle(index);
 			}
 			else if (rectDuration.contains(curPoint))
 			{
-				emit SigSelectTitle(id, cover);
+				emit SigSelectTitle(index);
 			}
 			else if (rectArtist.contains(curPoint))
 			{
-				emit SigSelectTitle(id, cover);
+				emit SigSelectTitle(index);
 			}
 			else if (rectAlbum.contains(curPoint))
 			{
-				emit SigSelectTitle(id, cover);
+				emit SigSelectTitle(index);
 			}
 			else if (rectGenre.contains(curPoint))
 			{
-				emit SigSelectTitle(id, cover);
+				emit SigSelectTitle(index);
 			}
 			else if (rectMenu.contains(curPoint))
 			{

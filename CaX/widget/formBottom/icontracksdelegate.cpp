@@ -268,7 +268,7 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 			}
 			else if (rectCover.contains(curPoint))
 			{
-				emit SigSelectTitle(id, cover);
+				emit SigSelectTitle(index);
 			}
 		}
 	}

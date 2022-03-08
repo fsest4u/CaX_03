@@ -34,12 +34,12 @@ public:
 
 signals:
 
-	void SigSelectCheck(QModelIndex modelIndex);
+	void SigSelectCheck(const QModelIndex &index);
 	void SigSelectPlay(int nID, int playType);
 //	void SigSelectFavorite(int nID, int nFavorite);
 //	void SigSelectRating(int nID, int nRating);
-	void SigSelectTitle(int nID, QString coverArt);
-	void SigSelectSubtitle(int nID, QString coverArt);
+	void SigSelectTitle(const QModelIndex &index);
+//	void SigSelectSubtitle(int nID, QString coverArt);
 
 protected:
 

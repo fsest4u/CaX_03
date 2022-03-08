@@ -96,7 +96,7 @@ signals:
 	void SigAppendList();
 
 	void SigSelectPlay(int id, int playType);
-	void SigSelectTitle(int id, QString coverArt);
+	void SigSelectTitle(const QModelIndex &index);
 	void SigSelectFavorite(int id, int index, int favorite);
 	void SigMenuAction(int id, int menuID);
 

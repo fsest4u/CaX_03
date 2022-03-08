@@ -37,6 +37,7 @@ public:
 //	void SetCategory(int nCategory);
 
 	void SetCoverArt(QString coverArt);
+	void SetInfoHome(QString title, QString count);
 
 signals:
 
@@ -107,7 +108,7 @@ private slots:
 	void SlotSelectCategoryPlay(int nID, int where);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
-	void SlotSelectTitle(int nID, QString coverArt);
+	void SlotSelectTitle(const QModelIndex &index);
 
 	void SlotReqCoverArt(int id, int index, int mode);
 	void SlotAppendList();

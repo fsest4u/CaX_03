@@ -438,7 +438,7 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 	else if (col == TableTracks::TABLE_TRACKS_TITLE)
 	{
 		QString coverArt = qvariant_cast<QString>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_COVER)));
-		emit SigSelectTitle(m_ID, coverArt);
+		emit SigSelectTitle(index);
 	}
 	else if (col == TableTracks::TABLE_TRACKS_FAVORITE)
 	{

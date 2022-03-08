@@ -53,7 +53,7 @@ private slots:
 	void SlotReqCoverArt(int id, int index, int mode);
 	void SlotCoverArtUpdate(QString coverArt, int index, int mode);
 
-	void SlotSelectTitle(int id, QString coverArt);
+	void SlotSelectTitle(const QModelIndex &index);
 	void SlotSelectPlay(int id, int playType);
 	void SlotSelectTrackPlay(int id, int playType);
 

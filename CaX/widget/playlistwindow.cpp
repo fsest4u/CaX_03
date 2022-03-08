@@ -314,13 +314,27 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 	}
 }
 
-void PlaylistWindow::SlotSelectTitle(int id, QString coverArt)
+void PlaylistWindow::SlotSelectTitle(const QModelIndex &index)
 {
+	int id;
+	QString cover;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
+		cover = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_COVER));
+	}
+	else
+	{
+		id = qvariant_cast<int>(index.data(ListTracksDelegate::LIST_TRACKS_ID));
+		cover = qvariant_cast<QString>(index.data(ListTracksDelegate::LIST_TRACKS_COVER));
+	}
+
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetTrack();
-		widget->RequestPlaylistInfo(id, coverArt);
+		widget->RequestPlaylistInfo(id, cover);
 		widget->RequestTrackList(id);
 
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
@@ -653,12 +667,12 @@ void PlaylistWindow::ConnectSigToSlot()
 
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(const QModelIndex&)), this, SLOT(SlotSelectTitle(const QModelIndex&)));
+//	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
 	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(const QModelIndex&)), this, SLOT(SlotSelectTitle(const QModelIndex&)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
 
 
