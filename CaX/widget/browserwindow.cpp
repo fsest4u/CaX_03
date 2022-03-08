@@ -152,7 +152,7 @@ void BrowserWindow::RequestFolder(QString strPath, QString ext, CJsonNode upnp)
 			}
 			else
 			{
-				LogDebug("request upnp [%s]", upnp.ToCompactByteArray().data());
+//				LogDebug("request upnp [%s]", upnp.ToCompactByteArray().data());
 				m_NodeUpnp = upnp;
 				m_pMgr->RequestFolderUpnp(m_NodeUpnp);
 			}
@@ -219,12 +219,12 @@ void BrowserWindow::SlotPlayAll(int where)
 	else if (iFolderType_Mask_Upnp & m_FolderType)
 	{
 		QList<CJsonNode> nodeList = m_pListBrowser->GetNodeList();
-		LogDebug("play upnp");
+//		LogDebug("play upnp");
 		CJsonNode itemArr(JSON_ARRAY);
 		foreach(CJsonNode node, nodeList)
 		{
 			itemArr.AppendArray(node);
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 		}
 
 		CJsonNode tempNode(JSON_OBJECT);
@@ -336,7 +336,7 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 {
 	QString path = node.GetString(KEY_PATH);
-	LogDebug("click option menu node [%s] [%d] [%d]", node.ToCompactByteArray().data(), type, menuID);
+//	LogDebug("click option menu node [%s] [%d] [%d]", node.ToCompactByteArray().data(), type, menuID);
 	switch (menuID) {
 	case OPTION_MENU_OPTION_PLAY_SUBDIR:
 		DoOptionMenuOptionPlaySubDir();
@@ -455,7 +455,7 @@ void BrowserWindow::SlotSelectTrackPlay(int nType, CJsonNode node)
 	}
 	else if (iFolderType_Mask_Upnp & nType)
 	{
-		LogDebug("play upnp [%s]", node.ToCompactByteArray().data());
+//		LogDebug("play upnp [%s]", node.ToCompactByteArray().data());
 		CJsonNode itemArr(JSON_ARRAY);
 		itemArr.AppendArray(node);
 
@@ -476,7 +476,7 @@ void BrowserWindow::SlotSelectTrackPlay(int nType, CJsonNode node)
 void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 {
 	UtilNovatron::DebugTypeForBrowser("SlotSelectTitle", nType);
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 
 	if (iFolderType_Mask_Song & nType)
@@ -510,7 +510,7 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 				m_NodeUpnp.Add(KEY_ID_UPPER, node.GetString(KEY_ID_UPPER));
 				m_NodeUpnp.Add(KEY_PATH, path);
 			}
-			LogDebug("m_NodeUpnp [%s]", m_NodeUpnp.ToCompactByteArray().data());
+//			LogDebug("m_NodeUpnp [%s]", m_NodeUpnp.ToCompactByteArray().data());
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
 		widget->SetFolderType(nType);
@@ -755,7 +755,7 @@ void BrowserWindow::SlotListUpdate()
 
 void BrowserWindow::SlotRespSMBInfo(CJsonNode node)
 {
-	LogDebug("node [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	AddShareDialog dialog;
 	dialog.SetInfo(m_pMgr->GetAddr(), m_EventID);
 	dialog.SetNodeInfo(node);
@@ -1027,7 +1027,7 @@ void BrowserWindow::SetSelectOffTopMenu()
 		}
 		else if (m_FolderType & iFolderType_Mask_Net)
 		{
-			LogDebug("select Net");
+//			LogDebug("select Net");
 			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
 			m_TopMenuMap.insert(TOP_MENU_ADD_SHARE, STR_ADD_SHARE);
 
@@ -1337,7 +1337,7 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 
 void BrowserWindow::DoTopMenuAddShare()
 {
-	LogDebug("do add share");
+//	LogDebug("do add share");
 	AddShareDialog dialog;
 	dialog.SetInfo(m_pMgr->GetAddr(), m_EventID);
 	if (dialog.exec() == QDialog::Accepted)
@@ -1442,7 +1442,7 @@ void BrowserWindow::DoOptionMenuPlay(CJsonNode node, int type, int where)
 	}
 	else if (iFolderType_Mask_Upnp & type)
 	{
-		LogDebug("play upnp [%s]", node.ToCompactByteArray().data());
+//		LogDebug("play upnp [%s]", node.ToCompactByteArray().data());
 		CJsonNode itemArr(JSON_ARRAY);
 		itemArr.AppendArray(node);
 

@@ -113,7 +113,7 @@ void AudioCDWindow::RequestTrackList()
 
 void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 {
-	LogDebug("node : [%s]", node.ToCompactByteArray().data());
+//	LogDebug("node : [%s]", node.ToCompactByteArray().data());
 	CJsonNode result = node.GetArray(VAL_RESULT);
 	if (result.ArraySize() <= 0)
 	{
@@ -129,7 +129,7 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 	}
 
 	CJsonNode track = m_RespList.at(0);
-	LogDebug("track [%s]", track.ToCompactByteArray().data());
+//	LogDebug("track [%s]", track.ToCompactByteArray().data());
 
 	QString art = track.GetString(KEY_ART);
 	if (art.isEmpty())

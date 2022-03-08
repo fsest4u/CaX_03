@@ -751,7 +751,7 @@ void IServiceWindow::SlotTopMenuAction(int menuID)
 
 void IServiceWindow::SlotOptionMenuAction(int menuID, CJsonNode node)
 {
-	LogDebug("click option menu [%d] node [%s]", menuID, node.ToCompactByteArray().data());
+//	LogDebug("click option menu [%d] node [%s]", menuID, node.ToCompactByteArray().data());
 	switch (menuID) {
 	case OPTION_MENU_DELETE_PLAYLIST:
 		DoOptionMenuDeletePlaylist(node);
@@ -1292,7 +1292,7 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 	SetType(nType);
 	SetNode(node);
 
-	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
+//	LogDebug("node [%s]", m_Node.ToCompactByteArray().data());
 
 	QString url = m_Node.GetString(KEY_URL);
 

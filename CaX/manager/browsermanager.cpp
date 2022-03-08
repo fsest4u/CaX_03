@@ -371,7 +371,7 @@ void BrowserManager::SlotRespInfo(QString json, int nCmdID, int nIndex)
 		return;
 	}
 
-	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
+//	LogDebug("node [%d] [%s]", nCmdID, node.ToTabedByteArray().data());
 
 	QString message = node.GetString(VAL_MSG);
 	bool	bSuccess = false;

@@ -908,7 +908,7 @@ void PlaylistWindow::DoTopMenuRename()
 			if (tempNode.GetInt(KEY_ID_LOWER) == id)
 			{
 				node = tempNode;
-				LogDebug("node [%s]", node.ToCompactByteArray().data());
+//				LogDebug("node [%s]", node.ToCompactByteArray().data());
 				break;
 			}
 		}
@@ -1080,7 +1080,7 @@ void PlaylistWindow::DoOptionMenuRename(int nID)
 			if (tempNode.GetInt(KEY_ID_LOWER) == nID)
 			{
 				node = tempNode;
-				LogDebug("node [%s]", node.ToCompactByteArray().data());
+//				LogDebug("node [%s]", node.ToCompactByteArray().data());
 				break;
 			}
 		}
@@ -1121,7 +1121,7 @@ void PlaylistWindow::DoOptionMenuDelete(int nID)
 			if (tempNode.GetInt(KEY_ID_LOWER) == nID)
 			{
 				node = tempNode;
-				LogDebug("node [%s]", node.ToCompactByteArray().data());
+//				LogDebug("node [%s]", node.ToCompactByteArray().data());
 				break;
 			}
 		}

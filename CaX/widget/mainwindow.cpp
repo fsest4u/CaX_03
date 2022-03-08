@@ -844,7 +844,7 @@ void MainWindow::SlotUpdateFavoriteParent(int id, int favorite)
 	Q_UNUSED(id)
 	Q_UNUSED(favorite)
 
-	LogDebug("dummy function");
+//	LogDebug("dummy function");
 }
 
 void MainWindow::SlotUpdateRatingParent(int id, int rating)
@@ -852,14 +852,14 @@ void MainWindow::SlotUpdateRatingParent(int id, int rating)
 	Q_UNUSED(id)
 	Q_UNUSED(rating)
 
-	LogDebug("dummy function");
+//	LogDebug("dummy function");
 }
 
 void MainWindow::SlotBrowserPath(QString path)
 {
 	Q_UNUSED(path)
 
-	LogDebug("dummy function");
+//	LogDebug("dummy function");
 }
 
 void MainWindow::SlotCopyHere(bool move, QString dstPath, QString path, int type)
@@ -869,7 +869,7 @@ void MainWindow::SlotCopyHere(bool move, QString dstPath, QString path, int type
 	Q_UNUSED(path)
 	Q_UNUSED(type)
 
-	LogDebug("dummy function");
+//	LogDebug("dummy function");
 }
 
 void MainWindow::Initialize()

@@ -123,7 +123,7 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 	{
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			UtilNovatron::DebugTypeForAirable("SetNodeList", node.GetInt(KEY_TYPE));
 
 			int nodeType = node.GetInt(KEY_TYPE);
