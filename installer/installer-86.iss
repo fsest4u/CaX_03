@@ -77,9 +77,9 @@ Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\bearer\*"; DestDir: "{app}\bea
 Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\position\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\printsupport\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\resources\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\position\*"; DestDir: "{app}\position"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\printsupport\*"; DestDir: "{app}\printsupport"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\resources\*"; DestDir: "{app}\resources"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "d:\01-Devel\DeskTop\CaX\installer\src-86\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; VC++ redistributable runtime. Extracted by VC2017RedistNeedsInstall(), if needed.
