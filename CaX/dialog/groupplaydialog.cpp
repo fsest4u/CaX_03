@@ -164,9 +164,9 @@ void GroupPlayDialog::Initialize()
 //	ui->frameMute->hide();
 //	ui->framePowerOff->hide();
 
-	ui->comboBoxChannel->addItem("Stereo");
-	ui->comboBoxChannel->addItem("Left");
-	ui->comboBoxChannel->addItem("Right");
+	ui->comboBoxChannel->addItem(STR_STEREO);
+	ui->comboBoxChannel->addItem(STR_LEFT);
+	ui->comboBoxChannel->addItem(STR_RIGHT);
 
 	m_Addr = "";
 	m_Status = GROUP_PLAY_IDLE;

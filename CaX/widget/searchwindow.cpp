@@ -69,7 +69,7 @@ SearchWindow::~SearchWindow()
 
 void SearchWindow::SetKeyword(const QString keyword)
 {
-	QString title = QString("Search results for \"%1\"").arg(keyword);
+	QString title = QString(STR_SEARCH_RESULTS_FOR).arg(keyword);
 	ui->labelTitle->setText(title);
 
 	m_pMgr->RequestSearchAlbumList(keyword);

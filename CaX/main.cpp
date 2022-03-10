@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-	QCoreApplication::setOrganizationName(TR_ORGANIZATION);
+	QCoreApplication::setOrganizationName(STR_ORGANIZATION);
 
 	QApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
 
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 //	QApplication::setStyle( fusion );
 
 	MainWindow w;
-	QSharedMemory shared(TR_ORGANIZATION);
+	QSharedMemory shared(STR_ORGANIZATION);
 	if(!shared.create(512, QSharedMemory::ReadWrite))
 	{
 //		QMessageBox::information(&w,QObject::tr("타이틀"),QObject::tr("메세지"),QMessageBox::Ok);

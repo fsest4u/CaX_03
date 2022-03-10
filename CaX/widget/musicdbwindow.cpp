@@ -1537,7 +1537,7 @@ void MusicDBWindow::SlotClassifyMostPlayed(bool bAdd, QString id)
 void MusicDBWindow::SlotRespCategoryInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
-	dialog.SetWindowTitle("Album info");
+	dialog.SetWindowTitle(STR_ALBUM_INFO);
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);
@@ -1563,7 +1563,7 @@ void MusicDBWindow::SlotRespCategoryInfoList(QList<CJsonNode> list)
 void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
-	dialog.SetWindowTitle("Track info");
+	dialog.SetWindowTitle(STR_TRACK_INFO);
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);

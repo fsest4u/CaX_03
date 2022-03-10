@@ -175,7 +175,7 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 void AudioCDWindow::SlotRespTrackInfo(CJsonNode node)
 {
 	TrackInfoDialog dialog;
-	dialog.SetWindowTitle("Track info");
+	dialog.SetWindowTitle(STR_TRACK_INFO);
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetMode(TrackInfo::TRACK_INFO_MODE_VIEW);
 	dialog.SetInfoData(node);

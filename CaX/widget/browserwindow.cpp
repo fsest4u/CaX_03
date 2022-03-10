@@ -719,7 +719,7 @@ void BrowserWindow::SlotInfoBotUpdate(CJsonNode node, int nIndex)
 void BrowserWindow::SlotInfoTagUpdate(CJsonNode node)
 {
 	TrackInfoDialog dialog;
-	dialog.SetWindowTitle("Tag info");
+	dialog.SetWindowTitle(STR_TAG_INFO);
 	dialog.SetAddr(m_pMgr->GetAddr());
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);
