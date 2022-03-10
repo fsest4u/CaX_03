@@ -30,6 +30,7 @@ SOURCES += \
     dialog/poweroffdialog.cpp \
     dialog/progressdialog.cpp \
     dialog/progressfmdialog.cpp \
+    dialog/resizedialog.cpp \
     dialog/searchcoverartdialog.cpp \
     dialog/searchcoverartresultdialog.cpp \
     dialog/searchdialog.cpp \
@@ -174,6 +175,7 @@ HEADERS += \
     dialog/progressdialog.h \
     dialog/progressfmdialog.h \
     dialog/requestinterceptor.h \
+    dialog/resizedialog.h \
     dialog/searchcoverartdialog.h \
     dialog/searchcoverartresultdialog.h \
     dialog/searchdialog.h \
@@ -326,6 +328,7 @@ FORMS += \
     dialog/poweroffdialog.ui \
     dialog/progressdialog.ui \
     dialog/progressfmdialog.ui \
+    dialog/resizedialog.ui \
     dialog/searchcoverartdialog.ui \
     dialog/searchcoverartresultdialog.ui \
     dialog/searchdialog.ui \

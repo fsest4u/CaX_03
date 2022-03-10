@@ -106,7 +106,6 @@ private:
 
 	CJsonNode			m_PlayInfo;
 
-//----------------------------------------------
 	bool	m_Info;
 	bool	m_List;
 	bool	m_Mute;

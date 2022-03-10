@@ -4,14 +4,14 @@
 #include "formsort.h"
 #include "ui_formsort.h"
 
+#include "dialog/resizedialog.h"
+
 #include "util/caxconstants.h"
 #include "util/log.h"
 
 FormSort::FormSort(QWidget *parent) :
 	QWidget(parent),
 	m_Menu(new QMenu(this)),
-	m_ResizeMenu(new QMenu(this)),
-	m_Slider(new QSlider(this)),
 	m_bIncrease(false),
 	ui(new Ui::FormSort)
 {
@@ -26,18 +26,6 @@ FormSort::~FormSort()
 	{
 		delete m_Menu;
 		m_Menu = nullptr;
-	}
-
-	if (m_ResizeMenu)
-	{
-		delete m_ResizeMenu;
-		m_ResizeMenu = nullptr;
-	}
-
-	if (m_Slider)
-	{
-		delete m_Slider;
-		m_Slider = nullptr;
 	}
 
 	delete ui;
@@ -102,12 +90,12 @@ void FormSort::SetMenuTitle(QString title)
 
 void FormSort::SetResize(int resize)
 {
-	m_Slider->setValue(resize);
+	m_ResizeValue = resize;
 }
 
 void FormSort::SetSliderMinimum(int value)
 {
-	m_Slider->setMinimum(value);
+	m_ResizeMin = value;
 }
 
 bool FormSort::GetIncrease() const
@@ -171,14 +159,23 @@ void FormSort::SlotMenu(QAction *action)
 	emit SigMenu(action->data().toInt());
 }
 
-void FormSort::SlotResizeSliderValueChanged(int value)
+void FormSort::SlotBtnResize()
 {
-	emit SigResize(value);
+	LogDebug("resize [%d][%d][%d][%d]", ui->btnResize->geometry().x(), ui->btnResize->geometry().y(), ui->btnResize->geometry().width(), ui->btnResize->geometry().height());
+	QPoint point = ui->btnResize->mapToGlobal(ui->btnResize->rect().bottomLeft());
+	ResizeDialog dialog;
+	dialog.setGeometry(point.x() - dialog.width(), point.y(), dialog.width(), dialog.height());
+	dialog.SetSliderValue(m_ResizeMin, ICON_HEIGHT_MAX, m_ResizeValue);
+	connect(&dialog, SIGNAL(SigSliderValueChanged(int)), this, SLOT(SlotResizeSliderValueChanged(int)));
+
+	if (dialog.exec() == QDialog::Accepted)
+	{
+
+	}
 }
 
-void FormSort::SlotResizeSliderReleased()
+void FormSort::SlotResizeSliderValueChanged(int value)
 {
-	int value = m_Slider->value();
 	emit SigResize(value);
 }
 
@@ -205,42 +202,10 @@ void FormSort::Initialize()
 	ui->btnMenu->setMenu(m_Menu);
 
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenu(QAction*)));
+	connect(ui->btnResize, SIGNAL(clicked()), this, SLOT(SlotBtnResize()));
 
 	SetIncrease(m_bIncrease);
-	SetResizeMenu();
 
 }
 
-void FormSort::SetResizeMenu()
-{
-	m_Slider->setOrientation(Qt::Vertical);
-	m_Slider->setMinimum(LIST_HEIGHT_MIN);
-	m_Slider->setMaximum(ICON_HEIGHT_MAX);
-	m_Slider->setGeometry( 0, 0, 340, 22 );
 
-	QString style = QString("QSlider::groove: vertical {	\
-								background-color: #e8e6e6;	\
-								border: 1px solid #e8e6e6;	\
-								height: 2px;	\
-								border-radius: 2px;	\
-							}	\
-							QSlider::handle: vertical {	\
-								background-color: #34aed6;	\
-								border: 1px solid #34aed6;	\
-								width: 10px;	\
-								height: 10px;	\
-								border-radius: 5px;	\
-								margin: -5px 0;	\
-							}");
-
-	m_Slider->setStyleSheet(style);
-
-	QWidgetAction *action = new QWidgetAction(this);
-	action->setDefaultWidget(m_Slider);
-	m_ResizeMenu->addAction(action);
-
-	ui->btnResize->setMenu(m_ResizeMenu);
-
-	connect(m_Slider, SIGNAL(valueChanged(int)), this, SLOT(SlotResizeSliderValueChanged(int)));
-	connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(SlotResizeSliderReleased()));
-}

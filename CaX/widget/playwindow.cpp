@@ -162,7 +162,6 @@ void PlayWindow::SlotBtnRandom()
 
 void PlayWindow::SlotBtnVolume()
 {
-	LogDebug("volume [%d][%d][%d][%d]", ui->btnVolume->geometry().x(), ui->btnVolume->geometry().y(), ui->btnVolume->geometry().width(), ui->btnVolume->geometry().height());
 	QPoint point = ui->btnVolume->mapToGlobal(ui->btnVolume->rect().topLeft());
 	VolumeDialog dialog;
 	dialog.setGeometry(point.x() - dialog.width(), point.y() - dialog.height(), dialog.width(), dialog.height());
