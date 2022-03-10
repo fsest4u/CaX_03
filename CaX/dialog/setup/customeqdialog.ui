@@ -87,7 +87,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label00">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -133,6 +133,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider00">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -197,7 +216,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label01">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -243,6 +262,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider01">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -307,7 +345,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label02">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -353,6 +391,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider02">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -417,7 +474,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label03">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -463,6 +520,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider03">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -527,7 +603,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label04">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -573,6 +649,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider04">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -637,7 +732,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label05">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -683,6 +778,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider05">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -747,7 +861,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label06">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -793,6 +907,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider06">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -857,7 +990,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label07">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -903,6 +1036,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider07">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -967,7 +1119,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label08">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1013,6 +1165,25 @@ QWidget
             </item>
             <item>
              <widget class="QSlider" name="verticalSlider08">
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
+              </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -1077,7 +1248,7 @@ QWidget
          <item>
           <widget class="QLabel" name="label09">
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1128,6 +1299,25 @@ QWidget
                 <width>0</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QSlider::groove:vertical {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    width: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:vertical {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin: 0 -5px;
+}
+
+</string>
               </property>
               <property name="orientation">
                <enum>Qt::Vertical</enum>

@@ -230,7 +230,7 @@ void FormSort::SetResizeMenu()
 								width: 10px;	\
 								height: 10px;	\
 								border-radius: 5px;	\
-								margin: -4px 0;	\
+								margin: -5px 0;	\
 							}");
 
 	m_Slider->setStyleSheet(style);
