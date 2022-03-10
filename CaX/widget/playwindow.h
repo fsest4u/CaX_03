@@ -5,7 +5,6 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QMenu>
-#include <QSlider>
 
 #include "util/CJsonNode.h"
 
@@ -31,9 +30,6 @@ public:
 
 signals:
 
-	void SigSetVolumeSlider(int volume);
-	void SigSetDial(int volume);
-
 	void SigAddQueueList(CJsonNode node);
 	void SigSetPlayInfo(CJsonNode node, bool show);
 	void SigRemoveQueueList();
@@ -47,12 +43,11 @@ private slots:
 	void SlotBtnStop();
 	void SlotBtnPlayNext();
 	void SlotBtnRandom();
-	void SlotDialValueChanged(int value);
-	void SlotDialReleased();
-	void SlotSetDial(int volume);
+	void SlotBtnVolume();
+	void SlotVolumeIncrease(int value);
+	void SlotVolumeDecrease(int value);
 	void SlotVolumeSliderValueChanged(int value);
-	void SlotVolumeSliderReleased();
-	void SlotSetVolumeSlider(int volume);
+	void SlotVolumeSliderSet(int value);
 	void SlotPlayTimeSliderValueChanged(int value);
 	void SlotPlayTimeSliderReleased();
 	void SlotPlayTimeSliderUpdate();
@@ -73,6 +68,7 @@ private:
 		PLAY_REPEAT_SHFFLE,
 		PLAY_REPEAT_MAX
 	};
+
 
 	void ConnectSigToSlot();
 	void Initialize();
@@ -98,8 +94,6 @@ private:
 	void SetRecordable();
 	void SetCoverArt(QString filepath);
 	void SetPlayTimeSliderState();
-	void SetVolumeMenu();
-	void SetDialMenu();
 
 	void DoNowPlay(CJsonNode node);
 
@@ -108,11 +102,9 @@ private:
 	FormTitle			*m_pFormTitle;
 
 	QMenu				*m_VolumeMenu;
-	QSlider				*m_Slider;
 	QTimer				*m_Timer;
 
 	CJsonNode			m_PlayInfo;
-
 
 //----------------------------------------------
 	bool	m_Info;
@@ -146,6 +138,8 @@ private:
 
 	bool				m_bPause;
 	int					m_nRepeatMode;
+
+
 
 	Ui::PlayWindow *ui;
 };

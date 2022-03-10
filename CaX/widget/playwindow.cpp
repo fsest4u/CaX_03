@@ -6,6 +6,7 @@
 #include "ui_playwindow.h"
 
 #include "dialog/commondialog.h"
+#include "dialog/volumedialog.h"
 
 #include "manager/playmanager.h"
 
@@ -18,13 +19,14 @@
 #include "widget/form/formtitle.h"
 #include "widget/form/formcoverart.h"
 
+const QString SETTINGS_GROUP = "Setup";
+
 PlayWindow::PlayWindow(QWidget *parent)	:
 	QWidget(parent),
 	m_pMgr(new PlayManager),
 	m_pFormCoverArt(new FormCoverArt(this)),
 	m_pFormTitle(new FormTitle(this)),
 	m_VolumeMenu(new QMenu(this)),
-	m_Slider(new QSlider(this)),
 	m_Timer(nullptr),
 	ui(new Ui::PlayWindow)
 {
@@ -67,12 +69,6 @@ PlayWindow::~PlayWindow()
 	{
 		delete m_VolumeMenu;
 		m_VolumeMenu = nullptr;
-	}
-
-	if (m_Slider)
-	{
-		delete m_Slider;
-		m_Slider = nullptr;
 	}
 
 	delete ui;
@@ -164,41 +160,42 @@ void PlayWindow::SlotBtnRandom()
 	}
 }
 
-void PlayWindow::SlotDialValueChanged(int value)
+void PlayWindow::SlotBtnVolume()
 {
-	ui->labelDial->setText(QString::number(value));
-	m_pMgr->RequestVolume(value);
+	LogDebug("volume [%d][%d][%d][%d]", ui->btnVolume->geometry().x(), ui->btnVolume->geometry().y(), ui->btnVolume->geometry().width(), ui->btnVolume->geometry().height());
+	QPoint point = ui->btnVolume->mapToGlobal(ui->btnVolume->rect().topLeft());
+	VolumeDialog dialog;
+	dialog.setGeometry(point.x() - dialog.width(), point.y() - dialog.height(), dialog.width(), dialog.height());
+	dialog.SetSliderValue(m_Volume);
+	connect(&dialog, SIGNAL(SigIncrease(int)), this, SLOT(SlotVolumeIncrease(int)));
+	connect(&dialog, SIGNAL(SigDecrease(int)), this, SLOT(SlotVolumeDecrease(int)));
+	connect(&dialog, SIGNAL(SigSliderValueChanged(int)), this, SLOT(SlotVolumeSliderValueChanged(int)));
+
+	if (dialog.exec() == QDialog::Accepted)
+	{
+
+	}
 }
 
-void PlayWindow::SlotDialReleased()
+void PlayWindow::SlotVolumeIncrease(int value)
 {
-	int value = ui->dial->value();
-	ui->labelDial->setText(QString::number(value));
-	m_pMgr->RequestVolume(value);
+	SlotVolumeSliderValueChanged(value);
 }
 
-void PlayWindow::SlotSetDial(int volume)
+void PlayWindow::SlotVolumeDecrease(int value)
 {
-	ui->labelDial->setText(QString::number(volume));
-	ui->dial->setValue(volume);
+	SlotVolumeSliderValueChanged(value);
 }
 
 void PlayWindow::SlotVolumeSliderValueChanged(int value)
 {
 	ui->labelVolume->setText(QString::number(value));
-}
-
-void PlayWindow::SlotVolumeSliderReleased()
-{
-	int value = m_Slider->value();
-	ui->labelVolume->setText(QString::number(value));
 	m_pMgr->RequestVolume(value);
 }
 
-void PlayWindow::SlotSetVolumeSlider(int volume)
+void PlayWindow::SlotVolumeSliderSet(int value)
 {
-	ui->labelVolume->setText(QString::number(volume));
-	m_Slider->setValue(volume);
+	ui->labelVolume->setText(QString::number(value));
 }
 
 void PlayWindow::SlotPlayTimeSliderValueChanged(int value)
@@ -233,9 +230,8 @@ void PlayWindow::SlotEventNowPlay(CJsonNode node)
 		QString volume = node.GetString(KEY_VOLUME_CAP);
 		if (!volume.isEmpty())
 		{
-			int vol = volume.toInt();
-			SlotSetVolumeSlider(vol);
-			SlotSetDial(vol);
+			m_Volume = volume.toInt();
+			SlotVolumeSliderSet(m_Volume);
 		}
 
 		emit SigRemoveQueueList();
@@ -271,12 +267,10 @@ void PlayWindow::ConnectSigToSlot()
 	connect(ui->btnStop, SIGNAL(clicked()), this, SLOT(SlotBtnStop()));
 	connect(ui->btnNext, SIGNAL(clicked()), this, SLOT(SlotBtnPlayNext()));
 	connect(ui->btnRandom, SIGNAL(clicked()), this, SLOT(SlotBtnRandom()));
+	connect(ui->btnVolume, SIGNAL(clicked()), this, SLOT(SlotBtnVolume()));
 
 	connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(SlotPlayTimeSliderValueChanged(int)));
 	connect(ui->horizontalSlider, SIGNAL(sliderReleased()), this, SLOT(SlotPlayTimeSliderReleased()));
-
-	connect(this, SIGNAL(SigSetVolumeSlider(int)), this, SLOT(SlotSetVolumeSlider(int)));
-	connect(this, SIGNAL(SigSetDial(int)), this, SLOT(SlotSetDial(int)));
 
 	connect(m_pMgr, SIGNAL(SigTrackInfo(CJsonNode)), this, SLOT(SlotTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString)), this, SLOT(SlotCoverArtUpdate(QString)));
@@ -297,8 +291,6 @@ void PlayWindow::Initialize()
 
 //	SetPlayState();
 	SetRepeatMode(RM_NORMAL);
-	SetVolumeMenu();
-	SetDialMenu();
 
 	InitPlayInfo();
 	InitPlayTimeSlider();
@@ -670,40 +662,12 @@ void PlayWindow::SetPlayTimeSliderState()
 	ui->labelCurTime->setHidden(false);
 }
 
-void PlayWindow::SetVolumeMenu()
-{
-	m_Slider->setOrientation(Qt::Horizontal);
-	m_Slider->setMinimum(VOLUME_MIN);
-	m_Slider->setMaximum(VOLUME_MAX);
-	m_Slider->setGeometry( 0, 0, 400, 40 );
-
-	QWidgetAction *action = new QWidgetAction(this);
-	action->setDefaultWidget(m_Slider);
-	m_VolumeMenu->addAction(action);
-
-	ui->btnVolume->setMenu(m_VolumeMenu);
-
-	connect(m_Slider, SIGNAL(valueChanged(int)), this, SLOT(SlotVolumeSliderValueChanged(int)));
-	connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(SlotVolumeSliderReleased()));
-}
-
-void PlayWindow::SetDialMenu()
-{
-	// temp_code, dylee -> change to dial
-	ui->frameVolume->hide();
-
-	connect(ui->dial, SIGNAL(valueChanged(int)), this, SLOT(SlotDialValueChanged(int)));
-//	connect(ui->dial, SIGNAL(sliderReleased()), this, SLOT(SlotDialReleased()));
-
-}
-
 void PlayWindow::DoNowPlay(CJsonNode node)
 {
 	EnableUI(true);
 	SetVariable(node);
 
-	emit SigSetVolumeSlider(m_Volume);
-	emit SigSetDial(m_Volume);
+	SlotVolumeSliderSet(m_Volume);
 
 	if (m_PlayState.compare(KEY_PLAY))
 	{

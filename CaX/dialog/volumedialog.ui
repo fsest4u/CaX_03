@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VolumeDialog</class>
+ <widget class="QDialog" name="VolumeDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>262</width>
+    <height>33</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>262</width>
+    <height>33</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QSlider" name="horizontalSlider">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QSlider::groove:horizontal {
+    background-color: #e8e6e6;
+    border: 1px solid #e8e6e6;
+    height: 2px;
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background-color: #34aed6;
+    border: 1px solid #ffffff;
+    width: 10px;
+	height: 10px;
+    border-radius: 4px;
+	margin: -4px 0;
+}</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btnDecrease">
+     <property name="maximumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/volume-btn16-low-n.png&quot;);
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/volume-btn16-low-h.png&quot;);
+}
+</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btnIncrease">
+     <property name="maximumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+  border-image: url(&quot;:/resource/volume-btn16-high-n.png&quot;);
+}
+
+QPushButton:hover
+{
+  border-image: url(&quot;:/resource/volume-btn16-high-h.png&quot;);
+}
+</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

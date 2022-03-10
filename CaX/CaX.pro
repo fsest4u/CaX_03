@@ -50,6 +50,7 @@ SOURCES += \
     dialog/setupreservationrecordingdialog.cpp \
     dialog/trackinfo.cpp \
     dialog/trackinfodialog.cpp \
+    dialog/volumedialog.cpp \
     dialog/webengineviewdialog.cpp \
     main.cpp \
     manager/airablemanager.cpp \
@@ -193,6 +194,7 @@ HEADERS += \
     dialog/setupreservationrecordingdialog.h \
     dialog/trackinfo.h \
     dialog/trackinfodialog.h \
+    dialog/volumedialog.h \
     dialog/webengineviewdialog.h \
     manager/airablemanager.h \
     manager/appmanager.h \
@@ -344,6 +346,7 @@ FORMS += \
     dialog/setupreservationrecordingdialog.ui \
     dialog/trackinfo.ui \
     dialog/trackinfodialog.ui \
+    dialog/volumedialog.ui \
     dialog/webengineviewdialog.ui \
     widget/audiocdwindow.ui \
     widget/browserwindow.ui \
