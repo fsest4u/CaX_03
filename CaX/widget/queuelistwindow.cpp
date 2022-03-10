@@ -145,7 +145,7 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		LogWarning("node is null~");
 		return;
 	}
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	m_Src = node.GetString(KEY_SRC);
 

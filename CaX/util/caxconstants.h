@@ -157,7 +157,7 @@
 #define QOBUZ_START					0
 #define QOBUZ_COUNT					50
 
-#define SEARCH_WORD_LIMIT_COUNT		3
+#define SEARCH_WORD_LIMIT_COUNT		2
 #define MSG_LIMIT_COUNT				100
 
 #define VOLUME_MIN					0
