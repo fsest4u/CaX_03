@@ -53,6 +53,11 @@ bool ResizeDialog::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
+void ResizeDialog::SlotBtnClose()
+{
+	close();
+}
+
 void ResizeDialog::SlotSliderValueChanged(int value)
 {
 	if (value <= ui->horizontalSlider->minimum())
@@ -70,6 +75,7 @@ void ResizeDialog::SlotSliderValueChanged(int value)
 
 void ResizeDialog::ConnectSigToSlot()
 {
+	connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(SlotBtnClose()));
 	connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(SlotSliderValueChanged(int)));
 }
 

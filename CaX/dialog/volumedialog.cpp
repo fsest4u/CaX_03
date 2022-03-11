@@ -54,6 +54,11 @@ bool VolumeDialog::eventFilter(QObject *object, QEvent *event)
 	return QObject::eventFilter(object, event);
 }
 
+void VolumeDialog::SlotBtnClose()
+{
+	close();
+}
+
 void VolumeDialog::SlotBtnIncrease()
 {
 	int value = ui->horizontalSlider->value();
@@ -108,6 +113,7 @@ void VolumeDialog::ReadSettings()
 
 void VolumeDialog::ConnectSigToSlot()
 {
+	connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(SlotBtnClose()));
 	connect(ui->btnIncrease, SIGNAL(clicked()), this, SLOT(SlotBtnIncrease()));
 	connect(ui->btnDecrease, SIGNAL(clicked()), this, SLOT(SlotBtnDecrease()));
 	connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(SlotSliderValueChanged(int)));

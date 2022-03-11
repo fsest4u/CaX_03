@@ -27,6 +27,7 @@ protected:
 
 private slots:
 
+	void SlotBtnClose();
 	void SlotSliderValueChanged(int value);
 
 private:
