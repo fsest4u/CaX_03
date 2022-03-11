@@ -101,7 +101,7 @@ private:
 	void DoTopMenuOptionPlaySubDir();
 	void DoTopMenuOptionOverwrite();
 	void DoTopMenuConverFormat();
-	void DoTopMenuAdd();
+	void DoTopMenuMakeFolder();
 	void DoTopMenuDelete();
 	void DoTopMenuCopy(bool move);
 	void DoTopMenuCopyHere(bool move);

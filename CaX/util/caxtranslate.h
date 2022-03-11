@@ -75,7 +75,7 @@
 // menu
 //////////////////////////////////////////////////
 
-#define STR_ADD						QObject::tr("Add")
+//#define STR_ADD						QObject::tr("Add")
 #define STR_ADD_NEW_STATION			QObject::tr("Add new station")
 #define STR_ADD_PLAYLIST			QObject::tr("Add playlist")
 #define STR_ADD_SHARE				QObject::tr("Add share")
@@ -103,6 +103,7 @@
 #define STR_GO_TO_ALBUM				QObject::tr("Go to album")
 #define STR_GO_TO_ARTIST			QObject::tr("Go to artist")
 #define STR_LOAD_COUNT				QObject::tr("Load count")
+#define STR_MAKE_FOLDER     		QObject::tr("Make a folder")
 #define STR_MAKE_PLAYLIST     		QObject::tr("Make a playlist")
 #define STR_MENU              		QObject::tr("Menu")
 #define STR_MODIFY_SHARE			QObject::tr("Modify share")

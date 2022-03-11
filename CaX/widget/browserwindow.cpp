@@ -299,8 +299,8 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_SEARCH_COVERART:
 		DoTopMenuSearchCoverArt();
 		break;
-	case TOP_MENU_ADD:
-		DoTopMenuAdd();
+	case TOP_MENU_MAKE_FOLDER:
+		DoTopMenuMakeFolder();
 		break;
 	case TOP_MENU_DELETE:
 		DoTopMenuDelete();
@@ -998,7 +998,7 @@ void BrowserWindow::SetSelectOffTopMenu()
 			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
 			if (m_FolderType & iFolderType_Mask_FileMgr)
 			{
-				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+				m_TopMenuMap.insert(TOP_MENU_MAKE_FOLDER, STR_MAKE_FOLDER);
 			}
 
 			if (BROWSER_MODE_COPY == m_BrowserMode
@@ -1078,7 +1078,7 @@ void BrowserWindow::SetSelectOffTopMenu()
 			}
 			if (m_FolderType & iFolderType_Mask_FileMgr)
 			{
-				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+				m_TopMenuMap.insert(TOP_MENU_MAKE_FOLDER, STR_MAKE_FOLDER);
 			}
 
 			if (m_FolderType & iFolderType_Mask_Pls)
@@ -1120,7 +1120,7 @@ void BrowserWindow::SetSelectOnTopMenu()
 			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
 			if (m_FolderType & iFolderType_Mask_FileMgr)
 			{
-				m_TopMenuMap.insert(TOP_MENU_ADD, STR_ADD);
+				m_TopMenuMap.insert(TOP_MENU_MAKE_FOLDER, STR_MAKE_FOLDER);
 			}
 			if (BROWSER_MODE_COPY == m_BrowserMode
 					|| BROWSER_MODE_COPY_OPTION == m_BrowserMode)
@@ -1240,7 +1240,7 @@ void BrowserWindow::DoTopMenuConverFormat()
 	}
 }
 
-void BrowserWindow::DoTopMenuAdd()
+void BrowserWindow::DoTopMenuMakeFolder()
 {
 	InputNameDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)

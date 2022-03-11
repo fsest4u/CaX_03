@@ -27,7 +27,7 @@ UtilNovatron::UtilNovatron()
 
 QIcon UtilNovatron::GetMenuIcon(QString value)
 {
-	if (value.contains(STR_ADD))
+	if (value.contains(STR_MAKE_FOLDER))
 	{
 		return QIcon(":/resource/browser-icon16-newfolder.png");
 	}
