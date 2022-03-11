@@ -243,14 +243,13 @@ void IconTracks::SlotScrollReleased()
 			}
 			int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
 			int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
-			QString title = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
-			QString subtitle = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_SUBTITLE));
+//			QString title = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
+//			QString subtitle = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_SUBTITLE));
 //			LogDebug("id [%d] index [%d]", id, index);
 //			LogDebug("title [%s] subtitle [%s]", title.toUtf8().data(), subtitle.toUtf8().data());
 			emit SigReqCoverArt(id, index, QListView::IconMode);
 		}
 	}
-
 }
 
 void IconTracks::SlotSelectCheck(const QModelIndex &modelIndex)

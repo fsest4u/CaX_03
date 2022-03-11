@@ -388,7 +388,7 @@ void TableTracks::SlotScrollReleased()
 			}
 			int id = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_ID)));
 			int index = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_INDEX)));
-			QString title = qvariant_cast<QString>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_TITLE)));
+//			QString title = qvariant_cast<QString>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_TITLE)));
 //			LogDebug("id [%d] index [%d]", id, index);
 //			LogDebug("title [%s]", title.toUtf8().data());
 			emit SigReqCoverArt(id, index, QListView::ListMode);

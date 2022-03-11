@@ -1,4 +1,5 @@
 #include <QScrollBar>
+#include <QListView>
 
 #include "listbrowser.h"
 #include "ui_listbrowser.h"
@@ -99,23 +100,20 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 
 //			SetBrowserOptionMenu(nodeType);
 
-			m_Model->appendRow(item);
-
 			if (nodeType & iFolderType_Mask_Upnp)
 			{
-				QString art = node.GetString(KEY_ART);
-				emit SigReqCoverArt(art, index);
+				item->setData(node.GetString(KEY_ART), ListBrowserDelegate::LIST_BROWSER_COVER);
 			}
 			else if (nodeType & iFolderType_Mask_Play_Select)
 			{
-				QString path = node.GetString(KEY_PATH);
 				if (!(nodeType & iFolderType_Mask_Pls))
 				{
-					emit SigReqInfoBot(path, index);
+					item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 				}
-				emit SigReqCoverArt(path, index);
+				item->setData(node.GetString(KEY_PATH), ListBrowserDelegate::LIST_BROWSER_COVER);
 			}
 
+			m_Model->appendRow(item);
 			index++;
 		}
 	}
@@ -149,12 +147,12 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
-			m_Model->appendRow(item);
-
 			if (coverArt.contains("http"))
 			{
-				emit SigReqCoverArt(coverArt, index);
+				item->setData(coverArt, ListBrowserDelegate::LIST_BROWSER_COVER);
 			}
+
+			m_Model->appendRow(item);
 			index++;
 		}
 	}
@@ -182,16 +180,18 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 			item->setData(index, ListBrowserDelegate::LIST_BROWSER_INDEX);
 			item->setData(false, ListBrowserDelegate::LIST_BROWSER_SELECT);
 
-			m_Model->appendRow(item);
-
 			QString coverArt = node.GetString(KEY_ART);
 			if (!coverArt.isEmpty())
 			{
-				emit SigReqCoverArt(coverArt, index);
+				item->setData(coverArt, ListBrowserDelegate::LIST_BROWSER_COVER);
 			}
+
+			m_Model->appendRow(item);
 			index++;
 		}
 	}
+
+	SlotScrollReleased();
 
 	UtilNovatron::LoadingStop(loading);
 
@@ -341,6 +341,90 @@ void ListBrowser::SlotScrollValueChanged(int value)
 	{
 		emit SigAppendList();
 	}
+	m_PointCurrent = QPoint(0, min);
+	SlotScrollReleased();
+}
+
+void ListBrowser::SlotScrollReleased()
+{
+	int service = m_Delegate->GetService();
+//	LogDebug("=======================");
+//	LogDebug("slider released...");
+//	LogDebug("=======================");
+	QModelIndex startModelIndex = m_ListView->indexAt(m_PointCurrent);
+	if (!startModelIndex.isValid())
+	{
+		return;
+	}
+
+//	int id = qvariant_cast<int>(startModelIndex.data(ListBrowserDelegate::LIST_BROWSER_ID));
+	int startIndex = qvariant_cast<int>(startModelIndex.data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+//	LogDebug("start id [%d] index [%d]", id, startIndex);
+
+	QRect validRect = rect();
+//	LogDebug("valid x [%d] y [%d] w [%d] h [%d]", validRect.x(), validRect.y(), validRect.width(), validRect.height());
+
+	for (int i = startIndex; i < startIndex + 100; i++)
+	{
+		QModelIndex modelIndex = m_Model->index(i, 0);
+		if (modelIndex.isValid())
+		{
+			QRect visualRect = m_ListView->visualRect(modelIndex);
+//			LogDebug("visual x [%d] y [%d] w [%d] h [%d]", visualRect.x(), visualRect.y(), visualRect.width(), visualRect.height());
+			if (visualRect.y() > validRect.height() || visualRect.y() < (ICON_HEIGHT_MID * -1))
+			{
+//				LogDebug("visual rect is invalid rect");
+				break;
+			}
+
+			int id = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_ID));
+			int index = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_INDEX));
+			QString cover = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_COVER));
+
+//			QString title = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TITLE));
+//			QString subtitle = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
+			LogDebug("id [%d] index [%d] cover [%s]", id, index, cover.toUtf8().data());
+//			LogDebug("title [%s] subtitle [%s]", title.toUtf8().data(), subtitle.toUtf8().data());
+
+			if (SIDEMENU_BROWSER == service)
+			{
+				int type = qvariant_cast<int>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TYPE));
+
+				if (type & iFolderType_Mask_Upnp)
+				{
+					if (!cover.contains(":/resource/"))
+					{
+						emit SigReqCoverArt(cover, index);
+					}
+				}
+				else if (type & iFolderType_Mask_Play_Select)
+				{
+					if (!(type & iFolderType_Mask_Pls))
+					{
+						emit SigReqInfoBot(cover, index);
+					}
+					if (!cover.contains(":/resource/"))
+					{
+						emit SigReqCoverArt(cover, index);
+					}
+				}
+			}
+			else if (SIDEMENU_ISERVICE == service)
+			{
+				if (cover.contains("http"))
+				{
+					emit SigReqCoverArt(cover, index);
+				}
+			}
+			else // qobuz
+			{
+				if (cover.contains("http"))
+				{
+					emit SigReqCoverArt(cover, index);
+				}
+			}
+		}
+	}
 }
 
 void ListBrowser::SlotSelectCheck(const QModelIndex &modelIndex)
@@ -406,6 +490,7 @@ void ListBrowser::Initialize()
 
 	m_ScrollBar = m_ListView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotScrollReleased()));
 //	connect(m_Delegate, SIGNAL(SigSelectCoverArt(int)), this, SLOT(SlotSelectCoverArt(int)));
 	connect(m_Delegate, SIGNAL(SigSelectCheck(const QModelIndex&)), this, SLOT(SlotSelectCheck(const QModelIndex&)));
 
