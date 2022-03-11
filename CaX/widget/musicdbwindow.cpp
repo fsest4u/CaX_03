@@ -219,7 +219,26 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
-		m_pInfoHome->SetTitle(UtilNovatron::GetCategoryTitleName(m_nCategory));
+		if (SQLManager::DISP_MODE_TRACK == m_DispMode)
+		{
+			QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_TRACK;
+			m_pInfoHome->SetTitle(title);
+		}
+		else if (SQLManager::DISP_MODE_ALBUM == m_DispMode)
+		{
+			QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
+			m_pInfoHome->SetTitle(title);
+		}
+		else if (SQLManager::DISP_MODE_ARTIST == m_DispMode)
+		{
+			QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
+			m_pInfoHome->SetTitle(title);
+		}
+		else
+		{
+			QString title = UtilNovatron::GetCategoryTitleName(m_nCategory);
+			m_pInfoHome->SetTitle(title);
+		}
 
 		if (SQLManager::CATEGORY_TRACK == m_nCategory)
 		{
@@ -3172,9 +3191,9 @@ QString MusicDBWindow::GetTitleSortMenu(int sort)
 	case SQLManager::DISP_MODE_ARTIST:
 		title = STR_DISP_MODE_ARTIST;
 		break;
-	case SQLManager::DISP_MODE_ARTIST_ALBUM:
-		title = STR_DISP_MODE_ALBUM;
-		break;
+//	case SQLManager::DISP_MODE_ARTIST_ALBUM:
+//		title = STR_DISP_MODE_ALBUM;
+//		break;
 	}
 
 
