@@ -207,26 +207,6 @@ void ListBrowser::ClearNodeList()
 
 }
 
-void ListBrowser::SetNodeInfo(CJsonNode node)
-{
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-
-//	if (node.IsNull())
-//	{
-//		return;
-//	}
-
-//	ui->frameInfo->show();
-//	QString style;
-//	style = QString("QLabel	\
-//					{	\
-//					  border-image: url(\'%1\');	\
-//					}").arg(node.GetString(KEY_ART));
-//	ui->labelCoverArt->setStyleSheet(style);
-//	ui->labelTitle->setText(node.GetString(KEY_TOP));
-//	ui->labelSubtitle->setText(node.GetString(KEY_BOT1));
-}
-
 void ListBrowser::ClearSelectMap()
 {
 	int count = m_Model->rowCount();

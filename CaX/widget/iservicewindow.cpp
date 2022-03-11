@@ -550,7 +550,6 @@ void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre, int st
 //		LogDebug("SlotRespQobuzList node [%s]", m_Node.ToCompactByteArray().data());
 
 		GetInfoBrowser()->SetTitle(QOBUZ_TITLE);
-		GetListBrowser()->SetNodeInfo(m_Node);
 //		GetListBrowser()->ClearNodeList();
 		nType = GetListBrowser()->SetNodeList(list, -1);
 		SetType(nType);
@@ -601,8 +600,7 @@ void IServiceWindow::SlotRespURL(int nServiceType, QList<CJsonNode> list, QStrin
 //	LogDebug("SlotRespURL node [%s]", m_Node.ToCompactByteArray().data());
 
 	GetInfoBrowser()->SetTitle(title);
-	GetListBrowser()->SetNodeInfo(m_Node);
-	//	widget->GetListBrowser()->ClearNodeList();
+//	widget->GetListBrowser()->ClearNodeList();
 	int nType = GetListBrowser()->SetNodeList(list, SIDEMENU_ISERVICE);
 	SetInternetType(nServiceType);
 	SetType(nType);
