@@ -113,6 +113,7 @@ private slots:
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 	void SlotClickCell(const QModelIndex &index);
+	void SlotSectionClicked(int logicalIndex);
 	void SlotSectionResize(int logicalIndex, int oldWidth, int newWidth);
 	void SlotMenuAction(QAction *action);
 

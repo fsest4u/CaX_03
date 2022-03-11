@@ -145,7 +145,7 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 			style = QString("	\
 							QPushButton	\
 							{	\
-								border-image: url(\":/resource/top-btn22-classify-like-n.png\");	\
+								border-image: url(\":/resource/play-btn28-like-n.png\");	\
 							}");
 		}
 		else
@@ -153,7 +153,7 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 			style = QString("	\
 							QPushButton	\
 							{	\
-								border-image: url(\":/resource/top-btn22-classify-like-h.png\");	\
+								border-image: url(\":/resource/play-btn28-like-h.png\");	\
 							}");
 		}
 		m_BtnFavorite->setStyleSheet(style);

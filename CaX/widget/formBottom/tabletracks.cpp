@@ -489,6 +489,23 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 	}
 }
 
+void TableTracks::SlotSectionClicked(int logicalIndex)
+{
+	if (GetColumnShow(TABLE_TRACKS_TRACK_COUNT))
+	{
+//		LogDebug("album mode");
+	}
+	else
+	{
+//		LogDebug("track mode");
+		if (logicalIndex == TABLE_TRACKS_FAVORITE)
+		{
+//			LogDebug("click header favorite");
+
+		}
+	}
+}
+
 void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth)
 {
 //	LogDebug("col [%d] old [%d] new [%d]", logicalIndex, oldWidth, newWidth);
@@ -645,6 +662,7 @@ void TableTracks::WriteSettings()
 void TableTracks::ConnectSigToSlot()
 {
 	connect(ui->tableView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(SlotClickCell(const QModelIndex&)));
+	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(SlotSectionClicked(int)));
 	connect(ui->tableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), this, SLOT(SlotSectionResize(int, int, int)));
 	connect(m_Model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(SlotDataChanged(const QModelIndex&, const QModelIndex&)));
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));

@@ -161,7 +161,7 @@ void FormSort::SlotMenu(QAction *action)
 
 void FormSort::SlotBtnResize()
 {
-	LogDebug("resize [%d][%d][%d][%d]", ui->btnResize->geometry().x(), ui->btnResize->geometry().y(), ui->btnResize->geometry().width(), ui->btnResize->geometry().height());
+//	LogDebug("resize [%d][%d][%d][%d]", ui->btnResize->geometry().x(), ui->btnResize->geometry().y(), ui->btnResize->geometry().width(), ui->btnResize->geometry().height());
 	QPoint point = ui->btnResize->mapToGlobal(ui->btnResize->rect().bottomLeft());
 	ResizeDialog dialog;
 	dialog.setGeometry(point.x() - dialog.width(), point.y(), dialog.width(), dialog.height());

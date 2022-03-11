@@ -173,7 +173,7 @@ void FormClassify::SetFavorite(int Favorite)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/top-btn22-classify-like-n.png\");	\
+						  border-image: url(\":/resource/play-btn28-like-n.png\");	\
 						}");
 
 	}
@@ -181,7 +181,7 @@ void FormClassify::SetFavorite(int Favorite)
 	{
 		style = QString("QLabel	\
 						{	\
-						  border-image: url(\":/resource/top-btn22-classify-like-h.png\");	\
+						  border-image: url(\":/resource/play-btn28-like-n.png\");	\
 						}");
 
 	}

@@ -84,12 +84,12 @@ QPushButton::menu-indicator
      <property name="styleSheet">
       <string notr="true">QLabel
 {
-  border-image: url(&quot;:/resource/top-btn22-classify-like-n.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-like-n.png&quot;);
 }
 
 QLabel:hover
 {
-  border-image: url(&quot;:/resource/top-btn22-classify-like-h.png&quot;);
+  border-image: url(&quot;:/resource/play-btn28-like-h.png&quot;);
 }</string>
      </property>
     </widget>
