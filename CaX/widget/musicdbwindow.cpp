@@ -219,20 +219,31 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
-		if (SQLManager::DISP_MODE_TRACK == m_DispMode)
+		if (m_nCategory == SQLManager::CATEGORY_ARTIST
+				|| m_nCategory == SQLManager::CATEGORY_COMPOSER
+				|| m_nCategory == SQLManager::CATEGORY_MOOD
+				|| m_nCategory == SQLManager::CATEGORY_GENRE)
 		{
-			QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_TRACK;
-			m_pInfoHome->SetTitle(title);
-		}
-		else if (SQLManager::DISP_MODE_ALBUM == m_DispMode)
-		{
-			QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
-			m_pInfoHome->SetTitle(title);
-		}
-		else if (SQLManager::DISP_MODE_ARTIST == m_DispMode)
-		{
-			QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
-			m_pInfoHome->SetTitle(title);
+			if (SQLManager::DISP_MODE_TRACK == m_DispMode)
+			{
+				QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_TRACK;
+				m_pInfoHome->SetTitle(title);
+			}
+			else if (SQLManager::DISP_MODE_ALBUM == m_DispMode)
+			{
+				QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ALBUM;
+				m_pInfoHome->SetTitle(title);
+			}
+			else if (SQLManager::DISP_MODE_ARTIST == m_DispMode)
+			{
+				QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
+				m_pInfoHome->SetTitle(title);
+			}
+			else
+			{
+				QString title = UtilNovatron::GetCategoryTitleName(m_nCategory);
+				m_pInfoHome->SetTitle(title);
+			}
 		}
 		else
 		{
@@ -1236,25 +1247,41 @@ void MusicDBWindow::SlotSelectTitle(const QModelIndex &index)
 //	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		if (m_DispMode == SQLManager::DISP_MODE_ALBUM)
+		if (m_nCategory == SQLManager::CATEGORY_ARTIST
+				|| m_nCategory == SQLManager::CATEGORY_COMPOSER
+				|| m_nCategory == SQLManager::CATEGORY_MOOD
+				|| m_nCategory == SQLManager::CATEGORY_GENRE)
 		{
-//			LogDebug("### Album mode");
-			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-			widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, m_nCategory);
-			widget->RequestCategoryList(id);
-			widget->SetInfoHome(title, count);
+			if (m_DispMode == SQLManager::DISP_MODE_ALBUM)
+			{
+	//			LogDebug("### Album mode");
+				MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+				widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, m_nCategory);
+				widget->RequestCategoryList(id);
+				widget->SetInfoHome(title, count);
 
-			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
-		}
-		else if (m_DispMode == SQLManager::DISP_MODE_ARTIST)
-		{
-//			LogDebug("### Artist mode");
-			MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
-			widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST, m_nCategory);
-			widget->RequestCategoryList(id);
-			widget->SetInfoHome(title, count);
+				emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+			}
+			else if (m_DispMode == SQLManager::DISP_MODE_ARTIST)
+			{
+	//			LogDebug("### Artist mode");
+				MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+				widget->AddWidgetItem(TYPE_MODE_ITEM_ARTIST, m_nCategory);
+				widget->RequestCategoryList(id);
+				widget->SetInfoHome(title, count);
 
-			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+				emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+			}
+			else
+			{
+	//			LogDebug("### Track mode");
+				MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+				widget->AddWidgetTrack(TYPE_MODE_TRACK, m_nCategory);
+				widget->SetCoverArt(cover);
+				widget->RequestTrackList(id);
+
+				emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+			}
 		}
 		else
 		{
@@ -1266,6 +1293,7 @@ void MusicDBWindow::SlotSelectTitle(const QModelIndex &index)
 
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 		}
+
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ALBUM)
 	{
