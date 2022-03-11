@@ -383,7 +383,7 @@ void ListBrowser::SlotScrollReleased()
 
 //			QString title = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_TITLE));
 //			QString subtitle = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
-			LogDebug("id [%d] index [%d] cover [%s]", id, index, cover.toUtf8().data());
+//			LogDebug("id [%d] index [%d] cover [%s]", id, index, cover.toUtf8().data());
 //			LogDebug("title [%s] subtitle [%s]", title.toUtf8().data(), subtitle.toUtf8().data());
 
 			if (SIDEMENU_BROWSER == service)
