@@ -524,8 +524,20 @@ void MusicDBWindow::SlotUpdateRatingParent(int id, int rating)
 
 void MusicDBWindow::SlotRespError(QString errMsg)
 {
-	CommonDialog dialog(this, STR_WARNING, errMsg);
-	dialog.exec();
+	if (errMsg.toLower().contains("not found"))
+	{
+		m_pIconTracks->ShowFrameEmpty(true);
+		m_pTableTracks->ShowFrameEmpty(true);
+	}
+	else if (errMsg.toLower().contains("ok"))
+	{
+		// nothing
+	}
+	else
+	{
+		CommonDialog dialog(this, STR_WARNING, errMsg);
+		dialog.exec();
+	}
 }
 
 void MusicDBWindow::SlotRespMusicOverview(CJsonNode node)

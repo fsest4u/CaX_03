@@ -39,6 +39,8 @@ public:
 
 	void SetResize(int resize);
 
+	void ShowFrameEmpty(bool show);
+
 	QListView			*GetListView();
 	QStandardItemModel	*GetModel();
 	IconTracksDelegate	*GetDelegate();

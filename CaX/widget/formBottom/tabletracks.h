@@ -90,6 +90,8 @@ public:
 	bool GetColumnShow(int column);
 	void SetColumnShow(int column, bool show);
 
+	void ShowFrameEmpty(bool show);
+
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);

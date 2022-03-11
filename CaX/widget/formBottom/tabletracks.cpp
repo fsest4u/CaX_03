@@ -68,6 +68,7 @@ QList<CJsonNode> TableTracks::GetNodeList() const
 void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 {
 	Q_UNUSED(service)
+	ShowFrameEmpty(false);
 
 	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
@@ -334,6 +335,20 @@ bool TableTracks::GetColumnShow(int column)
 void TableTracks::SetColumnShow(int column, bool show)
 {
 	ui->tableView->setColumnHidden(column, !show);
+}
+
+void TableTracks::ShowFrameEmpty(bool show)
+{
+	if (show)
+	{
+		ui->frameEmpty->show();
+		ui->tableView->hide();
+	}
+	else
+	{
+		ui->frameEmpty->hide();
+		ui->tableView->show();
+	}
 }
 
 void TableTracks::resizeEvent(QResizeEvent *event)
@@ -722,5 +737,8 @@ void TableTracks::Initialize()
 	m_ScrollBar = ui->tableView->verticalScrollBar();
 	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
 	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotScrollReleased()));
+
+	ShowFrameEmpty(false);
+
 }
 

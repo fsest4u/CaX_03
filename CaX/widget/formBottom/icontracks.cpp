@@ -58,6 +58,8 @@ QList<CJsonNode> IconTracks::GetNodeList() const
 
 void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 {
+	ShowFrameEmpty(false);
+
 	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	int index = m_NodeList.count();
@@ -183,6 +185,20 @@ void IconTracks::SetResize(int resize)
 	m_ListView->setGridSize(QSize(resize, resize + 30));
 }
 
+void IconTracks::ShowFrameEmpty(bool show)
+{
+	if (show)
+	{
+		ui->frameEmpty->show();
+		m_ListView->hide();
+	}
+	else
+	{
+		ui->frameEmpty->hide();
+		m_ListView->show();
+	}
+}
+
 QListView *IconTracks::GetListView()
 {
 	return m_ListView;
@@ -288,4 +304,6 @@ void IconTracks::Initialize()
 	m_SelectMap.clear();
 
 	ui->gridLayout->addWidget(m_ListView);
+
+	ShowFrameEmpty(false);
 }
