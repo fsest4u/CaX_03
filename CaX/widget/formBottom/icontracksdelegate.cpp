@@ -110,7 +110,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	if (cover.isEmpty())
 	{
 //		LogDebug("cover is empty [%d] - [%s] [%s]", nIndex, cover.toUtf8().data(), title.toUtf8().data());
-		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+		cover = QString(":/resource/playlist-img160-albumart-h.png");
 	}
 	if (pixCover.load(cover))
 	{
@@ -122,11 +122,11 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QString resCheck;
 	if (select)
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
+		resCheck = QString(":/resource/playlist-btn30-selecton-h.png");
 	}
 	else
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-n@2x.png");
+		resCheck = QString(":/resource/playlist-btn30-selecton-n.png");
 	}
 	if (pixCheck.load(resCheck))
 	{
@@ -134,7 +134,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	}
 
 	QPixmap pixPlay;
-	QString resPlay = QString(":/resource/mid-icon30-play-n@2x.png");
+	QString resPlay = QString(":/resource/mid-icon30-play-n.png");
 	if (pixPlay.load(resPlay) && count.toInt() > 0)
 	{
 		painter->drawPixmap(rectPlay, pixPlay);
@@ -144,22 +144,22 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QString resRating;
 	switch (rating) {
 	case 0:
-		resRating = QString(":/resource/mid-icon16-rankon-h@2x.png");
+		resRating = QString(":/resource/mid-icon16-rankon-h.png");
 		break;
 	case 1:
-		resRating = QString(":/resource/mid-icon16-rankon-h1@2x.png");
+		resRating = QString(":/resource/mid-icon16-rankon-h1.png");
 		break;
 	case 2:
-		resRating = QString(":/resource/mid-icon16-rankon-h2@2x.png");
+		resRating = QString(":/resource/mid-icon16-rankon-h2.png");
 		break;
 	case 3:
-		resRating = QString(":/resource/mid-icon16-rankon-h3@2x.png");
+		resRating = QString(":/resource/mid-icon16-rankon-h3.png");
 		break;
 	case 4:
-		resRating = QString(":/resource/mid-icon16-rankon-h4@2x.png");
+		resRating = QString(":/resource/mid-icon16-rankon-h4.png");
 		break;
 	case 5:
-		resRating = QString(":/resource/mid-icon16-rankon-h5@2x.png");
+		resRating = QString(":/resource/mid-icon16-rankon-h5.png");
 		break;
 	}
 	if (pixRating.load(resRating))
@@ -171,11 +171,11 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QString resFavorite;
 	if (favorite == 0)
 	{
-		resFavorite = QString(":/resource/mid-icon16-likeoff@2x.png");
+		resFavorite = QString(":/resource/mid-icon16-likeoff.png");
 	}
 	else if (favorite == 1)
 	{
-		resFavorite = QString(":/resource/mid-icon16-likeon@2x.png");
+		resFavorite = QString(":/resource/mid-icon16-likeon.png");
 	}
 	if (pixFavorite.load(resFavorite))
 	{

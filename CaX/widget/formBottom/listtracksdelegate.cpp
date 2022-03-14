@@ -129,7 +129,7 @@ void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QPixmap pixCover;
 	if (cover.isEmpty())
 	{
-		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+		cover = QString(":/resource/playlist-img160-albumart-h.png");
 	}
 	if (pixCover.load(cover))
 	{
@@ -140,11 +140,11 @@ void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QString resCheck;
 	if (select)
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
+		resCheck = QString(":/resource/playlist-btn30-selecton-h.png");
 	}
 	else
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-n@2x.png");
+		resCheck = QString(":/resource/playlist-btn30-selecton-n.png");
 	}
 	if (pixCheck.load(resCheck))
 	{
@@ -152,14 +152,14 @@ void ListTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	}
 
 	QPixmap pixPlay;
-	QString resPlay = QString(":/resource/browser-icon16-playnow@2x.png");
+	QString resPlay = QString(":/resource/browser-icon16-playnow.png");
 	if (pixPlay.load(resPlay))
 	{
 		painter->drawPixmap(rectPlay, pixPlay);
 	}
 
 	QPixmap pixMenu;
-	QString resMenu = QString(":/resource/play-btn28-popupmenu-n@2x.png");
+	QString resMenu = QString(":/resource/play-btn28-popupmenu-n.png");
 	if (pixMenu.load(resMenu))
 	{
 		painter->drawPixmap(rectMenu, pixMenu);

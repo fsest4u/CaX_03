@@ -104,7 +104,7 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QPixmap pixCover;
 	if (cover.isEmpty())
 	{
-		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+		cover = QString(":/resource/playlist-img160-albumart-h.png");
 	}
 	if (pixCover.load(cover))
 	{
@@ -120,11 +120,11 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 		QString resCheck;
 		if (select)
 		{
-			resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
+			resCheck = QString(":/resource/playlist-btn30-selecton-h.png");
 		}
 		else
 		{
-			resCheck = QString(":/resource/playlist-btn30-selecton-n@2x.png");
+			resCheck = QString(":/resource/playlist-btn30-selecton-n.png");
 		}
 		if (pixCheck.load(resCheck))
 		{
@@ -138,11 +138,11 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 		QString resPlay;
 		if (mute)
 		{
-			resPlay = QString(":/resource/groupp-icon30-volume-mute@2x.png");
+			resPlay = QString(":/resource/groupp-icon30-volume-mute.png");
 		}
 		else
 		{
-			resPlay = QString(":/resource/groupp-icon30-volume@2x.png");
+			resPlay = QString(":/resource/groupp-icon30-volume.png");
 		}
 		if (pixPlay.load(resPlay))
 		{

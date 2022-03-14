@@ -54,7 +54,7 @@ void SearchCategoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 	QPixmap pixCover;
 	if (cover.isEmpty())
 	{
-		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+		cover = QString(":/resource/playlist-img160-albumart-h.png");
 	}
 	if (pixCover.load(cover))
 	{

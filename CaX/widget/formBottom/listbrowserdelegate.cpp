@@ -122,7 +122,7 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QPixmap pixCover;
 	if (cover.isEmpty())
 	{
-		cover = QString(":/resource/playlist-img160-albumart-h@2x.png");
+		cover = QString(":/resource/playlist-img160-albumart-h.png");
 	}
 	if (pixCover.load(cover))
 	{
@@ -133,11 +133,11 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QString resCheck;
 	if (select)
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-h@2x.png");
+		resCheck = QString(":/resource/playlist-btn30-selecton-h.png");
 	}
 	else
 	{
-		resCheck = QString(":/resource/playlist-btn30-selecton-n@2x.png");
+		resCheck = QString(":/resource/playlist-btn30-selecton-n.png");
 	}
 	if (pixCheck.load(resCheck))
 	{
@@ -145,7 +145,7 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	}
 
 	QPixmap pixPlay;
-	QString resPlay = QString(":/resource/browser-icon16-playnow@2x.png");
+	QString resPlay = QString(":/resource/browser-icon16-playnow.png");
 	if (SIDEMENU_BROWSER == m_Service)
 	{
 		if (iFolderType_Mask_Play_Select & type)
@@ -182,7 +182,7 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	}
 
 	QPixmap pixMenu;
-	QString resMenu = QString(":/resource/play-btn28-popupmenu-n@2x.png");
+	QString resMenu = QString(":/resource/play-btn28-popupmenu-n.png");
 	if (SIDEMENU_BROWSER == m_Service)
 	{
 		if (pixMenu.load(resMenu))
