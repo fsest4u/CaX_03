@@ -167,7 +167,7 @@ void PlaylistWindow::SlotRespError(QString errMsg)
 	dialog.exec();
 }
 
-void PlaylistWindow::SlotRefresh()
+void PlaylistWindow::SlotRefresh(CJsonNode node)
 {
 	if (m_TypeMode == TYPE_MODE_TRACK)
 	{
@@ -646,7 +646,7 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(this, SIGNAL(SigRemoveWidget(QWidget*)), parent(), SLOT(SlotRemoveWidget(QWidget*)));
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
-	connect(m_pMgr, SIGNAL(SigRefresh()), this, SLOT(SlotRefresh()));
+	connect(m_pMgr, SIGNAL(SigRefresh(CJsonNode)), this, SLOT(SlotRefresh(CJsonNode)));
 
 	connect(m_pMgr, SIGNAL(SigRespPlaylist(QList<CJsonNode>)), this, SLOT(SlotRespPlaylist(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespPlaylistInfo(CJsonNode)), this, SLOT(SlotRespPlaylistInfo(CJsonNode)));

@@ -287,7 +287,7 @@ void PlaylistManager::SlotRespInfo(QString json, int cmdID)
 	case PLAYLIST_DEL_TRACK:
 	case PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST:
 	case PLAYLIST_ADD_TRACK_FROM_PLAYLIST:
-		emit SigRefresh();
+		emit SigRefresh(node);
 		break;
 
 	}
@@ -311,7 +311,7 @@ void PlaylistManager::ParsePlaylist(CJsonNode node)
 		}
 		else
 		{
-			emit SigRefresh();
+			emit SigRefresh(node);
 		}
 		return;
 	}
@@ -365,7 +365,7 @@ void PlaylistManager::ParsePlaylistInfo(CJsonNode node)
 		}
 		else
 		{
-			emit SigRefresh();
+			emit SigRefresh(node);
 		}
 		return;
 	}

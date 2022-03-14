@@ -33,7 +33,7 @@ signals:
 	void SigRespPlaylistInfo(CJsonNode node);
 	void SigRespTrackList(QList<CJsonNode> list);
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
-	void SigRefresh();
+	void SigRefresh(CJsonNode node);
 
 private slots:
 

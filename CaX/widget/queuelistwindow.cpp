@@ -2,8 +2,10 @@
 #include "ui_queuelistwindow.h"
 
 #include "dialog/commondialog.h"
+#include "dialog/inputnamedialog.h"
 
 #include "manager/queuelistmanager.h"
+#include "manager/playlistmanager.h"
 
 #include "util/utilnovatron.h"
 
@@ -18,6 +20,7 @@
 QueuelistWindow::QueuelistWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
 	m_pMgr(new QueuelistManager),
+	m_pPlaylistMgr(new PlaylistManager),
 	m_Track(new QueueTrack(this)),
 	m_Lyrics(new QueueLyrics(this)),
 	m_Artist(new QueueArtist(this)),
@@ -30,6 +33,7 @@ QueuelistWindow::QueuelistWindow(QWidget *parent, const QString &addr, const int
 	ui->setupUi(this);
 
 	m_pMgr->SetAddr(addr);
+	m_pPlaylistMgr->SetAddr(addr);
 
 	ConnectSigToSlot();
 	Initialize();
@@ -42,6 +46,12 @@ QueuelistWindow::~QueuelistWindow()
 	{
 		delete m_pMgr;
 		m_pMgr = nullptr;
+	}
+
+	if (m_pPlaylistMgr)
+	{
+		delete m_pPlaylistMgr;
+		m_pPlaylistMgr = nullptr;
 	}
 
 	if (m_Track)
@@ -252,6 +262,7 @@ void QueuelistWindow::SlotRespTrackInfo(CJsonNode node)
 
 	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
 	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+	menuMap.insert(OPTION_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
 
 	ClearMenu();
 	SetMenu(menuMap);
@@ -295,7 +306,29 @@ void QueuelistWindow::SlotMenuAction(QAction *action)
 	case OPTION_MENU_GO_TO_ARTIST:
 		DoMenuGoToArtist();
 		break;
+	case OPTION_MENU_MAKE_PLAYLIST:
+		DoMenuMakePlaylist();
+		break;
 	}
+}
+
+void QueuelistWindow::SlotRefresh(CJsonNode node)
+{
+	int id = node.GetInt(KEY_ID_UPPER);
+	if (id <= 0)
+	{
+		return;
+	}
+
+	QMap<int, bool> idMap;
+
+	QList<CJsonNode> list = m_Track->GetNodeList();
+	foreach(CJsonNode tempNode, list)
+	{
+		int songID = tempNode.GetInt(KEY_SONG);
+		idMap.insert(songID, true);
+	}
+	m_pPlaylistMgr->RequestAddTrackFromPlaylist(id, idMap);
 }
 
 void QueuelistWindow::ConnectSigToSlot()
@@ -314,6 +347,8 @@ void QueuelistWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
+
+	connect(m_pPlaylistMgr, SIGNAL(SigRefresh(CJsonNode)), this, SLOT(SlotRefresh(CJsonNode)));
 
 	connect(m_Track->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 
@@ -476,6 +511,7 @@ void QueuelistWindow::DoMenuFavorite()
 
 	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
 	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+	menuMap.insert(OPTION_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
 
 	ClearMenu();
 	SetMenu(menuMap);
@@ -516,6 +552,20 @@ void QueuelistWindow::DoMenuGoToArtist()
 	m_pMusicDBWin->RequestCategoryList(m_TrackArtistID);
 
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
+}
+
+void QueuelistWindow::DoMenuMakePlaylist()
+{
+	LogDebug("make a playlist");
+
+	InputNameDialog dialog;
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString name = dialog.GetName();
+
+		m_pPlaylistMgr->RequestAddPlaylist(name);
+	}
+
 }
 
 int QueuelistWindow::GetRating() const

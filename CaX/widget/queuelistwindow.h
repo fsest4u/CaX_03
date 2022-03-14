@@ -7,6 +7,7 @@
 #include "util/CJsonNode.h"
 
 class QueuelistManager;
+class PlaylistManager;
 class QueueTrack;
 class QueueLyrics;
 class QueueArtist;
@@ -66,6 +67,8 @@ private slots:
 	void SlotMenu();
 	void SlotMenuAction(QAction *action);
 
+	void SlotRefresh(CJsonNode node);
+
 private:
 
 	void ConnectSigToSlot();
@@ -83,8 +86,11 @@ private:
 	void DoMenuFavorite();
 	void DoMenuGoToAlbum();
 	void DoMenuGoToArtist();
+	void DoMenuMakePlaylist();
 
 	QueuelistManager	*m_pMgr;
+	PlaylistManager		*m_pPlaylistMgr;
+
 	QueueTrack			*m_Track;
 	QueueLyrics			*m_Lyrics;
 	QueueArtist			*m_Artist;

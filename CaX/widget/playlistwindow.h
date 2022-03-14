@@ -44,7 +44,7 @@ private slots:
 	void SlotRemoveWidget(QWidget *widget);
 
 	void SlotRespError(QString errMsg);
-	void SlotRefresh();
+	void SlotRefresh(CJsonNode node);
 	void SlotRespPlaylist(QList<CJsonNode> list);
 	void SlotRespPlaylistInfo(CJsonNode node);
 	void SlotRespTrackList(QList<CJsonNode> list);
