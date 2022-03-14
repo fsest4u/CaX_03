@@ -828,6 +828,8 @@ void MainWindow::SlotAddQueueList(CJsonNode node)
 	m_pQueueWin = new QueuelistWindow(this, m_strAddr, m_EventID);
 	SlotAddWidget(m_pQueueWin, STR_NOW_PLAY);
 	m_pQueueWin->SetNodeInfo(node);
+
+	connect(m_pQueueWin, SIGNAL(SigUpdateTimeStamp(uint)), ui->widgetPlay, SLOT(SlotUpdateTimeStamp(uint)));
 }
 
 void MainWindow::SlotSetPlayInfo(CJsonNode node, bool show)
@@ -844,6 +846,8 @@ void MainWindow::SlotSetPlayInfo(CJsonNode node, bool show)
 			m_pQueueWin = new QueuelistWindow(this, m_strAddr, m_EventID);
 			SlotAddWidget(m_pQueueWin, STR_NOW_PLAY);
 			m_pQueueWin->SetPlayInfo(m_NodePlay);
+
+			connect(m_pQueueWin, SIGNAL(SigUpdateTimeStamp(uint)), ui->widgetPlay, SLOT(SlotUpdateTimeStamp(uint)));
 		}
 	}
 }

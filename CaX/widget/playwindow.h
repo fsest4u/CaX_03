@@ -51,6 +51,7 @@ private slots:
 	void SlotPlayTimeSliderValueChanged(int value);
 	void SlotPlayTimeSliderReleased();
 	void SlotPlayTimeSliderUpdate();
+	void SlotUpdateTimeStamp(uint timestamp);
 
 	void SlotEventNowPlay(CJsonNode node);
 	void SlotTrackInfo(CJsonNode node);

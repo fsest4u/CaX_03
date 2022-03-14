@@ -48,6 +48,52 @@ void QueuelistManager::RequestUpdateTrackFavorite(int id, int favorite)
 	RequestCommand(node, QUEUELIST_UPDATE_TRACK_FAVORITE);
 }
 
+void QueuelistManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap)
+{
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+		idArr.AppendArray((int64_t)i.key());
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAYLIST);
+	node.Add(KEY_CMD1, VAL_ADD);
+	node.AddInt(KEY_PLS_ID, id);
+	node.AddInt(KEY_SONG_ORDER, 0);
+	node.Add(KEY_CMD2, VAL_SONG);
+	node.Add(KEY_IDS, idArr);
+
+	RequestCommand(node, QUEUELIST_ADD_TO_PLAYLIST);
+}
+
+void QueuelistManager::RequestQueueList(uint timestamp)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_PLAY);
+	node.Add	(KEY_CMD1,		VAL_LIST);
+	node.AddInt	(KEY_TIME_STAMP,timestamp);
+	node.AddInt	(KEY_INDEX,		0);
+	node.AddInt	(KEY_PAGE_CNT,	100);
+
+	RequestCommand(node, QUEUELIST_QUEUE_LIST);
+}
+
+void QueuelistManager::RequestDeletePlayQueue(int id, int eventID)
+{
+	QList<int> list;
+	list.append(id);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAY);
+	node.Add(KEY_CMD1, VAL_DEL);
+	node.AddInt(KEY_EVENT_ID, eventID);
+	node.Add(KEY_INDEXES, list);
+
+	RequestCommand(node, QUEUELIST_DELETE_PLAY_QUEUE);
+}
+
 SQLManager *QueuelistManager::GetSqlMgr() const
 {
 	return m_pSql;
@@ -88,24 +134,20 @@ void QueuelistManager::SlotRespInfo(QString json, int nCmdID)
 		return;
 	}
 
-	CJsonNode result = node.GetArray(VAL_RESULT);
-	if (result.ArraySize() <= 0)
-	{
-//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
-		return;
-	}
-
-	if (nCmdID == QUEUELIST_UPDATE_TRACK_FAVORITE)
-	{
-		return;
-	}
-
 	switch (nCmdID)
 	{
 	case QUEUELIST_TRACK_INFO:
-		ParseTrackInfo(result);
+		ParseTrackInfo(node);
+		break;
+	case QUEUELIST_QUEUE_LIST:
+		ParseQueueList(node);
+		break;
+	case QUEUELIST_DELETE_PLAY_QUEUE:
+		ParseDeleteQueue(node);
 		break;
 	case QUEUELIST_TRACK_PLAY:
+	case QUEUELIST_ADD_TO_PLAYLIST:
+	case QUEUELIST_UPDATE_TRACK_FAVORITE:
 		break;
 	case QUEUELIST_MAX:
 		emit SigRespError(STR_INVALID_ID);
@@ -118,8 +160,33 @@ void QueuelistManager::SlotRespCoverArt(QString fileName, int nIndex, int mode)
 	emit SigCoverArtUpdate(fileName, nIndex, mode);
 }
 
-void QueuelistManager::ParseTrackInfo(CJsonNode result)
+void QueuelistManager::ParseTrackInfo(CJsonNode node)
 {
-	CJsonNode node = result.GetArrayAt(0);
-	emit SigRespTrackInfo(node);
+
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
+	CJsonNode tempNode = result.GetArrayAt(0);
+	emit SigRespTrackInfo(tempNode);
+}
+
+void QueuelistManager::ParseQueueList(CJsonNode node)
+{
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
+	emit SigRespQueueList(result);
+}
+
+void QueuelistManager::ParseDeleteQueue(CJsonNode node)
+{
+	emit SigRespDeleteQueue(node);
 }

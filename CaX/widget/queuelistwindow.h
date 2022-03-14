@@ -46,6 +46,8 @@ signals:
 
 	void SigRemoveQueueWidget();
 
+	void SigUpdateTimeStamp(uint timestamp);
+
 	void SigMenu();
 	void SigMenuAction(int menuID);
 
@@ -69,6 +71,14 @@ private slots:
 
 	void SlotRefresh(CJsonNode node);
 
+	void SlotFavorite(int id, int favorite);
+	void SlotAddToPlaylist(int id);
+	void SlotGoToAlbum(int albumID);
+	void SlotGoToArtist(int artistID);
+
+	void SlotUpdateTimeStamp(uint timestamp, int count, int time);
+	void SlotOptionMenuAddToPlaylist(int id);
+
 private:
 
 	void ConnectSigToSlot();
@@ -83,9 +93,9 @@ private:
 	void SetPlayIndex(int total, int currPlay);
 	void SetTotalTime(int time);
 
-	void DoMenuFavorite();
-	void DoMenuGoToAlbum();
-	void DoMenuGoToArtist();
+	void DoMenuFavorite(int trackID, int favorite);
+	void DoMenuGoToAlbum(int albumID, QString cover);
+	void DoMenuGoToArtist(int artistID);
 	void DoMenuMakePlaylist();
 
 	QueuelistManager	*m_pMgr;

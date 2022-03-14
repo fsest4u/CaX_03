@@ -214,6 +214,11 @@ void PlayWindow::SlotPlayTimeSliderUpdate()
 	SetPlayTimeSliderState();
 }
 
+void PlayWindow::SlotUpdateTimeStamp(uint timestamp)
+{
+	m_TimeStamp = timestamp;
+}
+
 void PlayWindow::SlotEventNowPlay(CJsonNode node)
 {
 	QString state = node.GetString(KEY_PLAY_STATE);
@@ -253,8 +258,15 @@ void PlayWindow::SlotCoverArtUpdate(QString fileName)
 
 void PlayWindow::SlotQueueList(CJsonNode node)
 {
-	emit SigAddQueueList(node);
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("m_PlayInfo [%s]", m_PlayInfo.ToTabedByteArray().data());
 
+	if (node.GetInt64(KEY_TIME_STAMP) > m_PlayInfo.GetInt64(KEY_TIME_STAMP))
+	{
+		m_PlayInfo.AddInt(KEY_TOTAL_UPPER, node.GetInt(KEY_TOTAL_UPPER));
+	}
+
+	emit SigAddQueueList(node);
 	emit SigSetPlayInfo(m_PlayInfo, false);
 }
 

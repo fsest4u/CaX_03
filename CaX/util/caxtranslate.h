@@ -92,6 +92,7 @@
 #define STR_DELETE_PLAYLIST			QObject::tr("Delete playlist")
 //#define STR_DELETE_RADIO			QObject::tr("Delete radio")
 #define STR_DELETE_FROM_PLAYLIST	QObject::tr("Delete track from playlist")
+#define STR_DELETE_FROM_PLAY_QUEUE	QObject::tr("Delete from play queue")
 #define STR_DELETE_SHARE			QObject::tr("Delete share")
 #define STR_DELETE_TO_FAVORITE		QObject::tr("Delete to favorite")
 #define STR_EDIT	          		QObject::tr("Edit")

@@ -9,7 +9,6 @@
 
 #include "util/utilnovatron.h"
 
-#include "widget/musicdbwindow.h"
 #include "widget/form/formcoverart.h"
 #include "widget/form/formtitle.h"
 #include "widget/formQueue/queuetrack.h"
@@ -17,11 +16,13 @@
 #include "widget/formQueue/queuelyrics.h"
 #include "widget/formQueue/queueartist.h"
 
+#include "widget/musicdbwindow.h"
+#include "widget/playlistwindow.h"
+
 QueuelistWindow::QueuelistWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
 	m_pMgr(new QueuelistManager),
 	m_pPlaylistMgr(new PlaylistManager),
-	m_Track(new QueueTrack(this)),
 	m_Lyrics(new QueueLyrics(this)),
 	m_Artist(new QueueArtist(this)),
 	m_Menu(new QMenu(this)),
@@ -34,6 +35,8 @@ QueuelistWindow::QueuelistWindow(QWidget *parent, const QString &addr, const int
 
 	m_pMgr->SetAddr(addr);
 	m_pPlaylistMgr->SetAddr(addr);
+
+	m_Track = new QueueTrack(this, m_pMgr->GetAddr(), m_EventID);
 
 	ConnectSigToSlot();
 	Initialize();
@@ -298,13 +301,13 @@ void QueuelistWindow::SlotMenuAction(QAction *action)
 	switch (menuID)
 	{
 	case OPTION_MENU_FAVORITE:
-		DoMenuFavorite();
+		DoMenuFavorite(m_TrackID, m_TrackFavorite);
 		break;
 	case OPTION_MENU_GO_TO_ALBUM:
-		DoMenuGoToAlbum();
+		DoMenuGoToAlbum(m_TrackAlbumID, m_AlbumCoverArt);
 		break;
 	case OPTION_MENU_GO_TO_ARTIST:
-		DoMenuGoToArtist();
+		DoMenuGoToArtist(m_TrackArtistID);
 		break;
 	case OPTION_MENU_MAKE_PLAYLIST:
 		DoMenuMakePlaylist();
@@ -331,6 +334,49 @@ void QueuelistWindow::SlotRefresh(CJsonNode node)
 	m_pPlaylistMgr->RequestAddTrackFromPlaylist(id, idMap);
 }
 
+void QueuelistWindow::SlotFavorite(int id, int favorite)
+{
+	DoMenuFavorite(id, favorite);
+}
+
+void QueuelistWindow::SlotAddToPlaylist(int id)
+{
+	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
+	widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
+	widget->RequestPlaylist();
+
+	emit widget->SigAddWidget(widget, STR_PLAYLIST);
+
+	connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));
+}
+
+void QueuelistWindow::SlotGoToAlbum(int albumID)
+{
+	DoMenuGoToAlbum(albumID, m_AlbumCoverArt);
+}
+
+void QueuelistWindow::SlotGoToArtist(int artistID)
+{
+	DoMenuGoToArtist(artistID);
+}
+
+void QueuelistWindow::SlotUpdateTimeStamp(uint timestamp, int count, int time)
+{
+	emit SigUpdateTimeStamp(timestamp);
+
+	ui->labelTotalCount->setText(QString::number(count));
+	SetTotalTime(time);
+}
+
+void QueuelistWindow::SlotOptionMenuAddToPlaylist(int id)
+{
+	QMap<int, bool> map;
+	map.insert(m_TrackID, true);
+
+	m_pMgr->RequestAddToPlaylist(id, map);
+}
+
+
 void QueuelistWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
@@ -349,6 +395,12 @@ void QueuelistWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pPlaylistMgr, SIGNAL(SigRefresh(CJsonNode)), this, SLOT(SlotRefresh(CJsonNode)));
+
+	connect(m_Track, SIGNAL(SigFavorite(int, int)), this, SLOT(SlotFavorite(int, int)));
+	connect(m_Track, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotAddToPlaylist(int)));
+	connect(m_Track, SIGNAL(SigGoToAlbum(int)), this, SLOT(SlotGoToAlbum(int)));
+	connect(m_Track, SIGNAL(SigGoToArtist(int)), this, SLOT(SlotGoToArtist(int)));
+	connect(m_Track, SIGNAL(SigUpdateTimeStamp(uint, int, int)), this, SLOT(SlotUpdateTimeStamp(uint, int, int)));
 
 	connect(m_Track->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 
@@ -475,8 +527,8 @@ void QueuelistWindow::SetPlayIndex(int total, int currPlay)
 {
 	if (total >= 0 && currPlay >= 0)
 	{
-		QString count = QString("%1 / %2").arg(currPlay + 1).arg(total);
-		ui->labelCount->setText(count);
+		ui->labelCurPlay->setText(QString::number(currPlay + 1));
+		ui->labelTotalCount->setText(QString::number(total));
 
 		m_Track->SetCurrentIndex(currPlay);
 	}
@@ -491,33 +543,33 @@ void QueuelistWindow::SetTotalTime(int time)
 	}
 }
 
-void QueuelistWindow::DoMenuFavorite()
+void QueuelistWindow::DoMenuFavorite(int trackID, int favorite)
 {
-	QMap<int, QString>	menuMap;
-
-	m_TrackFavorite = m_TrackFavorite == 0 ? 1 : 0;
+	favorite = favorite == 0 ? 1 : 0;
 //	LogDebug("DoMenuFavorite favorite [%d]", m_TrackFavorite);
 
-	m_pMgr->RequestUpdateTrackFavorite(m_TrackID, m_TrackFavorite);
+	m_pMgr->RequestUpdateTrackFavorite(trackID, favorite);
 
-	if (m_TrackFavorite == 1)
-	{
-		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
-	}
-	else
-	{
-		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
-	}
+//	QMap<int, QString>	menuMap;
 
-	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
-	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
-	menuMap.insert(OPTION_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
+//	if (m_TrackFavorite == 1)
+//	{
+//		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+//	}
+//	else
+//	{
+//		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+//	}
 
-	ClearMenu();
-	SetMenu(menuMap);
+//	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+//	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+//	menuMap.insert(OPTION_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
+
+//	ClearMenu();
+//	SetMenu(menuMap);
 }
 
-void QueuelistWindow::DoMenuGoToAlbum()
+void QueuelistWindow::DoMenuGoToAlbum(int albumID, QString cover)
 {
 	if (m_pMusicDBWin)
 	{
@@ -530,13 +582,13 @@ void QueuelistWindow::DoMenuGoToAlbum()
 //	LogDebug("DoMenuGoToAlbum id [%d]", m_TrackAlbumID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	m_pMusicDBWin->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
-	m_pMusicDBWin->RequestTrackList(m_TrackAlbumID);
-	m_pMusicDBWin->SetCoverArt(m_AlbumCoverArt);
+	m_pMusicDBWin->RequestTrackList(albumID);
+	m_pMusicDBWin->SetCoverArt(cover);
 
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
 }
 
-void QueuelistWindow::DoMenuGoToArtist()
+void QueuelistWindow::DoMenuGoToArtist(int artistID)
 {
 	if (m_pMusicDBWin)
 	{
@@ -549,7 +601,7 @@ void QueuelistWindow::DoMenuGoToArtist()
 //	LogDebug("DoMenuGoToArtist id [%d]", m_TrackArtistID);
 	m_pMusicDBWin = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	m_pMusicDBWin->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
-	m_pMusicDBWin->RequestCategoryList(m_TrackArtistID);
+	m_pMusicDBWin->RequestCategoryList(artistID);
 
 	emit m_pMusicDBWin->SigAddWidget(m_pMusicDBWin, STR_MUSIC_DB);
 }

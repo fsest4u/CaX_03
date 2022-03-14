@@ -53,18 +53,20 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 //	int gap = ( rectBase.width() - (20 + 400 + 100 + 100) ) / 3;
 	QRect rectPlay = QRect(rectBase.x(), rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
 	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + 20, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 400, fmTitle.height());
-	QRect rectArtist = QRect(rectBase.width() - 100 - 20, rectTitle.y(), 100, fmTitle.height());
+	QRect rectMenu = QRect(rectBase.width() - 29 - 20, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
+	QRect rectArtist = QRect(rectMenu.x() - 100 - 20, rectTitle.y(), 100, fmTitle.height());
 	QRect rectDuration = QRect(rectArtist.x() - 100 - 20, rectTitle.y(), 100, fmTitle.height());
 	rectTitle.setWidth(rectDuration.x() - rectTitle.x() - 20);
 
 	painter->setPen(QColor(255, 255, 255));
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
-//	painter->drawRect(rectOrig);
-//	painter->drawRect(rectPlay);
-//	painter->drawRect(rectTitle);
-//	painter->drawRect(rectDuration);
-//	painter->drawRect(rectArtist);
+	painter->drawRect(rectOrig);
+	painter->drawRect(rectPlay);
+	painter->drawRect(rectTitle);
+	painter->drawRect(rectDuration);
+	painter->drawRect(rectArtist);
+	painter->drawRect(rectMenu);
 
 	QPixmap pixPlay;
 	QString resPlay;
@@ -79,6 +81,13 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	if (pixPlay.load(resPlay))
 	{
 		painter->drawPixmap(rectPlay, pixPlay);
+	}
+
+	QPixmap pixMenu;
+	QString resMenu = QString(":/resource/play-btn28-popupmenu-n.png");
+	if (pixMenu.load(resMenu))
+	{
+		painter->drawPixmap(rectMenu, pixMenu);
 	}
 
 	if (!title.isEmpty())
@@ -131,11 +140,14 @@ bool QueueTrackDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	int gap = ( rectBase.width() - (20 + 200 + 200 + 200) ) / 3;
+//	int gap = ( rectBase.width() - (20 + 400 + 100 + 100) ) / 3;
 	QRect rectPlay = QRect(rectBase.x(), rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
-	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
-	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
-	QRect rectArtist = QRect(rectBase.width() - 200 - 20, rectTitle.y(), 200, fmTitle.height());
+	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + 20, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 400, fmTitle.height());
+	QRect rectMenu = QRect(rectBase.width() - 29 - 20, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
+	QRect rectArtist = QRect(rectMenu.x() - 100 - 20, rectTitle.y(), 100, fmTitle.height());
+	QRect rectDuration = QRect(rectArtist.x() - 100 - 20, rectTitle.y(), 100, fmTitle.height());
+	rectTitle.setWidth(rectDuration.x() - rectTitle.x() - 20);
+
 
 	QPoint curPoint(((QMouseEvent*)event)->x(), ((QMouseEvent*)event)->y());
 //	LogDebug("editorEvent ~ x [%d] y [%d] w [%d] h [%d] row [%d] ", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
@@ -159,6 +171,10 @@ bool QueueTrackDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 			else if (rectArtist.contains(curPoint))
 			{
 //				emit SigSelectTitle(nIndex, cover);
+			}
+			else if (rectMenu.contains(curPoint))
+			{
+				emit SigSelectMenu(index, curPoint);
 			}
 		}
 	}

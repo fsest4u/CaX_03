@@ -955,6 +955,7 @@ LIMIT 0, 100	\
 
 #define SQL_QUEUE_TRACK_INFO	"	\
 SELECT	\
+	Song.ROWID as id,	\
 	Album.Name as Album,	\
 	Album.ROWID as AlbumID,	\
 	Artist.Name as Artist,	\

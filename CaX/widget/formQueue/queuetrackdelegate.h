@@ -25,6 +25,7 @@ signals:
 //	void SigSelectTitle(int index);
 //	void SigSelectTime(int index);
 //	void SigSelectArtist(int index);
+	void SigSelectMenu(const QModelIndex &modelIndex, QPoint point);
 
 private slots:
 
