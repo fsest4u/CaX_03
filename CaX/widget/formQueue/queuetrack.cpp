@@ -68,6 +68,7 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list)
 		item->setData(hhmmss, QueueTrackDelegate::QUEUE_TRACKS_TIME);
 		item->setData(node.GetString(KEY_BOT), QueueTrackDelegate::QUEUE_TRACKS_ARTIST);
 		item->setData(index, QueueTrackDelegate::QUEUE_TRACKS_INDEX);
+		item->setData(false, QueueTrackDelegate::QUEUE_TRACKS_PLAY_STATUS);
 
 		m_Model->appendRow(item);
 
@@ -88,7 +89,17 @@ void QueueTrack::ClearNodeList()
 
 void QueueTrack::SetCurrentIndex(int index)
 {
+	if (m_IndexOld >= 0)
+	{
+		QModelIndex oldModelIndex = m_Model->index(m_IndexOld, 0);
+		m_Model->setData(oldModelIndex, false, QueueTrackDelegate::QUEUE_TRACKS_PLAY_STATUS);
+	}
+
+	m_IndexOld = index;
+
 	QModelIndex modelIndex = m_Model->index(index, 0);
+	m_Model->setData(modelIndex, true, QueueTrackDelegate::QUEUE_TRACKS_PLAY_STATUS);
+
 	m_ListView->setCurrentIndex(modelIndex);
 }
 
@@ -115,4 +126,5 @@ void QueueTrack::Initialize()
 
 	ui->gridLayout->addWidget(m_ListView);
 
+	m_IndexOld = -1;
 }

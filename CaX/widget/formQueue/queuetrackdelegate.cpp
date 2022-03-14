@@ -43,6 +43,7 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QString title = qvariant_cast<QString>(index.data(QUEUE_TRACKS_TITLE));
 	QString duration = qvariant_cast<QString>(index.data(QUEUE_TRACKS_TIME));
 	QString artist = qvariant_cast<QString>(index.data(QUEUE_TRACKS_ARTIST));
+	bool playStatus = qvariant_cast<bool>(index.data(QUEUE_TRACKS_PLAY_STATUS));
 
 	QFont fontTitle("Segoe UI", 14, QFont::Normal, false);
 	QFontMetrics fmTitle(fontTitle);
@@ -65,7 +66,15 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 //	painter->drawRect(rectArtist);
 
 	QPixmap pixPlay;
-	QString resPlay = QString(":/resource/btm-btn40-play-n@2x.png");
+	QString resPlay;
+	if (playStatus)
+	{
+		resPlay = QString(":/resource/play-btn20-pause-icon.png");
+	}
+	else
+	{
+		resPlay = QString(":/resource/btm-btn40-play-n.png");
+	}
 	if (pixPlay.load(resPlay))
 	{
 		painter->drawPixmap(rectPlay, pixPlay);

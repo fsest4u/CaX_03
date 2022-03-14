@@ -40,6 +40,8 @@ private:
 
 	QList<CJsonNode>		m_NodeList;
 
+	int						m_IndexOld;
+
 	Ui::QueueTrack *ui;
 };
 
