@@ -176,7 +176,8 @@ void FormSort::SlotBtnResize()
 
 void FormSort::SlotResizeSliderValueChanged(int value)
 {
-	emit SigResize(value);
+	m_ResizeValue = value;
+	emit SigResize(m_ResizeValue);
 }
 
 void FormSort::Initialize()
