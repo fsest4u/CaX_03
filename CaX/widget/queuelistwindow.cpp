@@ -556,16 +556,12 @@ void QueuelistWindow::DoMenuGoToArtist()
 
 void QueuelistWindow::DoMenuMakePlaylist()
 {
-	LogDebug("make a playlist");
-
 	InputNameDialog dialog;
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		QString name = dialog.GetName();
-
 		m_pPlaylistMgr->RequestAddPlaylist(name);
 	}
-
 }
 
 int QueuelistWindow::GetRating() const
