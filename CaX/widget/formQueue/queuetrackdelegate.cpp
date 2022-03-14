@@ -50,11 +50,12 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	int gap = ( rectBase.width() - (20 + 200 + 200 + 200) ) / 3;
+//	int gap = ( rectBase.width() - (20 + 400 + 100 + 100) ) / 3;
 	QRect rectPlay = QRect(rectBase.x(), rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
-	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
-	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
-	QRect rectArtist = QRect(rectBase.width() - 200 - 20, rectTitle.y(), 200, fmTitle.height());
+	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + 20, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 400, fmTitle.height());
+	QRect rectArtist = QRect(rectBase.width() - 100 - 20, rectTitle.y(), 100, fmTitle.height());
+	QRect rectDuration = QRect(rectArtist.x() - 100 - 20, rectTitle.y(), 100, fmTitle.height());
+	rectTitle.setWidth(rectDuration.x() - rectTitle.x() - 20);
 
 	painter->setPen(QColor(255, 255, 255));
 
