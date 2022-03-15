@@ -237,6 +237,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -287,6 +289,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -335,6 +339,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -385,6 +391,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -435,6 +443,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -485,6 +495,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -535,6 +547,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -582,6 +596,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -627,6 +643,8 @@ select	\
 	, Composer.Name as Composer	\
 	, Song.Year as Year	\
 	, Mood.Name as Mood	\
+	, Song.AlbumID as AlbumID	\
+	, Song.ArtistID as ArtistID	\
 	, Song.CdNumber as CdNumber	\
 	, Song.Track as Track	\
 	, Song.Tempo as Tempo	\
@@ -957,9 +975,9 @@ LIMIT 0, 100	\
 SELECT	\
 	Song.ROWID as id,	\
 	Album.Name as Album,	\
-	Album.ROWID as AlbumID,	\
 	Artist.Name as Artist,	\
-	Artist.ROWID as ArtistID,	\
+	Song.AlbumID as AlbumID,	\
+	Song.ArtistID as ArtistID,	\
 	Song.favorite as favorite	\
 FROM Song	\
 INNER JOIN Album on Song.AlbumID = Album.ROWID	\

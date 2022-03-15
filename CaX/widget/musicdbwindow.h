@@ -124,7 +124,7 @@ private slots:
 	void SlotClassifyFormat(bool bAdd, QString id);
 	void SlotClassifyMostPlayed(bool bAdd, QString id);
 
-	void SlotOptionMenuAction(int nID, int menuID);
+	void SlotOptionMenuAction(const QModelIndex &index, int menuID);
 
 	void SlotTopMenuAddToPlaylist(int id);
 	void SlotOptionMenuAddToPlaylist(int id);
@@ -183,6 +183,8 @@ private:
 	void DoOptionMenuSearchCoverArt(int nID);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
+	void DoOptionMenuGoToAlbum(int albumID, QString cover);
+	void DoOptionMenuGoToArtist(int artistID);
 
 //	void DoInsertIgnoreCategoryAll();
 

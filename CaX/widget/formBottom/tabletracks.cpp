@@ -115,6 +115,8 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_SAMPLE_RATE), samplerate);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_BITRATE), bitrate);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_TRACK_COUNT), node.GetString(KEY_COUNT));
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ALBUM_ID), node.GetString(KEY_ALBUM_ID));
+			m_Model->setData(m_Model->index(index, TABLE_TRACKS_ARTIST_ID), node.GetString(KEY_ARTIST_ID));
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_INDEX), index);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_MENU), false);
 
@@ -432,23 +434,23 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 	int col = index.column();
 
 //	LogDebug("row [%d] col [%d]", row, col);
-	m_ID = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_ID)));
+	int id = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_ID)));
 	if (col == TABLE_TRACKS_SELECT)
 	{
 		bool bSelect = !qvariant_cast<bool>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_SELECT)));
 		m_Model->setData(index, bSelect);
 		if (bSelect)
 		{
-			m_SelectMap.insert(m_ID, bSelect);
+			m_SelectMap.insert(id, bSelect);
 		}
 		else
 		{
-			m_SelectMap.remove(m_ID);
+			m_SelectMap.remove(id);
 		}
 	}
 	else if (col == TableTracks::TABLE_TRACKS_PLAY)
 	{
-		emit SigSelectPlay(m_ID, PLAY_CLEAR);
+		emit SigSelectPlay(id, PLAY_CLEAR);
 	}
 	else if (col == TableTracks::TABLE_TRACKS_TITLE)
 	{
@@ -461,7 +463,7 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 		int favorite = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_FAVORITE)));
 //		favorite = favorite == 0 ? 1 : 0;
 //		m_Model->setData(index, favorite);
-		emit SigSelectFavorite(m_ID, nIndex, favorite);
+		emit SigSelectFavorite(id, nIndex, favorite);
 	}
 	else if (col == TableTracks::TABLE_TRACKS_RATING)
 	{
@@ -469,6 +471,8 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 	}
 	else if (col == TableTracks::TABLE_TRACKS_MENU)
 	{
+		m_ModelIndex = index;
+
 		QRect rect = ui->tableView->visualRect(index);
 		QPoint point = ui->tableView->mapToGlobal(rect.center());
 		point.setX(point.x() + 30);
@@ -594,7 +598,7 @@ void TableTracks::SlotSectionResize(int logicalIndex, int oldWidth, int newWidth
 
 void TableTracks::SlotMenuAction(QAction *action)
 {
-	emit SigMenuAction(m_ID, action->data().toInt());
+	emit SigMenuAction(m_ModelIndex, action->data().toInt());
 }
 
 void TableTracks::ReadSettings()
@@ -723,6 +727,8 @@ void TableTracks::Initialize()
 	ui->tableView->setColumnHidden(TABLE_TRACKS_BITRATE, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_TRACK_COUNT, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ALBUM_GAIN, true);
+	ui->tableView->setColumnHidden(TABLE_TRACKS_ALBUM_ID, true);
+	ui->tableView->setColumnHidden(TABLE_TRACKS_ARTIST_ID, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_INDEX, true);
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_MENU, true);
 

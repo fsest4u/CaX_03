@@ -44,6 +44,8 @@ public:
 		TABLE_TRACKS_BITRATE,
 		TABLE_TRACKS_TRACK_COUNT,
 		TABLE_TRACKS_ALBUM_GAIN,
+		TABLE_TRACKS_ALBUM_ID,
+		TABLE_TRACKS_ARTIST_ID,
 		TABLE_TRACKS_INDEX,
 		TABLE_TRACKS_MENU,
 		TABLE_TRACKS_MAX
@@ -100,7 +102,7 @@ signals:
 	void SigSelectPlay(int id, int playType);
 	void SigSelectTitle(const QModelIndex &index);
 	void SigSelectFavorite(int id, int index, int favorite);
-	void SigMenuAction(int id, int menuID);
+	void SigMenuAction(const QModelIndex &index, int menuID);
 
 protected:
 
@@ -135,7 +137,7 @@ private:
 
 	QMenu					*m_Menu;
 
-	int						m_ID;
+	QModelIndex				m_ModelIndex;
 
 	QPoint					m_PointCurrent;
 

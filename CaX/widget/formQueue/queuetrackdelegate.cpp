@@ -61,12 +61,12 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	painter->setPen(QColor(255, 255, 255));
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
-	painter->drawRect(rectOrig);
-	painter->drawRect(rectPlay);
-	painter->drawRect(rectTitle);
-	painter->drawRect(rectDuration);
-	painter->drawRect(rectArtist);
-	painter->drawRect(rectMenu);
+//	painter->drawRect(rectOrig);
+//	painter->drawRect(rectPlay);
+//	painter->drawRect(rectTitle);
+//	painter->drawRect(rectDuration);
+//	painter->drawRect(rectArtist);
+//	painter->drawRect(rectMenu);
 
 	QPixmap pixPlay;
 	QString resPlay;

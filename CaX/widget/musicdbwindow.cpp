@@ -1708,40 +1708,56 @@ void MusicDBWindow::SlotRespRefresh()
 	DoTopMenuReload();
 }
 
-void MusicDBWindow::SlotOptionMenuAction(int nID, int menuID)
+void MusicDBWindow::SlotOptionMenuAction(const QModelIndex &index, int menuID)
 {
+	int row = index.row();
+	QStandardItemModel *model = m_pTableTracks->GetModel();
+	int id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
+
 	switch (menuID) {
 	case OPTION_MENU_PLAY_NOW:
-		DoOptionMenuPlay(nID, PLAY_NOW);
+		DoOptionMenuPlay(id, PLAY_NOW);
 		break;
 	case OPTION_MENU_PLAY_LAST:
-		DoOptionMenuPlay(nID, PLAY_LAST);
+		DoOptionMenuPlay(id, PLAY_LAST);
 		break;
 	case OPTION_MENU_PLAY_NEXT:
-		DoOptionMenuPlay(nID, PLAY_NEXT);
+		DoOptionMenuPlay(id, PLAY_NEXT);
 		break;
 	case OPTION_MENU_PLAY_CLEAR:
-		DoOptionMenuPlay(nID, PLAY_CLEAR);
+		DoOptionMenuPlay(id, PLAY_CLEAR);
 		break;
 	case OPTION_MENU_ADD_TO_PLAYLIST:
-		DoOptionMenuAddToPlaylist(nID);
+		DoOptionMenuAddToPlaylist(id);
 		break;
 	case OPTION_MENU_TAG_EDIT:
-		DoOptionMenuInfo(nID);
+		DoOptionMenuInfo(id);
 		break;
 	case OPTION_MENU_SEARCH_COVERART:
-		DoOptionMenuSearchCoverArt(nID);
+		DoOptionMenuSearchCoverArt(id);
 		break;
 	case OPTION_MENU_RENAME:
-		DoOptionMenuRename(nID);
+		DoOptionMenuRename(id);
 		break;
 	case OPTION_MENU_GAIN_SET:
-		DoOptionMenuGain(nID, VAL_GAIN_SET);
+		DoOptionMenuGain(id, VAL_GAIN_SET);
 		break;
 	case OPTION_MENU_GAIN_CLEAR:
-		DoOptionMenuGain(nID, VAL_GAIN_CLEAR);
+		DoOptionMenuGain(id, VAL_GAIN_CLEAR);
 		break;
-
+	case OPTION_MENU_GO_TO_ALBUM:
+	{
+		int albumID = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ALBUM_ID)));
+		QString cover = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_COVER)));
+		DoOptionMenuGoToAlbum(albumID, cover);
+	}
+		break;
+	case OPTION_MENU_GO_TO_ARTIST:
+	{
+		int artistID = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ARTIST_ID)));
+		DoOptionMenuGoToArtist(artistID);
+	}
+		break;
 	}
 }
 
@@ -2063,7 +2079,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pTableTracks, SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
 	connect(m_pTableTracks, SIGNAL(SigSelectTitle(const QModelIndex&)), this, SLOT(SlotSelectTitle(const QModelIndex&)));
 	connect(m_pTableTracks, SIGNAL(SigSelectFavorite(int, int, int)), this, SLOT(SlotSelectTrackFavorite(int, int, int)));
-	connect(m_pTableTracks, SIGNAL(SigMenuAction(int, int)), this, SLOT(SlotOptionMenuAction(int, int)));
+	connect(m_pTableTracks, SIGNAL(SigMenuAction(const QModelIndex&, int)), this, SLOT(SlotOptionMenuAction(const QModelIndex&, int)));
 
 }
 
@@ -2664,6 +2680,8 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+		m_OptionMenuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+		m_OptionMenuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -2911,6 +2929,25 @@ void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 									  SQLManager::CATEGORY_TRACK,
 									  m_EventID);
 	}
+}
+
+void MusicDBWindow::DoOptionMenuGoToAlbum(int albumID, QString cover)
+{
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
+	widget->SetCoverArt(cover);
+	widget->RequestTrackList(albumID);
+
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+}
+
+void MusicDBWindow::DoOptionMenuGoToArtist(int artistID)
+{
+	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), m_EventID);
+	widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
+	widget->RequestCategoryList(artistID);
+
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 }
 
 //void MusicDBWindow::DoInsertIgnoreCategoryAll()
