@@ -237,12 +237,13 @@ bool ListTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 	int coverSize = rectBase.height() * 0.9;
-	int gap = ( rectBase.width() - (60 + coverSize + 20 + 200 + 200 + 200 + 200 + 200 + 30 + 60) ) / 7;
 	QRect rectCover = QRect(rectBase.x() + 60, rectBase.y() + (rectBase.height() - coverSize) / 2, coverSize, coverSize);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
-	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + gap, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
-	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + gap, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
-	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 200, fmTitle.height());
+	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + 15, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
+	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + 15, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 200, fmTitle.height());
+	int gap = ( rectBase.width() - rectTitle.x() - (200 + 100 + 200 + 200 + 200 + 30 + 60) ) / 5;
+
+	QRect rectDuration = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 100, fmTitle.height());
 	QRect rectArtist = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 200, fmTitle.height());
 	QRect rectAlbum = QRect(rectArtist.x() + rectArtist.width() + gap, rectTitle.y(), 200, fmTitle.height());
 	QRect rectGenre = QRect(rectAlbum.x() + rectAlbum.width() + gap, rectTitle.y(), 200, fmTitle.height());
