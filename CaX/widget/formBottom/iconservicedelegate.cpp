@@ -93,6 +93,10 @@ void IconServiceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QRect rectTitle = QRect(rectBase.x(), rectBase.y() + rectCover.height(), rectCover.width(), fmTitle.height());
 	QRect rectSubtitle = QRect(rectBase.x(), rectTitle.y() + fmTitle.height(), rectCover.width(), fmSubtitle.height());
 
+	if (m_Service == IconService::ICON_SERVICE_FM_RADIO)
+	{
+		rectSubtitle = QRect(rectBase.x() + 20, rectTitle.y() - fmTitle.height() * 3, rectCover.width() - 20, fmSubtitle.height());
+	}
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 //	painter->drawRect(rectOrig);
 //	painter->drawRect(rectCover);

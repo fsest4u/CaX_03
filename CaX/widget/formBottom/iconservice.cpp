@@ -139,6 +139,7 @@ int IconService::SetNodeList(const QList<CJsonNode> &list, int nService)
 			item->setData(index, IconServiceDelegate::ICON_SERVICE_TYPE);
 			item->setData(node.GetString(KEY_COVER_ART), IconServiceDelegate::ICON_SERVICE_COVER);
 			item->setData(node.GetString(KEY_RIGHT), IconServiceDelegate::ICON_SERVICE_TITLE);
+			item->setData(node.GetString(KEY_LEFT), IconServiceDelegate::ICON_SERVICE_SUBTITLE);
 			item->setData(node.ToCompactString(), IconServiceDelegate::ICON_SERVICE_RAW);
 			item->setData(index, IconServiceDelegate::ICON_SERVICE_INDEX);
 			item->setData(false, IconServiceDelegate::ICON_SERVICE_SELECT);
