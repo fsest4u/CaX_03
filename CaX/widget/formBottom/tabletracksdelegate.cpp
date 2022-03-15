@@ -215,7 +215,7 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	else if (index.column() == TableTracks::TABLE_TRACKS_MENU)
 	{
 		QStyleOptionButton button;
-		button.rect  = QRect(option.rect.x() + (option.rect.width() - 28) / 2,
+		button.rect  = QRect(option.rect.x(),
 							 option.rect.y() + (option.rect.height() - 28) / 2,
 							 28,
 							 28);
