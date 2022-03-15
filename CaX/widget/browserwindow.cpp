@@ -674,8 +674,12 @@ void BrowserWindow::SlotRespError(QString errMsg)
 {
 	if (BROWSER_MODE_NORMAL == m_BrowserMode)
 	{
-		CommonDialog dialog(this, STR_WARNING, errMsg);
-		dialog.exec();
+		LogDebug("error [%s]", errMsg.toUtf8().data());
+		if (errMsg.compare(STR_NO_RESULT))
+		{
+			CommonDialog dialog(this, STR_WARNING, errMsg);
+			dialog.exec();
+		}
 
 		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
 
