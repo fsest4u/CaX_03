@@ -617,13 +617,7 @@ void IServiceWindow::SlotRespForm(int nServiceType, CJsonNode node)
 		QString url = node.GetString(KEY_URL);
 		url = url + "?q=" + keyword;
 
-		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
-		widget->SetInternetType(m_InternetType);
-		widget->AddWidgetItem();
-		widget->SetNode(node);
-		widget->RequestIServiceURL(url);
-
-		emit widget->SigAddWidget(widget, STR_ISERVICE);
+		RequestIServiceURL(url);
 	}
 }
 

@@ -1,3 +1,5 @@
+#include <QUrl>
+
 #include "searchdialog.h"
 #include "ui_searchdialog.h"
 
@@ -20,7 +22,11 @@ SearchDialog::~SearchDialog()
 
 QString SearchDialog::GetKeyword()
 {
-	return ui->lineEdit->text();
+	QUrl url;
+	url.setUrl(ui->lineEdit->text());
+
+	// url encoding
+	return QString(url.toEncoded());
 }
 
 void SearchDialog::SetKeyword(QString keyword)
