@@ -1192,12 +1192,14 @@ void MainWindow::SlotRemoveQueueWidget()
 void MainWindow::RemoveAllWidget()
 {
 	auto count = ui->stackMain->count();
-	for (int i = 0; i < count; i++)
+	for(int i = count; i >= 0; i--)
 	{
 		auto backWidget = ui->stackMain->widget(i);
 		ui->stackMain->removeWidget(backWidget);
 		ui->widgetTop->RemoveTitle();
 	}
+//	count = ui->stackMain->count();
+//	LogDebug("remove all count [%d]", count);
 }
 
 void MainWindow::UpdateStackState()

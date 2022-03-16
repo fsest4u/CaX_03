@@ -47,6 +47,10 @@ TopWindow::~TopWindow()
 void TopWindow::AddTitle(int index, QString title)
 {
 	m_TitleList.insert(index, title);
+//	for (int i = 0; i < m_TitleList.count(); i++)
+//	{
+//		LogDebug("add title [%d] [%s]", i, m_TitleList.at(i).toUtf8().data());
+//	}
 }
 
 void TopWindow::RemoveTitle()
@@ -55,16 +59,25 @@ void TopWindow::RemoveTitle()
 	{
 		m_TitleList.removeLast();
 	}
+//	for (int i = 0; i < m_TitleList.count(); i++)
+//	{
+//		LogDebug("remove title [%d] [%s]", i, m_TitleList.at(i).toUtf8().data());
+//	}
 }
 
 void TopWindow::SetTitle(int index)
 {
 	int count = m_TitleList.count();
+//	LogDebug("set title index [%d] count [%d]", index, count);
+
 	if (index < 0 || count <= 0 || index >= count)
 	{
+//		LogDebug("return set title");
 		return;
 	}
+
 	QString title = m_TitleList.at(index);
+//	LogDebug("title [%s]", title.toUtf8().data());
 	ui->labelTitle->setText(title);
 }
 
