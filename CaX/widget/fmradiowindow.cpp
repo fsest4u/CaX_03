@@ -485,13 +485,13 @@ void FMRadioWindow::DoTopMenuEdit()
 				break;
 			}
 
-			CJsonNode node = m_NodeList.at(index);
+			CJsonNode tempNode = m_NodeList.at(index);
 //			LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 			AddRadioDialog dialog;
 			dialog.SetTitle(STR_EDIT);
-			dialog.SetName(node.GetString(KEY_RIGHT));
-			dialog.SetFrequency((node.GetString(KEY_LEFT).toDouble() * 1000));
+			dialog.SetName(tempNode.GetString(KEY_RIGHT));
+			dialog.SetFrequency((tempNode.GetString(KEY_LEFT).toDouble() * 1000));
 			dialog.SetRange(m_FreqMin/100.0, m_FreqMax/100.0, m_FreqStep/100.0);
 
 			if (dialog.exec() == QDialog::Accepted)

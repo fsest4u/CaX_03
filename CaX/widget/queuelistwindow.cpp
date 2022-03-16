@@ -147,8 +147,9 @@ void QueuelistWindow::SetNodeInfo(CJsonNode node)
 //		m_AlbumName = track.GetString(KEY_TOP);
 //		RequestCoverArtBrowser(track.GetString(KEY_FILE));
 //	}
+
 	m_Track->ClearNodeList();
-	m_TotalTime = m_Track->SetNodeList(list);
+	m_TotalTime = m_Track->SetNodeList(list, m_Src);
 }
 
 void QueuelistWindow::SetPlayInfo(CJsonNode node)
@@ -158,11 +159,14 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		LogWarning("node is null~");
 		return;
 	}
-//	LogDebug("node [%s]", node.ToTabedByteArray().data());
+	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	m_Src = node.GetString(KEY_SRC);
 
-	m_pMgr->RequestCoverArt(node.GetString(KEY_COVER_ART), -1, -1);
+	if (!node.GetString(KEY_COVER_ART).isEmpty())
+	{
+		m_pMgr->RequestCoverArt(node.GetString(KEY_COVER_ART), -1, -1);
+	}
 
 	if (!m_Src.compare(SRC_MUSIC_DB))
 	{
@@ -185,6 +189,36 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		SetFormat(node.GetString(KEY_FORMAT));
 		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
 		SetTotalTime(m_TotalTime);
+	}
+	else if (!m_Src.compare(SRC_FM_RADIO))
+	{
+		m_AlbumCoverArt = UtilNovatron::GetCoverArtIcon(SIDEMENU_FM_RADIO);
+		m_pFormCoverArt->SetCoverArt(m_AlbumCoverArt);
+
+		CJsonNode result;
+		if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
+		{
+			return;
+		}
+
+		QList<CJsonNode> list;
+		list.clear();
+		for (int i = 0; i < result.ArraySize(); i++)
+		{
+			list.append(result.GetArrayAt(i));
+	//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
+		}
+
+		m_Track->ClearNodeList();
+		m_TotalTime = m_Track->SetNodeList(list, m_Src);
+		m_Track->SetRadioInfo(node.GetInt(KEY_FREQ_MIN), node.GetInt(KEY_FREQ_MAX), node.GetInt(KEY_FREQ_STEP));
+
+		m_AlbumName = node.GetString(KEY_TOP);
+		m_pFormTitle->SetTitle(m_AlbumName);
+		SetFormat(node.GetString(KEY_FORMAT));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetTotalTime(m_TotalTime);
+
 	}
 	else if (!m_Src.compare(SRC_I_RADIO)
 			 || !m_Src.compare(SRC_PODCAST)
@@ -272,6 +306,16 @@ void QueuelistWindow::SlotRespTrackInfo(CJsonNode node)
 
 }
 
+void QueuelistWindow::SlotRespRecordSet(CJsonNode node)
+{
+	QString desc = node.GetString(KEY_DESC);
+	if (!desc.isEmpty())
+	{
+		CommonDialog dialog(this, STR_WARNING, desc);
+		dialog.exec();
+	}
+}
+
 void QueuelistWindow::SlotCoverArtUpdate(QString fileName, int nIndex, int mode)
 {
 	Q_UNUSED(mode)
@@ -286,7 +330,14 @@ void QueuelistWindow::SlotSelectPlay(int index, int playType)
 {
 	Q_UNUSED(playType)
 
-	m_pMgr->RequestTrackPlay(index);
+	if (!m_Src.compare(SRC_MUSIC_DB))
+	{
+		m_pMgr->RequestTrackPlay(index);
+	}
+	else if (!m_Src.compare(SRC_FM_RADIO))
+	{
+		m_pMgr->RequestRadioPlay(index, m_EventID);
+	}
 }
 
 void QueuelistWindow::SlotMenu()
@@ -392,6 +443,7 @@ void QueuelistWindow::ConnectSigToSlot()
 
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
+	connect(m_pMgr, SIGNAL(SigRespRecordSet(CJsonNode)), this, SLOT(SlotRespRecordSet(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigCoverArtUpdate(QString, int, int)), this, SLOT(SlotCoverArtUpdate(QString, int, int)));
 
 	connect(m_pPlaylistMgr, SIGNAL(SigRefresh(CJsonNode)), this, SLOT(SlotRefresh(CJsonNode)));
@@ -527,10 +579,20 @@ void QueuelistWindow::SetPlayIndex(int total, int currPlay)
 {
 	if (total >= 0 && currPlay >= 0)
 	{
+		ui->label->show();
+		ui->labelCurPlay->show();
+		ui->labelTotalCount->show();
+
 		ui->labelCurPlay->setText(QString::number(currPlay + 1));
 		ui->labelTotalCount->setText(QString::number(total));
 
 		m_Track->SetCurrentIndex(currPlay);
+	}
+	else
+	{
+		ui->label->hide();
+		ui->labelCurPlay->hide();
+		ui->labelTotalCount->hide();
 	}
 }
 
@@ -539,7 +601,12 @@ void QueuelistWindow::SetTotalTime(int time)
 	if (time > 0)
 	{
 		QString hhmmss = UtilNovatron::CalcSecondToHMS(time);
+		ui->labelTotalTime->show();
 		ui->labelTotalTime->setText(hhmmss);
+	}
+	else
+	{
+		ui->labelTotalTime->hide();
 	}
 }
 

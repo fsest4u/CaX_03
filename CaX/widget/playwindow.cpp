@@ -97,6 +97,10 @@ void PlayWindow::SlotBtnInfo()
 	{
 		m_pMgr->RequestQueueList(m_TimeStamp);
 	}
+	else if (!m_Src.compare(SRC_FM_RADIO))
+	{
+		emit SigSetPlayInfo(m_PlayInfo, true);
+	}
 	else if (!m_Src.compare(SRC_I_RADIO)
 			 || !m_Src.compare(SRC_PODCAST)
 			 || !m_Src.compare(SRC_TIDAL)

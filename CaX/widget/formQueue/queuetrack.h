@@ -23,11 +23,13 @@ public:
 	~QueueTrack();
 
 	QList<CJsonNode> GetNodeList() const;
-	int SetNodeList(QList<CJsonNode> list);
+	int SetNodeList(QList<CJsonNode> list, QString src);
 	void ClearNodeList();
 
 	int GetCurrentIndex();
 	void SetCurrentIndex(int index);
+
+	void SetRadioInfo(int min, int max, int step);
 
 	QStandardItemModel	*GetModel();
 	QueueTrackDelegate	*GetDelegate();
@@ -64,6 +66,11 @@ private:
 	void DoOptionMenuGoToArtist();
 	void DoOptionMenuDeleteFromPlayQueue();
 
+	void DoOptionMenuDelete();
+	void DoOptionMenuEdit();
+	void DoOptionMenuSetupReservedRecord();
+
+
 	QueuelistManager		*m_pMgr;
 
 	QListView				*m_ListView;
@@ -85,6 +92,10 @@ private:
 	int						m_SelIndex;
 	QPoint					m_SelPoint;
 	uint					m_TimeStamp;
+
+	int						m_FreqMax;
+	int						m_FreqMin;
+	int						m_FreqStep;
 
 
 	Ui::QueueTrack *ui;

@@ -48,6 +48,55 @@ void QueuelistManager::RequestUpdateTrackFavorite(int id, int favorite)
 	RequestCommand(node, QUEUELIST_UPDATE_TRACK_FAVORITE);
 }
 
+void QueuelistManager::RequestRadioPlay(int index, int eventID)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_PLAY);
+	node.Add(KEY_CMD1, VAL_FM_RADIO);
+	node.AddInt(KEY_EVENT_ID, eventID);
+	node.AddInt(KEY_INDEX, index);
+
+	RequestCommand(node, QUEUELIST_RADIO_PLAY);
+}
+
+void QueuelistManager::RequestRadioSet(QString name, int64_t freq, int index)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_SET);
+	node.Add	(KEY_NAME_CAP,	name);
+	node.Add	(KEY_FREQ,		freq);
+	node.AddInt	(KEY_INDEX,		index);
+
+	RequestCommand(node, QUEUELIST_FM_SET);
+}
+
+void QueuelistManager::RequestRadioDelete(QMap<int, bool> idMap)
+{
+	CJsonNode idArr(JSON_ARRAY);
+	QMap<int, bool>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.key());
+	}
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_INDEXES, idArr);
+	node.Add	(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add	(KEY_CMD1,		VAL_DEL);
+
+	RequestCommand(node, QUEUELIST_FM_DELETE);
+}
+
+void QueuelistManager::RequestRadioRecordSet(CJsonNode node)
+{
+	node.Add(KEY_CMD0,		VAL_FM_RADIO);
+	node.Add(KEY_CMD1,		VAL_RECORD_SET);
+
+	RequestCommand(node, QUEUELIST_FM_RECORD_SET);
+}
+
 void QueuelistManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap)
 {
 	CJsonNode idArr(JSON_ARRAY);
@@ -145,9 +194,15 @@ void QueuelistManager::SlotRespInfo(QString json, int nCmdID)
 	case QUEUELIST_DELETE_PLAY_QUEUE:
 		ParseDeleteQueue(node);
 		break;
+	case QUEUELIST_FM_RECORD_SET:
+		ParseRadioRecordSet(node);
+		break;
 	case QUEUELIST_TRACK_PLAY:
+	case QUEUELIST_RADIO_PLAY:
 	case QUEUELIST_ADD_TO_PLAYLIST:
 	case QUEUELIST_UPDATE_TRACK_FAVORITE:
+	case QUEUELIST_FM_SET:
+	case QUEUELIST_FM_DELETE:
 		break;
 	case QUEUELIST_MAX:
 		emit SigRespError(STR_INVALID_ID);
@@ -189,4 +244,9 @@ void QueuelistManager::ParseQueueList(CJsonNode node)
 void QueuelistManager::ParseDeleteQueue(CJsonNode node)
 {
 	emit SigRespDeleteQueue(node);
+}
+
+void QueuelistManager::ParseRadioRecordSet(CJsonNode node)
+{
+	emit SigRespRecordSet(node);
 }

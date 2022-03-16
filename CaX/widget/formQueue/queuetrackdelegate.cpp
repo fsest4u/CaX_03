@@ -9,7 +9,18 @@
 
 QueueTrackDelegate::QueueTrackDelegate()
 {
+	m_Src = "";
 
+}
+
+QString QueueTrackDelegate::GetSrc() const
+{
+	return m_Src;
+}
+
+void QueueTrackDelegate::SetSrc(const QString &Src)
+{
+	m_Src = Src;
 }
 
 //void QueueTrackDelegate::SlotClickPlay(int index)
@@ -83,11 +94,15 @@ void QueueTrackDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		painter->drawPixmap(rectPlay, pixPlay);
 	}
 
-	QPixmap pixMenu;
-	QString resMenu = QString(":/resource/play-btn28-popupmenu-n.png");
-	if (pixMenu.load(resMenu))
+	if (!m_Src.compare(SRC_MUSIC_DB)
+			|| !m_Src.compare(SRC_FM_RADIO))
 	{
-		painter->drawPixmap(rectMenu, pixMenu);
+		QPixmap pixMenu;
+		QString resMenu = QString(":/resource/play-btn28-popupmenu-n.png");
+		if (pixMenu.load(resMenu))
+		{
+			painter->drawPixmap(rectMenu, pixMenu);
+		}
 	}
 
 	if (!title.isEmpty())

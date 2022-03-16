@@ -1730,7 +1730,7 @@ void MusicDBWindow::SlotOptionMenuAction(const QModelIndex &index, int menuID)
 	case OPTION_MENU_ADD_TO_PLAYLIST:
 		DoOptionMenuAddToPlaylist(id);
 		break;
-	case OPTION_MENU_TAG_EDIT:
+	case OPTION_MENU_EDIT_TAG:
 		DoOptionMenuInfo(id);
 		break;
 	case OPTION_MENU_SEARCH_COVERART:
@@ -2660,7 +2660,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
+		m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_TAG_EDIT);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
@@ -2675,7 +2675,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
+		m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_TAG_EDIT);
 		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);

@@ -3,6 +3,7 @@
 #include "network/observerclient.h"
 
 #include "util/CJsonNode.h"
+#include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
 
@@ -136,27 +137,31 @@ bool ObserverManager::ParseFmRadioEvent(CJsonNode node)
 
 	if (strCmd1.contains("SeekStop"))
 	{
-		SigEventFmSeekStop(node);
+		emit SigEventFmSeekStop(node);
 	}
 	else if (strCmd1.contains("Seek"))
 	{
-		SigEventFmSeek(node);
+		emit SigEventFmSeek(node);
 	}
 	else if (strCmd1.contains("Add"))
 	{
-		SigEventFmAdd(node);
+		emit SigEventFmAdd(node);
 	}
 	else if (strCmd1.contains("Del"))
 	{
-		SigEventFmDel(node);
+		emit SigEventFmDel(node);
+		node.AddString(KEY_SRC, SRC_FM_RADIO);
+		emit SigEventNowPlay(node);
 	}
 	else if (strCmd1.contains("Edit"))
 	{
-		SigEventFmSet(node);
+		emit SigEventFmSet(node);
+		node.AddString(KEY_SRC, SRC_FM_RADIO);
+		emit SigEventNowPlay(node);
 	}
 	else if (strCmd1.contains("Progress"))
 	{
-		SigEventFmSeeking(node);
+		emit SigEventFmSeeking(node);
 	}
 	else
 	{
@@ -174,21 +179,21 @@ bool ObserverManager::ParseDabRadioEvent(CJsonNode node)
 
 	if (strCmd1.contains("SeekStop"))
 	{
-		SigEventDabSeekStop(node);
+		emit SigEventDabSeekStop(node);
 	}
 	if (strCmd1.contains("Add") || strCmd1.contains("Seek"))
 	{
 		// the same behavior with seek of fm radio
-		SigEventDabSeek(node);
+		emit SigEventDabSeek(node);
 	}
 	else if (strCmd1.contains("Del"))
 	{
-		SigEventDabDel(node);
+		emit SigEventDabDel(node);
 	}
 	else if (strCmd1.contains("Rename"))
 	{
 		// the same behavior with edit of fm radio
-		SigEventDabSet(node);
+		emit SigEventDabSet(node);
 	}
 //	else if (strCmd1.contains("Progress"))
 //	{

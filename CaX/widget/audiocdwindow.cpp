@@ -438,7 +438,7 @@ void AudioCDWindow::SlotOptionMenuAction(int id, int menuID)
 	case OPTION_MENU_CD_RIPPING:
 		DoOptionMenuCDRipping(id);
 		break;
-	case OPTION_MENU_TAG_EDIT:
+	case OPTION_MENU_EDIT_TAG:
 		DoOptionMenuTrackInfo(id);
 		break;
 	}
@@ -716,7 +716,7 @@ void AudioCDWindow::SetOptionMenu()
 {
 	m_OptionMenuMap.clear();
 	m_OptionMenuMap.insert(OPTION_MENU_CD_RIPPING, STR_CD_RIPPING);
-//	m_OptionMenuMap.insert(OPTION_MENU_TAG_EDIT, STR_TAG_EDIT);
+//	m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_TAG_EDIT);
 
 }
 

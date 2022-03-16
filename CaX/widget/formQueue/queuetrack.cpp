@@ -5,7 +5,9 @@
 
 #include "queuetrackdelegate.h"
 
+#include "dialog/addradiodialog.h"
 #include "dialog/commondialog.h"
+#include "dialog/setupreservationrecordingdialog.h"
 
 #include "manager/queuelistmanager.h"
 
@@ -73,34 +75,61 @@ QList<CJsonNode> QueueTrack::GetNodeList() const
 	return m_NodeList;
 }
 
-int QueueTrack::SetNodeList(QList<CJsonNode> list)
+int QueueTrack::SetNodeList(QList<CJsonNode> list, QString src)
 {
 	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	m_NodeList = list;
+	m_Delegate->SetSrc(src);
 
 	int index = 0;
 	int totalTime = 0;
 
-	foreach (CJsonNode node, list)
+	if (!src.compare(SRC_MUSIC_DB)
+			|| !src.compare(SRC_AUDIO_CD)
+			|| !src.compare(SRC_BROWSER))
 	{
-//		LogDebug("node [%s]", node.ToCompactByteArray().data());
-		int seconds = node.GetInt(KEY_DURATION);
-		QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
+		foreach (CJsonNode node, list)
+		{
+	//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+			int seconds = node.GetInt(KEY_DURATION);
+			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
-		QStandardItem *item = new QStandardItem;
-		int nID = node.GetString(KEY_SONG).toInt();
-		item->setData(nID, QueueTrackDelegate::QUEUE_TRACKS_ID);
-		item->setData(node.GetString(KEY_TOP), QueueTrackDelegate::QUEUE_TRACKS_TITLE);
-		item->setData(hhmmss, QueueTrackDelegate::QUEUE_TRACKS_TIME);
-		item->setData(node.GetString(KEY_BOT), QueueTrackDelegate::QUEUE_TRACKS_ARTIST);
-		item->setData(index, QueueTrackDelegate::QUEUE_TRACKS_INDEX);
-		item->setData(false, QueueTrackDelegate::QUEUE_TRACKS_PLAY_STATUS);
+			QStandardItem *item = new QStandardItem;
+			int nID = node.GetString(KEY_SONG).toInt();
+			item->setData(nID, QueueTrackDelegate::QUEUE_TRACKS_ID);
+			item->setData(node.GetString(KEY_TOP), QueueTrackDelegate::QUEUE_TRACKS_TITLE);
+			item->setData(hhmmss, QueueTrackDelegate::QUEUE_TRACKS_TIME);
+			item->setData(node.GetString(KEY_BOT), QueueTrackDelegate::QUEUE_TRACKS_ARTIST);
+			item->setData(index, QueueTrackDelegate::QUEUE_TRACKS_INDEX);
+			item->setData(false, QueueTrackDelegate::QUEUE_TRACKS_PLAY_STATUS);
 
-		m_Model->appendRow(item);
+			m_Model->appendRow(item);
 
-		totalTime += seconds;
-		index++;
+			totalTime += seconds;
+			index++;
+		}
+	}
+	else if (!src.compare(SRC_FM_RADIO))
+	{
+		foreach (CJsonNode node, list)
+		{
+			LogDebug("node [%s]", node.ToCompactByteArray().data());
+			int seconds = node.GetInt(KEY_DURATION);
+			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
+
+			QStandardItem *item = new QStandardItem;
+			item->setData(index, QueueTrackDelegate::QUEUE_TRACKS_ID);
+			item->setData(node.GetString(KEY_RIGHT), QueueTrackDelegate::QUEUE_TRACKS_TITLE);
+			item->setData(node.GetString(KEY_LEFT), QueueTrackDelegate::QUEUE_TRACKS_ARTIST);
+			item->setData(index, QueueTrackDelegate::QUEUE_TRACKS_INDEX);
+			item->setData(false, QueueTrackDelegate::QUEUE_TRACKS_PLAY_STATUS);
+
+			m_Model->appendRow(item);
+
+			totalTime += seconds;
+			index++;
+		}
 	}
 
 	UtilNovatron::LoadingStop(loading);
@@ -136,6 +165,13 @@ void QueueTrack::SetCurrentIndex(int index)
 	m_ListView->setCurrentIndex(modelIndex);
 }
 
+void QueueTrack::SetRadioInfo(int min, int max, int step)
+{
+	m_FreqMax = max;
+	m_FreqMin = min;
+	m_FreqStep = step;
+}
+
 QStandardItemModel *QueueTrack::GetModel()
 {
 	return m_Model;
@@ -157,24 +193,27 @@ void QueueTrack::SlotRespTrackInfo(CJsonNode node)
 //	LogDebug("node [%s]", node.ToTabedByteArray().data());
 	QMap<int, QString>	menuMap;
 
-	m_TrackID = node.GetInt(KEY_ID_LOWER);
-	m_TrackAlbumID = node.GetInt(KEY_ALBUM_ID);
-	m_TrackArtistID = node.GetInt(KEY_ARTIST_ID);
-	m_TrackFavorite = node.GetInt(KEY_FAVORITE);
-
-	if (m_TrackFavorite == 1)
+	if (!m_Delegate->GetSrc().compare(SRC_MUSIC_DB))
 	{
-		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
-	}
-	else
-	{
-		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
-	}
+		m_TrackID = node.GetInt(KEY_ID_LOWER);
+		m_TrackAlbumID = node.GetInt(KEY_ALBUM_ID);
+		m_TrackArtistID = node.GetInt(KEY_ARTIST_ID);
+		m_TrackFavorite = node.GetInt(KEY_FAVORITE);
 
-	menuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
-	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
-	menuMap.insert(OPTION_MENU_DELETE_FROM_PLAY_QUEUE, STR_DELETE_FROM_PLAY_QUEUE);
+		if (m_TrackFavorite == 1)
+		{
+			menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+		}
+		else
+		{
+			menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+		}
+
+		menuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+		menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+		menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+		menuMap.insert(OPTION_MENU_DELETE_FROM_PLAY_QUEUE, STR_DELETE_FROM_PLAY_QUEUE);
+	}
 
 	ClearOptionMenu();
 	SetOptionMenu(menuMap);
@@ -190,7 +229,7 @@ void QueueTrack::SlotRespQueueList(CJsonNode result)
 	}
 
 	ClearNodeList();
-	int totTime = SetNodeList(list);
+	int totTime = SetNodeList(list, m_Delegate->GetSrc());
 
 	emit SigUpdateTimeStamp(m_TimeStamp, list.count(), totTime);
 }
@@ -203,11 +242,25 @@ void QueueTrack::SlotRespDeleteQueue(CJsonNode node)
 
 void QueueTrack::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
-	int id = qvariant_cast<int>(modelIndex.data(QueueTrackDelegate::QUEUE_TRACKS_ID));
-	m_SelIndex = qvariant_cast<int>(modelIndex.data(QueueTrackDelegate::QUEUE_TRACKS_INDEX));
 	m_SelPoint = point;
-//	LogDebug("id [%d] x [%d] y [%d]", id, m_SelPoint.x(), m_SelPoint.y());
-	m_pMgr->RequestTrackInfo(id);
+	m_SelIndex = qvariant_cast<int>(modelIndex.data(QueueTrackDelegate::QUEUE_TRACKS_INDEX));
+
+	if (!m_Delegate->GetSrc().compare(SRC_MUSIC_DB))
+	{
+		int id = qvariant_cast<int>(modelIndex.data(QueueTrackDelegate::QUEUE_TRACKS_ID));
+	//	LogDebug("id [%d] x [%d] y [%d]", id, m_SelPoint.x(), m_SelPoint.y());
+		m_pMgr->RequestTrackInfo(id);
+	}
+	else if (!m_Delegate->GetSrc().compare(SRC_FM_RADIO))
+	{
+		QMap<int, QString>	menuMap;
+		menuMap.insert(OPTION_MENU_DELETE, STR_DELETE);
+		menuMap.insert(OPTION_MENU_EDIT, STR_EDIT);
+		menuMap.insert(OPTION_MENU_SETUP_RESERVED_RECORD, STR_SETUP_RESERVE_RECORD);
+
+		ClearOptionMenu();
+		SetOptionMenu(menuMap);
+	}
 }
 
 void QueueTrack::SlotMenuAction(QAction *action)
@@ -228,6 +281,15 @@ void QueueTrack::SlotMenuAction(QAction *action)
 		break;
 	case OPTION_MENU_DELETE_FROM_PLAY_QUEUE:
 		DoOptionMenuDeleteFromPlayQueue();
+		break;
+	case OPTION_MENU_DELETE:
+		DoOptionMenuDelete();
+		break;
+	case OPTION_MENU_EDIT:
+		DoOptionMenuEdit();
+		break;
+	case OPTION_MENU_SETUP_RESERVED_RECORD:
+		DoOptionMenuSetupReservedRecord();
 		break;
 	}
 }
@@ -260,6 +322,10 @@ void QueueTrack::Initialize()
 	m_OldIndex = -1;
 	m_SelIndex = -1;
 	m_TimeStamp = 0;
+
+	m_FreqMax = 0;
+	m_FreqMin = 0;
+	m_FreqStep = 0;
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -327,4 +393,57 @@ void QueueTrack::DoOptionMenuGoToArtist()
 void QueueTrack::DoOptionMenuDeleteFromPlayQueue()
 {
 	m_pMgr->RequestDeletePlayQueue(m_SelIndex, m_EventID);
+}
+
+void QueueTrack::DoOptionMenuDelete()
+{
+	QModelIndex modelIndex = m_Model->index(m_SelIndex, 0);
+	int index = qvariant_cast<int>(modelIndex.data(QueueTrackDelegate::QUEUE_TRACKS_INDEX));
+
+	QMap<int, bool> map;
+	map.insert(index, true);
+
+	m_pMgr->RequestRadioDelete(map);
+}
+
+void QueueTrack::DoOptionMenuEdit()
+{
+	CJsonNode tempNode = m_NodeList.at(m_SelIndex);
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+	AddRadioDialog dialog;
+	dialog.SetTitle(STR_EDIT);
+	dialog.SetName(tempNode.GetString(KEY_RIGHT));
+	dialog.SetFrequency((tempNode.GetString(KEY_LEFT).toDouble() * 1000));
+	dialog.SetRange(m_FreqMin/100.0, m_FreqMax/100.0, m_FreqStep/100.0);
+
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QString name = dialog.GetName();
+		double freq = dialog.GetFrequency();
+		m_pMgr->RequestRadioSet(name, freq, m_SelIndex);
+	}
+}
+
+void QueueTrack::DoOptionMenuSetupReservedRecord()
+{
+	CJsonNode tempNode = m_NodeList.at(m_SelIndex);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_TOP, tempNode.GetString(KEY_RIGHT));
+	node.Add(KEY_ACTIVE, false);
+	node.AddInt(KEY_DURATION, 5);
+
+	SetupReservationRecordingDialog dialog;
+	dialog.SetNodeData(node);
+
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		node.Clear();
+		node = dialog.GetNodeData();
+		node.AddInt(KEY_FREQ, tempNode.GetString(KEY_LEFT).toDouble() * 100);
+		node.AddInt(KEY_EVENT_ID, m_EventID);
+
+		m_pMgr->RequestRadioRecordSet(node);
+	}
 }

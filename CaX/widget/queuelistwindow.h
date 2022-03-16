@@ -63,6 +63,7 @@ private slots:
 
 	void SlotRespError(QString errMsg);
 	void SlotRespTrackInfo(CJsonNode node);
+	void SlotRespRecordSet(CJsonNode node);
 	void SlotCoverArtUpdate(QString fileName, int nIndex, int mode);
 	void SlotSelectPlay(int index, int playType);
 
