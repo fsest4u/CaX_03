@@ -93,8 +93,13 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	}
 	else if (index.column() == TableTracks::TABLE_TRACKS_COVER)
 	{
-		QString coverArt = index.data().toString();
-//		LogDebug("cover art [%s]", coverArt.toUtf8().data());
+		QString cover = index.data().toString();
+		if (cover.isEmpty())
+		{
+			cover = QString(":/resource/playlist-img160-albumart-h.png");
+		}
+
+//		LogDebug("cover art [%s]", cover.toUtf8().data());
 
 		int length = option.rect.width() >= option.rect.height() ? option.rect.height() - 5 : option.rect.width() - 5;
 		QStyleOptionButton button;
@@ -108,7 +113,7 @@ void TableTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 						   QPushButton	\
 						   {	\
 							   border-image: url(\"%1\");	\
-						   }").arg(coverArt);
+						   }").arg(cover);
 
 		m_BtnSelect->setStyleSheet(style);
 		m_BtnSelect->style()->drawControl(QStyle::CE_PushButton, &button, painter, m_BtnSelect);

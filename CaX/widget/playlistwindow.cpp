@@ -1003,9 +1003,8 @@ void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		widget->RequestCategoryList();
-
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+		widget->RequestCategoryList();
 
 		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
 		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
@@ -1149,9 +1148,8 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		widget->RequestCategoryList();
-
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+		widget->RequestCategoryList();
 
 		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
 		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
@@ -1175,10 +1173,9 @@ void PlaylistWindow::DoOptionMenuGoToAlbum()
 //	LogDebug("DoOptionMenuGoToAlbum id [%d]", m_TrackAlbumID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
+	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 	widget->RequestTrackList(m_TrackAlbumID);
 	widget->SetCoverArt(m_TrackCover);
-
-	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 }
 
 void PlaylistWindow::DoOptionMenuGoToArtist()
@@ -1186,7 +1183,6 @@ void PlaylistWindow::DoOptionMenuGoToArtist()
 //	LogDebug("DoOptionMenuGoToArtist id [%d]", m_TrackArtistID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
-	widget->RequestCategoryList(m_TrackArtistID);
-
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
+	widget->RequestCategoryList(m_TrackArtistID);
 }
