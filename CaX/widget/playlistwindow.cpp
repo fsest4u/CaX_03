@@ -334,10 +334,9 @@ void PlaylistWindow::SlotSelectTitle(const QModelIndex &index)
 	{
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetTrack();
+		emit widget->SigAddWidget(widget, STR_PLAYLIST);
 		widget->RequestPlaylistInfo(id, cover);
 		widget->RequestTrackList(id);
-
-		emit widget->SigAddWidget(widget, STR_PLAYLIST);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{

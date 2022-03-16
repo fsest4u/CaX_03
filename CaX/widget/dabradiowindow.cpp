@@ -271,9 +271,8 @@ void DABRadioWindow::DoTopMenuReservedRecordList()
 {
 	DABRadioWindow *widget = new DABRadioWindow(this, m_pMgr->GetAddr());
 	widget->AddWidgetDABRadioHome();
-	widget->RequestRecordList();
-
 	emit widget->SigAddWidget(widget, STR_DAB_RADIO);
+	widget->RequestRecordList();
 }
 
 void DABRadioWindow::SetHome(QList<CJsonNode> &list)

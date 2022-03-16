@@ -394,9 +394,8 @@ void QueuelistWindow::SlotAddToPlaylist(int id)
 {
 	PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 	widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-	widget->RequestPlaylist();
-
 	emit widget->SigAddWidget(widget, STR_PLAYLIST);
+	widget->RequestPlaylist();
 
 	connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));
 }

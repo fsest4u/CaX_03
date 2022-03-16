@@ -217,9 +217,8 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 				QString ext = node.GetString(KEY_EXT);
 
 				BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
-				widget->RequestRoot(ext);
-
 				emit widget->SigAddWidget(widget, STR_BROWSER);
+				widget->RequestRoot(ext);
 			}
 		}
 		else

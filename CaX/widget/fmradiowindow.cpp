@@ -235,9 +235,8 @@ void FMRadioWindow::SlotRespRecordList(QList<CJsonNode> list)
 	{
 		FMRadioWindow *widget = new FMRadioWindow(this, m_pMgr->GetAddr(), m_EventID);
 		widget->AddWidgetFMRadioHome();
-		widget->SetRecordList(list);
-
 		emit widget->SigAddWidget(widget, STR_FM_RADIO);
+		widget->SetRecordList(list);
 	}
 
 }

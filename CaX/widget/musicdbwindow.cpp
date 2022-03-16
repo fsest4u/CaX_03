@@ -2395,9 +2395,8 @@ void MusicDBWindow::DoTopMenuAddToPlaylist()
 	{
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		widget->RequestPlaylist();
-
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
+		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotTopMenuAddToPlaylist(int)));
 	}
@@ -2549,9 +2548,8 @@ void MusicDBWindow::DoTopMenuItemAddToPlaylist()
 	{
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		widget->RequestPlaylist();
-
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
+		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotTopMenuAddToPlaylist(int)));
 	}
@@ -2698,9 +2696,8 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 	{
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		widget->RequestPlaylist();
-
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
+		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));
 	}
@@ -2710,9 +2707,8 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 	{
 		PlaylistWindow *widget = new PlaylistWindow(this, m_pMgr->GetAddr());
 		widget->AddWidgetItem(TYPE_MODE_ITEM_ADD);
-		widget->RequestPlaylist();
-
 		emit widget->SigAddWidget(widget, STR_PLAYLIST);
+		widget->RequestPlaylist();
 
 		connect(widget, SIGNAL(SigAddToPlaylist(int)), this, SLOT(SlotOptionMenuAddToPlaylist(int)));
 	}

@@ -435,9 +435,8 @@ void BrowserWindow::SlotIconSelectTitle(int nType, QString rawData)
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
 		widget->SetFolderType(nType);
-		widget->RequestFolder(path, m_Ext);
-
 		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->RequestFolder(path, m_Ext);
 	}
 
 }
@@ -514,9 +513,8 @@ void BrowserWindow::SlotSelectTitle(int nType, CJsonNode node)
 		}
 		widget->SetBrowserMode(m_BrowserMode, m_OptionPath, m_OptionType);
 		widget->SetFolderType(nType);
-		widget->RequestFolder(path, m_Ext, m_NodeUpnp);
-
 		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->RequestFolder(path, m_Ext, m_NodeUpnp);
 	}
 	else if (iFolderType_Mask_File & nType && !m_Ext.isEmpty())
 	{
@@ -1283,10 +1281,8 @@ void BrowserWindow::DoTopMenuCopy(bool move)
 
 	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->SetBrowserMode(mode);
-	widget->RequestRoot();
-
 	emit widget->SigAddWidget(widget, STR_BROWSER);
-
+	widget->RequestRoot();
 }
 
 void BrowserWindow::DoTopMenuCopyHere(bool move)
@@ -1563,9 +1559,8 @@ void BrowserWindow::DoOptionMenuCopy(QString path, int type, bool move)
 
 	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
 	widget->SetBrowserMode(mode, path, type);
-	widget->RequestRoot();
-
 	emit widget->SigAddWidget(widget, STR_BROWSER);
+	widget->RequestRoot();
 }
 
 //void BrowserWindow::DoOptionMenuCopyHere(QString path, bool move)
