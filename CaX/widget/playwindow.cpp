@@ -235,11 +235,10 @@ void PlayWindow::SlotEventNowPlay(CJsonNode node)
 		m_bPause = true;
 		SetPlayState();
 
-		QString volume = node.GetString(KEY_VOLUME_CAP);
-		if (!volume.isEmpty())
+		int volume = node.GetInt(KEY_VOLUME_CAP);
+		if (volume >= 0)
 		{
-			m_Volume = volume.toInt();
-			SlotVolumeSliderSet(m_Volume);
+			m_Volume = volume;
 		}
 
 		emit SigRemoveQueueList();
@@ -374,8 +373,12 @@ void PlayWindow::SetVariable(CJsonNode node)
 	m_ID = node.GetInt(KEY_ID_UPPER);
 	m_PlayTime = node.GetInt(KEY_PLAY_TIME);
 	m_SampleRate = node.GetInt(KEY_INPUT_SAMPLE_RATE);
-	m_Volume = node.GetInt(KEY_VOLUME_CAP);
 	m_TimeStamp = node.GetInt64(KEY_TIME_STAMP);
+	int volume = node.GetInt(KEY_VOLUME_CAP);
+	if (volume >= 0)
+	{
+		m_Volume = volume;
+	}
 
 	m_Bot = node.GetString(KEY_BOT);
 	m_CoverArt = node.GetString(KEY_COVER_ART);
@@ -623,8 +626,10 @@ void PlayWindow::SetRepeatMode(QString mode)
 						}");
 	}
 
-	ui->btnRandom->setStyleSheet(style);
-
+	if (!mode.isEmpty())
+	{
+		ui->btnRandom->setStyleSheet(style);
+	}
 }
 
 void PlayWindow::SetRecordable()
