@@ -159,7 +159,7 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		LogWarning("node is null~");
 		return;
 	}
-	LogDebug("node [%s]", node.ToTabedByteArray().data());
+//	LogDebug("node [%s]", node.ToTabedByteArray().data());
 
 	m_Src = node.GetString(KEY_SRC);
 
@@ -206,7 +206,7 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		for (int i = 0; i < result.ArraySize(); i++)
 		{
 			list.append(result.GetArrayAt(i));
-	//		LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
+//			LogDebug("node : [%s]", list[i].ToCompactByteArray().data());
 		}
 
 		m_Track->ClearNodeList();

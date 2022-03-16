@@ -91,7 +91,7 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list, QString src)
 	{
 		foreach (CJsonNode node, list)
 		{
-	//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			int seconds = node.GetInt(KEY_DURATION);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
@@ -114,7 +114,7 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list, QString src)
 	{
 		foreach (CJsonNode node, list)
 		{
-			LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
 			int seconds = node.GetInt(KEY_DURATION);
 			QString hhmmss = UtilNovatron::CalcSecondToHMS(seconds);
 
@@ -248,7 +248,7 @@ void QueueTrack::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 	if (!m_Delegate->GetSrc().compare(SRC_MUSIC_DB))
 	{
 		int id = qvariant_cast<int>(modelIndex.data(QueueTrackDelegate::QUEUE_TRACKS_ID));
-	//	LogDebug("id [%d] x [%d] y [%d]", id, m_SelPoint.x(), m_SelPoint.y());
+//		LogDebug("id [%d] x [%d] y [%d]", id, m_SelPoint.x(), m_SelPoint.y());
 		m_pMgr->RequestTrackInfo(id);
 	}
 	else if (!m_Delegate->GetSrc().compare(SRC_FM_RADIO))
