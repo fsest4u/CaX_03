@@ -143,68 +143,74 @@ QIcon UtilNovatron::GetMenuIcon(QString value)
 	{
 		return QIcon(":/resource/play-popup-icon16-selectall.png");
 	}
-	// side menu
-	else if (value.contains(STR_MUSIC_DB))
-	{
-		return QIcon(":/resource/submenu-icon40-musicdb.png");
-	}
-	else if (value.contains(STR_AUDIO_CD))
-	{
-		return QIcon(":/resource/submenu-icon40-audiocd.png");
-	}
-	else if (value.contains(STR_PLAYLIST))
-	{
-		return QIcon(":/resource/submenu-icon40-playlist.png");
-	}
-	else if (value.contains(STR_BROWSER))
-	{
-		return QIcon(":/resource/submenu-icon40-browser.png");
-	}
-	else if (value.contains(STR_ISERVICE))
-	{
-		return QIcon(":/resource/submenu-icon40-internetservice.png");
-	}
-	else if (value.contains(STR_INPUT))
-	{
-		return QIcon(":/resource/submenu-icon40-input.png");
-	}
-	else if (value.contains(STR_FM_RADIO))
-	{
-		return QIcon(":/resource/submenu-icon40-fmradio.png");
-	}
-	else if (value.contains(STR_DAB_RADIO))
-	{
-		return QIcon(":/resource/submenu-icon40-davradio.png");
-	}
-	else if (value.contains(STR_GROUP_PLAY))
-	{
-		return QIcon(":/resource/submenu-icon40-groupplay.png");
-	}
-	else if (value.contains(STR_SETUP))
-	{
-		return QIcon(":/resource/submenu-icon40-setup.png");
-	}
-	else if (value.contains(STR_SELECT_DEVICE))
-	{
-		return QIcon(":/resource/submenu-icon40-selectdevice.png");
-	}
-	else if (value.contains(STR_POWER_ON))
-	{
-		return QIcon(":/resource/submenu-icon40-wolpoweron.png");
-	}
-	else if (value.contains(STR_POWER_OFF))
-	{
-		return QIcon(":/resource/submenu-icon40-poweroff.png");
-	}
-	else if (value.contains(STR_ABOUT))
-	{
-		return QIcon(":/resource/submenu-icon40-aboutmusicx.png");
-	}
 	else
 	{
 //		LogDebug("There is no icon corresponding to the string.");
 		return QIcon("");
 	}
+}
+
+QString UtilNovatron::GetSideMenuIcon(QString value)
+{
+	// side menu
+	if (value.contains(STR_MUSIC_DB))
+	{
+		return (":/resource/submenu-icon40-musicdb.png");
+	}
+	else if (value.contains(STR_AUDIO_CD))
+	{
+		return (":/resource/submenu-icon40-audiocd.png");
+	}
+	else if (value.contains(STR_PLAYLIST))
+	{
+		return (":/resource/submenu-icon40-playlist.png");
+	}
+	else if (value.contains(STR_BROWSER))
+	{
+		return (":/resource/submenu-icon40-browser.png");
+	}
+	else if (value.contains(STR_ISERVICE))
+	{
+		return (":/resource/submenu-icon40-internetservice.png");
+	}
+	else if (value.contains(STR_INPUT))
+	{
+		return (":/resource/submenu-icon40-input.png");
+	}
+	else if (value.contains(STR_FM_RADIO))
+	{
+		return (":/resource/submenu-icon40-fmradio.png");
+	}
+	else if (value.contains(STR_DAB_RADIO))
+	{
+		return (":/resource/submenu-icon40-davradio.png");
+	}
+	else if (value.contains(STR_GROUP_PLAY))
+	{
+		return (":/resource/submenu-icon40-groupplay.png");
+	}
+	else if (value.contains(STR_SETUP))
+	{
+		return (":/resource/submenu-icon40-setup.png");
+	}
+	else if (value.contains(STR_SELECT_DEVICE))
+	{
+		return (":/resource/submenu-icon40-selectdevice.png");
+	}
+	else if (value.contains(STR_POWER_ON))
+	{
+		return (":/resource/submenu-icon40-wolpoweron.png");
+	}
+	else if (value.contains(STR_POWER_OFF))
+	{
+		return (":/resource/submenu-icon40-poweroff.png");
+	}
+	else if (value.contains(STR_ABOUT))
+	{
+		return (":/resource/submenu-icon40-aboutmusicx.png");
+	}
+
+	return "";
 }
 
 QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)

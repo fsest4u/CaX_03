@@ -62,6 +62,21 @@ private slots:
 	void SlotDeviceMenu();
 	void SlotDeviceMenuAction(QAction *action);
 
+	void SlotSideMenuMusicDB();
+	void SlotSideMenuAudioCD();
+	void SlotSideMenuPlaylist();
+	void SlotSideMenuBrowser();
+	void SlotSideMenuIService();
+	void SlotSideMenuInput();
+	void SlotSideMenuFmRadio();
+	void SlotSideMenuDabRadio();
+	void SlotSideMenuGroupPlay();
+	void SlotSideMenuSetup();
+	void SlotSideMenuSelectDevice();
+	void SlotSideMenuPowerOn();
+	void SlotSideMenuPowerOff();
+	void SlotSideMenuAbout();
+
 private:
 
 	void ConnectSigToSlot();

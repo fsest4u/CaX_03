@@ -13,6 +13,7 @@ public:
 	UtilNovatron();
 
 	static QIcon GetMenuIcon(QString value);
+	static QString GetSideMenuIcon(QString value);
 	static QString GetCoverArtIcon(const int service, const QString value = "");
 	static QString GetCoverArtIcon(const int service, const int value);
 

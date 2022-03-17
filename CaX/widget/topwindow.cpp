@@ -1,4 +1,6 @@
 #include <QKeyEvent>
+#include <QRadioButton>
+#include <QWidgetAction>
 
 #include "topwindow.h"
 #include "ui_topwindow.h"
@@ -116,10 +118,83 @@ void TopWindow::SetSideMenu(QMap<int, QString> map)
 	QMap<int, QString>::iterator i;
 	for (i = map.begin(); i!= map.end(); i++)
 	{
-		QIcon icon = UtilNovatron::GetMenuIcon(i.value());
-		QAction *action = new QAction(icon, i.value(), this);
-		action->setData(i.key());
+		QString icon = UtilNovatron::GetSideMenuIcon(i.value());
+
+		QString style = QString("QRadioButton::indicator {	\
+									width: 40px;	\
+									height: 40px;	\
+								}	\
+								QRadioButton::indicator:unchecked {	\
+									image: url(\"%1\");	\
+								}	\
+								QRadioButton::indicator:checked {	\
+									image: url(\"%1\");	\
+								}	\
+								QRadioButton {	\
+									padding: 0px 10px 0px 30px;\
+									width: 250px;   \
+									height: 40px;   \
+									color: rgb(255, 255, 255);  \
+									font: 16pt \"Segoe UI\";	\
+									spacing: 15px;	\
+								}	\
+								QRadioButton:hover {	\
+									background: rgba(201,237,248,255);  \
+								}").arg(icon);
+
+		QRadioButton *button=new QRadioButton(m_SideMenu);
+		button->setFixedSize(250, 40);
+		button->setText(i.value());
+		button->setStyleSheet(style);
+		QWidgetAction *action=new QWidgetAction(this);
+		action->setDefaultWidget(button);
 		m_SideMenu->addAction(action);
+
+		switch (i.key())
+		{
+		case SIDEMENU_MUSIC_DB:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuMusicDB()));
+			break;
+		case SIDEMENU_AUDIO_CD:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuAudioCD()));
+			break;
+		case SIDEMENU_PLAYLIST:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuPlaylist()));
+			break;
+		case SIDEMENU_BROWSER:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuBrowser()));
+			break;
+		case SIDEMENU_ISERVICE:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuIService()));
+			break;
+		case SIDEMENU_INPUT:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuInput()));
+			break;
+		case SIDEMENU_FM_RADIO:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuFmRadio()));
+			break;
+		case SIDEMENU_DAB_RADIO:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuDabRadio()));
+			break;
+		case SIDEMENU_GROUP_PLAY:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuGroupPlay()));
+			break;
+		case SIDEMENU_SETUP:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuSetup()));
+			break;
+		case SIDEMENU_SELECT_DEVICE:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuSelectDevice()));
+			break;
+		case SIDEMENU_POWER_ON:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuPowerOn()));
+			break;
+		case SIDEMENU_POWER_OFF:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuPowerOff()));
+			break;
+		case SIDEMENU_ABOUT:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuAbout()));
+			break;
+		}
 	}
 
 }
@@ -240,10 +315,94 @@ void TopWindow::SlotDeviceMenuAction(QAction *action)
 	emit SigDeviceMenuAction(action->data().toString());
 }
 
+void TopWindow::SlotSideMenuMusicDB()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_MUSIC_DB);
+}
+
+void TopWindow::SlotSideMenuAudioCD()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_AUDIO_CD);
+}
+
+void TopWindow::SlotSideMenuPlaylist()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_PLAYLIST);
+}
+
+void TopWindow::SlotSideMenuBrowser()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_BROWSER);
+}
+
+void TopWindow::SlotSideMenuIService()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_ISERVICE);
+}
+
+void TopWindow::SlotSideMenuInput()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_INPUT);
+}
+
+void TopWindow::SlotSideMenuFmRadio()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_FM_RADIO);
+}
+
+void TopWindow::SlotSideMenuDabRadio()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_DAB_RADIO);
+}
+
+void TopWindow::SlotSideMenuGroupPlay()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_GROUP_PLAY);
+}
+
+void TopWindow::SlotSideMenuSetup()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_SETUP);
+}
+
+void TopWindow::SlotSideMenuSelectDevice()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_SELECT_DEVICE);
+}
+
+void TopWindow::SlotSideMenuPowerOn()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_POWER_ON);
+}
+
+void TopWindow::SlotSideMenuPowerOff()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_POWER_OFF);
+}
+
+void TopWindow::SlotSideMenuAbout()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_ABOUT);
+}
+
 void TopWindow::ConnectSigToSlot()
 {
 	connect(ui->btnSideMenu, SIGNAL(pressed()), this, SLOT(SlotSideMenu()));
-	connect(m_SideMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotSideMenuAction(QAction*)));
+//	connect(m_SideMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotSideMenuAction(QAction*)));
 	connect(ui->btnDeviceMenu, SIGNAL(pressed()), this, SLOT(SlotDeviceMenu()));
 	connect(m_DeviceMenu, SIGNAL(triggered(QAction*)), this, SLOT(SlotDeviceMenuAction(QAction*)));
 }
@@ -251,20 +410,6 @@ void TopWindow::ConnectSigToSlot()
 void TopWindow::Initialize()
 {
 
-	QString styleSide = QString("QMenu::icon {	\
-								padding: 0px 0px 0px 20px;	\
-							}	\
-							QMenu::item {	\
-								width: 250px;	\
-								height: 40px;	\
-								color: rgb(255, 255, 255);	\
-								font-size: 16pt;	\
-								padding: 0px 20px 0px 20px;	\
-							}	\
-							QMenu::item:selected {	\
-								background: rgba(201,237,248,255);	\
-							}");
-	m_SideMenu->setStyleSheet(styleSide);
 	ui->btnSideMenu->setMenu(m_SideMenu);
 
 	QString styleDevice = QString("QMenu {	\
