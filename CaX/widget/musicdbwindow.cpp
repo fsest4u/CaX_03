@@ -2337,6 +2337,8 @@ void MusicDBWindow::DoTopMenuSetLimitCount(int count)
 			m_LimitCount = -1;
 		}
 		WriteSettings();
+
+		DoTopMenuReload();
 	}
 }
 
