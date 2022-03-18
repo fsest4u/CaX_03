@@ -19,6 +19,12 @@
   <property name="windowTitle">
    <string>Music X NEO PC</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame
+{
+	border: 0px;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
     <size>
