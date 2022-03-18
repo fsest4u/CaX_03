@@ -103,13 +103,13 @@
   <customwidget>
    <class>TopWindow</class>
    <extends>QWidget</extends>
-   <header>topwindow.h</header>
+   <header>widget/topwindow.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>PlayWindow</class>
    <extends>QWidget</extends>
-   <header>playwindow.h</header>
+   <header>widget/playwindow.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
