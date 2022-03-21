@@ -554,12 +554,12 @@ void MusicDBWindow::SlotUpdateRatingParent(int id, int rating)
 
 void MusicDBWindow::SlotRespError(QString errMsg)
 {
-	if (errMsg.toLower().contains("not found"))
+	if (errMsg.toLower().contains("not found") && m_RespList.count() <= 0)
 	{
 		m_pIconTracks->ShowFrameEmpty(true);
 		m_pTableTracks->ShowFrameEmpty(true);
 	}
-	else if (errMsg.toLower().contains("ok"))
+	else if (errMsg.toLower().contains("ok") || errMsg.toLower().contains("not found"))
 	{
 		// nothing
 	}
