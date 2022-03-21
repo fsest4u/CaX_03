@@ -2,7 +2,7 @@ QT       += core gui network webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++11 app_bundle
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -404,7 +404,8 @@ FORMS += \
     widget/setupwindow.ui \
     widget/topwindow.ui
 
-RC_ICONS = logo-icon-musicxneo-256.ico
+win32:RC_ICONS = logo-icon-musicxneo-256.ico
+unix:ICON = logo-icon-musicxneo-256.icns
 
 TRANSLATIONS += \
     CaX_en_US.ts \
