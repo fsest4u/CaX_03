@@ -257,6 +257,8 @@ private:
 
 	int					m_nOptionID;
 
+	bool				m_EnableAppend;
+
 	bool				m_ShowCategoryFavorite;
 	bool				m_ShowCategoryRating;
 	bool				m_ShowCategoryArtist;

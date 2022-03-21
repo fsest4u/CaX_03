@@ -676,6 +676,8 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 //		m_pTableTracks->ClearNodeList();
 		m_pTableTracks->SetNodeList(list, service);
 	}
+
+	m_EnableAppend = true;
 }
 
 void MusicDBWindow::SlotRespCategoryOverview(CJsonNode node)
@@ -733,6 +735,8 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 //		m_pTableTracks->ClearNodeList();
 		m_pTableTracks->SetNodeList(list, service);
 	}
+
+	m_EnableAppend = true;
 }
 
 void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
@@ -1380,10 +1384,12 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 
 void MusicDBWindow::SlotAppendList()
 {
-	if (m_LimitCount <= 0)
+	if (m_LimitCount <= 0 || !m_EnableAppend)
 	{
 		return;
 	}
+
+	m_EnableAppend = false;
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
@@ -2107,6 +2113,8 @@ void MusicDBWindow::Initialize()
 //	m_ListMode = VIEW_MODE_ICON;
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
 //	m_DispMode = SQLManager::DISP_MODE_TRACK;
+
+	m_EnableAppend = true;
 }
 
 void MusicDBWindow::SetCategoryList(QList<CJsonNode> list)
