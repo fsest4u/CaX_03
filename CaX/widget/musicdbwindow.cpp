@@ -1545,6 +1545,12 @@ void MusicDBWindow::SlotClassifyFormat(bool bAdd, QString id)
 		case SelectFormatDialog::FORMAT_ID_WMA:
 			m_Format = FORMAT_WMA;
 			break;
+		case SelectFormatDialog::FORMAT_ID_DSD:
+			m_Format = "dff";
+			break;
+		case SelectFormatDialog::FORMAT_ID_MQA:
+			m_Format = FORMAT_MQA;
+			break;
 		}
 	}
 	else
@@ -3084,6 +3090,12 @@ void MusicDBWindow::SetClassifyFormat()
 	CJsonNode nodeWma(JSON_OBJECT);
 	nodeWma.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_WMA);
 	nodeWma.Add(KEY_NAME, FORMAT_WMA);
+	CJsonNode nodeDsd(JSON_OBJECT);
+	nodeDsd.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_DSD);
+	nodeDsd.Add(KEY_NAME, FORMAT_DSD);
+	CJsonNode nodeMqa(JSON_OBJECT);
+	nodeMqa.AddInt(KEY_ID_LOWER, SelectFormatDialog::FORMAT_ID_MQA);
+	nodeMqa.Add(KEY_NAME, FORMAT_MQA);
 
 	list.append(nodeCaf);
 	list.append(nodeWav);
@@ -3093,6 +3105,8 @@ void MusicDBWindow::SetClassifyFormat()
 	list.append(nodeMp3);
 	list.append(nodeOgg);
 	list.append(nodeWma);
+	list.append(nodeDsd);
+	list.append(nodeMqa);
 
 	m_pInfoHome->GetFormClassify()->ClearClassifyFormatMenu();
 	m_pInfoHome->GetFormClassify()->SetClassifyFormatMenu(list);

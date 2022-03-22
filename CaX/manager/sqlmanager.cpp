@@ -56,7 +56,7 @@ QString SQLManager::GetQueryCategoryListFromSong(int nCategory,
 	}
 	if (!format.isEmpty())
 	{
-		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
+		whereFormat = QString(" and Song.FileName like \"%%1%\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{
@@ -170,7 +170,7 @@ QString SQLManager::GetQueryAlbumOfCategoryListFromSong(int nCategory,
 	}
 	if (!format.isEmpty())
 	{
-		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
+		whereFormat = QString(" and Song.FileName like \"%%1%\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{
@@ -262,7 +262,7 @@ QString SQLManager::GetQueryArtistOfCategoryListFromSong(int nCategory,
 	}
 	if (!format.isEmpty())
 	{
-		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
+		whereFormat = QString(" and Song.FileName like \"%%1%\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{
@@ -356,7 +356,7 @@ QString SQLManager::GetQueryAlbumOfArtistOfCategoryListFromSong(int nCategory,
 	}
 	if (!format.isEmpty())
 	{
-		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
+		whereFormat = QString(" and Song.FileName like \"%%1%\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{
@@ -492,7 +492,7 @@ QString SQLManager::GetQueryTrackList(int nID,
 	}
 	if (!format.isEmpty())
 	{
-		whereFormat = QString(" and Song.FileName like \"%%1\"").arg(format);
+		whereFormat = QString(" and Song.FileName like \"%%1%\"").arg(format);
 	}
 	if (nFavorite >= 0)
 	{

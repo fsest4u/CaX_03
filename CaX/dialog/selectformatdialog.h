@@ -20,6 +20,8 @@ class SelectFormatDialog;
 #define FORMAT_MP3				"mp3"
 #define FORMAT_OGG				"ogg"
 #define FORMAT_WMA				"wma"
+#define FORMAT_DSD				"dsd"
+#define FORMAT_MQA				"mqa"
 
 class SelectFormatDialog : public QDialog
 {
@@ -39,6 +41,8 @@ public:
 		FORMAT_ID_MP3,
 		FORMAT_ID_OGG,
 		FORMAT_ID_WMA,
+		FORMAT_ID_DSD,
+		FORMAT_ID_MQA,
 		FORMAT_ID_MAX
 	};
 
