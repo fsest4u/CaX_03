@@ -125,12 +125,13 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
 		m_RespList.append(result.GetArrayAt(i));
-//		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
+//		LogDebug("node : [%s]", m_RespList[i].ToCompactByteArray().data());
 	}
 
 	CJsonNode track = m_RespList.at(0);
 //	LogDebug("track [%s]", track.ToCompactByteArray().data());
 
+	QString subtitle = track.GetString(KEY_BOT);
 	QString art = track.GetString(KEY_ART);
 	if (art.isEmpty())
 	{
@@ -145,7 +146,7 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 	{
 		m_SourceList = node.GetStringList(KEY_SOURCE);
 		QString source = m_SourceList[index];
-		QStringList tempList = source.split(":");
+		QStringList tempList = source.split(" : ");
 		if (tempList.count() > 1)
 		{
 			m_pInfoTracks->SetTitle(tempList[1]);
@@ -154,13 +155,23 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 		{
 			m_pInfoTracks->SetTitle(source);
 		}
-		m_pInfoTracks->SetSubtitle(node.GetString(KEY_ALBUM));
 	}
 	else
 	{
 		m_pInfoTracks->SetTitle(node.GetString(KEY_SOURCE));
-		m_pInfoTracks->SetSubtitle(node.GetString(KEY_ALBUM));
 	}
+
+	foreach(CJsonNode tempNode, m_RespList)
+	{
+		QString bot = tempNode.GetString(KEY_BOT);
+		if (!bot.contains(subtitle))
+		{
+			subtitle = "Various Artists";
+			break;
+		}
+	}
+	m_pInfoTracks->SetSubtitle(subtitle);
+
 //	m_pInfoTracks->SetInfo(MakeInfo());
 
 	SetOptionMenu();
