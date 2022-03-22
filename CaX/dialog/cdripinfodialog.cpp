@@ -62,6 +62,11 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 //	LogDebug("tracks [%s]", tracks.ToCompactByteArray().data());
 	for (int i = 0; i < tracks.ArraySize(); i++)
 	{
+		m_ListTrack.append(tracks.GetArrayAt(i));
+	}
+
+	for (int i = 0; i < 1; i++)
+	{
 		TrackInfo *trackInfo = new TrackInfo();
 		trackInfo->SetIndex(i);
 		trackInfo->SetArtistList(m_ArtistList);
@@ -70,7 +75,6 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 		trackInfo->SetMoodList(m_MoodList);
 		trackInfo->SetMode(TrackInfo::TRACK_INFO_MODE_EDIT);
 		trackInfo->SetInfoData(tracks.GetArrayAt(i));
-		m_ListTrack.append(tracks.GetArrayAt(i));
 		ui->stackedWidget->addWidget(trackInfo);
 
 		connect(trackInfo, SIGNAL(SigChangeArtist(int, QString)), this, SLOT(SlotChangeArtist(int, QString)));
@@ -143,18 +147,24 @@ void CDRipInfoDialog::SlotChangeCoverArt(QString image, QString thumb)
 
 void CDRipInfoDialog::SlotChangeArtist(int index, QString value)
 {
-	CJsonNode node = m_ListTrack.at(index);
-	node.Add(KEY_ARTIST, value);
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-	m_ListTrack.replace(index, node);
+	for (int i = 0; i < m_ListTrack.count(); i++)
+	{
+		CJsonNode node = m_ListTrack.at(i);
+		node.Add(KEY_ARTIST, value);
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_ListTrack.replace(i, node);
+	}
 }
 
 void CDRipInfoDialog::SlotChangeGenre(int index, QString value)
 {
-	CJsonNode node = m_ListTrack.at(index);
-	node.Add(KEY_GENRE, value);
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-	m_ListTrack.replace(index, node);
+	for (int i = 0; i < m_ListTrack.count(); i++)
+	{
+		CJsonNode node = m_ListTrack.at(i);
+		node.Add(KEY_GENRE, value);
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_ListTrack.replace(i, node);
+	}
 }
 
 void CDRipInfoDialog::SlotChangeComposer(int index, QString value)
@@ -167,10 +177,13 @@ void CDRipInfoDialog::SlotChangeComposer(int index, QString value)
 
 void CDRipInfoDialog::SlotChangeMood(int index, QString value)
 {
-	CJsonNode node = m_ListTrack.at(index);
-	node.Add(KEY_MOOD, value);
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-	m_ListTrack.replace(index, node);
+	for (int i = 0; i < m_ListTrack.count(); i++)
+	{
+		CJsonNode node = m_ListTrack.at(i);
+		node.Add(KEY_MOOD, value);
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_ListTrack.replace(i, node);
+	}
 }
 
 void CDRipInfoDialog::SlotChangeTitle(int index, QString value)
@@ -183,18 +196,25 @@ void CDRipInfoDialog::SlotChangeTitle(int index, QString value)
 
 void CDRipInfoDialog::SlotChangeTempo(int index, QString value)
 {
-	CJsonNode node = m_ListTrack.at(index);
-	node.Add(KEY_TEMPO, value);
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-	m_ListTrack.replace(index, node);
+
+	for (int i = 0; i < m_ListTrack.count(); i++)
+	{
+		CJsonNode node = m_ListTrack.at(i);
+		node.Add(KEY_TEMPO, value);
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_ListTrack.replace(i, node);
+	}
 }
 
 void CDRipInfoDialog::SlotChangeYear(int index, QString value)
 {
-	CJsonNode node = m_ListTrack.at(index);
-	node.Add(KEY_YEAR, value);
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
-	m_ListTrack.replace(index, node);
+	for (int i = 0; i < m_ListTrack.count(); i++)
+	{
+		CJsonNode node = m_ListTrack.at(i);
+		node.Add(KEY_YEAR, value);
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+		m_ListTrack.replace(i, node);
+	}
 }
 
 void CDRipInfoDialog::accept()
