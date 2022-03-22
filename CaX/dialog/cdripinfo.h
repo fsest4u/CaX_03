@@ -55,14 +55,20 @@ protected:
 private slots:
 
 	void SlotChangedFormat(int index);
-	void SlotChangedAlbum(int index);
-	void SlotChangedAlbumArtist(int index);
+//	void SlotChangedAlbum(int index);
+//	void SlotChangedAlbumArtist(int index);
 	void SlotEditFinishCDYear();
 	void SlotEditFinishCDNumber();
 	void SlotEditFinishCDTotal();
 	void SlotClickCoverArt();
 
+	void SlotEditTextChangedAlbum(const QString &text);
+	void SlotEditTextChangedAlbumArtist(const QString &text);
+
 private:
+
+	void ConnectSigToSlot();
+	void Initialize();
 
 	CJsonNode	m_InfoData;
 

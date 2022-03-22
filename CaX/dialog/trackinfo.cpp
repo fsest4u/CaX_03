@@ -124,35 +124,35 @@ void TrackInfo::SetIndex(int Index)
 	m_Index = Index;
 }
 
-void TrackInfo::SlotChangedAlbum(int index)
-{
-	emit SigChangeAlbum(m_Index, ui->cbAlbum->itemText(index));
-}
+//void TrackInfo::SlotChangedAlbum(int index)
+//{
+//	emit SigChangeAlbum(m_Index, ui->cbAlbum->itemText(index));
+//}
 
-void TrackInfo::SlotChangedAlbumArtist(int index)
-{
-	emit SigChangeAlbumArtist(m_Index, ui->cbAlbumArtist->itemText(index));
-}
+//void TrackInfo::SlotChangedAlbumArtist(int index)
+//{
+//	emit SigChangeAlbumArtist(m_Index, ui->cbAlbumArtist->itemText(index));
+//}
 
-void TrackInfo::SlotChangedArtist(int index)
-{
-	emit SigChangeArtist(m_Index, ui->cbArtist->itemText(index));
-}
+//void TrackInfo::SlotChangedArtist(int index)
+//{
+//	emit SigChangeArtist(m_Index, ui->cbArtist->itemText(index));
+//}
 
-void TrackInfo::SlotChangedGenre(int index)
-{
-	emit SigChangeGenre(m_Index, ui->cbGenre->itemText(index));
-}
+//void TrackInfo::SlotChangedGenre(int index)
+//{
+//	emit SigChangeGenre(m_Index, ui->cbGenre->itemText(index));
+//}
 
-void TrackInfo::SlotChangedComposer(int index)
-{
-	emit SigChangeComposer(m_Index, ui->cbComposer->itemText(index));
-}
+//void TrackInfo::SlotChangedComposer(int index)
+//{
+//	emit SigChangeComposer(m_Index, ui->cbComposer->itemText(index));
+//}
 
-void TrackInfo::SlotChangedMood(int index)
-{
-	emit SigChangeMood(m_Index, ui->cbMood->itemText(index));
-}
+//void TrackInfo::SlotChangedMood(int index)
+//{
+//	emit SigChangeMood(m_Index, ui->cbMood->itemText(index));
+//}
 
 void TrackInfo::SlotEditTextChangedAlbum(const QString &text)
 {

@@ -75,12 +75,12 @@ signals:
 
 private slots:
 
-	void SlotChangedAlbum(int index);
-	void SlotChangedAlbumArtist(int index);
-	void SlotChangedArtist(int index);
-	void SlotChangedComposer(int index);
-	void SlotChangedGenre(int index);
-	void SlotChangedMood(int index);
+//	void SlotChangedAlbum(int index);
+//	void SlotChangedAlbumArtist(int index);
+//	void SlotChangedArtist(int index);
+//	void SlotChangedComposer(int index);
+//	void SlotChangedGenre(int index);
+//	void SlotChangedMood(int index);
 
 	void SlotEditTextChangedAlbum(const QString &text);
 	void SlotEditTextChangedAlbumArtist(const QString &text);

@@ -15,19 +15,8 @@ CDRipInfo::CDRipInfo(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	m_AlbumList.clear();
-	m_AlbumArtistList.clear();
-
-	connect(ui->cbFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedFormat(int)));
-	connect(ui->cbAlbum, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
-	connect(ui->cbAlbumArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
-	connect(ui->lineEditCDYear, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDYear()));
-	connect(ui->lineEditCDNumber, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDNumber()));
-	connect(ui->lineEditCDTotal, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDTotal()));
-//	connect(ui->btnCoverArt, SIGNAL(clicked()), this, SLOT(SlotClickCoverArt()));
-
-	ui->labelCoverArt->installEventFilter(this);
-
+	ConnectSigToSlot();
+	Initialize();
 }
 
 CDRipInfo::~CDRipInfo()
@@ -73,15 +62,15 @@ void CDRipInfo::SlotChangedFormat(int index)
 	emit SigChangeFormat(index);
 }
 
-void CDRipInfo::SlotChangedAlbum(int index)
-{
-	emit SigChangeAlbum(ui->cbAlbum->itemText(index));
-}
+//void CDRipInfo::SlotChangedAlbum(int index)
+//{
+//	emit SigChangeAlbum(ui->cbAlbum->itemText(index));
+//}
 
-void CDRipInfo::SlotChangedAlbumArtist(int index)
-{
-	emit SigChangeAlbumArtist(ui->cbAlbumArtist->itemText(index));
-}
+//void CDRipInfo::SlotChangedAlbumArtist(int index)
+//{
+//	emit SigChangeAlbumArtist(ui->cbAlbumArtist->itemText(index));
+//}
 
 void CDRipInfo::SlotEditFinishCDYear()
 {
@@ -148,6 +137,44 @@ void CDRipInfo::SlotClickCoverArt()
 
 		emit SigChangeCoverArt(resultDialog.GetImage(), resultDialog.GetThumb());
 	}
+}
+
+void CDRipInfo::SlotEditTextChangedAlbum(const QString &text)
+{
+	emit SigChangeAlbum(text);
+}
+
+void CDRipInfo::SlotEditTextChangedAlbumArtist(const QString &text)
+{
+	emit SigChangeAlbumArtist(text);
+}
+
+void CDRipInfo::ConnectSigToSlot()
+{
+	connect(ui->cbFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedFormat(int)));
+//	connect(ui->cbAlbum, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
+//	connect(ui->cbAlbumArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
+	connect(ui->lineEditCDYear, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDYear()));
+	connect(ui->lineEditCDNumber, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDNumber()));
+	connect(ui->lineEditCDTotal, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDTotal()));
+//	connect(ui->btnCoverArt, SIGNAL(clicked()), this, SLOT(SlotClickCoverArt()));
+
+	connect(ui->cbAlbum, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbum(const QString &)));
+	connect(ui->cbAlbumArtist, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbumArtist(const QString &)));
+
+
+}
+
+void CDRipInfo::Initialize()
+{
+	m_AlbumList.clear();
+	m_AlbumArtistList.clear();
+
+	ui->cbAlbum->setEditable(true);
+	ui->cbAlbumArtist->setEditable(true);
+
+	ui->labelCoverArt->installEventFilter(this);
+
 }
 
 QString CDRipInfo::GetImage() const
