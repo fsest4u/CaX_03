@@ -42,7 +42,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where Album.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Album.rowid	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 
@@ -64,7 +64,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where AlbumArtist.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by AlbumArtist.rowid	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 #define SQL_ARTIST_LIST_FROM_SONG	"	\
@@ -85,7 +85,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where Artist.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Artist.rowid	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 
@@ -108,7 +108,7 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 where Composer.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Composer.rowid	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 
@@ -131,7 +131,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where Genre.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Genre.rowid	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 
@@ -155,7 +155,7 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Mood.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Mood.rowid	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 
@@ -179,7 +179,7 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join Folder on Song.FolderID = Folder.ROWID	\
 where Folder.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Folder.rowid	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 
@@ -199,7 +199,7 @@ inner join Artist on Song.ArtistID = Artist.ROWID	\
 inner join Genre on Song.GenreID = Genre.ROWID	\
 where Song.IsDel = 0	%1 %2 %3 %4 %5 %6	\
 group by Song.Year	\
-order by %7.%8 %9	\
+order by %7.%8 collate nocase %9	\
 %10"
 
 
@@ -254,8 +254,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1 %2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 
 #define SQL_ALBUM_ARTIST_OVERVIEW	"	\
@@ -306,8 +306,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumArtistID = %1 %2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 #define SQL_ARTIST_OVERVIEW	"	\
 select	\
@@ -356,8 +356,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.ArtistID = %1	%2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 
 #define SQL_COMPOSER_OVERVIEW	"	\
@@ -408,8 +408,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.ComposerID = %1 %2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 
 #define SQL_GENRE_OVERVIEW	"	\
@@ -460,8 +460,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.GenreID = %1 %2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 
 #define SQL_MOOD_OVERVIEW	"	\
@@ -512,8 +512,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.MoodID = %1 %2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 
 #define SQL_FOLDER_OVERVIEW	"	\
@@ -564,8 +564,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.FolderID = %1 %2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 
 #define SQL_YEAR_OVERVIEW	"	\
@@ -613,8 +613,8 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.Year = %1 %2 %3 %4 %5 %6 %7	\
-		order by Song.%8 %9	\
-		%10"
+order by Song.%8 collate nocase %9	\
+%10"
 
 
 #define SQL_TRACK_OVERVIEW	"	\
@@ -660,7 +660,7 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 %1 %2 %3 %4 %5	%6	\
-order by Song.%7 %8	\
+order by Song.%7 collate nocase %8	\
 %9"
 
 // --------------------------------------------------------------------------
@@ -680,7 +680,7 @@ inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Album.IsDel = 0	%1 %2 %3 %4 %5 %6 %7	\
 group by Album.rowid	\
-order by %8.%9 %10	\
+order by %8.%9 collate nocase %10	\
 %11"
 
 #define SQL_ARTIST_OF_CAT_LIST_FROM_SONG	"	\
@@ -694,7 +694,7 @@ from Song	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Artist.IsDel = 0	%1 %2 %3 %4 %5 %6 %7	\
 group by Artist.rowid	\
-order by %8.%9 %10	\
+order by %8.%9 collate nocase %10	\
 %11"
 
 #define SQL_ALBUM_OF_ARTIST_CAT_LIST_FROM_SONG	"	\
@@ -710,7 +710,7 @@ inner join Album on Song.AlbumID = Album.ROWID	\
 inner join Artist on Song.ArtistID = Artist.ROWID	\
 where Album.IsDel = 0	%1 %2 %3 %4 %5 %6 %7 %8	\
 group by Album.rowid	\
-order by %9.%10 %11	\
+order by %9.%10 collate nocase %11	\
 %12"
 
 // --------------------------------------------------------------------------
@@ -743,7 +743,7 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1 %2	\
-order by Song.%3 %4	\
+order by Song.%3 collate nocase %4	\
 %5"
 
 #define SQL_TRACK_LIST_OF_ALBUM_OF_ARTIST_OF_CAT_LIST	"	\
@@ -772,7 +772,7 @@ inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
 where Song.IsDel = 0 and Song.AlbumID = %1 %2 %3	\
-order by Song.%4 %5	\
+order by Song.%4 collate nocase %5	\
 %6"
 
 // --------------------------------------------------------------------------
@@ -827,7 +827,7 @@ select	\
 from Pls	\
 where pls.IsDel = 0	\
 group by Pls.ROWID	\
-order by pls.Name	\
+order by pls.Name collate nocase 	\
 "
 
 #define SQL_PLAYLIST_OVERVIEW	"	\
@@ -869,7 +869,7 @@ inner join PlsSong on Song.ROWID = PlsSong.SongID	\
 inner join FilePath on FilePath.ROWID = Song.FilePathID	\
 inner join FsUuid on FsUuid.ROWID = FilePath.FsUuidID	\
 where PlsSong.PlsID = %1 and FsUuid.MntPath != \"\"	\
-order by PlsSong.Seq	\
+order by PlsSong.Seq collate nocase 	\
 "
 
 ////////////////////////////////////////////
@@ -932,7 +932,7 @@ INNER JOIN Album on Song.AlbumID = Album.ROWID	\
 INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
 WHERE Album.IsDel = 0 AND Album.Name like \"%%1%\"	\
 GROUP BY Song.AlbumID	\
-ORDER BY Album.Name	\
+ORDER BY Album.Name collate nocase	\
 LIMIT 0, 100	\
 "
 
@@ -944,7 +944,7 @@ FROM Song	\
 INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
 WHERE Artist.IsDel = 0 AND Artist.Name like \"%%1%\"	\
 GROUP BY Song.ArtistID	\
-ORDER BY Artist.Name	\
+ORDER BY Artist.Name collate nocase 	\
 LIMIT 0, 100	\
 "
 
@@ -963,7 +963,7 @@ INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
 INNER JOIN Genre on Song.GenreID = Genre.ROWID	\
 WHERE Album.IsDel = 0 AND Song.Name like \"%%1%\"	\
 GROUP BY Song.ROWID	\
-ORDER BY Song.Name	\
+ORDER BY Song.Name collate nocase 	\
 LIMIT 0, 100	\
 "
 
