@@ -144,7 +144,16 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 	if (node.GetInt(KEY_SOURCE_INDEX, index))
 	{
 		m_SourceList = node.GetStringList(KEY_SOURCE);
-		m_pInfoTracks->SetTitle(m_SourceList[index]);
+		QString source = m_SourceList[index];
+		QStringList tempList = source.split(":");
+		if (tempList.count() > 1)
+		{
+			m_pInfoTracks->SetTitle(tempList[1]);
+		}
+		else
+		{
+			m_pInfoTracks->SetTitle(source);
+		}
 		m_pInfoTracks->SetSubtitle(node.GetString(KEY_ALBUM));
 	}
 	else
