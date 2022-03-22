@@ -32,6 +32,7 @@ signals:
 	void SigClickBack(int taskID);
 	void SigClickStop(int taskID);
 	void SigClickSkip(int taskID);
+	void SigClickClose();
 
 
 private slots:

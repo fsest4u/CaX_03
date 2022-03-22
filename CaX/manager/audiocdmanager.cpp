@@ -161,7 +161,6 @@ void AudioCDManager::SlotRespInfo(QString json, int cmdID)
 		emit SigRespCDRipInfo(node);
 		break;
 	case AUDIO_CD_RIP:
-		LogInfo("rip ...");
 		break;
 	case AUDIO_CD_CATEGORY_LIST:
 		ParseCategoryList(node);

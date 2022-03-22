@@ -123,6 +123,7 @@ void ProgressDialog::SlotClickSkip()
 
 void ProgressDialog::SlotClickClose()
 {
+	emit SigClickClose();
 	this->close();
 }
 

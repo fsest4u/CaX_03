@@ -56,6 +56,8 @@ private slots:
 
 	void SlotOptionMenuAction(int id, int menuID);
 
+	void SlotEjectCD();
+
 private:
 
 	void ReadSettings();

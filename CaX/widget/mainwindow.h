@@ -26,6 +26,10 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 
+signals:
+
+	void SigEjectCD();
+
 public slots:
 
 	void SlotMenu();
@@ -49,6 +53,7 @@ public slots:
 	void SlotClickBack(int taskID);
 	void SlotClickStop(int taskID);
 	void SlotClickSkip(int taskID);
+	void SlotClickClose();
 
 	void SlotDeviceItem(int state);
 	void SlotAutoConnectDevice(QString mac, QString addr, QString val, QString dev);

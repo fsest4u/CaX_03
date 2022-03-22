@@ -464,6 +464,11 @@ void AudioCDWindow::SlotOptionMenuAction(int id, int menuID)
 	}
 }
 
+void AudioCDWindow::SlotEjectCD()
+{
+	DoTopMenuEjectCD();
+}
+
 void AudioCDWindow::ReadSettings()
 {
 	SettingIO settings;

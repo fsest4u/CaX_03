@@ -616,6 +616,11 @@ void MainWindow::SlotClickSkip(int taskID)
 	m_pAppMgr->RequestProgressSkip(m_EventID, taskID);
 }
 
+void MainWindow::SlotClickClose()
+{
+	emit SigEjectCD();
+}
+
 void MainWindow::SlotSelectDevice(QString mac, QString addr, QString val, QString dev)
 {
 	LogDebug("*****************************************");
@@ -957,6 +962,7 @@ void MainWindow::ConnectForApp()
 	connect(m_ProgressDialog, SIGNAL(SigClickBack(int)), this, SLOT(SlotClickBack(int)));
 	connect(m_ProgressDialog, SIGNAL(SigClickStop(int)), this, SLOT(SlotClickStop(int)));
 	connect(m_ProgressDialog, SIGNAL(SigClickSkip(int)), this, SLOT(SlotClickSkip(int)));
+	connect(m_ProgressDialog, SIGNAL(SigClickClose()), this, SLOT(SlotClickClose()));
 }
 
 void MainWindow::DoDeviceListHome()
@@ -991,6 +997,8 @@ void MainWindow::DoAudioCDHome()
 	widget->AddWidgetAudioCDHome();
 	SlotAddWidget(widget, STR_AUDIO_CD);
 	widget->RequestTrackList();
+
+	connect(this, SIGNAL(SigEjectCD()), widget, SLOT(SlotEjectCD()));
 }
 
 void MainWindow::DoPlaylistHome()

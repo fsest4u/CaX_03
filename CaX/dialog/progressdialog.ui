@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>540</width>
-    <height>372</height>
+    <width>532</width>
+    <height>236</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,7 +107,7 @@ QPushButton:hover
 }</string>
         </property>
         <property name="text">
-         <string>Close</string>
+         <string>Ok</string>
         </property>
        </widget>
       </item>
@@ -209,7 +209,7 @@ QPushButton:hover
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>200</height>
+       <height>100</height>
       </size>
      </property>
      <property name="widgetResizable">
@@ -220,8 +220,8 @@ QPushButton:hover
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>520</width>
-        <height>202</height>
+        <width>518</width>
+        <height>98</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
