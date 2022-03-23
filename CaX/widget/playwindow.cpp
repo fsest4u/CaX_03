@@ -104,7 +104,7 @@ void PlayWindow::SlotBtnInfo()
 			|| !m_Src.compare(SRC_AIRABLE_UPNP)
 			|| !m_Src.compare(SRC_QOBUZ))
 	{
-		m_pMgr->RequestQueueList(m_TimeStamp);
+		m_pMgr->RequestQueueList(m_TimeStamp, 0);
 	}
 	else if (!m_Src.compare(SRC_FM_RADIO))
 	{
@@ -263,7 +263,7 @@ void PlayWindow::SlotQueueList(CJsonNode node)
 
 	if (node.GetInt64(KEY_TIME_STAMP) > m_PlayInfo.GetInt64(KEY_TIME_STAMP))
 	{
-		m_PlayInfo.AddInt(KEY_TOTAL_UPPER, node.GetInt(KEY_TOTAL_UPPER));
+		m_PlayInfo.AddInt(KEY_TOTAL_CAP, node.GetInt(KEY_TOTAL_CAP));
 	}
 
 	emit SigAddQueueList(node);

@@ -148,6 +148,9 @@ void QueuelistWindow::SetNodeInfo(CJsonNode node)
 //	}
 
 	m_Track->ClearNodeList();
+	m_Track->SetStartIndex(node.GetInt(KEY_INDEX));
+	m_Track->SetTotalCount(node.GetInt(KEY_TOTAL_CAP));
+	m_Track->SetTimeStamp(node.GetInt64(KEY_TIME_STAMP));
 	m_TotalTime = m_Track->SetNodeList(list, m_Src);
 }
 
@@ -173,7 +176,7 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		m_pFormTitle->SetTitle(m_AlbumName);
 		SetMqa(node.GetString(KEY_MQA));
 		SetFormat(node.GetString(KEY_FORMAT));
-		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_CAP), node.GetInt(KEY_CURR_PLAY));
 		SetTotalTime(m_TotalTime);
 
 		m_TrackID = node.GetString(KEY_ID_UPPER).toInt();
@@ -186,7 +189,7 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		m_pFormTitle->SetTitle(m_AlbumName);
 		SetMqa(node.GetString(KEY_MQA));
 		SetFormat(node.GetString(KEY_FORMAT));
-		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_CAP), node.GetInt(KEY_CURR_PLAY));
 		SetTotalTime(m_TotalTime);
 	}
 	else if (!m_Src.compare(SRC_FM_RADIO))
@@ -209,13 +212,16 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		}
 
 		m_Track->ClearNodeList();
+		m_Track->SetStartIndex(list.count());
+		m_Track->SetTotalCount(node.GetInt(KEY_TOTAL_CAP));
+		m_Track->SetTimeStamp(node.GetInt64(KEY_TIME_STAMP));
 		m_TotalTime = m_Track->SetNodeList(list, m_Src);
 		m_Track->SetRadioInfo(node.GetInt(KEY_FREQ_MIN), node.GetInt(KEY_FREQ_MAX), node.GetInt(KEY_FREQ_STEP));
 
 		m_AlbumName = node.GetString(KEY_TOP);
 		m_pFormTitle->SetTitle(m_AlbumName);
 		SetFormat(node.GetString(KEY_FORMAT));
-		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_CAP), node.GetInt(KEY_CURR_PLAY));
 		SetTotalTime(m_TotalTime);
 
 	}
@@ -233,7 +239,7 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 		m_pFormTitle->SetTitle(m_AlbumName);
 		SetMqa(node.GetString(KEY_MQA));
 		SetFormat(node.GetString(KEY_FORMAT));
-		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_CAP), node.GetInt(KEY_CURR_PLAY));
 		SetTotalTime(m_TotalTime);
 	}
 }
@@ -442,7 +448,6 @@ void QueuelistWindow::SlotOptionMenuAddToPlaylist(int id)
 	m_pMgr->RequestAddToPlaylist(id, map);
 }
 
-
 void QueuelistWindow::ConnectSigToSlot()
 {
 	connect(this, SIGNAL(SigAddWidget(QWidget*, QString)), parent(), SLOT(SlotAddWidget(QWidget*, QString)));
@@ -599,7 +604,7 @@ void QueuelistWindow::SetPlayIndex(int total, int currPlay)
 		ui->labelTotalCount->show();
 
 		ui->labelCurPlay->setText(QString::number(currPlay + 1));
-		ui->labelTotalCount->setText(QString::number(total));
+		ui->labelTotalCount->setText(QString::number(m_Track->GetTotalCount()));
 
 		m_Track->SetCurrentIndex(currPlay);
 	}

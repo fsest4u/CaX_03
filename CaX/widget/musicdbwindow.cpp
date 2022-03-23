@@ -814,15 +814,29 @@ void MusicDBWindow::SlotPlayAll()
 		m_SelectMap = m_pTableTracks->GetSelectMap();
 	}
 
+	if (m_SelectMap.count() <= 0)
+	{
+		if (m_ListMode == VIEW_MODE_ICON)
+		{
+			m_pIconTracks->SetAllSelectMap();
+			m_SelectMap = m_pIconTracks->GetSelectMap();
+		}
+		else
+		{
+			m_pTableTracks->SetAllSelectMap();
+			m_SelectMap = m_pTableTracks->GetSelectMap();
+		}
+	}
+
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestManageCategory(VAL_PLAY, m_SelectMap, PLAY_CLEAR, m_nCategory);
 	}
-	else
-	{
-		QMap<int, bool> map;
-		m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_CLEAR, m_nCategory);
-	}
+//	else
+//	{
+//		QMap<int, bool> map;
+//		m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_CLEAR, m_nCategory);
+//	}
 }
 
 void MusicDBWindow::SlotPlayRandom()
@@ -1092,16 +1106,23 @@ void MusicDBWindow::SlotItemPlayAll()
 {
 //	m_pMgr->RequestPlayCategoryItem(m_nID, PLAY_CLEAR, m_nCategory);
 	m_SelectMap = m_pTableTracks->GetSelectMap();
+
+	if (m_SelectMap.count() <= 0)
+	{
+		m_pTableTracks->SetAllSelectMap();
+		m_SelectMap = m_pTableTracks->GetSelectMap();
+	}
+
 	if (m_SelectMap.count() > 0)
 	{
 		m_pMgr->RequestManageCategory(VAL_PLAY, m_SelectMap, PLAY_CLEAR, SQLManager::CATEGORY_TRACK);
 	}
-	else
-	{
-		QMap<int, bool> map;
-		map.insert(m_nID, true);
-		m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_CLEAR, m_nCategory);
-	}
+//	else
+//	{
+//		QMap<int, bool> map;
+//		map.insert(m_nID, true);
+//		m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_CLEAR, m_nCategory);
+//	}
 }
 
 void MusicDBWindow::SlotItemPlayRandom()

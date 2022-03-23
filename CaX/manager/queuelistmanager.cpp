@@ -117,14 +117,14 @@ void QueuelistManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap)
 	RequestCommand(node, QUEUELIST_ADD_TO_PLAYLIST);
 }
 
-void QueuelistManager::RequestQueueList(uint timestamp)
+void QueuelistManager::RequestQueueList(uint timestamp, int start)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_PLAY);
 	node.Add	(KEY_CMD1,		VAL_LIST);
 	node.AddInt	(KEY_TIME_STAMP,timestamp);
-	node.AddInt	(KEY_INDEX,		0);
-	node.AddInt	(KEY_PAGE_CNT,	100);
+	node.AddInt	(KEY_INDEX,		start);
+	node.AddInt	(KEY_PAGE_CNT,	QUEUE_COUNT);
 
 	RequestCommand(node, QUEUELIST_QUEUE_LIST);
 }
@@ -231,14 +231,7 @@ void QueuelistManager::ParseTrackInfo(CJsonNode node)
 
 void QueuelistManager::ParseQueueList(CJsonNode node)
 {
-	CJsonNode result = node.GetArray(VAL_RESULT);
-	if (result.ArraySize() <= 0)
-	{
-//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
-		return;
-	}
-
-	emit SigRespQueueList(result);
+	emit SigRespQueueList(node);
 }
 
 void QueuelistManager::ParseDeleteQueue(CJsonNode node)

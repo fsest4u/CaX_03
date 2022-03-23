@@ -234,7 +234,7 @@
 #define		KEY_TRACKS			"Tracks"
 #define		KEY_TOP				"Top"
 #define		KEY_TOTAL			"total"
-#define		KEY_TOTAL_UPPER		"Total"
+#define		KEY_TOTAL_CAP		"Total"
 #define		KEY_TYPE			"Type"
 
 #define		KEY_UPNP			"Upnp"

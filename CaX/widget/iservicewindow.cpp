@@ -499,7 +499,7 @@ void IServiceWindow::SlotRespAirableLoginSuccess(int nServiceType, bool bSaveAut
 
 void IServiceWindow::SlotRespQobuzList(QList<CJsonNode> list, bool genre, int start)
 {
-	m_StartCount = start;
+	m_StartIndex = start;
 
 	int nType =  list[0].GetInt(KEY_TYPE);
 	UtilNovatron::DebugTypeForQobuz("SlotRespQobuzList", nType);
@@ -820,7 +820,7 @@ void IServiceWindow::Initialize()
 	m_PlaylistID = "";
 	m_Refresh = false;
 
-	m_StartCount = QOBUZ_START;
+	m_StartIndex = QOBUZ_START;
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
@@ -1370,7 +1370,7 @@ void IServiceWindow::AppendSearchForQobuz()
 
 		QString keyword = node.GetString(KEY_KEYWORD);
 
-		RequestQobuzSearch(itemType, keyword, m_StartCount, QOBUZ_COUNT);
+		RequestQobuzSearch(itemType, keyword, m_StartIndex, QOBUZ_COUNT);
 
 	}
 	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Artist) == nType
@@ -1387,7 +1387,7 @@ void IServiceWindow::AppendSearchForQobuz()
 
 		QString strID = node.GetString(KEY_ID_UPPER);
 
-		RequestQobuzCategory(nType, strID, m_StartCount, QOBUZ_COUNT);
+		RequestQobuzCategory(nType, strID, m_StartIndex, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_Search | iQobuzType_Mask_Track) == nType)
 	{
@@ -1447,7 +1447,7 @@ void IServiceWindow::AppendRecommendForQobuz()
 
 			QString strGenreID = node.GetString(KEY_GENRE_ID);
 
-			RequestQobuzRecommend(nType, strID, m_StartCount, QOBUZ_COUNT, strGenreID);
+			RequestQobuzRecommend(nType, strID, m_StartIndex, QOBUZ_COUNT, strGenreID);
 		}
 		else
 		{
@@ -1484,7 +1484,7 @@ void IServiceWindow::AppendRecommendForQobuz()
 //			widget->SetNode(node);
 //			widget->RequestQobuzRecommend(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 
-			RequestQobuzRecommend(nType, strID, m_StartCount, QOBUZ_COUNT);
+			RequestQobuzRecommend(nType, strID, m_StartIndex, QOBUZ_COUNT);
 		}
 		else
 		{
@@ -1496,7 +1496,7 @@ void IServiceWindow::AppendRecommendForQobuz()
 //			widget->SetNode(node);
 //			widget->RequestQobuzCategory(nType, strID, QOBUZ_START, QOBUZ_COUNT);
 
-			RequestQobuzCategory(nType, strID, m_StartCount, QOBUZ_COUNT);
+			RequestQobuzCategory(nType, strID, m_StartIndex, QOBUZ_COUNT);
 		}
 	}
 	else if ((iQobuzType_Mask_Recommend | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Menu_Genre | iQobuzType_Mask_Track) == nType
@@ -1532,7 +1532,7 @@ void IServiceWindow::AppendFavoriteForQobuz()
 //		widget->SetNode(node);
 //		widget->RequestQobuzFavorite(nType, QOBUZ_START, QOBUZ_COUNT);
 
-		RequestQobuzFavorite(nType, m_StartCount, QOBUZ_COUNT);
+		RequestQobuzFavorite(nType, m_StartIndex, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Artist) == nType
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Album) == nType
@@ -1548,7 +1548,7 @@ void IServiceWindow::AppendFavoriteForQobuz()
 
 		QString strID = node.GetString(KEY_ID_UPPER);
 
-		RequestQobuzCategory(nType, strID, m_StartCount, QOBUZ_COUNT);
+		RequestQobuzCategory(nType, strID, m_StartIndex, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Artist | iQobuzType_Mask_Track) == nType
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album | iQobuzType_Mask_Track) == nType
@@ -1577,7 +1577,7 @@ void IServiceWindow::AppendUserPlaylistForQobuz()
 //		widget->SetNode(node);
 //		widget->RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
 
-		RequestQobuzPlaylist(m_StartCount, QOBUZ_COUNT);
+		RequestQobuzPlaylist(m_StartIndex, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == nType)
 	{
@@ -1589,7 +1589,7 @@ void IServiceWindow::AppendUserPlaylistForQobuz()
 //		widget->SetNode(node);
 //		widget->RequestQobuzCategory(nType, m_PlaylistID, QOBUZ_START, QOBUZ_COUNT);
 
-		RequestQobuzCategory(nType, playlistID, m_StartCount, QOBUZ_COUNT);
+		RequestQobuzCategory(nType, playlistID, m_StartIndex, QOBUZ_COUNT);
 	}
 	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Track) == nType)
 	{

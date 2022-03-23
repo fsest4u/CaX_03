@@ -198,7 +198,7 @@ private:
 	bool				m_bGenre;
 	bool				m_Refresh;
 
-	int					m_StartCount;
+	int					m_StartIndex;
 
 	QModelIndex			m_ModelIndex;
 

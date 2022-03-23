@@ -24,11 +24,9 @@ public:
 	void RequestRadioDelete(QMap<int, bool> idMap);
 	void RequestRadioRecordSet(CJsonNode node);
 
-
 	void RequestAddToPlaylist(int id, QMap<int, bool> idMap);
-	void RequestQueueList(uint timestamp);
+	void RequestQueueList(uint timestamp, int start);
 	void RequestDeletePlayQueue(int id, int eventID);
-
 
 	SQLManager *GetSqlMgr() const;
 	void SetSqlMgr(SQLManager *pSql);

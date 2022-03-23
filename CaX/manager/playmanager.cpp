@@ -85,14 +85,14 @@ void PlayManager::RequestSongInfo(int nID)
 
 }
 
-void PlayManager::RequestQueueList(uint timestamp)
+void PlayManager::RequestQueueList(uint timestamp, int start)
 {
 	CJsonNode node(JSON_OBJECT);
 	node.Add	(KEY_CMD0,		VAL_PLAY);
 	node.Add	(KEY_CMD1,		VAL_LIST);
 	node.AddInt	(KEY_TIME_STAMP,timestamp);
-	node.AddInt	(KEY_INDEX,		0);
-	node.AddInt	(KEY_PAGE_CNT,	100);
+	node.AddInt	(KEY_INDEX,		start);
+	node.AddInt	(KEY_PAGE_CNT,	QUEUE_COUNT);
 
 	RequestCommand(node, PLAY_QUEUE_LIST);
 }

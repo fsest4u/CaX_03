@@ -47,7 +47,7 @@ public:
 	void RequestRate();
 	void RequestSongInfo(int nID);
 
-	void RequestQueueList(uint timestamp);
+	void RequestQueueList(uint timestamp, int start);
 	void RequestQueuePlay(int nID);
 
 

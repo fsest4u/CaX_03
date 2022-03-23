@@ -31,6 +31,11 @@ public:
 
 	void SetRadioInfo(int min, int max, int step);
 
+	void SetStartIndex(int index);
+	int GetTotalCount();
+	void SetTotalCount(int count);
+	void SetTimeStamp(uint timestamp);
+
 	QStandardItemModel	*GetModel();
 	QueueTrackDelegate	*GetDelegate();
 
@@ -46,11 +51,14 @@ private slots:
 
 	void SlotRespError(QString errMsg);
 	void SlotRespTrackInfo(CJsonNode node);
-	void SlotRespQueueList(CJsonNode result);
+	void SlotRespQueueList(CJsonNode node);
 	void SlotRespDeleteQueue(CJsonNode node);
 
 	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
 	void SlotMenuAction(QAction *action);
+
+	void SlotScrollValueChanged(int value);
+	void SlotScrollReleased();
 
 private:
 
@@ -76,6 +84,7 @@ private:
 	QListView				*m_ListView;
 	QStandardItemModel		*m_Model;
 	QueueTrackDelegate		*m_Delegate;
+	QScrollBar				*m_ScrollBar;
 
 	QList<CJsonNode>		m_NodeList;
 
@@ -91,12 +100,14 @@ private:
 
 	int						m_SelIndex;
 	QPoint					m_SelPoint;
+
+	int						m_StartIndex;
+	int						m_TotalCount;
 	uint					m_TimeStamp;
 
 	int						m_FreqMax;
 	int						m_FreqMin;
 	int						m_FreqStep;
-
 
 	Ui::QueueTrack *ui;
 };

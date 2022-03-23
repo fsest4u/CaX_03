@@ -1,4 +1,5 @@
 #include <QMenu>
+#include <QScrollBar>
 
 #include "queuetrack.h"
 #include "ui_queuetrack.h"
@@ -22,6 +23,7 @@ QueueTrack::QueueTrack(QWidget *parent, const QString &addr, const int &eventID)
 	m_ListView(new QListView),
 	m_Model(new QStandardItemModel),
 	m_Delegate(new QueueTrackDelegate),
+	m_ScrollBar(nullptr),
 	m_EventID(eventID),
 	m_Menu(new QMenu(this)),
 	ui(new Ui::QueueTrack)
@@ -40,6 +42,12 @@ QueueTrack::~QueueTrack()
 	{
 		delete m_pMgr;
 		m_pMgr = nullptr;
+	}
+
+	if (m_ScrollBar)
+	{
+		delete m_ScrollBar;
+		m_ScrollBar = nullptr;
 	}
 
 	if (m_ListView)
@@ -79,11 +87,11 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list, QString src)
 {
 	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
-	m_NodeList = list;
-	m_Delegate->SetSrc(src);
-
-	int index = 0;
 	int totalTime = 0;
+	int index = m_NodeList.count();
+
+	m_NodeList.append(list);
+	m_Delegate->SetSrc(src);
 
 	if (!src.compare(SRC_MUSIC_DB)
 			|| !src.compare(SRC_AUDIO_CD)
@@ -141,6 +149,8 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list, QString src)
 		}
 	}
 
+	SlotScrollReleased();
+
 	UtilNovatron::LoadingStop(loading);
 
 	return totalTime;
@@ -150,6 +160,8 @@ void QueueTrack::ClearNodeList()
 {
 	m_Model->clear();
 	m_NodeList.clear();
+
+	m_StartIndex = 0;
 }
 
 int QueueTrack::GetCurrentIndex()
@@ -179,6 +191,26 @@ void QueueTrack::SetRadioInfo(int min, int max, int step)
 	m_FreqMax = max;
 	m_FreqMin = min;
 	m_FreqStep = step;
+}
+
+void QueueTrack::SetStartIndex(int index)
+{
+	m_StartIndex = index;
+}
+
+int QueueTrack::GetTotalCount()
+{
+	return m_TotalCount;
+}
+
+void QueueTrack::SetTotalCount(int count)
+{
+	m_TotalCount = count;
+}
+
+void QueueTrack::SetTimeStamp(uint timestamp)
+{
+	m_TimeStamp = timestamp;
 }
 
 QStandardItemModel *QueueTrack::GetModel()
@@ -228,8 +260,19 @@ void QueueTrack::SlotRespTrackInfo(CJsonNode node)
 	SetOptionMenu(menuMap);
 }
 
-void QueueTrack::SlotRespQueueList(CJsonNode result)
+void QueueTrack::SlotRespQueueList(CJsonNode node)
 {
+
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	if (result.ArraySize() <= 0)
+	{
+//		emit SigRespError(message.left(MSG_LIMIT_COUNT));
+		return;
+	}
+
+	m_StartIndex = node.GetInt(KEY_INDEX);
+	m_TimeStamp = node.GetInt64(KEY_TIME_STAMP);
+
 	QList<CJsonNode> list;
 	for (int i = 0; i < result.ArraySize(); i++)
 	{
@@ -237,16 +280,17 @@ void QueueTrack::SlotRespQueueList(CJsonNode result)
 //		LogDebug("node : [%s]", m_NodeList[i].ToCompactByteArray().data());
 	}
 
-	ClearNodeList();
 	int totTime = SetNodeList(list, m_Delegate->GetSrc());
 
-	emit SigUpdateTimeStamp(m_TimeStamp, list.count(), totTime);
+	emit SigUpdateTimeStamp(m_TimeStamp, m_TotalCount, totTime);
 }
 
 void QueueTrack::SlotRespDeleteQueue(CJsonNode node)
 {
 	m_TimeStamp = node.GetInt64(KEY_TIME_STAMP);
-	m_pMgr->RequestQueueList(m_TimeStamp);
+
+	ClearNodeList();
+	m_pMgr->RequestQueueList(m_TimeStamp, m_StartIndex);
 }
 
 void QueueTrack::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
@@ -303,6 +347,28 @@ void QueueTrack::SlotMenuAction(QAction *action)
 	}
 }
 
+void QueueTrack::SlotScrollValueChanged(int value)
+{
+	int min = m_ScrollBar->minimum();
+	int max = m_ScrollBar->maximum();
+//	LogDebug("value [%d] min [%d] max [%d]", value, min, max);
+	if (value >= max && max != 0)
+	{
+		if (m_TotalCount > m_StartIndex)
+		{
+//			emit SigAppendList();
+			m_pMgr->RequestQueueList(m_TimeStamp, m_StartIndex);
+		}
+	}
+//	m_PointCurrent = QPoint(0, min);
+	SlotScrollReleased();
+}
+
+void QueueTrack::SlotScrollReleased()
+{
+	// nothing
+}
+
 void QueueTrack::ConnectSigToSlot()
 {
 	connect(m_pMgr, SIGNAL(SigRespError(QString)), this, SLOT(SlotRespError(QString)));
@@ -326,15 +392,22 @@ void QueueTrack::Initialize()
 	m_ListView->setEditTriggers(QAbstractItemView::EditTrigger::AllEditTriggers);
 	m_ListView->setMouseTracking(true);
 
+	m_ScrollBar = m_ListView->verticalScrollBar();
+	connect(m_ScrollBar, SIGNAL(valueChanged(int)), this, SLOT(SlotScrollValueChanged(int)));
+	connect(m_ScrollBar, SIGNAL(sliderReleased()), this, SLOT(SlotScrollReleased()));
+
 	ui->gridLayout->addWidget(m_ListView);
 
 	m_OldIndex = -1;
 	m_SelIndex = -1;
-	m_TimeStamp = 0;
 
 	m_FreqMax = 0;
 	m_FreqMin = 0;
 	m_FreqStep = 0;
+
+	m_StartIndex = 0;
+	m_TotalCount = 0;
+	m_TimeStamp = 0;
 
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
