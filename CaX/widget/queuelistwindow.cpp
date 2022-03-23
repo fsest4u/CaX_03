@@ -290,17 +290,17 @@ void QueuelistWindow::SlotRespTrackInfo(CJsonNode node)
 	m_TrackArtistID = node.GetInt(KEY_ARTIST_ID);
 	m_TrackFavorite = node.GetInt(KEY_FAVORITE);
 
-	if (m_TrackFavorite == 1)
-	{
-		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
-	}
-	else
-	{
-		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
-	}
+//	if (m_TrackFavorite == 1)
+//	{
+//		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+//	}
+//	else
+//	{
+//		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+//	}
 
-	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
-	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+//	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
+//	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
 	menuMap.insert(OPTION_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
 
 	ClearMenu();
@@ -364,15 +364,15 @@ void QueuelistWindow::SlotMenuAction(QAction *action)
 	int menuID = action->data().toInt();
 	switch (menuID)
 	{
-	case OPTION_MENU_FAVORITE:
-		DoMenuFavorite(m_TrackID, m_TrackFavorite);
-		break;
-	case OPTION_MENU_GO_TO_ALBUM:
-		DoMenuGoToAlbum(m_TrackAlbumID, m_AlbumCoverArt);
-		break;
-	case OPTION_MENU_GO_TO_ARTIST:
-		DoMenuGoToArtist(m_TrackArtistID);
-		break;
+//	case OPTION_MENU_FAVORITE:
+//		DoMenuFavorite(m_TrackID, m_TrackFavorite);
+//		break;
+//	case OPTION_MENU_GO_TO_ALBUM:
+//		DoMenuGoToAlbum(m_TrackAlbumID, m_AlbumCoverArt);
+//		break;
+//	case OPTION_MENU_GO_TO_ARTIST:
+//		DoMenuGoToArtist(m_TrackArtistID);
+//		break;
 	case OPTION_MENU_MAKE_PLAYLIST:
 		DoMenuMakePlaylist();
 		break;
@@ -386,6 +386,9 @@ void QueuelistWindow::SlotRefresh(CJsonNode node)
 	{
 		return;
 	}
+
+	CommonDialog dialog(this, STR_WARNING, STR_NEW_PLAYLIST_MADE);
+	dialog.exec();
 
 	QMap<int, bool> idMap;
 
@@ -628,24 +631,6 @@ void QueuelistWindow::DoMenuFavorite(int trackID, int favorite)
 //	LogDebug("DoMenuFavorite favorite [%d]", m_TrackFavorite);
 
 	m_pMgr->RequestUpdateTrackFavorite(trackID, favorite);
-
-//	QMap<int, QString>	menuMap;
-
-//	if (m_TrackFavorite == 1)
-//	{
-//		menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
-//	}
-//	else
-//	{
-//		menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
-//	}
-
-//	menuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
-//	menuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
-//	menuMap.insert(OPTION_MENU_MAKE_PLAYLIST, STR_MAKE_PLAYLIST);
-
-//	ClearMenu();
-//	SetMenu(menuMap);
 }
 
 void QueuelistWindow::DoMenuGoToAlbum(int albumID, QString cover)
