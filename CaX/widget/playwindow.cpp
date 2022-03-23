@@ -436,11 +436,8 @@ void PlayWindow::InitPlayInfo()
 	m_pFormTitle->SetSubtitle(" ");
 	m_pFormCoverArt->SetCoverArt(" ");
 
-	ui->btnPrev->show();
 	ui->btnPlay->show();
 	ui->btnStop->show();
-	ui->btnNext->show();
-	ui->btnRandom->show();
 }
 
 void PlayWindow::InitPlayTimeSlider()
@@ -471,6 +468,15 @@ void PlayWindow::EnableBtnInfo(bool bEnable)
 void PlayWindow::EnableBtnPrev(bool bEnable)
 {
 	ui->btnPrev->setEnabled(bEnable);
+
+	if (bEnable)
+	{
+		ui->btnPrev->show();
+	}
+	else
+	{
+		ui->btnPrev->hide();
+	}
 }
 
 void PlayWindow::EnableBtnRandom(bool bEnable)
@@ -481,6 +487,15 @@ void PlayWindow::EnableBtnRandom(bool bEnable)
 void PlayWindow::EnableBtnNext(bool bEnable)
 {
 	ui->btnNext->setEnabled(bEnable);
+
+	if (bEnable)
+	{
+		ui->btnNext->show();
+	}
+	else
+	{
+		ui->btnNext->hide();
+	}
 }
 
 void PlayWindow::EnableBtnPlay(bool bEnable)
@@ -714,11 +729,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			|| !m_Src.compare(SRC_BROWSER)
 			|| !m_Src.compare(SRC_AUDIO_CD) )
 	{
-		ui->btnPrev->show();
 		ui->btnPlay->show();
 		ui->btnStop->show();
-		ui->btnNext->show();
-		ui->btnRandom->show();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Bot);
@@ -732,11 +744,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !m_Src.compare(SRC_AUX_IN)
 			 || !m_Src.compare(SRC_PHONO_IN) )
 	{
-		ui->btnPrev->hide();
 		ui->btnPlay->hide();
 		ui->btnStop->show();
-		ui->btnNext->hide();
-		ui->btnRandom->show();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Format);
@@ -747,11 +756,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	else if (!m_Src.compare(SRC_FM_RADIO)
 			 || !m_Src.compare(SRC_DAB_RADIO))
 	{
-		ui->btnPrev->show();
 		ui->btnPlay->hide();
 		ui->btnStop->show();
-		ui->btnNext->show();
-		ui->btnRandom->show();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Src);
@@ -769,7 +775,6 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !m_Src.compare(SRC_AIRABLE_UPNP)
 			 || !m_Src.compare(SRC_QOBUZ))
 	{
-		ui->btnPrev->hide();
 		if (m_PlayPause)
 		{
 			ui->btnPlay->show();
@@ -779,15 +784,6 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			ui->btnPlay->hide();
 		}
 		ui->btnStop->show();
-		ui->btnNext->hide();
-		if (m_Recordable)
-		{
-			ui->btnRandom->show();
-		}
-		else
-		{
-			ui->btnRandom->hide();
-		}
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Bot);
