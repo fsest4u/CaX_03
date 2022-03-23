@@ -608,6 +608,8 @@ void QueuelistWindow::SetPlayIndex(int total, int currPlay)
 		ui->label->hide();
 		ui->labelCurPlay->hide();
 		ui->labelTotalCount->hide();
+
+		ui->labelPlayQueue->hide();
 	}
 }
 

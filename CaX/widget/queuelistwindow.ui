@@ -271,12 +271,37 @@ QPushButton:hover
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="0" column="6">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string> / </string>
+      <item row="0" column="4">
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="8">
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="labelFavorite">
@@ -312,29 +337,10 @@ QPushButton:hover
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="labelTotalTime">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
+      <item row="0" column="7">
+       <widget class="QLabel" name="labelTotalCount">
+        <property name="text">
+         <string>0</string>
         </property>
        </widget>
       </item>
@@ -488,6 +494,16 @@ border: none;</string>
         </layout>
        </widget>
       </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="labelTotalTime">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
@@ -501,10 +517,17 @@ border: none;</string>
         </property>
        </spacer>
       </item>
-      <item row="0" column="7">
-       <widget class="QLabel" name="labelTotalCount">
+      <item row="0" column="6">
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>0</string>
+         <string> / </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="9">
+       <widget class="QLabel" name="labelPlayQueue">
+        <property name="text">
+         <string>Play Queue</string>
         </property>
        </widget>
       </item>

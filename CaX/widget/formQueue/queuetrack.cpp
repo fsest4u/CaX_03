@@ -211,11 +211,11 @@ void QueueTrack::SlotRespTrackInfo(CJsonNode node)
 
 		if (m_TrackFavorite == 1)
 		{
-			menuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
+			menuMap.insert(OPTION_MENU_FAVORITE, STR_REMOVE_FAVORITE);
 		}
 		else
 		{
-			menuMap.insert(OPTION_MENU_FAVORITE, STR_ADD_TO_FAVORITE);
+			menuMap.insert(OPTION_MENU_FAVORITE, STR_FAVORITE);
 		}
 
 		menuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
