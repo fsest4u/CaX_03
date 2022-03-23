@@ -379,9 +379,10 @@ void ListBrowser::SlotScrollReleased()
 				}
 				else if (type & iFolderType_Mask_Play_Select)
 				{
-					if (!(type & iFolderType_Mask_Pls))
+					if (!(type & iFolderType_Mask_Pls) && !(type & iFolderType_Dir))
 					{
-						emit SigReqInfoBot(cover, index);
+						QString path = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
+						emit SigReqInfoBot(path, index);
 					}
 					if (!cover.contains(":/resource/"))
 					{

@@ -211,7 +211,7 @@ void BrowserWindow::SlotBrowserPath(QString path)
 
 void BrowserWindow::SlotPlayAll(int where)
 {
-	if (m_FolderType & iFolderType_Mask_Pls)
+	if (m_FolderType & iFolderType_Mask_Pls && m_FolderType & iFolderType_Mask_Song)
 	{
 		m_Files.clear();
 		m_pMgr->RequestPlaylistPlay(m_Root, m_Files, where);
@@ -626,19 +626,8 @@ void BrowserWindow::SlotRespList(QList<CJsonNode> list)
 		nType = m_pListBrowser->SetNodeList(list, SIDEMENU_BROWSER);
 	}
 
-	if (iFolderType_Mask_Pls & nType
-			&& iFolderType_Mask_Dir & nType)
-	{
-		ShowFormPlay(false);
-		m_pInfoBrowser->GetFormPlay()->ShowMenu(false);
-	}
-	else
-	{
-		ShowFormPlay(true);
-	}
-
+	ShowFormPlay(true);
 	SetFolderType(nType);
-
 }
 
 void BrowserWindow::SlotReqCoverArt(QString path, int index)
@@ -649,6 +638,11 @@ void BrowserWindow::SlotReqCoverArt(QString path, int index)
 	}
 	else
 	{
+		if (path.contains(UtilNovatron::GetTempDirectory()))
+		{
+			return;
+		}
+
 		if (!m_Root.isEmpty())
 			path = m_Root + "/" + path;
 
