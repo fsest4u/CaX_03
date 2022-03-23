@@ -1,5 +1,8 @@
 #include "airablemanager.h"
 
+#include "util/utilnovatron.h"
+
+#include "widget/airable.h"
 
 AirableManager::AirableManager(QObject *parent)
 {
@@ -77,24 +80,35 @@ void AirableManager::RequestURL(int nServiceType, QString url)
 	RequestCommand(node, AIRABLE_URL);
 }
 
-void AirableManager::RequestPlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int where)
+void AirableManager::RequestPlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int where, int eventID)
 {
 	m_ServiceType = nServiceType;
 
 	QString art = "";
-	int nType = 0;
+	int type = 0;
 
 	CJsonNode nodeArr(JSON_ARRAY);
 	QMap<int, CJsonNode>::iterator i;
 	for (i = nodeMap.begin(); i!= nodeMap.end(); i++)
 	{
-//		LogDebug("key [%d] value [%d]", i.key(), i.value().ToCompactByteArray().data());
+//		LogDebug("key [%d] value [%s]", i.key(), i.value().ToCompactByteArray().data());
 		art = i.value().GetString(KEY_ART);
-		nType = i.value().GetInt(KEY_TYPE);
+		int nodeType = i.value().GetInt(KEY_TYPE);
 
-		i.value().Del(KEY_TYPE);
-		i.value().Del(KEY_ART);
+//		UtilNovatron::DebugTypeForAirable("RequestPlay", nodeType);
+
+		if (nodeType & iAirableType_Mask_Dir)
+		{
+			continue;
+		}
+
+		type = type | nodeType;
+
 		i.value().Del(KEY_ACTS);
+		i.value().Del(KEY_BOT1);
+		i.value().Del(KEY_ICON);
+		i.value().Del(KEY_TIME_CAP);
+		i.value().Del(KEY_TYPE);
 
 		nodeArr.AppendArray(i.value());
 	}
@@ -105,8 +119,9 @@ void AirableManager::RequestPlay(int nServiceType, QMap<int, CJsonNode> nodeMap,
 	node.AddInt	(KEY_SVC_TYPE,	m_ServiceType);
 	if (!art.isEmpty())
 		node.Add(KEY_ART,		art);
-	node.AddInt	(KEY_TYPE,		nType);
+	node.AddInt	(KEY_TYPE,		type);
 	node.AddInt	(KEY_WHERE,		where);
+	node.AddInt(KEY_EVENT_ID, eventID);
 
 	node.Add	(KEY_TRACKS,	nodeArr);
 

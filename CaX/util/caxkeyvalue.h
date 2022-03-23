@@ -40,6 +40,7 @@
 #define		KEY_AUX_IN			"AUX IN"
 
 #define		KEY_BITRATE			"Bitrate"
+#define		KEY_BITRATE_CAP		"BitRate"
 #define		KEY_BPS				"bps"
 #define		KEY_BOT				"Bot"
 #define		KEY_BOT1			"Bot1"
@@ -59,6 +60,7 @@
 #define		KEY_CMD0			"Cmd0"
 #define		KEY_CMD1			"Cmd1"
 #define		KEY_CMD2			"Cmd2"
+#define		KEY_CODEC			"Codec"
 #define		KEY_COMPOSER		"Composer"
 #define		KEY_COUNT			"count"
 #define		KEY_COVER_ART		"CoverArt"

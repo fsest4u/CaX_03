@@ -35,7 +35,7 @@
 
 #define QOBUZ_TITLE		"Qobuz"
 
-IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
+IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr, const int &eventID) :
 	QWidget(parent),
 	m_pAirableMgr(new AirableManager),
 	m_pQobuzMgr(new QobuzManager),
@@ -48,6 +48,7 @@ IServiceWindow::IServiceWindow(QWidget *parent, const QString &addr) :
 	m_WebURL(""),
 	m_InternetType(-1),
 	m_Type(-1),
+	m_EventID(eventID),
 	m_bGenre(false),
 	ui(new Ui::IServiceWindow)
 {
@@ -136,7 +137,7 @@ void IServiceWindow::RequestIServiceURL(QString url)
 
 void IServiceWindow::RequestIServicePlay(QMap<int, CJsonNode> nodeMap, int nWhere)
 {
-	m_pAirableMgr->RequestPlay(m_InternetType, nodeMap, nWhere);
+	m_pAirableMgr->RequestPlay(m_InternetType, nodeMap, nWhere, m_EventID);
 }
 
 void IServiceWindow::RequestQobuzSearch(int nType, QString keyword, int nStart, int nCount)
@@ -583,7 +584,7 @@ void IServiceWindow::SlotRespAuth(int nServiceType)
 {
 	m_InternetType = nServiceType;
 
-	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(m_InternetType);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -602,6 +603,14 @@ void IServiceWindow::SlotRespURL(int nServiceType, QList<CJsonNode> list, QStrin
 	int nType = GetListBrowser()->SetNodeList(list, SIDEMENU_ISERVICE);
 	SetInternetType(nServiceType);
 	SetType(nType);
+
+	UtilNovatron::DebugTypeForAirable("SlotRespURL", nType);
+
+	if (nType & iAirableType_Play_Playable)
+	{
+		m_pInfoBrowser->GetFormPlay()->ShowPlayAll(true);
+		m_pInfoBrowser->GetFormPlay()->ShowMenu(true);
+	}
 }
 
 void IServiceWindow::SlotRespForm(int nServiceType, CJsonNode node)
@@ -1039,7 +1048,7 @@ void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
 			QString keyword = dialog.GetKeyword();
 			m_Node.Add(KEY_KEYWORD, keyword);
 
-			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 			widget->SetInternetType(iIServiceType_Qobuz);
 //			widget->AddWidgetItem();
 			emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1055,7 +1064,7 @@ void IServiceWindow::SelectSearchForQobuz(int nType, CJsonNode node)
 	{
 		QString strID = m_Node.GetString(KEY_ID_UPPER);
 
-		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 		widget->SetInternetType(iIServiceType_Qobuz);
 		emit widget->SigAddWidget(widget, STR_ISERVICE);
 		widget->SetNode(m_Node);
@@ -1098,7 +1107,7 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 		QString strID = m_Node.GetString(KEY_ID_UPPER);
 		if (!strID.compare(VAL_GENRE))
 		{
-			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 			widget->SetInternetType(iIServiceType_Qobuz);
 			emit widget->SigAddWidget(widget, STR_ISERVICE);
 			widget->SetNode(m_Node);
@@ -1114,7 +1123,7 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 		{
 			QString strGenreID = m_Node.GetString(KEY_GENRE_ID);
 
-			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 			widget->SetInternetType(iIServiceType_Qobuz);
 			emit widget->SigAddWidget(widget, STR_ISERVICE);
 			widget->SetNode(m_Node);
@@ -1130,7 +1139,7 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 			}
 			else
 			{
-				IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+				IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 				widget->SetInternetType(iIServiceType_Qobuz);
 				emit widget->SigAddWidget(widget, STR_ISERVICE);
 				widget->SetNode(m_Node);
@@ -1151,7 +1160,7 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 				 || !strID.compare(VAL_ID_MOST_FEATURED)
 				 || !strID.compare(VAL_ID_LAST_CREATED))
 		{
-			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 			widget->SetInternetType(iIServiceType_Qobuz);
 			emit widget->SigAddWidget(widget, STR_ISERVICE);
 			widget->SetNode(m_Node);
@@ -1162,7 +1171,7 @@ void IServiceWindow::SelectRecommendForQobuz(int nType, CJsonNode node)
 		{
 			QString strID = m_Node.GetString(KEY_ID_UPPER);
 
-			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 			widget->SetInternetType(iIServiceType_Qobuz);
 			emit widget->SigAddWidget(widget, STR_ISERVICE);
 			widget->SetNode(m_Node);
@@ -1197,7 +1206,7 @@ void IServiceWindow::SelectFavoriteForQobuz(int nType, CJsonNode node)
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Album) == nType
 			 || (iQobuzType_Mask_Favorite | iQobuzType_Mask_Menu_Track) == nType)
 	{
-		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 		widget->SetInternetType(iIServiceType_Qobuz);
 		emit widget->SigAddWidget(widget, STR_ISERVICE);
 		widget->SetNode(m_Node);
@@ -1210,7 +1219,7 @@ void IServiceWindow::SelectFavoriteForQobuz(int nType, CJsonNode node)
 	{
 		QString strID = m_Node.GetString(KEY_ID_UPPER);
 
-		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 		widget->SetInternetType(iIServiceType_Qobuz);
 		emit widget->SigAddWidget(widget, STR_ISERVICE);
 		widget->SetNode(m_Node);
@@ -1240,7 +1249,7 @@ void IServiceWindow::SelectUserPlaylistForQobuz(int nType, CJsonNode node)
 
 	if (iQobuzType_Mask_UserPlaylist == nType)
 	{
-		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 		widget->SetInternetType(iIServiceType_Qobuz);
 		emit widget->SigAddWidget(widget, STR_ISERVICE);
 		widget->SetNode(m_Node);
@@ -1251,7 +1260,7 @@ void IServiceWindow::SelectUserPlaylistForQobuz(int nType, CJsonNode node)
 	{
 		m_PlaylistID = m_Node.GetString(KEY_ID_UPPER);
 
-		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+		IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 		widget->SetInternetType(iIServiceType_Qobuz);
 		emit widget->SigAddWidget(widget, STR_ISERVICE);
 		widget->SetNode(m_Node);
@@ -1300,7 +1309,7 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 	{
 		if (!url.isEmpty())
 		{
-			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr());
+			IServiceWindow *widget = new IServiceWindow(this, m_pAirableMgr->GetAddr(), m_EventID);
 			widget->SetInternetType(m_InternetType);
 			widget->AddWidgetItem();
 			emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1309,11 +1318,7 @@ void IServiceWindow::SelectTitleForAirable(int nType, CJsonNode node)
 
 		}
 	}
-	else if (nType & iAirableType_Mask_Track
-			 || nType & iAirableType_Mask_Program
-			 || nType & iAirableType_Mask_Radio
-			 || nType & iAirableType_Mask_Feed
-			 || nType & iAirableType_Mask_Play)
+	else if (nType & iAirableType_Play_Playable)
 	{
 		QMap<int, CJsonNode> map;
 		map.insert(0, m_Node);
@@ -1704,7 +1709,7 @@ void IServiceWindow::DoOptionMenuSetupReservedRecord(CJsonNode node)
 
 void IServiceWindow::DoQobuzHome()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1721,7 +1726,7 @@ void IServiceWindow::DoQobuzHome()
 
 void IServiceWindow::DoQobuzSearch()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1738,7 +1743,7 @@ void IServiceWindow::DoQobuzSearch()
 
 void IServiceWindow::DoQobuzRecommend()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1755,7 +1760,7 @@ void IServiceWindow::DoQobuzRecommend()
 
 void IServiceWindow::DoQobuzFavorite()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1772,7 +1777,7 @@ void IServiceWindow::DoQobuzFavorite()
 
 void IServiceWindow::DoQobuzRecommendAlbum()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1789,7 +1794,7 @@ void IServiceWindow::DoQobuzRecommendAlbum()
 
 void IServiceWindow::DoQobuzRecommendPlaylist()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);
@@ -1806,7 +1811,7 @@ void IServiceWindow::DoQobuzRecommendPlaylist()
 
 void IServiceWindow::DoQobuzRecommendGenre(int nType, QString strID)
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr());
+	IServiceWindow *widget = new IServiceWindow(this, m_pQobuzMgr->GetAddr(), m_EventID);
 	widget->SetInternetType(iIServiceType_Qobuz);
 	widget->AddWidgetItem();
 	emit widget->SigAddWidget(widget, STR_ISERVICE);

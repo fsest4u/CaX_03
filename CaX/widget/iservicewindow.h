@@ -26,7 +26,7 @@ class IServiceWindow : public QWidget
 	Q_OBJECT
 
 public:
-	explicit IServiceWindow(QWidget *parent = nullptr, const QString &addr = "");
+	explicit IServiceWindow(QWidget *parent = nullptr, const QString &addr = "", const int &eventID = -1);
 	~IServiceWindow();
 
 	void IServiceHome(QList<CJsonNode> list);
@@ -193,6 +193,7 @@ private:
 	int					m_InternetType;
 	int					m_Type;
 	int					m_TypeParent;
+	int					m_EventID;
 
 	bool				m_bGenre;
 	bool				m_Refresh;

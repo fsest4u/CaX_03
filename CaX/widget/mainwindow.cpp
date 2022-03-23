@@ -1020,7 +1020,7 @@ void MainWindow::DoBrowserHome()
 
 void MainWindow::DoIServiceHome()
 {
-	IServiceWindow *widget = new IServiceWindow(this, m_strAddr);
+	IServiceWindow *widget = new IServiceWindow(this, m_strAddr, m_EventID);
 	SlotAddWidget(widget, STR_ISERVICE);
 	widget->IServiceHome(m_IServiceList);
 }

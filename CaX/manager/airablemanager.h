@@ -16,7 +16,7 @@ public:
 	void RequestAuth(int nServiceType);
 	void RequestURL(int nServiceType, QString url = "");
 
-	void RequestPlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int where);
+	void RequestPlay(int nServiceType, QMap<int, CJsonNode> nodeMap, int where, int eventID);
 	void RequestActionUrl(int nServiceType, QString url);
 	void RequestRecordSet(CJsonNode node);
 
