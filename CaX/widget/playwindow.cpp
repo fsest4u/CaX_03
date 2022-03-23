@@ -93,23 +93,20 @@ void PlayWindow::SlotBtnInfo()
 	//	m_pMgr->RequestSongInfo(m_ID);
 	if (!m_Src.compare(SRC_MUSIC_DB)
 			|| !m_Src.compare(SRC_BROWSER)
-			|| !m_Src.compare(SRC_AUDIO_CD))
+			|| !m_Src.compare(SRC_AUDIO_CD)
+			|| !m_Src.compare(SRC_I_RADIO)
+			|| !m_Src.compare(SRC_PODCAST)
+			|| !m_Src.compare(SRC_TIDAL)
+			|| !m_Src.compare(SRC_DEEZER)
+			|| !m_Src.compare(SRC_NAPSTER)
+			|| !m_Src.compare(SRC_HIGH_RES_AUDIO)
+			|| !m_Src.compare(SRC_AMAZON)
+			|| !m_Src.compare(SRC_AIRABLE_UPNP)
+			|| !m_Src.compare(SRC_QOBUZ))
 	{
 		m_pMgr->RequestQueueList(m_TimeStamp);
 	}
 	else if (!m_Src.compare(SRC_FM_RADIO))
-	{
-		emit SigSetPlayInfo(m_PlayInfo, true);
-	}
-	else if (!m_Src.compare(SRC_I_RADIO)
-			 || !m_Src.compare(SRC_PODCAST)
-			 || !m_Src.compare(SRC_TIDAL)
-			 || !m_Src.compare(SRC_DEEZER)
-			 || !m_Src.compare(SRC_NAPSTER)
-			 || !m_Src.compare(SRC_HIGH_RES_AUDIO)
-			 || !m_Src.compare(SRC_AMAZON)
-			 || !m_Src.compare(SRC_AIRABLE_UPNP)
-			 || !m_Src.compare(SRC_QOBUZ))
 	{
 		emit SigSetPlayInfo(m_PlayInfo, true);
 	}

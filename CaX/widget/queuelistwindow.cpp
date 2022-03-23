@@ -107,7 +107,6 @@ QueuelistWindow::~QueuelistWindow()
 
 void QueuelistWindow::SetNodeInfo(CJsonNode node)
 {
-
 //	LogDebug("====================================");
 //	LogDebug("SetNodeInfo [%s]", node.ToCompactByteArray().data());
 //	LogDebug("====================================");
@@ -230,9 +229,12 @@ void QueuelistWindow::SetPlayInfo(CJsonNode node)
 			 || !m_Src.compare(SRC_AIRABLE_UPNP)
 			 || !m_Src.compare(SRC_QOBUZ))
 	{
-		m_pFormTitle->SetTitle(node.GetString(KEY_TOP));
-//		m_pFormTitle->SetSubtitle(node.GetString(KEY_BOT));
+		m_AlbumName = node.GetString(KEY_ALBUM);
+		m_pFormTitle->SetTitle(m_AlbumName);
+		SetMqa(node.GetString(KEY_MQA));
 		SetFormat(node.GetString(KEY_FORMAT));
+		SetPlayIndex(node.GetInt(KEY_TOTAL_UPPER), node.GetInt(KEY_CURR_PLAY));
+		SetTotalTime(m_TotalTime);
 	}
 }
 
@@ -330,7 +332,18 @@ void QueuelistWindow::SlotSelectPlay(int index, int playType)
 {
 	Q_UNUSED(playType)
 
-	if (!m_Src.compare(SRC_MUSIC_DB))
+	if (!m_Src.compare(SRC_MUSIC_DB)
+			|| !m_Src.compare(SRC_AUDIO_CD)
+			|| !m_Src.compare(SRC_BROWSER)
+			|| !m_Src.compare(SRC_I_RADIO)
+			|| !m_Src.compare(SRC_PODCAST)
+			|| !m_Src.compare(SRC_TIDAL)
+			|| !m_Src.compare(SRC_DEEZER)
+			|| !m_Src.compare(SRC_NAPSTER)
+			|| !m_Src.compare(SRC_HIGH_RES_AUDIO)
+			|| !m_Src.compare(SRC_AMAZON)
+			|| !m_Src.compare(SRC_AIRABLE_UPNP)
+			|| !m_Src.compare(SRC_QOBUZ))
 	{
 		m_pMgr->RequestTrackPlay(index);
 	}

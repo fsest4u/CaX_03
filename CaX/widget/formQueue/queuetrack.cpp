@@ -87,7 +87,16 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list, QString src)
 
 	if (!src.compare(SRC_MUSIC_DB)
 			|| !src.compare(SRC_AUDIO_CD)
-			|| !src.compare(SRC_BROWSER))
+			|| !src.compare(SRC_BROWSER)
+			|| !src.compare(SRC_I_RADIO)
+			|| !src.compare(SRC_PODCAST)
+			|| !src.compare(SRC_TIDAL)
+			|| !src.compare(SRC_DEEZER)
+			|| !src.compare(SRC_NAPSTER)
+			|| !src.compare(SRC_HIGH_RES_AUDIO)
+			|| !src.compare(SRC_AMAZON)
+			|| !src.compare(SRC_AIRABLE_UPNP)
+			|| !src.compare(SRC_QOBUZ))
 	{
 		foreach (CJsonNode node, list)
 		{
