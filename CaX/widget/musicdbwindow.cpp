@@ -2748,44 +2748,45 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(int nID)
 
 void MusicDBWindow::DoOptionMenuInfo(int nID)
 {
-	m_nOptionID = nID;
-
-	if (m_AlbumList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
-	}
-	if (m_AlbumArtistList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
-	}
-	if (m_ArtistList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
-	}
-	if (m_GenreList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
-	}
-	if (m_ComposerList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
-	}
-	if (m_MoodList.isEmpty())
-	{
-		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
-	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
-		m_pMgr->RequestCategoryInfo(nID);
+		m_pMgr->RequestTrackListForEditTag(nID, m_nCategory);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
 	{
+		m_nOptionID = nID;
+
+		if (m_AlbumList.isEmpty())
+		{
+			m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
+		}
+		if (m_AlbumArtistList.isEmpty())
+		{
+			m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM_ARTIST);
+		}
+		if (m_ArtistList.isEmpty())
+		{
+			m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ARTIST);
+		}
+		if (m_GenreList.isEmpty())
+		{
+			m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_GENRE);
+		}
+		if (m_ComposerList.isEmpty())
+		{
+			m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_COMPOSER);
+		}
+		if (m_MoodList.isEmpty())
+		{
+			m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_MOOD);
+		}
+
 		m_pMgr->RequestTrackInfo(nID);
 	}
 }
