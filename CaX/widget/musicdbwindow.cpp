@@ -1664,6 +1664,10 @@ void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 	// delete
 	QString part = QString("%1_%2").arg(UtilNovatron::GetCategoryName(category)).arg(id);
 	UtilNovatron::RemoveContainFilesInTempDirectory(part);
+
+	QString strCat = UtilNovatron::GetCategoryName(-1);
+	UtilNovatron::RemoveFilesInTempDirectory(strCat);
+
 //	LogDebug("id [%d] category [%d] part [%s]", id, category, part.toUtf8().data());
 
 	// refresh
