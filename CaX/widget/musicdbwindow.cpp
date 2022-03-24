@@ -1,4 +1,5 @@
 #include <QStackedWidget>
+#include <QThread>
 
 #include "musicdbwindow.h"
 #include "ui_musicdbwindow.h"
@@ -1661,6 +1662,7 @@ void MusicDBWindow::SlotRespTrackInfo(CJsonNode node)
 
 void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 {
+	QThread::sleep(1);
 	// delete
 	QString part = QString("%1_%2").arg(UtilNovatron::GetCategoryName(category)).arg(id);
 	UtilNovatron::RemoveContainFilesInTempDirectory(part);
