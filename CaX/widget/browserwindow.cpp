@@ -7,6 +7,7 @@
 
 #include "dialog/addsharedialog.h"
 #include "dialog/commondialog.h"
+#include "dialog/confirmcoverartdialog.h"
 #include "dialog/inputnamedialog.h"
 #include "dialog/logindialog.h"
 #include "dialog/selectformatdialog.h"
@@ -206,7 +207,44 @@ void BrowserWindow::SlotRemoveWidget(QWidget *widget)
 void BrowserWindow::SlotBrowserPath(QString path)
 {
 	emit SigBrowserPath(path);
-	emit SigRemoveWidget(this);
+//	emit SigRemoveWidget(this);
+}
+
+void BrowserWindow::SlotBrowserPathSelectCoverart(QString path)
+{
+	QString image = "";
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString thumb = QString("http://%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
+	QString tempThumb = UtilNovatron::ConvertURLToFilenameWithExtension(thumb);
+	tempThumb = UtilNovatron::GetTempDirectory() + "/" + tempThumb;
+
+	ConfirmCoverArtDialog dialog;
+	dialog.SetImagePath(tempThumb);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		SetDirFile();
+		m_pMgr->RequestSetArt(m_Root, m_Files, image, thumb, m_EventID);
+	}
+}
+
+void BrowserWindow::SlotBrowserPathOptionSelectCoverart(QString path)
+{
+	QString image = "";
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString thumb = QString("http://%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
+	QString tempThumb = UtilNovatron::ConvertURLToFilenameWithExtension(thumb);
+	tempThumb = UtilNovatron::GetTempDirectory() + "/" + tempThumb;
+
+	ConfirmCoverArtDialog dialog;
+	dialog.SetImagePath(tempThumb);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		QStringList dirs;
+		QStringList files;
+		SetOptionDirFile(path, iFolderType_Mask_Song, dirs, files);
+
+		m_pMgr->RequestSetArt(m_Root, files, image, thumb, m_EventID);
+	}
 }
 
 void BrowserWindow::SlotPlayAll(int where)
@@ -336,7 +374,7 @@ void BrowserWindow::SlotTopMenuAction(int menuID)
 void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 {
 	QString path = node.GetString(KEY_PATH);
-//	LogDebug("click option menu node [%s] [%d] [%d]", node.ToCompactByteArray().data(), type, menuID);
+	LogDebug("click option menu node [%s] [%d] [%d]", node.ToCompactByteArray().data(), type, menuID);
 	switch (menuID) {
 	case OPTION_MENU_OPTION_PLAY_SUBDIR:
 		DoOptionMenuOptionPlaySubDir();
@@ -400,6 +438,9 @@ void BrowserWindow::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 		break;
 	case OPTION_MENU_DELETE_SHARE:
 		DoOptionMenuDeleteShare(path);
+		break;
+	case OPTION_MENU_SELECT_COVERART:
+		DoOptionMenuSelectCoverart(path);
 		break;
 	}
 }
@@ -1315,17 +1356,33 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 		return;
 	}
 
-	SearchCoverArtResultDialog resultDialog;
-	resultDialog.SetAddr(m_pMgr->GetAddr());
-	resultDialog.RequestCoverArtList(site, keyword, artist);
-	if (resultDialog.exec() == QDialog::Accepted)
+	if (site.contains(SEARCH_BROWSER))
 	{
-		SetDirFile();
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
+		widget->RequestRoot();
 
-		QString image = resultDialog.GetImage();
-		QString thumb = resultDialog.GetThumb();
+		connect(widget, SIGNAL(SigBrowserPath(QString)), this, SLOT(SlotBrowserPathSelectCoverart(QString)));
+	}
+	else
+	{
+		SearchCoverArtResultDialog resultDialog;
+		resultDialog.SetAddr(m_pMgr->GetAddr());
+		resultDialog.RequestCoverArtList(site, keyword, artist);
+		if (resultDialog.exec() == QDialog::Accepted)
+		{
+			ConfirmCoverArtDialog dialog;
+			dialog.SetImagePath(resultDialog.GetImagePath());
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				QString image = resultDialog.GetImage();
+				QString thumb = resultDialog.GetThumb();
 
-		m_pMgr->RequestSetArt(m_Root, m_Files, image, thumb, m_EventID);
+				SetDirFile();
+				m_pMgr->RequestSetArt(m_Root, m_Files, image, thumb, m_EventID);
+			}
+		}
 	}
 }
 
@@ -1357,6 +1414,13 @@ void BrowserWindow::SetOptionMenu(int type)
 //		{
 //			m_OptionMenuMap.insert(OPTION_MENU_MOVE_HERE, STR_MOVE_HERE);
 //		}
+	}
+	else if (BROWSER_MODE_COVER_ART_OPTION == m_BrowserMode)
+	{
+		if (type & iFolderType_Mask_Song)
+		{
+			m_OptionMenuMap.insert(OPTION_MENU_SELECT_COVERART, STR_SELECT_COVERART);
+		}
 	}
 	else
 	{
@@ -1616,19 +1680,36 @@ void BrowserWindow::DoOptionMenuSearchCoverArt(QString path, int type)
 		return;
 	}
 
-	SearchCoverArtResultDialog resultDialog;
-	resultDialog.SetAddr(m_pMgr->GetAddr());
-	resultDialog.RequestCoverArtList(site, keyword, artist);
-	if (resultDialog.exec() == QDialog::Accepted)
+	if (site.contains(SEARCH_BROWSER))
 	{
-		QStringList dirs;
-		QStringList files;
-		SetOptionDirFile(path, type, dirs, files);
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
+		widget->RequestRoot();
 
-		QString image = resultDialog.GetImage();
-		QString thumb = resultDialog.GetThumb();
+		connect(widget, SIGNAL(SigBrowserPath(QString)), this, SLOT(SlotBrowserPathOptionSelectCoverart(QString)));
+	}
+	else
+	{
+		SearchCoverArtResultDialog resultDialog;
+		resultDialog.SetAddr(m_pMgr->GetAddr());
+		resultDialog.RequestCoverArtList(site, keyword, artist);
+		if (resultDialog.exec() == QDialog::Accepted)
+		{
+			ConfirmCoverArtDialog dialog;
+			dialog.SetImagePath(resultDialog.GetImagePath());
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				QString image = resultDialog.GetImage();
+				QString thumb = resultDialog.GetThumb();
 
-		m_pMgr->RequestSetArt(m_Root, files, image, thumb, m_EventID);
+				QStringList dirs;
+				QStringList files;
+				SetOptionDirFile(path, type, dirs, files);
+
+				m_pMgr->RequestSetArt(m_Root, files, image, thumb, m_EventID);
+			}
+		}
 	}
 }
 
@@ -1641,6 +1722,16 @@ void BrowserWindow::DoOptionMenuModifyShare(QString path)
 void BrowserWindow::DoOptionMenuDeleteShare(QString path)
 {
 	m_pMgr->RequestSMBDelete(m_EventID, path);
+}
+
+void BrowserWindow::DoOptionMenuSelectCoverart(QString path)
+{
+	LogDebug("root [%s] path [%s]", m_Root.toUtf8().data(), path.toUtf8().data());
+	if (!m_Root.isEmpty())
+		path = m_Root + "/" + path;
+
+	emit SigBrowserPath(path);
+	emit SigRemoveWidget(this);
 }
 
 void BrowserWindow::AnalyzeNode(CJsonNode node)

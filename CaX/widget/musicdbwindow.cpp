@@ -26,6 +26,9 @@
 #include "util/settingio.h"
 #include "util/utilnovatron.h"
 
+#include "widget/browserwindow.h"
+#include "widget/playlistwindow.h"
+
 #include "widget/form/formplay.h"
 #include "widget/form/formsort.h"
 #include "widget/form/formclassify.h"
@@ -36,8 +39,6 @@
 #include "widget/formBottom/icontracksdelegate.h"
 #include "widget/formBottom/tabletracks.h"
 #include "widget/formBottom/tabletracksdelegate.h"
-
-#include "widget/playlistwindow.h"
 
 const QString SETTINGS_GROUP = "MusicDB";
 
@@ -1911,6 +1912,42 @@ void MusicDBWindow::SlotContextMenuTagEdit()
 	m_pMgr->RequestTrackListForEditTag(m_nID, m_nCategory);
 }
 
+void MusicDBWindow::SlotBrowserPathSelectCoverart(QString path)
+{
+	QString image = "";
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString thumb = QString("http://%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
+	QString tempThumb = UtilNovatron::ConvertURLToFilenameWithExtension(thumb);
+	tempThumb = UtilNovatron::GetTempDirectory() + "/" + tempThumb;
+
+	ConfirmCoverArtDialog dialog;
+	dialog.SetImagePath(tempThumb);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+		{
+			m_pMgr->RequestSetCategoryCoverArt(m_nID,
+									   m_nCategory,
+									   m_EventID,
+									   image,
+									   thumb);
+		}
+		else if (m_TypeMode == TYPE_MODE_TRACK
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+		{
+			m_pMgr->RequestSetTrackCoverArt(m_nID,
+									   SQLManager::CATEGORY_TRACK,
+									   m_EventID,
+									   image,
+									   thumb);
+		}
+	}
+}
+
 void MusicDBWindow::ReadSettings()
 {
 	SettingIO settings;
@@ -2867,46 +2904,88 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 		return;
 	}
 
-	SearchCoverArtResultDialog resultDialog;
-	resultDialog.SetAddr(m_pMgr->GetAddr());
-	resultDialog.RequestCoverArtList(site, keyword, artist);
-	if (resultDialog.exec() == QDialog::Accepted)
+	if (site.contains(SEARCH_BROWSER))
 	{
-		ConfirmCoverArtDialog dialog;
-		dialog.SetImagePath(resultDialog.GetImagePath());
-		if (dialog.exec() == QDialog::Accepted)
+		m_nID = nID;
+
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
+		widget->RequestRoot();
+
+		connect(widget, SIGNAL(SigBrowserPath(QString)), this, SLOT(SlotBrowserPathSelectCoverart(QString)));
+	}
+	else
+	{
+		SearchCoverArtResultDialog resultDialog;
+		resultDialog.SetAddr(m_pMgr->GetAddr());
+		resultDialog.RequestCoverArtList(site, keyword, artist);
+		if (resultDialog.exec() == QDialog::Accepted)
 		{
-			QString image = resultDialog.GetImage();
-			QString thumb = resultDialog.GetThumb();
-			if (m_TypeMode == TYPE_MODE_ITEM_TRACK
-					|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
-					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
-					|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+			ConfirmCoverArtDialog dialog;
+			dialog.SetImagePath(resultDialog.GetImagePath());
+			if (dialog.exec() == QDialog::Accepted)
 			{
-				m_pMgr->RequestSetCategoryCoverArt(nID,
-										   m_nCategory,
-										   m_EventID,
-										   image,
-										   thumb);
+				QString image = resultDialog.GetImage();
+				QString thumb = resultDialog.GetThumb();
+				if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+						|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+						|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+						|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+				{
+					m_pMgr->RequestSetCategoryCoverArt(nID,
+											   m_nCategory,
+											   m_EventID,
+											   image,
+											   thumb);
+				}
+				else if (m_TypeMode == TYPE_MODE_TRACK
+						 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+						 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+				{
+					m_pMgr->RequestSetTrackCoverArt(nID,
+											   SQLManager::CATEGORY_TRACK,
+											   m_EventID,
+											   image,
+											   thumb);
+				}
 			}
-			else if (m_TypeMode == TYPE_MODE_TRACK
-					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
-					 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
-			{
-				m_pMgr->RequestSetTrackCoverArt(nID,
-										   SQLManager::CATEGORY_TRACK,
-										   m_EventID,
-										   image,
-										   thumb);
-			}
-	//		DoTopMenuReload();
 		}
 	}
 }
 
 void MusicDBWindow::DoOptionMenuRename(int nID)
 {
+	QString title;
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		int count = m_pIconTracks->GetModel()->rowCount();
+		QModelIndex modelIndex;
+		for (int i = 0; i < count; i++)
+		{
+			modelIndex = m_pIconTracks->GetModel()->index(i, 0);
+			if (qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID)) == nID)
+			{
+				title = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
+				break;
+			}
+		}
+	}
+	else
+	{
+		int count = m_pTableTracks->GetModel()->rowCount();
+		for (int i = 0; i < count; i++)
+		{
+			if (qvariant_cast<int>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_ID))) == nID)
+			{
+				title = qvariant_cast<QString>(m_pTableTracks->GetModel()->data(m_pTableTracks->GetModel()->index(i, TableTracks::TABLE_TRACKS_TITLE)));
+				break;
+			}
+		}
+	}
+
 	InputNameDialog dialog;
+	dialog.SetName(title);
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		QString name = dialog.GetName();
@@ -2923,9 +3002,7 @@ void MusicDBWindow::DoOptionMenuRename(int nID)
 		{
 			m_pMgr->RequestRenameTrack(nID, name, m_EventID);
 		}
-//		DoTopMenuReload();
 	}
-
 }
 
 void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)

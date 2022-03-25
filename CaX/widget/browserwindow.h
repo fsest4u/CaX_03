@@ -50,6 +50,8 @@ private slots:
 	void SlotAddWidget(QWidget *widget, QString title);
 	void SlotRemoveWidget(QWidget* widget);
 	void SlotBrowserPath(QString path);
+	void SlotBrowserPathSelectCoverart(QString path);
+	void SlotBrowserPathOptionSelectCoverart(QString path);
 
 	void SlotIconSelectTitle(int nType, QString rawData);
 	void SlotSelectTrackPlay(int nType, CJsonNode node);
@@ -124,6 +126,7 @@ private:
 	void DoOptionMenuSearchCoverArt(QString path, int type);
 	void DoOptionMenuModifyShare(QString path);
 	void DoOptionMenuDeleteShare(QString path);
+	void DoOptionMenuSelectCoverart(QString path);
 
 	void SetList(QList<CJsonNode> &list);
 	void AnalyzeNode(CJsonNode node);

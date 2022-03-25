@@ -46,6 +46,7 @@ public:
 	QString GetCoverArt() const;
 	void SetCoverArt(const QString &CoverArt);
 
+	void SetEventID(int eventID);
 
 private slots:
 
@@ -88,6 +89,7 @@ private:
 	QStringList	m_MoodList;
 
 	QString m_Addr;
+	int		m_EventID;
 
 	Ui::CDRipInfoDialog *ui;
 };

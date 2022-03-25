@@ -4,10 +4,14 @@
 #include "ui_cdripinfo.h"
 
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #include "dialog/searchcoverartdialog.h"
 #include "dialog/searchcoverartresultdialog.h"
+
+#include "widget/browserwindow.h"
 
 CDRipInfo::CDRipInfo(QWidget *parent) :
 	QWidget(parent),
@@ -107,35 +111,47 @@ void CDRipInfo::SlotClickCoverArt()
 		return;
 	}
 
-	SearchCoverArtResultDialog resultDialog;
-	resultDialog.SetAddr(m_Addr);
-	resultDialog.RequestCoverArtList(site, keyword, artist);
-	if (resultDialog.exec() == QDialog::Accepted)
+	if (site.contains(SEARCH_BROWSER))
 	{
-#if 0
-		QString style;
-		style = QString("QLabel	\
-						{	\
-						  border-image: url(\'\');	\
-						}");
-		ui->labelCoverArt->setStyleSheet(style);
+		BrowserWindow *widget = new BrowserWindow(this, m_Addr, m_EventID);
+		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
+		widget->RequestRoot();
 
-		QPixmap *pixmap = new QPixmap();
-		pixmap->loadFromData(resultDialog.GetImageData());
-		ui->labelCoverArt->setPixmap(pixmap->scaled(ui->labelCoverArt->width()
-													, ui->labelCoverArt->height()
-													, Qt::KeepAspectRatio));
+		connect(widget, SIGNAL(SigBrowserPath(QString)), this, SLOT(SlotBrowserPathSelectCoverart(QString)));
+	}
+	else
+	{
+		SearchCoverArtResultDialog resultDialog;
+		resultDialog.SetAddr(m_Addr);
+		resultDialog.RequestCoverArtList(site, keyword, artist);
+		if (resultDialog.exec() == QDialog::Accepted)
+		{
+	#if 0
+			QString style;
+			style = QString("QLabel	\
+							{	\
+							  border-image: url(\'\');	\
+							}");
+			ui->labelCoverArt->setStyleSheet(style);
 
-#else
-		QString style;
-		style = QString("QLabel	\
-						{	\
-						  border-image: url(\'%1\');	\
-						}").arg(resultDialog.GetImagePath());
-		ui->labelCoverArt->setStyleSheet(style);
-#endif
+			QPixmap *pixmap = new QPixmap();
+			pixmap->loadFromData(resultDialog.GetImageData());
+			ui->labelCoverArt->setPixmap(pixmap->scaled(ui->labelCoverArt->width()
+														, ui->labelCoverArt->height()
+														, Qt::KeepAspectRatio));
 
-		emit SigChangeCoverArt(resultDialog.GetImage(), resultDialog.GetThumb());
+	#else
+			QString style;
+			style = QString("QLabel	\
+							{	\
+							  border-image: url(\'%1\');	\
+							}").arg(resultDialog.GetImagePath());
+			ui->labelCoverArt->setStyleSheet(style);
+	#endif
+
+			emit SigChangeCoverArt(resultDialog.GetImage(), resultDialog.GetThumb());
+		}
 	}
 }
 
@@ -147,6 +163,24 @@ void CDRipInfo::SlotEditTextChangedAlbum(const QString &text)
 void CDRipInfo::SlotEditTextChangedAlbumArtist(const QString &text)
 {
 	emit SigChangeAlbumArtist(text);
+}
+
+void CDRipInfo::SlotBrowserPathSelectCoverart(QString path)
+{
+	QString image = "";
+	QStringList lsAddr = GetAddr().split(":");
+	QString thumb = QString("http://%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
+	QString tempThumb = UtilNovatron::ConvertURLToFilenameWithExtension(thumb);
+	tempThumb = UtilNovatron::GetTempDirectory() + "/" + tempThumb;
+
+	QString style;
+	style = QString("QLabel	\
+					{	\
+					  border-image: url(\'%1\');	\
+					}").arg(tempThumb);
+	ui->labelCoverArt->setStyleSheet(style);
+
+	emit SigChangeCoverArt(image, thumb);
 }
 
 void CDRipInfo::ConnectSigToSlot()
@@ -209,7 +243,12 @@ void CDRipInfo::SetCoverArt(const QString &CoverArt)
 					{	\
 					  border-image: url(\'%1\');	\
 					}").arg(CoverArt);
-	ui->labelCoverArt->setStyleSheet(style);
+					ui->labelCoverArt->setStyleSheet(style);
+}
+
+void CDRipInfo::SetEventID(int eventID)
+{
+	m_EventID = eventID;
 }
 
 bool CDRipInfo::eventFilter(QObject *object, QEvent *event)

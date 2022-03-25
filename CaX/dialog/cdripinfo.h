@@ -38,6 +38,8 @@ public:
 	QString GetCoverArt() const;
 	void SetCoverArt(const QString &CoverArt);
 
+	void SetEventID(int eventID);
+
 signals:
 
 	void SigChangeFormat(int index);
@@ -65,6 +67,8 @@ private slots:
 	void SlotEditTextChangedAlbum(const QString &text);
 	void SlotEditTextChangedAlbumArtist(const QString &text);
 
+	void SlotBrowserPathSelectCoverart(QString path);
+
 private:
 
 	void ConnectSigToSlot();
@@ -75,9 +79,11 @@ private:
 	QStringList			m_AlbumList;
 	QStringList			m_AlbumArtistList;
 
-	QString				m_Addr;
 	QString				m_Image;
 	QString				m_Thumb;
+
+	QString				m_Addr;
+	int					m_EventID;
 
 	Ui::CDRipInfo *ui;
 };

@@ -207,6 +207,7 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 {
 	CDRipInfoDialog dialog;
 	dialog.SetAddr(m_pMgr->GetAddr());
+	dialog.SetEventID(m_EventID);
 	dialog.SetAlbumList(m_AlbumList);
 	dialog.SetAlbumArtistList(m_AlbumArtistList);
 	dialog.SetArtistList(m_ArtistList);

@@ -131,6 +131,7 @@
 #define STR_SEARCH_COVERART			QObject::tr("Search coverart")
 #define STR_SEEK_ALL				QObject::tr("Seek all")
 #define STR_SELECT_ALL				QObject::tr("Select all")
+#define STR_SELECT_COVERART    		QObject::tr("Select coverart")
 #define STR_SETUP_RESERVE_RECORD		QObject::tr("Setup reservation recording")
 #define STR_SHOW_COLUMNS			QObject::tr("Show columns")
 #define STR_TAG_EDIT           		QObject::tr("Tag edit")

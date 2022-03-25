@@ -13,12 +13,13 @@ SearchCoverArtDialog::SearchCoverArtDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	connect(ui->radioButtonBrowser, SIGNAL(clicked()), this, SLOT(SlotClickSearchEngine()));
 	connect(ui->radioButtonGoogle, SIGNAL(clicked()), this, SLOT(SlotClickSearchEngine()));
 	connect(ui->radioButtonBing, SIGNAL(clicked()), this, SLOT(SlotClickSearchEngine()));
 	connect(ui->radioButtonAmazon, SIGNAL(clicked()), this, SLOT(SlotClickSearchEngine()));
 	connect(ui->radioButtonGraceNote, SIGNAL(clicked()), this, SLOT(SlotClickSearchEngine()));
 
-	SetSite(SEARCH_GOOGLE);
+	SetSite(SEARCH_BROWSER);
 
 }
 
@@ -35,6 +36,16 @@ QString SearchCoverArtDialog::GetSite() const
 void SearchCoverArtDialog::SetSite(QString Site)
 {
 	m_Site = Site;
+	if (m_Site.contains(SEARCH_BROWSER))
+	{
+		ui->lineEditKeyword->setEnabled(false);
+		ui->lineEditArtist->setEnabled(false);
+	}
+	else
+	{
+		ui->lineEditKeyword->setEnabled(true);
+		ui->lineEditArtist->setEnabled(true);
+	}
 }
 
 QString SearchCoverArtDialog::GetKeyword() const
@@ -59,7 +70,11 @@ void SearchCoverArtDialog::SetArtist(QString value)
 
 void SearchCoverArtDialog::SlotClickSearchEngine()
 {
-	if (ui->radioButtonGoogle->isChecked())
+	if (ui->radioButtonBrowser->isChecked())
+	{
+		SetSite(SEARCH_BROWSER);
+	}
+	else if (ui->radioButtonGoogle->isChecked())
 	{
 		SetSite(SEARCH_GOOGLE);
 	}
@@ -79,7 +94,9 @@ void SearchCoverArtDialog::SlotClickSearchEngine()
 
 void SearchCoverArtDialog::accept()
 {
-	if (GetKeyword().length() < SEARCH_WORD_LIMIT_COUNT && GetArtist().length() < SEARCH_WORD_LIMIT_COUNT)
+	if (!m_Site.contains(SEARCH_BROWSER)
+			&& GetKeyword().length() < SEARCH_WORD_LIMIT_COUNT
+			&& GetArtist().length() < SEARCH_WORD_LIMIT_COUNT)
 	{
 		CommonDialog dialog(this, STR_WARNING, STR_ENTER_SEARCH_WORD);
 		dialog.exec();

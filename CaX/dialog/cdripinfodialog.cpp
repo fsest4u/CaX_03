@@ -53,6 +53,7 @@ void CDRipInfoDialog::SetInfoData(CJsonNode node)
 	connect(m_WidgetCD, SIGNAL(SigChangeCoverArt(QString, QString)), this, SLOT(SlotChangeCoverArt(QString, QString)));
 
 	m_WidgetCD->SetAddr(m_Addr);
+	m_WidgetCD->SetEventID(m_EventID);
 	m_WidgetCD->SetAlbumList(m_AlbumList);
 	m_WidgetCD->SetAlbumArtistList(m_AlbumArtistList);
 	m_WidgetCD->SetInfoData(m_InfoData);
@@ -296,6 +297,11 @@ QString CDRipInfoDialog::GetCoverArt() const
 void CDRipInfoDialog::SetCoverArt(const QString &CoverArt)
 {
 	m_WidgetCD->SetCoverArt(CoverArt);
+}
+
+void CDRipInfoDialog::SetEventID(int eventID)
+{
+	m_EventID = eventID;
 }
 
 QStringList CDRipInfoDialog::GetMoodList() const

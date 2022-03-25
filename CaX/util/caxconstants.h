@@ -194,6 +194,7 @@ enum {
 	BROWSER_MODE_COPY_OPTION,
 	BROWSER_MODE_MOVE,
 	BROWSER_MODE_MOVE_OPTION,
+	BROWSER_MODE_COVER_ART_OPTION,
 	BROWSER_MODE_MAX
 };
 
@@ -316,6 +317,8 @@ enum
 	OPTION_MENU_SCAN_ON,
 	OPTION_MENU_SCAN_OFF,
 	OPTION_MENU_CONVERT_FORMAT,
+	OPTION_MENU_SELECT_COVERART,
+
 
 	// audio cd
 	OPTION_MENU_CD_RIPPING,
@@ -361,6 +364,7 @@ enum
 // search cover art
 //////////////////////////////////////////////////
 
+#define SEARCH_BROWSER			"Browser"
 #define SEARCH_GOOGLE			"Google"
 #define SEARCH_BING				"Bing"
 #define SEARCH_AMAZON			"Amazon"
