@@ -7,6 +7,7 @@ InputTagDialog::InputTagDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	ui->comboBox->setEditable(true);
+	ui->comboBox->setCompleter(nullptr);
 }
 
 InputTagDialog::~InputTagDialog()

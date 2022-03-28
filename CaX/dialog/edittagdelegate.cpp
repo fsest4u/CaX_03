@@ -238,6 +238,7 @@ QWidget *EditTagDelegate::createEditor(QWidget *parent, const QStyleOptionViewIt
 			}
 		}
 		comboBox->setEditable(true);
+		comboBox->setCompleter(nullptr);
 		comboBox->setCurrentIndex(index);
 		return comboBox;
 	}
