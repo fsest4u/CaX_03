@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.1" language="zh_HK">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -1291,6 +1291,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="util/caxtranslate.h" line="103"/>
+        <location filename="util/caxtranslate.h" line="201"/>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="util/caxtranslate.h" line="104"/>
         <source>Replaygain</source>
         <translation type="unfinished"></translation>
@@ -1313,6 +1319,16 @@
     <message>
         <location filename="util/caxtranslate.h" line="108"/>
         <source>Load count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="109"/>
+        <source>Make a folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="110"/>
+        <source>Make a new playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1557,22 +1573,6 @@
     <message>
         <location filename="util/caxtranslate.h" line="200"/>
         <source>Recommend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="103"/>
-        <location filename="util/caxtranslate.h" line="201"/>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="109"/>
-        <source>Make a folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="110"/>
-        <source>Make a new playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

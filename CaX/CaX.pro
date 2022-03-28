@@ -410,12 +410,15 @@ unix:ICON = logo-icon-musicxneo-256.icns
 TRANSLATIONS += \
     CaX_en_US.ts \
     CaX_de_DE.ts \
+    CaX_fr_FR.ts \
     CaX_it_IT.ts \
     CaX_ja_JP.ts \
     CaX_ko_KR.ts \
     CaX_nl_NL.ts \
+    CaX_pl_PL.ts \
     CaX_ru_RU.ts \
-    CaX_zh_CN.ts 
+    CaX_zh_CN.ts \
+    CaX_zh_HK.ts
     
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -123,22 +123,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/alarmdialog.ui" line="150"/>
+        <location filename="dialog/setup/alarmdialog.ui" line="167"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/alarmdialog.ui" line="317"/>
+        <location filename="dialog/setup/alarmdialog.ui" line="334"/>
         <source>AM/PM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/alarmdialog.ui" line="336"/>
+        <location filename="dialog/setup/alarmdialog.ui" line="353"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/alarmdialog.ui" line="355"/>
+        <location filename="dialog/setup/alarmdialog.ui" line="372"/>
         <source>Minute</source>
         <translation type="unfinished"></translation>
     </message>
@@ -156,19 +156,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/analoginvolumedialog.ui" line="77"/>
-        <location filename="dialog/setup/analoginvolumedialog.ui" line="131"/>
-        <location filename="dialog/setup/analoginvolumedialog.ui" line="185"/>
+        <location filename="dialog/setup/analoginvolumedialog.ui" line="94"/>
+        <location filename="dialog/setup/analoginvolumedialog.ui" line="165"/>
+        <location filename="dialog/setup/analoginvolumedialog.ui" line="236"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/analoginvolumedialog.ui" line="105"/>
+        <location filename="dialog/setup/analoginvolumedialog.ui" line="122"/>
         <source>Phono in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/analoginvolumedialog.ui" line="159"/>
+        <location filename="dialog/setup/analoginvolumedialog.ui" line="193"/>
         <source>Aux in</source>
         <translation type="unfinished"></translation>
     </message>
@@ -277,16 +277,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/customeqdialog.ui" line="160"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="270"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="380"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="490"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="600"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="710"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="820"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="930"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="1040"/>
-        <location filename="dialog/setup/customeqdialog.ui" line="1156"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="179"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="308"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="437"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="566"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="695"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="824"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="953"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="1082"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="1211"/>
+        <location filename="dialog/setup/customeqdialog.ui" line="1346"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
@@ -483,6 +483,11 @@
     <message>
         <location filename="widget/formBottom/icontracks.ui" line="14"/>
         <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget/formBottom/icontracks.ui" line="57"/>
+        <source>Not available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -855,17 +860,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/maxvolumedialog.ui" line="80"/>
+        <location filename="dialog/setup/maxvolumedialog.ui" line="97"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/maxvolumedialog.ui" line="108"/>
+        <location filename="dialog/setup/maxvolumedialog.ui" line="125"/>
         <source>Cur Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/maxvolumedialog.ui" line="137"/>
+        <location filename="dialog/setup/maxvolumedialog.ui" line="171"/>
         <source>100</source>
         <translation type="unfinished"></translation>
     </message>
@@ -921,7 +926,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/setup/poweronvolumedialog.ui" line="77"/>
+        <location filename="dialog/setup/poweronvolumedialog.ui" line="94"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
@@ -940,7 +945,7 @@
     </message>
     <message>
         <location filename="dialog/progressdialog.ui" line="110"/>
-        <source>Close</source>
+        <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1031,551 +1036,572 @@
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="34"/>
-        <source>No select</source>
+        <source>New playlist is made</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="35"/>
-        <source>Power off Others</source>
+        <source>No select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="36"/>
-        <source>Select only one item</source>
+        <source>Power off Others</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="37"/>
-        <source>Tag info</source>
+        <source>Select only one item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="38"/>
-        <source>Track info</source>
+        <source>Tag info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="39"/>
+        <source>Track info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="40"/>
         <source>Wake on lan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="45"/>
+        <location filename="util/caxtranslate.h" line="46"/>
         <source>invalid command id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="46"/>
+        <location filename="util/caxtranslate.h" line="47"/>
         <source>invalid json</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="47"/>
+        <location filename="util/caxtranslate.h" line="48"/>
         <source>unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="48"/>
+        <location filename="util/caxtranslate.h" line="49"/>
         <source>no result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="54"/>
+        <location filename="util/caxtranslate.h" line="55"/>
         <source>Music DB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="55"/>
+        <location filename="util/caxtranslate.h" line="56"/>
         <source>Audio CD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="56"/>
+        <location filename="util/caxtranslate.h" line="57"/>
         <source>Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="57"/>
+        <location filename="util/caxtranslate.h" line="58"/>
         <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="58"/>
+        <location filename="util/caxtranslate.h" line="59"/>
         <source>Internet service</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="59"/>
+        <location filename="util/caxtranslate.h" line="60"/>
         <source>Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="60"/>
+        <location filename="util/caxtranslate.h" line="61"/>
         <source>FM radio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="61"/>
+        <location filename="util/caxtranslate.h" line="62"/>
         <source>DAB radio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="62"/>
+        <location filename="util/caxtranslate.h" line="63"/>
         <source>Group play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="63"/>
+        <location filename="util/caxtranslate.h" line="64"/>
         <source>Setup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="64"/>
+        <location filename="util/caxtranslate.h" line="65"/>
         <source>Select device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="65"/>
+        <location filename="util/caxtranslate.h" line="66"/>
         <source>Power on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="66"/>
+        <location filename="util/caxtranslate.h" line="67"/>
         <source>Power off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="67"/>
+        <location filename="util/caxtranslate.h" line="68"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="68"/>
+        <location filename="util/caxtranslate.h" line="69"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="69"/>
+        <location filename="util/caxtranslate.h" line="70"/>
         <source>Now play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="71"/>
+        <location filename="util/caxtranslate.h" line="72"/>
         <source>Available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="72"/>
+        <location filename="util/caxtranslate.h" line="73"/>
         <source>Not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="78"/>
-        <source>Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="79"/>
+        <location filename="util/caxtranslate.h" line="80"/>
         <source>Add new station</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="80"/>
+        <location filename="util/caxtranslate.h" line="81"/>
         <source>Add playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="81"/>
+        <location filename="util/caxtranslate.h" line="82"/>
         <source>Add share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="82"/>
+        <location filename="util/caxtranslate.h" line="83"/>
         <source>Add to favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="83"/>
+        <location filename="util/caxtranslate.h" line="84"/>
         <source>Add to playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="84"/>
+        <location filename="util/caxtranslate.h" line="85"/>
         <source>CD ripping</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="85"/>
+        <location filename="util/caxtranslate.h" line="86"/>
         <source>Change meta info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="86"/>
+        <location filename="util/caxtranslate.h" line="87"/>
         <source>Clear all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="87"/>
+        <location filename="util/caxtranslate.h" line="88"/>
         <source>Clear and seek all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="88"/>
+        <location filename="util/caxtranslate.h" line="89"/>
         <source>Convert audio format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="89"/>
-        <location filename="util/caxtranslate.h" line="187"/>
+        <location filename="util/caxtranslate.h" line="90"/>
+        <location filename="util/caxtranslate.h" line="193"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="90"/>
+        <location filename="util/caxtranslate.h" line="91"/>
         <source>Copy here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="91"/>
+        <location filename="util/caxtranslate.h" line="92"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="92"/>
+        <location filename="util/caxtranslate.h" line="93"/>
         <source>Delete playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="94"/>
+        <location filename="util/caxtranslate.h" line="95"/>
         <source>Delete track from playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="95"/>
-        <source>Delete share</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="util/caxtranslate.h" line="96"/>
-        <source>Delete to favorite</source>
+        <source>Delete from play queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="97"/>
-        <source>Edit</source>
+        <source>Delete share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="98"/>
-        <source>Edit tag</source>
+        <source>Delete to favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="99"/>
-        <source>Eject CD</source>
+        <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="100"/>
-        <source>Export track</source>
+        <source>Edit tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="101"/>
-        <source>Replaygain</source>
+        <source>Eject CD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="102"/>
-        <source>Clear replaygain</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="103"/>
-        <source>Go to album</source>
+        <source>Export track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="104"/>
-        <source>Go to artist</source>
+        <source>Replaygain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="105"/>
-        <source>Load count</source>
+        <source>Clear replaygain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="106"/>
-        <source>Make a playlist</source>
+        <source>Go to album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="107"/>
-        <source>Menu</source>
+        <source>Go to artist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="108"/>
-        <source>Modify share</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="109"/>
-        <location filename="util/caxtranslate.h" line="188"/>
-        <source>Move</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="110"/>
-        <source>Move here</source>
+        <source>Load count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="111"/>
-        <source>Name</source>
+        <source>Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="112"/>
-        <source>on</source>
+        <source>Modify share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="113"/>
-        <source>off</source>
+        <location filename="util/caxtranslate.h" line="194"/>
+        <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="114"/>
-        <source>Play subdirectories</source>
+        <source>Move here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="115"/>
-        <source>Overwrite</source>
+        <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="116"/>
-        <source>Play now</source>
+        <source>on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="117"/>
-        <source>Play last</source>
+        <source>off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="118"/>
-        <source>Play next</source>
+        <source>Play subdirectories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="119"/>
-        <source>Clear &amp;&amp; Play</source>
+        <source>Overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="120"/>
-        <source>Reload</source>
+        <source>Play now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="121"/>
-        <source>Rename</source>
+        <source>Play last</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="122"/>
+        <source>Play next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="123"/>
-        <source>Reservation recording list</source>
+        <source>Clear &amp;&amp; Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="124"/>
-        <source>Scan Music DB</source>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="125"/>
-        <source>Remove from Music DB</source>
+        <source>Remove favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="126"/>
-        <source>Search coverart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="127"/>
-        <source>Seek all</source>
+        <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="128"/>
-        <source>Select all</source>
+        <source>Reservation recording list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="129"/>
-        <source>Setup reservation recording</source>
+        <source>Scan Music DB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="130"/>
-        <source>Show columns</source>
+        <source>Remove from Music DB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="131"/>
-        <source>Tag edit</source>
+        <source>Search coverart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="132"/>
-        <source>Title</source>
+        <source>Seek all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="133"/>
+        <source>Select all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="134"/>
+        <source>Select coverart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="135"/>
+        <source>Setup reservation recording</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="136"/>
+        <source>Show columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="137"/>
+        <source>Tag edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="138"/>
-        <source>Audio format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="139"/>
-        <source>Most played</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="141"/>
-        <source>Top 10</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="142"/>
-        <source>Top 25</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="util/caxtranslate.h" line="143"/>
-        <source>Top 50</source>
+        <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="144"/>
+        <source>Audio format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="145"/>
+        <source>Most played</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="147"/>
+        <source>Top 10</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="148"/>
+        <source>Top 25</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="149"/>
+        <source>Top 50</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="150"/>
         <source>Top 100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="151"/>
+        <location filename="util/caxtranslate.h" line="157"/>
         <source>Sorted by imported date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="152"/>
+        <location filename="util/caxtranslate.h" line="158"/>
         <source>Sorted by alphabet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="153"/>
+        <location filename="util/caxtranslate.h" line="159"/>
         <source>Sorted by favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="155"/>
+        <location filename="util/caxtranslate.h" line="161"/>
         <source>Sorted by rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="158"/>
-        <location filename="util/caxtranslate.h" line="174"/>
+        <location filename="util/caxtranslate.h" line="164"/>
+        <location filename="util/caxtranslate.h" line="180"/>
         <source>Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="159"/>
-        <location filename="util/caxtranslate.h" line="166"/>
+        <location filename="util/caxtranslate.h" line="165"/>
+        <location filename="util/caxtranslate.h" line="172"/>
         <source>Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="160"/>
-        <location filename="util/caxtranslate.h" line="168"/>
+        <location filename="util/caxtranslate.h" line="166"/>
+        <location filename="util/caxtranslate.h" line="174"/>
         <source>Artist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="167"/>
+        <location filename="util/caxtranslate.h" line="173"/>
         <source>Album Artist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="169"/>
+        <location filename="util/caxtranslate.h" line="175"/>
         <source>Composer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="170"/>
+        <location filename="util/caxtranslate.h" line="176"/>
         <source>Genre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="171"/>
+        <location filename="util/caxtranslate.h" line="177"/>
         <source>Mood</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="172"/>
+        <location filename="util/caxtranslate.h" line="178"/>
         <source>Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="173"/>
+        <location filename="util/caxtranslate.h" line="179"/>
         <source>Year</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="180"/>
+        <location filename="util/caxtranslate.h" line="186"/>
         <source>Auto Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="194"/>
+        <location filename="util/caxtranslate.h" line="200"/>
         <source>Recommend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="195"/>
+        <location filename="util/caxtranslate.h" line="103"/>
+        <location filename="util/caxtranslate.h" line="201"/>
         <source>Favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="202"/>
-        <source>My radio</source>
+        <location filename="util/caxtranslate.h" line="109"/>
+        <source>Make a folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="110"/>
+        <source>Make a new playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="208"/>
+        <source>My radio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="214"/>
         <source>Stereo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="209"/>
+        <location filename="util/caxtranslate.h" line="215"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="210"/>
+        <location filename="util/caxtranslate.h" line="216"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="216"/>
+        <location filename="util/caxtranslate.h" line="222"/>
         <source>Search results for &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="225"/>
+        <location filename="util/caxtranslate.h" line="231"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1652,6 +1678,30 @@
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="widget/queuelistwindow.ui" line="336"/>
+        <location filename="widget/queuelistwindow.ui" line="343"/>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget/queuelistwindow.ui" line="523"/>
+        <source> / </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget/queuelistwindow.ui" line="530"/>
+        <source>Play Queue</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ResizeDialog</name>
+    <message>
+        <location filename="dialog/resizedialog.ui" line="20"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SearchCategory</name>
@@ -1688,26 +1738,31 @@
     </message>
     <message>
         <location filename="dialog/searchcoverartdialog.ui" line="173"/>
-        <source>Google</source>
+        <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="dialog/searchcoverartdialog.ui" line="183"/>
+        <source>Google</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/searchcoverartdialog.ui" line="193"/>
         <source>Bing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/searchcoverartdialog.ui" line="190"/>
+        <location filename="dialog/searchcoverartdialog.ui" line="200"/>
         <source>Amazon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/searchcoverartdialog.ui" line="197"/>
+        <location filename="dialog/searchcoverartdialog.ui" line="207"/>
         <source>Gracenote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/searchcoverartdialog.ui" line="243"/>
+        <location filename="dialog/searchcoverartdialog.ui" line="253"/>
         <source>Artist</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2058,6 +2113,11 @@
     <message>
         <location filename="widget/formBottom/tabletracks.ui" line="14"/>
         <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget/formBottom/tabletracks.ui" line="113"/>
+        <source>Not available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
