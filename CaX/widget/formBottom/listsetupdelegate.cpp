@@ -33,7 +33,7 @@ void ListSetupDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	QRect rectTitle = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 180, fmTitle.height());
+	QRect rectTitle = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, fmTitle.width(title), fmTitle.height());
 	QRect rectSubtitle = QRect(rectBase.width() - fmTitle.width(subtitle) - 60, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, fmTitle.width(subtitle), fmTitle.height());
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());

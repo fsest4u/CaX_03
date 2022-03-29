@@ -58,6 +58,12 @@
    </item>
    <item row="0" column="0">
     <widget class="QFrame" name="frameSetup">
+     <property name="maximumSize">
+      <size>
+       <width>400</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>

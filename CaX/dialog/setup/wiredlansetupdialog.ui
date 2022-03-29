@@ -206,18 +206,10 @@ QPushButton:hover
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="btnOK">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
+       <widget class="QPushButton" name="btnOK"/>
       </item>
       <item>
-       <widget class="QPushButton" name="btnCancel">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
+       <widget class="QPushButton" name="btnCancel"/>
       </item>
       <item>
        <spacer name="horizontalSpacer_2">
