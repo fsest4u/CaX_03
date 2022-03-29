@@ -60,7 +60,7 @@ QList<CJsonNode> ListTracks::GetNodeList() const
 
 void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 {
-	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
+//	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
@@ -166,7 +166,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 //		}
 //	}
 
-	UtilNovatron::LoadingStop(loading);
+//	UtilNovatron::LoadingStop(loading);
 }
 
 void ListTracks::ClearNodeList()

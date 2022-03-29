@@ -215,7 +215,9 @@ void MusicDBWindow::AddWidgetTrack(int typeMode, int category)
 
 void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
 //	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
+
 	m_pMgr->RequestMusicDBOverView();
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
@@ -353,6 +355,7 @@ void MusicDBWindow::RequestCategoryList(int catID, int catID2)
 
 void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
 //	LogDebug("m_TypeMode [%d], category [%d], catID [%d], catID2 [%d]", m_TypeMode, m_nCategory, catID, catID2);
 
 	m_nID = nID;
@@ -556,6 +559,11 @@ void MusicDBWindow::SlotUpdateRatingParent(int id, int rating)
 
 void MusicDBWindow::SlotRespError(QString errMsg)
 {
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
+
 	if (errMsg.toLower().contains("not found") && m_RespList.count() <= 0)
 	{
 		m_pIconTracks->ShowFrameEmpty(true);
@@ -679,6 +687,10 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 		m_pTableTracks->SetNodeList(list, service);
 	}
 
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
 	m_EnableAppend = true;
 }
 
@@ -738,6 +750,10 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 		m_pTableTracks->SetNodeList(list, service);
 	}
 
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
 	m_EnableAppend = true;
 }
 
@@ -2164,6 +2180,8 @@ void MusicDBWindow::Initialize()
 	m_pInfoTracks->GetFormSort()->ShowIncDec();
 	m_pInfoTracks->GetFormSort()->SetIncrease(m_bIncreaseTrack);
 	m_pInfoTracks->GetFormSort()->SetSliderMinimum(TABLE_HEIGHT_MIN);
+
+	m_Loading = nullptr;
 
 	m_RespList.clear();
 

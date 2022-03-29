@@ -60,7 +60,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 {
 	ShowFrameEmpty(false);
 
-	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
+//	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
@@ -133,7 +133,7 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 
 	SlotScrollReleased();
 
-	UtilNovatron::LoadingStop(loading);
+//	UtilNovatron::LoadingStop(loading);
 }
 
 void IconTracks::ClearNodeList()

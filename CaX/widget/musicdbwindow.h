@@ -14,6 +14,7 @@ class InfoHome;
 class InfoTracks;
 class IconTracks;
 class TableTracks;
+class Loading;
 
 namespace Ui {
 class MusicDBWindow;
@@ -207,6 +208,8 @@ private:
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
 	TableTracks			*m_pTableTracks;
+
+	Loading				*m_Loading;
 
 	QList<CJsonNode>	m_RespList;
 

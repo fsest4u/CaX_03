@@ -108,6 +108,8 @@ void AudioCDWindow::AddWidgetAudioCDHome()
 
 void AudioCDWindow::RequestTrackList()
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
+
 	m_pMgr->RequestTrackList();
 }
 
@@ -190,6 +192,10 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 //	m_TotalCount = QString("%1 songs").arg(m_RespList.count());
 //	m_pInfoTracks->SetInfo( MakeInfo() );
 
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
 }
 
 void AudioCDWindow::SlotRespTrackInfo(CJsonNode node)
@@ -283,6 +289,11 @@ void AudioCDWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 
 void AudioCDWindow::SlotRespError(QString errMsg)
 {
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
+
 	CommonDialog dialog(this, STR_WARNING, errMsg);
 	dialog.exec();
 }
@@ -536,6 +547,8 @@ void AudioCDWindow::Initialize()
 	m_SelectMap.clear();
 
 //	m_ListMode = GetListModeFromResize(m_ResizeTrack);
+
+	m_Loading = nullptr;
 
 	m_AlbumList.clear();
 	m_AlbumArtistList.clear();

@@ -12,6 +12,7 @@ class InfoService;
 class InfoTracks;
 class IconTracks;
 class ListTracks;
+class Loading;
 
 namespace Ui {
 class PlaylistWindow;
@@ -114,6 +115,8 @@ private:
 	InfoTracks			*m_pInfoTracks;
 	IconTracks			*m_pIconTracks;
 	ListTracks			*m_pListTracks;
+
+	Loading				*m_Loading;
 
 	QList<CJsonNode>	m_RespList;
 

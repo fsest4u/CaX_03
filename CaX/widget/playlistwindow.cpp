@@ -136,6 +136,8 @@ void PlaylistWindow::AddWidgetTrack()
 
 void PlaylistWindow::RequestPlaylist()
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
+
 	m_pMgr->RequestPlaylist();
 }
 
@@ -148,6 +150,8 @@ void PlaylistWindow::RequestPlaylistInfo(int id, QString coverArt)
 
 void PlaylistWindow::RequestTrackList(int id)
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
+
 	m_pMgr->RequestTrackList(id);
 }
 
@@ -163,6 +167,11 @@ void PlaylistWindow::SlotRemoveWidget(QWidget *widget)
 
 void PlaylistWindow::SlotRespError(QString errMsg)
 {
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
+
 	CommonDialog dialog(this, STR_WARNING, errMsg);
 	dialog.exec();
 }
@@ -195,6 +204,11 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 	{
 		m_pListTracks->ClearNodeList();
 		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
+	}
+
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
 	}
 }
 
@@ -231,6 +245,11 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 	{
 		m_pListTracks->ClearNodeList();
 		m_pListTracks->SetNodeList(m_RespList, SIDEMENU_PLAYLIST);
+	}
+
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
 	}
 }
 
@@ -695,6 +714,8 @@ void PlaylistWindow::Initialize()
 	m_SelectMap.clear();
 
 //	m_ListMode = GetListModeFromResize(m_Resize);
+
+	m_Loading = nullptr;
 
 	m_ID = -1;
 	m_TrackID = -1;
