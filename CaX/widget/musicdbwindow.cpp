@@ -2935,17 +2935,17 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 	}
 	else
 	{
-		SearchCoverArtResultDialog resultDialog;
-		resultDialog.SetAddr(m_pMgr->GetAddr());
-		resultDialog.RequestCoverArtList(site, keyword, artist);
-		if (resultDialog.exec() == QDialog::Accepted)
+		SearchCoverArtResultDialog *resultDialog = new SearchCoverArtResultDialog(this);
+		resultDialog->SetAddr(m_pMgr->GetAddr());
+		resultDialog->RequestCoverArtList(site, keyword, artist);
+		if (resultDialog->exec() == QDialog::Accepted)
 		{
 			ConfirmCoverArtDialog dialog;
-			dialog.SetImagePath(resultDialog.GetImagePath());
+			dialog.SetImagePath(resultDialog->GetImagePath());
 			if (dialog.exec() == QDialog::Accepted)
 			{
-				QString image = resultDialog.GetImage();
-				QString thumb = resultDialog.GetThumb();
+				QString image = resultDialog->GetImage();
+				QString thumb = resultDialog->GetThumb();
 				if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 						|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
 						|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
@@ -2968,6 +2968,12 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 											   thumb);
 				}
 			}
+		}
+
+		if (resultDialog)
+		{
+			delete resultDialog;
+			resultDialog = nullptr;
 		}
 	}
 }

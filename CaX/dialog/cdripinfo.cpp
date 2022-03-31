@@ -122,10 +122,10 @@ void CDRipInfo::SlotClickCoverArt()
 	}
 	else
 	{
-		SearchCoverArtResultDialog resultDialog;
-		resultDialog.SetAddr(m_Addr);
-		resultDialog.RequestCoverArtList(site, keyword, artist);
-		if (resultDialog.exec() == QDialog::Accepted)
+		SearchCoverArtResultDialog *resultDialog = new SearchCoverArtResultDialog(this);
+		resultDialog->SetAddr(m_Addr);
+		resultDialog->RequestCoverArtList(site, keyword, artist);
+		if (resultDialog->exec() == QDialog::Accepted)
 		{
 	#if 0
 			QString style;
@@ -146,11 +146,17 @@ void CDRipInfo::SlotClickCoverArt()
 			style = QString("QLabel	\
 							{	\
 							  border-image: url(\'%1\');	\
-							}").arg(resultDialog.GetImagePath());
+							}").arg(resultDialog->GetImagePath());
 			ui->labelCoverArt->setStyleSheet(style);
 	#endif
 
-			emit SigChangeCoverArt(resultDialog.GetImage(), resultDialog.GetThumb());
+			emit SigChangeCoverArt(resultDialog->GetImage(), resultDialog->GetThumb());
+		}
+
+		if (resultDialog)
+		{
+			delete resultDialog;
+			resultDialog = nullptr;
 		}
 	}
 }

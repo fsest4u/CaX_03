@@ -8,6 +8,7 @@
 class TCPClient;
 class SearchCoverArtResultManager;
 class IconCoverArt;
+class Loading;
 
 namespace Ui {
 class SearchCoverArtResultDialog;
@@ -55,6 +56,8 @@ private:
 	SearchCoverArtResultManager	*m_pMgr;
 	IconCoverArt		*m_pIconCoverArt;
 	QList<CJsonNode>	m_NodeList;
+
+	Loading				*m_Loading;
 
 	QString m_NextUrl;
 	QString m_Site;

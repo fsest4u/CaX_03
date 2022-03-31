@@ -211,21 +211,26 @@ void AudioCDWindow::SlotRespTrackInfo(CJsonNode node)
 
 void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 {
-	CDRipInfoDialog dialog;
-	dialog.SetAddr(m_pMgr->GetAddr());
-	dialog.SetEventID(m_EventID);
-	dialog.SetAlbumList(m_AlbumList);
-	dialog.SetAlbumArtistList(m_AlbumArtistList);
-	dialog.SetArtistList(m_ArtistList);
-	dialog.SetGenreList(m_GenreList);
-	dialog.SetComposerList(m_ComposerList);
-	dialog.SetMoodList(m_MoodList);
-	dialog.SetInfoData(node);
-	dialog.SetCoverArt(m_pInfoTracks->GetCoverArt());
-	if (dialog.exec() == QDialog::Accepted)
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
+
+	CDRipInfoDialog *dialog = new CDRipInfoDialog(this);
+	dialog->SetAddr(m_pMgr->GetAddr());
+	dialog->SetEventID(m_EventID);
+	dialog->SetAlbumList(m_AlbumList);
+	dialog->SetAlbumArtistList(m_AlbumArtistList);
+	dialog->SetArtistList(m_ArtistList);
+	dialog->SetGenreList(m_GenreList);
+	dialog->SetComposerList(m_ComposerList);
+	dialog->SetMoodList(m_MoodList);
+	dialog->SetInfoData(node);
+	dialog->SetCoverArt(m_pInfoTracks->GetCoverArt());
+	if (dialog->exec() == QDialog::Accepted)
 	{
 		node.Clear();
-		node = dialog.GetInfoData();
+		node = dialog->GetInfoData();
 
 		node.Del(VAL_SUCCESS);
 		node.Del(VAL_MSG);
@@ -245,6 +250,12 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 //		LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 		m_pMgr->RequestCDRip(node);
+	}
+
+	if (dialog)
+	{
+		delete dialog;
+		dialog = nullptr;
 	}
 }
 
@@ -725,6 +736,8 @@ void AudioCDWindow::DoTopMenuChangeMetaInfo()
 
 void AudioCDWindow::DoTopMenuCDRipping()
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
+
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
@@ -761,6 +774,8 @@ void AudioCDWindow::SetOptionMenu()
 
 void AudioCDWindow::DoOptionMenuCDRipping(int id)
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
+
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);

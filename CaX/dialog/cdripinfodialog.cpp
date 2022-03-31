@@ -9,7 +9,7 @@
 
 CDRipInfoDialog::CDRipInfoDialog(QWidget *parent) :
 	QDialog(parent),
-	m_WidgetCD(new CDRipInfo),
+	m_WidgetCD(new CDRipInfo(this)),
 	ui(new Ui::CDRipInfoDialog)
 {
 	ui->setupUi(this);

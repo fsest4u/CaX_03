@@ -5,6 +5,7 @@
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 #include "widget/formBottom/iconcoverart.h"
 #include "widget/formBottom/iconcoverartdelegate.h"
@@ -47,6 +48,8 @@ void SearchCoverArtResultDialog::RequestCoverArtList(QString site, QString keywo
 	m_Site = site;
 	m_Keyword = keyword;
 	m_Artist = artist;
+
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
 
 	m_pMgr->RequestCoverArtList(m_Site, m_Keyword, m_Artist);
 }
@@ -96,6 +99,11 @@ void SearchCoverArtResultDialog::SlotRespCoverArtList(CJsonNode node)
 	m_NextUrl = node.GetString(VAL_NEXT_URL);
 
 	m_pIconCoverArt->SetNodeList(curNodeList, IconCoverArt::ICON_COVER_ART_MUSIC_DB);
+
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+	}
 }
 
 //void SearchCoverArtResultDialog::SlotRespSearchCoverArt(QByteArray data, int index)
@@ -164,6 +172,8 @@ void SearchCoverArtResultDialog::Initialize()
 
 	m_pIconCoverArt->ClearNodeList();
 	m_NodeList.clear();
+
+	m_Loading = nullptr;
 
 }
 

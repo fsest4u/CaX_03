@@ -1367,21 +1367,27 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 	}
 	else
 	{
-		SearchCoverArtResultDialog resultDialog;
-		resultDialog.SetAddr(m_pMgr->GetAddr());
-		resultDialog.RequestCoverArtList(site, keyword, artist);
-		if (resultDialog.exec() == QDialog::Accepted)
+		SearchCoverArtResultDialog *resultDialog = new SearchCoverArtResultDialog(this);
+		resultDialog->SetAddr(m_pMgr->GetAddr());
+		resultDialog->RequestCoverArtList(site, keyword, artist);
+		if (resultDialog->exec() == QDialog::Accepted)
 		{
 			ConfirmCoverArtDialog dialog;
-			dialog.SetImagePath(resultDialog.GetImagePath());
+			dialog.SetImagePath(resultDialog->GetImagePath());
 			if (dialog.exec() == QDialog::Accepted)
 			{
-				QString image = resultDialog.GetImage();
-				QString thumb = resultDialog.GetThumb();
+				QString image = resultDialog->GetImage();
+				QString thumb = resultDialog->GetThumb();
 
 				SetDirFile();
 				m_pMgr->RequestSetArt(m_Root, m_Files, image, thumb, m_EventID);
 			}
+		}
+
+		if (resultDialog)
+		{
+			delete resultDialog;
+			resultDialog = nullptr;
 		}
 	}
 }
@@ -1691,17 +1697,17 @@ void BrowserWindow::DoOptionMenuSearchCoverArt(QString path, int type)
 	}
 	else
 	{
-		SearchCoverArtResultDialog resultDialog;
-		resultDialog.SetAddr(m_pMgr->GetAddr());
-		resultDialog.RequestCoverArtList(site, keyword, artist);
-		if (resultDialog.exec() == QDialog::Accepted)
+		SearchCoverArtResultDialog *resultDialog = new SearchCoverArtResultDialog(this);
+		resultDialog->SetAddr(m_pMgr->GetAddr());
+		resultDialog->RequestCoverArtList(site, keyword, artist);
+		if (resultDialog->exec() == QDialog::Accepted)
 		{
 			ConfirmCoverArtDialog dialog;
-			dialog.SetImagePath(resultDialog.GetImagePath());
+			dialog.SetImagePath(resultDialog->GetImagePath());
 			if (dialog.exec() == QDialog::Accepted)
 			{
-				QString image = resultDialog.GetImage();
-				QString thumb = resultDialog.GetThumb();
+				QString image = resultDialog->GetImage();
+				QString thumb = resultDialog->GetThumb();
 
 				QStringList dirs;
 				QStringList files;
@@ -1709,6 +1715,12 @@ void BrowserWindow::DoOptionMenuSearchCoverArt(QString path, int type)
 
 				m_pMgr->RequestSetArt(m_Root, files, image, thumb, m_EventID);
 			}
+		}
+
+		if (resultDialog)
+		{
+			delete resultDialog;
+			resultDialog = nullptr;
 		}
 	}
 }
