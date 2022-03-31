@@ -47,7 +47,7 @@ QWidget
       <item row="0" column="0">
        <widget class="QLabel" name="labelPowerOff">
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -102,7 +102,7 @@ QPushButton:hover
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
+      <item row="0" column="1">
        <widget class="QCheckBox" name="cbWol">
         <property name="font">
          <font>
@@ -114,9 +114,35 @@ QPushButton:hover
          </font>
         </property>
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
        </widget>
+      </item>
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -133,7 +159,7 @@ QPushButton:hover
       <item row="0" column="0">
        <widget class="QLabel" name="labelDevices">
         <property name="text">
-         <string> </string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

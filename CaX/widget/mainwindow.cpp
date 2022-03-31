@@ -683,6 +683,7 @@ void MainWindow::SlotWolDevice(QString mac, QString addr, QString val, QString d
 
 	if (mac.isEmpty())
 	{
+//		LogWarning("mac is empty");
 		return;
 	}
 
@@ -694,13 +695,14 @@ void MainWindow::SlotWolDevice(QString mac, QString addr, QString val, QString d
 	Initialize();
 	SlotMenu();
 
-//	QString strAddr = m_pDeviceMgr->GetDeviceValueWol(mac, DEVICE_WOL_ADDR);
-	if (addr.isEmpty())
+	QString strAddr = m_pDeviceMgr->GetDeviceValueWol(mac, DEVICE_WOL_ADDR);
+	if (strAddr.isEmpty())
 	{
+//		LogWarning("strAddr is empty");
 		return;
 	}
 
-	m_strAddr = addr;
+	m_strAddr = strAddr;
 	m_strCurrentMac = mac;
 
 	WriteSettings();
@@ -709,7 +711,7 @@ void MainWindow::SlotWolDevice(QString mac, QString addr, QString val, QString d
 
 	m_pAppMgr->SetAddr(m_strAddr);
 
-	m_pDeviceMgr->RequestDevicePowerOn(m_strAddr, mac);
+	m_pDeviceMgr->RequestDevicePowerOn(m_strAddr, m_strCurrentMac);
 }
 
 void MainWindow::SlotWolCancel(QString mac, QString addr, QString val, QString dev)
