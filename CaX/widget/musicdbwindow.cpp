@@ -934,6 +934,14 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 			|| SQLManager::SORT_RATING == menuID)
 	{
 		m_DispMode = menuID;
+		if (m_nCategory == SQLManager::CATEGORY_TRACK)
+		{
+			m_nSortTrack = menuID;
+		}
+		else
+		{
+			m_nSortCategory = menuID;
+		}
 		m_nSortCategory = menuID;
 		WriteSettings();
 
@@ -969,7 +977,14 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 
 void MusicDBWindow::SlotIncDec(bool bIncrease)
 {
-	m_bIncreaseCategory = bIncrease;
+	if (m_nCategory == SQLManager::CATEGORY_TRACK)
+	{
+		m_bIncreaseTrack = bIncrease;
+	}
+	else
+	{
+		m_bIncreaseCategory = bIncrease;
+	}
 	WriteSettings();
 
 //	RequestCategoryList(m_nCatID, m_nCatID2);
