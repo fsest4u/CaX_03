@@ -165,6 +165,7 @@ private:
 	void DoTopMenuClearAll();
 	void DoTopMenuGainSet();
 	void DoTopMenuGainClear();
+	void DoTopMenuDelete();
 	void DoTopMenuAddToPlaylist();
 	void DoTopMenuAddFromPlaylist();
 	void DoTopMenuShowCategoryColumns();
@@ -186,6 +187,7 @@ private:
 	void DoOptionMenuSearchCoverArt(int nID);
 	void DoOptionMenuRename(int nID);
 	void DoOptionMenuGain(int nID, QString gainType);
+	void DoOptionMenuDelete(int nID);
 	void DoOptionMenuGoToAlbum(int albumID, QString cover);
 	void DoOptionMenuGoToArtist(int artistID);
 

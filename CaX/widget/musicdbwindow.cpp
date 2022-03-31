@@ -916,6 +916,9 @@ void MusicDBWindow::SlotTopMenuAction(int menuID)
 	case TOP_MENU_GAIN_CLEAR:
 		DoTopMenuGainClear();
 		break;
+	case TOP_MENU_DELETE:
+		DoTopMenuDelete();
+		break;
 	case TOP_MENU_ADD_TO_PLAYLIST:
 		DoTopMenuAddToPlaylist();
 		break;
@@ -1802,6 +1805,9 @@ void MusicDBWindow::SlotOptionMenuAction(const QModelIndex &index, int menuID)
 	case OPTION_MENU_GAIN_CLEAR:
 		DoOptionMenuGain(id, VAL_GAIN_CLEAR);
 		break;
+	case OPTION_MENU_DELETE:
+		DoOptionMenuDelete(id);
+		break;
 	case OPTION_MENU_GO_TO_ALBUM:
 	{
 		int albumID = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ALBUM_ID)));
@@ -2349,6 +2355,7 @@ void MusicDBWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+//		m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
@@ -2362,6 +2369,7 @@ void MusicDBWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+//		m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -2496,6 +2504,15 @@ void MusicDBWindow::DoTopMenuGainClear()
 
 }
 
+void MusicDBWindow::DoTopMenuDelete()
+{
+	m_pMgr->RequestManageCategory(VAL_DEL,
+								  m_SelectMap,
+								  PLAY_NONE,
+								  m_nCategory,
+								  m_EventID);
+}
+
 void MusicDBWindow::DoTopMenuAddToPlaylist()
 {
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
@@ -2564,7 +2581,6 @@ void MusicDBWindow::DoTopMenuShowCategoryColumns()
 
 	}
 }
-
 
 void MusicDBWindow::DoTopMenuItemPlay(int nWhere)
 {
@@ -2762,6 +2778,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
+//		m_OptionMenuMap.insert(OPTION_MENU_DELETE, STR_DELETE);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
@@ -2779,6 +2796,7 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_GO_TO_ALBUM, STR_GO_TO_ALBUM);
 		m_OptionMenuMap.insert(OPTION_MENU_GO_TO_ARTIST, STR_GO_TO_ARTIST);
+//		m_OptionMenuMap.insert(OPTION_MENU_DELETE, STR_DELETE);
 	}
 	else if (m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -3101,6 +3119,35 @@ void MusicDBWindow::DoOptionMenuGain(int nID, QString gainType)
 		QMap<int, bool> map;
 		map.insert(nID, true);
 		m_pMgr->RequestManageCategory(gainType,
+									  map,
+									  PLAY_NONE,
+									  SQLManager::CATEGORY_TRACK,
+									  m_EventID);
+	}
+}
+
+void MusicDBWindow::DoOptionMenuDelete(int nID)
+{
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+	{
+		QMap<int, bool> map;
+		map.insert(nID, true);
+		m_pMgr->RequestManageCategory(VAL_DEL,
+									  map,
+									  PLAY_NONE,
+									  m_nCategory,
+									  m_EventID);
+	}
+	else if (m_TypeMode == TYPE_MODE_TRACK
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+	{
+		QMap<int, bool> map;
+		map.insert(nID, true);
+		m_pMgr->RequestManageCategory(VAL_DEL,
 									  map,
 									  PLAY_NONE,
 									  SQLManager::CATEGORY_TRACK,
