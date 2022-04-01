@@ -949,8 +949,6 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 		WriteSettings();
 
 //		RequestCategoryList(m_nCatID, m_nCatID2);
-		DoTopMenuReload();
-
 	}
 	else if (SQLManager::DISP_MODE_TRACK == menuID)
 	{
@@ -976,6 +974,8 @@ void MusicDBWindow::SlotSortMenu(int menuID)
 		QString title = UtilNovatron::GetCategoryTitleName(m_nCategory) + " / " + KEY_ARTIST;
 		m_pInfoHome->SetTitle(title);
 	}
+
+	DoTopMenuReload();
 }
 
 void MusicDBWindow::SlotIncDec(bool bIncrease)
@@ -1275,7 +1275,7 @@ void MusicDBWindow::SlotSelectPlay(int nID, int where)
 	}
 }
 
-void MusicDBWindow::SlotSelectTitle(const QModelIndex &index)
+void MusicDBWindow::SlotSelectTitle(const QModelIndex &modelIndex)
 {
 	int id;
 	QString cover;
@@ -1284,14 +1284,14 @@ void MusicDBWindow::SlotSelectTitle(const QModelIndex &index)
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
-		cover = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_COVER));
-		title = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_TITLE));
-		count = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_COUNT));
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+		cover = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_COVER));
+		title = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
+		count = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_COUNT));
 	}
 	else
 	{
-		int row = index.row();
+		int row = modelIndex.row();
 		QStandardItemModel *model = m_pTableTracks->GetModel();
 		id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
 		cover = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_COVER)));
@@ -1437,6 +1437,41 @@ void MusicDBWindow::SlotReqCoverArt(int id, int index, int mode)
 
 //	LogDebug("path [%s] index [%d] typeMode [%d]", fullpath.toUtf8().data(), index, m_TypeMode);
 	m_pMgr->RequestCoverArt(fullpath, index, mode);
+}
+
+void MusicDBWindow::SlotReqCount(const QModelIndex &modelIndex)
+{
+	int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+	int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+
+//	LogDebug("id [%d] index [%d] ", id, index);
+
+	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+			|| m_TypeMode == TYPE_MODE_ITEM_ADD)
+	{
+		if (m_nCategory == SQLManager::CATEGORY_ARTIST
+				|| m_nCategory == SQLManager::CATEGORY_COMPOSER
+				|| m_nCategory == SQLManager::CATEGORY_MOOD
+				|| m_nCategory == SQLManager::CATEGORY_GENRE)
+		{
+			if (SQLManager::DISP_MODE_TRACK == m_DispMode)
+			{
+//				m_pMgr->RequestUpdateCount(id, index, m_nCategory, SQLManager::CATEGORY_TRACK);
+			}
+			else if (SQLManager::DISP_MODE_ALBUM == m_DispMode)
+			{
+				m_pMgr->RequestUpdateCount(id, index, m_nCategory, SQLManager::CATEGORY_ALBUM);
+			}
+			else if (SQLManager::DISP_MODE_ARTIST == m_DispMode)
+			{
+				m_pMgr->RequestUpdateCount(id, index, m_nCategory, SQLManager::CATEGORY_ARTIST);
+			}
+			else
+			{
+
+			}
+		}
+	}
 }
 
 void MusicDBWindow::SlotAppendList()
@@ -1746,6 +1781,26 @@ void MusicDBWindow::SlotRespSetCoverArt(int id, int category)
 		{
 			emit SlotReqCoverArt(id, index, QListView::ListMode);
 		}
+	}
+}
+
+void MusicDBWindow::SlotRespUpdateCount(CJsonNode node, int index)
+{
+	CJsonNode result = node.GetArray(VAL_RESULT);
+	CJsonNode tempNode = result.GetArrayAt(0);
+	int id = tempNode.GetInt(KEY_ID_LOWER);
+	int count = tempNode.GetString(KEY_COUNT).toInt();
+//	LogDebug("id [%d] count [%d] index [%d]", id, count, index);
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		QModelIndex modelIndex = m_pIconTracks->GetModel()->index(index, 0);
+		m_pIconTracks->GetModel()->setData(modelIndex, count, IconTracksDelegate::ICON_TRACKS_COUNT);
+	}
+	else
+	{
+		QModelIndex modelIndex = m_pTableTracks->GetModel()->index(index, TableTracks::TABLE_TRACKS_TRACK_COUNT);
+		m_pTableTracks->GetModel()->setData(modelIndex, count);
 	}
 }
 
@@ -2128,6 +2183,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespCategoryInfoList(QList<CJsonNode>)), this, SLOT(SlotRespCategoryInfoList(QList<CJsonNode>)));
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespSetCoverArt(int, int)), this, SLOT(SlotRespSetCoverArt(int, int)));
+	connect(m_pMgr, SIGNAL(SigRespUpdateCount(CJsonNode, int)), this, SLOT(SlotRespUpdateCount(CJsonNode, int)));
 //	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
 //	connect(m_pMgr, SIGNAL(SigRespInsertReplaceCategoryAll()), this, SLOT(SlotRespInsertReplaceCategoryAll()));
 	connect(m_pMgr, SIGNAL(SigRespRefresh()), this, SLOT(SlotRespRefresh()));
@@ -2164,6 +2220,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigIncDec(bool)), this, SLOT(SlotItemIncDec(bool)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
+	connect(m_pIconTracks, SIGNAL(SigReqCount(const QModelIndex&)), this, SLOT(SlotReqCount(const QModelIndex&)));
 	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
 	connect(m_pIconTracks, SIGNAL(SigAppendList()), this, SLOT(SlotAppendList()));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));

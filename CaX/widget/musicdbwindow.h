@@ -74,6 +74,7 @@ private slots:
 	void SlotRespCategoryInfo(CJsonNode node);
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespSetCoverArt(int id, int category);
+	void SlotRespUpdateCount(CJsonNode node, int index);
 //	void SlotRespUpdateCategory(int updateId);
 //	void SlotRespInsertReplaceCategoryAll();
 	void SlotRespRefresh();
@@ -109,9 +110,10 @@ private slots:
 	void SlotSelectCategoryPlay(int nID, int where);
 	void SlotSelectFavorite(int nID, int nFavorite);
 	void SlotSelectRating(int nID, int nRating);
-	void SlotSelectTitle(const QModelIndex &index);
+	void SlotSelectTitle(const QModelIndex &modelIndex);
 
 	void SlotReqCoverArt(int id, int index, int mode);
+	void SlotReqCount(const QModelIndex &modelIndex);
 	void SlotAppendList();
 
 	void SlotSelectTrackPlay(int nID, int where);

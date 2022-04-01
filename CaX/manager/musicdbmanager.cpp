@@ -8,8 +8,8 @@ MusicDBManager::MusicDBManager(QObject *parent)
 	: m_pSql(new SQLManager)
 {
 	Q_UNUSED(parent)
-
-	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
+//	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int)), this, SLOT(SlotRespInfo(QString, int)));
+	connect((QObject*)GetTcpClient(), SIGNAL(SigRespInfo(QString, int, int)), this, SLOT(SlotRespInfo(QString, int, int)));
 	connect((QObject*)GetTcpClient(), SIGNAL(SigRespCoverArt(QString, int, int)), this, SLOT(SlotRespCoverArt(QString, int, int)));
 
 	InitMusic();
@@ -693,6 +693,20 @@ void MusicDBManager::RequestRenameTrack(int id, QString name, int eventID)
 	RequestCommand(node, MUSICDB_RENAME_TRACK);
 }
 
+void MusicDBManager::RequestUpdateCount(int id, int index, int mainCategory, int countCategory)
+{
+	QString strMainCat = UtilNovatron::GetCategoryName(mainCategory);
+	QString strCountCat = UtilNovatron::GetCategoryName(countCategory);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add	(KEY_CMD0,		VAL_QUERY);
+	node.Add	(KEY_CMD1,		VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add	(KEY_SQL,		m_pSql->GetQueryUpdateCount(id, strMainCat, strCountCat));
+	RequestCommand(node, MUSICDB_UPDATE_COUNT, index);
+}
+
 void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category)
 {
 	QString strCat = UtilNovatron::GetCategoryName(category);
@@ -953,7 +967,7 @@ void MusicDBManager::SetSqlMgr(SQLManager *pSql)
 	m_pSql = pSql;
 }
 
-void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
+void MusicDBManager::SlotRespInfo(QString json, int nCmdID, int index)
 {
 	if (json.isEmpty())
 	{
@@ -1009,6 +1023,9 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID)
 	case MUSICDB_SET_TRACK_COVER_ART:
 		ParseSetCoverArt();
 		break;
+	case MUSICDB_UPDATE_COUNT:
+		ParseUpdateCount(node, index);
+		return;
 //	case MUSICDB_CHECK_CATEGORY:
 //		ParseCheckCategory(node);
 //		return;
@@ -1182,6 +1199,11 @@ void MusicDBManager::ParseSearchCoverArt(CJsonNode node)
 void MusicDBManager::ParseSetCoverArt()
 {
 	emit SigRespSetCoverArt(m_ID, m_Category);
+}
+
+void MusicDBManager::ParseUpdateCount(CJsonNode node, int index)
+{
+	emit SigRespUpdateCount(node, index);
 }
 
 //void MusicDBManager::ParseCheckCategory(CJsonNode node)

@@ -131,6 +131,7 @@ public:
 	QString GetQueryUpdateCatFavorite(int nID, int nFavorite, int nCategory = CATEGORY_ALBUM);
 	QString GetQueryUpdateCatRating(int nID, int nRating, int nCategory = CATEGORY_ALBUM);
 	QString GetQueryUpdateTrackFavorite(int nID, int nFavorite);
+	QString GetQueryUpdateCount(int id, QString mainCategory, QString countCategory);
 
 	QString GetQueryClassifyArtist(int nCategory);
 	QString GetQueryCategoryList(int nCategory);

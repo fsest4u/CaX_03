@@ -758,6 +758,11 @@ QString SQLManager::GetQueryUpdateTrackFavorite(int nID, int nFavorite)
 	return QString(SQL_UPDATE_FAVORITE_OF_SONG).arg(nFavorite).arg(nID);
 }
 
+QString SQLManager::GetQueryUpdateCount(int id, QString mainCategory, QString countCategory)
+{
+	return QString(SQL_QUEUE_UPDATE_COUNT).arg(id).arg(mainCategory).arg(countCategory);
+}
+
 QString SQLManager::GetQueryClassifyArtist(int nCategory)
 {
 	QString query;

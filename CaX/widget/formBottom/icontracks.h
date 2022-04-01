@@ -48,6 +48,7 @@ public:
 signals:
 
 	void SigReqCoverArt(int id, int index, int mode);
+	void SigReqCount(const QModelIndex &modelIndex);
 //	void SigCalcTotalTime(int time);
 	void SigAppendList();
 
@@ -70,6 +71,8 @@ private:
 	QMap<int, bool>			m_SelectMap;
 
 	QPoint					m_PointCurrent;
+
+	int						m_Service;
 
 	Ui::IconTracks *ui;
 };

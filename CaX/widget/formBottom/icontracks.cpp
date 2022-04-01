@@ -64,8 +64,9 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 
 	int index = m_NodeList.count();
 	m_NodeList.append(list);
+	m_Service = service;
 
-	if (SIDEMENU_AUDIO_CD == service)
+	if (SIDEMENU_AUDIO_CD == m_Service)
 	{
 //		int totalTime = 0;
 		foreach (CJsonNode node, list)
@@ -264,6 +265,11 @@ void IconTracks::SlotScrollReleased()
 //			LogDebug("id [%d] index [%d]", id, index);
 //			LogDebug("title [%s] subtitle [%s]", title.toUtf8().data(), subtitle.toUtf8().data());
 			emit SigReqCoverArt(id, index, QListView::IconMode);
+
+			if (SIDEMENU_MUSIC_DB == m_Service)
+			{
+				emit SigReqCount(modelIndex);
+			}
 		}
 	}
 }
@@ -306,4 +312,6 @@ void IconTracks::Initialize()
 	ui->gridLayout->addWidget(m_ListView);
 
 	ShowFrameEmpty(false);
+
+	m_Service = -1;
 }

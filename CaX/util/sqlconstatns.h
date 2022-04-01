@@ -985,6 +985,25 @@ INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
 WHERE Song.IsDel = 0 and Song.ROWID = %1	\
 "
 
+//////////////////////////////////////////////
+///// Update Music DB Category Count
+//////////////////////////////////////////////
+
+#define SQL_QUEUE_UPDATE_COUNT	"	\
+SELECT	\
+	%2ID as id,	\
+	count(*) as count	\
+FROM	\
+(SELECT	\
+	DISTINCT	\
+	Song.%3ID,	\
+	Song.%2ID as %2ID	\
+FROM Song	\
+INNER JOIN %2 ON Song.%2ID = %2.ROWID	\
+WHERE %2.IsDel = 0 and Song.%2ID = %1	\
+ORDER BY Song.%2ID)	\
+GROUP BY %2ID	\
+"
 
 //////////////////////////////////////////////
 ///// Check category
