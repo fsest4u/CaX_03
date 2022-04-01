@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "util/CJsonNode.h"
+#include "util/loading.h"
 
 class Loading;
 

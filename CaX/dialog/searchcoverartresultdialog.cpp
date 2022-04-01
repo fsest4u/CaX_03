@@ -103,6 +103,8 @@ void SearchCoverArtResultDialog::SlotRespCoverArtList(CJsonNode node)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 }
 

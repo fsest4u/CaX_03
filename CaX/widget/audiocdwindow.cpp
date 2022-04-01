@@ -195,6 +195,8 @@ void AudioCDWindow::SlotRespTrackList(CJsonNode node)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 }
 
@@ -214,6 +216,8 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 
 	CDRipInfoDialog *dialog = new CDRipInfoDialog(this);
@@ -303,6 +307,8 @@ void AudioCDWindow::SlotRespError(QString errMsg)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 
 	CommonDialog dialog(this, STR_WARNING, errMsg);

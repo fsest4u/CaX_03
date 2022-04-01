@@ -77,6 +77,8 @@ void ListService::SetNodeList(const QList<CJsonNode> &NodeList, int nService)
 	}
 
 	UtilNovatron::LoadingStop(loading);
+	delete loading;
+	loading = nullptr;
 }
 
 void ListService::ClearNodeList()

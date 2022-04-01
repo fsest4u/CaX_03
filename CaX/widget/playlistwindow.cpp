@@ -170,6 +170,8 @@ void PlaylistWindow::SlotRespError(QString errMsg)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 
 	CommonDialog dialog(this, STR_WARNING, errMsg);
@@ -209,6 +211,8 @@ void PlaylistWindow::SlotRespPlaylist(QList<CJsonNode> list)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 }
 
@@ -250,6 +254,8 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 }
 

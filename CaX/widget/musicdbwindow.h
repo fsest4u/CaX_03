@@ -142,8 +142,6 @@ private slots:
 	void SlotContextMenuSearchCoverArt();
 	void SlotContextMenuTagEdit();
 
-	void SlotBrowserPathSelectCoverart(QString path);
-
 //	void SlotEditAllArtist(QString value);
 //	void SlotEditAllAlbum(QString value);
 //	void SlotEditAllGenre(QString value);
@@ -194,6 +192,7 @@ private:
 	void DoOptionMenuGoToArtist(int artistID);
 
 //	void DoInsertIgnoreCategoryAll();
+	void DoBrowserSelectCoverart(QString path);
 
 	void SetSortMenu(int category);
 

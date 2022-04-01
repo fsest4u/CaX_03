@@ -87,6 +87,8 @@ void ListDevice::SetNodeList(const QList<CJsonNode> &NodeList)
 	}
 
 	UtilNovatron::LoadingStop(loading);
+	delete loading;
+	loading = nullptr;
 }
 
 void ListDevice::ClearNodeList()

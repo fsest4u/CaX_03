@@ -79,6 +79,8 @@ void SearchTrack::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 	}
 
 	UtilNovatron::LoadingStop(loading);
+	delete loading;
+	loading = nullptr;
 }
 
 void SearchTrack::ClearNodeList()

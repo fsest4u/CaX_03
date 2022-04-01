@@ -13,6 +13,8 @@ SOURCES += \
     dialog/addqobuzplaylist.cpp \
     dialog/addradiodialog.cpp \
     dialog/addsharedialog.cpp \
+    dialog/browserdialog.cpp \
+    dialog/browserwidget.cpp \
     dialog/cdripinfo.cpp \
     dialog/cdripinfodialog.cpp \
     dialog/changemetainfodialog.cpp \
@@ -157,6 +159,8 @@ HEADERS += \
     dialog/addqobuzplaylist.h \
     dialog/addradiodialog.h \
     dialog/addsharedialog.h \
+    dialog/browserdialog.h \
+    dialog/browserwidget.h \
     dialog/cdripinfo.h \
     dialog/cdripinfodialog.h \
     dialog/changemetainfodialog.h \
@@ -312,6 +316,8 @@ FORMS += \
     dialog/addqobuzplaylist.ui \
     dialog/addradiodialog.ui \
     dialog/addsharedialog.ui \
+    dialog/browserdialog.ui \
+    dialog/browserwidget.ui \
     dialog/cdripinfo.ui \
     dialog/cdripinfodialog.ui \
     dialog/changemetainfodialog.ui \

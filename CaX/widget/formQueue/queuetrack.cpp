@@ -152,6 +152,8 @@ int QueueTrack::SetNodeList(QList<CJsonNode> list, QString src)
 	SlotScrollReleased();
 
 	UtilNovatron::LoadingStop(loading);
+	delete loading;
+	loading = nullptr;
 
 	return totalTime;
 }

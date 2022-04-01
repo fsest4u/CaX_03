@@ -75,6 +75,8 @@ void SearchCategory::SetNodeList(const QList<CJsonNode> &NodeList, int category)
 	}
 
 	UtilNovatron::LoadingStop(loading);
+	delete loading;
+	loading = nullptr;
 }
 
 void SearchCategory::ClearNodeList()

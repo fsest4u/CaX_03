@@ -4,6 +4,7 @@
 #include "musicdbwindow.h"
 #include "ui_musicdbwindow.h"
 
+#include "dialog/browserdialog.h"
 #include "dialog/commondialog.h"
 #include "dialog/confirmcoverartdialog.h"
 #include "dialog/edittagdialog.h"
@@ -562,6 +563,8 @@ void MusicDBWindow::SlotRespError(QString errMsg)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 
 	if (errMsg.toLower().contains("not found") && m_RespList.count() <= 0)
@@ -690,6 +693,8 @@ void MusicDBWindow::SlotRespCategoryList(QList<CJsonNode> list)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 	m_EnableAppend = true;
 }
@@ -753,6 +758,8 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 	if (m_Loading)
 	{
 		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
 	}
 	m_EnableAppend = true;
 }
@@ -2004,42 +2011,6 @@ void MusicDBWindow::SlotContextMenuTagEdit()
 	m_pMgr->RequestTrackListForEditTag(m_nID, m_nCategory);
 }
 
-void MusicDBWindow::SlotBrowserPathSelectCoverart(QString path)
-{
-	QString image = "";
-	QStringList lsAddr = m_pMgr->GetAddr().split(":");
-	QString thumb = QString("http://%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
-	QString tempThumb = UtilNovatron::ConvertURLToFilenameWithExtension(thumb);
-	tempThumb = UtilNovatron::GetTempDirectory() + "/" + tempThumb;
-
-	ConfirmCoverArtDialog dialog;
-	dialog.SetImagePath(tempThumb);
-	if (dialog.exec() == QDialog::Accepted)
-	{
-		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
-				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
-				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
-				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
-		{
-			m_pMgr->RequestSetCategoryCoverArt(m_nID,
-									   m_nCategory,
-									   m_EventID,
-									   image,
-									   thumb);
-		}
-		else if (m_TypeMode == TYPE_MODE_TRACK
-				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
-				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
-		{
-			m_pMgr->RequestSetTrackCoverArt(m_nID,
-									   SQLManager::CATEGORY_TRACK,
-									   m_EventID,
-									   image,
-									   thumb);
-		}
-	}
-}
-
 void MusicDBWindow::ReadSettings()
 {
 	SettingIO settings;
@@ -3051,12 +3022,19 @@ void MusicDBWindow::DoOptionMenuSearchCoverArt(int nID)
 	{
 		m_nID = nID;
 
-		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
-		emit widget->SigAddWidget(widget, STR_BROWSER);
-		widget->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
-		widget->RequestRoot();
+		BrowserDialog *dialog = new BrowserDialog(this, m_pMgr->GetAddr(), m_EventID);
+		dialog->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
+		dialog->DoBrowserHome();
+		if (dialog->exec() == QDialog::Accepted)
+		{
+			DoBrowserSelectCoverart(dialog->GetPath());
+		}
 
-		connect(widget, SIGNAL(SigBrowserPath(QString)), this, SLOT(SlotBrowserPathSelectCoverart(QString)));
+		if (dialog)
+		{
+			delete dialog;
+			dialog = nullptr;
+		}
 	}
 	else
 	{
@@ -3233,6 +3211,42 @@ void MusicDBWindow::DoOptionMenuGoToArtist(int artistID)
 //{
 //	m_pMgr->RequestInsertIgnoreCategoryAll(m_UpdateMap);
 //}
+
+void MusicDBWindow::DoBrowserSelectCoverart(QString path)
+{
+	QString image = "";
+	QStringList lsAddr = m_pMgr->GetAddr().split(":");
+	QString thumb = QString("http://%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(SRC_BROWSER).arg(path);
+	QString tempThumb = UtilNovatron::ConvertURLToFilenameWithExtension(thumb);
+	tempThumb = UtilNovatron::GetTempDirectory() + "/" + tempThumb;
+
+	ConfirmCoverArtDialog dialog;
+	dialog.SetImagePath(tempThumb);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		if (m_TypeMode == TYPE_MODE_ITEM_TRACK
+				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
+				|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
+		{
+			m_pMgr->RequestSetCategoryCoverArt(m_nID,
+									   m_nCategory,
+									   m_EventID,
+									   image,
+									   thumb);
+		}
+		else if (m_TypeMode == TYPE_MODE_TRACK
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
+				 || m_TypeMode == TYPE_MODE_TRACK_ALBUM_ARTIST)
+		{
+			m_pMgr->RequestSetTrackCoverArt(m_nID,
+									   SQLManager::CATEGORY_TRACK,
+									   m_EventID,
+									   image,
+									   thumb);
+		}
+	}
+}
 
 void MusicDBWindow::SetCoverArt(QString coverArt)
 {

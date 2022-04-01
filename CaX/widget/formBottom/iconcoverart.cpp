@@ -70,6 +70,9 @@ void IconCoverArt::SetNodeList(QList<CJsonNode> &list, int type)
 	}
 
 	UtilNovatron::LoadingStop(loading);
+	delete loading;
+	loading = nullptr;
+
 }
 
 void IconCoverArt::ClearNodeList()

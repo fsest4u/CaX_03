@@ -194,6 +194,8 @@ int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 	SlotScrollReleased();
 
 	UtilNovatron::LoadingStop(loading);
+	delete loading;
+	loading = nullptr;
 
 	return type;
 }

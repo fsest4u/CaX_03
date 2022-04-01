@@ -3,13 +3,14 @@
 #include "cdripinfo.h"
 #include "ui_cdripinfo.h"
 
+#include "dialog/browserdialog.h"
+#include "dialog/searchcoverartdialog.h"
+#include "dialog/searchcoverartresultdialog.h"
+
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/utilnovatron.h"
-
-#include "dialog/searchcoverartdialog.h"
-#include "dialog/searchcoverartresultdialog.h"
 
 #include "widget/browserwindow.h"
 
@@ -113,12 +114,19 @@ void CDRipInfo::SlotClickCoverArt()
 
 	if (site.contains(SEARCH_BROWSER))
 	{
-		BrowserWindow *widget = new BrowserWindow(this, m_Addr, m_EventID);
-		emit widget->SigAddWidget(widget, STR_BROWSER);
-		widget->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
-		widget->RequestRoot();
+		BrowserDialog *dialog = new BrowserDialog(this, m_Addr, m_EventID);
+		dialog->SetBrowserMode(BROWSER_MODE_COVER_ART_OPTION);
+		dialog->DoBrowserHome();
+		if (dialog->exec() == QDialog::Accepted)
+		{
+			DoBrowserSelectCoverart(dialog->GetPath());
+		}
 
-		connect(widget, SIGNAL(SigBrowserPath(QString)), this, SLOT(SlotBrowserPathSelectCoverart(QString)));
+		if (dialog)
+		{
+			delete dialog;
+			dialog = nullptr;
+		}
 	}
 	else
 	{
@@ -171,7 +179,33 @@ void CDRipInfo::SlotEditTextChangedAlbumArtist(const QString &text)
 	emit SigChangeAlbumArtist(text);
 }
 
-void CDRipInfo::SlotBrowserPathSelectCoverart(QString path)
+void CDRipInfo::ConnectSigToSlot()
+{
+	connect(ui->cbFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedFormat(int)));
+//	connect(ui->cbAlbum, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
+//	connect(ui->cbAlbumArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
+	connect(ui->lineEditCDYear, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDYear()));
+	connect(ui->lineEditCDNumber, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDNumber()));
+	connect(ui->lineEditCDTotal, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDTotal()));
+//	connect(ui->btnCoverArt, SIGNAL(clicked()), this, SLOT(SlotClickCoverArt()));
+
+	connect(ui->cbAlbum, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbum(const QString &)));
+	connect(ui->cbAlbumArtist, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbumArtist(const QString &)));
+}
+
+void CDRipInfo::Initialize()
+{
+	m_AlbumList.clear();
+	m_AlbumArtistList.clear();
+
+	ui->cbAlbum->setEditable(true);
+	ui->cbAlbumArtist->setEditable(true);
+
+	ui->labelCoverArt->installEventFilter(this);
+
+}
+
+void CDRipInfo::DoBrowserSelectCoverart(QString path)
 {
 	QString image = "";
 	QStringList lsAddr = GetAddr().split(":");
@@ -188,35 +222,6 @@ void CDRipInfo::SlotBrowserPathSelectCoverart(QString path)
 
 	emit SigChangeCoverArt(image, thumb);
 }
-
-void CDRipInfo::ConnectSigToSlot()
-{
-	connect(ui->cbFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedFormat(int)));
-//	connect(ui->cbAlbum, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
-//	connect(ui->cbAlbumArtist, SIGNAL(currentIndexChanged(int)), this, SLOT(SlotChangedAlbum(int)));
-	connect(ui->lineEditCDYear, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDYear()));
-	connect(ui->lineEditCDNumber, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDNumber()));
-	connect(ui->lineEditCDTotal, SIGNAL(editingFinished()), this, SLOT(SlotEditFinishCDTotal()));
-//	connect(ui->btnCoverArt, SIGNAL(clicked()), this, SLOT(SlotClickCoverArt()));
-
-	connect(ui->cbAlbum, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbum(const QString &)));
-	connect(ui->cbAlbumArtist, SIGNAL(editTextChanged(const QString &)), this, SLOT(SlotEditTextChangedAlbumArtist(const QString &)));
-
-
-}
-
-void CDRipInfo::Initialize()
-{
-	m_AlbumList.clear();
-	m_AlbumArtistList.clear();
-
-	ui->cbAlbum->setEditable(true);
-	ui->cbAlbumArtist->setEditable(true);
-
-	ui->labelCoverArt->installEventFilter(this);
-
-}
-
 QString CDRipInfo::GetImage() const
 {
 	return m_Image;

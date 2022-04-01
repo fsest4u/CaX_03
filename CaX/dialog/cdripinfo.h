@@ -67,12 +67,13 @@ private slots:
 	void SlotEditTextChangedAlbum(const QString &text);
 	void SlotEditTextChangedAlbumArtist(const QString &text);
 
-	void SlotBrowserPathSelectCoverart(QString path);
-
 private:
 
 	void ConnectSigToSlot();
 	void Initialize();
+
+	void DoBrowserSelectCoverart(QString path);
+
 
 	CJsonNode	m_InfoData;
 

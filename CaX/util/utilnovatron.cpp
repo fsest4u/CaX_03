@@ -12,7 +12,6 @@
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/caxtranslate.h"
-#include "util/loading.h"
 #include "util/log.h"
 
 #include "widget/airable.h"
@@ -623,13 +622,7 @@ void UtilNovatron::LoadingStop(Loading *loading)
 	if (loading != nullptr)
 	{
 		loading->Stop();
-		if (loading)
-		{
-			delete loading;
-			loading = nullptr;
-		}
 	}
-
 }
 
 void UtilNovatron::DebugTypeForBrowser(QString title, int type)
