@@ -63,7 +63,7 @@
     </message>
     <message>
         <location filename="dialog/addradiodialog.ui" line="194"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;~&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>~</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -182,6 +182,22 @@
     </message>
 </context>
 <context>
+    <name>BrowserDialog</name>
+    <message>
+        <location filename="dialog/browserdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BrowserWidget</name>
+    <message>
+        <location filename="dialog/browserwidget.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BrowserWindow</name>
     <message>
         <location filename="widget/browserwindow.ui" line="26"/>
@@ -252,7 +268,8 @@
     <name>CommonDialog</name>
     <message>
         <location filename="dialog/commondialog.ui" line="126"/>
-        <source>Ok</source>
+        <source>OK</source>
+        <oldsource>Ok</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -945,7 +962,8 @@
     </message>
     <message>
         <location filename="dialog/progressdialog.ui" line="110"/>
-        <source>Ok</source>
+        <source>OK</source>
+        <oldsource>Ok</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2311,12 +2329,6 @@
     <message>
         <location filename="dialog/setup/wiredlansetupdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog/setup/wiredlansetupdialog.ui" line="211"/>
-        <location filename="dialog/setup/wiredlansetupdialog.ui" line="218"/>
-        <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
