@@ -2081,8 +2081,9 @@ void MusicDBWindow::SlotContextMenuSearchCoverArt()
 
 void MusicDBWindow::SlotContextMenuTagEdit()
 {
-	int id = qvariant_cast<int>(m_ModelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
-	m_pMgr->RequestTrackListForEditTag(id, m_nCategory);
+//	int id = qvariant_cast<int>(m_ModelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+//	m_pMgr->RequestTrackListForEditTag(id, m_nCategory);
+	DoOptionMenuInfo(m_ModelIndex);
 }
 
 void MusicDBWindow::ReadSettings()
@@ -2970,9 +2971,19 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(const QModelIndex &modelIndex)
 
 void MusicDBWindow::DoOptionMenuInfo(const QModelIndex &modelIndex)
 {
-	int row = modelIndex.row();
-	QStandardItemModel *model = m_pTableTracks->GetModel();
-	int id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
+
+	int id;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+	}
+	else
+	{
+		int row = modelIndex.row();
+		QStandardItemModel *model = m_pTableTracks->GetModel();
+		id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
+	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 				|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
