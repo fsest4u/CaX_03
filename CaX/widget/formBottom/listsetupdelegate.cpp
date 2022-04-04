@@ -120,7 +120,8 @@ bool ListSetupDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
 		}
 	}
 
-	return QStyledItemDelegate::editorEvent(event, model, option, index);
+//	return QStyledItemDelegate::editorEvent(event, model, option, index);
+	return true;
 }
 
 //void ListSetupDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
