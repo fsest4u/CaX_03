@@ -152,8 +152,8 @@ void IconTracks::ClearSelectMap()
 	{
 		QModelIndex modelIndex = m_Model->index(i, 0);
 		m_Model->setData(modelIndex, false, IconTracksDelegate::ICON_TRACKS_SELECT);
-		int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
-		m_SelectMap.remove(id);
+		int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+		m_SelectMap.remove(index);
 	}
 }
 
@@ -166,16 +166,17 @@ void IconTracks::SetAllSelectMap()
 		QModelIndex modelIndex = m_Model->index(i, 0);
 		m_Model->setData(modelIndex, true, IconTracksDelegate::ICON_TRACKS_SELECT);
 		int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
-		m_SelectMap.insert(id, true);
+		int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+		m_SelectMap.insert(index, id);
 	}
 }
 
-QMap<int, bool> IconTracks::GetSelectMap() const
+QMap<int, int> IconTracks::GetSelectMap() const
 {
 	return m_SelectMap;
 }
 
-void IconTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
+void IconTracks::SetSelectMap(const QMap<int, int> &SelectMap)
 {
 	m_SelectMap = SelectMap;
 }
@@ -258,13 +259,13 @@ void IconTracks::SlotScrollReleased()
 //				LogDebug("visual rect is invalid rect");
 				break;
 			}
-			int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
-			int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+//			int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+//			int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
 //			QString title = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
 //			QString subtitle = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_SUBTITLE));
 //			LogDebug("id [%d] index [%d]", id, index);
 //			LogDebug("title [%s] subtitle [%s]", title.toUtf8().data(), subtitle.toUtf8().data());
-			emit SigReqCoverArt(id, index, QListView::IconMode);
+			emit SigReqCoverArt(modelIndex, QListView::IconMode);
 
 			if (SIDEMENU_MUSIC_DB == m_Service)
 			{
@@ -277,16 +278,17 @@ void IconTracks::SlotScrollReleased()
 void IconTracks::SlotSelectCheck(const QModelIndex &modelIndex)
 {
 	int id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+	int index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
 	bool bSelect = !qvariant_cast<bool>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_SELECT));
 	m_Model->setData(modelIndex, bSelect, IconTracksDelegate::ICON_TRACKS_SELECT);
 
 	if (bSelect)
 	{
-		m_SelectMap.insert(id, bSelect);
+		m_SelectMap.insert(index, id);
 	}
 	else
 	{
-		m_SelectMap.remove(id);
+		m_SelectMap.remove(index);
 	}
 }
 

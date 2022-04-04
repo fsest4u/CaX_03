@@ -145,8 +145,8 @@ void TableTracks::ClearSelectMap()
 	for (int i = 0; i < count; i++)
 	{
 		m_Model->setData(m_Model->index(i, TABLE_TRACKS_SELECT), false);
-		int id = qvariant_cast<int>(m_Model->data(m_Model->index(i, TABLE_TRACKS_ID)));
-		m_SelectMap.remove(id);
+		int index = qvariant_cast<int>(m_Model->data(m_Model->index(i, TABLE_TRACKS_INDEX)));
+		m_SelectMap.remove(index);
 	}
 }
 
@@ -158,16 +158,17 @@ void TableTracks::SetAllSelectMap()
 	{
 		m_Model->setData(m_Model->index(i, TABLE_TRACKS_SELECT), true);
 		int id = qvariant_cast<int>(m_Model->data(m_Model->index(i, TABLE_TRACKS_ID)));
-		m_SelectMap.insert(id, true);
+		int index = qvariant_cast<int>(m_Model->data(m_Model->index(i, TABLE_TRACKS_INDEX)));
+		m_SelectMap.insert(index, id);
 	}
 }
 
-QMap<int, bool> TableTracks::GetSelectMap() const
+QMap<int, int> TableTracks::GetSelectMap() const
 {
 	return m_SelectMap;
 }
 
-void TableTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
+void TableTracks::SetSelectMap(const QMap<int, int> &SelectMap)
 {
 	m_SelectMap = SelectMap;
 }
@@ -403,12 +404,12 @@ void TableTracks::SlotScrollReleased()
 //				LogDebug("visual rect is invalid rect");
 				break;
 			}
-			int id = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_ID)));
-			int index = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_INDEX)));
+//			int id = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_ID)));
+//			int index = qvariant_cast<int>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_INDEX)));
 //			QString title = qvariant_cast<QString>(m_Model->data(m_Model->index(modelIndex.row(), TABLE_TRACKS_TITLE)));
 //			LogDebug("id [%d] index [%d]", id, index);
 //			LogDebug("title [%s]", title.toUtf8().data());
-			emit SigReqCoverArt(id, index, QListView::ListMode);
+			emit SigReqCoverArt(modelIndex, QListView::ListMode);
 		}
 	}
 }
@@ -428,43 +429,44 @@ void TableTracks::SlotDataChanged(const QModelIndex &topLeft, const QModelIndex 
 //	LogDebug("top left row [%d] col [%d] value [%s]", rowTopLeft, colTopLeft, qvariant_cast<QString>(itemTopLeft->data(Qt::DisplayRole)).toUtf8().data());
 }
 
-void TableTracks::SlotClickCell(const QModelIndex &index)
+void TableTracks::SlotClickCell(const QModelIndex &modelIndex)
 {
-	int row = index.row();
-	int col = index.column();
+	int row = modelIndex.row();
+	int col = modelIndex.column();
 
 //	LogDebug("row [%d] col [%d]", row, col);
 	int id = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_ID)));
+	int index = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_INDEX)));
 	if (col == TABLE_TRACKS_SELECT)
 	{
 		bool bSelect = !qvariant_cast<bool>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_SELECT)));
-		m_Model->setData(index, bSelect);
+		m_Model->setData(modelIndex, bSelect);
 		if (bSelect)
 		{
-			m_SelectMap.insert(id, bSelect);
+			m_SelectMap.insert(index, id);
 		}
 		else
 		{
-			m_SelectMap.remove(id);
+			m_SelectMap.remove(index);
 		}
 	}
 	else if (col == TableTracks::TABLE_TRACKS_PLAY)
 	{
-		emit SigSelectPlay(id, PLAY_CLEAR);
+		emit SigSelectPlay(modelIndex, PLAY_CLEAR);
 	}
 	else if (col == TableTracks::TABLE_TRACKS_COVER
 			 || col == TableTracks::TABLE_TRACKS_TITLE)
 	{
 		QString coverArt = qvariant_cast<QString>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_COVER)));
-		emit SigSelectTitle(index);
+		emit SigSelectTitle(modelIndex);
 	}
 	else if (col == TableTracks::TABLE_TRACKS_FAVORITE)
 	{
-		int nIndex = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_INDEX)));
-		int favorite = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_FAVORITE)));
+//		int nIndex = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_INDEX)));
+//		int favorite = qvariant_cast<int>(m_Model->data(m_Model->index(row, TableTracks::TABLE_TRACKS_FAVORITE)));
 //		favorite = favorite == 0 ? 1 : 0;
 //		m_Model->setData(index, favorite);
-		emit SigSelectFavorite(id, nIndex, favorite);
+		emit SigSelectFavorite(modelIndex);
 	}
 	else if (col == TableTracks::TABLE_TRACKS_RATING)
 	{
@@ -472,9 +474,9 @@ void TableTracks::SlotClickCell(const QModelIndex &index)
 	}
 	else if (col == TableTracks::TABLE_TRACKS_MENU)
 	{
-		m_ModelIndex = index;
+		m_ModelIndex = modelIndex;
 
-		QRect rect = ui->tableView->visualRect(index);
+		QRect rect = ui->tableView->visualRect(modelIndex);
 		QPoint point = ui->tableView->mapToGlobal(rect.center());
 		point.setX(point.x() + 30);
 //		LogDebug("[%d] [%d]", point.x(), point.y());

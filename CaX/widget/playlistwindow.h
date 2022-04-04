@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMenu>
+#include <QModelIndex>
 
 #include "util/caxconstants.h"
 #include "util/CJsonNode.h"
@@ -51,12 +52,12 @@ private slots:
 	void SlotRespTrackList(QList<CJsonNode> list);
 	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
 	void SlotMenuAction(QAction *action);
-	void SlotReqCoverArt(int id, int index, int mode);
+	void SlotReqCoverArt(const QModelIndex &modelIndex, int mode);
 	void SlotCoverArtUpdate(QString coverArt, int index, int mode);
 
-	void SlotSelectTitle(const QModelIndex &index);
-	void SlotSelectPlay(int id, int playType);
-	void SlotSelectTrackPlay(int id, int playType);
+	void SlotSelectTitle(const QModelIndex &modelIndex);
+	void SlotSelectPlay(const QModelIndex &modelIndex, int playType);
+	void SlotSelectTrackPlay(const QModelIndex &modelIndex, int playType);
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
@@ -69,9 +70,9 @@ private slots:
 	void SlotItemTopMenu();
 	void SlotItemTopMenuAction(int menuID);
 
-	void SlotOptionMenuAction(int nID, int menuID);
-	void SlotAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);
-	void SlotAddTrackFromPlaylist(QMap<int, bool> idMap);
+	void SlotOptionMenuAction(const QModelIndex &modelIndex, int menuID);
+	void SlotAddCategoryFromPlaylist(int category, QMap<int, int> idMap);
+	void SlotAddTrackFromPlaylist(QMap<int, int> idMap);
 
 private:
 
@@ -102,10 +103,10 @@ private:
 
 	void SetOptionMenu();
 
-	void DoOptionMenuPlay(int nID, int where);
-	void DoOptionMenuRename(int nID);
-	void DoOptionMenuDelete(int nID);
-	void DoOptionMenuAddToPlaylist(int nID);
+	void DoOptionMenuPlay(const QModelIndex &modelIndex, int where);
+	void DoOptionMenuRename(const QModelIndex &modelIndex);
+	void DoOptionMenuDelete(const QModelIndex &modelIndex);
+	void DoOptionMenuAddToPlaylist(const QModelIndex &modelIndex);
 	void DoOptionMenuFavorite();
 	void DoOptionMenuGoToAlbum();
 	void DoOptionMenuGoToArtist();
@@ -122,7 +123,7 @@ private:
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
-	QMap<int, bool>		m_SelectMap;
+	QMap<int, int>		m_SelectMap;
 
 	QMenu				*m_Menu;
 
@@ -130,12 +131,14 @@ private:
 	int					m_TypeMode;
 
 	int					m_ID;
-	int					m_TrackID;
-	int					m_TrackAlbumID;
-	int					m_TrackArtistID;
-	int					m_TrackGenreID;
-	int					m_TrackFavorite;
-	int					m_TrackIndex;
+//	int					m_TrackID;
+//	int					m_TrackAlbumID;
+//	int					m_TrackArtistID;
+//	int					m_TrackGenreID;
+//	int					m_TrackFavorite;
+//	int					m_TrackIndex;
+
+	QModelIndex			m_ModelIndex;
 
 	QString				m_TrackCover;
 

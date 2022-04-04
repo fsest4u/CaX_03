@@ -58,8 +58,8 @@ public:
 	void ClearSelectMap();
 	void SetAllSelectMap();
 
-	QMap<int, bool> GetSelectMap() const;
-	void SetSelectMap(const QMap<int, bool> &SelectMap);
+	QMap<int, int> GetSelectMap() const;
+	void SetSelectMap(const QMap<int, int> &SelectMap);
 
 	QMap<int, QString> GetOptionMenuMap() const;
 	void SetOptionMenuMap(const QMap<int, QString> &OptionMenuMap);
@@ -96,13 +96,13 @@ public:
 
 signals:
 
-	void SigReqCoverArt(int id, int index, int mode);
+	void SigReqCoverArt(const QModelIndex &modelIndex, int mode);
 	void SigAppendList();
 
-	void SigSelectPlay(int id, int playType);
-	void SigSelectTitle(const QModelIndex &index);
-	void SigSelectFavorite(int id, int index, int favorite);
-	void SigMenuAction(const QModelIndex &index, int menuID);
+	void SigSelectPlay(const QModelIndex &modelIndex, int playType);
+	void SigSelectTitle(const QModelIndex &modelIndex);
+	void SigSelectFavorite(const QModelIndex &modelIndex);
+	void SigMenuAction(const QModelIndex &modelIndex, int menuID);
 
 protected:
 
@@ -114,7 +114,7 @@ private slots:
 	void SlotScrollReleased();
 	void SlotDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
-	void SlotClickCell(const QModelIndex &index);
+	void SlotClickCell(const QModelIndex &modelIndex);
 	void SlotSectionClicked(int logicalIndex);
 	void SlotSectionResize(int logicalIndex, int oldWidth, int newWidth);
 	void SlotMenuAction(QAction *action);
@@ -132,7 +132,7 @@ private:
 	QScrollBar				*m_ScrollBar;
 
 	QList<CJsonNode>		m_NodeList;
-	QMap<int, bool>			m_SelectMap;
+	QMap<int, int>			m_SelectMap;
 	QMap<int, QString>		m_OptionMenuMap;
 
 	QMenu					*m_Menu;

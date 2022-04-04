@@ -34,8 +34,8 @@ public:
 	void ClearSelectMap();
 	void SetAllSelectMap();
 
-	QMap<int, bool> GetSelectMap() const;
-	void SetSelectMap(const QMap<int, bool> &SelectMap);
+	QMap<int, int> GetSelectMap() const;
+	void SetSelectMap(const QMap<int, int> &SelectMap);
 
 	void SetResize(int resize);
 
@@ -47,7 +47,7 @@ public:
 
 signals:
 
-	void SigReqCoverArt(int id, int index, int mode);
+	void SigReqCoverArt(const QModelIndex &modelIndex, int mode);
 	void SigReqCount(const QModelIndex &modelIndex);
 //	void SigCalcTotalTime(int time);
 	void SigAppendList();
@@ -68,7 +68,7 @@ private:
 	QScrollBar				*m_ScrollBar;
 
 	QList<CJsonNode>		m_NodeList;
-	QMap<int, bool>			m_SelectMap;
+	QMap<int, int>			m_SelectMap;
 
 	QPoint					m_PointCurrent;
 

@@ -53,14 +53,14 @@ void PlaylistManager::RequestTrackList(int id)
 	RequestCommand(node, PLAYLIST_TRACK_LIST);
 }
 
-void PlaylistManager::RequestPlayTrack(QMap<int, bool> idMap, int nWhere)
+void PlaylistManager::RequestPlayTrack(QMap<int, int> idMap, int nWhere)
 {
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		idArr.AppendArray((int64_t)i.key());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);
@@ -75,14 +75,14 @@ void PlaylistManager::RequestPlayTrack(QMap<int, bool> idMap, int nWhere)
 	RequestCommand(node, PLAYLIST_PLAY_TRACK);
 }
 
-void PlaylistManager::RequestPlayPlaylist(QMap<int, bool> idMap, int nWhere)
+void PlaylistManager::RequestPlayPlaylist(QMap<int, int> idMap, int nWhere)
 {
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		idArr.AppendArray((int64_t)i.key());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);
@@ -118,14 +118,14 @@ void PlaylistManager::RequestRenamePlaylist(int id, QString name)
 	RequestCommand(node, PLAYLIST_RENAME_PLAYLIST);
 }
 
-void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
+void PlaylistManager::RequestDeletePlaylist(QMap<int, int> idMap)
 {
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		idArr.AppendArray((int64_t)i.key());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);
@@ -138,16 +138,17 @@ void PlaylistManager::RequestDeletePlaylist(QMap<int, bool> idMap)
 
 }
 
-void PlaylistManager::RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idMap, int category)
+void PlaylistManager::RequestAddCategoryFromPlaylist(int id, QMap<int, int> idMap, int category)
 {
 
 	QString strCat = UtilNovatron::GetCategoryName(category);
 
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		idArr.AppendArray((int64_t)i.key());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode orderInfo(JSON_OBJECT);
@@ -167,14 +168,14 @@ void PlaylistManager::RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idM
 	RequestCommand(node, PLAYLIST_ADD_CATEGORY_FROM_PLAYLIST);
 }
 
-void PlaylistManager::RequestAddTrackFromPlaylist(int id, QMap<int, bool> idMap)
+void PlaylistManager::RequestAddTrackFromPlaylist(int id, QMap<int, int> idMap)
 {
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		idArr.AppendArray((int64_t)i.key());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);
@@ -189,14 +190,14 @@ void PlaylistManager::RequestAddTrackFromPlaylist(int id, QMap<int, bool> idMap)
 }
 
 
-void PlaylistManager::RequestDelTrack(int id, QMap<int, bool> idMap)
+void PlaylistManager::RequestDelTrack(int id, QMap<int, int> idMap)
 {
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		idArr.AppendArray((int64_t)i.key());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);

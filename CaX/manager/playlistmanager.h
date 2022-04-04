@@ -15,14 +15,14 @@ public:
 	void RequestPlaylist();
 	void RequestPlaylistInfo(int id);
 	void RequestTrackList(int id);
-	void RequestPlayTrack(QMap<int, bool> idMap, int nWhere);
-	void RequestPlayPlaylist(QMap<int, bool> idMap, int nWhere);
+	void RequestPlayTrack(QMap<int, int> idMap, int nWhere);
+	void RequestPlayPlaylist(QMap<int, int> idMap, int nWhere);
 	void RequestAddPlaylist(QString name);
 	void RequestRenamePlaylist(int id, QString name);
-	void RequestDeletePlaylist(QMap<int, bool> idMap);
-	void RequestAddCategoryFromPlaylist(int id, QMap<int, bool> idMap, int category);
-	void RequestAddTrackFromPlaylist(int id, QMap<int, bool> idMap);
-	void RequestDelTrack(int id, QMap<int, bool> idMap);
+	void RequestDeletePlaylist(QMap<int, int> idMap);
+	void RequestAddCategoryFromPlaylist(int id, QMap<int, int> idMap, int category);
+	void RequestAddTrackFromPlaylist(int id, QMap<int, int> idMap);
+	void RequestDelTrack(int id, QMap<int, int> idMap);
 	void RequestUpdateTrackFavorite(int id, int favorite);
 	void RequestRandom();
 

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMenu>
+#include <QModelIndex>
 
 #include "util/CJsonNode.h"
 
@@ -44,10 +45,10 @@ private slots:
 	void SlotRespError(QString errMsg);
 	void SlotSelectTitle(int id, QString coverArt);
 	void SlotCalcTotalTime(int time);
-	void SlotSelectPlay(int id, int playType);
+	void SlotSelectPlay(const QModelIndex &modelIndex, int playType);
 	void SlotSelectMenu(const QModelIndex &modelIndex, QPoint point);
 	void SlotMenuAction(QAction *action);
-	void SlotReqCoverArt(int id, int index, int mode);
+	void SlotReqCoverArt(const QModelIndex &modelIndex, int mode);
 
 	void SlotPlayAll();
 	void SlotPlayRandom();
@@ -55,7 +56,7 @@ private slots:
 	void SlotTopMenuAction(int menuID);
 	void SlotResize(int resize);
 
-	void SlotOptionMenuAction(int id, int menuID);
+	void SlotOptionMenuAction(const QModelIndex &modelIndex, int menuID);
 
 	void SlotEjectCD();
 
@@ -66,7 +67,7 @@ private:
 
 	void ConnectSigToSlot();
 	void Initialize();
-	void ResetSelectMap();
+//	void ResetSelectMap();
 	void SetCategoryList(QList<CJsonNode> list);
 	int GetListModeFromResize(int resize);
 
@@ -81,8 +82,8 @@ private:
 
 	void SetOptionMenu();
 
-	void DoOptionMenuCDRipping(int id);
-	void DoOptionMenuTrackInfo(int id);
+	void DoOptionMenuCDRipping(const QModelIndex &modelIndex);
+	void DoOptionMenuTrackInfo(const QModelIndex &modelIndex);
 
 	QString MakeInfo();
 
@@ -97,7 +98,7 @@ private:
 
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
-	QMap<int, bool>		m_SelectMap;
+	QMap<int, int>		m_SelectMap;
 
 	QMenu				*m_Menu;
 
@@ -120,7 +121,8 @@ private:
 
 	int					m_ResizeTrack;
 
-	int					m_ID;
+//	int					m_ID;
+	QModelIndex			m_ModelIndex;
 
 	Ui::AudioCDWindow *ui;
 };

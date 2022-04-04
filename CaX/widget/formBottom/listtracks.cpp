@@ -87,7 +87,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 
 			m_Model->appendRow(item);
 
-			emit SigReqCoverArt(nID, index, QListView::ListMode);
+			emit SigReqCoverArt(m_Model->index(index, 0), QListView::ListMode);
 			index++;
 		}
 	}
@@ -116,7 +116,7 @@ void ListTracks::SetNodeList(QList<CJsonNode> list, int service)
 
 			m_Model->appendRow(item);
 
-			emit SigReqCoverArt(nID, index, QListView::ListMode);
+			emit SigReqCoverArt(m_Model->index(index, 0), QListView::ListMode);
 			index++;
 		}
 	}
@@ -184,8 +184,8 @@ void ListTracks::ClearSelectMap()
 	{
 		QModelIndex modelIndex = m_Model->index(i, 0);
 		m_Model->setData(modelIndex, false, ListTracksDelegate::LIST_TRACKS_SELECT);
-		int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
-		m_SelectMap.remove(id);
+		int index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+		m_SelectMap.remove(index);
 	}
 }
 
@@ -198,16 +198,17 @@ void ListTracks::SetAllSelectMap()
 		QModelIndex modelIndex = m_Model->index(i, 0);
 		m_Model->setData(modelIndex, true, ListTracksDelegate::LIST_TRACKS_SELECT);
 		int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
-		m_SelectMap.insert(id, true);
+		int index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+		m_SelectMap.insert(index, id);
 	}
 }
 
-QMap<int, bool> ListTracks::GetSelectMap() const
+QMap<int, int> ListTracks::GetSelectMap() const
 {
 	return m_SelectMap;
 }
 
-void ListTracks::SetSelectMap(const QMap<int, bool> &SelectMap)
+void ListTracks::SetSelectMap(const QMap<int, int> &SelectMap)
 {
 	m_SelectMap = SelectMap;
 }
@@ -311,16 +312,17 @@ void ListTracks::SlotScrollValueChanged(int value)
 void ListTracks::SlotSelectCheck(const QModelIndex &modelIndex)
 {
 	int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	int index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
 	bool bSelect = !qvariant_cast<bool>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_SELECT));
 	m_Model->setData(modelIndex, bSelect, ListTracksDelegate::LIST_TRACKS_SELECT);
 
 	if (bSelect)
 	{
-		m_SelectMap.insert(id, bSelect);
+		m_SelectMap.insert(index, id);
 	}
 	else
 	{
-		m_SelectMap.remove(id);
+		m_SelectMap.remove(index);
 	}
 }
 
@@ -376,5 +378,6 @@ void ListTracks::Initialize()
 	ui->labelHeaderGenre->hide();
 	ui->labelHeaderMenu->hide();
 
+	m_SelectMap.clear();
 }
 

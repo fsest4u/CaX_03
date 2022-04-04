@@ -396,13 +396,17 @@ void QueuelistWindow::SlotRefresh(CJsonNode node)
 	CommonDialog dialog(this, STR_WARNING, STR_NEW_PLAYLIST_MADE);
 	dialog.exec();
 
-	QMap<int, bool> idMap;
+	QMap<int, int> idMap;
 
+	int index = 0;
 	QList<CJsonNode> list = m_Track->GetNodeList();
 	foreach(CJsonNode tempNode, list)
 	{
+		LogDebug("node [%s]", tempNode.ToCompactByteArray().data());
+
 		int songID = tempNode.GetInt(KEY_SONG);
-		idMap.insert(songID, true);
+		idMap.insert(index, songID);
+		index++;
 	}
 	m_pPlaylistMgr->RequestAddTrackFromPlaylist(id, idMap);
 }

@@ -328,9 +328,20 @@ void AudioCDWindow::SlotCalcTotalTime(int time)
 	//	m_pInfoTracks->SetInfo( MakeInfo() );
 }
 
-void AudioCDWindow::SlotSelectPlay(int id, int playType)
+void AudioCDWindow::SlotSelectPlay(const QModelIndex &modelIndex, int playType)
 {
 	Q_UNUSED(playType)
+
+	int id;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+	}
+	else
+	{
+		id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	}
 
 	m_pMgr->RequestTrackPlay(id);
 
@@ -338,7 +349,8 @@ void AudioCDWindow::SlotSelectPlay(int id, int playType)
 
 void AudioCDWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
-	m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	m_ModelIndex = modelIndex;
+
 //	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
 
 	m_Menu->clear();
@@ -357,11 +369,25 @@ void AudioCDWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 
 void AudioCDWindow::SlotMenuAction(QAction *action)
 {
-	SlotOptionMenuAction(m_ID, action->data().toInt());
+	SlotOptionMenuAction(m_ModelIndex, action->data().toInt());
 }
 
-void AudioCDWindow::SlotReqCoverArt(int id, int index, int mode)
+void AudioCDWindow::SlotReqCoverArt(const QModelIndex &modelIndex, int mode)
 {
+	int id;
+	int index;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+	}
+	else
+	{
+		id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+	}
+
 	QStringList lsAddr = m_pMgr->GetAddr().split(":");
 	QString fullpath = QString("%1:%2/%3/%4").arg(lsAddr[0]).arg(PORT_IMAGE_SERVER).arg(KEY_CD).arg(id);
 
@@ -400,7 +426,7 @@ void AudioCDWindow::SlotTopMenu()
 		m_SelectMap = m_pListTracks->GetSelectMap();
 	}
 
-	ResetSelectMap();
+//	ResetSelectMap();
 
 	if (m_SelectMap.count() > 0)
 	{
@@ -481,14 +507,14 @@ void AudioCDWindow::SlotResize(int resize)
 	}
 }
 
-void AudioCDWindow::SlotOptionMenuAction(int id, int menuID)
+void AudioCDWindow::SlotOptionMenuAction(const QModelIndex &modelIndex, int menuID)
 {
 	switch (menuID) {
 	case OPTION_MENU_CD_RIPPING:
-		DoOptionMenuCDRipping(id);
+		DoOptionMenuCDRipping(modelIndex);
 		break;
 	case OPTION_MENU_EDIT_TAG:
-		DoOptionMenuTrackInfo(id);
+		DoOptionMenuTrackInfo(modelIndex);
 		break;
 	}
 }
@@ -542,11 +568,11 @@ void AudioCDWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
 //	connect(m_pIconTracks, SIGNAL(SigCalcTotalTime(int)), this, SLOT(SlotCalcTotalTime(int)));
-	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(const QModelIndex&, int)), this, SLOT(SlotReqCoverArt(const QModelIndex&, int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(const QModelIndex&, int)), this, SLOT(SlotSelectPlay(const QModelIndex&, int)));
 
-	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pListTracks, SIGNAL(SigReqCoverArt(const QModelIndex&, int)), this, SLOT(SlotReqCoverArt(const QModelIndex&, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(const QModelIndex&, int)), this, SLOT(SlotSelectPlay(const QModelIndex&, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
 
 	connect(m_Menu, SIGNAL(triggered(QAction*)), this, SLOT(SlotMenuAction(QAction*)));
@@ -575,8 +601,6 @@ void AudioCDWindow::Initialize()
 	m_MoodList.clear();
 	m_SourceList.clear();
 
-	m_ID = -1;
-
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
 							}	\
@@ -596,22 +620,22 @@ void AudioCDWindow::Initialize()
 	UtilNovatron::RemoveFilesInTempDirectory(KEY_CD);
 }
 
-void AudioCDWindow::ResetSelectMap()
-{
-	QMap<int, bool> map;
-	QMap<int, bool>::iterator i;
-	int index = 0;
-	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
-	{
-//		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		index = i.key() - 1;
-		if (index < 0)
-			index = 0;
-		map.insert(index, i.value());
-	}
-	m_SelectMap.clear();
-	m_SelectMap = map;
-}
+//void AudioCDWindow::ResetSelectMap()
+//{
+//	QMap<int, int> map;
+//	QMap<int, int>::iterator i;
+//	int index = 0;
+//	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+//	{
+////		LogDebug("key [%d] value [%d]", i.key(), i.value());
+//		index = i.key() - 1;
+//		if (index < 0)
+//			index = 0;
+//		map.insert(i.key(), i.value());
+//	}
+//	m_SelectMap.clear();
+//	m_SelectMap = map;
+//}
 
 void AudioCDWindow::SetCategoryList(QList<CJsonNode> list)
 {
@@ -757,7 +781,7 @@ void AudioCDWindow::DoTopMenuCDRipping()
 	}
 	else
 	{
-		QMap<int, bool> map;
+		QMap<int, int> map;
 		m_pMgr->RequestCDRipInfo(-1, map);
 	}
 
@@ -778,7 +802,7 @@ void AudioCDWindow::SetOptionMenu()
 
 }
 
-void AudioCDWindow::DoOptionMenuCDRipping(int id)
+void AudioCDWindow::DoOptionMenuCDRipping(const QModelIndex &modelIndex)
 {
 	m_Loading = UtilNovatron::LoadingStart(parentWidget());
 
@@ -789,17 +813,18 @@ void AudioCDWindow::DoOptionMenuCDRipping(int id)
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
 	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
 
-	int index = id - 1;
-	if (index < 0)
-		index = 0;
+	int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	int index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
 
-	QMap<int, bool> map;
-	map.insert(index, true);
+	QMap<int, int> map;
+	map.insert(index, id);
 	m_pMgr->RequestCDRipInfo(-1, map);
 }
 
-void AudioCDWindow::DoOptionMenuTrackInfo(int id)
+void AudioCDWindow::DoOptionMenuTrackInfo(const QModelIndex &modelIndex)
 {
+	int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+
 	m_pMgr->RequestTrackInfo(id);
 }
 

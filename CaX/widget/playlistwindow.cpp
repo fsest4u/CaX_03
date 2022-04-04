@@ -180,6 +180,8 @@ void PlaylistWindow::SlotRespError(QString errMsg)
 
 void PlaylistWindow::SlotRefresh(CJsonNode node)
 {
+	Q_UNUSED(node)
+
 	if (m_TypeMode == TYPE_MODE_TRACK)
 	{
 		RequestTrackList(m_ID);
@@ -261,20 +263,24 @@ void PlaylistWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
-	{
-		m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
-	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
-	{
-		m_TrackID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
-		m_TrackCover = qvariant_cast<QString>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_COVER));
-		m_TrackAlbumID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ALBUM_ID));
-		m_TrackArtistID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ARTIST_ID));
-		m_TrackGenreID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_GENRE_ID));
-		m_TrackFavorite = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_FAVORITE));
-		m_TrackIndex = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
-	}
+//	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
+//	{
+////		m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+//		m_ModelIndex = modelIndex;
+//	}
+//	else if (m_TypeMode == TYPE_MODE_TRACK)
+//	{
+////		m_TrackID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+////		m_TrackCover = qvariant_cast<QString>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_COVER));
+////		m_TrackAlbumID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ALBUM_ID));
+////		m_TrackArtistID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ARTIST_ID));
+////		m_TrackGenreID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_GENRE_ID));
+////		m_TrackFavorite = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_FAVORITE));
+////		m_TrackIndex = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+//		m_ModelIndex = modelIndex;
+//	}
+
+	m_ModelIndex = modelIndex;
 
 //	LogDebug("id [%d] x [%d] y [%d]", m_ID, point.x(), point.y());
 //	LogDebug("index [%d] favorite [%d] album [%d] artist [%d] genre [%d]", m_TrackIndex, m_TrackFavorite, m_TrackAlbumID, m_TrackArtistID, m_TrackGenreID);
@@ -297,18 +303,35 @@ void PlaylistWindow::SlotSelectMenu(const QModelIndex &modelIndex, QPoint point)
 
 void PlaylistWindow::SlotMenuAction(QAction *action)
 {
-	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
-	{
-		SlotOptionMenuAction(m_ID, action->data().toInt());
-	}
-	else if (m_TypeMode == TYPE_MODE_TRACK)
-	{
-		SlotOptionMenuAction(m_TrackID, action->data().toInt());
-	}
+//	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
+//	{
+//		SlotOptionMenuAction(m_ModelIndex, action->data().toInt());
+//	}
+//	else if (m_TypeMode == TYPE_MODE_TRACK)
+//	{
+//		SlotOptionMenuAction(m_ModelIndex, action->data().toInt());
+//	}
+
+	SlotOptionMenuAction(m_ModelIndex, action->data().toInt());
 }
 
-void PlaylistWindow::SlotReqCoverArt(int id, int index, int mode)
+void PlaylistWindow::SlotReqCoverArt(const QModelIndex &modelIndex, int mode)
 {
+	int id;
+	int index;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+	}
+	else
+	{
+		id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+	}
+
+
 	QString strCat;
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK || m_TypeMode == TYPE_MODE_ITEM_ADD)
 	{
@@ -339,20 +362,20 @@ void PlaylistWindow::SlotCoverArtUpdate(QString coverArt, int index, int mode)
 	}
 }
 
-void PlaylistWindow::SlotSelectTitle(const QModelIndex &index)
+void PlaylistWindow::SlotSelectTitle(const QModelIndex &modelIndex)
 {
 	int id;
 	QString cover;
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
-		id = qvariant_cast<int>(index.data(IconTracksDelegate::ICON_TRACKS_ID));
-		cover = qvariant_cast<QString>(index.data(IconTracksDelegate::ICON_TRACKS_COVER));
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+		cover = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_COVER));
 	}
 	else
 	{
-		id = qvariant_cast<int>(index.data(ListTracksDelegate::LIST_TRACKS_ID));
-		cover = qvariant_cast<QString>(index.data(ListTracksDelegate::LIST_TRACKS_COVER));
+		id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+		cover = qvariant_cast<QString>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_COVER));
 	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
@@ -370,18 +393,45 @@ void PlaylistWindow::SlotSelectTitle(const QModelIndex &index)
 	}
 }
 
-void PlaylistWindow::SlotSelectPlay(int id, int playType)
+void PlaylistWindow::SlotSelectPlay(const QModelIndex &modelIndex, int playType)
 {
-//	LogDebug("click Count [%d]", id);
-	QMap<int, bool> map;
-	map.insert(id, true);
+	int id;
+	int index;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+	}
+	else
+	{
+		id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+	}
+
+	QMap<int, int> map;
+	map.insert(index, id);
 	m_pMgr->RequestPlayPlaylist(map, playType);
 }
 
-void PlaylistWindow::SlotSelectTrackPlay(int id, int playType)
+void PlaylistWindow::SlotSelectTrackPlay(const QModelIndex &modelIndex, int playType)
 {
-	QMap<int, bool> map;
-	map.insert(id, true);
+	int id;
+	int index;
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+	}
+	else
+	{
+		id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+		index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+	}
+
+	QMap<int, int> map;
+	map.insert(index, id);
 	m_pMgr->RequestPlayTrack(map, playType);
 }
 
@@ -581,30 +631,30 @@ void PlaylistWindow::SlotItemTopMenuAction(int menuID)
 	}
 }
 
-void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
+void PlaylistWindow::SlotOptionMenuAction(const QModelIndex &modelIndex, int menuID)
 {
 	switch (menuID) {
 	case OPTION_MENU_PLAY_NOW:
-		DoOptionMenuPlay(nID, PLAY_NOW);
+		DoOptionMenuPlay(modelIndex, PLAY_NOW);
 		break;
 	case OPTION_MENU_PLAY_LAST:
-		DoOptionMenuPlay(nID, PLAY_LAST);
+		DoOptionMenuPlay(modelIndex, PLAY_LAST);
 		break;
 	case OPTION_MENU_PLAY_NEXT:
-		DoOptionMenuPlay(nID, PLAY_NEXT);
+		DoOptionMenuPlay(modelIndex, PLAY_NEXT);
 		break;
 	case OPTION_MENU_PLAY_CLEAR:
-		DoOptionMenuPlay(nID, PLAY_CLEAR);
+		DoOptionMenuPlay(modelIndex, PLAY_CLEAR);
 		break;
 	case OPTION_MENU_RENAME:
-		DoOptionMenuRename(nID);
+		DoOptionMenuRename(modelIndex);
 		break;
 	case OPTION_MENU_DELETE:
 	case OPTION_MENU_DELETE_FROM_PLAYLIST:
-		DoOptionMenuDelete(nID);
+		DoOptionMenuDelete(modelIndex);
 		break;
 	case OPTION_MENU_ADD_TO_PLAYLIST:
-		DoOptionMenuAddToPlaylist(nID);
+		DoOptionMenuAddToPlaylist(modelIndex);
 		break;
 	case OPTION_MENU_FAVORITE:
 		DoOptionMenuFavorite();
@@ -618,13 +668,13 @@ void PlaylistWindow::SlotOptionMenuAction(int nID, int menuID)
 	}
 }
 
-void PlaylistWindow::SlotAddCategoryFromPlaylist(int category, QMap<int, bool> idMap)
+void PlaylistWindow::SlotAddCategoryFromPlaylist(int category, QMap<int, int> idMap)
 {
 //	LogDebug("playlist id [%d] cat [%d] id [%d]", m_ID, category);
 	m_pMgr->RequestAddCategoryFromPlaylist(m_ID, idMap, category);
 }
 
-void PlaylistWindow::SlotAddTrackFromPlaylist(QMap<int, bool> idMap)
+void PlaylistWindow::SlotAddTrackFromPlaylist(QMap<int, int> idMap)
 {
 //	LogDebug("playlist id [%d] track [%d]", m_ID);
 	m_pMgr->RequestAddTrackFromPlaylist(m_ID, idMap);
@@ -689,13 +739,13 @@ void PlaylistWindow::ConnectSigToSlot()
 	connect(m_pInfoTracks->GetFormPlay(), SIGNAL(SigMenuAction(int)), this, SLOT(SlotItemTopMenuAction(int)));
 	connect(m_pInfoTracks->GetFormSort(), SIGNAL(SigResize(int)), this, SLOT(SlotResize(int)));
 
-	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectPlay(int, int)));
+	connect(m_pIconTracks, SIGNAL(SigReqCoverArt(const QModelIndex&, int)), this, SLOT(SlotReqCoverArt(const QModelIndex&, int)));
+	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectPlay(const QModelIndex&, int)), this, SLOT(SlotSelectPlay(const QModelIndex&, int)));
 	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectTitle(const QModelIndex&)), this, SLOT(SlotSelectTitle(const QModelIndex&)));
 //	connect(m_pIconTracks->GetDelegate(), SIGNAL(SigSelectSubtitle(int, QString)), this, SLOT(SlotSelectTitle(int, QString)));
 
-	connect(m_pListTracks, SIGNAL(SigReqCoverArt(int, int, int)), this, SLOT(SlotReqCoverArt(int, int, int)));
-	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(int, int)), this, SLOT(SlotSelectTrackPlay(int, int)));
+	connect(m_pListTracks, SIGNAL(SigReqCoverArt(const QModelIndex&, int)), this, SLOT(SlotReqCoverArt(const QModelIndex&, int)));
+	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectPlay(const QModelIndex&, int)), this, SLOT(SlotSelectTrackPlay(const QModelIndex&, int)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectTitle(const QModelIndex&)), this, SLOT(SlotSelectTitle(const QModelIndex&)));
 	connect(m_pListTracks->GetDelegate(), SIGNAL(SigSelectMenu(const QModelIndex&, QPoint)), this, SLOT(SlotSelectMenu(const QModelIndex&, QPoint)));
 
@@ -724,12 +774,12 @@ void PlaylistWindow::Initialize()
 	m_Loading = nullptr;
 
 	m_ID = -1;
-	m_TrackID = -1;
-	m_TrackAlbumID = -1;
-	m_TrackArtistID = -1;
-	m_TrackGenreID = -1;
-	m_TrackFavorite = -1;
-	m_TrackIndex = -1;
+//	m_TrackID = -1;
+//	m_TrackAlbumID = -1;
+//	m_TrackArtistID = -1;
+//	m_TrackGenreID = -1;
+//	m_TrackFavorite = -1;
+//	m_TrackIndex = -1;
 	m_TrackCover.clear();
 
 	QString style = QString("QMenu::icon {	\
@@ -890,10 +940,10 @@ void PlaylistWindow::DoTopMenuDelete()
 	}
 
 	bool bAutoPlay = false;
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 	{
-		if ((int64_t)i.key() == idAutoPlay)
+		if ((int64_t)i.value() == idAutoPlay)
 		{
 			bAutoPlay = true;
 			break;
@@ -921,10 +971,10 @@ void PlaylistWindow::DoTopMenuRename()
 	else if (m_SelectMap.count() == 1)
 	{
 		int id = -1;
-		QMap<int, bool>::iterator i;
+		QMap<int, int>::iterator i;
 		for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 		{
-			id = i.key();
+			id = i.value();
 			break;
 		}
 
@@ -974,10 +1024,10 @@ void PlaylistWindow::DoTopMenuAddToPlaylist()
 		else if (m_SelectMap.count() == 1)
 		{
 			int id = -1;
-			QMap<int, bool>::iterator i;
+			QMap<int, int>::iterator i;
 			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
 			{
-				id = i.key();
+				id = i.value();
 				break;
 			}
 			emit SigAddToPlaylist(id);
@@ -1032,8 +1082,8 @@ void PlaylistWindow::DoTopMenuItemAddToPlaylist()
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 		widget->RequestCategoryList();
 
-		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
-		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
+		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, int>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, int>)));
+		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, int>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, int>)));
 	}
 }
 
@@ -1066,7 +1116,8 @@ void PlaylistWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_OptionMenuMap.insert(OPTION_MENU_DELETE_FROM_PLAYLIST, STR_DELETE_FROM_PLAYLIST);
 
-		if (m_TrackFavorite == 1)
+		int favorite = qvariant_cast<int>(m_ModelIndex.data(ListTracksDelegate::LIST_TRACKS_FAVORITE));
+		if (favorite == 1)
 		{
 			m_OptionMenuMap.insert(OPTION_MENU_FAVORITE, STR_DELETE_TO_FAVORITE);
 		}
@@ -1081,28 +1132,33 @@ void PlaylistWindow::SetOptionMenu()
 
 }
 
-void PlaylistWindow::DoOptionMenuPlay(int nID, int where)
+void PlaylistWindow::DoOptionMenuPlay(const QModelIndex &modelIndex, int where)
 {
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
-		QMap<int, bool> map;
-		map.insert(nID, true);
+		int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+		int index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+
+		QMap<int, int> map;
+		map.insert(index, id);
 		m_pMgr->RequestPlayPlaylist(map, where);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK)
 	{
-		SlotSelectPlay(nID, where);
+		SlotSelectPlay(modelIndex, where);
 	}
 }
 
-void PlaylistWindow::DoOptionMenuRename(int nID)
+void PlaylistWindow::DoOptionMenuRename(const QModelIndex &modelIndex)
 {
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
+		int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+
 		CJsonNode node;
 		foreach (CJsonNode tempNode, m_RespList)
 		{
-			if (tempNode.GetInt(KEY_ID_LOWER) == nID)
+			if (tempNode.GetInt(KEY_ID_LOWER) == id)
 			{
 				node = tempNode;
 //				LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -1122,7 +1178,7 @@ void PlaylistWindow::DoOptionMenuRename(int nID)
 			if (dialog.exec() == QDialog::Accepted)
 			{
 				QString name = dialog.GetName();
-				m_pMgr->RequestRenamePlaylist(nID, name);
+				m_pMgr->RequestRenamePlaylist(id, name);
 			}
 		}
 
@@ -1133,17 +1189,20 @@ void PlaylistWindow::DoOptionMenuRename(int nID)
 	}
 }
 
-void PlaylistWindow::DoOptionMenuDelete(int nID)
+void PlaylistWindow::DoOptionMenuDelete(const QModelIndex &modelIndex)
 {
-	QMap<int, bool> map;
-	map.insert(nID, true);
+	int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+	int index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
+
+	QMap<int, int> map;
+	map.insert(index, id);
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		CJsonNode node;
 		foreach (CJsonNode tempNode, m_RespList)
 		{
-			if (tempNode.GetInt(KEY_ID_LOWER) == nID)
+			if (tempNode.GetInt(KEY_ID_LOWER) == id)
 			{
 				node = tempNode;
 //				LogDebug("node [%s]", node.ToCompactByteArray().data());
@@ -1167,9 +1226,10 @@ void PlaylistWindow::DoOptionMenuDelete(int nID)
 	}
 }
 
-void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
+void PlaylistWindow::DoOptionMenuAddToPlaylist(const QModelIndex &modelIndex)
 {
-	m_ID = nID;
+	m_ID = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
+
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK)
 	{
 		MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
@@ -1177,38 +1237,45 @@ void PlaylistWindow::DoOptionMenuAddToPlaylist(int nID)
 		emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 		widget->RequestCategoryList();
 
-		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, bool>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, bool>)));
-		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, bool>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, bool>)));
+		connect(widget, SIGNAL(SigAddCategoryFromPlaylist(int, QMap<int, int>)), this, SLOT(SlotAddCategoryFromPlaylist(int, QMap<int, int>)));
+		connect(widget, SIGNAL(SigAddTrackFromPlaylist(QMap<int, int>)), this, SLOT(SlotAddTrackFromPlaylist(QMap<int, int>)));
 	}
 }
 
 
 void PlaylistWindow::DoOptionMenuFavorite()
 {
-	m_TrackFavorite = m_TrackFavorite == 0 ? 1 : 0;
-//	LogDebug("DoTopMenuItemFavorite favorite [%d]", m_TrackFavorite);
-	QModelIndex modelIndex = m_pListTracks->GetModel()->index(m_TrackIndex, 0);
-	m_pListTracks->GetModel()->setData(modelIndex, m_TrackFavorite, ListTracksDelegate::LIST_TRACKS_FAVORITE);
+	int favorite = qvariant_cast<int>(m_ModelIndex.data(ListTracksDelegate::LIST_TRACKS_FAVORITE));
+	int index = qvariant_cast<int>(m_ModelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));
 
-	m_pMgr->RequestUpdateTrackFavorite(m_ID, m_TrackFavorite);
+	favorite = favorite == 0 ? 1 : 0;
+//	LogDebug("DoTopMenuItemFavorite favorite [%d]", m_TrackFavorite);
+	QModelIndex modelIndex = m_pListTracks->GetModel()->index(index, 0);
+	m_pListTracks->GetModel()->setData(modelIndex, favorite, ListTracksDelegate::LIST_TRACKS_FAVORITE);
+
+	m_pMgr->RequestUpdateTrackFavorite(m_ID, favorite);
 
 }
 
 void PlaylistWindow::DoOptionMenuGoToAlbum()
 {
-//	LogDebug("DoOptionMenuGoToAlbum id [%d]", m_TrackAlbumID);
+	int albumID = qvariant_cast<int>(m_ModelIndex.data(ListTracksDelegate::LIST_TRACKS_ALBUM_ID));
+	QString cover = qvariant_cast<QString>(m_ModelIndex.data(ListTracksDelegate::LIST_TRACKS_COVER));
+//	LogDebug("DoOptionMenuGoToAlbum id [%d]", albumID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetTrack(TYPE_MODE_TRACK, SQLManager::CATEGORY_ALBUM);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
-	widget->RequestTrackList(m_TrackAlbumID);
-	widget->SetCoverArt(m_TrackCover);
+	widget->RequestTrackList(albumID);
+	widget->SetCoverArt(cover);
 }
 
 void PlaylistWindow::DoOptionMenuGoToArtist()
 {
-//	LogDebug("DoOptionMenuGoToArtist id [%d]", m_TrackArtistID);
+	int artistID = qvariant_cast<int>(m_ModelIndex.data(ListTracksDelegate::LIST_TRACKS_ARTIST_ID));
+
+//	LogDebug("DoOptionMenuGoToArtist id [%d]", artistID);
 	MusicDBWindow *widget = new MusicDBWindow(this, m_pMgr->GetAddr(), -1);
 	widget->AddWidgetItem(TYPE_MODE_ITEM_ALBUM, SQLManager::CATEGORY_ARTIST);
 	emit widget->SigAddWidget(widget, STR_MUSIC_DB);
-	widget->RequestCategoryList(m_TrackArtistID);
+	widget->RequestCategoryList(artistID);
 }

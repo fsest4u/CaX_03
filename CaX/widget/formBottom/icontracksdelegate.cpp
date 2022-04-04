@@ -258,7 +258,7 @@ bool IconTracksDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 			}
 			else if (rectPlay.contains(curPoint))
 			{
-				emit SigSelectPlay(id, PLAY_CLEAR);
+				emit SigSelectPlay(index, PLAY_CLEAR);
 			}
 			else if (rectRating.contains(curPoint))
 			{

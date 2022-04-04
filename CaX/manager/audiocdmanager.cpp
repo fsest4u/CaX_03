@@ -57,17 +57,17 @@ void AudioCDManager::RequestEject()
 	RequestCommand(node, AUDIO_CD_EJECT);
 }
 
-void AudioCDManager::RequestCDRipInfo(int index, QMap<int, bool> idMap)
+void AudioCDManager::RequestCDRipInfo(int index, QMap<int, int> idMap)
 {
 	CJsonNode node(JSON_OBJECT);
 
 	if (idMap.count() > 0)
 	{
 		CJsonNode idArr(JSON_ARRAY);
-		QMap<int, bool>::iterator i;
+		QMap<int, int>::iterator i;
 		for (i = idMap.begin(); i!= idMap.end(); i++)
 		{
-//			LogDebug("key [%d] value [%d]", i.key(), i.value());
+			LogDebug("key [%d] value [%d]", i.key(), i.value());
 			idArr.AppendArray((int64_t)i.key());
 		}
 		node.Add(KEY_TRACKS, idArr);

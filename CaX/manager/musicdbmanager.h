@@ -112,17 +112,17 @@ public:
 										 QString catID2 = "");
 
 	void RequestManageCategory(QString cmd1,
-							   QMap<int, bool> idMap,
+							   QMap<int, int> idMap,
 							   int nWhere = PLAY_NONE,
 							   int nCategory = SQLManager::CATEGORY_ALBUM,
 							   int eventID = -1);
 
 	CJsonNode MakeNodeYear(QString cmd1, int nWhere, QString strCat, int eventID = -1);
-	CJsonNode MakeNodeYearSelect(QString cmd1, QMap<int, bool> idMap, int nWhere, int eventID = -1);
+	CJsonNode MakeNodeYearSelect(QString cmd1, QMap<int, int> idMap, int nWhere, int eventID = -1);
 	CJsonNode MakeNodeTrack(QString cmd1, int nWhere, int eventID = -1);
-	CJsonNode MakeNodeTrackSelect(QString cmd1, QMap<int, bool> idMap, int nWhere, int eventID = -1);
+	CJsonNode MakeNodeTrackSelect(QString cmd1, QMap<int, int> idMap, int nWhere, int eventID = -1);
 	CJsonNode MakeNodeCategory(QString cmd1, int nWhere, QString strCat, int eventID = -1);
-	CJsonNode MakeNodeCategorySelect(QString cmd1, QMap<int, bool> idMap, int nWhere, QString strCat, int eventID = -1);
+	CJsonNode MakeNodeCategorySelect(QString cmd1, QMap<int, int> idMap, int nWhere, QString strCat, int eventID = -1);
 
 	void RequestUpdateFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestUpdateRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
@@ -140,7 +140,7 @@ public:
 
 	void RequestUpdateCount(int id, int index, int mainCategory, int countCategory);
 
-	void RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category);
+	void RequestAddToPlaylist(int id, QMap<int, int> idMap, int category);
 	void RequestSetCategoryCoverArt(int id, int category, int eventID, QString image, QString thumb);
 	void RequestSetTrackCoverArt(int id, int category, int eventID, QString image, QString thumb);
 

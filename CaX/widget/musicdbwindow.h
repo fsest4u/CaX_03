@@ -49,8 +49,8 @@ signals:
 	//	void SigCategoryInfo(int nID, int nCategory);
 	void SigAddWidget(QWidget *widget, QString title);
 	void SigRemoveWidget(QWidget* widget);
-	void SigAddCategoryFromPlaylist(int category, QMap<int, bool> idMap);
-	void SigAddTrackFromPlaylist(QMap<int, bool> idMap);
+	void SigAddCategoryFromPlaylist(int category, QMap<int, int> idMap);
+	void SigAddTrackFromPlaylist(QMap<int, int> idMap);
 
 private slots:
 
@@ -106,18 +106,18 @@ private slots:
 	void SlotItemSortMenu(int sort);
 	void SlotItemIncDec(bool bIncrease);
 
-	void SlotSelectPlay(int nID, int where);
-	void SlotSelectCategoryPlay(int nID, int where);
-	void SlotSelectFavorite(int nID, int nFavorite);
-	void SlotSelectRating(int nID, int nRating);
+	void SlotSelectPlay(const QModelIndex &modelIndex, int where);
+	void SlotSelectCategoryPlay(const QModelIndex &modelIndex, int where);
+	void SlotSelectFavorite(const QModelIndex &modelIndex, int nFavorite);
+	void SlotSelectRating(const QModelIndex &modelIndex, int nRating);
 	void SlotSelectTitle(const QModelIndex &modelIndex);
 
-	void SlotReqCoverArt(int id, int index, int mode);
+	void SlotReqCoverArt(const QModelIndex &modelIndex, int mode);
 	void SlotReqCount(const QModelIndex &modelIndex);
 	void SlotAppendList();
 
-	void SlotSelectTrackPlay(int nID, int where);
-	void SlotSelectTrackFavorite(int nID, int index, int nFavorite);
+	void SlotSelectTrackPlay(const QModelIndex &modelIndex, int where);
+	void SlotSelectTrackFavorite(const QModelIndex &modelIndex, int nFavorite);
 
 	void SlotClassifyFavorite(int nFavorite);
 	void SlotClassifyRating(int nRating);
@@ -127,12 +127,12 @@ private slots:
 	void SlotClassifyFormat(bool bAdd, QString id);
 	void SlotClassifyMostPlayed(bool bAdd, QString id);
 
-	void SlotOptionMenuAction(const QModelIndex &index, int menuID);
+	void SlotOptionMenuAction(const QModelIndex &modelIndex, int menuID);
 
 	void SlotTopMenuAddToPlaylist(int id);
 	void SlotOptionMenuAddToPlaylist(int id);
 
-	void SlotAddTrackFromPlaylist(QMap<int, bool> idMap);
+	void SlotAddTrackFromPlaylist(QMap<int, int> idMap);
 
 	void SlotContextMenu(QPoint point);
 	void SlotContextMenuPlayNow();
@@ -181,15 +181,15 @@ private:
 
 	void SetOptionMenu();
 
-	void DoOptionMenuPlay(int nID, int where);
-	void DoOptionMenuAddToPlaylist(int nID);
-	void DoOptionMenuInfo(int nID);
-	void DoOptionMenuSearchCoverArt(int nID);
-	void DoOptionMenuRename(int nID);
-	void DoOptionMenuGain(int nID, QString gainType);
-	void DoOptionMenuDelete(int nID);
-	void DoOptionMenuGoToAlbum(int albumID, QString cover);
-	void DoOptionMenuGoToArtist(int artistID);
+	void DoOptionMenuPlay(const QModelIndex &modelIndex, int where);
+	void DoOptionMenuAddToPlaylist(const QModelIndex &modelIndex);
+	void DoOptionMenuInfo(const QModelIndex &modelIndex);
+	void DoOptionMenuSearchCoverArt(const QModelIndex &modelIndex);
+	void DoOptionMenuRename(const QModelIndex &modelIndex);
+	void DoOptionMenuGain(const QModelIndex &modelIndex, QString gainType);
+	void DoOptionMenuDelete(const QModelIndex &modelIndex);
+	void DoOptionMenuGoToAlbum(const QModelIndex &modelIndex);
+	void DoOptionMenuGoToArtist(const QModelIndex &modelIndex);
 
 //	void DoInsertIgnoreCategoryAll();
 	void DoBrowserSelectCoverart(QString path);
@@ -220,7 +220,7 @@ private:
 	QMap<int, QString>	m_TopMenuMap;
 	QMap<int, QString>	m_CategoryMenuMap;
 	QMap<int, QString>	m_OptionMenuMap;
-	QMap<int, bool>		m_SelectMap;
+	QMap<int, int>		m_SelectMap;
 
 	QStandardItemModel	*m_UpdateModel;
 	QMap<QStringList, QString> m_UpdateMap;
@@ -264,6 +264,8 @@ private:
 	int					m_nCatID2;
 
 	int					m_nOptionID;
+
+	QModelIndex			m_ModelIndex;
 
 	bool				m_EnableAppend;
 

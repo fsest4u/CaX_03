@@ -309,7 +309,7 @@ void MusicDBManager::RequestTrackListOfAlbumOfArtist(int nID,
 }
 
 void MusicDBManager::RequestManageCategory(QString cmd1,
-										   QMap<int, bool> idMap,
+										   QMap<int, int> idMap,
 										   int nWhere,
 										   int nCategory,
 										   int eventID)
@@ -375,16 +375,16 @@ CJsonNode MusicDBManager::MakeNodeYear(QString cmd1,
 }
 
 CJsonNode MusicDBManager::MakeNodeYearSelect(QString cmd1,
-											 QMap<int, bool> idMap,
+											 QMap<int, int> idMap,
 											 int nWhere,
 											 int eventID )
 {
 	CJsonNode yearArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		yearArr.AppendArray((int64_t)i.key());
+		yearArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);
@@ -425,16 +425,16 @@ CJsonNode MusicDBManager::MakeNodeTrack(QString cmd1,
 }
 
 CJsonNode MusicDBManager::MakeNodeTrackSelect(QString cmd1,
-											  QMap<int, bool> idMap,
+											  QMap<int, int> idMap,
 											  int nWhere,
 											  int eventID)
 {
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		idArr.AppendArray((int64_t)i.key());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);
@@ -482,17 +482,17 @@ CJsonNode MusicDBManager::MakeNodeCategory(QString cmd1,
 }
 
 CJsonNode MusicDBManager::MakeNodeCategorySelect(QString cmd1,
-												 QMap<int, bool> idMap,
+												 QMap<int, int> idMap,
 												 int nWhere,
 												 QString strCat,
 												 int eventID)
 {
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
 //		LogDebug("key [%d] value [%d]", i.key(), i.value());
-		idArr.AppendArray((int64_t)i.key());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 //	CJsonNode filterArr(JSON_ARRAY);
@@ -707,15 +707,16 @@ void MusicDBManager::RequestUpdateCount(int id, int index, int mainCategory, int
 	RequestCommand(node, MUSICDB_UPDATE_COUNT, index);
 }
 
-void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, bool> idMap, int category)
+void MusicDBManager::RequestAddToPlaylist(int id, QMap<int, int> idMap, int category)
 {
 	QString strCat = UtilNovatron::GetCategoryName(category);
 
 	CJsonNode idArr(JSON_ARRAY);
-	QMap<int, bool>::iterator i;
+	QMap<int, int>::iterator i;
 	for (i = idMap.begin(); i!= idMap.end(); i++)
 	{
-		idArr.AppendArray((int64_t)i.key());
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		idArr.AppendArray((int64_t)i.value());
 	}
 
 	CJsonNode node(JSON_OBJECT);
