@@ -1604,12 +1604,31 @@ void BrowserWindow::DoOptionMenuEditTag(QString path, int type)
 
 	m_OptionPath = path;
 
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
+	if (m_AlbumList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
+	}
+	if (m_AlbumArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
+	}
+	if (m_ArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
+	}
+	if (m_GenreList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
+	}
+	if (m_ComposerList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
+	}
+	if (m_MoodList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
+	}
+
 
 	m_pMgr->RequestInfoTag(path);
 }

@@ -6,6 +6,7 @@
 #include "dialog/commondialog.h"
 #include "dialog/trackinfodialog.h"
 #include "dialog/trackinfo.h"
+#include "dialog/setup/formdialog.h"
 
 #include "manager/audiocdmanager.h"
 
@@ -220,47 +221,86 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 		m_Loading = nullptr;
 	}
 
-	CDRipInfoDialog *dialog = new CDRipInfoDialog(this);
-	dialog->SetAddr(m_pMgr->GetAddr());
-	dialog->SetEventID(m_EventID);
-	dialog->SetAlbumList(m_AlbumList);
-	dialog->SetAlbumArtistList(m_AlbumArtistList);
-	dialog->SetArtistList(m_ArtistList);
-	dialog->SetGenreList(m_GenreList);
-	dialog->SetComposerList(m_ComposerList);
-	dialog->SetMoodList(m_MoodList);
-	dialog->SetInfoData(node);
-	dialog->SetCoverArt(m_pInfoTracks->GetCoverArt());
-	if (dialog->exec() == QDialog::Accepted)
+	CJsonNode nodeForm = node.GetObject(KEY_FORM);
+	if (nodeForm.IsNull())
 	{
-		node.Clear();
-		node = dialog->GetInfoData();
+		node.Add(KEY_CD_YEAR, node.GetString(KEY_CD_YEAR));
+		node.Add(KEY_CD_NUMBER, node.GetString(KEY_CD_NUMBER));
+		node.Add(KEY_CD_TOTAL, node.GetString(KEY_CD_TOTAL));
 
-		node.Del(VAL_SUCCESS);
-		node.Del(VAL_MSG);
-		node.Del(VAL_RESULT);
-		node.Del(KEY_SOURCE);
-		node.Del(KEY_FORMATS);
+		CDRipInfoDialog *dialog = new CDRipInfoDialog(this);
+		dialog->SetAddr(m_pMgr->GetAddr());
+		dialog->SetEventID(m_EventID);
+		dialog->SetAlbumList(m_AlbumList);
+		dialog->SetAlbumArtistList(m_AlbumArtistList);
+		dialog->SetArtistList(m_ArtistList);
+		dialog->SetGenreList(m_GenreList);
+		dialog->SetComposerList(m_ComposerList);
+		dialog->SetMoodList(m_MoodList);
+		dialog->SetInfoData(node);
+		dialog->SetCoverArt(m_pInfoTracks->GetCoverArt());
+		if (dialog->exec() == QDialog::Accepted)
+		{
+			node.Clear();
+			node = dialog->GetInfoData();
 
-//		QString cdnum = node.GetString(KEY_CDNUMBER);
-//		QString cdyear = node.GetString(KEY_CDYEAR);
-//		QString cdtotal = node.GetString(KEY_CDTOTAL);
+			node.Add(KEY_CD_YEAR_UPPER, node.GetString(KEY_CD_YEAR));
+			node.Add(KEY_CD_NUMBER_UPPER, node.GetString(KEY_CD_NUMBER));
+			node.Add(KEY_CD_TOTAL_UPPER, node.GetString(KEY_CD_TOTAL));
 
-//		node.Add(KEY_CDNUMBER, cdnum);
-//		node.Add(KEY_CDYEAR, cdyear);
-//		node.Add(KEY_CDTOTAL, cdtotal);
+			node.Del(KEY_CD_YEAR);
+			node.Del(KEY_CD_NUMBER);
+			node.Del(KEY_CD_TOTAL);
+			node.Del(VAL_SUCCESS);
+			node.Del(VAL_MSG);
+			node.Del(VAL_RESULT);
+			node.Del(KEY_SOURCE);
+			node.Del(KEY_SOURCE_INDEX);
+			node.Del(KEY_FORMATS);
 
-		node.AddInt(KEY_EVENT_ID, m_EventID);
-//		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//			QString cdnum = node.GetString(KEY_CDNUMBER);
+//			QString cdyear = node.GetString(KEY_CDYEAR);
+//			QString cdtotal = node.GetString(KEY_CDTOTAL);
 
-		m_pMgr->RequestCDRip(node);
+//			node.Add(KEY_CDNUMBER, cdnum);
+//			node.Add(KEY_CDYEAR, cdyear);
+//			node.Add(KEY_CDTOTAL, cdtotal);
+
+			node.AddInt(KEY_EVENT_ID, m_EventID);
+//			LogDebug("node [%s]", node.ToCompactByteArray().data());
+
+			m_pMgr->RequestCDRip(node);
+		}
+
+		if (dialog)
+		{
+			delete dialog;
+			dialog = nullptr;
+		}
+	}
+	else
+	{
+		FormDialog dialog;
+		dialog.SetNodeForm(nodeForm);
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			if (m_SelectMap.count() > 0)
+			{
+				m_pMgr->RequestCDRipInfo(-1, m_SelectMap, true);
+			}
+			else
+			{
+				QMap<int, int> map;
+				m_pMgr->RequestCDRipInfo(-1, map, true);
+			}
+		}
+		else
+		{
+			return;
+		}
 	}
 
-	if (dialog)
-	{
-		delete dialog;
-		dialog = nullptr;
-	}
+
 }
 
 void AudioCDWindow::SlotRespCategoryList(CJsonNode node)
@@ -768,12 +808,30 @@ void AudioCDWindow::DoTopMenuCDRipping()
 {
 	m_Loading = UtilNovatron::LoadingStart(parentWidget());
 
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
+	if (m_AlbumList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
+	}
+	if (m_AlbumArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
+	}
+	if (m_ArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
+	}
+	if (m_GenreList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
+	}
+	if (m_ComposerList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
+	}
+	if (m_MoodList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
+	}
 
 	if (m_SelectMap.count() > 0)
 	{
@@ -806,12 +864,30 @@ void AudioCDWindow::DoOptionMenuCDRipping(const QModelIndex &modelIndex)
 {
 	m_Loading = UtilNovatron::LoadingStart(parentWidget());
 
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
-	m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
+	if (m_AlbumList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM);
+	}
+	if (m_AlbumArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ALBUM_ARTIST);
+	}
+	if (m_ArtistList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_ARTIST);
+	}
+	if (m_GenreList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_GENRE);
+	}
+	if (m_ComposerList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_COMPOSER);
+	}
+	if (m_MoodList.isEmpty())
+	{
+		m_pMgr->RequestCategoryList(SQLManager::CATEGORY_MOOD);
+	}
 
 	int id = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_ID));
 	int index = qvariant_cast<int>(modelIndex.data(ListTracksDelegate::LIST_TRACKS_INDEX));

@@ -57,7 +57,7 @@ void AudioCDManager::RequestEject()
 	RequestCommand(node, AUDIO_CD_EJECT);
 }
 
-void AudioCDManager::RequestCDRipInfo(int index, QMap<int, int> idMap)
+void AudioCDManager::RequestCDRipInfo(int index, QMap<int, int> idMap, bool reCheck)
 {
 	CJsonNode node(JSON_OBJECT);
 
@@ -74,6 +74,10 @@ void AudioCDManager::RequestCDRipInfo(int index, QMap<int, int> idMap)
 
 	}
 
+	if (reCheck)
+	{
+		node.Add	(KEY_OK,			true);
+	}
 	node.Add	(KEY_CMD0,			VAL_AUDIO_CD);
 	node.Add	(KEY_CMD1,			VAL_RIP_INFO);
 	if (index >= 0)

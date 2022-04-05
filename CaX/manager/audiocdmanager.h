@@ -15,7 +15,7 @@ public:
 	void RequestTrackInfo(int id = 1);
 	void RequestTrackPlay(int id = 1);
 	void RequestEject();
-	void RequestCDRipInfo(int index, QMap<int, int> idMap);
+	void RequestCDRipInfo(int index, QMap<int, int> idMap, bool reCheck = false);
 	void RequestCDRip(CJsonNode node);
 	void RequestCategoryList(int nCategory);
 	void RequestRandom();
