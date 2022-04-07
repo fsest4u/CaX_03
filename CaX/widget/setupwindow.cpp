@@ -488,6 +488,7 @@ void SetupWindow::SetMenuSubMap(QStringList keys, QStringList values)
 		if (!values.isEmpty() && values.count() > i)
 		{
 			value = values.at(i);
+			value.replace("\t", "    ");
 		}
 //		LogDebug("key [%s] value [%s]", key.toUtf8().data(), value.toUtf8().data());
 		if (key.isEmpty())

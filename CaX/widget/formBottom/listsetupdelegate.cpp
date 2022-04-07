@@ -21,6 +21,7 @@ void ListSetupDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 	int type = qvariant_cast<int>(index.data(LIST_SETUP_TYPE));
 	QString title = qvariant_cast<QString>(index.data(LIST_SETUP_TITLE));
 	QString subtitle = qvariant_cast<QString>(index.data(LIST_SETUP_SUBTITLE));
+//	LogDebug("title [%s] subtitle [%s]", title.toUtf8().data(), subtitle.toUtf8().data());
 
 	int indent = 0;
 	if (iAppSetupType_Mask_Sub & type)
@@ -33,8 +34,8 @@ void ListSetupDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
-	QRect rectTitle = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, fmTitle.width(title), fmTitle.height());
-	QRect rectSubtitle = QRect(rectBase.width() - fmTitle.width(subtitle) - 60, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, fmTitle.width(subtitle), fmTitle.height());
+	QRect rectTitle = QRect(rectBase.x() + 60 + indent, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, fmTitle.width(title) + 10, fmTitle.height());
+	QRect rectSubtitle = QRect(rectBase.width() - fmTitle.width(subtitle) - 60, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, fmTitle.width(subtitle) + 10, fmTitle.height());
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
 //	painter->drawRect(rectOrig);
