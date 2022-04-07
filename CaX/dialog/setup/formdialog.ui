@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>302</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -46,6 +46,15 @@ QWidget
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>18</number>
+   </property>
+   <property name="topMargin">
+    <number>9</number>
+   </property>
+   <property name="rightMargin">
+    <number>18</number>
+   </property>
    <item row="3" column="0">
     <widget class="QFrame" name="frame3">
      <property name="frameShape">

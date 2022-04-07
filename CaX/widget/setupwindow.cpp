@@ -200,6 +200,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 				DoMaxVolume(volume);
 			}
 			else if (m_StrIDSub.contains(ID_NET_NETWORK_INFO)
+					 || m_StrIDSub.contains(ID_NET_WIRELESS_INFO)
 					 || m_StrIDSub.contains(ID_SY_CHECKFIRMWARE)
 					 || m_StrIDSub.contains(ID_LI_GRACENOTE_CD)
 					 || m_StrIDSub.contains(ID_LI_GRACENOTE_COVER)
