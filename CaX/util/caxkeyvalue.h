@@ -50,6 +50,7 @@
 #define		KEY_CAT_ORDER		"CatOrder"
 #define		KEY_CATEGORY		"Cat"
 #define		KEY_CD				"Cd"
+#define		KEY_CD_NUMBERS		"CdNumbers"
 #define		KEY_CD_NUMBER		"CdNumber"
 #define		KEY_CD_TOTAL		"CdTotal"
 #define		KEY_CD_YEAR			"CdYear"

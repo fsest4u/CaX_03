@@ -124,6 +124,15 @@ void IconTracks::SetNodeList(QList<CJsonNode> &list, int service)
 				item->setData(-1, IconTracksDelegate::ICON_TRACKS_FAVORITE);
 				item->setData(-1, IconTracksDelegate::ICON_TRACKS_RATING);
 			}
+			QString cdNumber;
+			if (node.GetString(KEY_CD_NUMBER, cdNumber))
+			{
+				item->setData(cdNumber, IconTracksDelegate::ICON_TRACKS_CD_NUMBER);
+			}
+			else
+			{
+				item->setData(-1, IconTracksDelegate::ICON_TRACKS_CD_NUMBER);
+			}
 
 			m_Model->appendRow(item);
 //			LogDebug("set data [%d] - [%s]", index, node.GetString(KEY_TITLE).toUtf8().data());

@@ -412,19 +412,27 @@ void MusicDBWindow::RequestTrackList(int nID, int catID, int catID2)
 	}
 	else
 	{
-		m_pMgr->RequestTrackList(m_nID,
-								 m_nCategory,
-								 m_nSortTrack,
-								 m_bIncreaseTrack,
-								 "",
-								 "",
-								 "",
-								 "",
-								 -1,
-								 -1,
-								 -1,
-								 m_LimitCount * m_CurPage,
-								 m_LimitCount);
+		if (m_nCategory == SQLManager::CATEGORY_ALBUM && m_CDNumber < 0)
+		{
+			m_pMgr->RequestCDNumberList(m_nID);
+		}
+		else
+		{
+			m_pMgr->RequestTrackList(m_nID,
+									 m_nCategory,
+									 m_nSortTrack,
+									 m_bIncreaseTrack,
+									 "",
+									 "",
+									 "",
+									 "",
+									 -1,
+									 -1,
+									 -1,
+									 m_LimitCount * m_CurPage,
+									 m_LimitCount,
+									 m_CDNumber);
+		}
 	}
 }
 
@@ -1158,7 +1166,29 @@ void MusicDBWindow::SlotItemPlayAll()
 
 	if (m_SelectMap.count() > 0)
 	{
-		m_pMgr->RequestManageCategory(VAL_PLAY, m_SelectMap, PLAY_CLEAR, SQLManager::CATEGORY_TRACK);
+		if (m_MultiAlbum)
+		{
+			QList<int> cdList;
+			QMap<int, int>::iterator i;
+			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+			{
+				if (i.key() == 0)
+				{
+					// all
+					continue;
+				}
+				cdList.append(i.key());
+			}
+
+			QMap<int, int> map;
+			map.insert(m_SelectMap.firstKey(), m_SelectMap.value(m_SelectMap.firstKey()));
+			m_pMgr->RequestManageCategory(VAL_PLAY, map, PLAY_CLEAR, m_nCategory, m_EventID, cdList);
+
+		}
+		else
+		{
+			m_pMgr->RequestManageCategory(VAL_PLAY, m_SelectMap, PLAY_CLEAR, SQLManager::CATEGORY_TRACK);
+		}
 	}
 //	else
 //	{
@@ -1288,6 +1318,7 @@ void MusicDBWindow::SlotSelectTitle(const QModelIndex &modelIndex)
 	QString cover;
 	QString title;
 	QString count;
+	int cdNumber = -1;
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
@@ -1295,6 +1326,7 @@ void MusicDBWindow::SlotSelectTitle(const QModelIndex &modelIndex)
 		cover = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_COVER));
 		title = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_TITLE));
 		count = qvariant_cast<QString>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_COUNT));
+		cdNumber = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_CD_NUMBER));
 	}
 	else
 	{
@@ -1304,6 +1336,7 @@ void MusicDBWindow::SlotSelectTitle(const QModelIndex &modelIndex)
 		cover = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_COVER)));
 		title = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_TITLE)));
 		count = qvariant_cast<QString>(model->data(model->index(row, TableTracks::TABLE_TRACKS_TRACK_COUNT)));
+		cdNumber = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_CD_NUMBER)));
 	}
 
 //	LogDebug("id [%d] cover art [%s]", nID, coverArt.toUtf8().data());
@@ -1349,6 +1382,10 @@ void MusicDBWindow::SlotSelectTitle(const QModelIndex &modelIndex)
 			widget->AddWidgetTrack(TYPE_MODE_TRACK, m_nCategory);
 			emit widget->SigAddWidget(widget, STR_MUSIC_DB);
 			widget->SetCoverArt(cover);
+			if (cdNumber >= 0)
+			{
+				widget->SetCDNumber(cdNumber);
+			}
 			widget->RequestTrackList(id);
 		}
 
@@ -1404,11 +1441,13 @@ void MusicDBWindow::SlotSelectCategoryPlay(const QModelIndex &modelIndex, int wh
 {
 	int id;
 	int index;
+	int cdNumber = -1;
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
 		index = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_INDEX));
+		cdNumber = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_CD_NUMBER));
 	}
 	else
 	{
@@ -1416,11 +1455,18 @@ void MusicDBWindow::SlotSelectCategoryPlay(const QModelIndex &modelIndex, int wh
 		QStandardItemModel *model = m_pTableTracks->GetModel();
 		id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
 		index = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_INDEX)));
+		cdNumber = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_CD_NUMBER)));
+	}
+
+	QList<int> cdList;
+	if (cdNumber >= 0)
+	{
+		cdList.append(cdNumber);
 	}
 
 	QMap<int, int> map;
 	map.insert(index, id);
-	m_pMgr->RequestManageCategory(VAL_PLAY, map, where, m_nCategory);
+	m_pMgr->RequestManageCategory(VAL_PLAY, map, where, m_nCategory, -1, cdList);
 }
 
 void MusicDBWindow::SlotSelectFavorite(const QModelIndex &modelIndex, int nFavorite)
@@ -1884,6 +1930,81 @@ void MusicDBWindow::SlotRespUpdateCount(CJsonNode node, int index)
 	}
 }
 
+void MusicDBWindow::SlotRespCDNumberList(QList<CJsonNode> list)
+{
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
+	}
+
+	m_MultiAlbum = false;
+
+	if (list.count() == 1)
+	{
+		CJsonNode node = list.at(0);
+		int id = node.GetInt(KEY_ID_LOWER);
+
+		m_pMgr->RequestTrackList(id,
+								 m_nCategory,
+								 m_nSortTrack,
+								 m_bIncreaseTrack,
+								 "",
+								 "",
+								 "",
+								 "",
+								 -1,
+								 -1,
+								 -1,
+								 m_LimitCount * m_CurPage,
+								 m_LimitCount);
+	}
+	else
+	{
+		m_TypeMode = TYPE_MODE_ITEM_TRACK;
+		m_MultiAlbum = true;
+
+		m_pInfoTracks->GetFormPlay()->ShowFavorite(false);
+		m_pInfoTracks->GetFormPlay()->ShowRating(false);
+
+		CJsonNode nodeAll = list.at(0);
+		nodeAll.Add(KEY_CD_NUMBER, "0");
+		list.insert(0, nodeAll);
+
+		for(int i = 0; i < list.count(); i++)
+		{
+			CJsonNode node = list.at(i);
+			if (node.GetString(KEY_CD_NUMBER).toInt() == 0)
+			{
+				node.Add(KEY_TITLE, QString("[All] %1").arg(node.GetString(KEY_TITLE)));
+			}
+			else
+			{
+				node.Add(KEY_TITLE, QString("[CD%1] %2").arg(node.GetString(KEY_CD_NUMBER)).arg(node.GetString(KEY_TITLE)));
+			}
+
+			list.replace(i, node);
+		}
+
+		m_RespList.append(list);
+		SetOptionMenu();
+
+		int service = SIDEMENU_MUSIC_DB;
+		if (m_ListMode == VIEW_MODE_ICON)
+		{
+	//		m_pIconTracks->ClearNodeList();
+			m_pIconTracks->SetNodeList(list, service);
+		}
+		else
+		{
+	//		m_pTableTracks->ClearNodeList();
+			m_pTableTracks->SetNodeList(list, service);
+		}
+
+	}
+}
+
 //void MusicDBWindow::SlotRespUpdateCategory(int updateId)
 //{
 //	if (updateId >= 0)
@@ -2230,6 +2351,7 @@ void MusicDBWindow::ConnectSigToSlot()
 	connect(m_pMgr, SIGNAL(SigRespTrackInfo(CJsonNode)), this, SLOT(SlotRespTrackInfo(CJsonNode)));
 	connect(m_pMgr, SIGNAL(SigRespSetCoverArt(int, int)), this, SLOT(SlotRespSetCoverArt(int, int)));
 	connect(m_pMgr, SIGNAL(SigRespUpdateCount(CJsonNode, int)), this, SLOT(SlotRespUpdateCount(CJsonNode, int)));
+	connect(m_pMgr, SIGNAL(SigRespCDNumberList(QList<CJsonNode>)), this, SLOT(SlotRespCDNumberList(QList<CJsonNode>)));
 //	connect(m_pMgr, SIGNAL(SigRespUpdateCategory(int)), this, SLOT(SlotRespUpdateCategory(int)));
 //	connect(m_pMgr, SIGNAL(SigRespInsertReplaceCategoryAll()), this, SLOT(SlotRespInsertReplaceCategoryAll()));
 	connect(m_pMgr, SIGNAL(SigRespRefresh()), this, SLOT(SlotRespRefresh()));
@@ -2326,6 +2448,9 @@ void MusicDBWindow::Initialize()
 	m_TypeMode = TYPE_MODE_ITEM_TRACK;
 //	m_DispMode = SQLManager::DISP_MODE_TRACK;
 
+	m_CDNumber = -1;
+	m_MultiAlbum = false;
+
 	m_EnableAppend = true;
 }
 
@@ -2394,17 +2519,20 @@ void MusicDBWindow::SetSelectOffTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
-		if (m_LimitCount <= 0)
-		{
-			m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg("All"));
-		}
-		else
-		{
-			m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
-		}
 		m_TopMenuMap.insert(TOP_MENU_SELECT_ALL, STR_SELECT_ALL);
 		m_TopMenuMap.insert(TOP_MENU_SHOW_COLUMNS, STR_SHOW_COLUMNS);
+		if (!m_MultiAlbum)
+		{
+			m_TopMenuMap.insert(TOP_MENU_RELOAD, STR_RELOAD);
+			if (m_LimitCount <= 0)
+			{
+				m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg("All"));
+			}
+			else
+			{
+				m_TopMenuMap.insert(TOP_MENU_LOAD_COUNT, QString("%1 - %2").arg(STR_LOAD_COUNT).arg(m_LimitCount));
+			}
+		}
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
@@ -2455,10 +2583,13 @@ void MusicDBWindow::SetSelectOnTopMenu()
 		m_TopMenuMap.insert(TOP_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_TopMenuMap.insert(TOP_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
 		m_TopMenuMap.insert(TOP_MENU_CLEAR_ALL, STR_CLEAR_ALL);
-		m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_SET, STR_GAIN_SET);
 		m_TopMenuMap.insert(TOP_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 //		m_TopMenuMap.insert(TOP_MENU_DELETE, STR_DELETE);
+		if (!m_MultiAlbum)
+		{
+			m_TopMenuMap.insert(TOP_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+		}
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
@@ -2604,7 +2735,6 @@ void MusicDBWindow::DoTopMenuGainClear()
 								  PLAY_NONE,
 								  m_nCategory,
 								  m_EventID);
-
 }
 
 void MusicDBWindow::DoTopMenuDelete()
@@ -2689,10 +2819,36 @@ void MusicDBWindow::DoTopMenuItemPlay(int nWhere)
 {
 	if (m_SelectMap.count() > 0)
 	{
-		m_pMgr->RequestManageCategory(VAL_PLAY,
-									  m_SelectMap,
-									  nWhere,
-									  SQLManager::CATEGORY_TRACK);
+		if (m_MultiAlbum)
+		{
+			QList<int> cdList;
+			QMap<int, int>::iterator i;
+			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+			{
+				if (i.key() == 0)
+				{
+					// all
+					continue;
+				}
+				cdList.append(i.key());
+			}
+
+			QMap<int, int> map;
+			map.insert(m_SelectMap.firstKey(), m_SelectMap.value(m_SelectMap.firstKey()));
+			m_pMgr->RequestManageCategory(VAL_PLAY,
+										  map,
+										  nWhere,
+										  m_nCategory,
+										  m_EventID,
+										  cdList);
+		}
+		else
+		{
+			m_pMgr->RequestManageCategory(VAL_PLAY,
+										  m_SelectMap,
+										  nWhere,
+										  SQLManager::CATEGORY_TRACK);
+		}
 	}
 	else
 	{
@@ -2734,11 +2890,37 @@ void MusicDBWindow::DoTopMenuItemGainSet()
 {
 	if (m_SelectMap.count() > 0)
 	{
-		m_pMgr->RequestManageCategory(VAL_GAIN_SET,
-									  m_SelectMap,
-									  PLAY_NONE,
-									  SQLManager::CATEGORY_TRACK,
-									  m_EventID);
+		if (m_MultiAlbum)
+		{
+			QList<int> cdList;
+			QMap<int, int>::iterator i;
+			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+			{
+				if (i.key() == 0)
+				{
+					// all
+					continue;
+				}
+				cdList.append(i.key());
+			}
+
+			QMap<int, int> map;
+			map.insert(m_SelectMap.firstKey(), m_SelectMap.value(m_SelectMap.firstKey()));
+			m_pMgr->RequestManageCategory(VAL_GAIN_SET,
+										  map,
+										  PLAY_NONE,
+										  m_nCategory,
+										  m_EventID,
+										  cdList);
+		}
+		else
+		{
+			m_pMgr->RequestManageCategory(VAL_GAIN_SET,
+										  m_SelectMap,
+										  PLAY_NONE,
+										  SQLManager::CATEGORY_TRACK,
+										  m_EventID);
+		}
 	}
 	else
 	{
@@ -2756,11 +2938,37 @@ void MusicDBWindow::DoTopMenuItemGainClear()
 {
 	if (m_SelectMap.count() > 0)
 	{
-		m_pMgr->RequestManageCategory(VAL_GAIN_CLEAR,
-									  m_SelectMap,
-									  PLAY_NONE,
-									  SQLManager::CATEGORY_TRACK,
-									  m_EventID);
+		if (m_MultiAlbum)
+		{
+			QList<int> cdList;
+			QMap<int, int>::iterator i;
+			for (i = m_SelectMap.begin(); i!= m_SelectMap.end(); i++)
+			{
+				if (i.key() == 0)
+				{
+					// all
+					continue;
+				}
+				cdList.append(i.key());
+			}
+
+			QMap<int, int> map;
+			map.insert(m_SelectMap.firstKey(), m_SelectMap.value(m_SelectMap.firstKey()));
+			m_pMgr->RequestManageCategory(VAL_GAIN_CLEAR,
+										  m_SelectMap,
+										  PLAY_NONE,
+										  m_nCategory,
+										  m_EventID,
+										  cdList);
+		}
+		else
+		{
+			m_pMgr->RequestManageCategory(VAL_GAIN_CLEAR,
+										  m_SelectMap,
+										  PLAY_NONE,
+										  SQLManager::CATEGORY_TRACK,
+										  m_EventID);
+		}
 	}
 	else
 	{
@@ -2875,13 +3083,16 @@ void MusicDBWindow::SetOptionMenu()
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_LAST, STR_PLAY_LAST);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_NEXT, STR_PLAY_NEXT);
 		m_OptionMenuMap.insert(OPTION_MENU_PLAY_CLEAR, STR_PLAY_CLEAR);
-		m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
-		m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_TAG_EDIT);
-		m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
-		m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_SET, STR_GAIN_SET);
 		m_OptionMenuMap.insert(OPTION_MENU_GAIN_CLEAR, STR_GAIN_CLEAR);
 //		m_OptionMenuMap.insert(OPTION_MENU_DELETE, STR_DELETE);
+		if (!m_MultiAlbum)
+		{
+			m_OptionMenuMap.insert(OPTION_MENU_ADD_TO_PLAYLIST, STR_ADD_TO_PLAYLIST);
+			m_OptionMenuMap.insert(OPTION_MENU_EDIT_TAG, STR_TAG_EDIT);
+			m_OptionMenuMap.insert(OPTION_MENU_SEARCH_COVERART, STR_SEARCH_COVERART);
+			m_OptionMenuMap.insert(OPTION_MENU_RENAME, STR_RENAME);
+		}
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
@@ -2971,18 +3182,20 @@ void MusicDBWindow::DoOptionMenuAddToPlaylist(const QModelIndex &modelIndex)
 
 void MusicDBWindow::DoOptionMenuInfo(const QModelIndex &modelIndex)
 {
-
 	int id;
+	int cdNumber;
 
 	if (m_ListMode == VIEW_MODE_ICON)
 	{
 		id = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_ID));
+		cdNumber = qvariant_cast<int>(modelIndex.data(IconTracksDelegate::ICON_TRACKS_CD_NUMBER));
 	}
 	else
 	{
 		int row = modelIndex.row();
 		QStandardItemModel *model = m_pTableTracks->GetModel();
 		id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
+		cdNumber = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_CD_NUMBER)));
 	}
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
@@ -3255,19 +3468,27 @@ void MusicDBWindow::DoOptionMenuGain(const QModelIndex &modelIndex, QString gain
 	QStandardItemModel *model = m_pTableTracks->GetModel();
 	int id = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_ID)));
 	int index = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_INDEX)));
+	int cdNumber = qvariant_cast<int>(model->data(model->index(row, TableTracks::TABLE_TRACKS_CD_NUMBER)));
 
 	if (m_TypeMode == TYPE_MODE_ITEM_TRACK
 			|| m_TypeMode == TYPE_MODE_ITEM_ALBUM
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST
 			|| m_TypeMode == TYPE_MODE_ITEM_ARTIST_ALBUM)
 	{
+		QList<int> cdList;
+		if (cdNumber >= 0)
+		{
+			cdList.append(cdNumber);
+		}
+
 		QMap<int, int> map;
 		map.insert(index, id);
 		m_pMgr->RequestManageCategory(gainType,
 									  map,
 									  PLAY_NONE,
 									  m_nCategory,
-									  m_EventID);
+									  m_EventID,
+									  cdList);
 	}
 	else if (m_TypeMode == TYPE_MODE_TRACK
 			 || m_TypeMode == TYPE_MODE_TRACK_ALBUM
@@ -3393,6 +3614,16 @@ void MusicDBWindow::SetInfoHome(QString title, QString count)
 {
 	m_pInfoHome->SetTitle(title);
 	m_pInfoHome->SetCategoryCnt(count);
+}
+
+int MusicDBWindow::GetCDNumber() const
+{
+	return m_CDNumber;
+}
+
+void MusicDBWindow::SetCDNumber(int CDNumber)
+{
+	m_CDNumber = CDNumber;
 }
 
 void MusicDBWindow::SetSortMenu(int category)

@@ -205,7 +205,8 @@ void MusicDBManager::RequestTrackList(int nID,
 									  int nFavorite,
 									  int nRating,
 									  int nStartIndex,
-									  int nLimitCount)
+									  int nLimitCount,
+									  int cdNumber)
 {
 	nRating = -1;	// not support for track
 	QString query = m_pSql->GetQueryTrackList(nID,
@@ -220,7 +221,8 @@ void MusicDBManager::RequestTrackList(int nID,
 											  nFavorite,
 											  nRating,
 											  nStartIndex,
-											  nLimitCount);
+											  nLimitCount,
+											  cdNumber);
 
 	CJsonNode node(JSON_OBJECT);
 	node.Add(KEY_CMD0, VAL_QUERY);
@@ -312,7 +314,8 @@ void MusicDBManager::RequestManageCategory(QString cmd1,
 										   QMap<int, int> idMap,
 										   int nWhere,
 										   int nCategory,
-										   int eventID)
+										   int eventID,
+										   QList<int> cdList)
 {
 	QString strCat = UtilNovatron::GetCategoryName(nCategory);
 
@@ -330,7 +333,14 @@ void MusicDBManager::RequestManageCategory(QString cmd1,
 		}
 		else
 		{
-			node = MakeNodeCategorySelect(cmd1, idMap, nWhere, strCat, eventID);
+			if (cdList.count() > 0)
+			{
+				node = MakeNodeCategoryCDNumberSelect(cmd1, idMap, nWhere, strCat, eventID, cdList);
+			}
+			else
+			{
+				node = MakeNodeCategorySelect(cmd1, idMap, nWhere, strCat, eventID);
+			}
 		}
 	}
 	else
@@ -517,9 +527,67 @@ CJsonNode MusicDBManager::MakeNodeCategorySelect(QString cmd1,
 	{
 		node.AddInt	(KEY_EVENT_ID,	eventID);
 	}
+
 	return node;
 }
 
+CJsonNode MusicDBManager::MakeNodeCategoryCDNumberSelect(QString cmd1,
+														 QMap<int, int> idMap,
+														 int nWhere,
+														 QString strCat,
+														 int eventID,
+														 QList<int> cdList)
+{
+	int id = -1;
+	QMap<int, int>::iterator i;
+	for (i = idMap.begin(); i!= idMap.end(); i++)
+	{
+//		LogDebug("key [%d] value [%d]", i.key(), i.value());
+		id = i.value();
+		break;
+	}
+
+	CJsonNode filterArr(JSON_ARRAY);
+	CJsonNode filterInfo(JSON_OBJECT);
+	filterInfo.Add(KEY_CATEGORY, strCat);
+	filterInfo.AddInt(KEY_ID_UPPER, id);
+	filterArr.AppendArray(filterInfo);
+
+	CJsonNode orderInfo(JSON_OBJECT);
+	orderInfo.Add(KEY_CATEGORY, strCat);
+	orderInfo.AddInt(KEY_ORDER, 0);
+
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_MUSIC_DB);
+	node.Add(KEY_CMD1, cmd1);
+	node.Add(KEY_CMD2, VAL_ALL);
+	node.AddInt(KEY_SONG_ORDER, 0);
+
+	if (nWhere != PLAY_NONE)
+	{
+		node.AddInt	(KEY_WHERE,		nWhere);
+	}
+	if (eventID != -1)
+	{
+		node.AddInt	(KEY_EVENT_ID,	eventID);
+	}
+
+	node.Add(KEY_FILTERS, filterArr);
+	node.Add(KEY_CAT_ORDER, orderInfo);
+
+	if (cdList.count() > 0)
+	{
+		CJsonNode cdArr(JSON_ARRAY);
+		for (int i = 0; i < cdList.count(); i++)
+		{
+			cdArr.AppendArray((int64_t)cdList.at(i));
+		}
+
+		node.Add(KEY_CD_NUMBERS, cdArr);
+	}
+
+	return node;
+}
 
 void MusicDBManager::RequestUpdateFavorite(int nID, int nFavorite, int nCategory)
 {
@@ -795,6 +863,17 @@ void MusicDBManager::RequestSetTrackCoverArt(int id, int category, int eventID, 
 	node.Add(KEY_IDS, idArr);
 
 	RequestCommand(node, MUSICDB_SET_TRACK_COVER_ART);
+}
+
+void MusicDBManager::RequestCDNumberList(int id)
+{
+	CJsonNode node(JSON_OBJECT);
+	node.Add(KEY_CMD0, VAL_QUERY);
+	node.Add(KEY_CMD1, VAL_SONG);
+	node.Add(KEY_AS, true);
+	node.Add(KEY_AL, false);
+	node.Add(KEY_SQL, m_pSql->GetQueryCDNumberList(id));
+	RequestCommand(node, MUSICDB_CD_NUMBER_LIST);
 }
 
 //void MusicDBManager::RequestCheckCategory(int id, int category, int updateCategory, QString updateName)
@@ -1083,6 +1162,9 @@ void MusicDBManager::SlotRespInfo(QString json, int nCmdID, int index)
 	case MUSICDB_CATEGORY_INFO_LIST:
 		ParseCategoryInfoList(result);
 		break;
+	case MUSICDB_CD_NUMBER_LIST:
+		ParseCDNumberList(result);
+		break;
 	case MUSICDB_MAX:
 		emit SigRespError(STR_INVALID_ID);
 		break;
@@ -1205,6 +1287,12 @@ void MusicDBManager::ParseSetCoverArt()
 void MusicDBManager::ParseUpdateCount(CJsonNode node, int index)
 {
 	emit SigRespUpdateCount(node, index);
+}
+
+void MusicDBManager::ParseCDNumberList(CJsonNode result)
+{
+	QList<CJsonNode> list = ParseResultNode(result);
+	emit SigRespCDNumberList(list);
 }
 
 //void MusicDBManager::ParseCheckCategory(CJsonNode node)

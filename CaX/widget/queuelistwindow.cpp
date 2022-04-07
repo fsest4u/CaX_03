@@ -402,7 +402,7 @@ void QueuelistWindow::SlotRefresh(CJsonNode node)
 	QList<CJsonNode> list = m_Track->GetNodeList();
 	foreach(CJsonNode tempNode, list)
 	{
-		LogDebug("node [%s]", tempNode.ToCompactByteArray().data());
+//		LogDebug("node [%s]", tempNode.ToCompactByteArray().data());
 
 		int songID = tempNode.GetInt(KEY_SONG);
 		idMap.insert(index, songID);

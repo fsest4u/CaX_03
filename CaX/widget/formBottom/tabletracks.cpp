@@ -120,6 +120,16 @@ void TableTracks::SetNodeList(QList<CJsonNode> list, int service)
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_INDEX), index);
 			m_Model->setData(m_Model->index(index, TABLE_TRACKS_MENU), false);
 
+			QString cdNumber;
+			if (node.GetString(KEY_CD_NUMBER, cdNumber))
+			{
+				m_Model->setData(m_Model->index(index, TABLE_TRACKS_CD_NUMBER), cdNumber);
+			}
+			else
+			{
+				m_Model->setData(m_Model->index(index, TABLE_TRACKS_CD_NUMBER), -1);
+			}
+
 //			emit SigReqCoverArt(nID, index, 0);	// 0 is QListView::ListMode
 			index++;
 		}
@@ -732,6 +742,7 @@ void TableTracks::Initialize()
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ALBUM_GAIN, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ALBUM_ID, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ARTIST_ID, true);
+	ui->tableView->setColumnHidden(TABLE_TRACKS_CD_NUMBER, true);
 	ui->tableView->setColumnHidden(TABLE_TRACKS_INDEX, true);
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_MENU, true);
 

@@ -464,7 +464,8 @@ QString SQLManager::GetQueryTrackList(int nID,
 									  int nFavorite,
 									  int nRating,
 									  int nStartIndex,
-									  int nLimitCount)
+									  int nLimitCount,
+									  int cdNumber)
 {
 	QString query;
 	QString category = UtilNovatron::GetCategoryName(nCategory);
@@ -477,6 +478,7 @@ QString SQLManager::GetQueryTrackList(int nID,
 	QString whereFormat = "";
 	QString whereFavorite = "";
 	QString whereRating = "";
+	QString whereCDNumber = "";
 
 	if (!artistID.isEmpty())
 	{
@@ -501,6 +503,10 @@ QString SQLManager::GetQueryTrackList(int nID,
 	if (nRating >= 0)
 	{
 		whereRating = QString(" and %1.Rating >= %2").arg(category).arg(nRating);
+	}
+	if (cdNumber > 0)
+	{
+		whereCDNumber = " and Song.CdNumber = " + QString::number(cdNumber);
 	}
 
 	QString limit = "";
@@ -557,6 +563,21 @@ QString SQLManager::GetQueryTrackList(int nID,
 				.arg(whereFormat)
 				.arg(whereFavorite)
 				.arg(whereRating)
+				.arg(column)
+				.arg(increase)
+				.arg(limit);
+	}
+	else if (nCategory == CATEGORY_ALBUM)
+	{
+		query = query
+				.arg(nID)
+				.arg(whereArtist)
+				.arg(whereGenre)
+				.arg(whereComposer)
+				.arg(whereFormat)
+				.arg(whereFavorite)
+				.arg(whereRating)
+				.arg(whereCDNumber)
 				.arg(column)
 				.arg(increase)
 				.arg(limit);
@@ -890,6 +911,15 @@ QString SQLManager::GetQueryQueueTrackInfo(int nID)
 	QString query;
 
 	query = QString(SQL_QUEUE_TRACK_INFO).arg(nID);
+
+	return query;
+}
+
+QString SQLManager::GetQueryCDNumberList(int nID)
+{
+	QString query;
+
+	query = QString(SQL_CD_NUMBER_LIST).arg(nID);
 
 	return query;
 }

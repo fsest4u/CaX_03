@@ -108,7 +108,8 @@ public:
 							  int nFavorite = -1,
 							  int nRating = -1,
 							  int nStartIndex = 0,
-							  int nLimitCount = 100);
+							  int nLimitCount = 100,
+							  int cdNumber = -1);
 	QString GetQueryTrackListOfAlbum(int nID,							// album id
 									 int nCategory = CATEGORY_ALBUM,
 									 int nSort = SORT_IMPORTED_DATE,
@@ -141,6 +142,9 @@ public:
 
 	QString GetQuerySearchList(int nCategory, QString keyword);
 	QString GetQueryQueueTrackInfo(int nID);
+
+	QString GetQueryCDNumberList(int nID);
+
 
 //	QString GetQueryCheckCategory(int updateCategory, QString updateName);
 //	QString GetQueryInsertCategory(int updateCategory, QString updateName);

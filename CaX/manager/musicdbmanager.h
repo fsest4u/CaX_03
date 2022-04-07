@@ -88,7 +88,8 @@ public:
 						  int nFavorite = -1,
 						  int nRating = -1,
 						  int nStartIndex = 0,
-						  int nLimitCount = 100);
+						  int nLimitCount = 100,
+						  int cdNumber = -1);
 	void RequestTrackListForEditTag(int nID,
 									int nCategory = SQLManager::CATEGORY_ALBUM,
 									int nSort = SQLManager::SORT_IMPORTED_DATE,
@@ -115,7 +116,8 @@ public:
 							   QMap<int, int> idMap,
 							   int nWhere = PLAY_NONE,
 							   int nCategory = SQLManager::CATEGORY_ALBUM,
-							   int eventID = -1);
+							   int eventID = -1,
+							   QList<int> cdList = QList<int>());
 
 	CJsonNode MakeNodeYear(QString cmd1, int nWhere, QString strCat, int eventID = -1);
 	CJsonNode MakeNodeYearSelect(QString cmd1, QMap<int, int> idMap, int nWhere, int eventID = -1);
@@ -123,6 +125,7 @@ public:
 	CJsonNode MakeNodeTrackSelect(QString cmd1, QMap<int, int> idMap, int nWhere, int eventID = -1);
 	CJsonNode MakeNodeCategory(QString cmd1, int nWhere, QString strCat, int eventID = -1);
 	CJsonNode MakeNodeCategorySelect(QString cmd1, QMap<int, int> idMap, int nWhere, QString strCat, int eventID = -1);
+	CJsonNode MakeNodeCategoryCDNumberSelect(QString cmd1, QMap<int, int> idMap, int nWhere, QString strCat, int eventID = -1, QList<int> cdList = QList<int>());
 
 	void RequestUpdateFavorite(int nID, int nFavorite, int nCategory = SQLManager::CATEGORY_ALBUM);
 	void RequestUpdateRating(int nID, int nRating, int nCategory = SQLManager::CATEGORY_ALBUM);
@@ -143,6 +146,8 @@ public:
 	void RequestAddToPlaylist(int id, QMap<int, int> idMap, int category);
 	void RequestSetCategoryCoverArt(int id, int category, int eventID, QString image, QString thumb);
 	void RequestSetTrackCoverArt(int id, int category, int eventID, QString image, QString thumb);
+
+	void RequestCDNumberList(int id);
 
 //	void RequestCheckCategory(int id, int category, int updateCategory, QString updateName);
 //	void RequestInsertCategory(int updateCategory, QString updateName);
@@ -182,6 +187,7 @@ signals:
 	void SigRespSearchCoverArt(CJsonNode node);
 	void SigRespSetCoverArt(int id, int category);
 	void SigRespUpdateCount(CJsonNode node, int index);
+	void SigRespCDNumberList(QList<CJsonNode> list);
 //	void SigRespUpdateCategory(int updateId);
 //	void SigRespInsertReplaceCategoryAll();
 	void SigRespRefresh();
@@ -219,6 +225,7 @@ private:
 		MUSICDB_SET_CATEGORY_COVER_ART,
 		MUSICDB_SET_TRACK_COVER_ART,
 		MUSICDB_UPDATE_COUNT,
+		MUSICDB_CD_NUMBER_LIST,
 //		MUSICDB_CHECK_CATEGORY,
 //		MUSICDB_INSERT_CATEGORY,
 //		MUSICDB_UPDATE_CATEGORY,
@@ -244,6 +251,7 @@ private:
 	void ParseSearchCoverArt(CJsonNode node);
 	void ParseSetCoverArt();
 	void ParseUpdateCount(CJsonNode node, int index);
+	void ParseCDNumberList(CJsonNode result);
 //	void ParseCheckCategory(CJsonNode node);
 //	void ParseInsertCategory(CJsonNode node);
 //	void ParseUpdateCategory(CJsonNode node);

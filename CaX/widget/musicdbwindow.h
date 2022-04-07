@@ -40,6 +40,9 @@ public:
 	void SetCoverArt(QString coverArt);
 	void SetInfoHome(QString title, QString count);
 
+	int GetCDNumber() const;
+	void SetCDNumber(int CDNumber);
+
 signals:
 
 	// refresh
@@ -75,6 +78,7 @@ private slots:
 	void SlotRespTrackInfo(CJsonNode node);
 	void SlotRespSetCoverArt(int id, int category);
 	void SlotRespUpdateCount(CJsonNode node, int index);
+	void SlotRespCDNumberList(QList<CJsonNode> list);
 //	void SlotRespUpdateCategory(int updateId);
 //	void SlotRespInsertReplaceCategoryAll();
 	void SlotRespRefresh();
@@ -264,6 +268,9 @@ private:
 	int					m_nCatID2;
 
 	int					m_nOptionID;
+
+	int					m_CDNumber;
+	bool				m_MultiAlbum;
 
 	QModelIndex			m_ModelIndex;
 

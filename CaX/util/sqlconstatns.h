@@ -253,9 +253,9 @@ inner join Genre on Song.GenreID = Genre.ROWID	\
 inner join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID	\
 inner join Composer on Song.ComposerID = Composer.ROWID	\
 inner join Mood on Song.MoodID = Mood.ROWID	\
-where Song.IsDel = 0 and Song.AlbumID = %1 %2 %3 %4 %5 %6 %7	\
-order by Song.%8 collate nocase %9	\
-%10"
+where Song.IsDel = 0 and Song.AlbumID = %1 %2 %3 %4 %5 %6 %7 %8	\
+order by Song.%9 collate nocase %10	\
+%11"
 
 
 #define SQL_ALBUM_ARTIST_OVERVIEW	"	\
@@ -983,6 +983,37 @@ FROM Song	\
 INNER JOIN Album on Song.AlbumID = Album.ROWID	\
 INNER JOIN Artist on Song.ArtistID = Artist.ROWID	\
 WHERE Song.IsDel = 0 and Song.ROWID = %1	\
+"
+
+////////////////////////////////////////////
+/// check cd number list
+////////////////////////////////////////////
+
+#define SQL_CD_NUMBER_LIST	"	\
+select	\
+	Album.ROWID as id	\
+	, Album.Name as title	\
+	, Artist.Name as subtitle	\
+	, Album.favorite as favorite	\
+	, Album.rating as rating	\
+	, count(Album.ROWID) as count	\
+	, Album.Name as Album	\
+	, AlbumArtist.Name as AlbumArtist	\
+	, Artist.Name as Artist	\
+	, Genre.Name as Genre	\
+	, Song.CdNumber as CdNumber	\
+from Song	\
+inner join Album on Song.AlbumID = Album.ROWID	\
+left outer join AlbumArtist on Song.AlbumArtistID = AlbumArtist.ROWID and AlbumArtist.ROWID <> 1	\
+left outer join Artist on Song.ArtistID = Artist.ROWID	\
+left outer join Genre on Song.GenreID = Genre.ROWID	\
+where Song.AlbumID=%1 and Song.IsDel=0	\
+group by	\
+	Album.rowid,	\
+	Album.Name,	\
+	Song.CdNumber	\
+order by	\
+	Song.CdNumber	\
 "
 
 //////////////////////////////////////////////
