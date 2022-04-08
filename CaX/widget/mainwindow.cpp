@@ -448,12 +448,12 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 //			return;
 	}
 
-	int index = m_strVersion.lastIndexOf(".r") + QString(".r").length();
+//	int index = m_strVersion.lastIndexOf(".r") + QString(".r").length();
 //	LogDebug("length [%d]", m_strVersion.length());
 //	LogDebug("index [%d]", index);
 //	LogDebug("right [%s]", m_strVersion.right(m_strVersion.length() - index).toUtf8().data());
 
-	int version = m_strVersion.right(m_strVersion.length() - index).toInt();
+	int version = m_strVersion.right(4).toInt();
 	if (version < FIRMWARE_MIN_VERSION)
 	{
 		CommonDialog dialog(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
