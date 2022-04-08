@@ -424,8 +424,9 @@ TRANSLATIONS += \
     CaX_pl_PL.ts \
     CaX_ru_RU.ts \
     CaX_zh_CN.ts \
-    CaX_zh_HK.ts
-    
+    CaX_zh_HK.ts \
+    CaX_zh_TW.ts
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -453,13 +454,6 @@ DISTFILES += \
     ../installer/build-86.bat \
     ../installer/installer-64.iss \
     ../installer/installer-86.iss \
-    CaX_de_DE.ts \
-    CaX_en_US.ts \
-    CaX_it_IT.ts \
-    CaX_ja_JP.ts \
-    CaX_nl_NL.ts \
-    CaX_ru_RU.ts \
-    CaX_zh_CN.ts \
     app.ico \
     logo-icon-musicxneo-256.ico \
 

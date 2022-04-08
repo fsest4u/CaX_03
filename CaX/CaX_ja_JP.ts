@@ -883,7 +883,8 @@
     </message>
     <message>
         <location filename="dialog/setup/maxvolumedialog.ui" line="125"/>
-        <source>Cur Volume</source>
+        <source>Current Volume</source>
+        <oldsource>Cur Volume</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
