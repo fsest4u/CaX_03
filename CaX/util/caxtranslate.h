@@ -16,6 +16,7 @@
 #define STR_CRITICAL				QObject::tr("")
 
 #define STR_COMING_SOON				QObject::tr("Coming soon")
+#define STR_RESTART_APP				QObject::tr("Change will take effect when you restart Music X Neo.")
 #define STR_ENTER_SEARCH_WORD		QObject::tr("Please enter a search term of at least 2 characters")
 #define STR_INSERT_CD				QObject::tr("Please insert a CD")
 #define STR_NO_DEVICES				QObject::tr("No devices found")
@@ -65,6 +66,7 @@
 #define STR_SELECT_DEVICE			QObject::tr("Select device")
 #define STR_POWER_ON				QObject::tr("Power on")
 #define STR_POWER_OFF				QObject::tr("Power off")
+#define STR_LANGUAGE				QObject::tr("Language")
 #define STR_ABOUT					QObject::tr("About")
 #define STR_SEARCH					QObject::tr("Search")
 #define STR_NOW_PLAY				QObject::tr("Now play")

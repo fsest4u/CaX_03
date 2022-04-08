@@ -110,6 +110,7 @@ private:
 	void DoSetupHome();
 	void DoPowerOff();
 	void DoPowerOn();
+	void DoLanguage();
 	void DoAbout();
 
 	void DoSearchHome(QString keyword);
@@ -138,6 +139,7 @@ private:
 
 	QString			m_strCurrentMac;
 	QString			m_strAddr;
+	QString			m_Language;
 
 	QString			m_strVersion;
 	QString			m_strWolAddr;

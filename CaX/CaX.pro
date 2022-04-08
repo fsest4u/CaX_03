@@ -26,6 +26,7 @@ SOURCES += \
     dialog/inputfavoritedialog.cpp \
     dialog/inputnamedialog.cpp \
     dialog/inputtagdialog.cpp \
+    dialog/languagedialog.cpp \
     dialog/limitcountdialog.cpp \
     dialog/loadingdialog.cpp \
     dialog/logindialog.cpp \
@@ -172,6 +173,7 @@ HEADERS += \
     dialog/inputfavoritedialog.h \
     dialog/inputnamedialog.h \
     dialog/inputtagdialog.h \
+    dialog/languagedialog.h \
     dialog/limitcountdialog.h \
     dialog/loadingdialog.h \
     dialog/logindialog.h \
@@ -328,6 +330,7 @@ FORMS += \
     dialog/inputfavoritedialog.ui \
     dialog/inputnamedialog.ui \
     dialog/inputtagdialog.ui \
+    dialog/languagedialog.ui \
     dialog/limitcountdialog.ui \
     dialog/loadingdialog.ui \
     dialog/logindialog.ui \

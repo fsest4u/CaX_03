@@ -75,6 +75,7 @@ private slots:
 	void SlotSideMenuSelectDevice();
 	void SlotSideMenuPowerOn();
 	void SlotSideMenuPowerOff();
+	void SlotSideMenuLanguage();
 	void SlotSideMenuAbout();
 
 private:

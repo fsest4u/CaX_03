@@ -3,6 +3,7 @@
 
 #include "dialog/aboutdialog.h"
 #include "dialog/commondialog.h"
+#include "dialog/languagedialog.h"
 #include "dialog/poweroffdialog.h"
 #include "dialog/progressdialog.h"
 
@@ -117,6 +118,7 @@ void MainWindow::SlotMenu()
 		m_SideMenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
 		m_SideMenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
 		m_SideMenuMap.insert(SIDEMENU_POWER_OFF, STR_POWER_OFF);
+		m_SideMenuMap.insert(SIDEMENU_LANGUAGE, STR_LANGUAGE);
 		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 
 		if (m_bAudioCD)
@@ -148,6 +150,7 @@ void MainWindow::SlotMenu()
 	{
 		m_SideMenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
 		m_SideMenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
+		m_SideMenuMap.insert(SIDEMENU_LANGUAGE, STR_LANGUAGE);
 		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 	}
 
@@ -207,6 +210,9 @@ void MainWindow::SlotMenuAction(int menuID)
 		break;
 	case SIDEMENU_POWER_OFF:
 		DoPowerOff();
+		break;
+	case SIDEMENU_LANGUAGE:
+		DoLanguage();
 		break;
 	case SIDEMENU_ABOUT:
 		DoAbout();
@@ -271,6 +277,7 @@ void MainWindow::ReadSettings()
 
 	m_strCurrentMac = settings.value("recent_device").toString();
 	m_strAddr = settings.value("recent_addr").toString();
+	m_Language = settings.value("cax_language").toString();
 
 	ui->widgetPlay->SetAddr(m_strAddr);
 	m_pAppMgr->SetAddr(m_strAddr);
@@ -325,6 +332,10 @@ void MainWindow::WriteSettings()
 	if (!m_strAddr.isEmpty())
 	{
 		settings.setValue("recent_addr", m_strAddr);
+	}
+	if (!m_Language.isEmpty())
+	{
+		settings.setValue("cax_language", m_Language);
 	}
 
 	// save wol list
@@ -1141,6 +1152,20 @@ void MainWindow::DoPowerOn()
 		widget->SetDeviceList(list);
 	}
 
+}
+
+void MainWindow::DoLanguage()
+{
+	LanguageDialog dialog;
+	dialog.SetLanguageData(m_Language);
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		m_Language = dialog.GetLanguageData();
+		WriteSettings();
+
+		CommonDialog dialog(this, STR_WARNING, STR_RESTART_APP);
+		dialog.exec();
+	}
 }
 
 void MainWindow::DoAbout()

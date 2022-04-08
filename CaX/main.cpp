@@ -1,9 +1,15 @@
 #include <QApplication>
 #include <QSharedMemory>
+#include <QTranslator>
+#include <QDir>
 //#include <QStyleFactory>
 
 #include "widget/mainwindow.h"
+
 #include "util/caxtranslate.h"
+#include "util/settingio.h"
+
+const QString SETTINGS_GROUP = "MainWindow";
 
 int main(int argc, char *argv[])
 {
@@ -14,16 +20,23 @@ int main(int argc, char *argv[])
 	QApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
 
 	QApplication a(argc, argv);
-//	const auto fusion = QStyleFactory::create( "Fusion" );
-//	QApplication::setStyle( fusion );
+
+	SettingIO settings;
+	settings.beginGroup(SETTINGS_GROUP);
+	QString language = "CaX_" + settings.value("cax_language").toString();
+	settings.endGroup();
+
+	QTranslator translator;
+	QString transPath = QCoreApplication::applicationDirPath() + "/translations/";
+	if (QDir(transPath).exists())
+	{
+		if (translator.load(language, transPath))
+		{
+			a.installTranslator(&translator);
+		}
+	}
 
 	MainWindow w;
-	QSharedMemory shared(STR_ORGANIZATION);
-	if(!shared.create(512, QSharedMemory::ReadWrite))
-	{
-//		QMessageBox::information(&w,QObject::tr("타이틀"),QObject::tr("메세지"),QMessageBox::Ok);
-		exit(0);
-	}
 	w.show();
 	return a.exec();
 }

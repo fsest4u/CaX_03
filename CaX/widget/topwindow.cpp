@@ -191,6 +191,9 @@ void TopWindow::SetSideMenu(QMap<int, QString> map)
 		case SIDEMENU_POWER_OFF:
 			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuPowerOff()));
 			break;
+		case SIDEMENU_LANGUAGE:
+			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuLanguage()));
+			break;
 		case SIDEMENU_ABOUT:
 			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuAbout()));
 			break;
@@ -391,6 +394,12 @@ void TopWindow::SlotSideMenuPowerOff()
 {
 	m_SideMenu->close();
 	emit SigSideMenuAction(SIDEMENU_POWER_OFF);
+}
+
+void TopWindow::SlotSideMenuLanguage()
+{
+	m_SideMenu->close();
+	emit SigSideMenuAction(SIDEMENU_LANGUAGE);
 }
 
 void TopWindow::SlotSideMenuAbout()
