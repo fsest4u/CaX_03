@@ -333,13 +333,13 @@ void PlaylistManager::ParseTrackList(CJsonNode node)
 	CJsonNode result = node.GetArray(VAL_RESULT);
 	if (result.ArraySize() <= 0)
 	{
-		if (!message.toLower().contains("not found"))
+		if (message.toLower().contains("not found"))
 		{
-			emit SigRespError(message.left(MSG_LIMIT_COUNT));
+			emit SigRespError("");
 		}
 		else
 		{
-//			emit SigRefresh();
+			emit SigRespError(message.left(MSG_LIMIT_COUNT));
 		}
 		return;
 	}

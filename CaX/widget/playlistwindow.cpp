@@ -174,13 +174,25 @@ void PlaylistWindow::SlotRespError(QString errMsg)
 		m_Loading = nullptr;
 	}
 
-	CommonDialog dialog(this, STR_WARNING, errMsg);
-	dialog.exec();
+	if (!errMsg.isEmpty())
+	{
+		CommonDialog dialog(this, STR_WARNING, errMsg);
+		dialog.exec();
+	}
 }
 
 void PlaylistWindow::SlotRefresh(CJsonNode node)
 {
 	Q_UNUSED(node)
+
+	if (m_ListMode == VIEW_MODE_ICON)
+	{
+		m_pIconTracks->ClearNodeList();
+	}
+	else
+	{
+		m_pListTracks->ClearNodeList();
+	}
 
 	if (m_TypeMode == TYPE_MODE_TRACK)
 	{
