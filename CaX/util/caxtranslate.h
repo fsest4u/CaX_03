@@ -16,10 +16,11 @@
 #define STR_CRITICAL				QObject::tr("")
 
 #define STR_COMING_SOON				QObject::tr("Coming soon")
-#define STR_RESTART_APP				QObject::tr("Change will take effect when you restart Music X Neo.")
+#define STR_CONFIRM_HERE			QObject::tr("Do you want the selected files to the this folder?")
 #define STR_ENTER_SEARCH_WORD		QObject::tr("Please enter a search term of at least 2 characters")
 #define STR_INSERT_CD				QObject::tr("Please insert a CD")
 #define STR_NO_DEVICES				QObject::tr("No devices found")
+#define STR_RESTART_APP				QObject::tr("Change will take effect when you restart Music X Neo.")
 #define STR_SELECT_ONE_ITEM			QObject::tr("Please select only one item")
 #define	STR_UPDATE_FIRMWARE			QObject::tr("Update to the latest firmware (current version: %1)")
 

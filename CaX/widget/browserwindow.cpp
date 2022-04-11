@@ -1283,18 +1283,22 @@ void BrowserWindow::DoTopMenuCopy(bool move)
 
 void BrowserWindow::DoTopMenuCopyHere(bool move)
 {
-	if (BROWSER_MODE_COPY == m_BrowserMode
-			|| BROWSER_MODE_MOVE == m_BrowserMode)
+	CommonDialog dialog(this, STR_WARNING, STR_CONFIRM_HERE);
+	if (dialog.exec() == QDialog::Accepted)
 	{
-		emit SigCopyHere(move, m_Root);
-	}
-	else if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
-			 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
+		if (BROWSER_MODE_COPY == m_BrowserMode
+				|| BROWSER_MODE_MOVE == m_BrowserMode)
+		{
+			emit SigCopyHere(move, m_Root);
+		}
+		else if (BROWSER_MODE_COPY_OPTION == m_BrowserMode
+				 || BROWSER_MODE_MOVE_OPTION == m_BrowserMode)
 
-	{
-		emit SigCopyHere(move, m_Root, m_OptionPath, m_OptionType);
+		{
+			emit SigCopyHere(move, m_Root, m_OptionPath, m_OptionType);
+		}
+		emit SigRemoveWidget(this);
 	}
-	emit SigRemoveWidget(this);
 }
 
 void BrowserWindow::DoTopMenuSearchCoverArt()
