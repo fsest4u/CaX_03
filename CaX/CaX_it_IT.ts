@@ -615,6 +615,14 @@
     </message>
 </context>
 <context>
+    <name>LanguageDialog</name>
+    <message>
+        <location filename="dialog/languagedialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished">Dialog</translation>
+    </message>
+</context>
+<context>
     <name>LimitCountDialog</name>
     <message>
         <location filename="dialog/limitcountdialog.ui" line="14"/>
@@ -1009,622 +1017,632 @@
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="19"/>
+        <source>Change will take effect when you restart Music X Neo.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="20"/>
         <source>Please enter a search term of at least 2 characters</source>
         <translation>Inserisci un termine di ricerca di almeno 2 caratteri</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="20"/>
+        <location filename="util/caxtranslate.h" line="21"/>
         <source>Please insert a CD</source>
         <translation>Inserire un CD</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="21"/>
+        <location filename="util/caxtranslate.h" line="22"/>
         <source>No devices found</source>
         <translation>Nessun dispositivo trovato</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="22"/>
+        <location filename="util/caxtranslate.h" line="23"/>
         <source>Please select only one item</source>
         <translation>Si prega di selezionare solo un elemento</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="23"/>
+        <location filename="util/caxtranslate.h" line="24"/>
         <source>Update to the latest firmware (current version: %1)</source>
         <translation>Aggiornare all&apos;ultimo firmware (versione attuale: %1)</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="29"/>
+        <location filename="util/caxtranslate.h" line="30"/>
         <source>Add to device</source>
         <translation>Aggiungi al dispositivo</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="30"/>
+        <location filename="util/caxtranslate.h" line="31"/>
         <source>Album info</source>
         <translation>Info album</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="31"/>
+        <location filename="util/caxtranslate.h" line="32"/>
         <source>Can&apos;t delete Auto Play</source>
         <translation>Impossibile eliminare la riproduzione automatica</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="32"/>
+        <location filename="util/caxtranslate.h" line="33"/>
         <source>Can&apos;t rename Auto Play</source>
         <translation>Impossibile rinominare Auto Play</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="33"/>
+        <location filename="util/caxtranslate.h" line="34"/>
         <source>Do you want to power off?</source>
         <translation>Vuoi spegnere?</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="34"/>
+        <location filename="util/caxtranslate.h" line="35"/>
         <source>New playlist is made</source>
         <translation>La nuova playlist è fatta</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="35"/>
+        <location filename="util/caxtranslate.h" line="36"/>
         <source>No select</source>
         <translation>Nessuna selezione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="36"/>
+        <location filename="util/caxtranslate.h" line="37"/>
         <source>Power off Others</source>
         <translation>Spegnimento Altri</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="37"/>
+        <location filename="util/caxtranslate.h" line="38"/>
         <source>Select only one item</source>
         <translation>Seleziona solo una voce</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="38"/>
+        <location filename="util/caxtranslate.h" line="39"/>
         <source>Tag info</source>
         <translation>Tag info</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="39"/>
+        <location filename="util/caxtranslate.h" line="40"/>
         <source>Track info</source>
         <translation>Info brano</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="40"/>
+        <location filename="util/caxtranslate.h" line="41"/>
         <source>Wake on lan</source>
         <translation>Wake on lan</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="46"/>
+        <location filename="util/caxtranslate.h" line="47"/>
         <source>invalid command id</source>
         <translation>id comando non valido</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="47"/>
+        <location filename="util/caxtranslate.h" line="48"/>
         <source>invalid json</source>
         <translation>json non valido</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="48"/>
+        <location filename="util/caxtranslate.h" line="49"/>
         <source>unknown error</source>
         <translation>errore sconosciuto</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="49"/>
+        <location filename="util/caxtranslate.h" line="50"/>
         <source>no result</source>
         <translation>nessun risultato</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="55"/>
+        <location filename="util/caxtranslate.h" line="56"/>
         <source>Music DB</source>
         <translation>Music DB</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="56"/>
+        <location filename="util/caxtranslate.h" line="57"/>
         <source>Audio CD</source>
         <translation>CD Audio</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="57"/>
+        <location filename="util/caxtranslate.h" line="58"/>
         <source>Playlist</source>
         <translation>Playlist</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="58"/>
+        <location filename="util/caxtranslate.h" line="59"/>
         <source>Browser</source>
         <translation>Browser</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="59"/>
+        <location filename="util/caxtranslate.h" line="60"/>
         <source>Internet service</source>
         <translation>Servizi Internet</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="60"/>
+        <location filename="util/caxtranslate.h" line="61"/>
         <source>Input</source>
         <translation>Ingresso</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="61"/>
+        <location filename="util/caxtranslate.h" line="62"/>
         <source>FM radio</source>
         <translation>Radio FM</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="62"/>
+        <location filename="util/caxtranslate.h" line="63"/>
         <source>DAB radio</source>
         <translation>Radio DAB</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="63"/>
+        <location filename="util/caxtranslate.h" line="64"/>
         <source>Group play</source>
         <translation>Group Play</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="64"/>
+        <location filename="util/caxtranslate.h" line="65"/>
         <source>Setup</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="65"/>
+        <location filename="util/caxtranslate.h" line="66"/>
         <source>Select device</source>
         <translation>Seleziona dispositivo</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="66"/>
+        <location filename="util/caxtranslate.h" line="67"/>
         <source>Power on</source>
         <translation>Accendi</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="67"/>
+        <location filename="util/caxtranslate.h" line="68"/>
         <source>Power off</source>
         <translation>Spegni</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="68"/>
+        <location filename="util/caxtranslate.h" line="69"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="70"/>
         <source>About</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="69"/>
+        <location filename="util/caxtranslate.h" line="71"/>
         <source>Search</source>
         <translation>Cerca</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="70"/>
+        <location filename="util/caxtranslate.h" line="72"/>
         <source>Now play</source>
         <translation>In riproduzione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="72"/>
+        <location filename="util/caxtranslate.h" line="74"/>
         <source>Available</source>
         <translation>Disponibile</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="73"/>
+        <location filename="util/caxtranslate.h" line="75"/>
         <source>Not available</source>
         <translation>Non disponibile</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="80"/>
+        <location filename="util/caxtranslate.h" line="82"/>
         <source>Add new station</source>
         <translation>Aggiungi nuova stazione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="81"/>
+        <location filename="util/caxtranslate.h" line="83"/>
         <source>Add playlist</source>
         <translation>Aggiungi playlist</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="82"/>
+        <location filename="util/caxtranslate.h" line="84"/>
         <source>Add share</source>
         <translation>Aggiungi condivisione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="83"/>
+        <location filename="util/caxtranslate.h" line="85"/>
         <source>Add to favorite</source>
         <translation>Aggiungi a preferiti</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="84"/>
+        <location filename="util/caxtranslate.h" line="86"/>
         <source>Add to playlist</source>
         <translation>Aggiungi a playlist</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="85"/>
+        <location filename="util/caxtranslate.h" line="87"/>
         <source>CD ripping</source>
         <translation>CD Ripping</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="86"/>
+        <location filename="util/caxtranslate.h" line="88"/>
         <source>Change meta info</source>
         <translation>Modifica meta informazioni</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="87"/>
+        <location filename="util/caxtranslate.h" line="89"/>
         <source>Clear all</source>
         <translation>Pulisci tutto</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="88"/>
+        <location filename="util/caxtranslate.h" line="90"/>
         <source>Clear and seek all</source>
         <translation>Pulisci e cerca da capo</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="89"/>
+        <location filename="util/caxtranslate.h" line="91"/>
         <source>Convert audio format</source>
         <translation>Converti formato audio</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="90"/>
-        <location filename="util/caxtranslate.h" line="193"/>
+        <location filename="util/caxtranslate.h" line="92"/>
+        <location filename="util/caxtranslate.h" line="195"/>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="91"/>
+        <location filename="util/caxtranslate.h" line="93"/>
         <source>Copy here</source>
         <translation>Copia qui</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="92"/>
+        <location filename="util/caxtranslate.h" line="94"/>
         <source>Delete</source>
         <translation>Cancella</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="93"/>
+        <location filename="util/caxtranslate.h" line="95"/>
         <source>Delete playlist</source>
         <translation>Cancella playlist</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="95"/>
+        <location filename="util/caxtranslate.h" line="97"/>
         <source>Delete track from playlist</source>
         <translation>Cancella brano dalla playlist</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="96"/>
+        <location filename="util/caxtranslate.h" line="98"/>
         <source>Delete from play queue</source>
         <translation>Cancella dalla coda di riproduzione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="97"/>
+        <location filename="util/caxtranslate.h" line="99"/>
         <source>Delete share</source>
         <translation>Cancella condivisione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="98"/>
+        <location filename="util/caxtranslate.h" line="100"/>
         <source>Delete to favorite</source>
         <translation>Cancella da preferiti</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="99"/>
+        <location filename="util/caxtranslate.h" line="101"/>
         <source>Edit</source>
         <translation>Modifica</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="100"/>
+        <location filename="util/caxtranslate.h" line="102"/>
         <source>Edit tag</source>
         <translation>Modifica tag</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="101"/>
+        <location filename="util/caxtranslate.h" line="103"/>
         <source>Eject CD</source>
         <translation>Espelli CD</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="102"/>
+        <location filename="util/caxtranslate.h" line="104"/>
         <source>Export track</source>
         <translation>Esporta brano</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="104"/>
+        <location filename="util/caxtranslate.h" line="106"/>
         <source>Replaygain</source>
         <translation>Replaygain</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="105"/>
+        <location filename="util/caxtranslate.h" line="107"/>
         <source>Clear replaygain</source>
         <translation>Pulisci replaygain</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="106"/>
+        <location filename="util/caxtranslate.h" line="108"/>
         <source>Go to album</source>
         <translation>Vai all&apos;album</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="107"/>
+        <location filename="util/caxtranslate.h" line="109"/>
         <source>Go to artist</source>
         <translation>Vai all&apos;artista</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="108"/>
+        <location filename="util/caxtranslate.h" line="110"/>
         <source>Load count</source>
         <translation>Carica numero</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="111"/>
+        <location filename="util/caxtranslate.h" line="113"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="112"/>
+        <location filename="util/caxtranslate.h" line="114"/>
         <source>Modify share</source>
         <translation>Modifica condivisione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="113"/>
-        <location filename="util/caxtranslate.h" line="194"/>
+        <location filename="util/caxtranslate.h" line="115"/>
+        <location filename="util/caxtranslate.h" line="196"/>
         <source>Move</source>
         <translation>Sposta</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="114"/>
+        <location filename="util/caxtranslate.h" line="116"/>
         <source>Move here</source>
         <translation>Sposta qui</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="115"/>
+        <location filename="util/caxtranslate.h" line="117"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="116"/>
+        <location filename="util/caxtranslate.h" line="118"/>
         <source>on</source>
         <translation>acceso</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="117"/>
+        <location filename="util/caxtranslate.h" line="119"/>
         <source>off</source>
         <translation>spento</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="118"/>
+        <location filename="util/caxtranslate.h" line="120"/>
         <source>Play subdirectories</source>
         <translation>Riproduci sottocartelle</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="119"/>
+        <location filename="util/caxtranslate.h" line="121"/>
         <source>Overwrite</source>
         <translation>Sovrascrivi</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="120"/>
+        <location filename="util/caxtranslate.h" line="122"/>
         <source>Play now</source>
         <translation>Riproduci ora</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="121"/>
+        <location filename="util/caxtranslate.h" line="123"/>
         <source>Play last</source>
         <translation>Riproduci per ultimo</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="122"/>
+        <location filename="util/caxtranslate.h" line="124"/>
         <source>Play next</source>
         <translation>Riproduci per successivo</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="123"/>
+        <location filename="util/caxtranslate.h" line="125"/>
         <source>Clear &amp;&amp; Play</source>
         <translation>Pulisci &amp;&amp; Riproduci</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="124"/>
+        <location filename="util/caxtranslate.h" line="126"/>
         <source>Reload</source>
         <translation>Ricarica</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="125"/>
+        <location filename="util/caxtranslate.h" line="127"/>
         <source>Remove favorite</source>
         <translation>Rimuovi preferiti</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="126"/>
+        <location filename="util/caxtranslate.h" line="128"/>
         <source>Rename</source>
         <translation>Rinomina</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="128"/>
+        <location filename="util/caxtranslate.h" line="130"/>
         <source>Reservation recording list</source>
         <translation>Lista di registrazioni programmate</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="129"/>
+        <location filename="util/caxtranslate.h" line="131"/>
         <source>Scan Music DB</source>
         <translation>Scansione Music DB</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="130"/>
+        <location filename="util/caxtranslate.h" line="132"/>
         <source>Remove from Music DB</source>
         <translation>Rimuovi dal Music DB</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="131"/>
+        <location filename="util/caxtranslate.h" line="133"/>
         <source>Search coverart</source>
         <translation>Cerca copertina</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="132"/>
+        <location filename="util/caxtranslate.h" line="134"/>
         <source>Seek all</source>
         <translation>Cerca tutto</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="133"/>
+        <location filename="util/caxtranslate.h" line="135"/>
         <source>Select all</source>
         <translation>Seleziona tutto</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="134"/>
+        <location filename="util/caxtranslate.h" line="136"/>
         <source>Select coverart</source>
         <translation>Seleziona copertina</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="135"/>
+        <location filename="util/caxtranslate.h" line="137"/>
         <source>Setup reservation recording</source>
         <translation>Imposta registrazione programmata</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="136"/>
+        <location filename="util/caxtranslate.h" line="138"/>
         <source>Show columns</source>
         <translation>Mostra colonne</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="137"/>
+        <location filename="util/caxtranslate.h" line="139"/>
         <source>Tag edit</source>
         <translation>Modifica Tag</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="138"/>
+        <location filename="util/caxtranslate.h" line="140"/>
         <source>Title</source>
         <translation>Titolo</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="144"/>
+        <location filename="util/caxtranslate.h" line="146"/>
         <source>Audio format</source>
         <translation>Formato Audio</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="145"/>
+        <location filename="util/caxtranslate.h" line="147"/>
         <source>Most played</source>
         <translation>Più ascoltati</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="147"/>
+        <location filename="util/caxtranslate.h" line="149"/>
         <source>Top 10</source>
         <translation>Top 10</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="148"/>
+        <location filename="util/caxtranslate.h" line="150"/>
         <source>Top 25</source>
         <translation>Top 25</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="149"/>
+        <location filename="util/caxtranslate.h" line="151"/>
         <source>Top 50</source>
         <translation>Top 50</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="150"/>
+        <location filename="util/caxtranslate.h" line="152"/>
         <source>Top 100</source>
         <translation>Top 100</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="157"/>
+        <location filename="util/caxtranslate.h" line="159"/>
         <source>Sorted by imported date</source>
         <translation>Ordina per data di importazione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="158"/>
+        <location filename="util/caxtranslate.h" line="160"/>
         <source>Sorted by alphabet</source>
         <translation>Ordine alfabetico</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="159"/>
+        <location filename="util/caxtranslate.h" line="161"/>
         <source>Sorted by favorite</source>
         <translation>Ordina per preferiti</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="161"/>
+        <location filename="util/caxtranslate.h" line="163"/>
         <source>Sorted by rating</source>
         <translation>Ordina per valutazione</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="164"/>
-        <location filename="util/caxtranslate.h" line="180"/>
+        <location filename="util/caxtranslate.h" line="166"/>
+        <location filename="util/caxtranslate.h" line="182"/>
         <source>Track</source>
         <translation>Traccia</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="165"/>
-        <location filename="util/caxtranslate.h" line="172"/>
+        <location filename="util/caxtranslate.h" line="167"/>
+        <location filename="util/caxtranslate.h" line="174"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="166"/>
-        <location filename="util/caxtranslate.h" line="174"/>
+        <location filename="util/caxtranslate.h" line="168"/>
+        <location filename="util/caxtranslate.h" line="176"/>
         <source>Artist</source>
         <translation>Artista</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="173"/>
+        <location filename="util/caxtranslate.h" line="175"/>
         <source>Album Artist</source>
         <translation>Album Artista</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="175"/>
+        <location filename="util/caxtranslate.h" line="177"/>
         <source>Composer</source>
         <translation>Compositore</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="176"/>
+        <location filename="util/caxtranslate.h" line="178"/>
         <source>Genre</source>
         <translation>Genere</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="177"/>
+        <location filename="util/caxtranslate.h" line="179"/>
         <source>Mood</source>
         <translation>Mood</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="178"/>
+        <location filename="util/caxtranslate.h" line="180"/>
         <source>Folder</source>
         <translation>Cartella</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="179"/>
+        <location filename="util/caxtranslate.h" line="181"/>
         <source>Year</source>
         <translation>Anno</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="186"/>
+        <location filename="util/caxtranslate.h" line="188"/>
         <source>Auto Play</source>
         <translation>Auto Play</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="200"/>
+        <location filename="util/caxtranslate.h" line="202"/>
         <source>Recommend</source>
         <translation>Suggerisci</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="103"/>
-        <location filename="util/caxtranslate.h" line="201"/>
+        <location filename="util/caxtranslate.h" line="105"/>
+        <location filename="util/caxtranslate.h" line="203"/>
         <source>Favorite</source>
         <translation>Preferiti</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="109"/>
+        <location filename="util/caxtranslate.h" line="111"/>
         <source>Make a folder</source>
         <translation>Crea cartella</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="110"/>
+        <location filename="util/caxtranslate.h" line="112"/>
         <source>Make a new playlist</source>
         <translation>Crea una nuova playlist</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="208"/>
+        <location filename="util/caxtranslate.h" line="210"/>
         <source>My radio</source>
         <translation>La mia Radio</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="214"/>
+        <location filename="util/caxtranslate.h" line="216"/>
         <source>Stereo</source>
         <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="215"/>
+        <location filename="util/caxtranslate.h" line="217"/>
         <source>Left</source>
         <translation>Sinistro</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="216"/>
+        <location filename="util/caxtranslate.h" line="218"/>
         <source>Right</source>
         <translation>Destro</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="222"/>
+        <location filename="util/caxtranslate.h" line="224"/>
         <source>Search results for &quot;%1&quot;</source>
         <translation>Cerca risultato per &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="231"/>
+        <location filename="util/caxtranslate.h" line="233"/>
         <source>Unknown</source>
         <translation>Sconosciuto</translation>
     </message>

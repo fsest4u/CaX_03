@@ -902,5 +902,8 @@
         <file>resource/mqa_blue.png</file>
         <file>resource/mqa_green.png</file>
         <file>resource/loading.gif</file>
+        <file>resource/submenu-icon40-language.png</file>
+        <file>resource/submenu-icon40-language@2x.png</file>
+        <file>resource/submenu-icon40-language@3x.png</file>
     </qresource>
 </RCC>

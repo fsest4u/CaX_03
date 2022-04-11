@@ -206,7 +206,7 @@ QString UtilNovatron::GetSideMenuIcon(QString value)
 	}
 	else if (value.contains(STR_LANGUAGE))
 	{
-		return (":/resource/submenu-icon40-aboutmusicx.png");
+		return (":/resource/submenu-icon40-language.png");
 	}
 	else if (value.contains(STR_ABOUT))
 	{
