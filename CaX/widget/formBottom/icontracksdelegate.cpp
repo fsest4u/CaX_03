@@ -127,7 +127,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QRect rectSubtitle = QRect(rectBase.x(), rectTitle.y() + fmTitle.height(), rectCover.width(), fmSubtitle.height());
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
-	LogDebug("base x [%d] y [%d] w[%d] h[%d]", rectBase.x(), rectBase.y(), rectBase.width(), rectBase.height());
+//	LogDebug("base x [%d] y [%d] w[%d] h[%d]", rectBase.x(), rectBase.y(), rectBase.width(), rectBase.height());
 //	painter->drawRect(rectOrig);
 //	painter->drawRect(rectCheck);
 //	painter->drawRect(rectPlay);

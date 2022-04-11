@@ -49,14 +49,14 @@
     <widget class="QFrame" name="frameFormTitle">
      <property name="minimumSize">
       <size>
-       <width>300</width>
-       <height>70</height>
+       <width>0</width>
+       <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>300</width>
-       <height>70</height>
+       <width>16777215</width>
+       <height>16777215</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -153,8 +153,8 @@ border: 0px;
     <widget class="QFrame" name="frame_3">
      <property name="minimumSize">
       <size>
-       <width>60</width>
-       <height>60</height>
+       <width>0</width>
+       <height>0</height>
       </size>
      </property>
      <property name="frameShape">
