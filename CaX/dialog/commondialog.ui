@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>150</height>
+    <width>400</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -53,8 +53,8 @@ QWidget
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>282</width>
-        <height>94</height>
+        <width>382</width>
+        <height>194</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
@@ -62,6 +62,9 @@ QWidget
         <widget class="QLabel" name="labelContent">
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

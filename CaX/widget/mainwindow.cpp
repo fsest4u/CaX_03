@@ -1,3 +1,5 @@
+#include <QProcess>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -1164,7 +1166,12 @@ void MainWindow::DoLanguage()
 		WriteSettings();
 
 		CommonDialog dialog(this, STR_WARNING, STR_RESTART_APP);
-		dialog.exec();
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			// restart:
+			qApp->quit();
+			QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
+		}
 	}
 }
 
