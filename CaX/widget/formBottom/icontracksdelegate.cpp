@@ -83,12 +83,25 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QFont fontCount("Segoe UI", 12, QFont::Normal, false);
 	QFont fontTitle("Segoe UI", 14, QFont::Bold, false);
 	QFont fontSubtitle("Segoe UI", 14, QFont::Normal, false);
+
+	QRect rectOrig = option.rect;
+	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
+
+	if (rectBase.height() < 190)
+	{
+		fontTitle.setPointSize(10);
+		fontSubtitle.setPointSize(10);
+	}
+	else
+	{
+		fontTitle.setPointSize(14);
+		fontSubtitle.setPointSize(14);
+	}
+
 	QFontMetrics fmCount(fontCount);
 	QFontMetrics fmTitle(fontTitle);
 	QFontMetrics fmSubtitle(fontSubtitle);
 
-	QRect rectOrig = option.rect;
-	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 	QRect rectCover = QRect(rectBase.x(), rectBase.y(), rectBase.width() * 0.9, rectBase.width() * 0.9);
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 30 - 2, rectCover.y() + 2, 30, 30);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() - 30 -2, rectCover.y() + rectCover.height() - 30 - 2, 30, 30);
