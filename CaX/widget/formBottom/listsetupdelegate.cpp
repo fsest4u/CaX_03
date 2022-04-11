@@ -114,15 +114,16 @@ bool ListSetupDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
 				//if (rectTitle.contains(curPoint))
 				{
 					emit SigSelectMenu(index, curPoint);
-					return true;
 				}
 			}
-
+		}
+		else
+		{
+			return true;
 		}
 	}
 
-//	return QStyledItemDelegate::editorEvent(event, model, option, index);
-	return true;
+	return QStyledItemDelegate::editorEvent(event, model, option, index);
 }
 
 //void ListSetupDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const

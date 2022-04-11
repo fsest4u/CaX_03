@@ -140,6 +140,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			m_MenuSub->addAction(action);
 		}
 
+		point.setX(m_pListSetup->GetListViewSub()->viewport()->rect().width() - (260 + 20 + 30));
 		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(point));
 	}
 	else if (type & iAppSetupType_Mask_List)
@@ -176,6 +177,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			m_MenuSub->addAction(action);
 		}
 
+		point.setX(m_pListSetup->GetListViewSub()->viewport()->rect().width() - (260 + 20 + 30));
 		m_MenuSub->popup(m_pListSetup->GetListViewSub()->viewport()->mapToGlobal(point));
 	}
 	else if (type & iAppSetupType_Mask_Exec

@@ -622,7 +622,7 @@ void BrowserWidget::Initialize()
 								background: rgba(201,237,248,255);	\
 							}");
 
-							m_Menu->setStyleSheet(style);
+	m_Menu->setStyleSheet(style);
 }
 
 void BrowserWidget::SetCategoryList(QList<CJsonNode> list)
