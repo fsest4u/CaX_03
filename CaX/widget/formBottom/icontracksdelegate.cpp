@@ -87,10 +87,25 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QRect rectOrig = option.rect;
 	QRect rectBase = QRect(rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height());
 
-	if (rectBase.height() < 190)
+	if (rectBase.height() < 150)
 	{
 		fontTitle.setPointSize(10);
 		fontSubtitle.setPointSize(10);
+	}
+	else if (rectBase.height() < 190)
+	{
+		fontTitle.setPointSize(11);
+		fontSubtitle.setPointSize(11);
+	}
+	else if (rectBase.height() < 230)
+	{
+		fontTitle.setPointSize(12);
+		fontSubtitle.setPointSize(12);
+	}
+	else if (rectBase.height() < 280)
+	{
+		fontTitle.setPointSize(13);
+		fontSubtitle.setPointSize(13);
 	}
 	else
 	{
@@ -112,7 +127,7 @@ void IconTracksDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	QRect rectSubtitle = QRect(rectBase.x(), rectTitle.y() + fmTitle.height(), rectCover.width(), fmSubtitle.height());
 
 //	LogDebug("orig x [%d] y [%d] w[%d] h[%d] row [%d]", rectOrig.x(), rectOrig.y(), rectOrig.width(), rectOrig.height(), index.row());
-//	LogDebug("base x [%d] y [%d] w[%d] h[%d]", rectBase.x(), rectBase.y(), rectBase.width(), rectBase.height());
+	LogDebug("base x [%d] y [%d] w[%d] h[%d]", rectBase.x(), rectBase.y(), rectBase.width(), rectBase.height());
 //	painter->drawRect(rectOrig);
 //	painter->drawRect(rectCheck);
 //	painter->drawRect(rectPlay);
