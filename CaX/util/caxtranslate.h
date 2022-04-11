@@ -22,6 +22,7 @@
 #define STR_NO_DEVICES				QObject::tr("No devices found")
 #define STR_RESTART_APP				QObject::tr("Change will take effect when you restart Music X Neo.")
 #define STR_SELECT_ONE_ITEM			QObject::tr("Please select only one item")
+#define STR_SELECT_TARGET_STORAGE	QObject::tr("Select target storage")
 #define	STR_UPDATE_FIRMWARE			QObject::tr("Update to the latest firmware (current version: %1)")
 
 //////////////////////////////////////////////////

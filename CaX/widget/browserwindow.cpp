@@ -1262,23 +1262,27 @@ void BrowserWindow::DoTopMenuDelete()
 
 void BrowserWindow::DoTopMenuCopy(bool move)
 {
-	int mode = BROWSER_MODE_MAX;
-	QString title;
-	if (move)
+	CommonDialog dialog(this, STR_WARNING, STR_SELECT_TARGET_STORAGE);
+	if (dialog.exec() == QDialog::Accepted)
 	{
-		mode = BROWSER_MODE_MOVE;
-		title = STR_MOVE;
-	}
-	else
-	{
-		mode = BROWSER_MODE_COPY;
-		title = STR_COPY;
-	}
+		int mode = BROWSER_MODE_MAX;
+		QString title;
+		if (move)
+		{
+			mode = BROWSER_MODE_MOVE;
+			title = STR_MOVE;
+		}
+		else
+		{
+			mode = BROWSER_MODE_COPY;
+			title = STR_COPY;
+		}
 
-	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->SetBrowserMode(mode);
-	emit widget->SigAddWidget(widget, STR_BROWSER);
-	widget->RequestRoot();
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->SetBrowserMode(mode);
+		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->RequestRoot();
+	}
 }
 
 void BrowserWindow::DoTopMenuCopyHere(bool move)
@@ -1573,23 +1577,27 @@ void BrowserWindow::DoOptionMenuDelete(QString path, int type)
 
 void BrowserWindow::DoOptionMenuCopy(QString path, int type, bool move)
 {
-	int mode = BROWSER_MODE_MAX;
-	QString title;
-	if (move)
+	CommonDialog dialog(this, STR_WARNING, STR_SELECT_TARGET_STORAGE);
+	if (dialog.exec() == QDialog::Accepted)
 	{
-		mode = BROWSER_MODE_MOVE_OPTION;
-		title = STR_MOVE;
-	}
-	else
-	{
-		mode = BROWSER_MODE_COPY_OPTION;
-		title = STR_COPY;
-	}
+		int mode = BROWSER_MODE_MAX;
+		QString title;
+		if (move)
+		{
+			mode = BROWSER_MODE_MOVE_OPTION;
+			title = STR_MOVE;
+		}
+		else
+		{
+			mode = BROWSER_MODE_COPY_OPTION;
+			title = STR_COPY;
+		}
 
-	BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
-	widget->SetBrowserMode(mode, path, type);
-	emit widget->SigAddWidget(widget, STR_BROWSER);
-	widget->RequestRoot();
+		BrowserWindow *widget = new BrowserWindow(this, m_pMgr->GetAddr(), m_EventID);
+		widget->SetBrowserMode(mode, path, type);
+		emit widget->SigAddWidget(widget, STR_BROWSER);
+		widget->RequestRoot();
+	}
 }
 
 //void BrowserWindow::DoOptionMenuCopyHere(QString path, bool move)
