@@ -9,6 +9,7 @@
 
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
+#include "util/caxtranslate.h"
 #include "util/log.h"
 #include "util/settingio.h"
 #include "util/utilnovatron.h"
@@ -698,25 +699,25 @@ void TableTracks::Initialize()
 	m_Model->setHeaderData(TABLE_TRACKS_SELECT, Qt::Horizontal, "");
 	m_Model->setHeaderData(TABLE_TRACKS_COVER, Qt::Horizontal, "");
 	m_Model->setHeaderData(TABLE_TRACKS_PLAY, Qt::Horizontal, "");
-	m_Model->setHeaderData(TABLE_TRACKS_TITLE, Qt::Horizontal, KEY_TITLE_CAP);
-	m_Model->setHeaderData(TABLE_TRACKS_FAVORITE, Qt::Horizontal, KEY_FAVORITE_CAP);
-	m_Model->setHeaderData(TABLE_TRACKS_RATING, Qt::Horizontal, KEY_RATING_CAP);
-	m_Model->setHeaderData(TABLE_TRACKS_TIME, Qt::Horizontal, KEY_TIME_CAP);
-	m_Model->setHeaderData(TABLE_TRACKS_ARTIST, Qt::Horizontal, KEY_ARTIST);
-	m_Model->setHeaderData(TABLE_TRACKS_ALBUM, Qt::Horizontal, KEY_ALBUM);
-	m_Model->setHeaderData(TABLE_TRACKS_GENRE, Qt::Horizontal, KEY_GENRE);
-	m_Model->setHeaderData(TABLE_TRACKS_ALBUM_ARTIST, Qt::Horizontal, KEY_ALBUM_ARTIST);
-	m_Model->setHeaderData(TABLE_TRACKS_COMPOSER, Qt::Horizontal, KEY_COMPOSER);
-	m_Model->setHeaderData(TABLE_TRACKS_YEAR, Qt::Horizontal, KEY_YEAR);
+	m_Model->setHeaderData(TABLE_TRACKS_TITLE, Qt::Horizontal, STR_TITLE);
+	m_Model->setHeaderData(TABLE_TRACKS_FAVORITE, Qt::Horizontal, STR_FAVORITE);
+	m_Model->setHeaderData(TABLE_TRACKS_RATING, Qt::Horizontal, STR_RATING);
+	m_Model->setHeaderData(TABLE_TRACKS_TIME, Qt::Horizontal, STR_TIME);
+	m_Model->setHeaderData(TABLE_TRACKS_ARTIST, Qt::Horizontal, STR_ARTIST);
+	m_Model->setHeaderData(TABLE_TRACKS_ALBUM, Qt::Horizontal, STR_ALBUM);
+	m_Model->setHeaderData(TABLE_TRACKS_GENRE, Qt::Horizontal, STR_GENRE);
+	m_Model->setHeaderData(TABLE_TRACKS_ALBUM_ARTIST, Qt::Horizontal, STR_ALBUM_ARTIST);
+	m_Model->setHeaderData(TABLE_TRACKS_COMPOSER, Qt::Horizontal, STR_COMPOSER);
+	m_Model->setHeaderData(TABLE_TRACKS_YEAR, Qt::Horizontal, STR_YEAR);
 
-	m_Model->setHeaderData(TABLE_TRACKS_MOOD, Qt::Horizontal, KEY_MOOD);
-	m_Model->setHeaderData(TABLE_TRACKS_TEMPO, Qt::Horizontal, KEY_TEMPO);
-	m_Model->setHeaderData(TABLE_TRACKS_FORMAT, Qt::Horizontal, KEY_FORMAT);
-	m_Model->setHeaderData(TABLE_TRACKS_SAMPLE_RATE, Qt::Horizontal, KEY_SAMPLERATE_CAP);
-	m_Model->setHeaderData(TABLE_TRACKS_BITRATE, Qt::Horizontal, KEY_BITRATE);
-	m_Model->setHeaderData(TABLE_TRACKS_TRACK_COUNT, Qt::Horizontal, KEY_TRACK);
-	m_Model->setHeaderData(TABLE_TRACKS_ALBUM_GAIN, Qt::Horizontal, KEY_ALBUM_GAIN);
-	m_Model->setHeaderData(TABLE_TRACKS_MENU, Qt::Horizontal, KEY_MENU);
+	m_Model->setHeaderData(TABLE_TRACKS_MOOD, Qt::Horizontal, STR_MOOD);
+	m_Model->setHeaderData(TABLE_TRACKS_TEMPO, Qt::Horizontal, STR_TEMPO);
+	m_Model->setHeaderData(TABLE_TRACKS_FORMAT, Qt::Horizontal, STR_FORMAT);
+	m_Model->setHeaderData(TABLE_TRACKS_SAMPLE_RATE, Qt::Horizontal, STR_SAMPLERATE);
+	m_Model->setHeaderData(TABLE_TRACKS_BITRATE, Qt::Horizontal, STR_BITRATE);
+	m_Model->setHeaderData(TABLE_TRACKS_TRACK_COUNT, Qt::Horizontal, STR_TRACK);
+	m_Model->setHeaderData(TABLE_TRACKS_ALBUM_GAIN, Qt::Horizontal, STR_ALBUM_GAIN);
+	m_Model->setHeaderData(TABLE_TRACKS_MENU, Qt::Horizontal, STR_MENU);
 
 	ui->tableView->setColumnHidden(TABLE_TRACKS_ID, true);
 //	ui->tableView->setColumnHidden(TABLE_TRACKS_SELECT, true);

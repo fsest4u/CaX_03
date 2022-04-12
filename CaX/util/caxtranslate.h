@@ -184,6 +184,18 @@
 #define STR_TRACK					QObject::tr("Track")
 
 //////////////////////////////////////////////////
+// music db
+//////////////////////////////////////////////////
+
+#define STR_ALBUM_GAIN				QObject::tr("Album Gain")
+#define STR_BITRATE					QObject::tr("Bitrate")
+#define STR_FORMAT					QObject::tr("Format")
+#define STR_RATING					QObject::tr("Rating")
+#define	STR_SAMPLERATE				QObject::tr("SampleRate")
+#define STR_TIME					QObject::tr("Time")
+#define STR_TEMPO					QObject::tr("Tempo")
+
+//////////////////////////////////////////////////
 // playlist
 //////////////////////////////////////////////////
 
