@@ -415,10 +415,10 @@ void QueueTrack::Initialize()
 								padding: 0px 0px 0px 20px;	\
 							}	\
 							QMenu::item {	\
-								width: 260px;	\
+								width: 300px;	\
 								height: 40px;	\
 								color: rgb(255, 255, 255);	\
-								font-size: 14pt;	\
+								font-size: 12pt;	\
 								padding: 0px 20px 0px 20px;	\
 							}	\
 							QMenu::item:selected {	\

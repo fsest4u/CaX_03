@@ -388,20 +388,20 @@ void FormClassify::Initialize()
 	m_Menu->addAction(m_Menu->addMenu(m_MostPlayedMenu));
 
 	QString styleCat = QString("QMenu::item {	\
-									width: 200px;	\
+									width: 300px;	\
 									height: 30px;	\
 									color: rgb(90, 91, 94);	\
-									font-size: 14pt;	\
+									font-size: 12pt;	\
 									padding: 0px 20px 0px 20px;	\
 								}	\
 								QMenu::item:selected {	\
 									background: rgba(201,237,248,255);	\
 								}");
 	QString style = QString("QMenu::item {	\
-								width: 200px;	\
-								height: 40px;	\
+								width: 300px;	\
+								height: 30px;	\
 								color: rgb(90, 91, 94);	\
-								font-size: 14pt;	\
+								font-size: 12pt;	\
 								padding: 0px 20px 0px 20px;	\
 							}	\
 							QMenu::item:selected {	\
