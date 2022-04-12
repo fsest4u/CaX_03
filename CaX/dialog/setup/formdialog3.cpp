@@ -1,7 +1,7 @@
 #include <QDesktopServices>
 
-#include "FormDialog.h"
-#include "ui_FormDialog.h"
+#include "formdialog3.h"
+#include "ui_formdialog3.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -9,9 +9,9 @@
 
 #include "widget/setup.h"
 
-FormDialog::FormDialog(QWidget *parent) :
+FormDialog3::FormDialog3(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::FormDialog)
+	ui(new Ui::FormDialog3)
 {
 	ui->setupUi(this);
 
@@ -19,28 +19,20 @@ FormDialog::FormDialog(QWidget *parent) :
 	Initialize();
 }
 
-FormDialog::~FormDialog()
+FormDialog3::~FormDialog3()
 {
 	delete ui;
 }
 
-CJsonNode FormDialog::GetNodeForm()
+CJsonNode FormDialog3::GetNodeForm()
 {
-	CJsonNode nodeFileSystem(JSON_OBJECT);
-	nodeFileSystem.Add(KEY_VALUE, ui->cbList->currentText());
-	nodeFileSystem.AddInt(KEY_INDEX, ui->cbList->currentIndex());
-
 	CJsonNode node(JSON_OBJECT);
 	node.Add(m_HiddenKey, m_HiddenValue);
-	if (!ui->frameList->isHidden())
-	{
-		node.Add(KEY_FILE_SYSTEM, nodeFileSystem);
-	}
 
 	return node;
 }
 
-void FormDialog::SetNodeForm(CJsonNode node)
+void FormDialog3::SetNodeForm(CJsonNode node)
 {
 //	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	setWindowTitle(node.GetString(KEY_TITLE_CAP));
@@ -56,7 +48,7 @@ void FormDialog::SetNodeForm(CJsonNode node)
 	SetInputs(arrNodeInput);
 }
 
-void FormDialog::accept()
+void FormDialog3::accept()
 {
 	if (iSetupBtnAction_Request == m_ActionOK
 			|| iSetupBtnAction_Event == m_ActionOK)
@@ -75,7 +67,7 @@ void FormDialog::accept()
 	}
 }
 
-void FormDialog::reject()
+void FormDialog3::reject()
 {
 	if (iSetupBtnAction_Cancel == m_ActionCancel)
 	{
@@ -83,23 +75,23 @@ void FormDialog::reject()
 	}
 }
 
-void FormDialog::ConnectSigToSlot()
+void FormDialog3::ConnectSigToSlot()
 {
 	connect(ui->btnOK, SIGNAL(clicked()), this, SLOT(accept()));
 	connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
-void FormDialog::Initialize()
+void FormDialog3::Initialize()
 {
 	ui->frame0->hide();
 	ui->frame1->hide();
-	ui->frameList->hide();
+	ui->frame2->hide();
 
 	ui->btnOK->hide();
 	ui->btnCancel->hide();
 }
 
-void FormDialog::SetOK(QString title, int action)
+void FormDialog3::SetOK(QString title, int action)
 {
 	UtilNovatron::DebugTypeForSetupBtn("SetOK", action);
 	if (!title.isEmpty())
@@ -111,7 +103,7 @@ void FormDialog::SetOK(QString title, int action)
 	}
 }
 
-void FormDialog::SetCancel(QString title, int action)
+void FormDialog3::SetCancel(QString title, int action)
 {
 	UtilNovatron::DebugTypeForSetupBtn("SetCancel", action);
 	if (!title.isEmpty())
@@ -123,7 +115,7 @@ void FormDialog::SetCancel(QString title, int action)
 	}
 }
 
-void FormDialog::SetInputs(CJsonNode node)
+void FormDialog3::SetInputs(CJsonNode node)
 {
 	CJsonNode input;
 	for (int i = 0; i < node.ArraySize(); i++)
@@ -171,6 +163,13 @@ void FormDialog::SetInputs(CJsonNode node)
 					ui->lineEdit1->setReadOnly(readOnly);
 					ui->lineEdit1->setStyleSheet(style);
 				}
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->lineEdit2->setText(labelValue);
+					ui->lineEdit2->setReadOnly(readOnly);
+					ui->lineEdit2->setStyleSheet(style);
+				}
 
 			}
 		}
@@ -190,6 +189,12 @@ void FormDialog::SetInputs(CJsonNode node)
 					ui->frame1->show();
 					ui->labelKey1->setMinimumWidth(100);
 					ui->labelKey1->setText(labelKey);
+				}
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->labelKey2->setMinimumWidth(100);
+					ui->labelKey2->setText(labelKey);
 				}
 
 			}
@@ -226,6 +231,13 @@ void FormDialog::SetInputs(CJsonNode node)
 					ui->lineEdit1->setReadOnly(readOnly);
 					ui->lineEdit1->setStyleSheet(style);
 				}
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->lineEdit2->setText(labelValue);
+					ui->lineEdit2->setReadOnly(readOnly);
+					ui->lineEdit2->setStyleSheet(style);
+				}
 
 			}
 		}
@@ -234,40 +246,6 @@ void FormDialog::SetInputs(CJsonNode node)
 			m_HiddenKey = labelKey;
 			m_HiddenValue = labelValue;
 		}
-		else if (iSetupInput_List == typeInput)
-		{
-			if (!labelKey.compare("File System"))
-			{
-				ui->frameList->show();
-				ui->labelList->setText(labelKey);
-				QStringList keys = input.GetStringList(KEY_KEYS);
-				QStringList values = input.GetStringList(KEY_VALUES);
 
-				QString key;
-				QString value;
-				for (int i = 0; i < values.count(); i++)
-				{
-					if (!keys.isEmpty() && keys.count() > i)
-					{
-						key = keys.at(i);
-					}
-					if (!values.isEmpty() && values.count() > i)
-					{
-						value = values.at(i);
-					}
-
-					if (key.isEmpty())
-					{
-						ui->cbList->addItem(value, QString::number(i));
-					}
-					else
-					{
-						ui->cbList->addItem(value, key);
-					}
-				}
-				int index = input.GetString(KEY_VALUE).toInt();
-				ui->cbList->setCurrentIndex(index);
-			}
-		}
 	}
 }

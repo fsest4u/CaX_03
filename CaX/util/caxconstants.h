@@ -125,8 +125,12 @@
 
 #define SETUP_ALRAM							"Alarm"
 #define SETUP_AUTO_SHUTDOWN					"Auto Shutdown"
+#define SETUP_CHECK_NEW_FIRMWARE			"Check now for new firmware"
 #define SETUP_CUSTOM_EQ						"Custom EQ"
+#define SETUP_GRACE_NOTE					"Gracenote"
 #define SETUP_POWER_ON_VOLUME				"Power On Volume"
+#define SETUP_WIRELESS_INFO					"Wireless Info"
+#define SETUP_WIRELESS_NETWORK				"Wireless Network"
 
 //////////////////////////////////////////////////
 // ui

@@ -46,6 +46,10 @@ SOURCES += \
     dialog/setup/analoginvolumedialog.cpp \
     dialog/setup/customeqdialog.cpp \
     dialog/setup/formdialog.cpp \
+    dialog/setup/formdialog2.cpp \
+    dialog/setup/formdialog3.cpp \
+    dialog/setup/formdialog4.cpp \
+    dialog/setup/formdialog5.cpp \
     dialog/setup/maxvolumedialog.cpp \
     dialog/setup/poweronvolumedialog.cpp \
     dialog/setup/setuplogindialog.cpp \
@@ -194,6 +198,10 @@ HEADERS += \
     dialog/setup/analoginvolumedialog.h \
     dialog/setup/customeqdialog.h \
     dialog/setup/formdialog.h \
+    dialog/setup/formdialog2.h \
+    dialog/setup/formdialog3.h \
+    dialog/setup/formdialog4.h \
+    dialog/setup/formdialog5.h \
     dialog/setup/maxvolumedialog.h \
     dialog/setup/poweronvolumedialog.h \
     dialog/setup/setuplogindialog.h \
@@ -350,6 +358,10 @@ FORMS += \
     dialog/setup/analoginvolumedialog.ui \
     dialog/setup/customeqdialog.ui \
     dialog/setup/formdialog.ui \
+    dialog/setup/formdialog2.ui \
+    dialog/setup/formdialog3.ui \
+    dialog/setup/formdialog4.ui \
+    dialog/setup/formdialog5.ui \
     dialog/setup/maxvolumedialog.ui \
     dialog/setup/poweronvolumedialog.ui \
     dialog/setup/setuplogindialog.ui \

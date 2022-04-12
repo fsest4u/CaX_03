@@ -6,7 +6,7 @@
 #include "dialog/commondialog.h"
 #include "dialog/trackinfodialog.h"
 #include "dialog/trackinfo.h"
-#include "dialog/setup/formdialog.h"
+#include "dialog/setup/formdialog5.h"
 
 #include "manager/audiocdmanager.h"
 
@@ -280,24 +280,24 @@ void AudioCDWindow::SlotRespCDRipInfo(CJsonNode node)
 	}
 	else
 	{
-		FormDialog dialog;
-		dialog.SetNodeForm(nodeForm);
-		if (dialog.exec() == QDialog::Accepted)
-		{
-			if (m_SelectMap.count() > 0)
-			{
-				m_pMgr->RequestCDRipInfo(-1, m_SelectMap, true);
-			}
-			else
-			{
-				QMap<int, int> map;
-				m_pMgr->RequestCDRipInfo(-1, map, true);
-			}
-		}
-		else
-		{
-			return;
-		}
+//		FormDialog dialog;
+//		dialog.SetNodeForm(nodeForm);
+//		if (dialog.exec() == QDialog::Accepted)
+//		{
+//			if (m_SelectMap.count() > 0)
+//			{
+//				m_pMgr->RequestCDRipInfo(-1, m_SelectMap, true);
+//			}
+//			else
+//			{
+//				QMap<int, int> map;
+//				m_pMgr->RequestCDRipInfo(-1, map, true);
+//			}
+//		}
+//		else
+//		{
+//			return;
+//		}
 	}
 
 

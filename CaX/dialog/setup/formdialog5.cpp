@@ -1,7 +1,7 @@
 #include <QDesktopServices>
 
-#include "FormDialog.h"
-#include "ui_FormDialog.h"
+#include "formdialog5.h"
+#include "ui_formdialog5.h"
 
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
@@ -9,9 +9,9 @@
 
 #include "widget/setup.h"
 
-FormDialog::FormDialog(QWidget *parent) :
+FormDialog5::FormDialog5(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::FormDialog)
+	ui(new Ui::FormDialog5)
 {
 	ui->setupUi(this);
 
@@ -19,12 +19,12 @@ FormDialog::FormDialog(QWidget *parent) :
 	Initialize();
 }
 
-FormDialog::~FormDialog()
+FormDialog5::~FormDialog5()
 {
 	delete ui;
 }
 
-CJsonNode FormDialog::GetNodeForm()
+CJsonNode FormDialog5::GetNodeForm()
 {
 	CJsonNode nodeFileSystem(JSON_OBJECT);
 	nodeFileSystem.Add(KEY_VALUE, ui->cbList->currentText());
@@ -40,7 +40,7 @@ CJsonNode FormDialog::GetNodeForm()
 	return node;
 }
 
-void FormDialog::SetNodeForm(CJsonNode node)
+void FormDialog5::SetNodeForm(CJsonNode node)
 {
 //	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	setWindowTitle(node.GetString(KEY_TITLE_CAP));
@@ -56,7 +56,7 @@ void FormDialog::SetNodeForm(CJsonNode node)
 	SetInputs(arrNodeInput);
 }
 
-void FormDialog::accept()
+void FormDialog5::accept()
 {
 	if (iSetupBtnAction_Request == m_ActionOK
 			|| iSetupBtnAction_Event == m_ActionOK)
@@ -75,7 +75,7 @@ void FormDialog::accept()
 	}
 }
 
-void FormDialog::reject()
+void FormDialog5::reject()
 {
 	if (iSetupBtnAction_Cancel == m_ActionCancel)
 	{
@@ -83,23 +83,26 @@ void FormDialog::reject()
 	}
 }
 
-void FormDialog::ConnectSigToSlot()
+void FormDialog5::ConnectSigToSlot()
 {
 	connect(ui->btnOK, SIGNAL(clicked()), this, SLOT(accept()));
 	connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
-void FormDialog::Initialize()
+void FormDialog5::Initialize()
 {
 	ui->frame0->hide();
 	ui->frame1->hide();
+	ui->frame2->hide();
+	ui->frame3->hide();
+	ui->frame4->hide();
 	ui->frameList->hide();
 
 	ui->btnOK->hide();
 	ui->btnCancel->hide();
 }
 
-void FormDialog::SetOK(QString title, int action)
+void FormDialog5::SetOK(QString title, int action)
 {
 	UtilNovatron::DebugTypeForSetupBtn("SetOK", action);
 	if (!title.isEmpty())
@@ -111,7 +114,7 @@ void FormDialog::SetOK(QString title, int action)
 	}
 }
 
-void FormDialog::SetCancel(QString title, int action)
+void FormDialog5::SetCancel(QString title, int action)
 {
 	UtilNovatron::DebugTypeForSetupBtn("SetCancel", action);
 	if (!title.isEmpty())
@@ -123,7 +126,7 @@ void FormDialog::SetCancel(QString title, int action)
 	}
 }
 
-void FormDialog::SetInputs(CJsonNode node)
+void FormDialog5::SetInputs(CJsonNode node)
 {
 	CJsonNode input;
 	for (int i = 0; i < node.ArraySize(); i++)
@@ -171,7 +174,27 @@ void FormDialog::SetInputs(CJsonNode node)
 					ui->lineEdit1->setReadOnly(readOnly);
 					ui->lineEdit1->setStyleSheet(style);
 				}
-
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->lineEdit2->setText(labelValue);
+					ui->lineEdit2->setReadOnly(readOnly);
+					ui->lineEdit2->setStyleSheet(style);
+				}
+				else if (i == 3)
+				{
+					ui->frame3->show();
+					ui->lineEdit3->setText(labelValue);
+					ui->lineEdit3->setReadOnly(readOnly);
+					ui->lineEdit3->setStyleSheet(style);
+				}
+				else if (i == 4)
+				{
+					ui->frame4->show();
+					ui->lineEdit4->setText(labelValue);
+					ui->lineEdit4->setReadOnly(readOnly);
+					ui->lineEdit4->setStyleSheet(style);
+				}
 			}
 		}
 		else if (iSetupInput_Label == typeInput
@@ -191,7 +214,24 @@ void FormDialog::SetInputs(CJsonNode node)
 					ui->labelKey1->setMinimumWidth(100);
 					ui->labelKey1->setText(labelKey);
 				}
-
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->labelKey2->setMinimumWidth(100);
+					ui->labelKey2->setText(labelKey);
+				}
+				else if (i == 3)
+				{
+					ui->frame3->show();
+					ui->labelKey3->setMinimumWidth(100);
+					ui->labelKey3->setText(labelKey);
+				}
+				else if (i == 4)
+				{
+					ui->frame4->show();
+					ui->labelKey4->setMinimumWidth(100);
+					ui->labelKey4->setText(labelKey);
+				}
 			}
 
 			if (!labelValue.isEmpty())
@@ -226,7 +266,27 @@ void FormDialog::SetInputs(CJsonNode node)
 					ui->lineEdit1->setReadOnly(readOnly);
 					ui->lineEdit1->setStyleSheet(style);
 				}
-
+				else if (i == 2)
+				{
+					ui->frame2->show();
+					ui->lineEdit2->setText(labelValue);
+					ui->lineEdit2->setReadOnly(readOnly);
+					ui->lineEdit2->setStyleSheet(style);
+				}
+				else if (i == 3)
+				{
+					ui->frame3->show();
+					ui->lineEdit3->setText(labelValue);
+					ui->lineEdit3->setReadOnly(readOnly);
+					ui->lineEdit3->setStyleSheet(style);
+				}
+				else if (i == 4)
+				{
+					ui->frame4->show();
+					ui->lineEdit4->setText(labelValue);
+					ui->lineEdit4->setReadOnly(readOnly);
+					ui->lineEdit4->setStyleSheet(style);
+				}
 			}
 		}
 		else if (iSetupInput_Hidden == typeInput)

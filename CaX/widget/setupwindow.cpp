@@ -6,6 +6,10 @@
 #include "dialog/setup/analoginvolumedialog.h"
 #include "dialog/setup/customeqdialog.h"
 #include "dialog/setup/formdialog.h"
+#include "dialog/setup/formdialog2.h"
+#include "dialog/setup/formdialog3.h"
+#include "dialog/setup/formdialog4.h"
+#include "dialog/setup/formdialog5.h"
 #include "dialog/setup/maxvolumedialog.h"
 #include "dialog/setup/poweronvolumedialog.h"
 #include "dialog/setup/setuplogindialog.h"
@@ -248,6 +252,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 			{
 				DoTimeManual(nodeForm);
 			}
+
 			else if (m_StrIDSub.contains(ID_SY_FACTORY_RESET)
 					 || m_StrIDSub.contains(ID_MDB_INIT)
 					 || m_StrIDSub.contains(ID_RIP_FREE_DB_UPDATE)
@@ -397,6 +402,63 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 				 || title.contains(SETUP_AUTO_SHUTDOWN))
 		{
 			DoAlarm(nodeForm);
+		}
+		else if (title.contains(SETUP_CHECK_NEW_FIRMWARE))
+		{
+			FormDialog2 dialog;
+			dialog.SetNodeForm(nodeForm);
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				CJsonNode node = dialog.GetNodeForm();
+				node.AddInt(KEY_EVENT_ID, m_EventID);
+				node.Add(KEY_ID_UPPER, m_StrIDSub);
+				node.Add(KEY_OK, true);
+				m_pMgr->RequestSetupSet(node);
+			}
+		}
+		else if (title.contains(SETUP_GRACE_NOTE))
+		{
+			QString url = nodeForm.GetString(KEY_URL);
+			if (url.isEmpty())
+			{
+				FormDialog3 dialog;
+				dialog.SetNodeForm(nodeForm);
+				if (dialog.exec() == QDialog::Accepted)
+				{
+					CJsonNode node = dialog.GetNodeForm();
+					node.AddInt(KEY_EVENT_ID, m_EventID);
+					node.Add(KEY_ID_UPPER, m_StrIDSub);
+					node.Add(KEY_OK, true);
+					m_pMgr->RequestSetupSet(node);
+				}
+			}
+			else
+			{
+				FormDialog4 dialog;
+				dialog.SetNodeForm(nodeForm);
+				if (dialog.exec() == QDialog::Accepted)
+				{
+					CJsonNode node = dialog.GetNodeForm();
+					node.AddInt(KEY_EVENT_ID, m_EventID);
+					node.Add(KEY_ID_UPPER, m_StrIDSub);
+					node.Add(KEY_OK, true);
+					m_pMgr->RequestSetupSet(node);
+				}
+			}
+		}
+		else if (title.contains(SETUP_WIRELESS_NETWORK)
+				 || title.contains(SETUP_WIRELESS_INFO))
+		{
+			FormDialog5 dialog;
+			dialog.SetNodeForm(nodeForm);
+			if (dialog.exec() == QDialog::Accepted)
+			{
+				CJsonNode node = dialog.GetNodeForm();
+				node.AddInt(KEY_EVENT_ID, m_EventID);
+				node.Add(KEY_ID_UPPER, m_StrIDSub);
+				node.Add(KEY_OK, true);
+				m_pMgr->RequestSetupSet(node);
+			}
 		}
 		else
 		{
