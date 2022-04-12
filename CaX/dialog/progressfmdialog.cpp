@@ -6,6 +6,8 @@ ProgressFmDialog::ProgressFmDialog(QWidget *parent) :
 	ui(new Ui::ProgressFmDialog)
 {
 	ui->setupUi(this);
+
+	setWindowFlag(Qt::WindowStaysOnTopHint);
 }
 
 ProgressFmDialog::~ProgressFmDialog()

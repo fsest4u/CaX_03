@@ -140,4 +140,5 @@ void ProgressDialog::Initialize()
 {
 	m_EventID = -1;
 
+	setWindowFlag(Qt::WindowStaysOnTopHint);
 }
