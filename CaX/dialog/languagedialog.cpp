@@ -41,7 +41,7 @@ void LanguageDialog::Initialize()
 //			ui_languages.append(language);
 
 			QString language = GetLanguageName(data);
-			LogDebug("language [%s] data [%s]", language.toUtf8().data(), data.toUtf8().data());
+//			LogDebug("language [%s] data [%s]", language.toUtf8().data(), data.toUtf8().data());
 			ui->comboBox->addItem(language, data);
 		}
 	}

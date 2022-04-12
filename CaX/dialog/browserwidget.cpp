@@ -451,7 +451,7 @@ void BrowserWidget::SlotRespSMBInfo(CJsonNode node)
 void BrowserWidget::SlotOptionMenuAction(CJsonNode node, int type, int menuID)
 {
 	QString path = node.GetString(KEY_PATH);
-	LogDebug("click option menu node [%s] [%d] [%d]", node.ToCompactByteArray().data(), type, menuID);
+//	LogDebug("click option menu node [%s] [%d] [%d]", node.ToCompactByteArray().data(), type, menuID);
 	switch (menuID) {
 //	case OPTION_MENU_OPTION_PLAY_SUBDIR:
 //		DoOptionMenuOptionPlaySubDir();
@@ -783,7 +783,7 @@ void BrowserWidget::SetOptionMenu(int type)
 
 void BrowserWidget::DoOptionMenuSelectCoverart(QString path)
 {
-	LogDebug("root [%s] path [%s]", m_Root.toUtf8().data(), path.toUtf8().data());
+//	LogDebug("root [%s] path [%s]", m_Root.toUtf8().data(), path.toUtf8().data());
 	if (!m_Root.isEmpty())
 		path = m_Root + "/" + path;
 

@@ -189,6 +189,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 		{
 			return;
 		}
+		LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 		CJsonNode nodeForm = node.GetObject(KEY_FORM);
 
@@ -373,7 +374,7 @@ void SetupWindow::SlotRespGroup(QList<CJsonNode> list)
 
 void SetupWindow::SlotRespSet(CJsonNode node)
 {
-//	LogDebug("node [%s]", node.ToCompactByteArray().data());
+	LogDebug("node [%s]", node.ToCompactByteArray().data());
 	CJsonNode nodeForm = node.GetObject(KEY_FORM);
 	if (nodeForm.IsNull())
 	{

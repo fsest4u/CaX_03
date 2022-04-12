@@ -426,7 +426,7 @@ void MainWindow::SlotRespTaskList(CJsonNode node)
 	for (int i = 0; i < tasks.ArraySize(); i++)
 	{
 		m_TaskList.append(tasks.GetArrayAt(i));
-		LogDebug("node : [%s]", m_TaskList[i].ToCompactByteArray().data());
+//		LogDebug("node : [%s]", m_TaskList[i].ToCompactByteArray().data());
 	}
 }
 
