@@ -384,8 +384,13 @@ void ListBrowser::SlotScrollReleased()
 					if (!(type & iFolderType_Mask_Pls) && !(type & iFolderType_Dir))
 					{
 						QString path = qvariant_cast<QString>(modelIndex.data(ListBrowserDelegate::LIST_BROWSER_SUBTITLE));
-						emit SigReqInfoBot(path, index);
+						if (!path.isEmpty())
+						{
+							emit SigReqInfoBot(path, index);
+						}
 					}
+
+					m_Model->setData(modelIndex, "", ListBrowserDelegate::LIST_BROWSER_SUBTITLE);
 					if (!cover.contains(":/resource/"))
 					{
 						emit SigReqCoverArt(cover, index);

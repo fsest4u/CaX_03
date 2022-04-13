@@ -102,11 +102,11 @@ void ListBrowserDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 	QRect rectCheck = QRect(rectCover.x() + rectCover.width() - 16 - 2, rectCover.y() + 2, 16, 16);
 	QRect rectPlay = QRect(rectCover.x() + rectCover.width() + 15, rectBase.y() + (rectBase.height() - 16) / 2, 16, 16);
 	QRect rectTitle = QRect(rectPlay.x() + rectPlay.width() + 15, rectBase.y() + (rectBase.height() - fmTitle.height()) / 2, 400, fmTitle.height());
-	int gap = ( rectBase.width() - rectTitle.x() - (400 + 300 + 50 + 50 + 30 + 60) ) / 4;
+	int gap = ( rectBase.width() - rectTitle.x() - (400 + 300 + 100 + 100 + 30 + 60) ) / 4;
 
 	QRect rectSubtitle = QRect(rectTitle.x() + rectTitle.width() + gap, rectTitle.y(), 300, fmTitle.height());
-	QRect rectDuration = QRect(rectSubtitle.x() + rectSubtitle.width() + gap, rectTitle.y(), 50, fmTitle.height());
-	QRect rectFileSize = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 50, fmTitle.height());
+	QRect rectDuration = QRect(rectSubtitle.x() + rectSubtitle.width() + gap, rectTitle.y(), 100, fmTitle.height());
+	QRect rectFileSize = QRect(rectDuration.x() + rectDuration.width() + gap, rectTitle.y(), 100, fmTitle.height());
 //	QRect rectMenu = QRect(rectFileSize.x() + rectFileSize.width() + gap, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 	QRect rectMenu = QRect(rectBase.width() - 60 - 29, rectBase.y() + (rectBase.height() - 29) / 2, 29, 29);
 
