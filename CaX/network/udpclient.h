@@ -45,7 +45,9 @@ private:
 
 	QHostAddress	m_HostAddress;
 
-	QList<QUdpSocket*>	m_SocketSSDPList;
+//	QList<QUdpSocket*>	m_SocketSSDPList;
+
+	QUdpSocket		*m_pSocketSSDP;
 	QUdpSocket		*m_pSocketMSearch;
 	QUdpSocket		*m_pSocketWol;
 

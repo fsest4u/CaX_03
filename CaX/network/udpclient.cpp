@@ -10,6 +10,7 @@
 
 UDPClient::UDPClient(QObject *parent)
 	: QObject(parent)
+	, m_pSocketSSDP(new QUdpSocket(this))
 	, m_pSocketMSearch(new QUdpSocket(this))
 	, m_pSocketWol(new QUdpSocket(this))
 {
@@ -25,17 +26,15 @@ UDPClient::~UDPClient()
 
 void UDPClient::CloseSocketSSDP()
 {
-	foreach (QUdpSocket *socket, m_SocketSSDPList)
+	if( m_pSocketSSDP )
 	{
-		if( socket )
-		{
-			LogDebug("########## CloseSocketSSDP ");
-			socket->leaveMulticastGroup(m_HostAddress);
-			socket->close();
-			delete socket;
-			socket = nullptr;
-		}
+		LogDebug("########## CloseSocketSSDP ");
+		m_pSocketSSDP->leaveMulticastGroup(m_HostAddress);
+		m_pSocketSSDP->close();
+		delete m_pSocketSSDP;
+		m_pSocketSSDP = nullptr;
 	}
+
 }
 
 void UDPClient::CloseSocketMSearch()
@@ -104,28 +103,25 @@ bool UDPClient::BindSocketSSDP()
 		return false;
 	}
 
-	QUdpSocket *socket = new QUdpSocket(this);
-	m_SocketSSDPList.append(socket);
-
-	connect(socket, SIGNAL(readyRead()), this, SLOT(SlotSSDPReadData()));
-	socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+	connect(m_pSocketSSDP, SIGNAL(readyRead()), this, SLOT(SlotSSDPReadData()));
+//	socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
 
 	LogDebug("Bind IP [%s]", addr.toUtf8().data());
-	if( !socket->bind(QHostAddress::AnyIPv4, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
+	if( !m_pSocketSSDP->bind(QHostAddress::AnyIPv4, SSDP_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint) )
 	{
-		LogCritical("Bind error [%s]", socket->errorString().toUtf8().data());
+		LogCritical("Bind error [%s]", m_pSocketSSDP->errorString().toUtf8().data());
 		CloseSocketSSDP();
 		return false;
 	}
 
-	if( !socket->joinMulticastGroup(m_HostAddress, interface) )
+	if( !m_pSocketSSDP->joinMulticastGroup(m_HostAddress, interface) )
 	{
-		LogCritical("Join error [%s]", socket->errorString().toUtf8().data());
+		LogCritical("Join error [%s]", m_pSocketSSDP->errorString().toUtf8().data());
 		CloseSocketSSDP();
 		return false;
 	}
 
-	if (!socket->isValid())
+	if (!m_pSocketSSDP->isValid())
 	{
 		LogCritical("socket is not valid");
 		return false;
@@ -239,25 +235,19 @@ void UDPClient::SlotSSDPReadData()
 	QHostAddress sender;
 	quint16 senderPort;
 
-	foreach (QUdpSocket *socket, m_SocketSSDPList)
+	LogDebug("Read IP [%s]", m_pSocketSSDP->localAddress().toString().toUtf8().data());
+	while( m_pSocketSSDP->hasPendingDatagrams() )
 	{
-		if (socket)
-		{
-//			LogDebug("Read IP [%s]", socket->localAddress().toString().toUtf8().data());
-			while( socket->hasPendingDatagrams() )
-			{
-				ssdpData.resize(socket->pendingDatagramSize());
-				socket->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
-			}
+		ssdpData.resize(m_pSocketSSDP->pendingDatagramSize());
+		m_pSocketSSDP->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
+		LogDebug("Read Data 0 [%s]", ssdpData.data());
 
-			if (!ssdpData.isEmpty())
-			{
-//				LogDebug("Read Data [%s]", ssdpData.data());
-				emit SigRespDeviceItem(QString(ssdpData));
-			}
+		if (!ssdpData.isEmpty())
+		{
+			LogDebug("Read Data 1 [%s]", ssdpData.data());
+			emit SigRespDeviceItem(QString(ssdpData));
 		}
 	}
-
 }
 
 void UDPClient::SlotMSearchReadData()
