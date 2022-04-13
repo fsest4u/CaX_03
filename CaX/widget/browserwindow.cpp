@@ -669,13 +669,18 @@ void BrowserWindow::SlotRespError(QString errMsg)
 	if (BROWSER_MODE_NORMAL == m_BrowserMode)
 	{
 		LogWarning("error [%s]", errMsg.toUtf8().data());
-		if (errMsg.compare(STR_NO_RESULT))
+		if (!errMsg.toLower().contains("not found"))
 		{
 			CommonDialog dialog(this, STR_WARNING, errMsg);
 			dialog.exec();
 		}
+		else
+		{
+			m_pListBrowser->ShowFrameEmpty(true);
+		}
 
 		ui->gridLayoutTop->addWidget(m_pInfoBrowser);
+		ui->gridLayoutBottom->addWidget(m_pListBrowser);
 
 		ShowFormPlay(false);
 		m_pInfoBrowser->GetFormPlay()->ShowMenu();

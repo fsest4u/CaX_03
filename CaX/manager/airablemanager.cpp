@@ -258,7 +258,8 @@ void AirableManager::ParseURL(CJsonNode node)
 	CJsonNode result;
 	if (!node.GetArray(VAL_RESULT, result) || result.ArraySize() <= 0)
 	{
-		emit SigRespError(STR_NO_RESULT);
+		QString message = node.GetString(VAL_MSG);
+		emit SigRespError(message.left(MSG_LIMIT_COUNT));
 		return;
 	}
 

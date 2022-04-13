@@ -61,6 +61,8 @@ QList<CJsonNode> ListBrowser::GetNodeList() const
 
 int ListBrowser::SetNodeList(const QList<CJsonNode> list, int service)
 {
+	ShowFrameEmpty(false);
+
 	Loading *loading = UtilNovatron::LoadingStart(parentWidget()->parentWidget());
 
 	int type = 0;
@@ -288,6 +290,20 @@ void ListBrowser::SetSelectMapIService(const QMap<int, CJsonNode> &SelectMap)
 	m_SelectMapIService = SelectMap;
 }
 
+void ListBrowser::ShowFrameEmpty(bool show)
+{
+	if (show)
+	{
+		ui->frameEmpty->show();
+		m_ListView->hide();
+	}
+	else
+	{
+		ui->frameEmpty->hide();
+		m_ListView->show();
+	}
+}
+
 //void ListBrowser::SetEditor(int index)
 //{
 //	QModelIndex modelIndex = m_Model->index(index, 0);
@@ -487,4 +503,6 @@ void ListBrowser::Initialize()
 
 	ui->gridLayout->addWidget(m_ListView);
 	ui->frameInfo->hide();
+
+	ShowFrameEmpty(false);
 }

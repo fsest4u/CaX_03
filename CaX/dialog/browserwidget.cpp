@@ -329,7 +329,7 @@ void BrowserWidget::SlotRespError(QString errMsg)
 	if (BROWSER_MODE_NORMAL == m_BrowserMode)
 	{
 		LogWarning("error [%s]", errMsg.toUtf8().data());
-		if (errMsg.compare(STR_NO_RESULT))
+		if (!errMsg.toLower().contains("not found"))
 		{
 			CommonDialog dialog(this, STR_WARNING, errMsg);
 			dialog.exec();
