@@ -489,6 +489,15 @@ void PlayWindow::EnableBtnPrev(bool bEnable)
 void PlayWindow::EnableBtnRandom(bool bEnable)
 {
 	ui->btnRandom->setEnabled(bEnable);
+
+	if (bEnable)
+	{
+		ui->btnRandom->show();
+	}
+	else
+	{
+		ui->btnRandom->hide();
+	}
 }
 
 void PlayWindow::EnableBtnNext(bool bEnable)
@@ -508,6 +517,15 @@ void PlayWindow::EnableBtnNext(bool bEnable)
 void PlayWindow::EnableBtnPlay(bool bEnable)
 {
 	ui->btnPlay->setEnabled(bEnable);
+
+	if (bEnable)
+	{
+		ui->btnPlay->show();
+	}
+	else
+	{
+		ui->btnPlay->hide();
+	}
 }
 
 void PlayWindow::EnableBtnSlider(bool bEnable)
@@ -738,7 +756,6 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			|| !m_Src.compare(SRC_BROWSER)
 			|| !m_Src.compare(SRC_AUDIO_CD) )
 	{
-		ui->btnPlay->show();
 		ui->btnStop->show();
 
 		m_pFormTitle->SetTitle(m_Top);
@@ -753,8 +770,19 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !m_Src.compare(SRC_AUX_IN)
 			 || !m_Src.compare(SRC_PHONO_IN) )
 	{
+		ui->btnStop->show();
+
+		m_pFormTitle->SetTitle(m_Top);
+		m_pFormTitle->SetSubtitle(m_Format);
+
+		m_CoverArt = UtilNovatron::GetCoverArtIcon(SIDEMENU_INPUT, m_Src);
+		SlotCoverArtUpdate(m_CoverArt);
+	}
+	else if (!m_Src.compare(SRC_USB_DAC))
+	{
 		ui->btnPlay->hide();
 		ui->btnStop->show();
+		ui->btnRandom->hide();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Format);
@@ -765,7 +793,6 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	else if (!m_Src.compare(SRC_FM_RADIO)
 			 || !m_Src.compare(SRC_DAB_RADIO))
 	{
-		ui->btnPlay->hide();
 		ui->btnStop->show();
 		ui->labelTotalTime->hide();
 		ui->horizontalSlider->hide();
@@ -786,14 +813,6 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			 || !m_Src.compare(SRC_AIRABLE_UPNP)
 			 || !m_Src.compare(SRC_QOBUZ))
 	{
-		if (m_PlayPause)
-		{
-			ui->btnPlay->show();
-		}
-		else
-		{
-			ui->btnPlay->hide();
-		}
 		ui->btnStop->show();
 		ui->labelTotalTime->hide();
 		ui->horizontalSlider->hide();
