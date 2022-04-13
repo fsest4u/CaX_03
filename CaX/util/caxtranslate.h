@@ -68,7 +68,7 @@
 #define STR_SELECT_DEVICE			QObject::tr("Select device")
 #define STR_POWER_ON				QObject::tr("Power on")
 #define STR_POWER_OFF				QObject::tr("Power off")
-#define STR_LANGUAGE				QObject::tr("Language")
+#define STR_LANGUAGE				QObject::tr("App language")
 #define STR_ABOUT					QObject::tr("About")
 #define STR_SEARCH					QObject::tr("Search")
 #define STR_NOW_PLAY				QObject::tr("Now play")
