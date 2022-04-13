@@ -47,7 +47,7 @@
 //////////////////////////////////////////////////
 
 #define STR_INVALID_ID				QObject::tr("invalid command id")
-#define STR_INVALID_JSON			QObject::tr("invalid json")
+#define STR_INVALID_JSON			QObject::tr("invalid data")
 #define STR_UNKNOWN_ERROR			QObject::tr("unknown error")
 #define STR_NO_RESULT				QObject::tr("no result")
 
