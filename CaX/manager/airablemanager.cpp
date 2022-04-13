@@ -150,6 +150,11 @@ void AirableManager::RequestRecordSet(CJsonNode node)
 	RequestCommand(node, AIRABLE_RECORD_SET);
 }
 
+void AirableManager::RequestRefresh()
+{
+	emit SigListUpdate();
+}
+
 void AirableManager::RequestRandom()
 {
 	CJsonNode node(JSON_OBJECT);

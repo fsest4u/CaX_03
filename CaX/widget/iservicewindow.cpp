@@ -132,7 +132,8 @@ void IServiceWindow::IServiceHome(QList<CJsonNode> list)
 void IServiceWindow::RequestIServiceURL(QString url)
 {
 //	LogDebug("call url [%s]", url.toUtf8().data());
-	m_pAirableMgr->RequestURL(m_InternetType, url);
+	m_URL = url;
+	m_pAirableMgr->RequestURL(m_InternetType, m_URL);
 }
 
 void IServiceWindow::RequestIServicePlay(QMap<int, CJsonNode> nodeMap, int nWhere)
@@ -571,15 +572,23 @@ void IServiceWindow::SlotListUpdate()
 	m_Refresh = true;
 	m_PlaylistID = "";
 
-	if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == m_Type)
+	if (iIServiceType_Qobuz == m_InternetType)
 	{
-		RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
-	}
-	else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Track) == m_Type)
-	{
-		m_PlaylistID = m_Node.GetString(KEY_ID_UPPER);
+		if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Playlist) == m_Type)
+		{
+			RequestQobuzPlaylist(QOBUZ_START, QOBUZ_COUNT);
+		}
+		else if ((iQobuzType_Mask_UserPlaylist | iQobuzType_Mask_Track) == m_Type)
+		{
+			m_PlaylistID = m_Node.GetString(KEY_ID_UPPER);
 
-		RequestQobuzCategory(m_Type, m_PlaylistID, QOBUZ_START, QOBUZ_COUNT);
+			RequestQobuzCategory(m_Type, m_PlaylistID, QOBUZ_START, QOBUZ_COUNT);
+		}
+	}
+	else
+	{
+		GetListBrowser()->ClearNodeList();
+		RequestIServiceURL(m_URL);
 	}
 }
 
@@ -785,6 +794,7 @@ void IServiceWindow::ConnectSigToSlot()
 	connect(m_pAirableMgr, SIGNAL(SigRespLogout()), parent(), SLOT(SlotRespAirableLogout()));
 	connect(m_pAirableMgr, SIGNAL(SigRespLoginFail(CJsonNode)), this, SLOT(SlotRespAirableLoginFail(CJsonNode)));
 	connect(m_pAirableMgr, SIGNAL(SigRespLoginSuccess(int, bool)), this, SLOT(SlotRespAirableLoginSuccess(int, bool)));
+	connect(m_pAirableMgr, SIGNAL(SigListUpdate()), this, SLOT(SlotListUpdate()));
 
 	connect(m_pAirableMgr, SIGNAL(SigRespAuth(int)), this, SLOT(SlotRespAuth(int)));
 	connect(m_pAirableMgr, SIGNAL(SigRespURL(int, QList<CJsonNode>, QString, QString)), this, SLOT(SlotRespURL(int, QList<CJsonNode>, QString, QString)));
@@ -823,6 +833,7 @@ void IServiceWindow::Initialize()
 	m_OptionMenuMap.clear();
 	m_SelectMap.clear();
 
+	m_URL = "";
 	m_PlaylistID = "";
 	m_Refresh = false;
 
@@ -1689,6 +1700,10 @@ void IServiceWindow::DoOptionMenuActionUrl(CJsonNode node)
 		}
 
 		m_pAirableMgr->RequestActionUrl(m_InternetType, url);
+		if (url.contains("remove?"))
+		{
+			m_pAirableMgr->RequestRefresh();
+		}
 	}
 }
 

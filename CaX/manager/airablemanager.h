@@ -20,6 +20,7 @@ public:
 	void RequestActionUrl(int nServiceType, QString url);
 	void RequestRecordSet(CJsonNode node);
 
+	void RequestRefresh();
 	void RequestRandom();
 
 signals:
@@ -32,6 +33,7 @@ signals:
 	void SigRespURL(int nServiceType, QList<CJsonNode> nodeList, QString title, QString nextUrl);
 	void SigRespForm(int nServiceType, CJsonNode node);
 	void SigCoverArtUpdate(QString fileName, int nIndex, int mode);
+	void SigListUpdate();
 
 private slots:
 

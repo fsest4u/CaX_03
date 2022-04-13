@@ -188,6 +188,8 @@ private:
 	CJsonNode			m_Node;
 
 	QString				m_WebURL;
+	QString				m_URL;
+
 	QString				m_PlaylistID;
 
 	int					m_InternetType;
