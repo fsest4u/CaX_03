@@ -146,14 +146,24 @@ void PlayWindow::SlotBtnRandom()
 {
 	if (m_Recordable)
 	{
+		QString style;
 		if (m_Record)
 		{
+			style = QString("QLabel	\
+							{	\
+								color: rgb(255, 255, 255);	\
+							}");
 			SlotBtnStop();
 		}
 		else
 		{
+			style = QString("QLabel	\
+							{	\
+								color: rgb(255, 0, 0);	\
+							}");
 			m_pMgr->RequestRecord();
 		}
+		ui->labelCurTime->setStyleSheet(style);
 	}
 	else
 	{
