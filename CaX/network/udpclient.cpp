@@ -235,16 +235,16 @@ void UDPClient::SlotSSDPReadData()
 	QHostAddress sender;
 	quint16 senderPort;
 
-	LogDebug("Read IP [%s]", m_pSocketSSDP->localAddress().toString().toUtf8().data());
+//	LogDebug("Read IP [%s]", m_pSocketSSDP->localAddress().toString().toUtf8().data());
 	while( m_pSocketSSDP->hasPendingDatagrams() )
 	{
 		ssdpData.resize(m_pSocketSSDP->pendingDatagramSize());
 		m_pSocketSSDP->readDatagram(ssdpData.data(), ssdpData.size(), &sender, &senderPort);
-		LogDebug("Read Data 0 [%s]", ssdpData.data());
+//		LogDebug("Read Data 0 [%s]", ssdpData.data());
 
 		if (!ssdpData.isEmpty())
 		{
-			LogDebug("Read Data 1 [%s]", ssdpData.data());
+//			LogDebug("Read Data 1 [%s]", ssdpData.data());
 			emit SigRespDeviceItem(QString(ssdpData));
 		}
 	}

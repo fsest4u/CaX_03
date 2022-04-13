@@ -905,6 +905,8 @@ void BrowserWindow::Initialize()
 	m_Ext.clear();
 	m_NodeUpnp.Clear();
 
+	m_Loading = nullptr;
+
 	QString style = QString("QMenu::icon {	\
 								padding: 0px 0px 0px 20px;	\
 							}	\
@@ -1371,8 +1373,18 @@ void BrowserWindow::DoTopMenuSearchCoverArt()
 void BrowserWindow::DoTopMenuAddShare()
 {
 //	LogDebug("do add share");
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
+
 	AddShareDialog dialog;
 	dialog.SetInfo(m_pMgr->GetAddr(), m_EventID);
+
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
+	}
+
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		CJsonNode node = dialog.GetNodeInfo();

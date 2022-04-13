@@ -13,6 +13,7 @@ class InfoService;
 class InfoBrowser;
 class IconService;
 class ListBrowser;
+class Loading;
 
 namespace Ui {
 class BrowserWindow;
@@ -172,6 +173,8 @@ private:
 
 	QString				m_Ext;
 	CJsonNode			m_NodeUpnp;
+
+	Loading				*m_Loading;
 
 	Ui::BrowserWindow *ui;
 };
