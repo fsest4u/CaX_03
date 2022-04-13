@@ -181,7 +181,10 @@ void IServiceWindow::AddWidgetItem(bool playAll, bool playRandom, bool menu)
 	ui->gridLayoutBottom->addWidget(m_pListBrowser);
 
 	m_pInfoBrowser->GetFormPlay()->ShowPlayAll(playAll);
-	m_pInfoBrowser->GetFormPlay()->ShowMenu(menu);
+	if (iIServiceType_Radios != m_InternetType)
+	{
+		m_pInfoBrowser->GetFormPlay()->ShowMenu(menu);
+	}
 
 	m_pInfoBrowser->SetCoverArt(UtilNovatron::GetCoverArtIcon(SIDEMENU_ISERVICE, m_InternetType));
 
@@ -609,7 +612,10 @@ void IServiceWindow::SlotRespURL(int nServiceType, QList<CJsonNode> list, QStrin
 	if (nType & iAirableType_Play_Playable)
 	{
 		m_pInfoBrowser->GetFormPlay()->ShowPlayAll(true);
-		m_pInfoBrowser->GetFormPlay()->ShowMenu(true);
+		if (iIServiceType_Radios != m_InternetType)
+		{
+			m_pInfoBrowser->GetFormPlay()->ShowMenu(true);
+		}
 	}
 }
 
@@ -873,8 +879,10 @@ void IServiceWindow::SetSelectOffTopMenu()
 	}
 
 	m_pInfoBrowser->GetFormPlay()->ClearMenu();
-	m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
-
+	if (iIServiceType_Radios != m_InternetType)
+	{
+		m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+	}
 }
 
 void IServiceWindow::SetSelectOnTopMenu()
@@ -954,7 +962,10 @@ void IServiceWindow::SetSelectOnTopMenu()
 	}
 
 	m_pInfoBrowser->GetFormPlay()->ClearMenu();
-	m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+	if (iIServiceType_Radios != m_InternetType)
+	{
+		m_pInfoBrowser->GetFormPlay()->SetMenu(m_TopMenuMap);
+	}
 }
 
 void IServiceWindow::DoTopMenuSelectAll()
