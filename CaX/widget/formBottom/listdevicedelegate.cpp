@@ -43,7 +43,7 @@ QWidget *ListDeviceDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	connect(editor, SIGNAL(SigClickDevice(QString, QString, QString, QString)), this, SLOT(SlotClickDevice(QString, QString, QString, QString)));
 	connect(editor, SIGNAL(SigClickCancel(QString, QString, QString, QString)), this, SLOT(SlotClickCancel(QString, QString, QString, QString)));
 
-	editor->SetLabelCancelShow(true);
+	editor->SetLabelCancelShow(false);
 
 	return editor;
 }
