@@ -774,6 +774,8 @@ void MusicDBWindow::SlotRespTrackList(QList<CJsonNode> list)
 
 void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
 {
+	m_Loading = UtilNovatron::LoadingStart(parentWidget());
+
 	if (m_AlbumList.isEmpty())
 	{
 		m_pMgr->RequestCategoryInfoList(SQLManager::CATEGORY_ALBUM);
@@ -807,6 +809,14 @@ void MusicDBWindow::SlotRespTrackListForEditTag(QList<CJsonNode> list)
 	dialog.SetComposerList(m_ComposerList);
 	dialog.SetMoodList(m_MoodList);
 	dialog.SetNodeList(list);
+
+	if (m_Loading)
+	{
+		UtilNovatron::LoadingStop(m_Loading);
+		delete m_Loading;
+		m_Loading = nullptr;
+	}
+
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		m_UpdateModel = dialog.GetModel();
@@ -2235,6 +2245,7 @@ void MusicDBWindow::ReadSettings()
 	m_ShowTrackFormat = settings.value("show_track_format").toBool();
 	m_ShowTrackSampleRate = settings.value("show_track_sample_rate").toBool();
 	m_ShowTrackBitrate = settings.value("show_track_bitrate").toBool();
+	m_ShowTrackReplayGain = settings.value("show_track_replaygain").toBool();
 	m_ShowTrackRating = settings.value("show_track_rating").toBool();
 
 	m_ResizeItem = settings.value("resize_item_value").toInt();
@@ -2293,6 +2304,7 @@ void MusicDBWindow::WriteSettings()
 	settings.setValue("show_track_format", m_ShowTrackFormat);
 	settings.setValue("show_track_sample_rate", m_ShowTrackSampleRate);
 	settings.setValue("show_track_bitrate", m_ShowTrackBitrate);
+	settings.setValue("show_track_replaygain", m_ShowTrackReplayGain);
 	settings.setValue("show_track_rating", m_ShowTrackRating);
 
 	settings.setValue("resize_item_value", m_ResizeItem);
@@ -3018,6 +3030,7 @@ void MusicDBWindow::DoTopMenuItemShowTrackColumns()
 	dialog.SetCBFormat(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_FORMAT));
 	dialog.SetCBSampleRate(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE));
 	dialog.SetCBBitrate(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_BITRATE));
+	dialog.SetCBReplayGain(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_REPLAY_GAIN));
 //	dialog.SetCBRating(m_pTableTracks->GetColumnShow(TableTracks::TABLE_TRACKS_RATING));
 
 	if (dialog.exec() == QDialog::Accepted)
@@ -3036,6 +3049,7 @@ void MusicDBWindow::DoTopMenuItemShowTrackColumns()
 		m_ShowTrackFormat = dialog.GetCBFormat();
 		m_ShowTrackSampleRate = dialog.GetCBSampleRate();
 		m_ShowTrackBitrate = dialog.GetCBBitrate();
+		m_ShowTrackReplayGain = dialog.GetCBReplayGain();
 //		m_ShowTrackRating = dialog.GetCBRating();
 
 		WriteSettings();
@@ -3054,6 +3068,7 @@ void MusicDBWindow::DoTopMenuItemShowTrackColumns()
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowTrackFormat);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowTrackSampleRate);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowTrackBitrate);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_REPLAY_GAIN, m_ShowTrackReplayGain);
 //		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowTrackRating);
 
 		// change value
@@ -3866,6 +3881,7 @@ void MusicDBWindow::SetColumn(int typeMode)
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_FORMAT, m_ShowTrackFormat);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_SAMPLE_RATE, m_ShowTrackSampleRate);
 		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_BITRATE, m_ShowTrackBitrate);
+		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_REPLAY_GAIN, m_ShowTrackReplayGain);
 //		m_pTableTracks->SetColumnShow(TableTracks::TABLE_TRACKS_RATING, m_ShowTrackRating);
 	}
 

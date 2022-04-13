@@ -105,17 +105,17 @@ QWidget
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cbFormat">
+        <property name="text">
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="cbYear">
         <property name="text">
          <string>Year</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="cbMood">
-        <property name="text">
-         <string>Mood</string>
         </property>
        </widget>
       </item>
@@ -126,10 +126,17 @@ QWidget
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QCheckBox" name="cbFormat">
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="cbBitrate">
         <property name="text">
-         <string>Format</string>
+         <string>Bitrate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="cbMood">
+        <property name="text">
+         <string>Mood</string>
         </property>
        </widget>
       </item>
@@ -140,17 +147,17 @@ QWidget
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QCheckBox" name="cbBitrate">
+      <item row="7" column="0">
+       <widget class="QCheckBox" name="cbRating">
         <property name="text">
-         <string>Bitrate</string>
+         <string>Rating</string>
         </property>
        </widget>
       </item>
       <item row="6" column="0">
-       <widget class="QCheckBox" name="cbRating">
+       <widget class="QCheckBox" name="cbReplayGain">
         <property name="text">
-         <string>Rating</string>
+         <string>ReplayGain</string>
         </property>
        </widget>
       </item>

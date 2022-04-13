@@ -327,6 +327,30 @@ void SetTrackColumnDialog::SetCBBitrate(bool bCheck)
 	}
 }
 
+bool SetTrackColumnDialog::GetCBReplayGain()
+{
+	if (ui->cbReplayGain->checkState() == Qt::Checked)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void SetTrackColumnDialog::SetCBReplayGain(bool bCheck)
+{
+	if (bCheck)
+	{
+		ui->cbReplayGain->setCheckState(Qt::Checked);
+	}
+	else
+	{
+		ui->cbReplayGain->setCheckState(Qt::Unchecked);
+	}
+}
+
 bool SetTrackColumnDialog::GetCBRating()
 {
 	if (ui->cbRating->checkState() == Qt::Checked)

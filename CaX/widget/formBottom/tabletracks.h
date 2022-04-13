@@ -44,6 +44,7 @@ public:
 		TABLE_TRACKS_BITRATE,
 		TABLE_TRACKS_TRACK_COUNT,
 		TABLE_TRACKS_ALBUM_GAIN,
+		TABLE_TRACKS_REPLAY_GAIN,
 		TABLE_TRACKS_ALBUM_ID,
 		TABLE_TRACKS_ARTIST_ID,
 		TABLE_TRACKS_CD_NUMBER,
@@ -163,6 +164,7 @@ private:
 	int						m_ColWidthRating;
 	int						m_ColWidthTrackCount;
 	int						m_ColWidthAlbumGain;
+	int						m_ColWidthReplayGain;
 	int						m_ColWidthIndex;
 	int						m_ColWidthMenu;
 

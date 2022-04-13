@@ -54,6 +54,9 @@ public:
 	bool GetCBBitrate();
 	void SetCBBitrate(bool bCheck);
 
+	bool GetCBReplayGain();
+	void SetCBReplayGain(bool bCheck);
+
 	bool GetCBRating();
 	void SetCBRating(bool bCheck);
 

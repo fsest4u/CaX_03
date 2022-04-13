@@ -299,6 +299,7 @@ private:
 	bool				m_ShowTrackFormat;
 	bool				m_ShowTrackSampleRate;
 	bool				m_ShowTrackBitrate;
+	bool				m_ShowTrackReplayGain;
 	bool				m_ShowTrackRating;
 
 	Ui::MusicDBWindow *ui;
