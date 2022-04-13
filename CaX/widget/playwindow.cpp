@@ -699,9 +699,9 @@ void PlayWindow::SetPlayTimeSliderState()
 	strTime = ConvertMSecToHHMMSSStr(m_PlayTime);
 	ui->labelCurTime->setText(strTime);
 
-	ui->horizontalSlider->setHidden(false);
-	ui->labelTotalTime->setHidden(false);
-	ui->labelCurTime->setHidden(false);
+//	ui->horizontalSlider->setHidden(false);
+//	ui->labelTotalTime->setHidden(false);
+//	ui->labelCurTime->setHidden(false);
 }
 
 void PlayWindow::DoNowPlay(CJsonNode node)
@@ -731,6 +731,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 		SetRepeatMode(m_Repeat);
 	}
 
+	ui->labelTotalTime->show();
+	ui->horizontalSlider->show();
 
 	if (!m_Src.compare(SRC_MUSIC_DB)
 			|| !m_Src.compare(SRC_BROWSER)
@@ -765,6 +767,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 	{
 		ui->btnPlay->hide();
 		ui->btnStop->show();
+		ui->labelTotalTime->hide();
+		ui->horizontalSlider->hide();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Src);
@@ -791,6 +795,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 			ui->btnPlay->hide();
 		}
 		ui->btnStop->show();
+		ui->labelTotalTime->hide();
+		ui->horizontalSlider->hide();
 
 		m_pFormTitle->SetTitle(m_Top);
 		m_pFormTitle->SetSubtitle(m_Bot);
