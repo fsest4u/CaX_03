@@ -184,9 +184,13 @@
 <context>
     <name>BrowserDialog</name>
     <message>
-        <location filename="dialog/browserdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">對話</translation>
+        <translation type="obsolete">對話</translation>
+    </message>
+    <message>
+        <location filename="dialog/browserdialog.ui" line="14"/>
+        <source>Browser</source>
+        <translation type="unfinished">瀏覽其他資源</translation>
     </message>
 </context>
 <context>
@@ -267,13 +271,13 @@
 <context>
     <name>CommonDialog</name>
     <message>
-        <location filename="dialog/commondialog.ui" line="126"/>
+        <location filename="dialog/commondialog.ui" line="129"/>
         <source>OK</source>
         <oldsource>Ok</oldsource>
         <translation type="unfinished">確定</translation>
     </message>
     <message>
-        <location filename="dialog/commondialog.ui" line="150"/>
+        <location filename="dialog/commondialog.ui" line="153"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -362,6 +366,38 @@
         <location filename="dialog/setup/formdialog.ui" line="20"/>
         <source>Dialog</source>
         <translation>對話</translation>
+    </message>
+</context>
+<context>
+    <name>FormDialog2</name>
+    <message>
+        <location filename="dialog/setup/formdialog2.ui" line="20"/>
+        <source>Dialog</source>
+        <translation type="unfinished">對話</translation>
+    </message>
+</context>
+<context>
+    <name>FormDialog3</name>
+    <message>
+        <location filename="dialog/setup/formdialog3.ui" line="20"/>
+        <source>Dialog</source>
+        <translation type="unfinished">對話</translation>
+    </message>
+</context>
+<context>
+    <name>FormDialog4</name>
+    <message>
+        <location filename="dialog/setup/formdialog4.ui" line="20"/>
+        <source>Dialog</source>
+        <translation type="unfinished">對話</translation>
+    </message>
+</context>
+<context>
+    <name>FormDialog5</name>
+    <message>
+        <location filename="dialog/setup/formdialog5.ui" line="20"/>
+        <source>Dialog</source>
+        <translation type="unfinished">對話</translation>
     </message>
 </context>
 <context>
@@ -613,9 +649,13 @@
 <context>
     <name>LanguageDialog</name>
     <message>
-        <location filename="dialog/languagedialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">對話</translation>
+        <translation type="obsolete">對話</translation>
+    </message>
+    <message>
+        <location filename="dialog/languagedialog.ui" line="14"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -636,6 +676,11 @@
     <message>
         <location filename="widget/formBottom/listbrowser.ui" line="14"/>
         <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget/formBottom/listbrowser.ui" line="60"/>
+        <source>Not Available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1012,7 +1057,7 @@
         <translation>資訊</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="19"/>
+        <location filename="util/caxtranslate.h" line="23"/>
         <source>Change will take effect when you restart Music X Neo.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1020,6 +1065,11 @@
         <location filename="util/caxtranslate.h" line="20"/>
         <source>Please enter a search term of at least 2 characters</source>
         <translation>請輸入至少兩個字元之關鍵字</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="19"/>
+        <source>Do you want the selected files to the this folder?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="21"/>
@@ -1032,613 +1082,1032 @@
         <translation>未發現機器設備</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="23"/>
+        <location filename="util/caxtranslate.h" line="24"/>
         <source>Please select only one item</source>
         <translation>請選擇單一個項目</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="24"/>
+        <location filename="util/caxtranslate.h" line="25"/>
+        <source>Select target storage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="26"/>
         <source>Update to the latest firmware (current version: %1)</source>
         <translation>更新最新靭體(當前版本：%1）</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="30"/>
+        <location filename="util/caxtranslate.h" line="32"/>
         <source>Add to device</source>
         <translation>加至機器設備</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="31"/>
+        <location filename="util/caxtranslate.h" line="33"/>
         <source>Album info</source>
         <translation>專輯資訊</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="32"/>
+        <location filename="util/caxtranslate.h" line="34"/>
         <source>Can&apos;t delete Auto Play</source>
         <translation>無法刪除自動播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="33"/>
+        <location filename="util/caxtranslate.h" line="35"/>
         <source>Can&apos;t rename Auto Play</source>
         <translation>無法重新命名自動播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="34"/>
+        <location filename="util/caxtranslate.h" line="36"/>
         <source>Do you want to power off?</source>
         <translation>確定&apos;關閉電源&apos;?</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="35"/>
+        <location filename="util/caxtranslate.h" line="37"/>
         <source>New playlist is made</source>
         <translation>新播放列表已建立</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="36"/>
+        <location filename="util/caxtranslate.h" line="38"/>
         <source>No select</source>
         <translation>無選擇項目</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="37"/>
+        <location filename="util/caxtranslate.h" line="39"/>
         <source>Power off Others</source>
         <translation>關閉其他電源</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="38"/>
+        <location filename="util/caxtranslate.h" line="40"/>
         <source>Select only one item</source>
         <translation>請選擇單一項目</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="39"/>
+        <location filename="util/caxtranslate.h" line="41"/>
         <source>Tag info</source>
         <translation>專輯音樂檔案標籤資訊</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="40"/>
+        <location filename="util/caxtranslate.h" line="42"/>
         <source>Track info</source>
         <translation>歌曲曲目資訊</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="41"/>
+        <location filename="util/caxtranslate.h" line="43"/>
         <source>Wake on lan</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="47"/>
+        <location filename="util/caxtranslate.h" line="49"/>
         <source>invalid command id</source>
         <translation>無效指令</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="48"/>
         <source>invalid json</source>
-        <translation>無效 json</translation>
+        <translation type="vanished">無效 json</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="49"/>
+        <location filename="util/caxtranslate.h" line="51"/>
         <source>unknown error</source>
         <translation>未知錯誤</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="50"/>
+        <location filename="util/caxtranslate.h" line="52"/>
         <source>no result</source>
         <translation>無搜尋結果</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="56"/>
+        <location filename="util/caxtranslate.h" line="58"/>
+        <location filename="util/caxtranslate.h" line="245"/>
         <source>Music DB</source>
         <translation>音樂資料庫</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="57"/>
+        <location filename="util/caxtranslate.h" line="59"/>
         <source>Audio CD</source>
         <translation>音樂光碟</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="58"/>
+        <location filename="util/caxtranslate.h" line="60"/>
         <source>Playlist</source>
         <translation>播放列表</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="59"/>
+        <location filename="util/caxtranslate.h" line="61"/>
         <source>Browser</source>
         <translation>瀏覽其他資源</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="60"/>
+        <location filename="util/caxtranslate.h" line="62"/>
         <source>Internet service</source>
         <translation>網路服務</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="61"/>
+        <location filename="util/caxtranslate.h" line="63"/>
         <source>Input</source>
         <translation>輸入</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="62"/>
+        <location filename="util/caxtranslate.h" line="64"/>
         <source>FM radio</source>
         <translation>FM收音機</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="63"/>
+        <location filename="util/caxtranslate.h" line="65"/>
         <source>DAB radio</source>
         <translation>DAB收音機</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="64"/>
+        <location filename="util/caxtranslate.h" line="66"/>
         <source>Group play</source>
         <translation>群組播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="65"/>
+        <location filename="util/caxtranslate.h" line="67"/>
         <source>Setup</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="66"/>
+        <location filename="util/caxtranslate.h" line="68"/>
         <source>Select device</source>
         <translation>選擇機器設備</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="67"/>
+        <location filename="util/caxtranslate.h" line="69"/>
         <source>Power on</source>
         <translation>開啓電源</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="68"/>
+        <location filename="util/caxtranslate.h" line="70"/>
         <source>Power off</source>
         <translation>關閉電源</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="69"/>
-        <source>Language</source>
+        <location filename="util/caxtranslate.h" line="50"/>
+        <source>invalid data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="70"/>
+        <location filename="util/caxtranslate.h" line="71"/>
+        <source>App language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="72"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="71"/>
+        <location filename="util/caxtranslate.h" line="73"/>
         <source>Search</source>
         <translation>搜尋</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="72"/>
+        <location filename="util/caxtranslate.h" line="74"/>
         <source>Now play</source>
         <translation>現在播放曲目</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="74"/>
+        <location filename="util/caxtranslate.h" line="76"/>
         <source>Available</source>
         <translation>可使用</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="75"/>
+        <location filename="util/caxtranslate.h" line="77"/>
         <source>Not available</source>
         <translation>無法使用</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="82"/>
+        <location filename="util/caxtranslate.h" line="84"/>
         <source>Add new station</source>
         <translation>加入新電台</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="83"/>
+        <location filename="util/caxtranslate.h" line="85"/>
         <source>Add playlist</source>
         <translation>增加播放列表</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="84"/>
+        <location filename="util/caxtranslate.h" line="86"/>
         <source>Add share</source>
         <translation>增加共享</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="85"/>
+        <location filename="util/caxtranslate.h" line="87"/>
         <source>Add to favorite</source>
         <translation>加入我的最愛</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="86"/>
+        <location filename="util/caxtranslate.h" line="88"/>
         <source>Add to playlist</source>
         <translation>加入播放列表</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="87"/>
+        <location filename="util/caxtranslate.h" line="89"/>
         <source>CD ripping</source>
         <translation>光碟轉錄</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="88"/>
+        <location filename="util/caxtranslate.h" line="90"/>
         <source>Change meta info</source>
         <translation>變更專輯音樂檔案標籤資訊</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="89"/>
+        <location filename="util/caxtranslate.h" line="91"/>
         <source>Clear all</source>
         <translation>清除全部</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="90"/>
+        <location filename="util/caxtranslate.h" line="92"/>
         <source>Clear and seek all</source>
         <translation>清除及搜尋全部</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="91"/>
+        <location filename="util/caxtranslate.h" line="93"/>
         <source>Convert audio format</source>
         <translation>轉換音樂檔案格式</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="92"/>
-        <location filename="util/caxtranslate.h" line="195"/>
+        <location filename="util/caxtranslate.h" line="94"/>
+        <location filename="util/caxtranslate.h" line="209"/>
         <source>Copy</source>
         <translation>複製</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="93"/>
+        <location filename="util/caxtranslate.h" line="95"/>
         <source>Copy here</source>
         <translation>複製至此</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="94"/>
+        <location filename="util/caxtranslate.h" line="96"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="95"/>
+        <location filename="util/caxtranslate.h" line="97"/>
         <source>Delete playlist</source>
         <translation>刪除播放列表</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="97"/>
+        <location filename="util/caxtranslate.h" line="99"/>
         <source>Delete track from playlist</source>
         <translation>從播放列表中刪除歌曲</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="98"/>
+        <location filename="util/caxtranslate.h" line="100"/>
         <source>Delete from play queue</source>
         <translation>從播放佇列中刪除</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="99"/>
+        <location filename="util/caxtranslate.h" line="101"/>
         <source>Delete share</source>
         <translation>刪除共享</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="100"/>
+        <location filename="util/caxtranslate.h" line="102"/>
         <source>Delete to favorite</source>
         <translation>刪除我的最愛</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="101"/>
+        <location filename="util/caxtranslate.h" line="103"/>
         <source>Edit</source>
         <translation>編輯</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="102"/>
+        <location filename="util/caxtranslate.h" line="104"/>
         <source>Edit tag</source>
         <translation>編輯專輯音樂檔案標籤</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="103"/>
+        <location filename="util/caxtranslate.h" line="105"/>
         <source>Eject CD</source>
         <translation>退出光碟</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="104"/>
+        <location filename="util/caxtranslate.h" line="106"/>
         <source>Export track</source>
         <translation>匯出歌曲</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="105"/>
-        <location filename="util/caxtranslate.h" line="203"/>
+        <location filename="util/caxtranslate.h" line="107"/>
+        <location filename="util/caxtranslate.h" line="217"/>
         <source>Favorite</source>
         <translation>我的最愛</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="106"/>
+        <location filename="util/caxtranslate.h" line="108"/>
+        <location filename="util/caxtranslate.h" line="283"/>
         <source>Replaygain</source>
         <translation>重播增益</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="107"/>
+        <location filename="util/caxtranslate.h" line="109"/>
         <source>Clear replaygain</source>
         <translation>清除重播增益</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="108"/>
+        <location filename="util/caxtranslate.h" line="110"/>
         <source>Go to album</source>
         <translation>至專輯</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="109"/>
+        <location filename="util/caxtranslate.h" line="111"/>
         <source>Go to artist</source>
         <translation>至音樂藝術家</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="110"/>
+        <location filename="util/caxtranslate.h" line="112"/>
         <source>Load count</source>
         <translation>載入數量</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="111"/>
+        <location filename="util/caxtranslate.h" line="113"/>
         <source>Make a folder</source>
         <translation>創建資料夾</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="112"/>
+        <location filename="util/caxtranslate.h" line="114"/>
         <source>Make a new playlist</source>
         <translation>創建新播放列表</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="113"/>
+        <location filename="util/caxtranslate.h" line="115"/>
         <source>Menu</source>
         <translation>目錄</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="114"/>
+        <location filename="util/caxtranslate.h" line="116"/>
         <source>Modify share</source>
         <translation>修改共享</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="115"/>
-        <location filename="util/caxtranslate.h" line="196"/>
+        <location filename="util/caxtranslate.h" line="117"/>
+        <location filename="util/caxtranslate.h" line="210"/>
         <source>Move</source>
         <translation>移動</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="116"/>
+        <location filename="util/caxtranslate.h" line="118"/>
         <source>Move here</source>
         <translation>移動至此</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="117"/>
+        <location filename="util/caxtranslate.h" line="119"/>
         <source>Name</source>
         <translation>名稱</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="118"/>
+        <location filename="util/caxtranslate.h" line="120"/>
         <source>on</source>
         <translation>開</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="119"/>
+        <location filename="util/caxtranslate.h" line="121"/>
         <source>off</source>
         <translation>關</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="120"/>
+        <location filename="util/caxtranslate.h" line="122"/>
         <source>Play subdirectories</source>
         <translation>播放子目錄</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="121"/>
+        <location filename="util/caxtranslate.h" line="123"/>
         <source>Overwrite</source>
         <translation>複寫</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="122"/>
+        <location filename="util/caxtranslate.h" line="124"/>
         <source>Play now</source>
         <translation>立即播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="123"/>
+        <location filename="util/caxtranslate.h" line="125"/>
         <source>Play last</source>
         <translation>最後播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="124"/>
+        <location filename="util/caxtranslate.h" line="126"/>
         <source>Play next</source>
         <translation>下首播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="125"/>
+        <location filename="util/caxtranslate.h" line="127"/>
         <source>Clear &amp;&amp; Play</source>
         <translation>清除&amp;&amp;播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="126"/>
+        <location filename="util/caxtranslate.h" line="128"/>
         <source>Reload</source>
         <translation>重新載入</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="127"/>
+        <location filename="util/caxtranslate.h" line="129"/>
         <source>Remove favorite</source>
         <translation>移動我的最愛</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="128"/>
+        <location filename="util/caxtranslate.h" line="130"/>
         <source>Rename</source>
         <translation>重新命名</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="130"/>
+        <location filename="util/caxtranslate.h" line="132"/>
         <source>Reservation recording list</source>
         <translation>預約錄音清單</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="131"/>
+        <location filename="util/caxtranslate.h" line="133"/>
         <source>Scan Music DB</source>
         <translation>掃描至音樂資料庫</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="132"/>
+        <location filename="util/caxtranslate.h" line="134"/>
         <source>Remove from Music DB</source>
         <translation>從音樂資料庫移除</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="133"/>
+        <location filename="util/caxtranslate.h" line="135"/>
         <source>Search coverart</source>
         <translation>封面圖像搜尋</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="134"/>
+        <location filename="util/caxtranslate.h" line="136"/>
         <source>Seek all</source>
         <translation>搜尋全部</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="135"/>
+        <location filename="util/caxtranslate.h" line="137"/>
         <source>Select all</source>
         <translation>選擇全部</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="136"/>
+        <location filename="util/caxtranslate.h" line="138"/>
         <source>Select coverart</source>
         <translation>選擇封面圖像</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="137"/>
+        <location filename="util/caxtranslate.h" line="139"/>
         <source>Setup reservation recording</source>
         <translation>設定預約錄音</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="138"/>
+        <location filename="util/caxtranslate.h" line="140"/>
         <source>Show columns</source>
         <translation>欄位顯示設定</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="139"/>
+        <location filename="util/caxtranslate.h" line="141"/>
         <source>Tag edit</source>
         <translation>編輯專輯音樂檔案標籤</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="140"/>
+        <location filename="util/caxtranslate.h" line="142"/>
         <source>Title</source>
         <translation>歌曲名稱</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="146"/>
+        <location filename="util/caxtranslate.h" line="148"/>
         <source>Audio format</source>
         <translation>音樂檔案格式</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="147"/>
+        <location filename="util/caxtranslate.h" line="149"/>
         <source>Most played</source>
         <translation>最常播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="149"/>
+        <location filename="util/caxtranslate.h" line="151"/>
         <source>Top 10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="150"/>
+        <location filename="util/caxtranslate.h" line="152"/>
         <source>Top 25</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="151"/>
+        <location filename="util/caxtranslate.h" line="153"/>
         <source>Top 50</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="152"/>
+        <location filename="util/caxtranslate.h" line="154"/>
         <source>Top 100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="159"/>
+        <location filename="util/caxtranslate.h" line="161"/>
         <source>Sorted by imported date</source>
         <translation>依匯入日期排列</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="160"/>
+        <location filename="util/caxtranslate.h" line="162"/>
         <source>Sorted by alphabet</source>
         <translation>伊字母排列</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="161"/>
+        <location filename="util/caxtranslate.h" line="163"/>
         <source>Sorted by favorite</source>
         <translation>依我的最愛排列</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="163"/>
+        <location filename="util/caxtranslate.h" line="165"/>
         <source>Sorted by rating</source>
         <translation>依評分排列</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="166"/>
-        <location filename="util/caxtranslate.h" line="182"/>
+        <location filename="util/caxtranslate.h" line="168"/>
+        <location filename="util/caxtranslate.h" line="184"/>
         <source>Track</source>
         <translation>歌曲曲目</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="167"/>
-        <location filename="util/caxtranslate.h" line="174"/>
+        <location filename="util/caxtranslate.h" line="169"/>
+        <location filename="util/caxtranslate.h" line="176"/>
         <source>Album</source>
         <translation>專輯</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="168"/>
-        <location filename="util/caxtranslate.h" line="176"/>
+        <location filename="util/caxtranslate.h" line="170"/>
+        <location filename="util/caxtranslate.h" line="178"/>
         <source>Artist</source>
         <translation>音樂藝術家</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="175"/>
+        <location filename="util/caxtranslate.h" line="177"/>
         <source>Album Artist</source>
         <translation>專輯音樂藝術家</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="177"/>
+        <location filename="util/caxtranslate.h" line="179"/>
         <source>Composer</source>
         <translation>作曲者</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="178"/>
+        <location filename="util/caxtranslate.h" line="180"/>
         <source>Genre</source>
         <translation>分類</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="179"/>
+        <location filename="util/caxtranslate.h" line="181"/>
         <source>Mood</source>
         <translation>氛圍</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="180"/>
+        <location filename="util/caxtranslate.h" line="182"/>
         <source>Folder</source>
         <translation>資料夾</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="181"/>
+        <location filename="util/caxtranslate.h" line="183"/>
         <source>Year</source>
         <translation>年</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="188"/>
+        <location filename="util/caxtranslate.h" line="190"/>
+        <source>Album Gain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="191"/>
+        <source>Bitrate</source>
+        <translation type="unfinished">比特率</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="192"/>
+        <source>Format</source>
+        <translation type="unfinished">音樂檔案格式</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="193"/>
+        <source>Rating</source>
+        <translation type="unfinished">評分</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="194"/>
+        <source>SampleRate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="195"/>
+        <location filename="util/caxtranslate.h" line="252"/>
+        <source>Time</source>
+        <translation type="unfinished">時間</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="196"/>
+        <source>Tempo</source>
+        <translation type="unfinished">速度</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="202"/>
+        <location filename="util/caxtranslate.h" line="319"/>
         <source>Auto Play</source>
         <translation>自動播放</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="202"/>
+        <location filename="util/caxtranslate.h" line="216"/>
         <source>Recommend</source>
         <translation>推薦</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="210"/>
+        <location filename="util/caxtranslate.h" line="224"/>
         <source>My radio</source>
         <translation>我的收音機</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="216"/>
+        <location filename="util/caxtranslate.h" line="230"/>
         <source>Stereo</source>
         <translation>立體聲</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="217"/>
+        <location filename="util/caxtranslate.h" line="231"/>
         <source>Left</source>
         <translation>左</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="218"/>
+        <location filename="util/caxtranslate.h" line="232"/>
         <source>Right</source>
         <translation>右</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="224"/>
+        <location filename="util/caxtranslate.h" line="238"/>
         <source>Search results for &quot;%1&quot;</source>
         <translation>&quot;%1&quot;搜尋結果</translation>
     </message>
     <message>
-        <location filename="util/caxtranslate.h" line="233"/>
+        <location filename="util/caxtranslate.h" line="246"/>
+        <source>CD Ripping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="247"/>
+        <source>Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="248"/>
+        <location filename="util/caxtranslate.h" line="288"/>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="249"/>
+        <source>Network Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="250"/>
+        <source>Internet Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="251"/>
+        <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="253"/>
+        <source>Firmware</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="254"/>
+        <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="257"/>
+        <source>Storage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="258"/>
+        <source>Music DB Scan Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="259"/>
+        <source>Rescan Resource</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="260"/>
+        <source>Music DB Initialization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="263"/>
+        <source>Bit Rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="264"/>
+        <source>Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="265"/>
+        <source>Audio Rip Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="266"/>
+        <source>Auto Rip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="269"/>
+        <source>Max Volume</source>
+        <translation type="unfinished">最大音量</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="270"/>
+        <source>Equalizer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="271"/>
+        <source>USB/HDMI Audio Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="272"/>
+        <source>DSD Signal Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="273"/>
+        <source>Analog In Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="274"/>
+        <source>Analog Out Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="275"/>
+        <source>Analog Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="276"/>
+        <source>Recording Sample Rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="277"/>
+        <source>Digital Out Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="278"/>
+        <source>Digital Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="279"/>
+        <source>AES/EBU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="280"/>
+        <source>SPDIF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="281"/>
+        <source>Speaker Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="282"/>
+        <source>Gapless Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="284"/>
+        <source>Limit Sample Rate in Audio Convert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="285"/>
+        <source>Power On Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="289"/>
+        <source>Wired Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="290"/>
+        <source>Wireless Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="291"/>
+        <source>Network Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="292"/>
+        <source>Wireless Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="293"/>
+        <source>Wake On LAN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="296"/>
+        <source>Samba Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="297"/>
+        <source>Host Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="298"/>
+        <source>Workgroup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="299"/>
+        <source>UPnP Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="300"/>
+        <source>Ftp Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="301"/>
+        <source>Password</source>
+        <translation type="unfinished">密碼</translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="302"/>
+        <source>Shareplay(Airplay)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="305"/>
+        <source>Qobuz Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="306"/>
+        <source>TIDAL Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="307"/>
+        <source>Deezer Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="308"/>
+        <source>Napster Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="309"/>
+        <source>HighResAudio Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="310"/>
+        <source>Amazon Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="311"/>
+        <source>User Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="312"/>
+        <source>Audio Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="313"/>
+        <source>Stream Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="316"/>
+        <source>OSD Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="317"/>
+        <source>FM broadcast band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="318"/>
+        <source>Use RDS When Seek All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="320"/>
+        <source>Resume Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="321"/>
+        <source>Factory Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="322"/>
+        <source>HDD Sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="323"/>
+        <source>Format Storage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="324"/>
+        <source>File System Fix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="325"/>
+        <source>Alarm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="326"/>
+        <source>Auto Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="327"/>
+        <source>ERP Regulation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="330"/>
+        <source>Time Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="331"/>
+        <source>Time Set (Internet)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="332"/>
+        <source>Time Set (Manually)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="335"/>
+        <source>Update manually</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="336"/>
+        <source>Update automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="337"/>
+        <source>Check now for new firmware</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="340"/>
+        <source>Gracenote(Cd)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="341"/>
+        <source>Gracenote(Cover)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="342"/>
+        <source>Gracenote(Finger)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="343"/>
+        <source>Gracenote(Pls)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="util/caxtranslate.h" line="350"/>
         <source>Unknown</source>
         <translation>未知</translation>
     </message>
@@ -2034,14 +2503,19 @@
         <translation>作曲者</translation>
     </message>
     <message>
-        <location filename="dialog/settrackcolumndialog.ui" line="111"/>
+        <location filename="dialog/settrackcolumndialog.ui" line="118"/>
         <source>Year</source>
         <translation>年</translation>
     </message>
     <message>
-        <location filename="dialog/settrackcolumndialog.ui" line="118"/>
+        <location filename="dialog/settrackcolumndialog.ui" line="139"/>
         <source>Mood</source>
         <translation>氛圍</translation>
+    </message>
+    <message>
+        <location filename="dialog/settrackcolumndialog.ui" line="160"/>
+        <source>ReplayGain</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="dialog/settrackcolumndialog.ui" line="125"/>
@@ -2049,17 +2523,17 @@
         <translation>速度</translation>
     </message>
     <message>
-        <location filename="dialog/settrackcolumndialog.ui" line="132"/>
+        <location filename="dialog/settrackcolumndialog.ui" line="111"/>
         <source>Format</source>
         <translation>音樂檔案格式</translation>
     </message>
     <message>
-        <location filename="dialog/settrackcolumndialog.ui" line="139"/>
+        <location filename="dialog/settrackcolumndialog.ui" line="146"/>
         <source>Samplerate</source>
         <translation>取樣率</translation>
     </message>
     <message>
-        <location filename="dialog/settrackcolumndialog.ui" line="146"/>
+        <location filename="dialog/settrackcolumndialog.ui" line="132"/>
         <source>Bitrate</source>
         <translation>比特率</translation>
     </message>
