@@ -778,7 +778,8 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 		m_CoverArt = UtilNovatron::GetCoverArtIcon(SIDEMENU_INPUT, m_Src);
 		SlotCoverArtUpdate(m_CoverArt);
 	}
-	else if (!m_Src.compare(SRC_USB_DAC))
+	else if (!m_Src.compare(SRC_USB_DAC)
+			 || !m_Src.compare(SRC_BLUETOOTH))
 	{
 		ui->btnPlay->hide();
 		ui->btnStop->show();

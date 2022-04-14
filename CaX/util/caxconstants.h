@@ -68,6 +68,7 @@
 #define SRC_AUX_IN			"AUX IN"
 #define SRC_PHONO_IN		"PHONO IN"
 #define SRC_USB_DAC			"USB DAC"
+#define SRC_BLUETOOTH		"Bluetooth"
 
 #define SRC_FM_RADIO		"FM Radio"
 #define SRC_DAB_RADIO		"DAB"
