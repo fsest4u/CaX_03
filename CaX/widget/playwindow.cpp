@@ -773,7 +773,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 		ui->btnStop->show();
 
 		m_pFormTitle->SetTitle(m_Top);
-		m_pFormTitle->SetSubtitle(m_Format);
+//		m_pFormTitle->SetSubtitle(m_Format);
 
 		m_CoverArt = UtilNovatron::GetCoverArtIcon(SIDEMENU_INPUT, m_Src);
 		SlotCoverArtUpdate(m_CoverArt);
@@ -785,7 +785,7 @@ void PlayWindow::DoNowPlay(CJsonNode node)
 		ui->btnRandom->hide();
 
 		m_pFormTitle->SetTitle(m_Top);
-		m_pFormTitle->SetSubtitle(m_Format);
+//		m_pFormTitle->SetSubtitle(m_Format);
 
 		m_CoverArt = UtilNovatron::GetCoverArtIcon(SIDEMENU_INPUT, m_Src);
 		SlotCoverArtUpdate(m_CoverArt);
