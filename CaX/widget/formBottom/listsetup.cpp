@@ -6,6 +6,7 @@
 #include "util/caxconstants.h"
 #include "util/caxkeyvalue.h"
 #include "util/log.h"
+#include "util/utilnovatron.h"
 
 ListSetup::ListSetup(QWidget *parent) :
 	QWidget(parent),
@@ -99,10 +100,11 @@ void ListSetup::SetNodeList(const QList<CJsonNode> &NodeList)
 	foreach (CJsonNode node, m_NodeList)
 	{
 //		LogDebug("node main : [%s]", node.ToCompactByteArray().data());
+		QString title = UtilNovatron::GetTitleForSetup(node.GetString(KEY_NAME_CAP));
 
 		QStandardItem *item = new QStandardItem;
 		item->setData(node.GetString(KEY_ID_UPPER), ListSetupDelegate::LIST_SETUP_ID);
-		item->setData(node.GetString(KEY_NAME_CAP), ListSetupDelegate::LIST_SETUP_TITLE);
+		item->setData(title, ListSetupDelegate::LIST_SETUP_TITLE);
 		item->setData(index, ListSetupDelegate::LIST_SETUP_INDEX);
 
 		m_Model->appendRow(item);
@@ -134,10 +136,13 @@ void ListSetup::SetNodeListSub(const QList<CJsonNode> &NodeList)
 			subtitle = node.GetString(KEY_VOLUME_CAP);
 		}
 
+		QString title = UtilNovatron::GetTitleForSetup(node.GetString(KEY_NAME_CAP));
+		subtitle = UtilNovatron::GetTitleForSetup(subtitle);
+
 		QStandardItem *item = new QStandardItem;
 		item->setData(id, ListSetupDelegate::LIST_SETUP_ID);
 		item->setData(node.GetString(KEY_TYPE), ListSetupDelegate::LIST_SETUP_TYPE);
-		item->setData(node.GetString(KEY_NAME_CAP), ListSetupDelegate::LIST_SETUP_TITLE);
+		item->setData(title, ListSetupDelegate::LIST_SETUP_TITLE);
 		item->setData(subtitle, ListSetupDelegate::LIST_SETUP_SUBTITLE);
 		item->setData(node.ToCompactByteArray().data(), ListSetupDelegate::LIST_SETUP_RAW);
 		item->setData(index, ListSetupDelegate::LIST_SETUP_INDEX);

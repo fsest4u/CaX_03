@@ -117,6 +117,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 
 	m_StrIDSub = qvariant_cast<QString>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_ID));
 //	LogDebug("setup sub menu [%s]", m_StrIDSub.toUtf8().data());
+
 	int type = qvariant_cast<int>(m_ModelIndex.data(ListSetupDelegate::LIST_SETUP_TYPE));
 	UtilNovatron::DebugTypeForSetup("SlotSelectMenuSub", type);
 
@@ -193,7 +194,7 @@ void SetupWindow::SlotSelectMenuSub(const QModelIndex &modelIndex, QPoint point)
 		{
 			return;
 		}
-		LogDebug("node [%s]", node.ToCompactByteArray().data());
+//		LogDebug("node [%s]", node.ToCompactByteArray().data());
 
 		CJsonNode nodeForm = node.GetObject(KEY_FORM);
 
@@ -389,21 +390,12 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 	else
 	{
 //		LogDebug("resp is form~~");
-		QString title = nodeForm.GetString(KEY_TITLE_CAP);
-		if (title.contains(SETUP_POWER_ON_VOLUME))
-		{
-			DoPowerOnVolume(nodeForm);
-		}
-		else if (title.contains(SETUP_CUSTOM_EQ))
-		{
-			DoCustomEQ(nodeForm);
-		}
-		else if (title.contains(SETUP_ALRAM)
-				 || title.contains(SETUP_AUTO_SHUTDOWN))
+		if (m_StrIDSub.contains(ID_SY_ALARM)
+				|| m_StrIDSub.contains(ID_SY_AUTO_SHUTDOWN))
 		{
 			DoAlarm(nodeForm);
 		}
-		else if (title.contains(SETUP_CHECK_NEW_FIRMWARE))
+		else if (m_StrIDSub.contains(ID_SY_CHECKFIRMWARE))
 		{
 			FormDialog2 dialog;
 			dialog.SetNodeForm(nodeForm);
@@ -416,7 +408,14 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 				m_pMgr->RequestSetupSet(node);
 			}
 		}
-		else if (title.contains(SETUP_GRACE_NOTE))
+		else if (m_StrIDSub.contains(ID_AUD_EQULIZER))
+		{
+			DoCustomEQ(nodeForm);
+		}
+		else if (m_StrIDSub.contains(ID_LI_GRACENOTE_CD)
+				 || m_StrIDSub.contains(ID_LI_GRACENOTE_COVER)
+				 || m_StrIDSub.contains(ID_LI_GRACENOTE_FINGER)
+				 || m_StrIDSub.contains(ID_LI_GRACENOTE_PLS))
 		{
 			QString url = nodeForm.GetString(KEY_URL);
 			if (url.isEmpty())
@@ -446,8 +445,12 @@ void SetupWindow::SlotRespSet(CJsonNode node)
 				}
 			}
 		}
-		else if (title.contains(SETUP_WIRELESS_NETWORK)
-				 || title.contains(SETUP_WIRELESS_INFO))
+		else if (m_StrIDSub.contains(ID_AUD_POWERON_VOLUME))
+		{
+			DoPowerOnVolume(nodeForm);
+		}
+		else if (m_StrIDSub.contains(ID_NET_NETWORK_INFO)
+				 || m_StrIDSub.contains(ID_NET_WIRELESS_INFO))
 		{
 			FormDialog5 dialog;
 			dialog.SetNodeForm(nodeForm);
@@ -538,6 +541,7 @@ void SetupWindow::Initialize()
 							}");
 
 	m_MenuSub->setStyleSheet(style);
+
 }
 
 void SetupWindow::SetMenuSubMap(QStringList keys, QStringList values)

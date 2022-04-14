@@ -27,12 +27,16 @@ public:
 	static void	RemoveTempDirectory();
 	static void	RemoveFilesInTempDirectory(QString prefix);
 	static void	RemoveContainFilesInTempDirectory(QString part);
+
 	static QString ConvertURLToFilenameWithExtension(QString fullpath);
 	static QString ConvertURLToFilename(QString fullpath);
+
 	static QString GetCategoryName(int category);
 	static QString GetCategoryTitleName(int category);
 	static int GetCategoryCount(int category, CJsonNode node);
 	static QString GetSuffix(QString filename);
+
+	static QString GetTitleForSetup(QString name);
 
 	static Loading* LoadingStart(QWidget* widget);
 	static void LoadingStop(Loading* loading);

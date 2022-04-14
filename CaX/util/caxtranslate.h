@@ -237,12 +237,115 @@
 
 #define STR_SEARCH_RESULTS_FOR			QObject::tr("Search results for \"%1\"")
 
+//////////////////////////////////////////////////
+// setup
+//////////////////////////////////////////////////
+
+// setup main
+#define STR_SETUP_MUSIC_DB					QObject::tr("Music DB")
+#define STR_SETUP_CD_RIPPING				QObject::tr("CD Ripping")
+#define STR_SETUP_AUDIO						QObject::tr("Audio")
+#define STR_SETUP_NETWORK					QObject::tr("Network")
+#define STR_SETUP_NETWORK_SERVICE			QObject::tr("Network Service")
+#define STR_SETUP_INTERNET_SERVICE			QObject::tr("Internet Service")
+#define STR_SETUP_SYSTEM					QObject::tr("System")
+#define STR_SETUP_TIME						QObject::tr("Time")
+#define STR_SETUP_FIRMWARE					QObject::tr("Firmware")
+#define STR_SETUP_LICENSE					QObject::tr("License")
+
+// setup music db
+#define STR_SETUP_STORAGE					QObject::tr("Storage")
+#define STR_SETUP_MUSIC_DB_SCAN_STATUS		QObject::tr("Music DB Scan Status")
+#define STR_SETUP_RESCAN_RESOURCE			QObject::tr("Rescan Resource")
+#define STR_SETUP_MUSIC_DB_INITIALIZE		QObject::tr("Music DB Initialization")
+
+// setup cd ripping
+#define STR_SETUP_BIT_RATE					QObject::tr("Bit Rate")
+#define STR_SETUP_QUALITY					QObject::tr("Quality")
+#define STR_SETUP_AUDIO_RIP_FORMAT			QObject::tr("Audio Rip Format")
+#define STR_SETUP_AUTO_RIP					QObject::tr("Auto Rip")
+
+// setup audio
+#define STR_SETUP_MAX_VOLUME				QObject::tr("Max Volume")
+#define STR_SETUP_EQUALIZER					QObject::tr("Equalizer")
+#define STR_SETUP_USB_HDMI_AUDIO_OUT		QObject::tr("USB/HDMI Audio Out")
+#define STR_SETUP_DSD_SIGNAL_TYPE			QObject::tr("DSD Signal Type")
+#define STR_SETUP_ANALOG_IN_VOLUME			QObject::tr("Analog In Volume")
+#define STR_SETUP_ANALOG_OUT_VOLUME			QObject::tr("Analog Out Volume")
+#define STR_SETUP_ANALOG_OUT				QObject::tr("Analog Out")
+#define STR_SETUP_RECORDING_SAMPLE_RATE		QObject::tr("Recording Sample Rate")
+#define STR_SETUP_DIGITAL_OUT_VOLUME		QObject::tr("Digital Out Volume")
+#define STR_SETUP_DIGITAL_OUT				QObject::tr("Digital Out")
+#define STR_SETUP_AES_EBU					QObject::tr("AES/EBU")
+#define STR_SETUP_SPDIF						QObject::tr("SPDIF")
+#define STR_SETUP_SPEAKER_OUT				QObject::tr("Speaker Out")
+#define STR_SETUP_GAPLESS_PLAY				QObject::tr("Gapless Play")
+#define STR_SETUP_REPLAYGAIN				QObject::tr("Replaygain")
+#define STR_SETUP_LIMIT_SAMPLE_RATE			QObject::tr("Limit Sample Rate in Audio Convert")
+#define STR_SETUP_POWER_ON_VOLUME			QObject::tr("Power On Volume")
+
+// setup network
+#define STR_SETUP_NETWORK					QObject::tr("Network")
+#define STR_SETUP_WIRED_SETUP				QObject::tr("Wired Setup")
+#define STR_SETUP_WIRELESS_SETUP			QObject::tr("Wireless Setup")
+#define STR_SETUP_NETWORK_INFO				QObject::tr("Network Info")
+#define STR_SETUP_WIRELESS_INFO				QObject::tr("Wireless Info")
+#define STR_SETUP_WAKE_ON_LAN				QObject::tr("Wake On LAN")
+
+// setup network service
+#define STR_SETUP_SAMBA_SERVER				QObject::tr("Samba Server")
+#define STR_SETUP_HOST_NAME					QObject::tr("Host Name")
+#define STR_SETUP_WORKGROUP					QObject::tr("Workgroup")
+#define STR_SETUP_UPNP_SERVER				QObject::tr("UPnP Server")
+#define STR_SETUP_FTP_SERVER				QObject::tr("Ftp Server")
+#define STR_SETUP_PASSWORD					QObject::tr("Password")
+#define STR_SETUP_SHARE_PLAY				QObject::tr("Shareplay(Airplay)")
+
+// setup internet service
+#define STR_SETUP_QOBUZ_SERVICE				QObject::tr("Qobuz Service")
+#define STR_SETUP_TIDAL_SERVICE				QObject::tr("TIDAL Service")
+#define STR_SETUP_DEEZER_SERVICE			QObject::tr("Deezer Service")
+#define STR_SETUP_NAPSTER_SERVICE			QObject::tr("Napster Service")
+#define STR_SETUP_HIGHRESAUDIO_SERVICE		QObject::tr("HighResAudio Service")
+#define STR_SETUP_AMAZON_MUSIC				QObject::tr("Amazon Music")
+#define STR_SETUP_USER_NAME					QObject::tr("User Name")
+#define STR_SETUP_AUDIO_FORMAT				QObject::tr("Audio Format")
+#define STR_SETUP_STREAM_QUALITY			QObject::tr("Stream Quality")
+
+// setup system
+#define STR_SETUP_OSD_LANGUAGE				QObject::tr("OSD Language")
+#define STR_SETUP_FM_BROADCAST_BAND			QObject::tr("FM broadcast band")
+#define STR_SETUP_USE_RDS_WHEN_SEEK_ALL		QObject::tr("Use RDS When Seek All")
+#define STR_SETUP_AUTO_PLAY					QObject::tr("Auto Play")
+#define STR_SETUP_RESUME_PLAY				QObject::tr("Resume Play")
+#define STR_SETUP_FACTORY_RESET				QObject::tr("Factory Reset")
+#define STR_SETUP_HDD_SLEEP					QObject::tr("HDD Sleep")
+#define STR_SETUP_FORMAT_STORAGE			QObject::tr("Format Storage")
+#define STR_SETUP_FILE_SYSTEM_FIX			QObject::tr("File System Fix")
+#define STR_SETUP_ALARM						QObject::tr("Alarm")
+#define STR_SETUP_AUTO_SHUTDOWN				QObject::tr("Auto Shutdown")
+#define STR_SETUP_ERP_REGULATION			QObject::tr("ERP Regulation")
+
+// setup time
+#define STR_SETUP_TIME_FORMAT				QObject::tr("Time Format")
+#define STR_SETUP_TIME_SET_INTERNET			QObject::tr("Time Set (Internet)")
+#define STR_SETUP_TIME_SET_MANUALLY			QObject::tr("Time Set (Manually)")
+
+// setup firmware
+#define STR_SETUP_UPDATE_MANUALLY			QObject::tr("Update manually")
+#define STR_SETUP_UPDATE_AUTOMATICALLY		QObject::tr("Update automatically")
+#define STR_SETUP_CHECK_NEW_FIRMWARE		QObject::tr("Check now for new firmware")
+
+// setup license
+#define STR_SETUP_GRACENOTE_CD				QObject::tr("Gracenote(Cd)")
+#define STR_SETUP_GRACENOTE_COVER			QObject::tr("Gracenote(Cover)")
+#define STR_SETUP_GRACENOTE_FINGER			QObject::tr("Gracenote(Finger)")
+#define STR_SETUP_GRACENOTE_PLS				QObject::tr("Gracenote(Pls)")
+
 
 //////////////////////////////////////////////////
 // etc
 //////////////////////////////////////////////////
-
-
 
 #define STR_UNKNOWN					QObject::tr("Unknown")
 

@@ -616,6 +616,347 @@ QString UtilNovatron::GetSuffix(QString filename)
 	return filename.right(index);
 }
 
+QString UtilNovatron::GetTitleForSetup(QString name)
+{
+	QString title;
+
+	// setup main
+	if (!name.compare("Music DB"))
+	{
+		title = STR_SETUP_MUSIC_DB;
+	}
+	else if (!name.compare("CD Ripping"))
+	{
+		title = STR_SETUP_CD_RIPPING;
+	}
+	else if (!name.compare("Audio"))
+	{
+		title = STR_SETUP_AUDIO;
+	}
+	else if (!name.compare("Network"))
+	{
+		title = STR_SETUP_NETWORK;
+	}
+	else if (!name.compare("Network Service"))
+	{
+		title = STR_SETUP_NETWORK_SERVICE;
+	}
+	else if (!name.compare("Internet Service"))
+	{
+		title = STR_SETUP_INTERNET_SERVICE;
+	}
+	else if (!name.compare("System"))
+	{
+		title = STR_SETUP_SYSTEM;
+	}
+	else if (!name.compare("Time"))
+	{
+		title = STR_SETUP_TIME;
+	}
+	else if (!name.compare("Firmware"))
+	{
+		title = STR_SETUP_FIRMWARE;
+	}
+	else if (!name.compare("License"))
+	{
+		title = STR_SETUP_LICENSE;
+	}
+	// setup music db
+	else if (!name.compare("Storage"))
+	{
+		title = STR_SETUP_STORAGE;
+	}
+	else if (!name.compare("Music DB Scan Status"))
+	{
+		title = STR_SETUP_MUSIC_DB_SCAN_STATUS;
+	}
+	else if (!name.compare("Rescan Resource"))
+	{
+		title = STR_SETUP_RESCAN_RESOURCE;
+	}
+	else if (!name.compare("Music DB Initialization"))
+	{
+		title = STR_SETUP_MUSIC_DB_INITIALIZE;
+	}
+	// setup cd ripping
+	else if (!name.compare("Bit Rate"))
+	{
+		title = STR_SETUP_BIT_RATE;
+	}
+	else if (!name.compare("Quality"))
+	{
+		title = STR_SETUP_QUALITY;
+	}
+	else if (!name.compare("Audio Rip Format"))
+	{
+		title = STR_SETUP_AUDIO_RIP_FORMAT;
+	}
+	else if (!name.compare("Auto Rip"))
+	{
+		title = STR_SETUP_AUTO_RIP;
+	}
+	// setup audio
+	else if (!name.compare("Max Volume"))
+	{
+		title = STR_SETUP_MAX_VOLUME;
+	}
+	else if (!name.compare("Equalizer"))
+	{
+		title = STR_SETUP_EQUALIZER;
+	}
+	else if (!name.compare("USB/HDMI Audio Out"))
+	{
+		title = STR_SETUP_USB_HDMI_AUDIO_OUT;
+	}
+	else if (!name.compare("DSD Signal Type"))
+	{
+		title = STR_SETUP_DSD_SIGNAL_TYPE;
+	}
+	else if (!name.compare("Analog In Volume"))
+	{
+		title = STR_SETUP_ANALOG_IN_VOLUME;
+	}
+	else if (!name.compare("Analog Out Volume"))
+	{
+		title = STR_SETUP_ANALOG_OUT_VOLUME;
+	}
+	else if (!name.compare("Analog Out"))
+	{
+		title = STR_SETUP_ANALOG_OUT;
+	}
+	else if (!name.compare("Recording Sample Rate"))
+	{
+		title = STR_SETUP_RECORDING_SAMPLE_RATE;
+	}
+	else if (!name.compare("Digital Out Volume"))
+	{
+		title = STR_SETUP_DIGITAL_OUT_VOLUME;
+	}
+	else if (!name.compare("Digital Out"))
+	{
+		title = STR_SETUP_DIGITAL_OUT;
+	}
+	else if (!name.compare("AES/EBU"))
+	{
+		title = STR_SETUP_AES_EBU;
+	}
+	else if (!name.compare("SPDIF"))
+	{
+		title = STR_SETUP_SPDIF;
+	}
+	else if (!name.compare("Speaker Out"))
+	{
+		title = STR_SETUP_SPEAKER_OUT;
+	}
+	else if (!name.compare("Gapless Play"))
+	{
+		title = STR_SETUP_GAPLESS_PLAY;
+	}
+	else if (!name.compare("Replaygain"))
+	{
+		title = STR_SETUP_REPLAYGAIN;
+	}
+	else if (!name.compare("Limit Sample Rate in Audio Convert"))
+	{
+		title = STR_SETUP_LIMIT_SAMPLE_RATE;
+	}
+	else if (!name.compare("Power On Volume"))
+	{
+		title = STR_SETUP_POWER_ON_VOLUME;
+	}
+	// setup network
+	else if (!name.compare("Network"))
+	{
+		title = STR_SETUP_NETWORK;
+	}
+	else if (!name.compare("Wired Setup"))
+	{
+		title = STR_SETUP_WIRED_SETUP;
+	}
+	else if (!name.compare("Wireless Setup"))
+	{
+		title = STR_SETUP_WIRELESS_SETUP;
+	}
+	else if (!name.compare("Network Info"))
+	{
+		title = STR_SETUP_NETWORK_INFO;
+	}
+	else if (!name.compare("Wireless Info"))
+	{
+		title = STR_SETUP_WIRELESS_INFO;
+	}
+	else if (!name.compare("Wake On LAN"))
+	{
+		title = STR_SETUP_WAKE_ON_LAN;
+	}
+	// setup network service
+	else if (name.contains("Samba Server"))
+	{
+		title = STR_SETUP_SAMBA_SERVER;
+	}
+	else if (!name.compare("Host Name"))
+	{
+		title = STR_SETUP_HOST_NAME;
+	}
+	else if (!name.compare("Workgroup"))
+	{
+		title = STR_SETUP_WORKGROUP;
+	}
+	else if (name.contains("UPnP Server"))
+	{
+		title = STR_SETUP_UPNP_SERVER;
+	}
+	else if (name.contains("Ftp Server"))
+	{
+		title = STR_SETUP_FTP_SERVER;
+	}
+	else if (!name.compare("Password"))
+	{
+		title = STR_SETUP_PASSWORD;
+	}
+	else if (name.contains("Shareplay(Airplay)"))
+	{
+		title = STR_SETUP_SHARE_PLAY;
+	}
+	// setup internet service
+	else if (!name.compare("Qobuz Service"))
+	{
+		title = STR_SETUP_QOBUZ_SERVICE;
+	}
+	else if (!name.compare("TIDAL Service"))
+	{
+		title = STR_SETUP_TIDAL_SERVICE;
+	}
+	else if (!name.compare("Deezer Service"))
+	{
+		title = STR_SETUP_DEEZER_SERVICE;
+	}
+	else if (!name.compare("Napster Service"))
+	{
+		title = STR_SETUP_NAPSTER_SERVICE;
+	}
+	else if (!name.compare("HighResAudio Service"))
+	{
+		title = STR_SETUP_HIGHRESAUDIO_SERVICE;
+	}
+	else if (!name.compare("Amazon Music"))
+	{
+		title = STR_SETUP_AMAZON_MUSIC;
+	}
+	else if (!name.compare("User Name"))
+	{
+		title = STR_SETUP_USER_NAME;
+	}
+	else if (!name.compare("Audio Format"))
+	{
+		title = STR_SETUP_AUDIO_FORMAT;
+	}
+	else if (!name.compare("Stream Quality"))
+	{
+		title = STR_SETUP_STREAM_QUALITY;
+	}
+	// setup system
+	else if (!name.compare("OSD Language"))
+	{
+		title = STR_SETUP_OSD_LANGUAGE;
+	}
+	else if (!name.compare("FM broadcast band"))
+	{
+		title = STR_SETUP_FM_BROADCAST_BAND;
+	}
+	else if (!name.compare("Use RDS When Seek All"))
+	{
+		title = STR_SETUP_USE_RDS_WHEN_SEEK_ALL;
+	}
+	else if (!name.compare("Auto Play"))
+	{
+		title = STR_SETUP_AUTO_PLAY;
+	}
+	else if (!name.compare("Resume Play"))
+	{
+		title = STR_SETUP_RESUME_PLAY;
+	}
+	else if (!name.compare("Factory Reset"))
+	{
+		title = STR_SETUP_FACTORY_RESET;
+	}
+	else if (!name.compare("HDD Sleep"))
+	{
+		title = STR_SETUP_HDD_SLEEP;
+	}
+	else if (!name.compare("Format Storage"))
+	{
+		title = STR_SETUP_FORMAT_STORAGE;
+	}
+	else if (!name.compare("File System Fix"))
+	{
+		title = STR_SETUP_FILE_SYSTEM_FIX;
+	}
+	else if (!name.compare("Alarm"))
+	{
+		title = STR_SETUP_ALARM;
+	}
+	else if (!name.compare("Auto Shutdown"))
+	{
+		title = STR_SETUP_AUTO_SHUTDOWN;
+	}
+	else if (!name.compare("ERP Regulation"))
+	{
+		title = STR_SETUP_ERP_REGULATION;
+	}
+	// setup time
+	else if (!name.compare("Time Format"))
+	{
+		title = STR_SETUP_TIME_FORMAT;
+	}
+	else if (!name.compare("Time Set (Internet)"))
+	{
+		title = STR_SETUP_TIME_SET_INTERNET;
+	}
+	else if (!name.compare("Time Set (Manually)"))
+	{
+		title = STR_SETUP_TIME_SET_MANUALLY;
+	}
+	// setup firmware
+	else if (!name.compare("Update manually"))
+	{
+		title = STR_SETUP_UPDATE_MANUALLY;
+	}
+	else if (!name.compare("Update automatically"))
+	{
+		title = STR_SETUP_UPDATE_AUTOMATICALLY;
+	}
+	else if (!name.compare("Check now for new firmware"))
+	{
+		title = STR_SETUP_CHECK_NEW_FIRMWARE;
+	}
+	// setup license
+	else if (!name.compare("Gracenote(Cd)"))
+	{
+		title = STR_SETUP_GRACENOTE_CD;
+	}
+	else if (!name.compare("Gracenote(Cover)"))
+	{
+		title = STR_SETUP_GRACENOTE_COVER;
+	}
+	else if (!name.compare("Gracenote(Finger)"))
+	{
+		title = STR_SETUP_GRACENOTE_FINGER;
+	}
+	else if (!name.compare("Gracenote(Pls)"))
+	{
+		title = STR_SETUP_GRACENOTE_PLS;
+	}
+	else
+	{
+//		LogDebug("There is no title corresponding to the string.");
+		title = name;
+	}
+
+//	LogDebug("name [%s] title [%s]", name.toUtf8().data(), title.toUtf8().data());
+	return title;
+}
+
 Loading *UtilNovatron::LoadingStart(QWidget *widget)
 {
 	if (widget != nullptr)

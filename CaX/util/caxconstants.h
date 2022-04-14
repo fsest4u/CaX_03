@@ -87,6 +87,8 @@
 //////////////////////////////////////////////////
 
 #define ID_AUD_ANALOG_IN_VOLUME				"AUD_ANALOG_IN_VOLUME"
+#define ID_AUD_EQULIZER						"AUD_EQUALIZER"
+#define ID_AUD_POWERON_VOLUME				"AUD_POWERON_VOLUME"
 
 #define ID_IS_QB_USER						"IS_QB_USER"
 #define ID_IS_AIRABLE_TIDAL_USER			"IS_AIRABLE_TIDAL_USER"
@@ -124,15 +126,6 @@
 #define ID_SY_NTFS_FIX						"SY_NTFS_FIX"
 
 #define ID_TM_MANUAL						"TM_MANUAL"
-
-#define SETUP_ALRAM							"Alarm"
-#define SETUP_AUTO_SHUTDOWN					"Auto Shutdown"
-#define SETUP_CHECK_NEW_FIRMWARE			"Check now for new firmware"
-#define SETUP_CUSTOM_EQ						"Custom EQ"
-#define SETUP_GRACE_NOTE					"Gracenote"
-#define SETUP_POWER_ON_VOLUME				"Power On Volume"
-#define SETUP_WIRELESS_INFO					"Wireless Info"
-#define SETUP_WIRELESS_NETWORK				"Wireless Network"
 
 //////////////////////////////////////////////////
 // ui
