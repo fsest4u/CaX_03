@@ -64,7 +64,7 @@
     <message>
         <location filename="dialog/addradiodialog.ui" line="194"/>
         <source>~</source>
-        <translation type="unfinished"></translation>
+        <translation>~</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;~&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -190,7 +190,7 @@
     <message>
         <location filename="dialog/browserdialog.ui" line="14"/>
         <source>Browser</source>
-        <translation type="unfinished">Browser</translation>
+        <translation>Browser</translation>
     </message>
 </context>
 <context>
@@ -198,7 +198,7 @@
     <message>
         <location filename="dialog/browserwidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Time</translation>
+        <translation>Form</translation>
     </message>
 </context>
 <context>
@@ -274,7 +274,7 @@
         <location filename="dialog/commondialog.ui" line="129"/>
         <source>OK</source>
         <oldsource>Ok</oldsource>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="dialog/commondialog.ui" line="153"/>
@@ -373,7 +373,7 @@
     <message>
         <location filename="dialog/setup/formdialog2.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
 </context>
 <context>
@@ -381,7 +381,7 @@
     <message>
         <location filename="dialog/setup/formdialog3.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
 </context>
 <context>
@@ -389,7 +389,7 @@
     <message>
         <location filename="dialog/setup/formdialog4.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
 </context>
 <context>
@@ -397,7 +397,7 @@
     <message>
         <location filename="dialog/setup/formdialog5.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
 </context>
 <context>
@@ -651,7 +651,7 @@
     <message>
         <location filename="dialog/languagedialog.ui" line="14"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal</translation>
     </message>
 </context>
 <context>
@@ -678,7 +678,7 @@
     <message>
         <location filename="widget/formBottom/listbrowser.ui" line="60"/>
         <source>Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet beschikbaar</translation>
     </message>
 </context>
 <context>
@@ -935,7 +935,7 @@
         <location filename="dialog/setup/maxvolumedialog.ui" line="125"/>
         <source>Current Volume</source>
         <oldsource>Cur Volume</oldsource>
-        <translation type="unfinished">Huidig volume</translation>
+        <translation>Huidige volume</translation>
     </message>
     <message>
         <location filename="dialog/setup/maxvolumedialog.ui" line="171"/>
@@ -1015,7 +1015,7 @@
         <location filename="dialog/progressdialog.ui" line="110"/>
         <source>OK</source>
         <oldsource>Ok</oldsource>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="dialog/progressdialog.ui" line="134"/>
@@ -1056,7 +1056,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="23"/>
         <source>Change will take effect when you restart Music X Neo.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzigingen zijn geactiveerd na het opnieuw opstarten van Music X Neo.</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="20"/>
@@ -1066,7 +1066,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="19"/>
         <source>Do you want the selected files to the this folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u de actie naar deze map, met de door u geselecteerde bestanden. uitvoeren?</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="21"/>
@@ -1086,7 +1086,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="25"/>
         <source>Select target storage</source>
-        <translation type="unfinished"></translation>
+        <translation>Kies de doelopslagmedium</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="26"/>
@@ -1637,38 +1637,38 @@
     <message>
         <location filename="util/caxtranslate.h" line="190"/>
         <source>Album Gain</source>
-        <translation type="unfinished"></translation>
+        <translation>Album weergavesterkte</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="191"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bit rate</translation>
+        <translation>Bit rate</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="192"/>
         <source>Format</source>
-        <translation type="unfinished">Formaat</translation>
+        <translation>Formaat</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="193"/>
         <source>Rating</source>
-        <translation type="unfinished">Beoordeling</translation>
+        <translation>Beoordeling</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="194"/>
         <source>SampleRate</source>
-        <translation type="unfinished"></translation>
+        <translation>Sample rate</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="195"/>
         <location filename="util/caxtranslate.h" line="252"/>
         <source>Time</source>
-        <translation type="unfinished">Tijd</translation>
+        <translation>Tijd</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="196"/>
         <source>Tempo</source>
-        <translation type="unfinished">Tempo</translation>
+        <translation>Tempo</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="202"/>
@@ -1690,12 +1690,12 @@
     <message>
         <location filename="util/caxtranslate.h" line="50"/>
         <source>invalid data</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldige gegevens</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="71"/>
         <source>App language</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal voor de App</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="113"/>
@@ -1735,373 +1735,373 @@
     <message>
         <location filename="util/caxtranslate.h" line="246"/>
         <source>CD Ripping</source>
-        <translation type="unfinished"></translation>
+        <translation>CD Ripping</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="247"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="248"/>
         <location filename="util/caxtranslate.h" line="288"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="249"/>
         <source>Network Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkdiensten</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="250"/>
         <source>Internet Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetdiensten</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="251"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="253"/>
         <source>Firmware</source>
-        <translation type="unfinished"></translation>
+        <translation>Firmware</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="254"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Licenties</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="257"/>
         <source>Storage</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslagmedia</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="258"/>
         <source>Music DB Scan Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status van de Music DB indexering</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="259"/>
         <source>Rescan Resource</source>
-        <translation type="unfinished"></translation>
+        <translation>Music DB indexering actualiseren</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="260"/>
         <source>Music DB Initialization</source>
-        <translation type="unfinished"></translation>
+        <translation>Music DB indexering wissen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="263"/>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Bit rate</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="264"/>
         <source>Quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Kwaliteit</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="265"/>
         <source>Audio Rip Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio rip formaat</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="266"/>
         <source>Auto Rip</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch rippen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="269"/>
         <source>Max Volume</source>
-        <translation type="unfinished">Maximaal volume</translation>
+        <translation>Maximaal volume</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="270"/>
         <source>Equalizer</source>
-        <translation type="unfinished"></translation>
+        <translation>Equalizer</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="271"/>
         <source>USB/HDMI Audio Out</source>
-        <translation type="unfinished"></translation>
+        <translation>USB/HDMI audio uitgang</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="272"/>
         <source>DSD Signal Type</source>
-        <translation type="unfinished"></translation>
+        <translation>DSD signaalsoort</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="273"/>
         <source>Analog In Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume analoge ingangen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="274"/>
         <source>Analog Out Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume analoge uitgangen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="275"/>
         <source>Analog Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Analoge uitgang</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="276"/>
         <source>Recording Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Sample rate bij opname</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="277"/>
         <source>Digital Out Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume digitale uitgangen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="278"/>
         <source>Digital Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Digitale uitgang</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="279"/>
         <source>AES/EBU</source>
-        <translation type="unfinished"></translation>
+        <translation>AES/EBU</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="280"/>
         <source>SPDIF</source>
-        <translation type="unfinished"></translation>
+        <translation>SPDIF</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="281"/>
         <source>Speaker Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Luidspreker uitgang</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="282"/>
         <source>Gapless Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Gapless safspelen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="284"/>
         <source>Limit Sample Rate in Audio Convert</source>
-        <translation type="unfinished"></translation>
+        <translation>Sample rate bij converteren begrenzen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="285"/>
         <source>Power On Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume bij inschakelen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="289"/>
         <source>Wired Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedraad netwerk instellen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="290"/>
         <source>Wireless Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloos netwerk instellen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="291"/>
         <source>Network Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk informatie</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="292"/>
         <source>Wireless Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloos netwerk informatie</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="293"/>
         <source>Wake On LAN</source>
-        <translation type="unfinished"></translation>
+        <translation>Activering via LAN (WOL)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="296"/>
         <source>Samba Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Samba Server instellen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="297"/>
         <source>Host Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaatnaam</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="298"/>
         <source>Workgroup</source>
-        <translation type="unfinished">Werkgroep</translation>
+        <translation>Werkgroep</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="299"/>
         <source>UPnP Server</source>
-        <translation type="unfinished"></translation>
+        <translation>UPnP Server instellen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="300"/>
         <source>Ftp Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Ftp Server instellen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="301"/>
         <source>Password</source>
-        <translation type="unfinished">Wachtwoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="302"/>
         <source>Shareplay(Airplay)</source>
-        <translation type="unfinished"></translation>
+        <translation>Shareplay (Airplay)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="305"/>
         <source>Qobuz Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Qobuz</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="306"/>
         <source>TIDAL Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidal</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="307"/>
         <source>Deezer Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Deezer</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="308"/>
         <source>Napster Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Napster</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="309"/>
         <source>HighResAudio Service</source>
-        <translation type="unfinished"></translation>
+        <translation>HighResAudio</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="310"/>
         <source>Amazon Music</source>
-        <translation type="unfinished"></translation>
+        <translation>Amazon</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="311"/>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="312"/>
         <source>Audio Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio formaat</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="313"/>
         <source>Stream Quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Afspeelkwaliteit</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="316"/>
         <source>OSD Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Menutaal op het apparaat (OSD)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="317"/>
         <source>FM broadcast band</source>
-        <translation type="unfinished"></translation>
+        <translation>FM frequentieband</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="318"/>
         <source>Use RDS When Seek All</source>
-        <translation type="unfinished"></translation>
+        <translation>RDS informatie benutten bij zenderzoeken</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="320"/>
         <source>Resume Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch afspelen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="321"/>
         <source>Factory Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Terugzetten naar fabrieksinstellingen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="322"/>
         <source>HDD Sleep</source>
-        <translation type="unfinished"></translation>
+        <translation>Slaapstand harddisk</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="323"/>
         <source>Format Storage</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslag formatteren</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="324"/>
         <source>File System Fix</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestandsreparatie</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="325"/>
         <source>Alarm</source>
-        <translation type="unfinished"></translation>
+        <translation>Alarm instellen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="326"/>
         <source>Auto Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch uitschakelen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="327"/>
         <source>ERP Regulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Energiespaarmodus instellen</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="330"/>
         <source>Time Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdnotatie</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="331"/>
         <source>Time Set (Internet)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdinstelling (Internet)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="332"/>
         <source>Time Set (Manually)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdinstelling (Handmatig)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="335"/>
         <source>Update manually</source>
-        <translation type="unfinished"></translation>
+        <translation>Handmatige update</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="336"/>
         <source>Update automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatische update</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="337"/>
         <source>Check now for new firmware</source>
-        <translation type="unfinished"></translation>
+        <translation>Controleren op beschikbaarheid nieuwe firmware</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="340"/>
         <source>Gracenote(Cd)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gracenote (Cd)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="341"/>
         <source>Gracenote(Cover)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gracenote (Cover)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="342"/>
         <source>Gracenote(Finger)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gracenote (Finger)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="343"/>
         <source>Gracenote(Pls)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gracenote (Pls)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="350"/>
@@ -2512,7 +2512,7 @@
     <message>
         <location filename="dialog/settrackcolumndialog.ui" line="160"/>
         <source>ReplayGain</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanpassing weergavevolume</translation>
     </message>
     <message>
         <location filename="dialog/settrackcolumndialog.ui" line="125"/>
