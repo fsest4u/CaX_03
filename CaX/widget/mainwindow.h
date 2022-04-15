@@ -108,6 +108,7 @@ private:
 	void DoDabRadioHome();
 	void DoGroupPlayHome();
 	void DoSetupHome();
+    void DoUpdateHome();
 	void DoPowerOff();
 	void DoPowerOn();
 	void DoLanguage();

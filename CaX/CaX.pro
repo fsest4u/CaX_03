@@ -82,6 +82,7 @@ SOURCES += \
     manager/setupmanager.cpp \
     manager/sqlmanager.cpp \
     manager/ssdpmanager.cpp \
+    manager/updatemanager.cpp \
     network/observerclient.cpp \
     network/tcpclient.cpp \
     network/udpclient.cpp \
@@ -157,7 +158,8 @@ SOURCES += \
     widget/queuelistwindow.cpp \
     widget/searchwindow.cpp \
     widget/setupwindow.cpp \
-    widget/topwindow.cpp
+    widget/topwindow.cpp \
+    widget/updatewindow.cpp
 
 HEADERS += \
     dialog/aboutdialog.h \
@@ -234,6 +236,7 @@ HEADERS += \
     manager/setupmanager.h \
     manager/sqlmanager.h \
     manager/ssdpmanager.h \
+    manager/updatemanager.h \
     network/observerclient.h \
     network/tcpclient.h \
     network/udpclient.h \
@@ -319,7 +322,8 @@ HEADERS += \
     widget/searchwindow.h \
     widget/setup.h \
     widget/setupwindow.h \
-    widget/topwindow.h
+    widget/topwindow.h \
+    widget/updatewindow.h
 
 FORMS += \
     dialog/aboutdialog.ui \
@@ -423,7 +427,8 @@ FORMS += \
     widget/queuelistwindow.ui \
     widget/searchwindow.ui \
     widget/setupwindow.ui \
-    widget/topwindow.ui
+    widget/topwindow.ui \
+    widget/updatewindow.ui
 
 win32:RC_ICONS = logo-icon-musicxneo-256.ico
 unix:ICON = logo-icon-musicxneo-256.icns
@@ -439,7 +444,6 @@ TRANSLATIONS += \
     CaX_pl_PL.ts \
     CaX_ru_RU.ts \
     CaX_zh_CN.ts \
-    CaX_zh_HK.ts \
     CaX_zh_TW.ts
 
 # Default rules for deployment.

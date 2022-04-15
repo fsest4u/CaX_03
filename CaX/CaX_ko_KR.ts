@@ -64,7 +64,7 @@
     <message>
         <location filename="dialog/addradiodialog.ui" line="194"/>
         <source>~</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">~</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;~&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -111,7 +111,7 @@
     <message>
         <location filename="dialog/addsharedialog.ui" line="221"/>
         <source>Nickname</source>
-        <translation type="unfinished">별병</translation>
+        <translation type="unfinished">별명</translation>
     </message>
     <message>
         <location filename="dialog/addsharedialog.ui" line="256"/>
@@ -278,6 +278,7 @@
         <location filename="dialog/commondialog.ui" line="129"/>
         <source>OK</source>
         <oldsource>Ok</oldsource>
+        <translatorcomment>확인</translatorcomment>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
@@ -685,7 +686,7 @@
     <message>
         <location filename="widget/formBottom/listbrowser.ui" line="60"/>
         <source>Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">사용 못함</translation>
     </message>
 </context>
 <context>
@@ -1063,7 +1064,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="23"/>
         <source>Change will take effect when you restart Music X Neo.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Music X Neo 를 재 실행하여야만 변경된 내용이 적용됩니다.</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="20"/>
@@ -1072,7 +1073,8 @@
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="19"/>
-        <source>Do you want the selected files to the this folder?</source>
+        <source>Do you want to put the selected files in this folder?</source>
+        <oldsource>Do you want the selected files to the this folder?</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1093,7 +1095,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="25"/>
         <source>Select target storage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">저장 할 저장장치를 선택하여 주세요.</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="26"/>
@@ -1123,7 +1125,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="36"/>
         <source>Do you want to power off?</source>
-        <translation type="unfinished">전원을 끄겟 습니까?</translation>
+        <translation type="unfinished">전원을 끄겠습니까?</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="37"/>
@@ -1163,7 +1165,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="49"/>
         <source>invalid command id</source>
-        <translation type="unfinished">유효하지 않은 실행 명령 </translation>
+        <translation type="unfinished">유효하지 않은 실행 id</translation>
     </message>
     <message>
         <source>invalid json</source>
@@ -1308,7 +1310,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="91"/>
         <source>Clear all</source>
-        <translation type="unfinished">전부 삭제</translation>
+        <translation type="unfinished">모든 선택 해제</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="92"/>
@@ -1405,7 +1407,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="112"/>
         <source>Load count</source>
-        <translation type="unfinished">로드</translation>
+        <translation type="unfinished">로드 갯수</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="115"/>
@@ -1486,7 +1488,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="130"/>
         <source>Rename</source>
-        <translation type="unfinished">이름변경</translation>
+        <translation type="unfinished">이름 변경</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="132"/>
@@ -1644,7 +1646,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="190"/>
         <source>Album Gain</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">앨범 음량 평준화</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="191"/>
@@ -1654,7 +1656,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="192"/>
         <source>Format</source>
-        <translation type="unfinished">오디오 포맷</translation>
+        <translation type="unfinished">포맷</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="193"/>
@@ -1664,7 +1666,7 @@
     <message>
         <location filename="util/caxtranslate.h" line="194"/>
         <source>SampleRate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">샘플 레이트</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="195"/>
@@ -1697,12 +1699,12 @@
     <message>
         <location filename="util/caxtranslate.h" line="50"/>
         <source>invalid data</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">유효하지 않은 데이터</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="71"/>
         <source>App language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">앱 언어</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="113"/>
@@ -1743,83 +1745,83 @@
     <message>
         <location filename="util/caxtranslate.h" line="246"/>
         <source>CD Ripping</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CD 리핑</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="247"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">오디오</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="248"/>
         <location filename="util/caxtranslate.h" line="288"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">네트워크</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="249"/>
         <source>Network Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">네트워크 서비스</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="250"/>
         <source>Internet Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">인터넷 서비스</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="251"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">시스템</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="253"/>
         <source>Firmware</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">펌웨어</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="254"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">그레이스노트 인증</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="257"/>
         <source>Storage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">저장장치</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="258"/>
         <source>Music DB Scan Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">뮤직디비 스캔 상태</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="259"/>
         <source>Rescan Resource</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">모든 소스를 재 스캔</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="260"/>
         <source>Music DB Initialization</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">뮤직 디비 초기화</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="263"/>
         <source>Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">비트 레이트</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="264"/>
         <source>Quality</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">리핑시간</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="265"/>
         <source>Audio Rip Format</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">리핑 파일 형식</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="266"/>
         <source>Auto Rip</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">자동 리핑</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="269"/>
@@ -1829,112 +1831,113 @@
     <message>
         <location filename="util/caxtranslate.h" line="270"/>
         <source>Equalizer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">이퀄라이저</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="271"/>
         <source>USB/HDMI Audio Out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">USB/HDMI 오디오 아웃</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="272"/>
         <source>DSD Signal Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">DSD 신호 형태</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="273"/>
         <source>Analog In Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">아날로그 인 볼륨</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="274"/>
         <source>Analog Out Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">아날로그 아웃 볼륨</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="275"/>
         <source>Analog Out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">아나로그 아웃</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="276"/>
         <source>Recording Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">녹음 샘플 레이트</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="277"/>
         <source>Digital Out Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">디지털 아웃 볼륨</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="278"/>
         <source>Digital Out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">디지털 아웃</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="279"/>
         <source>AES/EBU</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">AES/EBU</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="280"/>
         <source>SPDIF</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">
+SPDIF</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="281"/>
         <source>Speaker Out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">스피커 아웃</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="282"/>
         <source>Gapless Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">끊김없이 재생</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="284"/>
         <source>Limit Sample Rate in Audio Convert</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">오디오 컨버트시 샘플레이트 설정</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="285"/>
         <source>Power On Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">부팅시 볼륨</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="289"/>
         <source>Wired Setup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">유선 설정</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="290"/>
         <source>Wireless Setup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">무선 설정</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="291"/>
         <source>Network Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">네트워크 정보</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="292"/>
         <source>Wireless Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">무선 네트워크 정보</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="293"/>
         <source>Wake On LAN</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wake On Lan</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="296"/>
         <source>Samba Server</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">삼바 서버</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="297"/>
         <source>Host Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">호스트 이름</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="298"/>
@@ -1944,12 +1947,12 @@
     <message>
         <location filename="util/caxtranslate.h" line="299"/>
         <source>UPnP Server</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">UPnP 서버</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="300"/>
         <source>Ftp Server</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ftp 서버</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="301"/>
@@ -1959,162 +1962,162 @@
     <message>
         <location filename="util/caxtranslate.h" line="302"/>
         <source>Shareplay(Airplay)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Shareplay(Airplay)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="305"/>
         <source>Qobuz Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="306"/>
         <source>TIDAL Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tidal</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="307"/>
         <source>Deezer Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deezer</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="308"/>
         <source>Napster Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Napster</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="309"/>
         <source>HighResAudio Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HighResAudio</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="310"/>
         <source>Amazon Music</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Amazon Music</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="311"/>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">사용자 이름</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="312"/>
         <source>Audio Format</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">오디오 형식</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="313"/>
         <source>Stream Quality</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">스트린ㅁ 풀질</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="316"/>
         <source>OSD Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSD 언어</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="317"/>
         <source>FM broadcast band</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">FM 주파수 대역</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="318"/>
         <source>Use RDS When Seek All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">주파수 검색시 RDS 사용</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="320"/>
         <source>Resume Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">이전 재생</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="321"/>
         <source>Factory Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">설정 초기화</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="322"/>
         <source>HDD Sleep</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">하드디스크 Sleep 모드</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="323"/>
         <source>Format Storage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">저장장치 포맷</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="324"/>
         <source>File System Fix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">파일 시스템 체크</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="325"/>
         <source>Alarm</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">알람</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="326"/>
         <source>Auto Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">자동 전원 끄기</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="327"/>
         <source>ERP Regulation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ERP 규제</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="330"/>
         <source>Time Format</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">시간 표시</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="331"/>
         <source>Time Set (Internet)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">시간 설정 (인터넷)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="332"/>
         <source>Time Set (Manually)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">시간 설정 (수동)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="335"/>
         <source>Update manually</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">수동 업데이트</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="336"/>
         <source>Update automatically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">자동 업데이트</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="337"/>
         <source>Check now for new firmware</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">새 펌웨어 찾기</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="340"/>
         <source>Gracenote(Cd)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gracenote (CD)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="341"/>
         <source>Gracenote(Cover)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gracenote (Cover)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="342"/>
         <source>Gracenote(Finger)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gracenote (Finger)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="343"/>
         <source>Gracenote(Pls)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gracenote (Pls)</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="350"/>
         <source>Unknown</source>
-        <translation type="unfinished">Unknown</translation>
+        <translation type="unfinished">모름</translation>
     </message>
 </context>
 <context>
@@ -2240,12 +2243,12 @@
     <message>
         <location filename="dialog/searchcoverartdialog.ui" line="141"/>
         <source>Keyword</source>
-        <translation type="unfinished">Keyword</translation>
+        <translation type="unfinished">키워드</translation>
     </message>
     <message>
         <location filename="dialog/searchcoverartdialog.ui" line="167"/>
         <source>Coverart source</source>
-        <translation type="unfinished">커버아트 소스</translation>
+        <translation type="unfinished">커버아트 검색</translation>
     </message>
     <message>
         <location filename="dialog/searchcoverartdialog.ui" line="173"/>
@@ -2520,7 +2523,7 @@
     <message>
         <location filename="dialog/settrackcolumndialog.ui" line="160"/>
         <source>ReplayGain</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">음량 평준화</translation>
     </message>
     <message>
         <location filename="dialog/settrackcolumndialog.ui" line="125"/>

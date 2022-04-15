@@ -923,5 +923,8 @@
         <file>resource/input-img160-usbdac-n.png</file>
         <file>resource/input-img160-usbdac-n@2x.png</file>
         <file>resource/input-img160-usbdac-n@3x.png</file>
+        <file>resource/submenu-icon40-update@3x.png</file>
+        <file>resource/submenu-icon40-update.png</file>
+        <file>resource/submenu-icon40-update@2x.png</file>
     </qresource>
 </RCC>

@@ -32,7 +32,7 @@
 #include "widget/searchwindow.h"
 #include "widget/setupwindow.h"
 #include "widget/queuelistwindow.h"
-
+#include "widget/updatewindow.h"
 
 const QString SETTINGS_GROUP = "MainWindow";
 
@@ -121,6 +121,7 @@ void MainWindow::SlotMenu()
 		m_SideMenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
 		m_SideMenuMap.insert(SIDEMENU_POWER_OFF, STR_POWER_OFF);
 		m_SideMenuMap.insert(SIDEMENU_LANGUAGE, STR_LANGUAGE);
+        m_SideMenuMap.insert(SIDEMENU_UPDATE, STR_UPDATE);
 		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 
 		if (m_bAudioCD)
@@ -152,7 +153,8 @@ void MainWindow::SlotMenu()
 	{
 		m_SideMenuMap.insert(SIDEMENU_SELECT_DEVICE, STR_SELECT_DEVICE);
 		m_SideMenuMap.insert(SIDEMENU_POWER_ON, STR_POWER_ON);
-		m_SideMenuMap.insert(SIDEMENU_LANGUAGE, STR_LANGUAGE);
+        m_SideMenuMap.insert(SIDEMENU_LANGUAGE, STR_LANGUAGE);
+        m_SideMenuMap.insert(SIDEMENU_UPDATE, STR_UPDATE);
 		m_SideMenuMap.insert(SIDEMENU_ABOUT, STR_ABOUT);
 	}
 
@@ -213,9 +215,12 @@ void MainWindow::SlotMenuAction(int menuID)
 	case SIDEMENU_POWER_OFF:
 		DoPowerOff();
 		break;
-	case SIDEMENU_LANGUAGE:
-		DoLanguage();
-		break;
+    case SIDEMENU_LANGUAGE:
+        DoLanguage();
+        break;
+    case SIDEMENU_UPDATE:
+        DoUpdateHome();
+        break;
 	case SIDEMENU_ABOUT:
 		DoAbout();
 		break;
@@ -466,7 +471,8 @@ void MainWindow::SlotRespDeviceInfo(CJsonNode node)
 //	LogDebug("index [%d]", index);
 //	LogDebug("right [%s]", m_strVersion.right(m_strVersion.length() - index).toUtf8().data());
 
-	int version = m_strVersion.right(4).toInt();
+    int version = m_strVersion.right(4).toInt();
+
 	if (version < FIRMWARE_MIN_VERSION)
 	{
 		CommonDialog dialog(this, STR_WARNING, STR_UPDATE_FIRMWARE.arg(m_strVersion));
@@ -1131,7 +1137,6 @@ void MainWindow::DoPowerOff()
 		m_pAppMgr->RequestDevicePowerOff(m_EventID, bWol);
 //		m_pAppMgr->SetAddr(m_strAddr);
 	}
-
 }
 
 void MainWindow::DoPowerOn()
@@ -1153,7 +1158,12 @@ void MainWindow::DoPowerOn()
 		widget->SetTitle(STR_POWER_ON);
 		widget->SetDeviceList(list);
 	}
+}
 
+void MainWindow::DoUpdateHome()
+{
+    UpdateWindow *widget = new UpdateWindow(this);
+    SlotAddWidget(widget, STR_UPDATE);
 }
 
 void MainWindow::DoLanguage()

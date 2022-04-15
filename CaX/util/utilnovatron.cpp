@@ -204,10 +204,14 @@ QString UtilNovatron::GetSideMenuIcon(QString value)
 	{
 		return (":/resource/submenu-icon40-poweroff.png");
 	}
-	else if (value.contains(STR_LANGUAGE))
-	{
+    else if (value.contains(STR_LANGUAGE))
+    {
 		return (":/resource/submenu-icon40-language.png");
-	}
+    }
+    else if (value.contains(STR_UPDATE))
+    {
+        return (":/resource/submenu-icon40-update.png");
+    }
 	else if (value.contains(STR_ABOUT))
 	{
 		return (":/resource/submenu-icon40-aboutmusicx.png");

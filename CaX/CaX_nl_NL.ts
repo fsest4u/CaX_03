@@ -1065,8 +1065,9 @@
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="19"/>
-        <source>Do you want the selected files to the this folder?</source>
-        <translation>Wilt u de actie naar deze map, met de door u geselecteerde bestanden. uitvoeren?</translation>
+        <source>Do you want to put the selected files in this folder?</source>
+        <oldsource>Do you want the selected files to the this folder?</oldsource>
+        <translation type="unfinished">Wilt u de actie naar deze map, met de door u geselecteerde bestanden. uitvoeren?</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="21"/>

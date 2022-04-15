@@ -1060,7 +1060,8 @@
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="19"/>
-        <source>Do you want the selected files to the this folder?</source>
+        <source>Do you want to put the selected files in this folder?</source>
+        <oldsource>Do you want the selected files to the this folder?</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

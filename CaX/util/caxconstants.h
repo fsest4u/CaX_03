@@ -1,6 +1,8 @@
 #ifndef CAXCONSTANTS_H
 #define CAXCONSTANTS_H
 
+#include <Qt>
+
 #define	APP_VERSION					"2.5"
 #define FIRMWARE_MIN_VERSION		1720
 //////////////////////////////////////////////////
@@ -218,6 +220,7 @@ enum {
 	SIDEMENU_POWER_ON,
 	SIDEMENU_POWER_OFF,
 	SIDEMENU_LANGUAGE,
+    SIDEMENU_UPDATE,
 	SIDEMENU_ABOUT,
 	SIDEMENU_MAX
 };
@@ -396,6 +399,10 @@ enum
 #define MQA_BLUE				"Blue"
 #define MQA_GREEN				"Green"
 
+//////////////////////////////////////////////////
+// UPDATE
+//////////////////////////////////////////////////
 
+#define UPDATE_DOWNLOAD_URL     "https://www.cocktailaudio.com/home/desktop_update/upinfo.php"
 
 #endif // CAXCONSTANTS_H

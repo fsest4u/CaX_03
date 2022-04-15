@@ -1072,8 +1072,9 @@
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="19"/>
-        <source>Do you want the selected files to the this folder?</source>
-        <translation>Möchten Sie, dass die ausgewählten Dateien in diesem Ordner gespeichert werden?</translation>
+        <source>Do you want to put the selected files in this folder?</source>
+        <oldsource>Do you want the selected files to the this folder?</oldsource>
+        <translation type="unfinished">Möchten Sie, dass die ausgewählten Dateien in diesem Ordner gespeichert werden?</translation>
     </message>
     <message>
         <location filename="util/caxtranslate.h" line="21"/>

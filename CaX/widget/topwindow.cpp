@@ -191,9 +191,12 @@ void TopWindow::SetSideMenu(QMap<int, QString> map)
 		case SIDEMENU_POWER_OFF:
 			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuPowerOff()));
 			break;
-		case SIDEMENU_LANGUAGE:
-			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuLanguage()));
-			break;
+        case SIDEMENU_LANGUAGE:
+            connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuLanguage()));
+            break;
+        case SIDEMENU_UPDATE:
+            connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuUpdate()));
+            break;
 		case SIDEMENU_ABOUT:
 			connect(button, SIGNAL(clicked()), this, SLOT(SlotSideMenuAbout()));
 			break;
@@ -402,6 +405,12 @@ void TopWindow::SlotSideMenuLanguage()
 	emit SigSideMenuAction(SIDEMENU_LANGUAGE);
 }
 
+void TopWindow::SlotSideMenuUpdate()
+{
+    m_SideMenu->close();
+    emit SigSideMenuAction(SIDEMENU_UPDATE);
+}
+
 void TopWindow::SlotSideMenuAbout()
 {
 	m_SideMenu->close();
@@ -438,11 +447,9 @@ void TopWindow::Initialize()
 	m_DeviceMenu->setStyleSheet(styleDevice);
 	ui->btnDeviceMenu->setMenu(m_DeviceMenu);
 
-
 	m_TitleList.clear();
 
 	ui->cbSearch->hide();
 	ui->cbSearch->installEventFilter(this);
-
 }
 
