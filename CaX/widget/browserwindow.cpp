@@ -1294,7 +1294,17 @@ void BrowserWindow::DoTopMenuCopy(bool move)
 
 void BrowserWindow::DoTopMenuCopyHere(bool move)
 {
-	CommonDialog dialog(this, STR_WARNING, STR_CONFIRM_HERE);
+	QString title;
+	if (move)
+	{
+		title = STR_CONFIRM_MOVE_HERE;
+	}
+	else
+	{
+		title = STR_CONFIRM_COPY_HERE;
+	}
+
+	CommonDialog dialog(this, STR_WARNING, title);
 	if (dialog.exec() == QDialog::Accepted)
 	{
 		if (BROWSER_MODE_COPY == m_BrowserMode

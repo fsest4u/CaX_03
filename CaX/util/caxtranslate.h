@@ -16,7 +16,8 @@
 #define STR_CRITICAL				QObject::tr("")
 
 #define STR_COMING_SOON				QObject::tr("Coming soon")
-#define STR_CONFIRM_HERE			QObject::tr("Do you want to put the selected files in this folder?")
+#define STR_CONFIRM_MOVE_HERE		QObject::tr("Do you want to move the selected files to this folder?")
+#define STR_CONFIRM_COPY_HERE		QObject::tr("Do you want to copy the selected files to this folder?")
 #define STR_ENTER_SEARCH_WORD		QObject::tr("Please enter a search term of at least 2 characters")
 #define STR_INSERT_CD				QObject::tr("Please insert a CD")
 #define STR_NO_DEVICES				QObject::tr("No devices found")
