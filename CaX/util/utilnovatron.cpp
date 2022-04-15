@@ -298,11 +298,11 @@ QString UtilNovatron::GetCoverArtIcon(const int service, const QString value)
 		}
 		else if (value.contains("DAC"))
 		{
-			coverArt = ":/resource/input-img160-ponoin-n.png";
+			coverArt = ":/resource/input-img160-usbdac-h.png";
 		}
 		else if (value.contains(SRC_BLUETOOTH))
 		{
-			coverArt = ":/resource/input-img160-ponoin-n.png";
+			coverArt = ":/resource/input-img160-bluetooth-h.png";
 		}
 	}
 	else if (service == SIDEMENU_FM_RADIO)
